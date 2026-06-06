@@ -1,0 +1,21 @@
+name: crt_sh_certificates
+enabled: true
+category: 01. DNS Intelligence
+description: Certificate Transparency log search (subdomain discovery gold mine)
+os: any
+requires_key: false
+parser: crtsh_json
+entity_hints:
+- domain
+- certificate
+- organization
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://crt.sh/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '%.{query}'
+    output: json

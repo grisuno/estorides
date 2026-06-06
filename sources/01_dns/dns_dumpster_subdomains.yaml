@@ -1,0 +1,19 @@
+name: dns_dumpster_subdomains
+enabled: true
+category: 01. DNS Intelligence
+description: DNS Dumpster passive subdomain enumeration
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- domain
+- ip
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://dnsdumpster.com/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

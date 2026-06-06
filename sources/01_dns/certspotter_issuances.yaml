@@ -1,0 +1,21 @@
+name: certspotter_issuances
+enabled: true
+category: 01. DNS Intelligence
+description: SSLMate Cert Spotter certificate transparency search (subdomain discovery)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- domain
+- certificate
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.certspotter.com/v1/issuances
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    domain: '{query}'
+    include_subdomains: 'true'
+    expand: dns_names

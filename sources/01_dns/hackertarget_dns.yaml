@@ -1,0 +1,20 @@
+name: hackertarget_dns
+enabled: true
+category: 01. DNS Intelligence
+description: HackerTarget forward DNS (A, MX, TXT, NS)
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- domain
+- ip
+- mail_server
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.hackertarget.com/dnslookup/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

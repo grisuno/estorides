@@ -1,0 +1,22 @@
+name: dns_google
+enabled: true
+category: 01. DNS Intelligence
+description: Google DNS-over-HTTPS, ANY record lookup
+os: any
+requires_key: false
+parser: dns_json
+entity_hints:
+- domain
+- ip
+- txt_record
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://dns.google/resolve
+  headers:
+    Accept: application/dns-json
+    User-Agent: Estorides/1.0
+  params:
+    name: '{query}'
+    type: ANY

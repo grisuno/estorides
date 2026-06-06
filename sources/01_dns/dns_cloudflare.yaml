@@ -1,0 +1,21 @@
+name: dns_cloudflare
+enabled: true
+category: 01. DNS Intelligence
+description: Cloudflare 1.1.1.1 DNS-over-HTTPS
+os: any
+requires_key: false
+parser: dns_json
+entity_hints:
+- domain
+- ip
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://cloudflare-dns.com/dns-query
+  headers:
+    Accept: application/dns-json
+    User-Agent: Estorides/1.0
+  params:
+    name: '{query}'
+    type: ANY

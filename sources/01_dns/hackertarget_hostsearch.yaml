@@ -1,0 +1,19 @@
+name: hackertarget_hostsearch
+enabled: true
+category: 01. DNS Intelligence
+description: HackerTarget host search across multiple DNS record types
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- domain
+- ip
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.hackertarget.com/hostsearch/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

@@ -1,0 +1,20 @@
+name: rdap_domain
+enabled: true
+category: 01. DNS Intelligence
+description: RDAP registration data for a domain (registrar, nameservers, dates)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- domain
+- organization
+- email
+- nameserver
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://rdap.org/domain/{query}
+  headers:
+    Accept: application/rdap+json
+    User-Agent: Estorides/1.0
