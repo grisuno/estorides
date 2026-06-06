@@ -1,0 +1,22 @@
+name: phonebook_domain
+enabled: true
+category: 06. Breach Intelligence
+description: Phonebook.cz — emails-from-domain enumeration
+os: any
+requires_key: false
+parser: phonebook
+entity_hints:
+- email
+- domain
+- person
+- type
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.phonebook.cz/api/v1/domain
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    query: '{query}'
+    page: 1

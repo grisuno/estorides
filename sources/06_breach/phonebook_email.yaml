@@ -1,0 +1,20 @@
+name: phonebook_email
+enabled: true
+category: 06. Breach Intelligence
+description: Phonebook.cz — emails-to-domain mapping
+os: any
+requires_key: false
+parser: phonebook
+entity_hints:
+- email
+- domain
+- person
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://api.phonebook.cz/api/v1/email
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    query: '{query}'

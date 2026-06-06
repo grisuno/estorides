@@ -1,0 +1,21 @@
+name: haveibeenpwned_paste
+enabled: true
+category: 06. Breach Intelligence
+description: Have I Been Pwned — pastes containing the email
+os: any
+requires_key: true
+key_env: HIBP_API_KEY
+parser: hibp_paste
+entity_hints:
+- email
+- paste_id
+- paste_source
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://haveibeenpwned.com/api/v3/pasteaccount/{query}
+  headers:
+    hibp-api-key: '{api_key}'
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,25 @@
+name: dehashed_email
+enabled: true
+category: 06. Breach Intelligence
+description: DeHashed (paid) — query email if DEHASHED_EMAIL_KEY present
+os: any
+requires_key: true
+key_env: DEHASHED_API_KEY
+parser: dehashed
+entity_hints:
+- email
+- password
+- hash
+- ip
+- name
+- address
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://api.dehashed.com/search?query=email:{query}
+  headers:
+    Accept: application/json
+    Authorization: Basic {api_key}
+    User-Agent: Estorides/1.0
+  params: {}

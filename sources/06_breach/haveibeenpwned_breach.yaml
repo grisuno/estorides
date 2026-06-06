@@ -1,0 +1,24 @@
+name: haveibeenpwned_breach
+enabled: true
+category: 06. Breach Intelligence
+description: Have I Been Pwned — email in known breaches
+os: any
+requires_key: true
+key_env: HIBP_API_KEY
+parser: hibp_breach
+entity_hints:
+- email
+- breach_name
+- breach_date
+- pwn_count
+- data_classes
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://haveibeenpwned.com/api/v3/breachedaccount/{query}
+  headers:
+    hibp-api-key: '{api_key}'
+    User-Agent: Estorides/1.0
+  params:
+    truncateResponse: 'false'

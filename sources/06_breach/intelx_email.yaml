@@ -1,0 +1,29 @@
+name: intelx_email
+enabled: true
+category: 06. Breach Intelligence
+description: IntelligenceX — email selector search (free tier, rate-limited)
+os: any
+requires_key: true
+key_env: INTELX_API_KEY
+parser: intelx
+entity_hints:
+- email
+- selector
+- bucket
+- access_level
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://2.intelx.io/intelligent/search
+  headers:
+    x-key: '{api_key}'
+    User-Agent: Estorides/1.0
+  params:
+    term: '{query}'
+    media: 0
+    buckets:
+    - leaks.public
+    - leaks.private
+    - pastes
+    - darknet.tor
