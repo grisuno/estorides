@@ -1,0 +1,22 @@
+name: blockchain_btc_balance
+enabled: true
+category: 10. Blockchain
+description: Blockchain.com — BTC address balance and tx count
+os: any
+requires_key: false
+parser: blockchain_btc
+entity_hints:
+- btc_address
+- balance
+- total_received
+- tx_count
+applies_to:
+- btc_address
+tool:
+  method: GET
+  url: https://blockchain.info/rawaddr/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    limit: 50
+    cors: 'true'

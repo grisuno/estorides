@@ -1,0 +1,19 @@
+name: blockstream_btc
+enabled: true
+category: 10. Blockchain
+description: Blockstream.info — BTC address stats
+os: any
+requires_key: false
+parser: blockstream
+entity_hints:
+- btc_address
+- chain_stats
+- mempool_stats
+applies_to:
+- btc_address
+tool:
+  method: GET
+  url: https://blockstream.info/api/address/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

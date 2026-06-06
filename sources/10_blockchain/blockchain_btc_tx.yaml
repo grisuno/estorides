@@ -1,0 +1,21 @@
+name: blockchain_btc_tx
+enabled: true
+category: 10. Blockchain
+description: Blockchain.com — single transaction lookup
+os: any
+requires_key: false
+parser: blockchain_tx
+entity_hints:
+- btc_tx
+- input
+- output
+- value
+applies_to:
+- btc_address
+tool:
+  method: GET
+  url: https://blockchain.info/rawtx/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    cors: 'true'

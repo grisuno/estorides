@@ -1,0 +1,19 @@
+name: mempool_space_block
+enabled: true
+category: 10. Blockchain
+description: mempool.space — latest BTC block tip
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- btc_block
+- height
+- timestamp
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://mempool.space/api/blocks/tip/height
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,21 @@
+name: ethplorer_address
+enabled: true
+category: 10. Blockchain
+description: Ethplorer — Ethereum address info (free tier)
+os: any
+requires_key: true
+key_env: ETHPLORER_API_KEY
+parser: ethplorer
+entity_hints:
+- eth_address
+- balance
+- token
+applies_to:
+- eth_address
+tool:
+  method: GET
+  url: https://api.ethplorer.io/getAddressInfo/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    apiKey: '{api_key}'
