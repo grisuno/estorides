@@ -1,0 +1,22 @@
+name: github_user
+enabled: true
+category: 04. Social Media
+description: GitHub user profile lookup
+os: any
+requires_key: false
+parser: github_user
+entity_hints:
+- person
+- organization
+- email
+- location
+- repository
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://api.github.com/users/{query}
+  headers:
+    Accept: application/vnd.github.v3+json
+    User-Agent: Estorides/1.0
+  params: {}

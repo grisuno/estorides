@@ -1,0 +1,23 @@
+name: github_repos
+enabled: true
+category: 04. Social Media
+description: GitHub repository search (org or topic)
+os: any
+requires_key: false
+parser: github_search
+entity_hints:
+- repository
+- organization
+- language
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.github.com/search/repositories
+  headers:
+    Accept: application/vnd.github.v3+json
+    User-Agent: Estorides/1.0
+  params:
+    q: user:{query}
+    per_page: 30
+    sort: updated

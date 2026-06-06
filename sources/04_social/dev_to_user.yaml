@@ -1,0 +1,20 @@
+name: dev_to_user
+enabled: true
+category: 04. Social Media
+description: DEV.to public user/article API
+os: any
+requires_key: false
+parser: dev_to
+entity_hints:
+- person
+- article
+- tag
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://dev.to/api/users/by_username
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '{query}'

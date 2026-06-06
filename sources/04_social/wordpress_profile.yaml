@@ -1,0 +1,19 @@
+name: wordpress_profile
+enabled: true
+category: 04. Social Media
+description: WordPress.com user profile (Gravatar-linked)
+os: any
+requires_key: false
+parser: opengraph
+entity_hints:
+- person
+- blog
+- gravatar
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://{query}.wordpress.com/
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

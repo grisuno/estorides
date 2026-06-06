@@ -1,0 +1,19 @@
+name: pinterest_public
+enabled: true
+category: 04. Social Media
+description: Pinterest public profile (HTML scrape of meta tags)
+os: any
+requires_key: false
+parser: opengraph
+entity_hints:
+- person
+- board
+- image
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://www.pinterest.com/{query}/
+  headers:
+    User-Agent: Mozilla/5.0 (compatible; Estorides/1.0)
+  params: {}

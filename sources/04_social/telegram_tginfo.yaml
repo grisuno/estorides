@@ -1,0 +1,19 @@
+name: telegram_tginfo
+enabled: true
+category: 04. Social Media
+description: tg-info.com — Telegram channel/user public metadata
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- person
+- channel
+- telegram_handle
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://t.me/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,19 @@
+name: reddit_about
+enabled: true
+category: 04. Social Media
+description: Reddit user profile (public JSON)
+os: any
+requires_key: false
+parser: reddit
+entity_hints:
+- person
+- subreddit
+- account_age
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://www.reddit.com/user/{query}/about.json
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

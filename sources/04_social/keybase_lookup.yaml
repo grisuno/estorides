@@ -1,0 +1,21 @@
+name: keybase_lookup
+enabled: true
+category: 04. Social Media
+description: Keybase — verified identities, devices, social proofs
+os: any
+requires_key: false
+parser: keybase
+entity_hints:
+- person
+- public_key
+- social_proof
+- device
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://keybase.io/_/api/1.0/user/lookup.json
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    usernames: '{query}'

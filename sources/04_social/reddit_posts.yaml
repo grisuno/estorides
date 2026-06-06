@@ -1,0 +1,21 @@
+name: reddit_posts
+enabled: true
+category: 04. Social Media
+description: Reddit user post history
+os: any
+requires_key: false
+parser: reddit
+entity_hints:
+- person
+- post
+- subreddit
+- timestamp
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://www.reddit.com/user/{query}/submitted.json
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    limit: 50

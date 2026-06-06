@@ -1,0 +1,23 @@
+name: mastodon_search
+enabled: true
+category: 04. Social Media
+description: Mastodon federated user search (mastodon.social instance)
+os: any
+requires_key: false
+parser: mastodon
+entity_hints:
+- person
+- fediverse_handle
+- instance
+applies_to:
+- username
+- keyword
+tool:
+  method: GET
+  url: https://mastodon.social/api/v2/search
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
+    type: accounts
+    limit: 40

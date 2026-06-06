@@ -1,0 +1,19 @@
+name: hackernews_user
+enabled: true
+category: 04. Social Media
+description: HackerNews user profile
+os: any
+requires_key: false
+parser: hackernews
+entity_hints:
+- person
+- karma
+- submission
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://hacker-news.firebaseio.com/v0/user/{query}.json
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}
