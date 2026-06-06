@@ -1,0 +1,23 @@
+name: hackertarget_http_headers
+enabled: true
+category: 03. Web Intelligence
+description: HTTP response headers — server fingerprinting
+os: any
+requires_key: false
+parser: http_headers
+entity_hints:
+- ip
+- server
+- technology
+- http_status
+applies_to:
+- domain
+- ipv4
+- url
+tool:
+  method: GET
+  url: https://api.hackertarget.com/httpheaders/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

@@ -1,0 +1,19 @@
+name: google_cache_check
+enabled: true
+category: 03. Web Intelligence
+description: Google cache check (HEAD probe of webcache.googleusercontent.com)
+os: any
+requires_key: false
+parser: http_probe
+entity_hints:
+- url
+- cache_status
+applies_to:
+- url
+- domain
+tool:
+  method: HEAD
+  url: https://webcache.googleusercontent.com/search?q=cache:{query}
+  headers:
+    User-Agent: Mozilla/5.0 (compatible; Estorides/1.0)
+  params: {}

@@ -1,0 +1,26 @@
+name: urlscan_public
+enabled: true
+category: 03. Web Intelligence
+description: urlscan.io public search — page tech, screenshots, requests
+os: any
+requires_key: false
+parser: urlscan
+entity_hints:
+- url
+- domain
+- ip
+- screenshot
+- technology
+- tls_issuer
+applies_to:
+- domain
+- url
+- ipv4
+tool:
+  method: GET
+  url: https://urlscan.io/api/v1/search/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: domain:{query}
+    size: 100

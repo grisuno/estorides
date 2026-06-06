@@ -1,0 +1,20 @@
+name: wayback_machine_snapshot
+enabled: true
+category: 03. Web Intelligence
+description: Wayback availability endpoint (single latest snapshot)
+os: any
+requires_key: false
+parser: wayback_avail
+entity_hints:
+- url
+- timestamp
+applies_to:
+- url
+- domain
+tool:
+  method: GET
+  url: https://archive.org/wayback/available
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '{query}'

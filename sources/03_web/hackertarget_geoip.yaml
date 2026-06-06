@@ -1,0 +1,20 @@
+name: hackertarget_geoip
+enabled: true
+category: 03. Web Intelligence
+description: HackerTarget GeoIP lookup
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- ip
+- geolocation
+applies_to:
+- ipv4
+- domain
+tool:
+  method: GET
+  url: https://api.hackertarget.com/geoip/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

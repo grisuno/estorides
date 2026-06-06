@@ -1,0 +1,25 @@
+name: wayback_machine_cdx
+enabled: true
+category: 03. Web Intelligence
+description: Wayback CDX — full historical index of URLs for a domain
+os: any
+requires_key: false
+parser: wayback_cdx
+entity_hints:
+- url
+- timestamp
+- mimetype
+- status_code
+applies_to:
+- domain
+- url
+tool:
+  method: GET
+  url: https://web.archive.org/cdx/search/cdx
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '*.{query}/*'
+    output: json
+    limit: 50
+    fl: timestamp,original,statuscode,mimetype,length

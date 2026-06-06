@@ -1,0 +1,22 @@
+name: pages_dev_meta
+enabled: true
+category: 03. Web Intelligence
+description: pages.dev — link preview / OpenGraph meta extraction
+os: any
+requires_key: false
+parser: opengraph
+entity_hints:
+- url
+- title
+- description
+- image
+- og_metadata
+applies_to:
+- url
+tool:
+  method: GET
+  url: https://api.microlink.io/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '{query}'

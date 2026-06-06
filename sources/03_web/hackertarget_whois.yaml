@@ -1,0 +1,22 @@
+name: hackertarget_whois
+enabled: true
+category: 03. Web Intelligence
+description: Domain WHOIS via HackerTarget
+os: any
+requires_key: false
+parser: whois_text
+entity_hints:
+- domain
+- registrant
+- registrar
+- email
+- nameserver
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.hackertarget.com/whois/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
