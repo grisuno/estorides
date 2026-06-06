@@ -1,0 +1,26 @@
+name: github_advisories
+enabled: true
+category: 08. Knowledge
+description: GitHub Security Advisories — CVE database
+os: any
+requires_key: false
+parser: github_advisories
+entity_hints:
+- cve
+- ghsa
+- vulnerability
+- severity
+- package
+applies_to:
+- keyword
+- cve
+- ghsa
+tool:
+  method: GET
+  url: https://api.github.com/advisories
+  headers:
+    Accept: application/vnd.github+json
+    User-Agent: Estorides/1.0
+  params:
+    query: '{query}'
+    per_page: 30

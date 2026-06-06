@@ -1,0 +1,22 @@
+name: openalex_author
+enabled: true
+category: 08. Knowledge
+description: OpenAlex — author search (academic identities)
+os: any
+requires_key: false
+parser: openalex
+entity_hints:
+- author
+- institution
+- work_count
+- orcid
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.openalex.org/authors
+  headers:
+    User-Agent: Estorides/1.0 (mailto:research@estorides.local)
+  params:
+    search: '{query}'
+    per_page: 10

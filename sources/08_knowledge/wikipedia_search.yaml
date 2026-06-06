@@ -1,0 +1,25 @@
+name: wikipedia_search
+enabled: true
+category: 08. Knowledge
+description: Wikipedia search — context, biography, events
+os: any
+requires_key: false
+parser: wikipedia
+entity_hints:
+- article
+- person
+- event
+- organization
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://en.wikipedia.org/w/api.php
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    action: query
+    list: search
+    srsearch: '{query}'
+    format: json
+    srlimit: 20

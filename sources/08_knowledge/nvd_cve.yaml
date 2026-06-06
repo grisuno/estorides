@@ -1,0 +1,25 @@
+name: nvd_cve
+enabled: true
+category: 08. Knowledge
+description: NVD — National Vulnerability Database CVE feed
+os: any
+requires_key: false
+parser: nvd_cve
+entity_hints:
+- cve
+- cvss
+- cpe
+- vendor
+- product
+- vector
+applies_to:
+- cve
+- keyword
+tool:
+  method: GET
+  url: https://services.nvd.nist.gov/rest/json/cves/2.0
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    keywordSearch: '{query}'
+    resultsPerPage: 20

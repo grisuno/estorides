@@ -1,0 +1,22 @@
+name: arxiv_search
+enabled: true
+category: 08. Knowledge
+description: arXiv — preprints (CS, physics, math, security)
+os: any
+requires_key: false
+parser: arxiv
+entity_hints:
+- paper
+- author
+- abstract
+- category
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: http://export.arxiv.org/api/query
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    search_query: all:{query}
+    max_results: 15

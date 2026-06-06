@@ -1,0 +1,22 @@
+name: crossref_doi
+enabled: true
+category: 08. Knowledge
+description: Crossref — DOI / publication metadata
+os: any
+requires_key: false
+parser: crossref
+entity_hints:
+- doi
+- work
+- author
+- citation
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.crossref.org/works
+  headers:
+    User-Agent: Estorides/1.0 (mailto:research@estorides.local)
+  params:
+    query: '{query}'
+    rows: 10

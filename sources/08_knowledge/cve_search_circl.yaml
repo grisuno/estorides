@@ -1,0 +1,21 @@
+name: cve_search_circl
+enabled: true
+category: 08. Knowledge
+description: cve.circl.lu — community CVE mirror
+os: any
+requires_key: false
+parser: cve_circl
+entity_hints:
+- cve
+- cvss
+- summary
+- references
+applies_to:
+- cve
+- keyword
+tool:
+  method: GET
+  url: https://cve.circl.lu/api/search/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,23 @@
+name: openalex_work
+enabled: true
+category: 08. Knowledge
+description: OpenAlex — academic works / authors / institutions
+os: any
+requires_key: false
+parser: openalex
+entity_hints:
+- work
+- author
+- institution
+- doi
+- concept
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.openalex.org/works
+  headers:
+    User-Agent: Estorides/1.0 (mailto:research@estorides.local)
+  params:
+    search: '{query}'
+    per_page: 15

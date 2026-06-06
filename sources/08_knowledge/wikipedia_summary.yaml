@@ -1,0 +1,20 @@
+name: wikipedia_summary
+enabled: true
+category: 08. Knowledge
+description: Wikipedia REST summary — first paragraph of a title
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- article
+- summary
+- person
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://en.wikipedia.org/api/rest_v1/page/summary/{query}
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params: {}

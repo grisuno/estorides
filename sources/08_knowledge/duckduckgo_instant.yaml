@@ -1,0 +1,25 @@
+name: duckduckgo_instant
+enabled: true
+category: 08. Knowledge
+description: DuckDuckGo Instant Answer API (abstract, entity, related topics)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- organization
+- url
+- domain
+applies_to:
+- keyword
+- username
+- domain
+tool:
+  method: GET
+  url: https://api.duckduckgo.com/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
+    format: json
+    no_html: '1'
+    no_redirect: '1'

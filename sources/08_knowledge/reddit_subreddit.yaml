@@ -1,0 +1,21 @@
+name: reddit_subreddit
+enabled: true
+category: 08. Knowledge
+description: Reddit subreddit search (community intel)
+os: any
+requires_key: false
+parser: reddit_search
+entity_hints:
+- subreddit
+- subscriber_count
+- description
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://www.reddit.com/subreddits/search.json
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
+    limit: 25
