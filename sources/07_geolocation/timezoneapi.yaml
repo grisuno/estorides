@@ -1,0 +1,26 @@
+name: timezoneapi
+enabled: true
+category: 07. Geolocation
+description: TimeZoneDB — timezone by coordinates (city, region)
+os: any
+requires_key: true
+key_env: TIMEZONEDB_API_KEY
+parser: timezone
+entity_hints:
+- timezone
+- gmt_offset
+- dst
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://api.timezonedb.com/v2.1/get-time-zone
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    key: '{api_key}'
+    format: json
+    by: position
+    lat: '{lat}'
+    lng: '{lon}'

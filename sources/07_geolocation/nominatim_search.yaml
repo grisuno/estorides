@@ -1,0 +1,25 @@
+name: nominatim_search
+enabled: true
+category: 07. Geolocation
+description: OpenStreetMap Nominatim — place search
+os: any
+requires_key: false
+parser: nominatim
+entity_hints:
+- place
+- geolocation
+- address
+- country
+applies_to:
+- keyword
+- domain
+tool:
+  method: GET
+  url: https://nominatim.openstreetmap.org/search
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    q: '{query}'
+    format: json
+    limit: 5
+    addressdetails: 1

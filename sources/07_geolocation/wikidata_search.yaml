@@ -1,0 +1,25 @@
+name: wikidata_search
+enabled: true
+category: 07. Geolocation
+description: Wikidata entity search (places, people, orgs)
+os: any
+requires_key: false
+parser: wikidata
+entity_hints:
+- entity
+- person
+- organization
+- place
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://www.wikidata.org/w/api.php
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    action: wbsearchentities
+    search: '{query}'
+    language: en
+    format: json
+    limit: 20

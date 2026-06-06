@@ -1,0 +1,24 @@
+name: openweather_geo
+enabled: true
+category: 07. Geolocation
+description: OpenWeather geocoding — city name → coordinates
+os: any
+requires_key: true
+key_env: OPENWEATHER_API_KEY
+parser: openweather_geo
+entity_hints:
+- place
+- geolocation
+- country
+- state
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.openweathermap.org/geo/1.0/direct
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
+    limit: 5
+    appid: '{api_key}'

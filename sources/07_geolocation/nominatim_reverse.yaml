@@ -1,0 +1,25 @@
+name: nominatim_reverse
+enabled: true
+category: 07. Geolocation
+description: OpenStreetMap Nominatim — lat/lon → place
+os: any
+requires_key: false
+parser: nominatim
+entity_hints:
+- place
+- address
+- country
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://nominatim.openstreetmap.org/reverse
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    lat: '{lat}'
+    lon: '{lon}'
+    format: json
+    addressdetails: 1
+    zoom: 18
