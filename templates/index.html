@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estorides — State-level OSINT Platform</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>%F0%9F%9B%B0</text></svg>" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/static/css/estorides.css" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo">⬢</span>
+            <span class="title">ESTORIDES</span>
+            <span class="subtitle">State-level OSINT Platform</span>
+        </div>
+        <div class="search">
+            <input id="query" type="text" placeholder="domain, IP, email, person, BTC address, CVE..." autocomplete="off" />
+            <button id="run-btn" class="primary">Run</button>
+            <button id="clear-btn" class="ghost">Clear</button>
+        </div>
+        <div class="status">
+            <span id="src-count" class="badge">…</span>
+            <span id="last-run" class="badge subtle">no run yet</span>
+        </div>
+    </header>
+
+    <main>
+        <aside id="sidebar" class="sidebar">
+            <div class="tabs">
+                <button class="tab active" data-tab="results">Results</button>
+                <button class="tab" data-tab="entities">Entities</button>
+                <button class="tab" data-tab="analysis">Analysis</button>
+                <button class="tab" data-tab="graph">Graph</button>
+            </div>
+
+            <div class="tab-panels">
+                <section id="tab-results" class="tab-panel active">
+                    <div id="results-meta" class="meta-row"></div>
+                    <div id="results-list" class="results-list"></div>
+                </section>
+
+                <section id="tab-entities" class="tab-panel">
+                    <input id="entity-filter" type="text" placeholder="filter entity type or value..." />
+                    <div id="entities-list" class="entities-list"></div>
+                </section>
+
+                <section id="tab-analysis" class="tab-panel">
+                    <div id="analysis-meta" class="meta-row"></div>
+                    <div id="analysis-body" class="analysis-body"></div>
+                </section>
+
+                <section id="tab-graph" class="tab-panel">
+                    <div id="graph-summary" class="meta-row"></div>
+                    <div id="graph-top" class="graph-top"></div>
+                    <div class="export-row">
+                        <a href="/api/export/stix" class="export-btn">STIX 2.1</a>
+                        <a href="/api/export/misp" class="export-btn">MISP</a>
+                        <a href="/api/export/graphml" class="export-btn">GraphML</a>
+                        <a href="/api/export/json" class="export-btn">JSON</a>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+        <section class="canvas">
+            <div class="canvas-tabs">
+                <button class="canvas-tab active" data-canvas="map">Map</button>
+                <button class="canvas-tab" data-canvas="graph">Graph</button>
+                <button class="canvas-tab" data-canvas="timeline">Timeline</button>
+            </div>
+            <div class="canvas-body">
+                <div id="map" class="map-canvas active"></div>
+                <div id="graph-canvas" class="graph-canvas"></div>
+                <div id="timeline" class="timeline-canvas"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bottombar">
+        <span>Estorides v1.0</span>
+        <span class="sep">·</span>
+        <span id="footer-status">idle</span>
+    </footer>
+
+    <script src="/static/js/estorides.js"></script>
+</body>
+</html>
