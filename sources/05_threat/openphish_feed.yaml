@@ -1,0 +1,19 @@
+name: openphish_feed
+enabled: true
+category: 05. Threat Intelligence
+description: OpenPhish free community phishing feed
+os: any
+requires_key: false
+parser: openphish
+entity_hints:
+- url
+- brand
+- target
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://openphish.com/feed.txt
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

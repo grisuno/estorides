@@ -1,0 +1,22 @@
+name: feodo_tracker
+enabled: true
+category: 05. Threat Intelligence
+description: abuse.ch Feodo Tracker — Emotet, Dridex, TrickBot C2
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- ip
+- port
+- malware
+- status
+- first_seen
+- last_online
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

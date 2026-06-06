@@ -1,0 +1,21 @@
+name: urlhaus_recent
+enabled: true
+category: 05. Threat Intelligence
+description: URLhaus by abuse.ch — recent malicious URLs (free)
+os: any
+requires_key: false
+parser: urlhaus
+entity_hints:
+- url
+- malware
+- status
+- reporter
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://urlhaus-api.abuse.ch/v1/urls/recent/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    limit: 100

@@ -1,0 +1,18 @@
+name: sslbl_abuse_ch
+enabled: true
+category: 05. Threat Intelligence
+description: SSLBL — abusive SSL certificates tied to C2
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- sha1_fingerprint
+- malware
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://sslbl.abuse.ch/blacklist/sslblacklist.txt
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

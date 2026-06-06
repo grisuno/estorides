@@ -1,0 +1,19 @@
+name: blocklist_de_all
+enabled: true
+category: 05. Threat Intelligence
+description: blocklist.de — fail2ban-style IP blocklist (SSH, mail, apache)
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- ip
+- attack_type
+- last_seen
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://lists.blocklist.de/lists/all.txt
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

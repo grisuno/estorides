@@ -1,0 +1,17 @@
+name: emergingthreats_compromised
+enabled: true
+category: 05. Threat Intelligence
+description: Emerging Threats — known compromised IPs
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- ip
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,31 @@
+name: threatfox_iocs
+enabled: true
+category: 05. Threat Intelligence
+description: ThreatFox by abuse.ch — malware C2 IOC database
+os: any
+requires_key: false
+parser: threatfox
+entity_hints:
+- ip
+- domain
+- url
+- hash
+- malware_family
+- threat_type
+applies_to:
+- ipv4
+- domain
+- url
+- btc_address
+- eth_address
+- md5
+- sha256
+tool:
+  method: POST
+  url: https://threatfox-api.abuse.ch/api/v1/
+  headers:
+    User-Agent: Estorides/1.0
+    Content-Type: application/json
+  body:
+    query: search_ioc
+    search_term: '{query}'

@@ -1,0 +1,25 @@
+name: alienvault_otx
+enabled: true
+category: 05. Threat Intelligence
+description: AlienVault OTX — pulses, IOCs, threat actors
+os: any
+requires_key: true
+key_env: OTX_API_KEY
+parser: otx
+entity_hints:
+- pulse
+- indicator
+- malware
+- threat_actor
+- cve
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://otx.alienvault.com/api/v1/search/pulses
+  headers:
+    X-OTX-API-KEY: '{api_key}'
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'
+    limit: 50

@@ -1,0 +1,21 @@
+name: urlhaus_payloads
+enabled: true
+category: 05. Threat Intelligence
+description: URLhaus — payloads / malware samples (free)
+os: any
+requires_key: false
+parser: urlhaus_payloads
+entity_hints:
+- hash
+- malware
+- filetype
+- signature
+applies_to:
+- any
+tool:
+  method: GET
+  url: https://urlhaus-api.abuse.ch/v1/payloads/recent/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    limit: 100

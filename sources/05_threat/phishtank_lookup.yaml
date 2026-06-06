@@ -1,0 +1,24 @@
+name: phishtank_lookup
+enabled: true
+category: 05. Threat Intelligence
+description: PhishTank community URL verification
+os: any
+requires_key: false
+parser: phishtank
+entity_hints:
+- url
+- phish_id
+- in_database
+- verified
+applies_to:
+- url
+- domain
+tool:
+  method: POST
+  url: https://checkurl.phishtank.com/checkurl/
+  headers:
+    User-Agent: Estorides/1.0
+    Content-Type: application/x-www-form-urlencoded
+  body:
+    url: '{query}'
+    format: json
