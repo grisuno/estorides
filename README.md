@@ -1,6 +1,6 @@
 # Estorides — OSINT Platform
 
-## E.S.T.E.R.O.I.D.E.S.
+## E.s.t.o.r.i.d.e.s
 
 - E – Entity (Identificación de entidades, alias, correos, IPs).
 
