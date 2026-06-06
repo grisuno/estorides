@@ -1,0 +1,24 @@
+name: screenshotmachine
+enabled: true
+category: 12. Visual
+description: ScreenshotMachine — page screenshot (free tier, watermark)
+os: any
+requires_key: true
+key_env: SCREENSHOTMACHINE_KEY
+parser: screenshot
+entity_hints:
+- screenshot
+- url
+applies_to:
+- url
+- domain
+tool:
+  method: GET
+  url: https://api.screenshotmachine.com
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    key: '{api_key}'
+    url: '{query}'
+    dimension: 1024x768
+    format: json

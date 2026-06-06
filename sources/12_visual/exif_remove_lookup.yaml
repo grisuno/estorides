@@ -1,0 +1,21 @@
+name: exif_remove_lookup
+enabled: true
+category: 12. Visual
+description: Extract-Metadata — image EXIF parser from URL
+os: any
+requires_key: false
+parser: exif
+entity_hints:
+- exif
+- gps
+- camera
+- datetime
+applies_to:
+- url
+tool:
+  method: GET
+  url: https://api.exifmeta.com/v1/image
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '{query}'

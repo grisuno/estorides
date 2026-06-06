@@ -1,0 +1,19 @@
+name: tineye_reverse
+enabled: true
+category: 12. Visual
+description: TinEye — reverse image search (public website, JSON via proxy)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- image
+- match_count
+- domain
+applies_to:
+- url
+tool:
+  method: GET
+  url: https://tineye.com/search?url={query}
+  headers:
+    User-Agent: Mozilla/5.0 (compatible; Estorides/1.0)
+  params: {}

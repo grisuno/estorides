@@ -1,0 +1,26 @@
+name: microlink
+enabled: true
+category: 12. Visual
+description: Microlink — page metadata + screenshot (no key, free tier)
+os: any
+requires_key: false
+parser: microlink
+entity_hints:
+- url
+- title
+- description
+- image
+- logo
+- lang
+applies_to:
+- url
+- domain
+tool:
+  method: GET
+  url: https://api.microlink.io
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    url: '{query}'
+    screenshot: 'true'
+    meta: 'true'
