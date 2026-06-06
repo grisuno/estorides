@@ -1,0 +1,26 @@
+name: abuseipdb_check
+enabled: true
+category: 02. IP & Infrastructure
+description: AbuseIPDB — IP reputation database (free tier)
+os: any
+requires_key: true
+key_env: ABUSEIPDB_API_KEY
+parser: abuseipdb
+entity_hints:
+- ip
+- abuse_category
+- isp
+- country
+- confidence
+applies_to:
+- ipv4
+tool:
+  method: GET
+  url: https://api.abuseipdb.com/api/v2/check
+  headers:
+    Key: '{api_key}'
+    Accept: application/json
+    User-Agent: Estorides/1.0
+  params:
+    ipAddress: '{query}'
+    maxAgeInDays: 90

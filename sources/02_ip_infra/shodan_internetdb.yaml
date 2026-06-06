@@ -1,0 +1,21 @@
+name: shodan_internetdb
+enabled: true
+category: 02. IP & Infrastructure
+description: Shodan InternetDB free — exposed services, CPE, CVEs
+os: any
+requires_key: false
+parser: shodan_internetdb
+entity_hints:
+- ip
+- port
+- service
+- cve
+- cpe
+applies_to:
+- ipv4
+tool:
+  method: GET
+  url: https://internetdb.shodan.io/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

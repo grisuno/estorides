@@ -1,0 +1,23 @@
+name: ipapi_free
+enabled: true
+category: 02. IP & Infrastructure
+description: ip-api.com free geolocation (no key, 45 req/min)
+os: any
+requires_key: false
+parser: ipapi
+entity_hints:
+- ip
+- geolocation
+- asn
+- isp
+applies_to:
+- ipv4
+- ipv6
+- domain
+tool:
+  method: GET
+  url: http://ip-api.com/json/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    fields: status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query,reverse,mobile,proxy,hosting

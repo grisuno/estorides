@@ -1,0 +1,19 @@
+name: hackertarget_aslookup
+enabled: true
+category: 02. IP & Infrastructure
+description: HackerTarget AS lookup (ASN, prefix and network owner for an IP)
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- ipv4
+- asn
+applies_to:
+- ipv4
+tool:
+  method: GET
+  url: https://api.hackertarget.com/aslookup/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

@@ -1,0 +1,20 @@
+name: ipwho_is
+enabled: true
+category: 02. IP & Infrastructure
+description: ipwho.is geolocation and connection/ASN data (no key, no registration)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- ipv4
+- asn
+- country
+- organization
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://ipwho.is/{query}
+  headers:
+    User-Agent: Estorides/1.0

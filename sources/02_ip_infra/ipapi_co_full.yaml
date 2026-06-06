@@ -1,0 +1,23 @@
+name: ipapi_co_full
+enabled: true
+category: 02. IP & Infrastructure
+description: ipapi.co (free HTTPS, includes currency, languages, ASN details)
+os: any
+requires_key: false
+parser: ipapi_co
+entity_hints:
+- ip
+- geolocation
+- asn
+- currency
+- language
+applies_to:
+- ipv4
+- ipv6
+- domain
+tool:
+  method: GET
+  url: https://ipapi.co/{query}/json/
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

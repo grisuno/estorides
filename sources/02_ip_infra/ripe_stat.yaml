@@ -1,0 +1,25 @@
+name: ripe_stat
+enabled: true
+category: 02. IP & Infrastructure
+description: RIPE Stat — registry data, routing, abuse contacts
+os: any
+requires_key: false
+parser: ripe_stat
+entity_hints:
+- ip
+- asn
+- inetnum
+- country
+- abuse_contact
+applies_to:
+- ipv4
+- ipv6
+- asn
+- domain
+tool:
+  method: GET
+  url: https://stat.ripe.net/data/whois/data.json
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    resource: '{query}'

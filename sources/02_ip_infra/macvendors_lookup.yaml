@@ -1,0 +1,18 @@
+name: macvendors_lookup
+enabled: true
+category: 02. IP & Infrastructure
+description: MAC vendor / OUI lookup (OUI→manufacturer)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- mac_address
+- vendor
+applies_to:
+- mac
+tool:
+  method: GET
+  url: https://api.macvendors.com/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

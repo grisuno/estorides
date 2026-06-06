@@ -1,0 +1,22 @@
+name: ipinfo_free
+enabled: true
+category: 02. IP & Infrastructure
+description: IPInfo.io free tier — ASN, org, geo
+os: any
+requires_key: false
+parser: ipinfo
+entity_hints:
+- ip
+- geolocation
+- asn
+- org
+applies_to:
+- ipv4
+- ipv6
+- domain
+tool:
+  method: GET
+  url: https://ipinfo.io/{query}/json
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

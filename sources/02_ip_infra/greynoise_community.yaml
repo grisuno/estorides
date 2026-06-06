@@ -1,0 +1,20 @@
+name: greynoise_community
+enabled: true
+category: 02. IP & Infrastructure
+description: GreyNoise Community API — internet noise vs targeted scanning
+os: any
+requires_key: false
+parser: greynoise
+entity_hints:
+- ip
+- classification
+- actor
+- tag
+applies_to:
+- ipv4
+tool:
+  method: GET
+  url: https://api.greynoise.io/v3/community/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

@@ -1,0 +1,20 @@
+name: ipwhois_free
+enabled: true
+category: 02. IP & Infrastructure
+description: ipwhois.app free — ASN, geo, connection type, country flag
+os: any
+requires_key: false
+parser: ipwhois
+entity_hints:
+- ip
+- asn
+- geolocation
+- org
+applies_to:
+- ipv4
+tool:
+  method: GET
+  url: https://ipwhois.app/json/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

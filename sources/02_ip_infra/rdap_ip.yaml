@@ -1,0 +1,21 @@
+name: rdap_ip
+enabled: true
+category: 02. IP & Infrastructure
+description: RDAP allocation data for an IP (network range, owner org, country)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- ipv4
+- asn
+- organization
+- country
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://rdap.org/ip/{query}
+  headers:
+    Accept: application/rdap+json
+    User-Agent: Estorides/1.0
