@@ -1,0 +1,20 @@
+name: marine_traffic
+enabled: true
+category: 09. Wireless
+description: AIS vessel data by MMSI / IMO
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- vessel
+- mmsi
+- destination
+- eta
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://www.marinetraffic.com/en/ais/details/ships/shipid:{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

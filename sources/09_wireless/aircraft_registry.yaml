@@ -1,0 +1,21 @@
+name: aircraft_registry
+enabled: true
+category: 09. Wireless
+description: OpenSky-Network — flights and aircraft by registration
+os: any
+requires_key: false
+parser: opensky
+entity_hints:
+- aircraft
+- registration
+- country
+- owner
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://opensky-network.org/api/states/all
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    icao24: '{query}'

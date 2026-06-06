@@ -1,0 +1,24 @@
+name: wigle_search
+enabled: true
+category: 09. Wireless
+description: WiGLE — wireless network geolocation (SSID/BSSID lookup)
+os: any
+requires_key: true
+key_env: WIGLE_API_NAME_WIGLE_API_API_KEY
+parser: wigle
+entity_hints:
+- ssid
+- bssid
+- geolocation
+- encryption
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.wigle.net/api/v2/network/search
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    ssid: '{query}'
+    onlymine: 'false'
+    first: 0

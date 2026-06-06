@@ -1,0 +1,21 @@
+name: satellite_pass
+enabled: true
+category: 09. Wireless
+description: N2YO — predicted satellite passes (geo-int from overhead imagery)
+os: any
+requires_key: true
+key_env: N2YO_API_KEY
+parser: n2yo
+entity_hints:
+- satellite
+- norad_id
+- position
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.n2yo.com/rest/v1/satellite/tle/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    apiKey: '{api_key}'
