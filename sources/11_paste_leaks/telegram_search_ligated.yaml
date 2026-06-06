@@ -1,0 +1,20 @@
+name: telegram_search_ligated
+enabled: true
+category: 11. Paste & Leaks
+description: Telegago / TGStat-like search via DuckDuckGo
+os: any
+requires_key: false
+parser: ddg_html
+entity_hints:
+- telegram_channel
+- link
+applies_to:
+- keyword
+- username
+tool:
+  method: GET
+  url: https://html.duckduckgo.com/html/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: site:t.me {query}

@@ -1,0 +1,20 @@
+name: leakcheck_public
+enabled: true
+category: 11. Paste & Leaks
+description: LeakCheck public — minimal credential check (low rate, no key)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- email
+- leak
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://leakcheck.io/api/public
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    check: '{query}'

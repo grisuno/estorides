@@ -1,0 +1,19 @@
+name: psbdmp_ws
+enabled: true
+category: 11. Paste & Leaks
+description: psbdmp.ws — Pastebin search engine
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- paste
+- leak
+- secret
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://psbdmp.ws/api/v3/search/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}
