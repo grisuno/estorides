@@ -110,7 +110,9 @@ class Orchestrator:
         timeout: float = 12.0,
         deadline: float = 30.0,
         on_source_done: Optional[Any] = None,
+        on_source_result: Optional[Any] = None,
         persist: bool = True,
+        case_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Run a full intelligence cycle. Returns a structured result.
 
@@ -121,7 +123,16 @@ class Orchestrator:
         `persist` (default True) writes the run to the persistent case
         store and mirrors every entity/edge to the Kùzu graph. Set
         False for one-off ad-hoc queries (e.g. tests) where you don't
-        want the run to bloat the long-term memory."""
+        want the run to bloat the long-term memory.
+
+        `case_id`, when supplied, makes this run append to an existing
+        case instead of opening a new one. The recursive pivot engine
+        uses this so every hop of a cross-search lands in a single case.
+
+        `on_source_result`, when supplied, is invoked with the shaped
+        observation dict the moment each source resolves, before the
+        fan-out as a whole completes. This is what lets the UI populate
+        progressively instead of blocking on the slowest source."""
         if not query or not query.strip():
             return {"error": "query required", "results": []}
         query = query.strip()
@@ -132,8 +143,10 @@ class Orchestrator:
             return {"error": f"no sources matched for query_type={query_type}", "results": []}
 
         # ----- open a case (if persistence is enabled) -----
-        case_id: Optional[str] = None
-        if persist and case_store is not None:
+        # A caller-supplied case_id means "append to this case" (the pivot
+        # engine sharing one case across hops); only mint a fresh case when
+        # none was provided.
+        if case_id is None and persist and case_store is not None:
             try:
                 case_id = case_store.create_case(query, query_type)
             except Exception as e:  # noqa: BLE001
@@ -145,7 +158,9 @@ class Orchestrator:
         # ----- fan out, capped by a global deadline -----
         async with AsyncClient(timeout=timeout, max_parallel=parallel) as client:
             tasks: List[asyncio.Task] = [
-                asyncio.create_task(self._execute_source(client, s, query, on_source_done))
+                asyncio.create_task(
+                    self._execute_source(client, s, query, on_source_done, on_source_result)
+                )
                 for s in targets
             ]
             try:
@@ -481,6 +496,7 @@ class Orchestrator:
         source: Source,
         query: str,
         on_done: Optional[Any] = None,
+        on_result: Optional[Any] = None,
     ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
         tool = source["tool"]
         method = (tool.get("method") or "GET").upper()
@@ -513,6 +529,23 @@ class Orchestrator:
                 parsed = parser(data)
         except Exception as e:  # noqa: BLE001
             log.debug("parser %s failed for %s: %s", source["parser"], source["name"], e)
+
+        # Stream the per-source observation the instant it resolves so a
+        # subscriber (the SSE layer) can render it without waiting for the
+        # whole fan-out. The downstream batch still produces the canonical,
+        # ontology/MITRE-stamped observation; this is the live preview.
+        if on_result is not None:
+            try:
+                on_result({
+                    "source": source["name"],
+                    "category": source["category"],
+                    "description": source["description"],
+                    "parser": source["parser"],
+                    "parsed": parsed,
+                    "meta": meta,
+                })
+            except Exception:  # never let a subscriber break the run
+                pass
 
         return source, parsed, data, meta
 

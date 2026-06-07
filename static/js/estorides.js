@@ -99,12 +99,103 @@
   $('#discover-btn').addEventListener('click', startDiscover);
   $('#discover-stop').addEventListener('click', stopDiscover);
 
+  // Live cross-search state. A run streams source results and pivoted
+  // selectors over SSE so the panels fill within seconds instead of
+  // blocking on the slowest source.
+  let _runStream = null;
+  let _runJobId = null;
+  let _streamSeenSrc = new Set();
+  let _streamSeenEnt = new Set();
+  let _streamSrcCount = 0;
+  let _streamEntCount = 0;
+  // Accumulated payloads so the map, timeline and graph can be rebuilt
+  // from the full set on every streamed update, exactly as the blocking
+  // renderer did from one complete response.
+  let _streamObsAll = [];
+  let _streamEntsAll = [];
+
+  // Rebuild the geospatial + temporal views from everything seen so far.
+  // plotPoints clears and redraws from the full coord set, so feeding it
+  // the accumulated observations makes the map grow as sources resolve.
+  function replotStreamData() {
+    // generated_at is required by renderTimeline (it builds a Date from it);
+    // streamed data has no single timestamp, so stamp "now" in seconds.
+    const data = {
+      observations: _streamObsAll,
+      entities: _streamEntsAll,
+      generated_at: Date.now() / 1000,
+    };
+    plotPoints(buildMapCoords(data));
+    renderTimeline(data);
+  }
+
+  function stopRunStream() {
+    if (_runJobId) {
+      fetch('/api/run/stream/stop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ job_id: _runJobId }),
+      }).catch(() => { /* best effort */ });
+    }
+    if (_runStream) {
+      _runStream.close();
+      _runStream = null;
+    }
+    _runJobId = null;
+  }
+
   async function runQuery() {
     const q = $('#query').value.trim();
     if (!q) return;
+    stopRunStream();
     setStatus('running…');
     $('#run-btn').disabled = true;
+    // Fresh panels for the streamed run.
+    $('#results-list').innerHTML = '';
+    $('#entities-list').innerHTML = '';
+    $('#analysis-body').textContent = '';
+    _streamSeenSrc = new Set();
+    _streamSeenEnt = new Set();
+    _streamSrcCount = 0;
+    _streamEntCount = 0;
+    _streamObsAll = [];
+    _streamEntsAll = [];
+    clearMap();
 
+    let start;
+    try {
+      const r = await fetch('/api/run/stream/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q }),
+      });
+      start = await r.json();
+      if (!r.ok || start.error) throw new Error(start.error || ('HTTP ' + r.status));
+    } catch (e) {
+      // Streaming layer unavailable — fall back to the blocking run so
+      // the feature degrades cleanly rather than failing.
+      setStatus('stream unavailable, falling back…');
+      return runQueryBlocking(q);
+    }
+
+    _runJobId = start.job_id;
+    setStatus(`streaming · ${start.query_type || ''}`);
+    _runStream = new EventSource(start.stream_url);
+    _runStream.addEventListener('message', (ev) => {
+      let d;
+      try { d = JSON.parse(ev.data); } catch (_) { return; }
+      if (d && d.type) handleRunStreamEvent(d);
+    });
+    _runStream.addEventListener('closed', () => {
+      setStatus(`done · ${_streamSrcCount} sources · ${_streamEntCount} entities`);
+      stopRunStream();
+      $('#run-btn').disabled = false;
+    });
+    _runStream.onerror = () => { /* auto-reconnects; 'closed' ends the stream */ };
+  }
+
+  // Blocking fallback: the original one-shot render path.
+  async function runQueryBlocking(q) {
     try {
       const r = await fetch('/api/run', {
         method: 'POST',
@@ -123,6 +214,89 @@
     } finally {
       $('#run-btn').disabled = false;
     }
+  }
+
+  function handleRunStreamEvent(d) {
+    switch (d.type) {
+      case 'target_start':
+        setStatus(`resolving ${d.target && d.target.value} (depth ${d.depth})`);
+        break;
+      case 'source_result':
+        appendStreamObservation(d.observation);
+        break;
+      case 'entity':
+        appendStreamEntity(d.entity, d.from);
+        break;
+      case 'target_done':
+        if (d.analysis && d.analysis.content) {
+          $('#analysis-meta').innerHTML = d.analysis.backend
+            ? `<span class="pill">${escapeHTML(d.analysis.backend)}</span><span class="pill">${escapeHTML(d.analysis.model || '')}</span>`
+            : '';
+          $('#analysis-body').textContent = d.analysis.content;
+        }
+        if (d.graph) renderGraphSummary(d.graph);
+        break;
+      case 'fatal':
+        setStatus('error: ' + (d.error || 'pivot failed'));
+        break;
+    }
+  }
+
+  function appendStreamObservation(obs) {
+    if (!obs || !obs.source) return;
+    if (_streamSeenSrc.has(obs.source)) return;
+    _streamSeenSrc.add(obs.source);
+    _streamSrcCount++;
+    _streamObsAll.push(obs);
+    const failed = obs.meta && obs.meta.error;
+    const div = document.createElement('div');
+    div.className = 'result-item' + (failed ? ' failed' : '');
+    const status = (obs.meta && obs.meta.status) || (failed ? 'ERR' : '');
+    const dur = obs.meta && obs.meta.cached ? ' (cached)' : '';
+    div.innerHTML = `
+      <div class="head">
+        <span class="src">${escapeHTML(obs.source)}</span>
+        <span class="cat">${escapeHTML(obs.category || '')}</span>
+      </div>
+      <pre>${escapeHTML(truncate(JSON.stringify(obs.parsed, null, 2) || (obs.meta && obs.meta.error) || '', 1200))}</pre>
+      <div class="meta-line">${escapeHTML(String(status))}${dur}</div>
+    `;
+    $('#results-list').appendChild(div);
+    $('#results-meta').innerHTML =
+      `<span class="pill">${_streamSrcCount} sources</span>` +
+      `<span class="pill">${_streamEntCount} entities</span>`;
+    // Repaint the map/timeline from the full accumulated set so geolocated
+    // sources (ipapi, ipinfo, nominatim) drop pins as they resolve.
+    replotStreamData();
+  }
+
+  function appendStreamEntity(entity, from) {
+    if (!entity || !entity.value) return;
+    const sig = (entity.type || '') + '|' + (entity.value || '');
+    if (_streamSeenEnt.has(sig)) return;
+    _streamSeenEnt.add(sig);
+    _streamEntCount++;
+    _streamEntsAll.push(entity);
+    const list = $('#entities-list');
+    const div = document.createElement('div');
+    div.className = 'entity';
+    div.setAttribute('data-sig', sig);
+    div.setAttribute('data-type', entity.type);
+    div.setAttribute('data-value', entity.value);
+    div.innerHTML = `
+      <span class="type">${escapeHTML(entity.type || '')}</span>
+      <span class="value">${escapeHTML(entity.value)}</span>
+      <span class="srcs">via ${escapeHTML((from && from.value) || 'seed')}</span>
+    `;
+    div.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('estorides:expand', {
+        detail: { type: entity.type, value: entity.value },
+      }));
+    });
+    list.appendChild(div);
+    $('#results-meta').innerHTML =
+      `<span class="pill">${_streamSrcCount} sources</span>` +
+      `<span class="pill">${_streamEntCount} entities</span>`;
   }
 
   function clearAll() {

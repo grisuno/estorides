@@ -23,12 +23,15 @@ from flask import Flask, Response, jsonify, render_template, request, send_from_
 
 from estorides_core.audit import audit_log, rate_limiter
 from estorides_core.config import (DATASET_PATH, FLASK_DEBUG, FLASK_HOST,
-    FLASK_PORT, GRAPH_PATH, REPORTS_DIR, STATIC_DIR, TEMPLATES_DIR)
-from estorides_core.discoverer import DISCOVER_JOBS, start_discover, list_jobs as list_discover_jobs
+    FLASK_PORT, GRAPH_PATH, PIVOT, REPORTS_DIR, STATIC_DIR, STREAM,
+    TEMPLATES_DIR, WEB)
+from estorides_core.discoverer import (DISCOVER_JOBS,
+    list_jobs as list_discover_jobs, start_discover_threadsafe)
 from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
+from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
@@ -53,6 +56,62 @@ def _client_ip() -> str:
             # First entry is the original client; the rest are proxies.
             return fwd.split(",")[0].strip()
     return request.remote_addr or "unknown"
+
+
+def _arg_int(name: str, default: int) -> int:
+    """Read an int query-string arg, falling back to `default` on parse error.
+
+    Guards every endpoint that previously did `int(request.args.get(...))`
+    directly, where a non-numeric value raised ValueError and surfaced as
+    an unhandled 500 to the client.
+    """
+    raw = request.args.get(name)
+    if raw is None or raw.strip() == "":
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        return default
+
+
+class _RunStreamJob:
+    """A live deep-run cross-search whose events feed an SSE stream.
+
+    Wraps a `BufferedEventSink` (the engine writes to it) and a cooperative
+    stop flag the UI can set. Status and terminal state are read straight
+    off the sink so there is one source of truth.
+    """
+
+    def __init__(self, job_id: str, query: str, query_type: str, case_id: "str | None") -> None:
+        self.job_id = job_id
+        self.query = query
+        self.query_type = query_type
+        self.case_id = case_id
+        self.started_at = time.time()
+        self.sink = BufferedEventSink(STREAM.sse_buffer_cap)
+        self._stop = False
+
+    def stop(self) -> None:
+        self._stop = True
+
+    def should_stop(self) -> bool:
+        return self._stop
+
+    @property
+    def status(self) -> str:
+        return self.sink.status
+
+    @property
+    def done(self) -> bool:
+        return self.sink.done
+
+
+RUN_STREAM_JOBS: Dict[str, _RunStreamJob] = {}
+
+
+def _new_stream_job_id() -> str:
+    """Timestamp-prefixed id so jobs sort chronologically."""
+    return f"r{int(time.time() * 1000) % 10 ** 11:011d}"
 
 
 def _rate_limit_decorator(*, event: str) -> Callable:
@@ -128,9 +187,9 @@ def create_app() -> Flask:
                 q.normalised,
                 source_names=body.get("sources") or None,
                 include_paid=bool(body.get("include_paid", False)),
-                parallel=int(body.get("parallel", 8)),
-                timeout=float(body.get("timeout", 8.0)),
-                deadline=float(body.get("deadline", 30.0)),
+                parallel=int(body.get("parallel", WEB.default_parallel)),
+                timeout=float(body.get("timeout", WEB.default_timeout_seconds)),
+                deadline=float(body.get("deadline", WEB.default_deadline_seconds)),
             ))
         except Exception as e:  # noqa: BLE001
             log.exception("run failed")
@@ -163,7 +222,7 @@ def create_app() -> Flask:
         kg = KnowledgeGraph()
         kg.graph = nx.read_graphml(GRAPH_PATH)
         # Limit to N nodes for rendering.
-        n = int(request.args.get("limit", 200))
+        n = _arg_int("limit", WEB.graph_render_node_limit)
         g = kg.graph
         deg = dict(g.degree())
         top = sorted(deg.items(), key=lambda kv: kv[1], reverse=True)[:n]
@@ -176,7 +235,9 @@ def create_app() -> Flask:
                 "type": d.get("type"),
                 "kind": d.get("kind"),
                 "color": d.get("color", "#888"),
-                "size": 4 + min(20, deg.get(d.get("id"), 0)),
+                "size": WEB.graph_node_base_size + min(
+                    WEB.graph_node_max_bonus, deg.get(d.get("id"), 0)
+                ),
             }
             for _, d in sub.nodes(data=True)
         ]
@@ -185,7 +246,7 @@ def create_app() -> Flask:
              "relation": attrs.get("relation", "related-to")}
             for u, v, attrs in sub.edges(data=True)
             if u in keep and v in keep
-        ][:1000]
+        ][:WEB.graph_render_edge_limit]
         return jsonify({"nodes": nodes, "edges": edges,
                         "summary": kg.summary(),
                         "top_entities": kg.top_entities(50)})
@@ -277,7 +338,7 @@ def create_app() -> Flask:
             return jsonify({"error": "case store unavailable"}), 503
         q = request.args.get("q", "").strip()
         qt = request.args.get("type", "").strip()
-        limit = int(request.args.get("limit", 20))
+        limit = _arg_int("limit", WEB.cases_default_limit)
         return jsonify({
             "cases": case_store.search_cases(q, limit=limit, query_type=qt),
             "stats": case_store.stats(),
@@ -334,7 +395,7 @@ def create_app() -> Flask:
                 # Find the canonical id in our schema.
                 from estorides_core.graph_kuzu import _node_id, _label_for
                 nid = _node_id(ent_type, ent_id)
-                neighbors = kuzu_backend.neighbors(nid, hops=2)
+                neighbors = kuzu_backend.neighbors(nid, hops=WEB.intel_neighbor_hops)
                 out["persistent_neighbors"] = neighbors
             except Exception as e:  # noqa: BLE001
                 out["persistent_neighbors_error"] = str(e)
@@ -485,31 +546,29 @@ def create_app() -> Flask:
         # server figures out if it's an IP, domain, or email.
         if seed_type == "auto":
             seed_type = detect_query_type(seed_value) or "domain"
-        # Bounds from the request, capped so a buggy client can't
-        # ask for a 10,000-step job.
+        # Bounds from the request, clamped to the central PivotConfig caps
+        # so an untrusted client can never request an unbounded crawl.
         try:
-            max_depth = min(int(body.get("max_depth", 2)), 3)
-            max_steps = min(int(body.get("max_steps", 50)), 200)
-            max_entities = min(int(body.get("max_entities", 5000)), 20000)
+            max_depth = PIVOT.clamp_depth(body.get("max_depth", PIVOT.max_depth))
+            max_steps = PIVOT.clamp_steps(body.get("max_steps", PIVOT.max_steps))
+            max_entities = PIVOT.clamp_entities(body.get("max_entities", PIVOT.max_entities))
+            deadline_s = PIVOT.clamp_deadline(body.get("deadline_s", PIVOT.per_target_timeout_seconds))
+            parallel = PIVOT.clamp_parallel(body.get("parallel", PIVOT.parallel))
         except (TypeError, ValueError):
-            return jsonify({"error": "max_depth/max_steps/max_entities must be ints"}), 400
-        deadline_s = float(body.get("deadline_s", 30.0))
-        parallel = min(int(body.get("parallel", 4)), 10)
-        # Run the start in a worker thread because it has to
-        # await the asyncio task that schedules the background
-        # discoverer. The handler itself stays synchronous.
-        job = asyncio.run_coroutine_threadsafe(
-            start_discover(
-                seed_type=seed_type,
-                seed_value=seed_value,
-                max_depth=max_depth,
-                max_steps=max_steps,
-                max_entities=max_entities,
-                deadline_s=deadline_s,
-                parallel=parallel,
-            ),
+            return jsonify({"error": "max_depth/max_steps/max_entities/deadline_s/parallel must be numeric"}), 400
+        # Create the job in this request thread (fast, loop-free) and fire
+        # its worker onto the background loop without waiting. A busy loop
+        # (a concurrent deep-run) can no longer make this dispatch time out.
+        job = start_discover_threadsafe(
             _background_loop,
-        ).result(timeout=15)
+            seed_type=seed_type,
+            seed_value=seed_value,
+            max_depth=max_depth,
+            max_steps=max_steps,
+            max_entities=max_entities,
+            deadline_s=deadline_s,
+            parallel=parallel,
+        )
         return jsonify({
             "job_id": job.job_id,
             "case_id": job.case_id,
@@ -560,9 +619,9 @@ def create_app() -> Flask:
                     ev = job.events[cursor]
                     cursor += 1
                     yield f"data: {json.dumps(ev)}\n\n"
-                # Heartbeats every 5s so the proxy doesn't drop us.
+                # Periodic comment keepalive so the proxy doesn't drop us.
                 idle_ticks += 1
-                if idle_ticks >= 5:
+                if idle_ticks >= STREAM.heartbeat_idle_ticks:
                     yield f": keepalive {int(time.time())}\n\n"
                     idle_ticks = 0
                 # Job ended → send a final 'closed' event and stop.
@@ -571,10 +630,128 @@ def create_app() -> Flask:
                     return
                 if job.status != last_status:
                     last_status = job.status
-                time.sleep(1.0)
+                time.sleep(STREAM.poll_interval_seconds)
 
         # The right content type for SSE + disable buffering so
         # Flask doesn't accumulate events into a single response.
+        return Response(gen(), mimetype="text/event-stream", headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        })
+
+    # ------------------------------------------------- v1.3 deep-run stream
+    # Recursive, scored, Palantir-style cross-search that streams every
+    # source result and every discovered selector as it lands — so the UI
+    # populates within seconds instead of blocking on the slowest source.
+
+    @app.route("/api/run/stream/start", methods=["POST"])
+    @_rate_limit_decorator(event="api_run_stream_start")
+    def api_run_stream_start() -> Any:
+        body = request.get_json(silent=True) or {}
+        q = validate_query(str(body.get("query") or ""))
+        try:
+            max_depth = PIVOT.clamp_depth(body.get("max_depth", PIVOT.max_depth))
+            max_steps = PIVOT.clamp_steps(body.get("max_steps", PIVOT.max_steps))
+            max_entities = PIVOT.clamp_entities(body.get("max_entities", PIVOT.max_entities))
+            deadline_s = PIVOT.clamp_deadline(body.get("deadline_s", PIVOT.deadline_seconds))
+            target_timeout = PIVOT.clamp_deadline(
+                body.get("target_timeout_s", PIVOT.per_target_timeout_seconds)
+            )
+            parallel = PIVOT.clamp_parallel(body.get("parallel", PIVOT.parallel))
+        except (TypeError, ValueError):
+            return jsonify({"error": "numeric bound expected"}), 400
+
+        # One case spans the whole cross-search when the store is available.
+        case_id: Any = None
+        if case_store is not None:
+            try:
+                case_id = case_store.create_case(
+                    query=q.normalised,
+                    query_type=q.type,
+                    notes=f"deep-run seed={q.type}:{q.normalised}",
+                )
+            except Exception as e:  # noqa: BLE001
+                log.warning("deep-run case create failed, running ephemeral: %s", e)
+
+        job = _RunStreamJob(_new_stream_job_id(), q.normalised, q.type or "any", case_id)
+        RUN_STREAM_JOBS[job.job_id] = job
+
+        async def _drive() -> None:
+            # Build the Orchestrator off the event loop: loading the
+            # sanctions index and source YAMLs is seconds of synchronous
+            # CPU that would otherwise stall every other job on the loop.
+            orchestrator = await asyncio.to_thread(Orchestrator)
+            engine = PivotEngine(
+                runner=orchestrator,
+                sink=job.sink,
+                config=PIVOT,
+                policy=PIVOT.policy,
+                max_depth=max_depth,
+                max_steps=max_steps,
+                max_entities=max_entities,
+                per_target_timeout=target_timeout,
+                deadline_seconds=deadline_s,
+                parallel=parallel,
+                case_id=job.case_id,
+                should_stop=job.should_stop,
+                persist=case_store is not None,
+            )
+            await engine.run(job.query_type, job.query)
+
+        asyncio.run_coroutine_threadsafe(_drive(), _background_loop)
+        return jsonify({
+            "job_id": job.job_id,
+            "case_id": job.case_id,
+            "status": job.status,
+            "query": job.query,
+            "query_type": job.query_type,
+            "stream_url": f"/api/run/stream?job_id={job.job_id}",
+            "max_depth": max_depth,
+            "max_steps": max_steps,
+        })
+
+    @app.route("/api/run/stream/stop", methods=["POST"])
+    def api_run_stream_stop() -> Any:
+        body = request.get_json(silent=True) or {}
+        job_id = (body.get("job_id") or request.args.get("job_id") or "").strip()
+        job = RUN_STREAM_JOBS.get(job_id)
+        if job is None:
+            return jsonify({"error": "unknown job_id"}), 404
+        job.stop()
+        return jsonify({"job_id": job_id, "status": "stopping"})
+
+    @app.route("/api/run/stream", methods=["GET"])
+    def api_run_stream() -> Any:
+        job_id = (request.args.get("job_id") or "").strip()
+        job = RUN_STREAM_JOBS.get(job_id)
+        if job is None:
+            return jsonify({"error": "unknown job_id"}), 404
+
+        def gen():
+            cursor = 0
+            yield (
+                "event: hello\n"
+                f"data: {json.dumps({'job_id': job.job_id, 'case_id': job.case_id, 'query': job.query, 'query_type': job.query_type})}\n\n"
+            )
+            idle_ticks = 0
+            while True:
+                while cursor < len(job.sink.events):
+                    ev = job.sink.events[cursor]
+                    cursor += 1
+                    yield f"data: {json.dumps(ev)}\n\n"
+                idle_ticks += 1
+                if idle_ticks >= STREAM.heartbeat_idle_ticks:
+                    yield f": keepalive {int(time.time())}\n\n"
+                    idle_ticks = 0
+                if job.done and cursor >= len(job.sink.events):
+                    yield (
+                        "event: closed\n"
+                        f"data: {json.dumps({'status': job.status, 'case_id': job.case_id, 'error': job.sink.error})}\n\n"
+                    )
+                    return
+                time.sleep(STREAM.poll_interval_seconds)
+
         return Response(gen(), mimetype="text/event-stream", headers={
             "Cache-Control": "no-cache",
             "X-Accel-Buffering": "no",

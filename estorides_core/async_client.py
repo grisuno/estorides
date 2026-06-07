@@ -28,8 +28,8 @@ from urllib.parse import urlparse
 import aiohttp
 
 from .config import (CACHE_PATH, CIRCUIT_COOLDOWN_S, CIRCUIT_FAIL_THRESHOLD,
-                     HTTP_BACKOFF_BASE, HTTP_BACKOFF_FACTOR, HTTP_MAX_RETRIES,
-                     HTTP_TIMEOUT, USER_AGENT)
+                     HTTP_BACKOFF_BASE, HTTP_BACKOFF_FACTOR, HTTP_CACHE,
+                     HTTP_MAX_RETRIES, HTTP_TIMEOUT, USER_AGENT)
 from .ssrf_guard import SSRFError, assert_safe, check_url
 
 log = logging.getLogger("estorides.http")
@@ -59,10 +59,24 @@ class CircuitBreaker:
 
 
 class ResponseCache:
-    """SQLite-backed response cache. Key = (url + method + body hash)."""
+    """SQLite-backed response cache. Key = (url + method + body hash).
 
-    def __init__(self, path: Path = CACHE_PATH) -> None:
+    Entries carry their write timestamp and are only served while younger
+    than `ttl_seconds`; a stale row is ignored (and lazily overwritten on
+    the next live fetch) so the cache can never pin down OSINT that has
+    since changed or been taken down.
+    """
+
+    def __init__(
+        self,
+        path: Path = CACHE_PATH,
+        *,
+        ttl_seconds: int = HTTP_CACHE.ttl_seconds,
+        enabled: bool = HTTP_CACHE.enabled,
+    ) -> None:
         self.path = path
+        self.ttl_seconds = ttl_seconds
+        self.enabled = enabled
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
@@ -89,10 +103,15 @@ class ResponseCache:
         return h.hexdigest()
 
     def get(self, method: str, url: str, body: Optional[str]) -> Optional[Any]:
+        if not self.enabled or self.ttl_seconds <= 0:
+            return None
         k = self._key(method, url, body)
         with sqlite3.connect(self.path) as con:
             row = con.execute("SELECT v, ts FROM cache WHERE k=?", (k,)).fetchone()
         if not row:
+            return None
+        written_at = row[1]
+        if not isinstance(written_at, (int, float)) or (time.time() - written_at) > self.ttl_seconds:
             return None
         try:
             return json.loads(row[0])
@@ -100,6 +119,8 @@ class ResponseCache:
             return None
 
     def set(self, method: str, url: str, body: Optional[str], value: Any) -> None:
+        if not self.enabled:
+            return
         k = self._key(method, url, body)
         with sqlite3.connect(self.path) as con:
             con.execute(
@@ -174,6 +195,18 @@ class AsyncClient:
 
         if not self.breaker.allow(host):
             meta["error"] = "circuit_open"
+            return None, meta
+
+        # SSRF guard. The synchronous client already validated; the async
+        # fan-out (the primary path, where the URL carries an interpolated
+        # user query) must do the same or it is a pivot into private space.
+        # check_url resolves DNS, which is blocking, so it runs in a worker
+        # thread to keep the event loop free. This is the TOCTOU-resistant
+        # leg: resolution happens immediately before the request goes out.
+        guard = await asyncio.to_thread(check_url, url)
+        if not guard.allowed:
+            log.warning("SSRF guard blocked %s: %s", url, guard.reason)
+            meta["error"] = f"ssrf_blocked:{guard.reason}"
             return None, meta
 
         # Cache hit?
