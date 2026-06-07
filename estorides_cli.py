@@ -26,6 +26,7 @@ from estorides_core.config import (DATASET_PATH, FLASK_HOST, FLASK_PORT,
                                    GRAPH_PATH, REPORTS_DIR, REPORTS_DIR as RD)
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
+from estorides_core.validation import QueryValidationError, validate_query
 from estorides_export import export_misp, export_stix
 
 
@@ -36,7 +37,112 @@ def _setup_logging(verbose: bool) -> None:
                         datefmt="%H:%M:%S")
 
 
+async def cmd_discover(args: argparse.Namespace) -> int:
+    """v1.2 — fanout the surface from a seed.
+
+    Mirrors the /api/discover/start endpoint but as a CLI subcommand
+    so an operator can drop a seed in a terminal and walk away.
+    Streams progress to stdout. The final case is dumped to
+    --out-json if provided.
+    """
+    from estorides_core.discoverer import start_discover
+    from estorides_core.cases import store as case_store
+    seed_type = args.type
+    if seed_type == "auto":
+        from estorides_core.entity_extraction import detect_query_type
+        seed_type = detect_query_type(args.query) or "domain"
+    log = logging.getLogger("estorides.cli.discover")
+    log.info(
+        "starting background discover seed=%s:%s max_depth=%d max_steps=%d",
+        seed_type, args.query, args.max_depth, args.max_steps,
+    )
+    job = await start_discover(
+        seed_type=seed_type,
+        seed_value=args.query,
+        max_depth=args.max_depth,
+        max_steps=args.max_steps,
+        max_entities=args.max_entities,
+        deadline_s=args.deadline,
+        parallel=args.parallel,
+    )
+    # Poll the job's event buffer until the worker ends, printing
+    # a one-line summary per event so the operator sees the surface
+    # grow in real time.
+    last_emit = 0
+    while True:
+        s = job.status
+        if s in ("done", "error", "stopped"):
+            break
+        if time.time() - last_emit > 1.0 and job.events:
+            # Show only the most recent N events since the last print
+            # to keep the terminal readable.
+            for ev in job.events[-8:]:
+                t = ev.get("type")
+                if t == "node_found":
+                    e = ev.get("entity") or {}
+                    src = (ev.get("from") or {}).get("value", "")
+                    log.info("  + %s = %s  (from %s, depth %d)",
+                             e.get("type"), e.get("value"), src, ev.get("depth"))
+                elif t == "step_done":
+                    log.info("  step %d done · +%d new in queue · %d remaining",
+                             ev.get("step"), ev.get("new_to_queue", 0), ev.get("queue_remaining", 0))
+            last_emit = time.time()
+        await asyncio.sleep(0.5)
+    # Final summary + dump.
+    log.info("done · %d steps · %d entities seen · %d events",
+             job.steps_done, job.entities_seen, len(job.events))
+    # Pull the final case so the operator gets a stable artifact.
+    case = case_store.get_case(job.case_id) or {}
+    # Build a minimal surface JSON: seed + every domain/ip entity
+    # the discoverer recorded.
+    surface = {
+        "seed": {"type": job.seed_type, "value": job.seed_value},
+        "case_id": job.case_id,
+        "steps_done": job.steps_done,
+        "entities_seen": job.entities_seen,
+        "domains": sorted({
+            e.get("value", "")
+            for ev in job.events
+            if ev.get("type") == "node_found"
+            for e in [ev.get("entity") or {}]
+            if e.get("type") in ("domain", "ipv4", "ipv6")
+        }),
+        "case_summary": case,
+    }
+    if args.out_json:
+        with open(args.out_json, "w") as f:
+            json.dump(surface, f, ensure_ascii=False, indent=2, default=str)
+        log.info("wrote surface to %s", args.out_json)
+    # Friendly stdout summary so the operator can eyeball the
+    # size of the discovered surface.
+    print(
+        f"\n=== Discover summary ===\n"
+        f"  seed        : {job.seed_type}:{job.seed_value}\n"
+        f"  case_id     : {job.case_id}\n"
+        f"  status      : {job.status}\n"
+        f"  steps       : {job.steps_done}\n"
+        f"  entities    : {job.entities_seen}\n"
+        f"  domains     : {len(surface['domains'])}\n"
+    )
+    if surface['domains']:
+        sample = surface['domains'][:15]
+        for d in sample:
+            print(f"    - {d}")
+        if len(surface['domains']) > 15:
+            print(f"    … and {len(surface['domains']) - 15} more")
+    return 0 if job.status == "done" else 1
+
+
 async def cmd_run(args: argparse.Namespace) -> int:
+    # Validate the query the same way the web layer does. A failure here
+    # surfaces a clean error to the operator instead of a half-built run.
+    try:
+        q = validate_query(args.query)
+    except QueryValidationError as e:
+        print(f"error: invalid query ({e.reason}): {e}", file=sys.stderr)
+        return 2
+    args.query = q.normalised
+
     orch = Orchestrator()
     sources = None
     if args.only_sources:
@@ -175,6 +281,27 @@ def build_parser() -> argparse.ArgumentParser:
                           "Sources still running at this point are dropped.")
     run.add_argument("--out-json", help="path to write full result JSON")
     run.set_defaults(func=lambda a: asyncio.run(cmd_run(a)))
+
+    # v1.2 — background discoverer. Walks the surface from a
+    # seed: resolves it, picks out newly-discovered subdomains /
+    # sibling domains, enqueues them, and repeats up to a depth
+    # cap. Streams progress to stdout so an operator can watch
+    # the surface grow.
+    disc = sub.add_parser(
+        "discover",
+        help="background subdomain/domain fanout from a seed (domain or IP)",
+    )
+    disc.add_argument("query", help="seed value: domain, IP, or email")
+    disc.add_argument("--type", default="auto",
+                      choices=["auto", "domain", "ipv4", "ipv6", "email"],
+                      help="seed type (default: auto-detect)")
+    disc.add_argument("--max-depth", type=int, default=2, help="recursion depth (default 2)")
+    disc.add_argument("--max-steps", type=int, default=30, help="max orchestrator runs (default 30)")
+    disc.add_argument("--max-entities", type=int, default=1000, help="stop after N entities")
+    disc.add_argument("--deadline", type=float, default=20.0, help="per-step deadline seconds")
+    disc.add_argument("--parallel", type=int, default=4, help="max concurrent sources per step")
+    disc.add_argument("--out-json", help="path to write the final surface JSON")
+    disc.set_defaults(func=lambda a: asyncio.run(cmd_discover(a)))
 
     g = sub.add_parser("graph", help="export knowledge graph")
     g.add_argument("--export", dest="format", choices=["graphml", "json"], default="graphml")

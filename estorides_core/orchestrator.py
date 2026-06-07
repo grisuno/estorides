@@ -26,14 +26,38 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
-from .config import DATASET_PATH, SOURCES_DIR
+from .config import DATASET_PATH, GRAPH_PATH, SOURCES_DIR
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 merge)
 from .knowledge_graph import KnowledgeGraph
+from .mitre_attack import all_techniques_for, map_observations
+from .ontology import ontology
 from .parsers import get_parser
+from .relationship_inference import infer_relationship
 from .source_loader import Source, SourceRegistry
 
 log = logging.getLogger("estorides.orchestrator")
+
+# New modules (v1.0 → v1.1 wiring). Each is wrapped in a try/except
+# so a missing optional dep (kuzu, etc.) can never break a run that
+# doesn't actually need it.
+try:
+    from .graph_kuzu import backend as kuzu_backend
+except Exception as _e:  # noqa: BLE001
+    log.warning("kuzu backend unavailable, running without persistent graph: %s", _e)
+    kuzu_backend = None  # type: ignore[assignment]
+
+try:
+    from .cases import store as case_store
+except Exception as _e:  # noqa: BLE001
+    log.warning("case store unavailable, runs will be ephemeral: %s", _e)
+    case_store = None  # type: ignore[assignment]
+
+try:
+    from .intel_resolver import resolver as intel_resolver
+except Exception as _e:  # noqa: BLE001
+    log.warning("intel resolver unavailable: %s", _e)
+    intel_resolver = None  # type: ignore[assignment]
 
 
 def _safe_format(template: Any, **kwargs: Any) -> Any:
@@ -86,12 +110,18 @@ class Orchestrator:
         timeout: float = 12.0,
         deadline: float = 30.0,
         on_source_done: Optional[Any] = None,
+        persist: bool = True,
     ) -> Dict[str, Any]:
         """Run a full intelligence cycle. Returns a structured result.
 
         `deadline` is a hard wall-clock cap (seconds) for the whole fanout.
         Any source that hasn't responded by then is dropped and reported as
-        "deadline_exceeded" so the run can never get stuck."""
+        "deadline_exceeded" so the run can never get stuck.
+
+        `persist` (default True) writes the run to the persistent case
+        store and mirrors every entity/edge to the Kùzu graph. Set
+        False for one-off ad-hoc queries (e.g. tests) where you don't
+        want the run to bloat the long-term memory."""
         if not query or not query.strip():
             return {"error": "query required", "results": []}
         query = query.strip()
@@ -100,6 +130,14 @@ class Orchestrator:
         targets = self._select_sources(source_names, include_paid=include_paid, query_type=query_type)
         if not targets:
             return {"error": f"no sources matched for query_type={query_type}", "results": []}
+
+        # ----- open a case (if persistence is enabled) -----
+        case_id: Optional[str] = None
+        if persist and case_store is not None:
+            try:
+                case_id = case_store.create_case(query, query_type)
+            except Exception as e:  # noqa: BLE001
+                log.warning("case create failed, running ephemeral: %s", e)
 
         log.info("query_type=%s, running %d sources for query=%r (deadline=%.0fs)",
                  query_type, len(targets), query, deadline)
@@ -123,11 +161,33 @@ class Orchestrator:
                         t.cancel()
                 # give cancelled tasks a moment to clean up
                 await asyncio.gather(*tasks, return_exceptions=True)
-                # Use whatever did complete, mark the rest as missed
+                # Use whatever did complete, mark the rest as missed.
+                # IMPORTANT: a cancelled task's .result() raises
+                # CancelledError; only call it for tasks that we know
+                # completed without exception. Anything else becomes
+                # a synthetic 4-tuple so the downstream unpacking can
+                # never trip on a BaseException instance.
                 raw_results = []
                 for t, s in zip(tasks, targets):
-                    if t.done() and not t.cancelled() and t.exception() is None:
-                        raw_results.append(t.result())
+                    if (
+                        t.done()
+                        and not t.cancelled()
+                        and t.exception() is None
+                    ):
+                        try:
+                            raw_results.append(t.result())
+                        except Exception as e:  # noqa: BLE001
+                            # Defensive: t.exception() said None but
+                            # t.result() still raised. Treat as a
+                            # failed source rather than crashing.
+                            log.warning("source %s result() raised: %s",
+                                        s["name"], e)
+                            raw_results.append((s, None, None, {
+                                "source": s["name"],
+                                "error": f"exception:{type(e).__name__}",
+                                "error_detail": str(e),
+                                "attempts": 0,
+                            }))
                     else:
                         raw_results.append((s, None, None, {
                             "source": s["name"],
@@ -144,10 +204,79 @@ class Orchestrator:
                                 pass
 
         # ----- post-process -----
+        # `asyncio.gather(..., return_exceptions=True)` puts the actual
+        # `Exception` instance (e.g. NameError, KeyError) into the
+        # results list when a task raised. Some tasks can also return
+        # a value that is not a 4-tuple (e.g. a coroutine that was
+        # awaited to completion but whose body had a bug). We sweep
+        # the whole list into a normalised form here so the rest of
+        # the post-process pipeline can iterate uniformly without
+        # ever tripping on a non-iterable element.
         observations: List[Dict[str, Any]] = []
         all_entities: List[Entity] = []
-        for source, parsed, raw, meta in raw_results:
+        normalised: List[Tuple[Source, Any, Any, Dict[str, Any]]] = []
+        for item, source in zip(raw_results, targets):
+            if isinstance(item, BaseException):
+                # Surface as an error observation, but keep going so one
+                # bad source can't poison the whole run.
+                log.warning("source %s raised: %s", source["name"], item)
+                normalised.append((source, None, None, {
+                    "source": source["name"],
+                    "error": f"exception:{item.__class__.__name__}",
+                    "error_detail": str(item),
+                    "attempts": 0,
+                }))
+                continue
+            # Defensive: a successful task could still return
+            # something that is not a 4-tuple if the underlying
+            # function is buggy. Wrap any deviation into a synthetic
+            # 4-tuple so the downstream `for source, parsed, raw,
+            # meta in normalised` cannot trip with
+            # "cannot unpack non-iterable X".
+            if not isinstance(item, tuple) or len(item) != 4:
+                log.warning("source %s returned %r (expected 4-tuple)",
+                            source["name"], type(item).__name__)
+                normalised.append((source, None, None, {
+                    "source": source["name"],
+                    "error": f"bad-result-shape:{type(item).__name__}",
+                    "attempts": 0,
+                }))
+                continue
+            normalised.append(item)
+
+        for source, parsed, raw, meta in normalised:
             if parsed is None and raw is None:
+                # An error observation — still record it so the UI can
+                # show which sources failed and why, but don't try to
+                # parse entities out of an empty/error response.
+                if meta.get("error"):
+                    obs = {
+                        "source": source["name"],
+                        "category": source["category"],
+                        "description": source["description"],
+                        "parser": source["parser"],
+                        "parsed": None,
+                        "raw": None,
+                        "meta": meta,
+                    }
+                    try:
+                        obs["ontology"] = ontology.check_observation(obs)
+                    except Exception as e:  # noqa: BLE001
+                        log.debug("ontology check failed for %s: %s", source["name"], e)
+                        obs["ontology"] = {"sanctioned": False, "hits": [], "fields": [], "error": str(e)}
+                    try:
+                        obs["mitre"] = {"techniques": []}
+                    except Exception:  # noqa: BLE001
+                        pass
+                    observations.append(obs)
+                    # Persist the error observation too — failure trails
+                    # are exactly the kind of thing you want when you
+                    # reopen a case six months later.
+                    if case_id is not None and case_store is not None:
+                        try:
+                            case_store.add_observation(case_id, obs)
+                        except Exception as e:  # noqa: BLE001
+                            log.debug("case observation write failed: %s", e)
                 continue
             obs = {
                 "source": source["name"],
@@ -158,7 +287,25 @@ class Orchestrator:
                 "raw": raw,
                 "meta": meta,
             }
+            # Ontology cross-check: stamp every observation with a
+            # sanctions verdict so the LLM analyst stage can mention
+            # "SANCTIONED — OFAC SDN match" instead of having to
+            # re-derive it. The check is local and CPU-only; for a
+            # first-run with an empty cache it returns "unknown"
+            # quickly and the result is preserved for the analyst.
+            try:
+                obs["ontology"] = ontology.check_observation(obs)
+            except Exception as e:  # noqa: BLE001
+                log.debug("ontology check failed for %s: %s", source["name"], e)
+                obs["ontology"] = {"sanctioned": False, "hits": [], "fields": [], "error": str(e)}
             observations.append(obs)
+
+            # Persist the observation to the case store (cheap, in-process).
+            if case_id is not None and case_store is not None:
+                try:
+                    case_store.add_observation(case_id, obs)
+                except Exception as e:  # noqa: BLE001
+                    log.debug("case observation write failed: %s", e)
 
             # 1) extract entities once, from the parsed view if we have one
             # (raw is its superset and rescanning it only duplicates work).
@@ -169,8 +316,29 @@ class Orchestrator:
             # 2) add to knowledge graph (entity + co-occurrence)
             self.kg.add_observation(source["name"], entities)
 
+            # 2b) mirror the entities to Kùzu (best-effort, non-blocking)
+            if kuzu_backend is not None:
+                for ent in entities:
+                    try:
+                        kuzu_backend.upsert_entity(
+                            ent.type, ent.value, source=source["name"]
+                        )
+                    except Exception as e:  # noqa: BLE001
+                        log.debug("kuzu mirror entity failed: %s", e)
+                        break  # one bad entity should not poison the rest
+
         # ----- higher-level relationships -----
         self._infer_relationships(observations, query)
+
+        # ----- MITRE ATT&CK mapping -----
+        # Stamp every observation with the techniques it suggests, then
+        # compute the aggregate technique set so the LLM analyst can
+        # mention the relevant tactics without re-deriving them.
+        try:
+            map_observations(observations)
+        except Exception as e:  # noqa: BLE001
+            log.debug("mitre mapping failed: %s", e)
+        mitre_techniques = all_techniques_for(observations)
 
         # ----- entity summary -----
         merged = merge(all_entities)
@@ -201,6 +369,74 @@ class Orchestrator:
         # ----- export -----
         self._write_dataset(query, observations, merged, analysis)
 
+        # ----- persist entities + finalise the case -----
+        if case_id is not None and case_store is not None:
+            try:
+                case_store.add_entities(
+                    case_id, [e.to_dict() for e in merged]
+                )
+            except Exception as e:  # noqa: BLE001
+                log.debug("case entity write failed: %s", e)
+            try:
+                kg_path_str: Optional[str] = None
+                try:
+                    kg_path_str = str(self.kg.export_graphml(GRAPH_PATH))
+                except Exception as e:  # noqa: BLE001
+                    log.debug("kg export for case failed: %s", e)
+                case_store.finalise(
+                    case_id,
+                    analysis=analysis,
+                    kg_path=kg_path_str,
+                    mitre={"techniques": mitre_techniques},
+                    source_count=len(targets),
+                    obs_count=len(observations),
+                    entity_count=len(merged),
+                    status="ok",
+                )
+            except Exception as e:  # noqa: BLE001
+                log.debug("case finalise failed: %s", e)
+
+        # ----- cross-feed enrichment (best-effort, post-LLM) -----
+        # Resolve the top entities through the intel resolver to wire
+        # them to OFAC + Wikidata + IP-API. The resolver does its own
+        # caching, so a case reopened later won't re-fetch the world.
+        enrichment: Dict[str, Any] = {}
+        if intel_resolver is not None and case_id is not None:
+            try:
+                # Pick the top 5 entities by seen_count to enrich.
+                top = sorted(
+                    merged, key=lambda e: e.confidence, reverse=True
+                )[:5]
+                for ent in top:
+                    res = intel_resolver.resolve(ent.type, ent.value)
+                    enrichment[f"{ent.type}:{ent.value}"] = res
+                    # Also mirror the resolver's nodes/edges into Kùzu.
+                    if kuzu_backend is not None:
+                        for n in res.get("nodes", []):
+                            nprops = n.get("properties", {})
+                            kuzu_backend.upsert_entity(
+                                n.get("type", "entity"),
+                                n.get("label", n.get("id", "")),
+                                kind=n.get("kind"),
+                            )
+                        for link in res.get("links", []):
+                            src = link.get("source", "")
+                            dst = link.get("target", "")
+                            rel = link.get("relation", "")
+                            # Parse the type: id form back into
+                            # (type, value) so Kùzu can normalise.
+                            if ":" in src and ":" in dst and rel:
+                                s_t, s_v = src.split(":", 1)
+                                d_t, d_v = dst.split(":", 1)
+                                try:
+                                    kuzu_backend.upsert_relationship(
+                                        s_t, s_v, rel, d_t, d_v
+                                    )
+                                except Exception:
+                                    pass
+            except Exception as e:  # noqa: BLE001
+                log.debug("intel enrichment failed: %s", e)
+
         return {
             "query": query,
             "generated_at": time.time(),
@@ -212,7 +448,10 @@ class Orchestrator:
                 "summary": self.kg.summary(),
                 "top_entities": self.kg.top_entities(20),
             },
+            "mitre": {"techniques": mitre_techniques},
             "analysis": analysis,
+            "case_id": case_id,
+            "enrichment": enrichment,
         }
 
     # ----------------------------------------------------------- internals
@@ -278,104 +517,17 @@ class Orchestrator:
         return source, parsed, data, meta
 
     def _infer_relationships(self, observations: List[Dict[str, Any]], query: str) -> None:
-        """Heuristics: build explicit edges between entities that share a source
-        AND have a structural link (e.g. domain→IP from DNS, IP→ASN from RIPE)."""
+        """Delegate each observation to its registered inferer.
+
+        The previous version of this method was a 90-line `if/elif`
+        chain hard-coded to specific source names. The new version
+        walks the inferer registry; sources with no inferer are
+        silently skipped. Adding a new inferer is now: write a
+        function and `@register_inferer("source_name")` it. No edits
+        to this method.
+        """
         for obs in observations:
-            parsed = obs.get("parsed")
-            if not isinstance(parsed, dict):
-                continue
-            src = obs["source"]
-
-            # domain -> ip (DNS)
-            if src == "dns_google" or src == "dns_cloudflare" or src == "dns_lookup":
-                records = parsed.get("records") or {}
-                for ip in records.get("1", []):
-                    self.kg.add_relationship("domain", query.lower(), "resolves_to",
-                                             "ipv4", ip, source=src)
-
-            # crtsh -> subdomains -> linked to query
-            if src == "crtsh_certificates":
-                for sub in (parsed.get("subdomains") or [])[:30]:
-                    self.kg.add_relationship("domain", query.lower(), "has_subdomain",
-                                             "domain", sub, source=src)
-
-            # shodan_internetdb -> ip ports/cves
-            if src == "shodan_internetdb":
-                ip = parsed.get("ip")
-                for cve in parsed.get("cves", [])[:30]:
-                    self.kg.add_relationship("ipv4", ip, "has_cve",
-                                             "cve", cve, source=src)
-                for port in parsed.get("ports", []):
-                    self.kg.add_relationship("ipv4", ip, "exposes_port",
-                                             "port", str(port), source=src)
-
-            # greynoise -> ip classification
-            if src == "greynoise_community":
-                ip = parsed.get("ip")
-                if ip and parsed.get("classification"):
-                    self.kg.add_relationship("ipv4", ip, "classified_as",
-                                             "classification",
-                                             parsed["classification"], source=src)
-
-            # abuseipdb -> ip confidence
-            if src == "abuseipdb_check":
-                ip = parsed.get("ip")
-                if ip and parsed.get("abuseConfidenceScore") is not None:
-                    self.kg.add_relationship("ipv4", ip, "abuse_score",
-                                             "score", str(parsed["abuseConfidenceScore"]),
-                                             source=src)
-
-            # whois -> registrant email
-            if src == "hackertarget_whois":
-                whois = parsed  # dict from whois_text
-                for key, val in (whois.items() if isinstance(whois, dict) else []):
-                    if key.lower() in ("registrant email", "admin email", "tech email") and val:
-                        self.kg.add_relationship("domain", query.lower(), "registered_with_email",
-                                                 "email", val, source=src)
-
-            # urlscan -> technologies
-            if src == "urlscan_public":
-                for r in (parsed.get("results") or [])[:10]:
-                    for tech in (r.get("technologies") or []):
-                        if tech:
-                            self.kg.add_relationship("domain", r.get("domain") or query.lower(),
-                                                     "uses_technology", "technology", tech,
-                                                     source=src)
-
-            # phonebook -> email -> person/company
-            if src in ("phonebook_email", "phonebook_domain"):
-                for r in (parsed.get("results") or [])[:30]:
-                    email = r.get("email") or r.get("domain")
-                    if r.get("name") and email:
-                        self.kg.add_relationship("email" if "@" in str(email) else "domain",
-                                                 str(email), "associated_with_person",
-                                                 "person", r["name"], source=src)
-
-            # ipapi -> ip -> country
-            if src == "ipapi_free":
-                ip = parsed.get("ip")
-                if ip and parsed.get("country"):
-                    self.kg.add_relationship("ipv4", ip, "located_in",
-                                             "country", parsed["country"], source=src)
-
-            # otx -> pulses -> adversary
-            if src == "alienvault_otx":
-                for p in (parsed.get("pulses") or [])[:20]:
-                    adv = p.get("adversary")
-                    if adv:
-                        self.kg.add_relationship("indicator", query, "linked_to_threat_actor",
-                                                 "threat_actor", adv, source=src)
-                    for attack_id in (p.get("attack_ids") or []):
-                        self.kg.add_relationship("indicator", query, "mapped_to_technique",
-                                                 "mitre_technique", attack_id, source=src)
-
-            # nvd_cve -> indicator
-            if src == "nvd_cve":
-                for item in (parsed.get("items") or [])[:20]:
-                    cve = item.get("cve")
-                    if cve:
-                        self.kg.add_relationship("indicator", query, "matches_cve",
-                                                 "cve", cve, source=src)
+            infer_relationship(obs, query, self.kg)
 
     def _write_dataset(self, query: str, observations, entities, analysis):
         record = {

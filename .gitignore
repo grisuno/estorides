@@ -61,6 +61,23 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# Generated runtime data (audit, cache, cases, dataset, graph dumps).
+# The schema lives in code; the contents are run artefacts.
+data/estorides_cache.sqlite
+data/estorides_cache.sqlite-shm
+data/estorides_cache.sqlite-wal
+data/estorides_cases.sqlite
+data/estorides_cases.sqlite-shm
+data/estorides_cases.sqlite-wal
+data/estorides_dataset.jsonl
+data/estorides_graph.graphml
+data/estorides_graph.kuzu
+data/estorides_graph.kuzu.wal
+data/audit.jsonl
+data/feeds/
+data/osiris_cache/
+data/ontology_sdn.json
+
 # Flask stuff:
 instance/
 .webassets-cache

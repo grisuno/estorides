@@ -1,1 +1,17 @@
+# Core runtime — needed for any non-trivial run.
+# Without these: `import estorides_core.orchestrator` fails on import.
+flask>=3.0
+networkx>=3.0
+requests>=2.31
+pyyaml>=6.0
+aiohttp>=3.9
 
+# Persistent graph (v1.1) — embedded Cypher DB.
+# Optional: the orchestrator falls back to in-memory NetworkX if
+# kuzu is not importable, but a persistent cross-run graph only
+# happens with this dep present.
+kuzu>=0.11
+
+# Optional but recommended for production deployments:
+# gunicorn — proper WSGI server (Flask's dev server is not for prod)
+gunicorn>=21.2

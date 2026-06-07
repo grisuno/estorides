@@ -30,6 +30,7 @@ import aiohttp
 from .config import (CACHE_PATH, CIRCUIT_COOLDOWN_S, CIRCUIT_FAIL_THRESHOLD,
                      HTTP_BACKOFF_BASE, HTTP_BACKOFF_FACTOR, HTTP_MAX_RETRIES,
                      HTTP_TIMEOUT, USER_AGENT)
+from .ssrf_guard import SSRFError, assert_safe, check_url
 
 log = logging.getLogger("estorides.http")
 
@@ -270,6 +271,13 @@ def sync_fetch(
     import requests
 
     meta: Dict[str, Any] = {"url": url, "method": method, "cached": False}
+    # SSRF guard: never let the synchronous client become a pivot into the
+    # private network even when it is used from CLI or notebook contexts.
+    try:
+        assert_safe(url)
+    except SSRFError as e:
+        log.warning("SSRF guard rejected %s: %s", url, e)
+        return None, {**meta, "error": f"ssrf_blocked:{e}"}
     try:
         resp = requests.request(
             method=method.upper(),

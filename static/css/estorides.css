@@ -370,3 +370,55 @@ main {
 ::-webkit-scrollbar-track { background: var(--bg-1); }
 ::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ----- v1.1: Cases tab ----- */
+.cases-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.case-item {
+    padding: 8px 10px; border: 1px solid var(--border);
+    border-radius: 4px; cursor: pointer; background: var(--panel-2);
+    transition: background 80ms ease;
+}
+.case-item:hover { background: var(--panel-3); }
+.case-item .case-query { font-weight: 600; font-size: 13px; }
+.case-item .case-meta {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    font-size: 11px; color: var(--muted); margin-top: 3px;
+}
+.case-item .case-meta .pill {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1px 5px;
+}
+
+/* ----- v1.1: Intel tab ----- */
+.intel-form {
+    display: flex; gap: 4px; margin-top: 6px; margin-bottom: 8px;
+}
+.intel-form select, .intel-form input {
+    background: var(--panel-2); border: 1px solid var(--border);
+    color: var(--text); padding: 4px 6px; border-radius: 3px;
+    font-size: 12px;
+}
+.intel-form input { flex: 1; }
+.intel-out {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 8px; font-size: 11px;
+    max-height: 240px; overflow: auto; white-space: pre-wrap;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.osiris-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    margin-top: 6px;
+}
+.osiris-btn {
+    background: var(--panel-2); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 8px; font-size: 11px;
+    border-radius: 3px; cursor: pointer; text-align: left;
+}
+.osiris-btn:hover { background: var(--panel-3); }
+.osiris-out {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 8px; font-size: 11px;
+    margin-top: 8px; max-height: 360px; overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    white-space: pre-wrap;
+}

@@ -1,130 +1,104 @@
 """
 estorides_llm.manager
-====================
-Multi-backend LLM router.
+=====================
+Multi-backend LLM router with pluggable backends.
 
-Priority: ollama (local) → openrouter (free + paid) → anthropic → openai → stub.
-Each backend is tried in order; first success wins. A real backends can be
-enabled/disabled via env (set ESTORIDES_DISABLE_BACKENDS=anthropic,openai).
+A `LLMBackend` is a small Protocol that knows how to talk to one
+provider (ollama, openai, anthropic, openrouter, …). Backends register
+themselves in `BACKENDS` and the manager walks the list in priority
+order, returning the first successful response.
+
+This is the registry pattern in place of the old if/elif chain that
+hard-coded a method per backend. Adding a new provider is now: write
+a class, `@register("name")` it, done. No edits to the manager.
+
+System prompt lives in `intelligence_prompts.py` so multiple prompts
+(BLUF, tactical, standard) can be selected per call without
+forking the manager.
 """
 from __future__ import annotations
 
-import json
 import logging
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Protocol, Tuple
 
 import requests
 
-from estorides_core.config import (ANTHROPIC_URL, LLM_BACKENDS, LLM_MAX_TOKENS,
+from estorides_core.config import (ANTHROPIC_URL, LLM_MAX_TOKENS,
                                    LLM_MODELS, LLM_REQUEST_TIMEOUT,
                                    LLM_TEMPERATURE, OLLAMA_URL, OPENAI_URL,
                                    OPENROUTER_URL)
+from estorides_llm.intelligence_prompts import SYSTEM_PROMPT, format_context
 
 log = logging.getLogger("estorides.llm")
 
 
-SYSTEM_PROMPT = """You are Estorides, an elite OSINT analyst working in the style of
-Bellingcat, Citizen Lab, and Palantir. You reason over structured
-multi-source intelligence and produce factual, citation-backed
-assessments. When a piece of evidence is uncertain, you say so. You
-never fabricate sources. You surface surprising relationships, not the
-obvious ones. You write for a senior intelligence consumer."""
+# ------------------------------------------------------------------- Protocol
+class LLMBackend(Protocol):
+    """Minimal contract for an LLM backend.
 
+    Implementations MUST be total: raise on failure (the manager
+    catches and moves on) or return ("", "") to signal "I can't
+    answer, try the next backend".
+    """
+    name: str
 
-def _format_context(sources: List[Dict[str, Any]]) -> str:
-    blocks = []
-    for s in sources:
-        src = s.get("source", "unknown")
-        cat = s.get("category", "")
-        body = s.get("parsed") if s.get("parsed") is not None else s.get("raw")
-        body_text = json.dumps(body, ensure_ascii=False, default=str)[:3500]
-        blocks.append(f"=== {src} [{cat}] ===\n{body_text}")
-    return "\n\n".join(blocks)
-
-
-class LLMManager:
-    def __init__(self) -> None:
-        self.disabled: set[str] = set(
-            os.environ.get("ESTORIDES_DISABLE_BACKENDS", "").split(",")
-        ) - {""}
-
-    # ----------------------------------------------------- public: generate
-    def generate(
+    def __call__(
         self,
-        prompt: str,
-        *,
-        context: Optional[List[Dict[str, Any]]] = None,
-        max_tokens: int = LLM_MAX_TOKENS,
-        temperature: float = LLM_TEMPERATURE,
-        request_timeout: float = LLM_REQUEST_TIMEOUT,
-    ) -> Dict[str, Any]:
-        """Try each backend in priority order; return the first that succeeds.
-
-        `request_timeout` caps every backend's HTTP call so a slow local model
-        cannot keep a worker thread alive past the orchestrator's deadline.
-        Returns a dict with keys: backend, model, content, error."""
-        for backend in LLM_BACKENDS:
-            if backend in self.disabled:
-                continue
-            try:
-                content, model = self._call(
-                    backend, prompt, context, max_tokens, temperature, request_timeout
-                )
-                if content:
-                    return {
-                        "backend": backend,
-                        "model": model,
-                        "content": content,
-                        "error": None,
-                    }
-            except Exception as e:  # noqa: BLE001
-                log.warning("LLM backend %s failed: %s", backend, e)
-                continue
-        return {
-            "backend": "stub",
-            "model": "stub",
-            "content": self._stub_response(prompt, context),
-            "error": "all backends failed",
-        }
-
-    # ----------------------------------------------------- private: per-bk
-    def _call(
-        self,
-        backend: str,
         prompt: str,
         context: Optional[List[Dict[str, Any]]],
         max_tokens: int,
         temperature: float,
         request_timeout: float,
-    ) -> tuple[str, str]:
-        if backend == "ollama":
-            return self._ollama(prompt, context, max_tokens, temperature, request_timeout)
-        if backend == "openrouter":
-            return self._openrouter_compatible(
-                OPENROUTER_URL, "OPENROUTER_API_KEY", prompt, context, max_tokens, temperature,
-                model=LLM_MODELS["openrouter"], request_timeout=request_timeout,
-            )
-        if backend == "anthropic":
-            return self._anthropic(prompt, context, max_tokens, temperature, request_timeout)
-        if backend == "openai":
-            return self._openrouter_compatible(
-                OPENAI_URL, "OPENAI_API_KEY", prompt, context, max_tokens, temperature,
-                model=LLM_MODELS["openai"], request_timeout=request_timeout,
-            )
-        return "", "unknown"
+    ) -> Tuple[str, str]:
+        """Return (content, model_id). Empty content means "skip me"."""
+        ...
 
-    # ---- ollama (local) ----
-    def _resolve_ollama_model(self, request_timeout: float) -> str:
-        """Return a model that ollama actually has pulled.
 
-        Prefers the configured model; if it isn't installed, falls back to the
-        first available tag so a stale ESTORIDES_OLLAMA_MODEL can't silently
-        send every run to the stub."""
+# ------------------------------------------------------------------- registry
+BACKENDS: Dict[str, LLMBackend] = {}
+"""name -> backend instance. Populated by `@register` and module import."""
+
+
+def register(name: str) -> Callable[[Any], LLMBackend]:
+    """Decorator: register a backend under `name`.
+
+    Accepts both an instance and a class. If a class is given, the
+    decorator instantiates it with no arguments — which is the
+    common case for stateless backends that hold no per-instance
+    state. The class must therefore have a no-arg constructor.
+    """
+    def deco(backend_or_cls: Any) -> LLMBackend:
+        backend: LLMBackend
+        if isinstance(backend_or_cls, type):
+            backend = backend_or_cls()
+        else:
+            backend = backend_or_cls
+        if name in BACKENDS:
+            log.debug("re-registering LLM backend %r", name)
+        BACKENDS[name] = backend
+        return backend
+    return deco
+
+
+# ------------------------------------------------------------------- builtins
+@register("ollama")
+class OllamaBackend:
+    name = "ollama"
+
+    def _resolve_model(self, request_timeout: float) -> str:
+        """Pick a model ollama actually has pulled.
+
+        Prefers the configured model; falls back to the first available
+        tag so a stale config can't silently degrade every run to the
+        stub. (Previous behaviour; preserved here.)
+        """
         want = LLM_MODELS["ollama"]
         try:
-            r = requests.get(f"{OLLAMA_URL.rstrip('/')}/api/tags",
-                             timeout=min(request_timeout, 3.0))
+            r = requests.get(
+                f"{OLLAMA_URL.rstrip('/')}/api/tags",
+                timeout=min(request_timeout, 3.0),
+            )
             r.raise_for_status()
             available = [m.get("name", "") for m in r.json().get("models", [])]
         except requests.exceptions.RequestException as e:
@@ -139,10 +113,10 @@ class LLMManager:
         log.warning("ollama model %s not installed; using %s instead", want, available[0])
         return available[0]
 
-    def _ollama(self, prompt, context, max_tokens, temperature, request_timeout) -> tuple[str, str]:
-        model = self._resolve_ollama_model(request_timeout)
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
+        model = self._resolve_model(request_timeout)
         url = f"{OLLAMA_URL.rstrip('/')}/api/generate"
-        full = f"{SYSTEM_PROMPT}\n\n{_format_context(context or [])}\n\nUser question: {prompt}"
+        full = f"{SYSTEM_PROMPT}\n\n{format_context(context or [])}\n\nUser question: {prompt}"
         try:
             r = requests.post(
                 url,
@@ -165,34 +139,61 @@ class LLMManager:
         except requests.exceptions.RequestException as e:
             raise RuntimeError(f"ollama: {e}") from e
 
-    # ---- openai / openrouter (OpenAI-compatible) ----
-    def _openrouter_compatible(self, base_url, env_key, prompt, context, max_tokens,
-                               temperature, model, request_timeout) -> tuple[str, str]:
-        api_key = os.environ.get(env_key)
+
+class _OpenAICompatibleBackend:
+    """Shared implementation for OpenAI-shaped APIs (openai, openrouter, …).
+
+    Subclasses set `name`, `env_key`, and `base_url`."""
+    name: str = ""
+    env_key: str = ""
+    base_url: str = ""
+
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
+        api_key = os.environ.get(self.env_key)
         if not api_key:
-            raise RuntimeError(f"{env_key} not set")
-        url = f"{base_url.rstrip('/')}/chat/completions"
+            raise RuntimeError(f"{self.env_key} not set")
+        model = LLM_MODELS[self.name]
+        url = f"{self.base_url.rstrip('/')}/chat/completions"
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"{_format_context(context or [])}\n\nUser question: {prompt}"},
+            {"role": "user",
+             "content": f"{format_context(context or [])}\n\nUser question: {prompt}"},
         ]
         try:
             r = requests.post(
                 url,
                 headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={"model": model, "messages": messages, "max_tokens": max_tokens,
-                      "temperature": temperature},
+                json={"model": model, "messages": messages,
+                      "max_tokens": max_tokens, "temperature": temperature},
                 timeout=request_timeout,
             )
             r.raise_for_status()
             return r.json()["choices"][0]["message"]["content"].strip(), model
         except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"{base_url}: {e}") from e
+            raise RuntimeError(f"{self.base_url}: {e}") from e
         except (KeyError, IndexError) as e:
-            raise RuntimeError(f"{base_url}: malformed response: {e}") from e
+            raise RuntimeError(f"{self.base_url}: malformed response: {e}") from e
 
-    # ---- anthropic (separate shape) ----
-    def _anthropic(self, prompt, context, max_tokens, temperature, request_timeout) -> tuple[str, str]:
+
+@register("openai")
+class OpenAIBackend(_OpenAICompatibleBackend):
+    name = "openai"
+    env_key = "OPENAI_API_KEY"
+    base_url = OPENAI_URL
+
+
+@register("openrouter")
+class OpenRouterBackend(_OpenAICompatibleBackend):
+    name = "openrouter"
+    env_key = "OPENROUTER_API_KEY"
+    base_url = OPENROUTER_URL
+
+
+@register("anthropic")
+class AnthropicBackend:
+    name = "anthropic"
+
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
         api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not api_key:
             raise RuntimeError("ANTHROPIC_API_KEY not set")
@@ -209,18 +210,85 @@ class LLMManager:
                     "temperature": temperature,
                     "system": SYSTEM_PROMPT,
                     "messages": [{"role": "user",
-                                  "content": f"{_format_context(context or [])}\n\nUser question: {prompt}"}],
+                                  "content": f"{format_context(context or [])}\n\nUser question: {prompt}"}],
                 },
                 timeout=request_timeout,
             )
             r.raise_for_status()
             data = r.json()
-            text = "".join(p.get("text", "") for p in data.get("content", []) if isinstance(p, dict)).strip()
+            text = "".join(
+                p.get("text", "") for p in data.get("content", []) if isinstance(p, dict)
+            ).strip()
             return text, model
         except requests.exceptions.RequestException as e:
             raise RuntimeError(f"anthropic: {e}") from e
 
-    # ---- stub fallback (no API) ----
+
+# ----------------------------------------------------------------- manager
+# Priority order for backend selection. The manager walks this list
+# (skipping disabled backends) and returns the first non-empty result.
+DEFAULT_PRIORITY: Tuple[str, ...] = ("ollama", "openrouter", "anthropic", "openai")
+
+
+class LLMManager:
+    def __init__(self) -> None:
+        self.disabled: set[str] = set(
+            os.environ.get("ESTORIDES_DISABLE_BACKENDS", "").split(",")
+        ) - {""}
+        # Honour an explicit priority override (comma-separated) so an
+        # operator can force "ollama first" or "openai first" without
+        # recompiling the source.
+        override = os.environ.get("ESTORIDES_BACKEND_PRIORITY", "").strip()
+        if override:
+            self.priority: Tuple[str, ...] = tuple(
+                b.strip() for b in override.split(",") if b.strip()
+            )
+        else:
+            self.priority = DEFAULT_PRIORITY
+
+    # ----------------------------------------------------- public: generate
+    def generate(
+        self,
+        prompt: str,
+        *,
+        context: Optional[List[Dict[str, Any]]] = None,
+        max_tokens: int = LLM_MAX_TOKENS,
+        temperature: float = LLM_TEMPERATURE,
+        request_timeout: float = LLM_REQUEST_TIMEOUT,
+    ) -> Dict[str, Any]:
+        """Try each backend in priority order; return the first that succeeds.
+
+        `request_timeout` caps every backend's HTTP call so a slow
+        local model cannot keep a worker thread alive past the
+        orchestrator's deadline. Returns a dict with keys:
+        backend, model, content, error.
+        """
+        for name in self.priority:
+            if name in self.disabled:
+                continue
+            backend = BACKENDS.get(name)
+            if backend is None:
+                continue
+            try:
+                content, model = backend(prompt, context, max_tokens, temperature, request_timeout)
+                if content:
+                    return {
+                        "backend": name,
+                        "model": model,
+                        "content": content,
+                        "error": None,
+                    }
+            except Exception as e:  # noqa: BLE001
+                log.warning("LLM backend %s failed: %s", name, e)
+                continue
+        return {
+            "backend": "stub",
+            "model": "stub",
+            "content": self._stub_response(prompt, context),
+            "error": "all backends failed",
+        }
+
+    # ----------------------------------------------------- stub fallback
     def _stub_response(self, prompt: str, context: Optional[List[Dict[str, Any]]]) -> str:
         n = len(context or [])
         srcs = sorted({s.get("source", "?") for s in (context or [])})

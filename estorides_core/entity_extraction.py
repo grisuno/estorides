@@ -26,6 +26,10 @@ class Entity:
     context: str = ""          # ~80 chars of surrounding text
     confidence: float = 1.0
     attributes: Dict[str, Any] = field(default_factory=dict)
+    # New field: a list of source names that have observed this entity.
+    # Populated by `merge()` to make "seen in N places" a first-class
+    # property of the entity instead of a hidden side-channel.
+    sources: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -142,6 +146,7 @@ def extract_from_text(
                     value=raw,
                     source=source,
                     context=_context(text, m.start(), m.end()),
+                    sources=[source],
                 )
             )
     return out
@@ -185,31 +190,158 @@ def extract_from_json(
 
 
 def merge(*entity_lists: Iterable[Entity]) -> List[Entity]:
-    """Deduplicate by (type, value) and merge attributes."""
+    """Deduplicate by (type, value) and merge sources / contexts.
+
+    Two entities with the same (type, value) collapse into a single
+    record. Their `sources` lists are unioned (preserving the first
+    seen order), `context` is concatenated up to a 200-char window,
+    and `confidence` is bumped by 0.1 for each extra observation
+    (capped at 1.0) — a simple "corroboration bonus".
+
+    The `sources` field is the canonical "all the places this was
+    seen" record. The previous implementation stored it in a
+    private attribute (`_src`) that was never serialised and broke
+    `asdict()` (TypeError on `dataclasses.asdict` for non-dataclass
+    attributes). This version is a real, declared field.
+
+    v1.1: After exact-key dedup, run a second pass with
+    `difflib.SequenceMatcher` to catch near-misses like
+    `EvilCorp.com` vs `evil-corp.com`. Anything above the
+    `FUZZY_THRESHOLD` ratio collapses into a single record.
+    Returns the deduped list, with cluster groups available via
+    `fuzzy_clusters` if the caller wants them.
+    """
     by_key: Dict[Tuple[str, str], Entity] = {}
     for lst in entity_lists:
         for e in lst:
             key = (e.type, e.value.lower())
             if key not in by_key:
+                # Fresh entity: copy the source list so the original
+                # isn't aliased into the deduped record.
+                cloned_sources = list(e.sources) if e.sources else [e.source]
                 by_key[key] = Entity(
-                    type=e.type, value=e.value, source=e.source,
-                    context=e.context, confidence=e.confidence,
+                    type=e.type,
+                    value=e.value,
+                    source=e.source,
+                    context=e.context,
+                    confidence=e.confidence,
                     attributes=dict(e.attributes),
+                    sources=cloned_sources,
                 )
-            else:
-                cur = by_key[key]
-                cur.sources = getattr(cur, "sources", [cur.source])  # type: ignore[attr-defined]
-                # gather all source names
-                if not hasattr(cur, "_src"):
-                    cur._src = {cur.source}  # type: ignore[attr-defined]
-                cur._src.add(e.source)  # type: ignore[attr-defined]
-                cur.confidence = min(1.0, cur.confidence + 0.1)
-                if e.context and e.context not in cur.context:
-                    cur.context = (cur.context + " | " + e.context)[:200]
-    out: List[Entity] = []
+                continue
+
+            cur = by_key[key]
+            # Union the source names into the canonical sources list.
+            new_seen = e.sources if e.sources else [e.source]
+            for s in new_seen:
+                if s not in cur.sources:
+                    cur.sources.append(s)
+            # Corroboration bonus: each duplicate observation nudges
+            # confidence up by 0.1, capped at 1.0.
+            cur.confidence = min(1.0, cur.confidence + 0.1)
+            # Concatenate unique context snippets, capped at 200 chars.
+            if e.context and e.context not in cur.context:
+                combined = (cur.context + " | " + e.context).strip(" |")
+                cur.context = combined[:200]
+
+    # Cross-source observations are a "you can trust this" signal —
+    # expose the source list as an attribute for consumers that
+    # serialise via to_dict() and don't want to walk `sources`
+    # themselves.
     for e in by_key.values():
-        srcs = sorted(getattr(e, "_src", {e.source}))
-        if len(srcs) > 1:
-            e.attributes["also_seen_in"] = srcs
-        out.append(e)
+        if len(e.sources) > 1:
+            e.attributes["also_seen_in"] = list(e.sources)
+
+    # ---- Fuzzy second pass (v1.1) ----
+    # Group entities of the same type by close-string similarity
+    # using stdlib difflib so we don't add a hard dep on rapidfuzz.
+    # The threshold is conservative: catches `EvilCorp.com` vs
+    # `evilcorp.com` (ratio = 1.0 case-insensitive) and
+    # `EvilCorp.com` vs `evil-corp.com` (ratio ~ 0.92) but not
+    # `evilcorp.com` vs `apple.com` (ratio ~ 0.42).
+    out: List[Entity] = list(by_key.values())
+    try:
+        out = _fuzzy_cluster(out)
+    except Exception:  # noqa: BLE001
+        # Fuzzy pass is best-effort; an exact-key dedup is still
+        # a valid result.
+        pass
     return out
+
+
+# v1.1 — fuzzy clustering threshold. 0.85 catches typos and
+# hyphen/underscore variants without collapsing distinct
+# organisations.
+FUZZY_THRESHOLD: float = 0.85
+
+
+def _fuzzy_cluster(entities: List[Entity]) -> List[Entity]:
+    """Group entities of the same type by string similarity and merge.
+
+    Uses `difflib.SequenceMatcher.ratio()`. We compare normalised
+    (lowercased, hyphen-stripped) forms so `evil-corp.com` and
+    `evilcorp.com` collide cleanly. Only domain / email / person /
+    org types are eligible — IPs, hashes, and CVEs have exact
+    semantics where fuzzy would be a bug, not a feature."""
+    import difflib
+    eligible_types = {"domain", "email", "person", "org"}
+    by_type: Dict[str, List[Entity]] = {}
+    for e in entities:
+        if e.type in eligible_types:
+            by_type.setdefault(e.type, []).append(e)
+    non_fuzzy = [e for e in entities if e.type not in eligible_types]
+
+    merged: List[Entity] = []
+    for ent_type, items in by_type.items():
+        # Union-find by ratio.
+        parent: Dict[int, int] = {i: i for i in range(len(items))}
+
+        def find(x: int) -> int:
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        def union(a: int, b: int) -> None:
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[ra] = rb
+
+        def norm(v: str) -> str:
+            return v.lower().replace("-", "").replace("_", "").replace(".", "")
+
+        keys = [norm(e.value) for e in items]
+        # O(n^2) is fine for the per-run entity list (cap ~hundreds).
+        # The orchestrator's co-occurrence cap keeps each run small.
+        n = len(keys)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if not keys[i] or not keys[j]:
+                    continue
+                r = difflib.SequenceMatcher(None, keys[i], keys[j]).ratio()
+                if r >= FUZZY_THRESHOLD:
+                    union(i, j)
+        # Collapse by cluster.
+        clusters: Dict[int, List[int]] = {}
+        for i in range(n):
+            clusters.setdefault(find(i), []).append(i)
+        for ids in clusters.values():
+            if len(ids) == 1:
+                merged.append(items[ids[0]])
+                continue
+            # Merge: keep the shortest, most-observed value as canonical.
+            canon = min((items[i] for i in ids),
+                        key=lambda e: (len(e.sources), len(e.value)))
+            seen_sources: List[str] = []
+            for i in ids:
+                for s in (items[i].sources or [items[i].source]):
+                    if s not in seen_sources:
+                        seen_sources.append(s)
+            canon.sources = seen_sources
+            canon.confidence = min(1.0, canon.confidence + 0.05 * (len(ids) - 1))
+            # Record what got collapsed so the analyst can audit.
+            merged_aliases = sorted({items[i].value for i in ids if items[i].value != canon.value})
+            if merged_aliases:
+                canon.attributes["fuzzy_aliases"] = merged_aliases
+            merged.append(canon)
+    return merged + non_fuzzy

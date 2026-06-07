@@ -1,0 +1,18 @@
+name: hackertarget_findshareddns
+enabled: true
+category: 01. DNS Intelligence
+description: HackerTarget find shared DNS — given a domain, returns other domains that resolve to the same nameservers. Useful to identify related infrastructure.
+os: any
+requires_key: false
+parser: text_lines
+entity_hints:
+- domain
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.hackertarget.com/findshareddns/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

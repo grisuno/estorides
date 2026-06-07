@@ -1,15 +1,13 @@
 name: rdap_domain
 enabled: true
 category: 01. DNS Intelligence
-description: RDAP registration data for a domain (registrar, nameservers, dates)
+description: RDAP (Registration Data Access Protocol) lookup — returns registrar, registry domain id, status flags, and event dates for the queried domain. Public, no API key, standard IETF protocol.
 os: any
 requires_key: false
-parser: raw_text
+parser: rdap_domain
 entity_hints:
 - domain
-- organization
-- email
-- nameserver
+- registrar
 applies_to:
 - domain
 tool:

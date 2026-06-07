@@ -5,14 +5,23 @@ A small library of structured parsers. Each parser knows how to take
 a raw response from a specific OSINT source and pull out the things
 the rest of the pipeline cares about: domain, IP, geolocation, etc.
 
-The `parser` field of each YAML source selects one of these functions.
+The `parser` field of each YAML source selects one of these functions
+via the `PARSERS` registry. New parsers are added with
+`@register_parser("name")` or by appending to `PARSERS` directly.
 """
 from __future__ import annotations
 
 import json
 import logging
 import re
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
+# A parser takes whatever the HTTP client produced (dict / list / str /
+# None) and returns the structured view. Parsers MUST be total: any
+# unrecognised input must return an empty container, not raise. The
+# orchestrator trusts this contract.
+ParserFunc = Callable[[Any], Any]
+ParserSpec = Union[ParserFunc, Tuple[ParserFunc, str]]  # (func, description)
 
 log = logging.getLogger("estorides.parsers")
 
@@ -81,6 +90,81 @@ def parse_crtsh_json(payload: Any) -> Dict[str, Any]:
                 if cert.get("issuer_name"):
                     issuers.append(str(cert["issuer_name"]))
     return {"subdomains": sorted(set(domains)), "issuers": sorted(set(issuers))}
+
+
+def parse_rdap(payload: Any) -> Dict[str, Any]:
+    """RDAP (RFC 7483) domain object.
+
+    Returns a flat dict with registrar, registry handle, status flags,
+    event dates, and any nameserver / entity hints. The structured
+    result feeds two goals:
+
+      1. Surface the registrar as an `entity` so the resolver can
+         later ask "which other domains does MarkMonitor manage"
+         (or whichever registrar came back) and fan out into the
+         shared-infrastructure lane.
+      2. Save the create / expire / updated dates so the timeline
+         view can render them without a second pass.
+
+    Defensive against missing fields — RDAP responses vary across
+    registries and the spec allows a lot of optional bits.
+    """
+    if not isinstance(payload, dict):
+        return {}
+    out: Dict[str, Any] = {
+        "handle": payload.get("handle"),
+        "ldhName": payload.get("ldhName") or payload.get("unicodeName"),
+        "status": payload.get("status") or [],
+        "events": payload.get("events") or [],
+        "registrar": None,
+        "registrar_iana_id": None,
+        "nameservers": [],
+        "entities": [],
+    }
+    # Events: events[].eventAction -> eventDate.
+    for ev in out["events"]:
+        action = (ev.get("eventAction") or "").lower()
+        if action in ("registration", "expiration", "last changed",
+                      "last update of rdap database", "transfer"):
+            out.setdefault("event_dates", {})[action] = ev.get("eventDate")
+    # Entities: entities[].roles + vcardArray[1] (jCard-style list).
+    for ent in payload.get("entities") or []:
+        roles = ent.get("roles") or []
+        vcard = (ent.get("vcardArray") or [None, []])[1] or []
+        flat: Dict[str, Any] = {"roles": roles}
+        for item in vcard:
+            # jCard: [name, params, value-type, value]
+            if not isinstance(item, list) or len(item) < 4:
+                continue
+            key = item[0]
+            val = item[3]
+            if key == "fn":
+                flat["fn"] = val
+            elif key == "email":
+                flat["email"] = val
+            elif key == "org":
+                flat["org"] = val
+            elif key == "tel":
+                flat["phone"] = val
+            elif key == "adr":
+                flat["address"] = val
+            elif key == "kind":
+                # jCard "kind" tells us if this is an org, person, etc.
+                flat["kind"] = val
+        out["entities"].append(flat)
+        if "registrar" in roles and flat.get("fn"):
+            out["registrar"] = flat["fn"]
+        # IANA registrar id lives in the publicIds array of the
+        # registrar entity (per RFC 7483 §4.5).
+        for pid in ent.get("publicIds") or []:
+            if pid.get("type") == "IANA Registrar ID":
+                out["registrar_iana_id"] = pid.get("identifier")
+    # Nameservers.
+    for ns in payload.get("nameservers") or []:
+        ldh = ns.get("ldhName") or ns.get("unicodeName")
+        if ldh:
+            out["nameservers"].append(ldh)
+    return out
 
 
 def parse_ipapi(payload: Any) -> Dict[str, Any]:
@@ -780,6 +864,7 @@ def parse_whois_text(payload: Any) -> Dict[str, str]:
 PARSERS = {
     "dns_json": parse_dns_json,
     "crtsh_json": parse_crtsh_json,
+    "rdap_domain": parse_rdap,
     "ipapi": parse_ipapi,
     "ipinfo": parse_ipinfo,
     "ipapi_co": parse_ipapi_co,
@@ -847,6 +932,46 @@ PARSERS = {
 }
 
 
-def get_parser(name: str):
-    """Return the parser function for `name`, or a passthrough lambda."""
-    return PARSERS.get(name, parse_raw_text)
+def get_parser(name: str) -> ParserFunc:
+    """Return the parser function for `name`, or a passthrough lambda.
+
+    Unknown parser names deliberately fall through to `parse_raw_text`
+    so a source YAML with a typo in the `parser` field never crashes
+    the run — it just produces a less-structured observation.
+    """
+    spec = PARSERS.get(name, parse_raw_text)
+    if isinstance(spec, tuple):
+        return spec[0]
+    return spec
+
+
+def register_parser(name: str, description: str = "") -> ParserFunc:
+    """Decorator: register `func` as a parser under `name`.
+
+    Used by addon authors and tests to extend the catalog without
+    touching the central `PARSERS` dict. Idempotent: re-registering
+    the same name overwrites the previous entry, with a debug log so
+    a typo doesn't silently drop a parser.
+    """
+    def deco(func: ParserFunc) -> ParserFunc:
+        if name in PARSERS:
+            log.debug("re-registering parser %r (overwrites previous)", name)
+        PARSERS[name] = (func, description) if description else func
+        return func
+    return deco
+
+
+def list_parsers() -> List[Tuple[str, str]]:
+    """Return (name, description) tuples for every registered parser.
+
+    Used by the CLI `status` endpoint to advertise the available
+    parser names, and by tests to assert that a custom parser made it
+    into the registry.
+    """
+    out: List[Tuple[str, str]] = []
+    for name, spec in PARSERS.items():
+        if isinstance(spec, tuple):
+            out.append((name, spec[1]))
+        else:
+            out.append((name, spec.__doc__ or ""))
+    return sorted(out)

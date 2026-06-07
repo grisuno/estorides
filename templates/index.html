@@ -22,11 +22,17 @@
         <div class="search">
             <input id="query" type="text" placeholder="domain, IP, email, person, BTC address, CVE..." autocomplete="off" />
             <button id="run-btn" class="primary">Run</button>
+            <button id="discover-btn" class="primary" title="Background fanout: subdomains + sibling domains. Discovers the full attack surface interactively.">Discover</button>
             <button id="clear-btn" class="ghost">Clear</button>
         </div>
         <div class="status">
             <span id="src-count" class="badge">…</span>
             <span id="last-run" class="badge subtle">no run yet</span>
+            <span id="discover-progress" class="badge subtle" style="display:none">
+                <span id="discover-step">0</span>/<span id="discover-max">0</span> steps ·
+                <span id="discover-found">0</span> nodes ·
+                <button id="discover-stop" class="ghost" style="padding:0 6px;font-size:10px">stop</button>
+            </span>
         </div>
     </header>
 
@@ -37,6 +43,8 @@
                 <button class="tab" data-tab="entities">Entities</button>
                 <button class="tab" data-tab="analysis">Analysis</button>
                 <button class="tab" data-tab="graph">Graph</button>
+                <button class="tab" data-tab="cases">Cases</button>
+                <button class="tab" data-tab="intel">Intel</button>
             </div>
 
             <div class="tab-panels">
@@ -65,6 +73,48 @@
                         <a href="/api/export/json" class="export-btn">JSON</a>
                     </div>
                 </section>
+
+                <section id="tab-cases" class="tab-panel">
+                    <div class="meta-row">
+                        <span class="meta-label">Persistent cases (cross-run memory)</span>
+                    </div>
+                    <input id="case-search" type="text" placeholder="search case by query..." />
+                    <div id="cases-list" class="cases-list"></div>
+                </section>
+
+                <section id="tab-intel" class="tab-panel">
+                    <div class="meta-row">
+                        <span class="meta-label">Cross-feed entity resolver</span>
+                    </div>
+                    <div class="intel-form">
+                        <select id="intel-type">
+                            <option value="ip">ip</option>
+                            <option value="domain">domain</option>
+                            <option value="company">company</option>
+                            <option value="person">person</option>
+                            <option value="country">country</option>
+                            <option value="cve">cve</option>
+                            <option value="btc_address">btc_address</option>
+                            <option value="eth_address">eth_address</option>
+                        </select>
+                        <input id="intel-id" type="text" placeholder="value to resolve..." />
+                        <button id="intel-resolve-btn" class="primary">Resolve</button>
+                    </div>
+                    <div id="intel-out" class="intel-out"></div>
+                    <div class="meta-row" style="margin-top: 14px;">
+                        <span class="meta-label">Osiris-style OSINT probes (keyless)</span>
+                    </div>
+                    <div class="osiris-grid">
+                        <button class="osiris-btn" data-osiris="bgp" data-args='{"query":"1.1.1.1"}'>BGP / ASN</button>
+                        <button class="osiris-btn" data-osiris="mac" data-args='{"mac":"00:1A:2B:3C:4D:5E"}'>MAC vendor</button>
+                        <button class="osiris-btn" data-osiris="phone" data-args='{"number":"+14155552671"}'>Phone geo</button>
+                        <button class="osiris-btn" data-osiris="github" data-args='{"user":"torvalds"}'>GitHub user</button>
+                        <button class="osiris-btn" data-osiris="leaks" data-args='{"email":"test@example.com"}'>Email leaks</button>
+                        <button class="osiris-btn" data-osiris="cisa-kev" data-args='{"limit":10,"days":30}'>CISA KEV</button>
+                        <button class="osiris-btn" data-osiris="malware" data-args='{"limit":50}'>Malware C2</button>
+                    </div>
+                    <pre id="osiris-out" class="osiris-out"></pre>
+                </section>
             </div>
         </aside>
 
@@ -83,7 +133,7 @@
     </main>
 
     <footer class="bottombar">
-        <span>Estorides v1.0</span>
+        <span>Estorides v1.1</span>
         <span class="sep">·</span>
         <span id="footer-status">idle</span>
     </footer>
