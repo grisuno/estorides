@@ -4,6 +4,8 @@ category: 03. Web Intelligence
 description: HackerTarget TCP ping — reachability test
 os: any
 requires_key: false
+contact: broker
+logs_queries: true
 parser: text_lines
 entity_hints:
 - ip

@@ -128,6 +128,8 @@ class EntityRunner(Protocol):
         on_source_result: Optional[Callable[..., None]],
         persist: bool,
         case_id: Optional[str],
+        passive_only: bool = False,
+        proxy: Optional[str] = None,
     ) -> Dict[str, Any]:
         ...
 
@@ -210,6 +212,8 @@ class PivotEngine:
         case_id: Optional[str] = None,
         should_stop: Optional[Callable[[], bool]] = None,
         persist: bool = True,
+        passive_only: bool = False,
+        proxy: Optional[str] = None,
     ) -> None:
         self._runner = runner
         self._sink = sink
@@ -231,6 +235,8 @@ class PivotEngine:
         self._case_id = case_id
         self._should_stop = should_stop if should_stop is not None else (lambda: False)
         self._persist = persist
+        self._passive_only = passive_only
+        self._proxy = proxy
         self._seen: Set[Tuple[str, str]] = set()
         # Tie-break counter keeps the heap total-ordered without ever
         # comparing two PivotLead instances (which are not orderable).
@@ -376,6 +382,8 @@ class PivotEngine:
                 on_source_result=_on_source_result,
                 persist=self._persist,
                 case_id=self._case_id,
+                passive_only=self._passive_only,
+                proxy=self._proxy,
             )
         except Exception as e:  # noqa: BLE001
             budget.steps_done += 1
@@ -415,6 +423,7 @@ class PivotEngine:
         """
         child_depth = parent.depth + 1
         enqueued = 0
+        leaves_emitted = 0
         for entity in (result.get("entities") or []):
             if budget.entities_seen >= self._max_entities:
                 break
@@ -422,13 +431,9 @@ class PivotEngine:
             value = str(entity.get("value", "")).strip()
             if not entity_type or not value:
                 continue
-            if not self._policy.is_pivotable(entity_type):
-                continue
             key = (entity_type, value.lower())
             if key in self._seen:
                 continue
-            self._seen.add(key)
-            budget.entities_seen += 1
 
             parent_confidence = float(entity.get("confidence", 1.0) or 1.0)
             score = self._policy.lead_score(entity_type, child_depth, parent.score * parent_confidence)
@@ -439,6 +444,29 @@ class PivotEngine:
                 "score": round(score, 4),
             }
             from_payload = {"type": parent.entity_type, "value": parent.value}
+
+            # Non-pivotable selectors (email, username, person, phone, org,
+            # CVE, hashes) are surfaced as leaves so the operator can see and
+            # manually follow them — the OSINT trail on people — but they are
+            # never auto-re-queried. Bounded per step so a response full of
+            # emails cannot flood the surface.
+            if not self._policy.is_pivotable(entity_type):
+                if leaves_emitted >= self._breadth_per_step:
+                    continue
+                self._seen.add(key)
+                budget.entities_seen += 1
+                leaves_emitted += 1
+                self._emit(
+                    "entity",
+                    entity=entity_payload,
+                    **{"from": from_payload},
+                    depth=child_depth,
+                    pivoted=False,
+                )
+                continue
+
+            self._seen.add(key)
+            budget.entities_seen += 1
 
             if child_depth > self._max_depth or enqueued >= self._breadth_per_step:
                 # Known but not expanded: a leaf on the frontier edge.

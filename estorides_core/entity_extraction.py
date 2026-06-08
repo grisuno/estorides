@@ -189,6 +189,151 @@ def extract_from_json(
     return extract_from_text(text, source, types=types)
 
 
+# ---------------------------------------------------------------------------
+# Structured (key-aware) extraction of human selectors.
+#
+# Regex over flattened text reliably finds emails but cannot find usernames
+# or person names — those have no lexical signature. The signal lives in the
+# *key* a value sits under (a GitHub login, a Reddit author, a profile's
+# real name). These curated maps turn well-known keys into typed selectors
+# so an investigation has people to pivot on, not just infrastructure.
+# Keys are matched case-insensitively against the leaf key of each path.
+# ---------------------------------------------------------------------------
+_EMAIL_KEYS = frozenset({"email", "mail", "email_address", "e_mail", "contact_email", "emailaddress"})
+_USERNAME_KEYS = frozenset({
+    "login", "username", "user_name", "screen_name", "handle", "nick", "nickname",
+    "account", "slug", "user_login", "uid", "user_id",
+})
+_PERSON_KEYS = frozenset({
+    "full_name", "real_name", "display_name", "fullname", "displayname",
+    "given_name", "family_name", "person", "contact_name",
+})
+# Keys that may carry either a handle or a real name; disambiguated by shape
+# (a value with an internal space is treated as a person, else a username).
+_AMBIGUOUS_PERSON_KEYS = frozenset({"name", "author", "owner", "creator", "reporter", "maintainer"})
+_PHONE_KEYS = frozenset({"phone", "tel", "telephone", "mobile", "phone_number", "msisdn", "cell"})
+_ORG_KEYS = frozenset({
+    "org", "organization", "organisation", "company", "employer", "org_name",
+    "affiliation", "company_name",
+})
+
+_USERNAME_RE: re.Pattern[str] = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{1,38}$")
+_PERSON_RE: re.Pattern[str] = re.compile(r"^[\w'’.\- ]{3,80}$", re.UNICODE)
+_EMAIL_VALUE_RE: re.Pattern[str] = re.compile(ENTITY_REGEX["email"])
+_PHONE_VALUE_RE: re.Pattern[str] = re.compile(r"^\+?[0-9][0-9()\s.\-]{5,20}[0-9]$")
+# Tokens that are structurally a key match but semantically worthless as a
+# person/username (placeholders, anonymised authors, system accounts).
+_SELECTOR_STOPWORDS = frozenset({
+    "", "none", "null", "n/a", "na", "unknown", "anonymous", "anon", "admin",
+    "root", "user", "test", "example", "deleted", "[deleted]", "bot", "system",
+    "guest", "nobody", "default",
+})
+
+
+def _clean_scalar(value: Any) -> Optional[str]:
+    """Return a stripped string for a scalar leaf, or None for non-scalars."""
+    if isinstance(value, str):
+        v = value.strip()
+        return v or None
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return str(value)
+    return None
+
+
+def _looks_like_person(value: str) -> bool:
+    """True when a value reads like a human name (has a space, mostly letters)."""
+    if value.lower() in _SELECTOR_STOPWORDS:
+        return False
+    if " " not in value:
+        return False
+    if "@" in value or "/" in value or "http" in value.lower():
+        return False
+    return bool(_PERSON_RE.match(value))
+
+
+def _looks_like_username(value: str) -> bool:
+    """True when a value reads like a handle (no spaces, handle charset)."""
+    if value.lower() in _SELECTOR_STOPWORDS or value.isdigit():
+        return False
+    return bool(_USERNAME_RE.match(value))
+
+
+def _classify_keyed_value(key: str, value: str) -> Optional[str]:
+    """Map a (key, scalar value) pair to a human-selector entity type, or None."""
+    k = key.lower()
+    if k in _EMAIL_KEYS or (("email" in k or "mail" in k) and "@" in value):
+        return "email" if _EMAIL_VALUE_RE.match(value) else None
+    if k in _ORG_KEYS:
+        return "org" if value.lower() not in _SELECTOR_STOPWORDS and len(value) >= 2 else None
+    if k in _PHONE_KEYS:
+        return "phone_e164" if _PHONE_VALUE_RE.match(value) else None
+    if k in _PERSON_KEYS:
+        return "person" if _looks_like_person(value) or _looks_like_username(value) else None
+    if k in _USERNAME_KEYS:
+        return "username" if _looks_like_username(value) else None
+    if k in _AMBIGUOUS_PERSON_KEYS:
+        if _looks_like_person(value):
+            return "person"
+        # A dotted token under a generic key is almost always a filename or
+        # path (README.md, config.json), not a handle — reject it here even
+        # though an explicit username key would accept dotted handles.
+        if "." not in value and _looks_like_username(value):
+            return "username"
+    return None
+
+
+def extract_structured(payload: Any, source: str) -> List[Entity]:
+    """Extract human selectors (email, username, person, org, phone) by key.
+
+    Walks the JSON structure and types values by the key they sit under,
+    which is the only reliable way to recover usernames and person names
+    (they have no lexical signature for a regex to catch). Bounded by
+    `ENTITY_MAX_PER_TYPE` per type and a node-visit cap so a pathological
+    response cannot turn this into a CPU stall."""
+    out: List[Entity] = []
+    seen: set[Tuple[str, str]] = set()
+    per_type: Dict[str, int] = {}
+    visits = 0
+    max_visits = ENTITY_MAX_SCAN_CHARS  # reuse the scan budget as a node ceiling
+
+    def visit(node: Any, key: Optional[str]) -> None:
+        nonlocal visits
+        if visits >= max_visits:
+            return
+        visits += 1
+        if isinstance(node, dict):
+            for k, v in node.items():
+                visit(v, k if isinstance(k, str) else None)
+        elif isinstance(node, list):
+            for item in node:
+                visit(item, key)
+        elif key is not None:
+            scalar = _clean_scalar(node)
+            if scalar is None or len(scalar) > 120:
+                return
+            ent_type = _classify_keyed_value(key, scalar)
+            if ent_type is None:
+                return
+            dedup_key = (ent_type, scalar.lower())
+            if dedup_key in seen:
+                return
+            if per_type.get(ent_type, 0) >= ENTITY_MAX_PER_TYPE:
+                return
+            seen.add(dedup_key)
+            per_type[ent_type] = per_type.get(ent_type, 0) + 1
+            out.append(Entity(
+                type=ent_type, value=scalar, source=source,
+                context=f"{key}={scalar}"[:120], sources=[source],
+            ))
+
+    try:
+        visit(payload, None)
+    except RecursionError:
+        # Deeply nested hostile payload — return whatever we gathered.
+        pass
+    return out
+
+
 def merge(*entity_lists: Iterable[Entity]) -> List[Entity]:
     """Deduplicate by (type, value) and merge sources / contexts.
 

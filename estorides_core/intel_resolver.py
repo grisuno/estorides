@@ -53,6 +53,7 @@ from __future__ import annotations
 import ipaddress
 import json
 import logging
+import os
 import re
 import threading
 import time
@@ -70,6 +71,8 @@ WIKIDATA_ENDPOINT = "https://query.wikidata.org/sparql"
 WIKIDATA_UA = "Estorides/1.0 (+open-source OSINT platform; cross-feed resolver)"
 IP_API_URL = "https://ip-api.com/json/{ip}"  # free, no key
 RIPE_STAT_URL = "https://stat.ripe.net/data/whois/data.json?resource={ip}"
+VT_API_BASE = "https://www.virustotal.com/api/v3"
+VT_KEY_ENV = "VT_API_KEY"
 
 CACHE_TTL = 24 * 60 * 60
 CACHE_MAX = 5_000
@@ -187,6 +190,11 @@ class EntityResolver:
             "cve": self._resolve_cve,
             "btc_address": self._resolve_btc,
             "eth_address": self._resolve_eth,
+            "file": self._resolve_file,
+            "hash": self._resolve_file,
+            "md5": self._resolve_file,
+            "sha1": self._resolve_file,
+            "sha256": self._resolve_file,
         }
         handler = dispatch.get(ent_type)
         if handler is None:
@@ -201,6 +209,98 @@ class EntityResolver:
         out.setdefault("fetched_at", time.time())
         self.cache.put(ent_type, ent_id, out)
         return out
+
+    # ------------------------------------------------------ VirusTotal
+    def _vt_get(self, path: str, limit: Optional[int] = 10) -> Optional[Dict[str, Any]]:
+        """GET a VirusTotal v3 path, returning parsed JSON or None.
+
+        Reads the API key from `VT_API_KEY`; if it is absent the call
+        is a silent no-op so the resolver degrades cleanly without a
+        key. SSRF-guarded via the constructed URL."""
+        key = os.environ.get(VT_KEY_ENV, "").strip()
+        if not key:
+            return None
+        url = f"{VT_API_BASE}/{path.lstrip('/')}"
+        params = {"limit": limit} if limit is not None else {}
+        try:
+            assert_safe(url)
+            r = requests.get(
+                url,
+                headers={
+                    "x-apikey": key,
+                    "Accept": "application/json",
+                    "User-Agent": WIKIDATA_UA,
+                },
+                params=params,
+                timeout=10,
+            )
+            if r.status_code != 200:
+                log.debug("virustotal %s %s: %s", r.status_code, path, r.text[:120])
+                return None
+            return r.json()
+        except Exception as e:  # noqa: BLE001
+            log.debug("virustotal error %s: %s", path, e)
+            return None
+
+    def _vt_add_relationship(
+        self,
+        path: str,
+        *,
+        root_id: str,
+        relation: str,
+        node_type: str,
+        node_kind: str,
+        id_prefix: str,
+        nodes: List[Dict[str, Any]],
+        links: List[Dict[str, Any]],
+        sources: List[str],
+        attr_field: Optional[str] = None,
+        limit: int = 10,
+    ) -> None:
+        """Expand one VirusTotal relationship endpoint into nodes/links.
+
+        `attr_field` pulls the related value from `attributes` (e.g.
+        `host_name` for IP resolutions) instead of the raw object id."""
+        data = self._vt_get(path, limit=limit)
+        if not data:
+            return
+        items = data.get("data") or []
+        if not isinstance(items, list):
+            return
+        added = False
+        for it in items[:limit]:
+            if not isinstance(it, dict):
+                continue
+            if attr_field:
+                val = (it.get("attributes") or {}).get(attr_field)
+            else:
+                val = it.get("id")
+            if not val:
+                continue
+            nid = f"{id_prefix}:{str(val).lower()}"
+            nodes.append({
+                "id": nid, "label": str(val), "type": node_type,
+                "kind": node_kind, "properties": {"source": "virustotal"},
+            })
+            links.append({"source": root_id, "target": nid, "relation": relation})
+            added = True
+        if added and "virustotal" not in sources:
+            sources.append("virustotal")
+
+    def _vt_flag_malicious(self, path: str, node: Dict[str, Any], sources: List[str]) -> None:
+        """Stamp a node with VirusTotal detection stats (counter-intel signal)."""
+        data = self._vt_get(path, limit=None)
+        if not data:
+            return
+        data_obj = data.get("data")
+        attrs = data_obj.get("attributes", {}) if isinstance(data_obj, dict) else {}
+        stats = attrs.get("last_analysis_stats") or {}
+        node["properties"]["vt_malicious"] = int(stats.get("malicious", 0) or 0)
+        node["properties"]["vt_suspicious"] = int(stats.get("suspicious", 0) or 0)
+        if attrs.get("reputation") is not None:
+            node["properties"]["vt_reputation"] = attrs.get("reputation")
+        if "virustotal" not in sources:
+            sources.append("virustotal")
 
     # ------------------------------------------------------ IP
     def _resolve_ip(self, ip: str) -> Dict[str, Any]:
@@ -268,6 +368,20 @@ class EntityResolver:
         except Exception as e:  # noqa: BLE001
             log.debug("ip-api lookup failed: %s", e)
 
+        # ---- VirusTotal related elements (no-op without VT_API_KEY) ----
+        self._vt_flag_malicious(f"ip_addresses/{ip}", nodes[0], sources)
+        self._vt_add_relationship(
+            f"ip_addresses/{ip}/resolutions", root_id=root_id,
+            relation="resolves_to", node_type="domain", node_kind="domain",
+            id_prefix="domain", attr_field="host_name",
+            nodes=nodes, links=links, sources=sources,
+        )
+        self._vt_add_relationship(
+            f"ip_addresses/{ip}/communicating_files", root_id=root_id,
+            relation="communicates_with", node_type="file", node_kind="file",
+            id_prefix="file", nodes=nodes, links=links, sources=sources,
+        )
+
         # ---- OFAC sanctions cross-check on the org/ASN owner ----
         for n in list(nodes):
             if n["type"] == "company":
@@ -331,6 +445,62 @@ class EntityResolver:
                 })
         except Exception as e:  # noqa: BLE001
             log.debug("wikidata domain lookup failed: %s", e)
+
+        # ---- VirusTotal related elements (no-op without VT_API_KEY) ----
+        self._vt_flag_malicious(f"domains/{d}", nodes[0], sources)
+        self._vt_add_relationship(
+            f"domains/{d}/resolutions", root_id=root_id,
+            relation="resolves_to", node_type="ip", node_kind="ip",
+            id_prefix="ip", attr_field="ip_address",
+            nodes=nodes, links=links, sources=sources,
+        )
+        self._vt_add_relationship(
+            f"domains/{d}/subdomains", root_id=root_id,
+            relation="has_subdomain", node_type="domain", node_kind="domain",
+            id_prefix="domain", nodes=nodes, links=links, sources=sources,
+        )
+        self._vt_add_relationship(
+            f"domains/{d}/communicating_files", root_id=root_id,
+            relation="communicates_with", node_type="file", node_kind="file",
+            id_prefix="file", nodes=nodes, links=links, sources=sources,
+        )
+        return {
+            "root_id": root_id, "nodes": nodes, "links": links,
+            "sources": sorted(set(sources)),
+        }
+
+    # ------------------------------------------------------ File
+    def _resolve_file(self, file_hash: str) -> Dict[str, Any]:
+        """Resolve a file hash via VirusTotal relationships.
+
+        Surfaces the network footprint of a sample (contacted IPs and
+        domains, dropped/bundled files) and stamps the detection count
+        so a malicious sample lights up the counter-intelligence tier."""
+        h = file_hash.lower().strip()
+        nodes: List[Dict[str, Any]] = []
+        links: List[Dict[str, Any]] = []
+        sources: List[str] = []
+        root_id = f"file:{h}"
+        nodes.append({
+            "id": root_id, "label": file_hash, "type": "file",
+            "kind": "file", "properties": {"source": "query"},
+        })
+        self._vt_flag_malicious(f"files/{h}", nodes[0], sources)
+        self._vt_add_relationship(
+            f"files/{h}/contacted_ips", root_id=root_id,
+            relation="contacts", node_type="ip", node_kind="ip",
+            id_prefix="ip", nodes=nodes, links=links, sources=sources,
+        )
+        self._vt_add_relationship(
+            f"files/{h}/contacted_domains", root_id=root_id,
+            relation="contacts", node_type="domain", node_kind="domain",
+            id_prefix="domain", nodes=nodes, links=links, sources=sources,
+        )
+        self._vt_add_relationship(
+            f"files/{h}/dropped_files", root_id=root_id,
+            relation="drops", node_type="file", node_kind="file",
+            id_prefix="file", nodes=nodes, links=links, sources=sources,
+        )
         return {
             "root_id": root_id, "nodes": nodes, "links": links,
             "sources": sorted(set(sources)),

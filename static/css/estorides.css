@@ -332,13 +332,87 @@ main {
 .leaflet-control-attribution a { color: var(--accent) !important; }
 .leaflet-control-zoom a { background: var(--bg-2) !important; color: var(--text-0) !important; border-color: var(--line) !important; }
 
-/* graph svg */
+/* graph svg — .graph-canvas is already position:absolute (inset:0) above,
+   which both sizes the SVG and anchors the absolute overlays. Do not
+   override its position or the canvas collapses to zero height. */
 .graph-canvas svg { display: block; width: 100%; height: 100%; }
-.graph-canvas .node { cursor: pointer; stroke: rgba(255,255,255,0.4); stroke-width: 1; }
+.graph-canvas g.node { cursor: pointer; }
+/* circle stroke (the intel-tier ring) is set inline per node — do NOT
+   override it here or CSS specificity would flatten every ring. */
 .graph-canvas .node-label { fill: var(--text-0); font-size: 9px; pointer-events: none; font-family: 'JetBrains Mono', monospace; }
 .graph-canvas .link { stroke: rgba(95,180,255,0.25); stroke-width: 0.5; }
+.graph-canvas .link.inter { stroke: #ff9e64; }
 .graph-canvas .link.co_occurs { stroke: rgba(95,180,255,0.18); }
 .graph-canvas .link.observed_by { stroke: rgba(255,158,100,0.4); stroke-dasharray: 2 2; }
+.graph-canvas .hull { fill-opacity: 0.06; stroke-opacity: 0.22; stroke-width: 14; stroke-linejoin: round; pointer-events: none; }
+
+/* ---- graph intelligence overlays (v1.3) ---- */
+.graph-legend {
+  position: absolute; top: 10px; left: 10px; z-index: 500;
+  background: rgba(15,22,38,0.88); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 8px 10px; font-size: 11px; color: var(--text-1);
+  pointer-events: none; max-width: 300px;
+}
+.graph-legend .legend-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); margin-bottom: 4px; }
+.graph-legend .legend-item { display: flex; align-items: center; gap: 6px; line-height: 1.6; }
+.graph-legend .legend-hint { margin-top: 6px; font-size: 10px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 5px; }
+.lvl-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid; box-sizing: border-box; }
+.lvl-data { border-color: #6b7280; }
+.lvl-information { border-color: #5fb4ff; }
+.lvl-intelligence { border-color: #f6bd16; }
+.lvl-counter_intelligence { border-color: #ff5c5c; }
+
+.graph-tooltip {
+  position: absolute; z-index: 700; max-width: 320px;
+  background: rgba(10,14,26,0.96); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 9px 11px; font-size: 12px; color: var(--text-0);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.5); pointer-events: none;
+}
+.graph-tooltip .tt-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-2); margin-bottom: 5px; }
+.graph-tooltip .tt-row { margin: 3px 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.graph-tooltip .tt-chip { padding: 1px 7px; border-radius: 10px; font-size: 10px; color: #07101f; font-weight: 600; }
+.graph-tooltip .tt-rel { color: var(--text-2); font-size: 11px; }
+.graph-tooltip .tt-foot { margin-top: 5px; font-size: 10px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 4px; }
+
+.graph-context-menu {
+  position: absolute; z-index: 800; min-width: 210px; max-height: 72%; overflow: auto;
+  background: rgba(13,19,33,0.98); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 4px; font-size: 12px; color: var(--text-0);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+}
+.graph-context-menu .ctx-head { padding: 6px 8px; color: var(--accent); font-weight: 600; border-bottom: 1px solid var(--line); margin-bottom: 3px; word-break: break-all; }
+.graph-context-menu .ctx-head small { color: var(--text-2); font-weight: 400; }
+.graph-context-menu .ctx-item { padding: 6px 8px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 7px; }
+.graph-context-menu .ctx-item:hover { background: var(--bg-3); }
+.graph-context-menu .ctx-sub { padding: 6px 8px 2px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); }
+.graph-context-menu .ctx-loading, .graph-context-menu .ctx-empty { padding: 6px 8px; color: var(--text-2); font-style: italic; }
+.ctx-tier-data { color: #9aa6bb; }
+.ctx-tier-information { color: #5fb4ff; }
+.ctx-tier-intelligence { color: #f6bd16; }
+.ctx-tier-counter_intelligence { color: #ff5c5c; }
+
+.graph-inspector {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 290px; z-index: 600;
+  background: rgba(11,16,29,0.96); border-left: 1px solid var(--line-2);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.graph-inspector .inspector-head { display: flex; justify-content: space-between; align-items: center; padding: 9px 11px; border-bottom: 1px solid var(--line); }
+.graph-inspector #inspector-title { font-weight: 600; color: var(--accent); font-size: 13px; word-break: break-all; }
+.graph-inspector .inspector-head .ghost { background: transparent; border: none; color: var(--text-2); cursor: pointer; font-size: 13px; }
+.graph-inspector .inspector-head .ghost:hover { color: var(--text-0); }
+.graph-inspector .inspector-body { padding: 10px 11px; overflow: auto; font-size: 12px; }
+.insp-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.insp-meta .pill { background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 10px; padding: 2px 8px; font-size: 10px; display: inline-flex; align-items: center; gap: 5px; }
+.insp-section { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); margin: 12px 0 5px; }
+.insp-section select { margin-left: 6px; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 5px; color: var(--text-0); padding: 2px 5px; font-size: 11px; text-transform: none; }
+.insp-prop { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border-bottom: 1px solid rgba(31,44,74,0.4); }
+.insp-prop span { color: var(--text-2); }
+.insp-prop code { color: var(--text-1); word-break: break-all; text-align: right; }
+.insp-empty { color: var(--text-2); font-style: italic; }
+.insp-transforms { display: flex; flex-direction: column; gap: 4px; }
+.insp-tier { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+.insp-tbtn { text-align: left; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 6px; color: var(--text-0); padding: 6px 8px; cursor: pointer; font-size: 11px; }
+.insp-tbtn:hover { border-color: var(--accent); color: var(--accent-2); }
 
 /* timeline */
 .timeline-canvas { padding: 12px; overflow: auto; }

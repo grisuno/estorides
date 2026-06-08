@@ -280,6 +280,92 @@ def parse_abuseipdb(payload: Any) -> Dict[str, Any]:
     }
 
 
+def _vt_stats(attrs: Dict[str, Any]) -> Dict[str, Any]:
+    """Flatten VirusTotal v3 last_analysis_stats into a compact dict."""
+    stats = attrs.get("last_analysis_stats") or {}
+    if not isinstance(stats, dict):
+        stats = {}
+    return {
+        "malicious": int(stats.get("malicious", 0) or 0),
+        "suspicious": int(stats.get("suspicious", 0) or 0),
+        "harmless": int(stats.get("harmless", 0) or 0),
+        "undetected": int(stats.get("undetected", 0) or 0),
+        "timeout": int(stats.get("timeout", 0) or 0),
+    }
+
+
+def parse_vt_ip(payload: Any) -> Dict[str, Any]:
+    """VirusTotal v3 — IP address object."""
+    if not isinstance(payload, dict) or "data" not in payload:
+        return {"error": "no result"}
+    data = payload["data"]
+    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    stats = _vt_stats(attrs)
+    return {
+        "ip": data.get("id"),
+        "asn": attrs.get("asn"),
+        "as_owner": attrs.get("as_owner"),
+        "country": attrs.get("country"),
+        "network": attrs.get("network"),
+        "reputation": attrs.get("reputation"),
+        "tags": attrs.get("tags", []),
+        "malicious": stats["malicious"],
+        "suspicious": stats["suspicious"],
+        "last_analysis_stats": stats,
+    }
+
+
+def parse_vt_domain(payload: Any) -> Dict[str, Any]:
+    """VirusTotal v3 — domain object."""
+    if not isinstance(payload, dict) or "data" not in payload:
+        return {"error": "no result"}
+    data = payload["data"]
+    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    stats = _vt_stats(attrs)
+    categories = attrs.get("categories", {})
+    if isinstance(categories, dict):
+        categories = sorted(set(str(v) for v in categories.values() if v))
+    records = attrs.get("last_dns_records", []) or []
+    ips = [r.get("value") for r in records
+           if isinstance(r, dict) and r.get("type") in ("A", "AAAA") and r.get("value")]
+    return {
+        "domain": data.get("id"),
+        "registrar": attrs.get("registrar"),
+        "categories": categories,
+        "creation_date": attrs.get("creation_date"),
+        "reputation": attrs.get("reputation"),
+        "resolved_ips": ips,
+        "tags": attrs.get("tags", []),
+        "malicious": stats["malicious"],
+        "suspicious": stats["suspicious"],
+        "last_analysis_stats": stats,
+    }
+
+
+def parse_vt_file(payload: Any) -> Dict[str, Any]:
+    """VirusTotal v3 — file object."""
+    if not isinstance(payload, dict) or "data" not in payload:
+        return {"error": "no result"}
+    data = payload["data"]
+    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    stats = _vt_stats(attrs)
+    names = attrs.get("names", []) or []
+    return {
+        "sha256": attrs.get("sha256") or data.get("id"),
+        "md5": attrs.get("md5"),
+        "sha1": attrs.get("sha1"),
+        "file_type": attrs.get("type_description") or attrs.get("type_tag"),
+        "file_name": attrs.get("meaningful_name") or (names[0] if names else None),
+        "names": names[:10],
+        "size": attrs.get("size"),
+        "reputation": attrs.get("reputation"),
+        "tags": attrs.get("tags", []),
+        "malicious": stats["malicious"],
+        "suspicious": stats["suspicious"],
+        "last_analysis_stats": stats,
+    }
+
+
 def parse_ripe_stat(payload: Any) -> Dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
@@ -872,6 +958,9 @@ PARSERS = {
     "greynoise": parse_greynoise,
     "ipwhois": parse_ipwhois,
     "abuseipdb": parse_abuseipdb,
+    "vt_ip": parse_vt_ip,
+    "vt_domain": parse_vt_domain,
+    "vt_file": parse_vt_file,
     "ripe_stat": parse_ripe_stat,
     "nominatim": parse_nominatim,
     "urlscan": parse_urlscan,

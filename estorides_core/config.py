@@ -100,6 +100,71 @@ CIRCUIT_COOLDOWN_S: int = _env_int("ESTORIDES_CIRCUIT_COOLDOWN_S", 300)
 HTTP_CACHE_TTL_S: int = _env_int("ESTORIDES_CACHE_TTL_S", 86_400)
 
 # -----------------------------------------------------------------------------
+# Operator OPSEC — contact classification + egress anonymisation
+# -----------------------------------------------------------------------------
+# Every source declares how its traffic reaches the target so an operator
+# doing passive-only reconnaissance (bug-bounty scoping, threat research)
+# can guarantee the engine never makes the target observe a probe.
+#
+#   none   — the request only hits a third-party database, resolver, or CT
+#            log; the target's own infrastructure never sees anything.
+#   broker — a third party performs an ACTIVE probe against the target on
+#            the operator's behalf (ping, traceroute, header fetch). The
+#            target is touched, but from the broker's IP, not the operator's.
+#   active — the engine connects to the target's own infrastructure directly
+#            from the operator's egress IP.
+#
+# The levels are ordered by how much the target can observe. `--passive-only`
+# keeps only `none`; a caller may raise the ceiling to allow broker probes.
+CONTACT_NONE: str = "none"
+CONTACT_BROKER: str = "broker"
+CONTACT_ACTIVE: str = "active"
+CONTACT_LEVELS: dict[str, int] = {CONTACT_NONE: 0, CONTACT_BROKER: 1, CONTACT_ACTIVE: 2}
+DEFAULT_CONTACT: str = CONTACT_NONE
+PASSIVE_ONLY: bool = _env_bool("ESTORIDES_PASSIVE_ONLY", False)
+
+
+def contact_level(contact: str) -> int:
+    """Map a contact class to its numeric severity, unknown values to active.
+
+    An unrecognised class is treated as the most exposing (`active`) so a
+    typo in a source YAML can never silently downgrade an operator's
+    passive-only guarantee."""
+    return CONTACT_LEVELS.get(contact, CONTACT_LEVELS[CONTACT_ACTIVE])
+
+
+# Egress anonymisation. When set, every outbound OSINT request is routed
+# through this proxy so a broker never sees the operator's real IP. A
+# comma-separated pool rotates per request to spread the footprint across
+# exits. SOCKS5 (e.g. Tor at socks5://127.0.0.1:9050) needs the optional
+# `aiohttp_socks` package; HTTP/HTTPS proxies work with stock aiohttp.
+HTTP_PROXY: str = (os.environ.get("ESTORIDES_HTTP_PROXY") or "").strip()
+HTTP_PROXY_POOL: list[str] = [
+    p.strip() for p in (os.environ.get("ESTORIDES_HTTP_PROXY_POOL") or "").split(",") if p.strip()
+]
+# Resolving the target's name locally (for the SSRF guard's DNS leg) tells
+# the operator's own resolver which targets are under investigation, which
+# defeats the point of routing HTTP through Tor. When a proxy is in use,
+# default to letting the proxy/exit node resolve and skip the local A/AAAA
+# lookup; the literal-host canonicalisation leg of the guard still runs.
+PROXY_REMOTE_DNS: bool = _env_bool("ESTORIDES_PROXY_REMOTE_DNS", True)
+
+
+def effective_proxies(explicit: str | None = None) -> list[str]:
+    """Resolve the proxy rotation pool from an explicit value or the env.
+
+    Precedence: an explicit caller value (CLI flag) wins; otherwise the
+    pool env var, otherwise the single-proxy env var. Returns an empty
+    list when no anonymising egress is configured."""
+    if explicit and explicit.strip():
+        return [explicit.strip()]
+    if HTTP_PROXY_POOL:
+        return list(HTTP_PROXY_POOL)
+    if HTTP_PROXY:
+        return [HTTP_PROXY]
+    return []
+
+# -----------------------------------------------------------------------------
 # LLM backends (priority order)
 # -----------------------------------------------------------------------------
 LLM_BACKENDS: list[str] = ["ollama", "openrouter", "anthropic", "openai", "stub"]
@@ -313,6 +378,7 @@ def _pivot_weight_map() -> Mapping[str, float]:
         "email": _env_float("ESTORIDES_PIVOT_W_EMAIL", 1.0),
         "btc_address": _env_float("ESTORIDES_PIVOT_W_BTC", 0.95),
         "eth_address": _env_float("ESTORIDES_PIVOT_W_ETH", 0.95),
+        "username": _env_float("ESTORIDES_PIVOT_W_USERNAME", 0.9),
         "domain": _env_float("ESTORIDES_PIVOT_W_DOMAIN", 0.85),
         "asn": _env_float("ESTORIDES_PIVOT_W_ASN", 0.7),
         "ipv4": _env_float("ESTORIDES_PIVOT_W_IPV4", 0.65),
@@ -338,7 +404,7 @@ HTTP_CACHE: CacheConfig = CacheConfig(
 PIVOT_POLICY_FULL: PivotPolicyConfig = PivotPolicyConfig(
     pivotable_types=_csv_frozenset(
         "ESTORIDES_PIVOT_TYPES_FULL",
-        frozenset({"domain", "ipv4", "ipv6", "email", "asn", "btc_address", "eth_address"}),
+        frozenset({"domain", "ipv4", "ipv6", "email", "username", "asn", "btc_address", "eth_address"}),
     ),
     type_weights=_pivot_weight_map(),
     default_weight=_env_float("ESTORIDES_PIVOT_W_DEFAULT", 0.5),

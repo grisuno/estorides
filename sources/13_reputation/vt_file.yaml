@@ -1,0 +1,26 @@
+name: vt_file
+enabled: true
+category: 13. Reputation
+description: VirusTotal v3 — file hash reputation, type, names and detection stats
+os: any
+requires_key: true
+key_env: VT_API_KEY
+parser: vt_file
+entity_hints:
+- hash
+- file_type
+- file_name
+- malicious
+applies_to:
+- md5
+- sha1
+- sha256
+contact: broker
+tool:
+  method: GET
+  url: https://www.virustotal.com/api/v3/files/{query}
+  headers:
+    x-apikey: '{api_key}'
+    Accept: application/json
+    User-Agent: Estorides/1.0
+  params: {}

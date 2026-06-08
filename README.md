@@ -208,6 +208,40 @@ UI features:
 - LLM analysis with backend / model badge
 - One-click export: STIX 2.1, MISP, GraphML, JSON
 
+### Graph intelligence (Maltego-style)
+
+The Graph canvas turns observations into an interactive intelligence
+workbench:
+
+- **Clusters** — nodes are grouped into communities (translucent hulls)
+  and coloured by cluster. **Inter-cluster links** are dashed/highlighted;
+  click one to see a **cross-reference tooltip** explaining how two
+  clusters relate (the bridge entities + relation).
+- **Click to enrich** — left-click a node to resolve it (cross-feed +
+  VirusTotal relationships) and merge the new nodes/links into both the
+  graph **and** the map. Each new node is itself clickable, so exploration
+  is recursive.
+- **Intelligence tiers** — every node carries an auto-computed level shown
+  as a coloured ring: `data` → `information` (≥2 corroborating sources) →
+  `intelligence` (cross-cluster / resolved) → `counter-intelligence`
+  (sanction / threat / VirusTotal-malicious). Override any node's level
+  from the right-click menu or the inspector (persists in the browser).
+- **Transforms** — right-click a node (or use the side **inspector**
+  panel) for transforms grouped by tier: data → information →
+  intelligence → counter-intelligence.
+
+### VirusTotal
+
+VirusTotal is integrated both as a source (`vt_ip`, `vt_domain`,
+`vt_file`) and as the relationship engine behind graph expansion
+(resolved domains/IPs, communicating/dropped files, contacted infra).
+It needs a free API key; without it VirusTotal stays inactive and the
+rest of the platform is unaffected:
+
+```bash
+export VT_API_KEY=...   # https://www.virustotal.com/gui/my-apikey
+```
+
 ## 99 sources, 12 categories
 
 01. DNS Intelligence       (9)  - Google DoH, Cloudflare DoH, HackerTarget,
@@ -305,6 +339,82 @@ static/{css,js}/estorides.*  UI styles + D3 controller
 | `ESTORIDES_KG_MAX_COOCCUR` | 30 | entities per source in the co-occurrence clique (O(n²) guard) |
 | `ESTORIDES_LLM_REQUEST_TIMEOUT` | 12s | per-call LLM HTTP timeout (no orphaned threads) |
 
+## Passive recon & operator OPSEC (bug-bounty mode)
+
+For attack-surface scoping the two things that matter are: never let the
+target observe a probe attributable to your recon window, and never let a
+queried broker tie the lookups back to your real IP. Estorides enforces
+both at the engine level.
+
+### Contact classification
+
+Every source declares how its traffic reaches the target:
+
+| `contact` | Meaning | In `--passive-only`? |
+| --- | --- | --- |
+| `none` (default) | Only a third-party DB / resolver / CT log is hit; the target sees nothing | kept |
+| `broker` | A third party actively probes the target on your behalf (ping, traceroute, header fetch) | excluded |
+| `active` | The engine connects to the target's own infrastructure directly | excluded |
+
+An unknown/typo class is treated as `active`, so a passive-only run can
+never be silently widened. `--passive-only` is enforced even for an
+explicit `--only-sources` list. Sources that log your lookups also carry
+`logs_queries: true` (surfaced in `status`).
+
+```bash
+# scope a domain without ever touching its infrastructure
+python3 estorides_cli.py discover example.com --passive-only --out-json surface.json
+python3 estorides_cli.py run example.com --passive-only
+```
+
+### Egress anonymisation
+
+Route every outbound request through a proxy so brokers never see your
+real IP. SOCKS (Tor) needs `aiohttp_socks`; HTTP/HTTPS proxies work with
+stock aiohttp and a comma-separated pool rotates per request.
+
+```bash
+python3 estorides_cli.py run example.com --passive-only --tor
+python3 estorides_cli.py run example.com --proxy socks5://127.0.0.1:9050
+export ESTORIDES_HTTP_PROXY_POOL="http://p1:8080,http://p2:8080"
+```
+
+Fail-closed: if a SOCKS proxy is requested without `aiohttp_socks`
+installed, the client refuses to run rather than fall back to a
+deanonymising direct connection. When proxying, the SSRF guard's local
+DNS-resolution leg is skipped (`ESTORIDES_PROXY_REMOTE_DNS=1`, default) so
+your resolver never learns which targets you are investigating — the
+literal-host guard still runs and the exit node resolves the name.
+
+### Scope classification
+
+Turn a discovered surface into in/out-of-scope flat lists you can pipe
+into the active phase. Out-of-scope always wins, so an excluded asset is
+never targeted by accident.
+
+```bash
+python3 estorides_cli.py scope \
+    --assets surface.json \
+    --scope program_scope.txt \
+    --out scope_result.json \
+    --flat-dir ./scope_out
+# -> scope_out/in_scope_hosts.txt, in_scope_ips.txt, unknown.txt
+```
+
+Rules file grammar (one per line, `#` comments; a `## out-of-scope`
+divider separates the two lists):
+
+```
+*.example.com            wildcard host suffix (apex + subdomains)
+api.example.com          exact host
+192.0.2.0/24             CIDR (IPv4 or IPv6)
+re:^staging-[0-9]+\.ex   regex (prefix re:)
+
+## out-of-scope
+blog.example.com
+192.0.2.200/32
+```
+
 ## Hard rules
 
 - This is a passive intelligence tool. It does not probe, exploit, or
@@ -328,6 +438,9 @@ static/{css,js}/estorides.*  UI styles + D3 controller
 | API key leakage | Keys read from env at call time, never logged, never written to disk | `estorides_core/orchestrator.py` (`_resolve_auth`) |
 | Encrypted report delivery | `age` (https://age-encryption.org) opt-in via `?key=age1…` on the export endpoint; graceful fallback to plaintext when `age` is missing | `estorides_export/encryption.py` |
 | Trusting X-Forwarded-For | Only honoured when `ESTORIDES_TRUST_PROXY=1` is set explicitly | `estorides_web.py` |
+| Target observing a recon probe | Per-source `contact` class; `--passive-only` (or `ESTORIDES_PASSIVE_ONLY=1`) keeps only `none` | `estorides_core/source_loader.py`, `orchestrator._select_sources` |
+| Broker tying lookups to operator IP | Egress proxy/Tor (`--proxy`/`--tor`, `ESTORIDES_HTTP_PROXY[_POOL]`); fail-closed on missing SOCKS lib | `estorides_core/async_client.py` |
+| DNS leak of investigated targets | Local resolution skipped when proxying (`ESTORIDES_PROXY_REMOTE_DNS=1`, default); literal-host guard still runs | `estorides_core/async_client.py` |
 
 ## Intelligence features
 

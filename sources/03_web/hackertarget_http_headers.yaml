@@ -4,6 +4,8 @@ category: 03. Web Intelligence
 description: HTTP response headers — server fingerprinting
 os: any
 requires_key: false
+contact: broker
+logs_queries: true
 parser: http_headers
 entity_hints:
 - ip

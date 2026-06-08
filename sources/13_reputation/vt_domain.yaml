@@ -1,0 +1,24 @@
+name: vt_domain
+enabled: true
+category: 13. Reputation
+description: VirusTotal v3 — domain reputation, registrar, categories and detection stats
+os: any
+requires_key: true
+key_env: VT_API_KEY
+parser: vt_domain
+entity_hints:
+- domain
+- registrar
+- category
+- malicious
+applies_to:
+- domain
+contact: broker
+tool:
+  method: GET
+  url: https://www.virustotal.com/api/v3/domains/{query}
+  headers:
+    x-apikey: '{api_key}'
+    Accept: application/json
+    User-Agent: Estorides/1.0
+  params: {}

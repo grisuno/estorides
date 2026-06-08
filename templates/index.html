@@ -126,7 +126,25 @@
             </div>
             <div class="canvas-body">
                 <div id="map" class="map-canvas active"></div>
-                <div id="graph-canvas" class="graph-canvas"></div>
+                <div id="graph-canvas" class="graph-canvas">
+                    <div id="graph-legend" class="graph-legend">
+                        <div class="legend-title">Intel tiers</div>
+                        <div class="legend-item"><span class="lvl-dot lvl-data"></span>data</div>
+                        <div class="legend-item"><span class="lvl-dot lvl-information"></span>information</div>
+                        <div class="legend-item"><span class="lvl-dot lvl-intelligence"></span>intelligence</div>
+                        <div class="legend-item"><span class="lvl-dot lvl-counter_intelligence"></span>counter-intel</div>
+                        <div class="legend-hint">left-click: expand · right-click: transforms · click a dashed link: cross-ref</div>
+                    </div>
+                    <div id="graph-tooltip" class="graph-tooltip" style="display:none"></div>
+                    <div id="graph-context-menu" class="graph-context-menu" style="display:none"></div>
+                    <aside id="graph-inspector" class="graph-inspector" style="display:none">
+                        <div class="inspector-head">
+                            <span id="inspector-title">node</span>
+                            <button id="inspector-close" class="ghost" title="close">✕</button>
+                        </div>
+                        <div id="inspector-body" class="inspector-body"></div>
+                    </aside>
+                </div>
                 <div id="timeline" class="timeline-canvas"></div>
             </div>
         </section>

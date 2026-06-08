@@ -19,6 +19,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import re
 import time
 from pathlib import Path
@@ -26,9 +27,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
-from .config import DATASET_PATH, GRAPH_PATH, SOURCES_DIR
+from .config import (DATASET_PATH, DEFAULT_CONTACT, GRAPH_PATH, SOURCES_DIR,
+                     contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
-                                merge)
+                                extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
 from .mitre_attack import all_techniques_for, map_observations
 from .ontology import ontology
@@ -79,7 +81,7 @@ def _resolve_auth(source: Source) -> Optional[str]:
     env_name = source.get("key_env")
     if not env_name:
         return None
-    return __import__("os").environ.get(env_name)
+    return os.environ.get(env_name)
 
 
 def _domain_from_query(q: str) -> Optional[str]:
@@ -113,6 +115,8 @@ class Orchestrator:
         on_source_result: Optional[Any] = None,
         persist: bool = True,
         case_id: Optional[str] = None,
+        passive_only: bool = False,
+        proxy: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Run a full intelligence cycle. Returns a structured result.
 
@@ -132,13 +136,28 @@ class Orchestrator:
         `on_source_result`, when supplied, is invoked with the shaped
         observation dict the moment each source resolves, before the
         fan-out as a whole completes. This is what lets the UI populate
-        progressively instead of blocking on the slowest source."""
+        progressively instead of blocking on the slowest source.
+
+        `passive_only` (default False) restricts the fan-out to sources
+        whose contact class is `none` — the target's own infrastructure is
+        never touched, not even by a third-party broker probe. Use this for
+        bug-bounty scoping where a probe attributable to the operator's
+        recon window must not appear in the target's logs.
+
+        `proxy`, when supplied (e.g. `socks5://127.0.0.1:9050` for Tor),
+        routes every outbound request through it so the queried brokers
+        never see the operator's real egress IP. Falls back to the
+        env-configured proxy pool when omitted."""
         if not query or not query.strip():
             return {"error": "query required", "results": []}
         query = query.strip()
 
         query_type = detect_query_type(query)
-        targets = self._select_sources(source_names, include_paid=include_paid, query_type=query_type)
+        max_contact = "none" if passive_only else None
+        targets = self._select_sources(
+            source_names, include_paid=include_paid, query_type=query_type,
+            max_contact=max_contact,
+        )
         if not targets:
             return {"error": f"no sources matched for query_type={query_type}", "results": []}
 
@@ -156,7 +175,9 @@ class Orchestrator:
                  query_type, len(targets), query, deadline)
 
         # ----- fan out, capped by a global deadline -----
-        async with AsyncClient(timeout=timeout, max_parallel=parallel) as client:
+        async with AsyncClient(
+            timeout=timeout, max_parallel=parallel, proxies=effective_proxies(proxy)
+        ) as client:
             tasks: List[asyncio.Task] = [
                 asyncio.create_task(
                     self._execute_source(client, s, query, on_source_done, on_source_result)
@@ -324,8 +345,14 @@ class Orchestrator:
 
             # 1) extract entities once, from the parsed view if we have one
             # (raw is its superset and rescanning it only duplicates work).
+            # Regex finds lexical entities (IPs, domains, emails, hashes);
+            # the structured pass recovers human selectors (usernames, person
+            # names, orgs, phones) by the key they sit under, which regex
+            # cannot do. Together they give an investigation people to follow,
+            # not just infrastructure.
             primary = parsed if parsed is not None else raw
             entities = extract_from_json(primary, source["name"])
+            entities.extend(extract_structured(primary, source["name"]))
             all_entities.extend(entities)
 
             # 2) add to knowledge graph (entity + co-occurrence)
@@ -476,6 +503,7 @@ class Orchestrator:
         *,
         include_paid: bool,
         query_type: Optional[str] = None,
+        max_contact: Optional[str] = None,
     ) -> List[Source]:
         if names:
             chosen = [self.registry.get(n) for n in names]
@@ -488,6 +516,18 @@ class Orchestrator:
             # Keep sources whose applies_to contains "any" or the query_type.
             chosen = [s for s in chosen
                       if "any" in s.get("applies_to", ["any"]) or query_type in s.get("applies_to", [])]
+        if max_contact is not None:
+            # Drop any source whose traffic would reach the target above the
+            # requested ceiling. Applied even for explicit --only-sources so a
+            # passive-only run can never be widened by name.
+            ceiling = contact_level(max_contact)
+            dropped = [s["name"] for s in chosen
+                       if contact_level(s.get("contact", DEFAULT_CONTACT)) > ceiling]
+            if dropped:
+                log.info("passive-only: excluded %d target-touching source(s): %s",
+                         len(dropped), ", ".join(sorted(dropped)))
+            chosen = [s for s in chosen
+                      if contact_level(s.get("contact", DEFAULT_CONTACT)) <= ceiling]
         return chosen
 
     async def _execute_source(

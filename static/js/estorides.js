@@ -433,28 +433,36 @@
     if (newNodes || newLinks) {
       drawGraphWithExtras(nodes, links);
     }
-    // For each new node with lat/lon, drop a marker on the map.
+    // For each new node, drop a marker on the map: precise lat/lon when
+    // present, otherwise fall back to the country centroid so a resolved
+    // country/geo node still enriches the map from a graph click.
     nodes.forEach((n) => {
-      const lat = n.properties && (n.properties.lat || n.properties.latitude);
-      const lon = n.properties && (n.properties.lon || n.properties.lng || n.properties.longitude);
+      const p = n.properties || {};
+      const lat = p.lat || p.latitude;
+      const lon = p.lon || p.lng || p.longitude;
+      let mlat, mlon;
       if (validCoord(parseFloat(lat), parseFloat(lon))) {
-        L.circleMarker([parseFloat(lat), parseFloat(lon)], {
-          radius: 5,
-          color: '#ff9e64',
-          fillColor: '#ff9e64',
-          fillOpacity: 0.7,
-          weight: 1,
-          dashArray: '4 3',
-        })
-          .bindPopup(
-            `<b>${escapeHTML(n.label || n.id)}</b><br>` +
-            `<small>${escapeHTML(n.type || n.kind || '')}</small><br>` +
-            (n.properties && n.properties.source
-              ? `<i>via: ${escapeHTML(n.properties.source)}</i>` : '')
-          )
-          .addTo(map);
-        mapMarkers.push({ _expansion: true });
+        mlat = parseFloat(lat); mlon = parseFloat(lon);
+      } else {
+        const cc = p.code || p.countryCode || p.country_code;
+        if (cc && COUNTRY_CENTROIDS[cc]) { mlon = COUNTRY_CENTROIDS[cc][0]; mlat = COUNTRY_CENTROIDS[cc][1]; }
       }
+      if (mlat == null) return;
+      L.circleMarker([mlat, mlon], {
+        radius: 5,
+        color: '#ff9e64',
+        fillColor: '#ff9e64',
+        fillOpacity: 0.7,
+        weight: 1,
+        dashArray: '4 3',
+      })
+        .bindPopup(
+          `<b>${escapeHTML(n.label || n.id)}</b><br>` +
+          `<small>${escapeHTML(n.type || n.kind || '')}</small><br>` +
+          (p.source ? `<i>via: ${escapeHTML(p.source)}</i>` : '')
+        )
+        .addTo(map);
+      mapMarkers.push({ _expansion: true });
     });
     return { nodes: newNodes, links: newLinks };
   }
@@ -476,66 +484,404 @@
       (extraNodes || []).forEach((n) => {
         if (seen.has(n.id)) return;
         seen.add(n.id);
+        // Freshly resolved nodes have no server-side cluster/level yet —
+        // they join the rendered surface as un-clustered raw data and get
+        // properly classified on the next full /api/graph fetch.
         mergedNodes.push({
           id: n.id, label: n.label || n.id, type: n.type || n.kind || 'entity',
-          color: '#ff9e64', size: 6,
+          color: '#ff9e64', cluster_color: '#ff9e64', size: 6,
+          cluster: -1, level: 'data', properties: n.properties || {},
         });
       });
       const mergedLinks = [];
       const seenLink = new Set();
-      function pushLink(src, tgt, rel) {
+      function pushLink(src, tgt, rel, inter) {
         const k = src + '|' + tgt + '|' + (rel || '');
         if (seenLink.has(k)) return;
         seenLink.add(k);
-        mergedLinks.push({ source: src, target: tgt, relation: rel });
+        mergedLinks.push({ source: src, target: tgt, relation: rel, inter_cluster: !!inter });
       }
-      (data.edges || []).forEach((e) => pushLink(e.source, e.target, e.relation));
+      (data.edges || []).forEach((e) => pushLink(e.source, e.target, e.relation, e.inter_cluster));
       (extraLinks || []).forEach((e) => pushLink(e.source, e.target, e.relation));
-      _redrawGraph(mergedNodes, mergedLinks);
+      renderGraphCore(mergedNodes, mergedLinks, data.clusters || deriveClusters(mergedNodes));
     });
   }
 
-  // Low-level D3 redraw given a flat nodes/links list.
-  function _redrawGraph(nodes, edges) {
-    if (window._d3svg) window._d3svg.remove();
+  // =====================================================================
+  // v1.3 — interactive graph intelligence (Maltego-style)
+  // =====================================================================
+  // Node colour = cluster, ring = intelligence tier. Left-click expands
+  // (resolver + VT relationships) and selects; right-click opens the
+  // transform menu; clicking a dashed inter-cluster link shows the
+  // cross-referenced bridge tooltip.
+
+  const LEVEL_COLORS = {
+    data: '#6b7280', information: '#5fb4ff',
+    intelligence: '#f6bd16', counter_intelligence: '#ff5c5c',
+  };
+  const LEVEL_STROKE = {
+    data: 1, information: 2, intelligence: 3, counter_intelligence: 3.5,
+  };
+  const CLUSTER_PALETTE = [
+    '#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC',
+    '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#A0D911',
+    '#FF6B6B', '#36CFC9', '#B37FEB', '#FFC53D', '#7CB305',
+  ];
+
+  // Map a graph node's type/kind onto a resolver/transform entity type.
+  function resolverTypeFor(node) {
+    const t = String(node.type || node.kind || '').toLowerCase();
+    return ({
+      ipv4: 'ip', ipv6: 'ip', ip: 'ip', domain: 'domain', email: 'email',
+      cve: 'cve', btc_address: 'btc_address', eth_address: 'eth_address',
+      md5: 'file', sha1: 'file', sha256: 'file', hash: 'file', file: 'file',
+      person: 'person', company: 'company', org: 'company',
+      country: 'country', username: 'username',
+    }[t]) || t;
+  }
+
+  // ---- per-user intel-level overrides (persisted in localStorage) ----
+  const LEVEL_STORE_KEY = 'estorides.levelOverrides';
+  let _levelOverrides = {};
+  try { _levelOverrides = JSON.parse(localStorage.getItem(LEVEL_STORE_KEY) || '{}'); }
+  catch (_) { _levelOverrides = {}; }
+  function saveLevelOverrides() {
+    try { localStorage.setItem(LEVEL_STORE_KEY, JSON.stringify(_levelOverrides)); }
+    catch (_) { /* storage may be unavailable; non-fatal */ }
+  }
+  function levelOf(node) {
+    return _levelOverrides[node.id] || node.level || 'data';
+  }
+
+  function clusterColor(cid, clusters) {
+    if (cid == null || cid < 0) return '#888';
+    const c = (clusters || []).find((x) => x.id === cid);
+    return (c && c.color) || CLUSTER_PALETTE[cid % CLUSTER_PALETTE.length];
+  }
+
+  // Build a clusters[] summary from a flat node list (used after a merge
+  // when the server-side clusters array isn't carried along).
+  function deriveClusters(nodes) {
+    const agg = {};
+    nodes.forEach((n) => {
+      const cid = (n.cluster == null) ? -1 : n.cluster;
+      if (cid < 0) return;
+      const a = agg[cid] || (agg[cid] = { id: cid, size: 0, color: n.cluster_color || clusterColor(cid), label: '' });
+      a.size++;
+      if (!a.label) a.label = n.label || n.type || '';
+    });
+    return Object.values(agg);
+  }
+
+  // ---- floating overlays (tooltip + context menu) ----
+  function hideTooltip() {
+    const el = $('#graph-tooltip');
+    if (el) el.style.display = 'none';
+  }
+  function showTooltipAt(ev, html) {
+    const el = $('#graph-tooltip');
+    if (!el) return;
+    const host = $('#graph-canvas').getBoundingClientRect();
+    el.innerHTML = html;
+    el.style.display = 'block';
+    el.style.left = (ev.clientX - host.left + 12) + 'px';
+    el.style.top = (ev.clientY - host.top + 12) + 'px';
+  }
+  function hideContextMenu() {
+    const el = $('#graph-context-menu');
+    if (el) el.style.display = 'none';
+  }
+
+  // Cross-referenced tooltip for an inter-cluster (bridge) link.
+  function showBridgeTooltip(ev, d, clusters) {
+    const s = d.source, t = d.target;
+    const cs = clusterColor(s.cluster, clusters), ct = clusterColor(t.cluster, clusters);
+    const labelFor = (cid) => {
+      const c = (clusters || []).find((x) => x.id === cid);
+      return c ? (c.label || ('cluster ' + cid)) : ('cluster ' + cid);
+    };
+    showTooltipAt(ev, `
+      <div class="tt-title">Cross-reference</div>
+      <div class="tt-row"><span class="tt-chip" style="background:${cs}">${escapeHTML(labelFor(s.cluster))}</span>
+        <span class="tt-rel">${escapeHTML(d.relation || 'related')}</span>
+        <span class="tt-chip" style="background:${ct}">${escapeHTML(labelFor(t.cluster))}</span></div>
+      <div class="tt-row"><b>${escapeHTML(s.label || s.id)}</b> <small>${escapeHTML(s.type || '')}</small></div>
+      <div class="tt-row"><b>${escapeHTML(t.label || t.id)}</b> <small>${escapeHTML(t.type || '')}</small></div>
+      <div class="tt-foot">bridges ${escapeHTML(labelFor(s.cluster))} ↔ ${escapeHTML(labelFor(t.cluster))}</div>
+    `);
+  }
+
+  function showNodeTooltip(ev, d) {
+    showTooltipAt(ev, `
+      <div class="tt-title">${escapeHTML(d.label || d.id)}</div>
+      <div class="tt-row"><small>${escapeHTML(d.type || '')}</small></div>
+      <div class="tt-row"><span class="lvl-dot lvl-${levelOf(d)}"></span>${levelOf(d).replace('_', '-')}</div>
+    `);
+  }
+
+  // ---- context menu: transforms grouped by intel tier ----
+  function showContextMenu(ev, d) {
+    const menu = $('#graph-context-menu');
+    if (!menu) return;
+    const type = resolverTypeFor(d);
+    const value = d.label || d.id;
+    const host = $('#graph-canvas').getBoundingClientRect();
+    menu.innerHTML = '<div class="ctx-head">' + escapeHTML(value) +
+      ' <small>' + escapeHTML(type) + '</small></div>' +
+      '<div class="ctx-item" data-act="expand">⤴ Expand (resolve)</div>' +
+      '<div class="ctx-item" data-act="focus">⊙ Focus</div>' +
+      '<div class="ctx-sub">Set intel level</div>' +
+      ['data', 'information', 'intelligence', 'counter_intelligence'].map((lv) =>
+        '<div class="ctx-item ctx-level" data-level="' + lv + '"><span class="lvl-dot lvl-' + lv + '"></span>' +
+        lv.replace('_', '-') + '</div>').join('') +
+      '<div class="ctx-loading">loading transforms…</div>';
+    menu.style.display = 'block';
+    menu.style.left = (ev.clientX - host.left) + 'px';
+    menu.style.top = (ev.clientY - host.top) + 'px';
+
+    menu.querySelector('[data-act="expand"]').onclick = () => {
+      hideContextMenu();
+      const rt = resolverTypeFor(d);
+      if (rt) expandNode(rt, value);
+    };
+    menu.querySelector('[data-act="focus"]').onclick = () => { hideContextMenu(); focusNode(d); };
+    menu.querySelectorAll('.ctx-level').forEach((el) => {
+      el.onclick = () => { setNodeLevel(d, el.getAttribute('data-level')); hideContextMenu(); };
+    });
+
+    // Lazy-load the type's transforms and append them grouped by tier.
+    fetch('/api/transforms?type=' + encodeURIComponent(type))
+      .then((r) => r.json())
+      .then((j) => {
+        const loading = menu.querySelector('.ctx-loading');
+        if (loading) loading.remove();
+        const tr = (j && j.transforms) || [];
+        if (!tr.length) { menu.insertAdjacentHTML('beforeend', '<div class="ctx-empty">no transforms</div>'); return; }
+        let lastTier = '';
+        tr.forEach((t) => {
+          if (t.tier !== lastTier) {
+            lastTier = t.tier;
+            menu.insertAdjacentHTML('beforeend',
+              '<div class="ctx-sub ctx-tier-' + t.tier + '">' + t.tier.replace('_', '-') + '</div>');
+          }
+          const item = document.createElement('div');
+          item.className = 'ctx-item ctx-transform';
+          item.title = t.description || '';
+          item.textContent = t.label;
+          item.onclick = () => { hideContextMenu(); runTransform(t.id, type, value); };
+          menu.appendChild(item);
+        });
+      })
+      .catch(() => { /* menu still usable for expand/focus/level */ });
+  }
+
+  function setNodeLevel(d, level) {
+    _levelOverrides[d.id] = level;
+    saveLevelOverrides();
+    d.level = level;
+    applyLevelStyles();
+    if (window._selectedNodeId === d.id) selectNode(d);
+  }
+
+  // Re-apply level rings to every rendered node circle.
+  function applyLevelStyles() {
+    if (!window._nodeSel) return;
+    window._nodeSel.select('circle.node')
+      .attr('stroke', (d) => LEVEL_COLORS[levelOf(d)])
+      .attr('stroke-width', (d) => LEVEL_STROKE[levelOf(d)])
+      .attr('stroke-dasharray', (d) => levelOf(d) === 'counter_intelligence' ? '2 2' : null);
+  }
+
+  function focusNode(d) {
+    if (!window._d3svg || d.x == null) return;
     const container = $('#graph-canvas');
     const W = container.clientWidth, H = container.clientHeight;
-    const svg = d3.select(container).append('svg')
-      .attr('width', W).attr('height', H);
+    const t = d3.zoomIdentity.translate(W / 2 - d.x * 1.4, H / 2 - d.y * 1.4).scale(1.4);
+    window._d3svg.transition().duration(400).call(d3.zoom().on('zoom', (e) => {
+      window._d3svg.select('g').attr('transform', e.transform);
+    }).transform, t);
+  }
+
+  // Run a Maltego-style transform and merge the result into the graph+map.
+  async function runTransform(transformId, type, value) {
+    setStatus(`transform ${transformId}…`);
+    try {
+      const r = await fetch('/api/transform/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transform_id: transformId, type, value }),
+      });
+      const payload = await r.json();
+      if (payload.error) { setStatus('transform: ' + payload.error); return; }
+      const added = await mergeExpansionIntoGraph(payload);
+      setStatus(`transform ${transformId} → +${added.nodes} nodes, +${added.links} links`);
+    } catch (e) {
+      setStatus('transform failed: ' + e);
+    }
+  }
+
+  // ---- side inspector panel ----
+  function selectNode(d) {
+    window._selectedNodeId = d.id;
+    const panel = $('#graph-inspector');
+    if (!panel) return;
+    panel.style.display = 'block';
+    $('#inspector-title').textContent = d.label || d.id;
+    const type = resolverTypeFor(d);
+    const value = d.label || d.id;
+    const props = d.properties || {};
+    const propRows = Object.keys(props).filter((k) => props[k] != null && props[k] !== '')
+      .slice(0, 12)
+      .map((k) => `<div class="insp-prop"><span>${escapeHTML(k)}</span><code>${escapeHTML(String(props[k]))}</code></div>`)
+      .join('') || '<div class="insp-empty">no properties</div>';
+    $('#inspector-body').innerHTML = `
+      <div class="insp-meta">
+        <span class="pill">${escapeHTML(d.type || '')}</span>
+        <span class="pill"><span class="lvl-dot lvl-${levelOf(d)}"></span>${levelOf(d).replace('_', '-')}</span>
+        ${d.cluster >= 0 ? `<span class="pill">cluster ${d.cluster}</span>` : ''}
+      </div>
+      <div class="insp-section">Intel level
+        <select id="insp-level">
+          ${['data', 'information', 'intelligence', 'counter_intelligence'].map((lv) =>
+            `<option value="${lv}"${levelOf(d) === lv ? ' selected' : ''}>${lv.replace('_', '-')}</option>`).join('')}
+        </select>
+      </div>
+      <div class="insp-section">Properties</div>
+      ${propRows}
+      <div class="insp-section">Transforms</div>
+      <div id="insp-transforms" class="insp-transforms">loading…</div>
+    `;
+    $('#insp-level').onchange = (e) => setNodeLevel(d, e.target.value);
+    fetch('/api/transforms?type=' + encodeURIComponent(type))
+      .then((r) => r.json())
+      .then((j) => {
+        const box = $('#insp-transforms');
+        if (!box) return;
+        const tr = (j && j.transforms) || [];
+        if (!tr.length) { box.innerHTML = '<div class="insp-empty">none for this type</div>'; return; }
+        box.innerHTML = '';
+        let lastTier = '';
+        tr.forEach((t) => {
+          if (t.tier !== lastTier) {
+            lastTier = t.tier;
+            box.insertAdjacentHTML('beforeend',
+              `<div class="insp-tier ctx-tier-${t.tier}">${t.tier.replace('_', '-')}</div>`);
+          }
+          const b = document.createElement('button');
+          b.className = 'insp-tbtn';
+          b.title = t.description || '';
+          b.textContent = t.label;
+          b.onclick = () => runTransform(t.id, type, value);
+          box.appendChild(b);
+        });
+      })
+      .catch(() => { const box = $('#insp-transforms'); if (box) box.innerHTML = '<div class="insp-empty">unavailable</div>'; });
+  }
+
+  // ---- unified force-graph renderer (clusters + rings + interactions) ----
+  function renderGraphCore(nodes, edges, clusters) {
+    if (window._d3svg) window._d3svg.remove();
+    hideContextMenu();
+    hideTooltip();
+    const container = $('#graph-canvas');
+    const W = container.clientWidth, H = container.clientHeight;
+    const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
     window._d3svg = svg;
     const g = svg.append('g');
-    svg.call(d3.zoom().scaleExtent([0.2, 5])
-      .on('zoom', (e) => g.attr('transform', e.transform)));
+    svg.call(d3.zoom().scaleExtent([0.15, 5]).on('zoom', (e) => g.attr('transform', e.transform)));
+    svg.on('click', () => { hideContextMenu(); hideTooltip(); });
+
+    const hullLayer = g.append('g').attr('class', 'hull-layer');
+    const linkLayer = g.append('g').attr('class', 'link-layer');
+    const nodeLayer = g.append('g').attr('class', 'node-layer');
+    const labelLayer = g.append('g').attr('class', 'label-layer');
+
     const sim = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(edges).id((d) => d.id).distance(60).strength(0.4))
-      .force('charge', d3.forceManyBody().strength(-120))
+      .force('link', d3.forceLink(edges).id((d) => d.id)
+        .distance((d) => d.inter_cluster ? 130 : 55)
+        .strength((d) => d.inter_cluster ? 0.12 : 0.5))
+      .force('charge', d3.forceManyBody().strength(-150))
       .force('center', d3.forceCenter(W / 2, H / 2))
-      .force('collide', d3.forceCollide(12));
-    g.selectAll('line').data(edges).enter().append('line')
-      .attr('class', (d) => 'link ' + (d.relation || 'related-to'))
-      .attr('stroke', (d) => d.relation === 'observed_by' ? '#ff9e64' : '#5fb4ff')
-      .attr('stroke-opacity', 0.4)
-      .attr('stroke-width', 0.5);
-    const node = g.selectAll('circle').data(nodes).enter().append('circle')
+      .force('collide', d3.forceCollide(14));
+
+    const link = linkLayer.selectAll('line').data(edges).enter().append('line')
+      .attr('class', (d) => 'link' + (d.inter_cluster ? ' inter' : ''))
+      .attr('stroke', (d) => d.inter_cluster ? '#ff9e64' : '#3a4a63')
+      .attr('stroke-opacity', (d) => d.inter_cluster ? 0.9 : 0.35)
+      .attr('stroke-width', (d) => d.inter_cluster ? 2 : 0.7)
+      .attr('stroke-dasharray', (d) => d.inter_cluster ? '5 4' : null)
+      .style('cursor', (d) => d.inter_cluster ? 'pointer' : 'default')
+      .on('click', (ev, d) => { if (d.inter_cluster) { ev.stopPropagation(); showBridgeTooltip(ev, d, clusters); } });
+
+    let _dragMoved = false;
+    const node = nodeLayer.selectAll('g.node').data(nodes).enter().append('g')
       .attr('class', 'node')
-      .attr('r', (d) => d.size || 5)
-      .attr('fill', (d) => d.color || '#5fb4ff')
+      .style('cursor', 'pointer')
       .call(d3.drag()
-        .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-        .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+        .on('start', (e, d) => { _dragMoved = false; if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+        .on('drag', (e, d) => { _dragMoved = true; d.fx = e.x; d.fy = e.y; })
         .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
-    node.append('title').text((d) => `${d.type}: ${d.label}`);
-    g.selectAll('text').data(nodes).enter().append('text')
+    window._nodeSel = node;
+
+    node.append('circle')
+      .attr('class', 'node')
+      .attr('r', (d) => d.size || 6)
+      .attr('fill', (d) => d.cluster_color || d.color || '#5fb4ff')
+      .attr('stroke', (d) => LEVEL_COLORS[levelOf(d)])
+      .attr('stroke-width', (d) => LEVEL_STROKE[levelOf(d)])
+      .attr('stroke-dasharray', (d) => levelOf(d) === 'counter_intelligence' ? '2 2' : null);
+
+    node
+      .on('click', (ev, d) => {
+        ev.stopPropagation();
+        if (_dragMoved) return;
+        selectNode(d);
+        const rt = resolverTypeFor(d);
+        if (rt) expandNode(rt, d.label || d.id);
+      })
+      .on('dblclick', (ev, d) => { ev.stopPropagation(); focusNode(d); })
+      .on('contextmenu', (ev, d) => { ev.preventDefault(); ev.stopPropagation(); hideTooltip(); showContextMenu(ev, d); })
+      .on('mouseover', (ev, d) => showNodeTooltip(ev, d))
+      .on('mouseout', hideTooltip);
+
+    const label = labelLayer.selectAll('text').data(nodes).enter().append('text')
       .attr('class', 'node-label')
-      .attr('dx', 8).attr('dy', 4)
+      .attr('dx', 9).attr('dy', 4)
       .text((d) => d.label);
+
+    function drawHulls() {
+      const groups = {};
+      nodes.forEach((n) => {
+        if (n.cluster == null || n.cluster < 0 || n.x == null) return;
+        (groups[n.cluster] = groups[n.cluster] || []).push([n.x, n.y]);
+      });
+      const data = Object.keys(groups).map((k) => {
+        if (groups[k].length < 3) return null;
+        const h = d3.polygonHull(groups[k]);
+        return h ? { cluster: +k, hull: h } : null;
+      }).filter(Boolean);
+      const sel = hullLayer.selectAll('path').data(data, (d) => d.cluster);
+      sel.enter().append('path').attr('class', 'hull')
+        .merge(sel)
+        .attr('d', (d) => 'M' + d.hull.join('L') + 'Z')
+        .attr('fill', (d) => clusterColor(d.cluster, clusters))
+        .attr('stroke', (d) => clusterColor(d.cluster, clusters));
+      sel.exit().remove();
+    }
+
     sim.on('tick', () => {
-      g.selectAll('line')
+      link
         .attr('x1', (d) => d.source.x).attr('y1', (d) => d.source.y)
         .attr('x2', (d) => d.target.x).attr('y2', (d) => d.target.y);
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
-      g.selectAll('text').attr('x', (d) => d.x).attr('y', (d) => d.y);
+      node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+      label.attr('x', (d) => d.x).attr('y', (d) => d.y);
+      drawHulls();
     });
+  }
+
+  // Low-level D3 redraw given a flat nodes/links list (back-compat shim).
+  function _redrawGraph(nodes, edges) {
+    renderGraphCore(nodes, edges, deriveClusters(nodes));
   }
 
   function setStatus(text) {
@@ -693,6 +1039,7 @@
       '10. Blockchain': '#F99F80',
       '11. Paste & Leaks': '#C25B5B',
       '12. Visual': '#9FB40F',
+      '13. Reputation': '#FF5C5C',
     };
     return map[category] || '#5fb4ff';
   }
@@ -791,55 +1138,29 @@
 
   // ---- D3 graph view ----
   async function drawGraph() {
-    if (window._d3svg) window._d3svg.remove();
     const r = await fetch('/api/graph?limit=300');
     const data = await r.json();
-    if (!data.nodes.length) return;
-
-    const container = $('#graph-canvas');
-    const W = container.clientWidth, H = container.clientHeight;
-    const svg = d3.select(container).append('svg')
-      .attr('width', W).attr('height', H);
-    window._d3svg = svg;
-
-    const g = svg.append('g');
-    svg.call(d3.zoom().scaleExtent([0.2, 5]).on('zoom', (e) => g.attr('transform', e.transform)));
-
-    const sim = d3.forceSimulation(data.nodes)
-      .force('link', d3.forceLink(data.edges).id((d) => d.id).distance(60).strength(0.4))
-      .force('charge', d3.forceManyBody().strength(-120))
-      .force('center', d3.forceCenter(W / 2, H / 2))
-      .force('collide', d3.forceCollide(12));
-
-    const link = g.selectAll('line').data(data.edges).enter().append('line')
-      .attr('class', (d) => 'link ' + (d.relation || 'related-to'))
-      .attr('stroke', (d) => d.relation === 'observed_by' ? '#ff9e64' : '#5fb4ff')
-      .attr('stroke-opacity', 0.4)
-      .attr('stroke-width', 0.5);
-
-    const node = g.selectAll('circle').data(data.nodes).enter().append('circle')
-      .attr('class', 'node')
-      .attr('r', (d) => d.size || 5)
-      .attr('fill', (d) => d.color || '#5fb4ff')
-      .call(d3.drag()
-        .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-        .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
-        .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
-
-    node.append('title').text((d) => `${d.type}: ${d.label}`);
-    g.selectAll('text').data(data.nodes).enter().append('text')
-      .attr('class', 'node-label')
-      .attr('dx', 8).attr('dy', 4)
-      .text((d) => d.label);
-
-    sim.on('tick', () => {
-      link
-        .attr('x1', (d) => d.source.x).attr('y1', (d) => d.source.y)
-        .attr('x2', (d) => d.target.x).attr('y2', (d) => d.target.y);
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
-      g.selectAll('text').attr('x', (d) => d.x).attr('y', (d) => d.y);
-    });
+    if (!data.nodes || !data.nodes.length) return;
+    window._graphData = { nodes: data.nodes, edges: data.edges, clusters: data.clusters || [] };
+    renderGraphCore(data.nodes, data.edges, data.clusters || []);
   }
+
+  // Inspector close + global dismiss of the floating overlays.
+  (function wireGraphOverlays() {
+    const close = $('#inspector-close');
+    if (close) close.addEventListener('click', () => {
+      const p = $('#graph-inspector');
+      if (p) p.style.display = 'none';
+      window._selectedNodeId = null;
+    });
+    document.addEventListener('click', (ev) => {
+      const menu = $('#graph-context-menu');
+      if (menu && menu.style.display !== 'none' && !menu.contains(ev.target)) hideContextMenu();
+    });
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') { hideContextMenu(); hideTooltip(); }
+    });
+  })();
 
   // ---- v1.1: Cases tab ----
   const caseSearch = $('#case-search');
@@ -971,6 +1292,16 @@ let _discoverFound = 0;
 // merge them into the next render of results/graph/map rather
 // than re-fetching from the server.
 let _discoverEntities = [];
+
+// The discoverer code lives outside the IIFE, so the module-private
+// setStatus is not in scope here. Provide a global one that writes to the
+// same footer element, guarded so a missing node can never throw.
+function setStatus(text) {
+  const el = document.getElementById('footer-status');
+  if (el) el.textContent = text;
+  const last = document.getElementById('last-run');
+  if (last) last.textContent = text;
+}
 
 function setDiscoverProgress(step, found, max) {
   _discoverStep = step;

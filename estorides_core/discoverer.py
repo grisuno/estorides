@@ -62,6 +62,8 @@ class DiscoverJob:
     max_entities: int = DEFAULT_MAX_ENTITIES
     deadline_s: float = PIVOT.per_target_timeout_seconds
     parallel: int = PIVOT.parallel
+    passive_only: bool = False
+    proxy: Optional[str] = None
     started_at: float = field(default_factory=time.time)
     status: str = "queued"  # queued | running | done | error | stopped
     steps_done: int = 0
@@ -122,13 +124,17 @@ class _DiscoverJobSink:
 
     def _on_entity(self, data: Dict[str, Any]) -> None:
         self._job.entities_seen += 1
-        # Pivoted entities are real nodes the UI draws; leaves are recorded
-        # under the legacy "leaf" type the UI safely ignores.
+        # Every surfaced entity is reported as node_found so the UI renders
+        # it in the entities tab — including non-pivotable human selectors
+        # (email, username, person, phone, org) that are the OSINT trail on
+        # people. The `pivoted` flag lets a consumer tell a re-queried node
+        # from a leaf the operator must follow manually.
         self._job.push_event({
-            "type": "node_found" if data.get("pivoted") else "leaf",
+            "type": "node_found",
             "entity": data.get("entity") or {},
             "from": data.get("from") or {},
             "depth": data.get("depth", 0),
+            "pivoted": bool(data.get("pivoted", True)),
         })
 
     def _on_target_done(self, data: Dict[str, Any]) -> None:
@@ -189,6 +195,8 @@ def create_discover_job(
     max_entities: int = DEFAULT_MAX_ENTITIES,
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
+    passive_only: bool = False,
+    proxy: Optional[str] = None,
 ) -> DiscoverJob:
     """Create and register a discovery job synchronously.
 
@@ -213,6 +221,8 @@ def create_discover_job(
         max_entities=PIVOT.clamp_entities(max_entities),
         deadline_s=PIVOT.clamp_deadline(deadline_s),
         parallel=PIVOT.clamp_parallel(parallel),
+        passive_only=passive_only,
+        proxy=proxy,
     )
     DISCOVER_JOBS[job.job_id] = job
     job.push_event({
@@ -243,6 +253,8 @@ async def start_discover(
     max_entities: int = DEFAULT_MAX_ENTITIES,
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
+    passive_only: bool = False,
+    proxy: Optional[str] = None,
 ) -> DiscoverJob:
     """Create a discovery job and schedule its worker on the current loop.
 
@@ -258,6 +270,8 @@ async def start_discover(
         max_entities=max_entities,
         deadline_s=deadline_s,
         parallel=parallel,
+        passive_only=passive_only,
+        proxy=proxy,
     )
     asyncio.create_task(_run_discoverer(job))
     return job
@@ -273,6 +287,8 @@ def start_discover_threadsafe(
     max_entities: int = DEFAULT_MAX_ENTITIES,
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
+    passive_only: bool = False,
+    proxy: Optional[str] = None,
 ) -> DiscoverJob:
     """Create the job in the calling thread, fire its worker on `loop`.
 
@@ -288,6 +304,8 @@ def start_discover_threadsafe(
         max_entities=max_entities,
         deadline_s=deadline_s,
         parallel=parallel,
+        passive_only=passive_only,
+        proxy=proxy,
     )
     asyncio.run_coroutine_threadsafe(_run_discoverer(job), loop)
     return job
@@ -317,6 +335,8 @@ async def _run_discoverer(job: DiscoverJob) -> None:
         case_id=job.case_id,
         should_stop=job.should_stop,
         persist=True,
+        passive_only=job.passive_only,
+        proxy=job.proxy,
     )
     await engine.run(job.seed_type, job.seed_value)
 

@@ -1,0 +1,24 @@
+name: vt_ip
+enabled: true
+category: 13. Reputation
+description: VirusTotal v3 — IP address reputation, AS owner and detection stats
+os: any
+requires_key: true
+key_env: VT_API_KEY
+parser: vt_ip
+entity_hints:
+- ip
+- asn
+- country
+- malicious
+applies_to:
+- ipv4
+contact: broker
+tool:
+  method: GET
+  url: https://www.virustotal.com/api/v3/ip_addresses/{query}
+  headers:
+    x-apikey: '{api_key}'
+    Accept: application/json
+    User-Agent: Estorides/1.0
+  params: {}

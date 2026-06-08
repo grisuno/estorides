@@ -30,11 +30,61 @@ from estorides_core.validation import QueryValidationError, validate_query
 from estorides_export import export_misp, export_stix
 
 
+TOR_DEFAULT_PROXY = "socks5://127.0.0.1:9050"
+
+
 def _setup_logging(verbose: bool) -> None:
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=level,
                         format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
                         datefmt="%H:%M:%S")
+
+
+def _collect_selectors(events: List[dict], types: tuple) -> dict:
+    """Group discovered entity values by type for the requested type set.
+
+    Used to surface the human selectors (emails, usernames, persons, orgs,
+    phones) a discover run found, separately from the infrastructure list."""
+    buckets: dict = {t: set() for t in types}
+    for ev in events:
+        if ev.get("type") != "node_found":
+            continue
+        ent = ev.get("entity") or {}
+        et = ent.get("type")
+        if et in buckets and ent.get("value"):
+            buckets[et].add(ent["value"])
+    return {t: sorted(v) for t, v in buckets.items() if v}
+
+
+def _resolve_proxy(args: argparse.Namespace) -> str | None:
+    """Resolve the egress proxy from the OPSEC flags.
+
+    `--tor` is a convenience alias for the default local Tor SOCKS port;
+    an explicit `--proxy` wins over it. Returns None when neither is set,
+    in which case the engine still honours the env-configured proxy pool."""
+    if getattr(args, "proxy", None):
+        return args.proxy
+    if getattr(args, "tor", False):
+        return TOR_DEFAULT_PROXY
+    return None
+
+
+def _add_opsec_flags(parser: argparse.ArgumentParser) -> None:
+    """Attach the shared operator-OPSEC flags to a subcommand parser."""
+    parser.add_argument(
+        "--passive-only", action="store_true",
+        help="only query sources that never touch the target (contact=none); "
+             "excludes third-party broker probes such as traceroute/ping/header fetch",
+    )
+    parser.add_argument(
+        "--proxy", default=None,
+        help="route all egress through this proxy, e.g. socks5://127.0.0.1:9050 "
+             "or http://127.0.0.1:8080 (SOCKS needs the aiohttp_socks package)",
+    )
+    parser.add_argument(
+        "--tor", action="store_true",
+        help=f"shorthand for --proxy {TOR_DEFAULT_PROXY}",
+    )
 
 
 async def cmd_discover(args: argparse.Namespace) -> int:
@@ -56,6 +106,11 @@ async def cmd_discover(args: argparse.Namespace) -> int:
         "starting background discover seed=%s:%s max_depth=%d max_steps=%d",
         seed_type, args.query, args.max_depth, args.max_steps,
     )
+    proxy = _resolve_proxy(args)
+    if args.passive_only:
+        log.info("opsec: passive-only — target-touching sources excluded")
+    if proxy:
+        log.info("opsec: egress via proxy %s", proxy)
     job = await start_discover(
         seed_type=seed_type,
         seed_value=args.query,
@@ -64,6 +119,8 @@ async def cmd_discover(args: argparse.Namespace) -> int:
         max_entities=args.max_entities,
         deadline_s=args.deadline,
         parallel=args.parallel,
+        passive_only=args.passive_only,
+        proxy=proxy,
     )
     # Poll the job's event buffer until the worker ends, printing
     # a one-line summary per event so the operator sees the surface
@@ -107,6 +164,7 @@ async def cmd_discover(args: argparse.Namespace) -> int:
             for e in [ev.get("entity") or {}]
             if e.get("type") in ("domain", "ipv4", "ipv6")
         }),
+        "people": _collect_selectors(job.events, ("email", "username", "person", "org", "phone_e164")),
         "case_summary": case,
     }
     if args.out_json:
@@ -130,6 +188,14 @@ async def cmd_discover(args: argparse.Namespace) -> int:
             print(f"    - {d}")
         if len(surface['domains']) > 15:
             print(f"    … and {len(surface['domains']) - 15} more")
+    people = surface.get("people") or {}
+    if people:
+        total = sum(len(v) for v in people.values())
+        print(f"\n  people/selectors ({total}):")
+        for sel_type, values in people.items():
+            shown = ", ".join(values[:8])
+            more = f" … +{len(values) - 8}" if len(values) > 8 else ""
+            print(f"    {sel_type:<11}: {shown}{more}")
     return 0 if job.status == "done" else 1
 
 
@@ -154,6 +220,11 @@ async def cmd_run(args: argparse.Namespace) -> int:
         mark = "OK" if ok else "--"
         print(f"  [{mark}] {source_name:<28} status={status}  ({elapsed_ms:.0f}ms)", file=_sys.stderr, flush=True)
 
+    proxy = _resolve_proxy(args)
+    if args.passive_only:
+        print("  [opsec] passive-only: target-touching sources excluded", file=_sys.stderr)
+    if proxy:
+        print(f"  [opsec] egress via proxy: {proxy}", file=_sys.stderr)
     result = await orch.run(
         args.query,
         source_names=sources,
@@ -162,6 +233,8 @@ async def cmd_run(args: argparse.Namespace) -> int:
         timeout=args.timeout,
         deadline=args.deadline,
         on_source_done=_on_done,
+        passive_only=args.passive_only,
+        proxy=proxy,
     )
     if "error" in result and not result.get("observations"):
         print(json.dumps(result, indent=2))
@@ -200,6 +273,53 @@ async def cmd_run(args: argparse.Namespace) -> int:
     print(f"\nFull JSON: {out_json}")
     print(f"Dataset:   {DATASET_PATH}")
     print(f"Graph:     {GRAPH_PATH}")
+    return 0
+
+
+def cmd_scope(args: argparse.Namespace) -> int:
+    """Classify discovered assets against a program's scope rules.
+
+    Reads assets (a `discover --out-json` surface or a flat host list),
+    applies the in/out-of-scope rules, and emits the in-scope host/IP
+    lists an operator pipes into the active phase. Out-of-scope assets are
+    surfaced explicitly so they are never targeted by accident."""
+    from estorides_core.scope import (build_report, load_assets,
+                                       load_rules_file, write_flat_lists)
+
+    assets_path = Path(args.assets)
+    scope_path = Path(args.scope)
+    if not assets_path.exists():
+        print(f"error: assets file not found: {assets_path}", file=sys.stderr)
+        return 2
+    if not scope_path.exists():
+        print(f"error: scope rules file not found: {scope_path}", file=sys.stderr)
+        return 2
+
+    matcher = load_rules_file(scope_path)
+    assets = load_assets(assets_path)
+    report = build_report(matcher, assets)
+
+    print("\n=== Scope classification ===")
+    print(f"  assets read   : {len(assets)}")
+    print(f"  in-scope      : {len(report.in_scope)}  ({len(report.hosts)} hosts / {len(report.ips)} IPs)")
+    print(f"  out-of-scope  : {len(report.out_of_scope)}")
+    print(f"  unknown       : {len(report.unknown)}")
+    if report.out_of_scope:
+        print("\n  Out-of-scope (do NOT target):")
+        for a in report.out_of_scope[:15]:
+            print(f"    ! {a}")
+        if len(report.out_of_scope) > 15:
+            print(f"    … and {len(report.out_of_scope) - 15} more")
+
+    if args.out:
+        Path(args.out).write_text(
+            json.dumps(report.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        print(f"\n  report JSON   : {args.out}")
+    if args.flat_dir:
+        written = write_flat_lists(report, Path(args.flat_dir))
+        for label, path in written.items():
+            print(f"  {label:<14}: {path}")
     return 0
 
 
@@ -280,6 +400,7 @@ def build_parser() -> argparse.ArgumentParser:
                      help="hard wall-clock cap for the whole run in seconds (default 30). "
                           "Sources still running at this point are dropped.")
     run.add_argument("--out-json", help="path to write full result JSON")
+    _add_opsec_flags(run)
     run.set_defaults(func=lambda a: asyncio.run(cmd_run(a)))
 
     # v1.2 — background discoverer. Walks the surface from a
@@ -301,7 +422,21 @@ def build_parser() -> argparse.ArgumentParser:
     disc.add_argument("--deadline", type=float, default=20.0, help="per-step deadline seconds")
     disc.add_argument("--parallel", type=int, default=4, help="max concurrent sources per step")
     disc.add_argument("--out-json", help="path to write the final surface JSON")
+    _add_opsec_flags(disc)
     disc.set_defaults(func=lambda a: asyncio.run(cmd_discover(a)))
+
+    sc = sub.add_parser(
+        "scope",
+        help="classify discovered assets against bug-bounty scope rules",
+    )
+    sc.add_argument("--assets", required=True,
+                    help="discover --out-json surface, or a flat host/IP list")
+    sc.add_argument("--scope", required=True,
+                    help="rules file (wildcards/CIDR/regex; '## out-of-scope' divider supported)")
+    sc.add_argument("--out", help="path to write the classification JSON")
+    sc.add_argument("--flat-dir",
+                    help="directory to write in_scope_hosts.txt / in_scope_ips.txt / unknown.txt")
+    sc.set_defaults(func=cmd_scope)
 
     g = sub.add_parser("graph", help="export knowledge graph")
     g.add_argument("--export", dest="format", choices=["graphml", "json"], default="graphml")

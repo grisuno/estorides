@@ -14,6 +14,8 @@ from typing import Any, Dict, Iterable, List, Optional
 
 import yaml
 
+from .config import CONTACT_LEVELS, DEFAULT_CONTACT, contact_level
+
 log = logging.getLogger("estorides.sources")
 
 
@@ -118,6 +120,17 @@ class SourceRegistry:
         if not applies:
             applies = ["any"]
 
+        # contact: how this source's traffic reaches the target. Drives the
+        # operator's passive-only guarantee. An unknown class is rejected to
+        # the most exposing level (active) so a typo can never silently let a
+        # target-touching source through a passive-only run.
+        contact = (raw.get("contact") or DEFAULT_CONTACT).strip().lower()
+        if contact not in CONTACT_LEVELS:
+            log.warning(
+                "source %s declares unknown contact=%r; treating as 'active'",
+                name, contact,
+            )
+
         normalised: Dict[str, Any] = {
             "name": name.strip(),
             "description": (raw.get("description") or "").strip(),
@@ -129,6 +142,8 @@ class SourceRegistry:
             "parser": (raw.get("parser") or "raw_text").strip(),
             "entity_hints": list(raw.get("entity_hints", []) or []),
             "applies_to": applies,
+            "contact": contact,
+            "logs_queries": bool(raw.get("logs_queries", False)),
             "tool": tool,
         }
         return Source(normalised)
@@ -149,10 +164,25 @@ class SourceRegistry:
     def names(self) -> List[str]:
         return sorted(self._by_name.keys())
 
-    def filter(self, *, requires_key: Optional[bool] = None) -> List[Source]:
-        items: Iterable[Source] = self._by_name.values()
+    def filter(
+        self,
+        *,
+        requires_key: Optional[bool] = None,
+        max_contact: Optional[str] = None,
+    ) -> List[Source]:
+        """Return sources matching the given predicates.
+
+        `max_contact` keeps only sources whose contact class is at or below
+        the given ceiling (e.g. "none" for a passive-only run, "broker" to
+        also allow third-party probes). Sources with an unknown contact
+        class are treated as the most exposing and thus excluded by any
+        ceiling below `active`."""
+        items: Iterable[Source] = list(self._by_name.values())
         if requires_key is not None:
             items = [s for s in items if bool(s["requires_key"]) == requires_key]
+        if max_contact is not None:
+            ceiling = contact_level(max_contact)
+            items = [s for s in items if contact_level(s.get("contact", DEFAULT_CONTACT)) <= ceiling]
         return list(items)
 
     # ----------------------------------------------------------------- fmt --
@@ -169,6 +199,8 @@ class SourceRegistry:
                     "name": s["name"],
                     "category": s["category"],
                     "requires_key": s["requires_key"],
+                    "contact": s.get("contact", DEFAULT_CONTACT),
+                    "logs_queries": bool(s.get("logs_queries", False)),
                     "description": s["description"],
                 }
                 for s in sorted(self._by_name.values(), key=lambda x: x["name"])

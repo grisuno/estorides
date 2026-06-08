@@ -38,6 +38,14 @@ from estorides_export.encryption import export_misp_encrypted, export_stix_encry
 
 log = logging.getLogger("estorides.web")
 
+# Distinct, high-contrast hues for graph clusters. Indexed by community
+# id modulo its length so an arbitrary number of clusters still colours.
+_CLUSTER_PALETTE: Tuple[str, ...] = (
+    "#5B8FF9", "#5AD8A6", "#F6BD16", "#E8684A", "#6DC8EC",
+    "#9270CA", "#FF9D4D", "#269A99", "#FF99C3", "#A0D911",
+    "#FF6B6B", "#36CFC9", "#B37FEB", "#FFC53D", "#7CB305",
+)
+
 # We bind helpers at module level so they can be re-used in tests
 # without going through the Flask app factory.
 
@@ -228,26 +236,64 @@ def create_app() -> Flask:
         top = sorted(deg.items(), key=lambda kv: kv[1], reverse=True)[:n]
         keep = {k for k, _ in top}
         sub = g.subgraph(keep).copy()
-        nodes = [
-            {
-                "id": d.get("id"),
+
+        # Cluster the rendered nodes, then find the edges that bridge two
+        # clusters — these are the "how clusters relate" links the UI
+        # highlights and lets the operator inspect for cross-referenced
+        # intel. Bridge endpoints feed the intelligence-tier classifier.
+        comm = kg.communities(nodes=keep)
+        edges = []
+        bridge_nodes: set = set()
+        for u, v, attrs in sub.edges(data=True):
+            if u not in keep or v not in keep:
+                continue
+            cu, cv = comm.get(u, -1), comm.get(v, -1)
+            inter = cu != cv and cu >= 0 and cv >= 0
+            if inter:
+                bridge_nodes.add(u)
+                bridge_nodes.add(v)
+            edges.append({
+                "source": u, "target": v,
+                "relation": attrs.get("relation", "related-to"),
+                "inter_cluster": inter,
+                "clusters": [cu, cv] if inter else None,
+            })
+        # Keep bridge edges first so the cap never hides a cross-cluster link.
+        edges.sort(key=lambda e: not e["inter_cluster"])
+        edges = edges[:WEB.graph_render_edge_limit]
+
+        nodes = []
+        cluster_agg: Dict[int, Dict[str, Any]] = {}
+        for key, d in sub.nodes(data=True):
+            cid = comm.get(key, -1)
+            level = kg.intel_level(key, bridge_nodes=bridge_nodes)
+            color = _CLUSTER_PALETTE[cid % len(_CLUSTER_PALETTE)] if cid >= 0 else "#888"
+            nodes.append({
+                "id": key,
                 "label": d.get("value", ""),
                 "type": d.get("type"),
                 "kind": d.get("kind"),
                 "color": d.get("color", "#888"),
+                "cluster": cid,
+                "cluster_color": color,
+                "level": level,
                 "size": WEB.graph_node_base_size + min(
-                    WEB.graph_node_max_bonus, deg.get(d.get("id"), 0)
+                    WEB.graph_node_max_bonus, deg.get(key, 0)
                 ),
-            }
-            for _, d in sub.nodes(data=True)
+            })
+            agg = cluster_agg.setdefault(cid, {"id": cid, "size": 0, "color": color,
+                                               "label": "", "_deg": -1})
+            agg["size"] += 1
+            if deg.get(key, 0) > agg["_deg"]:
+                agg["_deg"] = deg.get(key, 0)
+                agg["label"] = d.get("value", "") or d.get("type", "")
+        clusters = [
+            {"id": a["id"], "size": a["size"], "color": a["color"], "label": a["label"]}
+            for a in sorted(cluster_agg.values(), key=lambda x: x["size"], reverse=True)
+            if a["id"] >= 0
         ]
-        edges = [
-            {"source": u, "target": v,
-             "relation": attrs.get("relation", "related-to")}
-            for u, v, attrs in sub.edges(data=True)
-            if u in keep and v in keep
-        ][:WEB.graph_render_edge_limit]
         return jsonify({"nodes": nodes, "edges": edges,
+                        "clusters": clusters,
                         "summary": kg.summary(),
                         "top_entities": kg.top_entities(50)})
 
@@ -449,6 +495,43 @@ def create_app() -> Flask:
         if intel_resolver is not None:
             out["resolver_cache"] = intel_resolver.cache.stats()
         return jsonify(out)
+
+    # ----- Maltego-style transforms -----
+    try:
+        from estorides_core.transforms import registry as transform_registry
+    except Exception:  # noqa: BLE001
+        transform_registry = None  # type: ignore[assignment]
+
+    @app.route("/api/transforms", methods=["GET"])
+    @_rate_limit_decorator(event="api_transforms")
+    def api_transforms() -> Any:
+        """List the transforms applicable to an entity type.
+
+        Example: GET /api/transforms?type=ip
+        """
+        if transform_registry is None:
+            return jsonify({"error": "transforms unavailable"}), 503
+        ent_type = request.args.get("type", "").strip()
+        if not ent_type:
+            return jsonify({"error": "missing type"}), 400
+        return jsonify({"type": ent_type, "transforms": transform_registry.for_type(ent_type)})
+
+    @app.route("/api/transform/run", methods=["POST"])
+    @_rate_limit_decorator(event="api_transform_run")
+    def api_transform_run() -> Any:
+        """Run one transform and return nodes/links for graph merge.
+
+        Body: {"transform_id": "...", "type": "ip", "value": "1.2.3.4"}
+        """
+        if transform_registry is None:
+            return jsonify({"error": "transforms unavailable"}), 503
+        body = request.get_json(silent=True) or {}
+        tid = (body.get("transform_id") or "").strip()
+        ent_type = (body.get("type") or "").strip()
+        value = (body.get("value") or "").strip()
+        if not (tid and ent_type and value):
+            return jsonify({"error": "transform_id, type and value required"}), 400
+        return jsonify(transform_registry.run(tid, ent_type, value))
 
     # ----- Osiris-style extra OSINT endpoints (keyless) -----
     try:

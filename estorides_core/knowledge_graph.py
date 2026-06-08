@@ -46,6 +46,46 @@ NODE_KIND: Dict[str, str] = {
 # Edges inferred from value-level co-occurrence.
 CO_OCCUR_EDGE = "co_occurs"
 
+# Ordered intelligence tiers — the data -> information -> intelligence ->
+# counter-intelligence pipeline the graph UI visualises as node rings.
+INTEL_LEVELS: Tuple[str, ...] = (
+    "data", "information", "intelligence", "counter_intelligence",
+)
+
+# Source names that, on their own, mark an entity as adversarial and so
+# promote it to the counter-intelligence tier.
+THREAT_SOURCES = frozenset({
+    "threatfox", "urlhaus", "urlhaus_payloads", "malwarebazaar", "otx",
+    "feodo", "sslbl", "openphish", "phishtank", "abuse",
+})
+
+# Relations produced by cross-feed resolution / transforms. Their presence
+# means an entity has been correlated beyond raw observation and so reaches
+# the intelligence tier.
+RESOLVER_RELATIONS = frozenset({
+    "hosted_by", "registered_by", "located_in", "announced_by",
+    "resolves_to", "employed_by", "nationality", "subsidiary_of",
+    "sanctioned", "affects_vendor", "communicates_with", "contacts",
+    "drops", "has_subdomain",
+})
+
+
+def _node_sources(node: Dict[str, Any]) -> set:
+    """Read the distinct source set off a node, tolerating GraphML's
+    JSON-string serialisation of the original Python set/list."""
+    raw = node.get("sources")
+    if isinstance(raw, set):
+        return set(raw)
+    if isinstance(raw, (list, tuple, frozenset)):
+        return set(raw)
+    if isinstance(raw, str) and raw:
+        try:
+            v = json.loads(raw)
+            return set(v) if isinstance(v, list) else {raw}
+        except (ValueError, TypeError):
+            return {raw}
+    return set()
+
 
 class KnowledgeGraph:
     def __init__(self, name: str = "estorides") -> None:
@@ -177,6 +217,82 @@ class KnowledgeGraph:
             }
             for nid, score in ranked
         ]
+
+    def communities(self, nodes: Optional[Iterable[str]] = None) -> Dict[str, int]:
+        """Partition entity nodes into communities (clusters).
+
+        Runs greedy modularity on the undirected projection, restricted
+        to `nodes` when given and always excluding `source` nodes (whose
+        fan-out would otherwise collapse every cluster into one). Returns
+        a `node_id -> community index` map. Falls back to connected
+        components when modularity cannot be computed (e.g. no edges)."""
+        g = self.graph
+        sub = g.subgraph(nodes) if nodes is not None else g
+        und: "nx.Graph" = nx.Graph()
+        for nid, data in sub.nodes(data=True):
+            if data.get("type") == "source":
+                continue
+            und.add_node(nid)
+        for u, v, _ in sub.edges(data=True):
+            if u != v and u in und and v in und:
+                und.add_edge(u, v)
+        out: Dict[str, int] = {}
+        if und.number_of_nodes() == 0:
+            return out
+        try:
+            from networkx.algorithms.community import greedy_modularity_communities
+            groups = greedy_modularity_communities(und)
+        except Exception:  # noqa: BLE001
+            groups = [set(c) for c in nx.connected_components(und)]
+        for idx, group in enumerate(groups):
+            for nid in group:
+                out[nid] = idx
+        return out
+
+    def intel_level(self, node_id: str, bridge_nodes: Optional[set] = None) -> str:
+        """Classify a node into the intelligence pipeline tier.
+
+        data                  single corroborating source
+        information           >= 2 distinct sources
+        intelligence          cross-cluster bridge or resolved relation
+        counter_intelligence  sanction/threat/VirusTotal-malicious signal
+
+        Higher tiers win. `bridge_nodes` is the set of nodes that sit on
+        an inter-cluster edge (computed once by the caller)."""
+        g = self.graph
+        if node_id not in g:
+            return "data"
+        node = g.nodes[node_id]
+
+        # ---- counter-intelligence signals ----
+        try:
+            if int(node.get("vt_malicious", 0) or 0) > 0:
+                return "counter_intelligence"
+        except (TypeError, ValueError):
+            pass
+        sources = _node_sources(node)
+        if sources & THREAT_SOURCES:
+            return "counter_intelligence"
+        for _, dst, data in g.out_edges(node_id, data=True):
+            if data.get("relation") == "sanctioned":
+                return "counter_intelligence"
+            if g.nodes.get(dst, {}).get("type") == "sanction":
+                return "counter_intelligence"
+
+        # ---- intelligence signals ----
+        if bridge_nodes and node_id in bridge_nodes:
+            return "intelligence"
+        for _, _, data in g.out_edges(node_id, data=True):
+            if data.get("relation") in RESOLVER_RELATIONS:
+                return "intelligence"
+
+        # ---- information vs raw data ----
+        src_neighbors = {
+            dst for _, dst, data in g.out_edges(node_id, data=True)
+            if data.get("relation") == "observed_by"
+        }
+        n_sources = len(src_neighbors) or len(sources)
+        return "information" if n_sources >= 2 else "data"
 
     def ego_subgraph(self, node_id: str, radius: int = 1) -> "KnowledgeGraph":
         if node_id not in self.graph:

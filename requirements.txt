@@ -12,6 +12,13 @@ aiohttp>=3.9
 # happens with this dep present.
 kuzu>=0.11
 
+# Egress anonymisation (operator OPSEC) — SOCKS5/Tor support.
+# Optional: only needed when routing requests through a SOCKS proxy
+# (e.g. --tor / --proxy socks5://...). HTTP/HTTPS proxies work without
+# it. When a SOCKS proxy is requested and this is absent the client
+# fails closed rather than sending traffic in the clear.
+aiohttp_socks>=0.8
+
 # Optional but recommended for production deployments:
 # gunicorn — proper WSGI server (Flask's dev server is not for prod)
 gunicorn>=21.2
