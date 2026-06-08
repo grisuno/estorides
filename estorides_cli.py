@@ -366,6 +366,75 @@ def cmd_export_misp(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace) -> int:
+    """Render a Markdown report for a case.
+
+    Reads from the case store (so the report reflects what was persisted,
+    not the volatile in-memory graph). When `--diff <other_id>` is given,
+    the report also includes a "what's new" section vs the other case.
+    """
+    from estorides_core.cases import store as case_store
+    from estorides_export.report import render_markdown_report
+
+    case = case_store.get_case(args.case_id)
+    if not case:
+        print(f"error: case {args.case_id} not found", file=sys.stderr)
+        return 2
+    full = case_store.get_case(args.case_id) or {}
+    full["observations"] = case_store.list_observations(args.case_id)
+    entities = case_store.list_entities(args.case_id)
+    diff = None
+    if args.diff:
+        other = case_store.get_case(args.diff)
+        if not other:
+            print(f"error: diff baseline case {args.diff} not found", file=sys.stderr)
+            return 2
+        diff = case_store.diff_entities(args.diff, args.case_id)
+    # Source counts come from observations (one row per source hit).
+    obs = full["observations"]
+    sources_queried = len({o.get("source", "") for o in obs})
+    sources_succeeded = sum(1 for o in obs if o.get("parser"))
+    md = render_markdown_report(
+        full, entities=entities,
+        sources_queried=sources_queried,
+        sources_succeeded=sources_succeeded,
+        diff=diff,
+    )
+    out_path = Path(args.out) if args.out else REPORTS_DIR / f"report_{args.case_id}.md"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(md, encoding="utf-8")
+    print(f"Report: {out_path}  ({len(md)} bytes, {len(entities)} entities)")
+    return 0
+
+
+def cmd_diff(args: argparse.Namespace) -> int:
+    """Diff two cases. CLI twin of /api/cases/diff."""
+    from estorides_core.cases import store as case_store
+    a = case_store.get_case(args.a)
+    b = case_store.get_case(args.b)
+    if not a:
+        print(f"error: case {args.a} not found", file=sys.stderr)
+        return 2
+    if not b:
+        print(f"error: case {args.b} not found", file=sys.stderr)
+        return 2
+    d = case_store.diff_entities(args.a, args.b)
+    print(f"=== Case diff: {args.a} → {args.b} ===")
+    print(f"  added   : {d['added_count']}")
+    print(f"  removed : {d['removed_count']}")
+    print(f"  common  : {d['common_count']}")
+    if d.get("by_type", {}).get("added"):
+        print("  added by type:")
+        for t, n in sorted(d["by_type"]["added"].items(), key=lambda x: -x[1]):
+            print(f"    {t:<14} {n}")
+    if args.out:
+        Path(args.out).write_text(
+            json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        print(f"\n  JSON: {args.out}")
+    return 0
+
+
 def cmd_status(_: argparse.Namespace) -> int:
     orch = Orchestrator()
     summary = orch.registry.summary()
@@ -381,7 +450,12 @@ def cmd_serve(args: argparse.Namespace) -> int:
         sys.path.insert(0, str(cli_dir))
     from estorides_web import create_app
     app = create_app()
-    app.run(host=args.host, port=args.port, debug=args.debug, threaded=True)
+    logging.getLogger("estorides.cli.serve").warning(
+        "Running Flask dev server on %s:%d (debug=off). "
+        "For production use gunicorn: 'gunicorn -w 4 wsgi:app'.",
+        args.host, args.port,
+    )
+    app.run(host=args.host, port=args.port, debug=False, threaded=True)
     return 0
 
 
@@ -450,12 +524,26 @@ def build_parser() -> argparse.ArgumentParser:
     m.add_argument("--out", default="estorides_misp.json")
     m.set_defaults(func=cmd_export_misp)
 
+    r = sub.add_parser("report", help="render a Markdown report for a case")
+    r.add_argument("case_id", help="case id (from 'cases' list)")
+    r.add_argument("--diff", default="",
+                   help="baseline case id — adds a 'what's new' section")
+    r.add_argument("--out", default="",
+                   help="output path (default: reports/report_<case_id>.md)")
+    r.set_defaults(func=cmd_report)
+
+    d = sub.add_parser("diff", help="diff two cases by entity (type,value)")
+    d.add_argument("a", help="baseline case id")
+    d.add_argument("b", help="newer case id")
+    d.add_argument("--out", default="",
+                   help="optional path to write full JSON diff")
+    d.set_defaults(func=cmd_diff)
+
     sub.add_parser("status", help="list sources and categories").set_defaults(func=cmd_status)
 
-    sv = sub.add_parser("serve", help="run the web UI")
+    sv = sub.add_parser("serve", help="run the web UI (dev server; use gunicorn for prod)")
     sv.add_argument("--host", default=FLASK_HOST)
     sv.add_argument("--port", type=int, default=FLASK_PORT)
-    sv.add_argument("--debug", action="store_true")
     sv.set_defaults(func=cmd_serve)
 
     return p

@@ -33,6 +33,7 @@ from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.validation import QueryValidationError, validate_query
+from estorides_core.web_security import install_security
 from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
@@ -172,6 +173,12 @@ def create_app() -> Flask:
         template_folder=str(TEMPLATES_DIR),
         static_folder=str(STATIC_DIR),
     )
+    # Force-disable Flask's interactive debugger for the lifetime of the app.
+    # The Werkzeug debugger is RCE on a network-exposed port, so we kill it
+    # at the source regardless of FLASK_DEBUG.
+    app.config["DEBUG"] = False
+    app.config["PROPAGATE_EXCEPTIONS"] = False
+    install_security(app)
     orch = Orchestrator()
 
     @app.route("/")
@@ -411,6 +418,59 @@ def create_app() -> Flask:
             return jsonify({"error": "case store unavailable"}), 503
         case_store.delete_case(case_id)
         return jsonify({"deleted": case_id})
+
+    @app.route("/api/cases/<case_id>/save", methods=["POST"])
+    @_rate_limit_decorator(event="api_cases_save")
+    def api_cases_save(case_id: str) -> Any:
+        """Bookmark a case from the UI.
+
+        Sets a `notes` prefix so the case is easy to spot in the cases
+        list, then echoes the updated case back. The store is
+        append-only for observations, but `notes` is a free-text column
+        we can overwrite. This is the "I want to come back to this"
+        gesture: in v1 the only durable artefact was the case id; in
+        v1.3 we want the user to be able to tag their wins.
+        """
+        if case_store is None:
+            return jsonify({"error": "case store unavailable"}), 503
+        case = case_store.get_case(case_id)
+        if not case:
+            return jsonify({"error": "not-found"}), 404
+        body = request.get_json(silent=True) or {}
+        note = (body.get("note") or "").strip()
+        bookmark = "[saved] " + (note or case.get("query", ""))
+        with case_store._lock:  # noqa: SLF001 — internal but documented
+            case_store._conn.execute(  # noqa: SLF001
+                "UPDATE cases SET notes=? WHERE id=?",
+                (bookmark, case_id),
+            )
+            case_store._conn.commit()  # noqa: SLF001
+        return jsonify(case_store.get_case(case_id))
+
+    @app.route("/api/cases/diff", methods=["GET"])
+    @_rate_limit_decorator(event="api_cases_diff")
+    def api_cases_diff() -> Any:
+        """Symmetric diff between two cases by entity (type, value).
+
+        Query string: ?a=<case_id>&b=<case_id>
+        Returns the entities present in B but not in A ("added"), the
+        inverse ("removed"), and the per-type breakdown. The UI uses
+        this to show "what's new since last run" without a re-query.
+        """
+        if case_store is None:
+            return jsonify({"error": "case store unavailable"}), 503
+        a = (request.args.get("a") or "").strip()
+        b = (request.args.get("b") or "").strip()
+        if not a or not b:
+            return jsonify({"error": "a and b query params are required"}), 400
+        if a == b:
+            return jsonify({"error": "a and b must be different cases"}), 400
+        # Ensure both exist — surface 404 instead of an empty diff.
+        if not case_store.get_case(a):
+            return jsonify({"error": f"unknown case {a}"}), 404
+        if not case_store.get_case(b):
+            return jsonify({"error": f"unknown case {b}"}), 404
+        return jsonify(case_store.diff_entities(a, b))
 
     @app.route("/api/intel/resolve", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_resolve")
@@ -890,4 +950,12 @@ def _shape_for_ui(result: Dict[str, Any]) -> Dict[str, Any]:
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(host=FLASK_HOST, port=FLASK_PORT, debug=FLASK_DEBUG)
+    # The dev server is only for local exploration. Production deployments
+    # should run gunicorn (see wsgi.py) — the Werkzeug debugger is RCE on
+    # a network port and the dev server is single-threaded.
+    log.warning(
+        "Running Flask dev server on %s:%d (debug=off). "
+        "For production use gunicorn: 'gunicorn -w 4 wsgi:app'.",
+        FLASK_HOST, FLASK_PORT,
+    )
+    app.run(host=FLASK_HOST, port=FLASK_PORT, debug=False)

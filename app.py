@@ -1,12 +1,24 @@
 #!/usr/bin/env python3
-# _*_ coding: utf8 _*_
 """
-app.py
+Deprecated entry point. Use:
 
-Autor: Gris Iscomeback
-Correo electrónico: grisiscomeback[at]gmail[dot]com
-Fecha de creación: xx/xx/xxxx
-Licencia: GPL v3
+  - the `estorides` console script (installed by `pip install -e .`), or
+  - `python3 estorides_cli.py serve` for the dev server, or
+  - `gunicorn -w 4 wsgi:app` for production.
 
-Descripción:  
+This file is kept as a redirect so old launchers that import `app` from
+this module keep working. It intentionally does NOT start a server on
+import.
 """
+from __future__ import annotations
+
+import warnings as _warnings
+
+_warnings.warn(
+    "Importing 'app' from the project root is deprecated. "
+    "Use 'wsgi:app' for gunicorn or 'estorides_cli.py serve' for the dev server.",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+from wsgi import app  # noqa: E402,F401  re-export for legacy launchers

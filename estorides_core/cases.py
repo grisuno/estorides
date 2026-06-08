@@ -308,6 +308,53 @@ class CaseStore:
             for r in rows
         ]
 
+    def diff_entities(
+        self, case_a: str, case_b: str,
+    ) -> Dict[str, Any]:
+        """Compare two cases by entity (type, value) keys.
+
+        Returns the symmetric difference plus counts and the per-type
+        breakdown. The "added" set is what case B learned that A did
+        not have; "removed" is the inverse. This is the OSINT analogue
+        of `git diff A B` and is the building block for the
+        "what's new since last run" UI the analyst wants to see.
+
+        Both cases are looked up in a single connection hold so the
+        diff is consistent even if the case store is being written
+        to concurrently.
+        """
+        a = {(e["type"], e["value"]) for e in self.list_entities(case_a)}
+        b = {(e["type"], e["value"]) for e in self.list_entities(case_b)}
+        added = b - a
+        removed = a - b
+        common = a & b
+
+        def _per_type(pairs):
+            out: Dict[str, int] = {}
+            for t, _ in pairs:
+                out[t] = out.get(t, 0) + 1
+            return out
+
+        def _serialise(pairs):
+            return sorted(
+                ({"type": t, "value": v} for t, v in pairs),
+                key=lambda x: (x["type"], x["value"]),
+            )
+
+        return {
+            "case_a": case_a,
+            "case_b": case_b,
+            "added": _serialise(added),
+            "removed": _serialise(removed),
+            "common_count": len(common),
+            "added_count": len(added),
+            "removed_count": len(removed),
+            "by_type": {
+                "added": _per_type(added),
+                "removed": _per_type(removed),
+            },
+        }
+
     def search_cases(
         self,
         query_substring: str = "",

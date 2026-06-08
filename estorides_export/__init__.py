@@ -8,6 +8,7 @@ from .encryption import (
     export_misp_encrypted,
     export_stix_encrypted,
 )
+from .report import render_markdown_report
 
 __all__ = [
     "bundle_from_graph",
@@ -17,4 +18,5 @@ __all__ = [
     "export_stix",
     "export_stix_encrypted",
     "encrypt_file",
+    "render_markdown_report",
 ]

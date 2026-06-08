@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "estorides"
+version = "1.3.0"
+description = "State-level OSINT orchestrator. 99+ free public sources, async fanout, knowledge graph, multi-LLM analyst."
+readme = "README.md"
+license = {text = "GPL-3.0"}
+authors = [{name = "Gris Iscomeback", email = "grisiscomeback@gmail.com"}]
+requires-python = ">=3.10"
+keywords = ["osint", "intelligence", "reconnaissance", "threat-intel", "stix", "misp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+dependencies = [
+    "flask>=3.0",
+    "networkx>=3.0",
+    "requests>=2.31",
+    "pyyaml>=6.0",
+    "aiohttp>=3.9",
+    "gunicorn>=21.2",
+]
+
+[project.optional-dependencies]
+# Optional native deps. The engine falls back gracefully when these are
+# absent (kuzu -> in-memory NetworkX; aiohttp_socks -> SOCKS proxy disabled).
+kuzu = ["kuzu>=0.11"]
+tor = ["aiohttp_socks>=0.8"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.1",
+]
+all = ["estorides[kuzu,tor,dev]"]
+
+[project.scripts]
+# Single console script. `pip install -e .` puts `estorides` on PATH.
+# This replaces the old `python3 estorides_cli.py ...` invocation.
+estorides = "estorides_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/grisuno/estorides"
+Issues = "https://github.com/grisuno/estorides/issues"
+
+[tool.setuptools.packages.find]
+# The engine ships as three top-level packages; everything else is data
+# (sources/, templates/, static/) or tooling (tools/, workflows/).
+include = ["estorides_core*", "estorides_llm*", "estorides_export*"]
+exclude = ["env*", "data*", "reports*", "tests*"]
+
+[tool.setuptools.package-data]
+# Make sure the source YAMLs ship with the wheel. Anyone doing a real
+# `pip install` from PyPI should get the full 99-source catalog.
+"estorides_core" = ["py.typed"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+# Pragmatic baseline. The codebase is huge and not every old file is
+# happy with strict E/F rules; new files in security/ and tests/ should
+# follow the stricter subset.
+select = ["E", "F", "W", "I", "B", "UP", "S", "RUF"]
+ignore = ["E501", "B008", "RUF012"]
