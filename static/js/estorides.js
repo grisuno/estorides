@@ -1197,6 +1197,9 @@
   }
   function renderCaseItem(c) {
     const ts = new Date((c.created_at || 0) * 1000).toISOString().slice(0, 16).replace('T', ' ');
+    // Saved cases get a visible bookmark pill so the operator can
+    // scan the list for "things I came back to" at a glance.
+    const saved = (c.notes || '').indexOf('[saved]') === 0;
     return (
       '<div class="case-item" data-id="' + escapeHTML(c.id) + '">' +
         '<div class="case-query">' + escapeHTML(truncate(c.query, 60)) + '</div>' +
@@ -1205,7 +1208,15 @@
           '<span class="pill">' + escapeHTML(c.status || '') + '</span>' +
           '<span class="pill">' + (c.entity_count || 0) + ' ents</span>' +
           '<span class="pill">' + (c.obs_count || 0) + ' obs</span>' +
+          (saved ? '<span class="pill saved">saved</span>' : '') +
           '<span>' + escapeHTML(ts) + '</span>' +
+        '</div>' +
+        '<div class="case-actions">' +
+          '<button class="ghost" data-action="save" data-id="' + escapeHTML(c.id) + '" type="button">' +
+            (saved ? 'edit note' : 'save') +
+          '</button>' +
+          '<button class="ghost" data-action="diff" data-id="' + escapeHTML(c.id) + '" type="button">diff with...</button>' +
+          '<button class="ghost" data-action="report" data-id="' + escapeHTML(c.id) + '" type="button">report</button>' +
         '</div>' +
       '</div>'
     );
@@ -1268,6 +1279,162 @@
     s = String(s || '');
     return s.length > n ? s.slice(0, n) + '…' : s;
   }
+
+  // ---- v1.3: case actions (save / diff / report) ----
+  // Wire the per-case buttons rendered by renderCaseItem(). One
+  // delegated listener so we don't rebind on every reload.
+  const casesList = $('#cases-list');
+  if (casesList) {
+    casesList.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('button[data-action]');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+      if (action === 'save')  return caseActionSave(id, btn);
+      if (action === 'diff')  return caseActionDiff(id);
+      if (action === 'report') return caseActionReport(id);
+    });
+  }
+
+  // Bookmark a case. The endpoint prefixes the notes column with
+  // "[saved]" so the bookmarked case surfaces in the list at a glance.
+  function caseActionSave(id, btn) {
+    const note = prompt('Optional note for this case:', '');
+    if (note === null) return;  // user cancelled
+    btn.disabled = true;
+    fetch('/api/cases/' + encodeURIComponent(id) + '/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: note }),
+    })
+      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+      .then(({ ok, j }) => {
+        if (!ok) throw new Error(j.error || 'save failed');
+        btn.textContent = 'saved';
+        loadCases();
+      })
+      .catch((e) => { alert('save failed: ' + e.message); btn.disabled = false; });
+  }
+
+  // Compare this case to another. The user picks the baseline; the
+  // response is rendered inline in a diff panel under the case.
+  function caseActionDiff(id) {
+    const baseline = prompt(
+      'Compare to which case id? (case A — the older one)\n\n' +
+      'Tip: the id is in the URL or in the case detail.', ''
+    );
+    if (!baseline) return;
+    fetch('/api/cases/diff?a=' + encodeURIComponent(baseline) +
+          '&b=' + encodeURIComponent(id))
+      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+      .then(({ ok, j }) => {
+        if (!ok) throw new Error(j.error || 'diff failed');
+        renderCaseDiffPanel(id, j);
+      })
+      .catch((e) => alert('diff failed: ' + e.message));
+  }
+
+  // Render the diff result below the case. The panel survives until
+  // the user reloads the cases list (or opens another diff).
+  function renderCaseDiffPanel(caseId, diff) {
+    let panel = document.getElementById('case-diff-panel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'case-diff-panel';
+      panel.className = 'case-diff-panel';
+      casesList.parentElement.appendChild(panel);
+    }
+    const rows = (diff.added || []).slice(0, 25).map((e) =>
+      `<li><span class="pill">${escapeHTML(e.type)}</span> <code>${escapeHTML(e.value)}</code></li>`
+    ).join('');
+    const removed = (diff.removed || []).slice(0, 10).map((e) =>
+      `<li><span class="pill">${escapeHTML(e.type)}</span> <code>${escapeHTML(e.value)}</code></li>`
+    ).join('') || '<li class="muted">none</li>';
+    panel.innerHTML = `
+      <div class="case-diff-head">
+        <strong>Diff</strong> ${escapeHTML(diff.case_a)} → ${escapeHTML(diff.case_b)}
+        <button class="ghost" id="case-diff-close" type="button">close</button>
+      </div>
+      <div class="case-diff-meta">
+        +${diff.added_count} new · -${diff.removed_count} dropped · ${diff.common_count} common
+      </div>
+      <div class="case-diff-cols">
+        <div>
+          <h4>Added (${diff.added_count})</h4>
+          <ul>${rows || '<li class="muted">none</li>'}</ul>
+        </div>
+        <div>
+          <h4>Removed (${diff.removed_count})</h4>
+          <ul>${removed}</ul>
+        </div>
+      </div>
+    `;
+    document.getElementById('case-diff-close').addEventListener('click', () => {
+      panel.remove();
+    });
+  }
+
+  // Render the Markdown report. We just dump the text into a modal
+  // overlay — keeping it in-browser is enough; the CLI command produces
+  // a file copy for sharing.
+  function caseActionReport(id) {
+    fetch('/api/cases/' + encodeURIComponent(id) + '?full=1')
+      .then((r) => r.json())
+      .then((c) => {
+        const lines = [];
+        lines.push('# ' + (c.query || 'unknown') + ' — case report');
+        lines.push('');
+        lines.push('Case id: `' + c.id + '` · status: `' + (c.status || '?') +
+                   '` · entities: ' + (c.entity_count || 0) +
+                   ' · observations: ' + (c.obs_count || 0));
+        if (c.notes) lines.push('Notes: ' + c.notes);
+        lines.push('');
+        const byType = {};
+        (c.entities || []).forEach((e) => {
+          byType[e.type] = (byType[e.type] || 0) + 1;
+        });
+        lines.push('## Top entity types');
+        Object.entries(byType).sort((a, b) => b[1] - a[1]).slice(0, 8).forEach(([t, n]) => {
+          lines.push('- ' + t + ': ' + n);
+        });
+        lines.push('');
+        // Use the CLI command as the canonical export — copy/paste ready.
+        lines.push('## Export to file');
+        lines.push('');
+        lines.push('```');
+        lines.push('estorides report ' + c.id + ' --out ' + c.id + '.md');
+        if (c.notes && c.notes.indexOf('[saved]') === 0) {
+          lines.push('# or compare against an older case:');
+          lines.push('estorides report ' + c.id + ' --diff <older_case_id> --out ' + c.id + '.md');
+        }
+        lines.push('```');
+        showReportModal(lines.join('\n'));
+      })
+      .catch((e) => alert('report failed: ' + e.message));
+  }
+
+  function showReportModal(text) {
+    let modal = document.getElementById('estorides-modal');
+    if (modal) modal.remove();
+    modal = document.createElement('div');
+    modal.id = 'estorides-modal';
+    modal.className = 'estorides-modal';
+    modal.innerHTML = `
+      <div class="estorides-modal-body">
+        <div class="estorides-modal-head">
+          <strong>Case report (Markdown)</strong>
+          <button class="ghost" id="estorides-modal-close" type="button">close</button>
+        </div>
+        <pre class="estorides-modal-pre">${escapeHTML(text)}</pre>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById('estorides-modal-close').addEventListener('click', () => modal.remove());
+    modal.addEventListener('click', (ev) => {
+      if (ev.target === modal) modal.remove();
+    });
+  }
+
 
   // ---- startup ----
   fetch('/api/status').then((r) => r.json()).then((s) => {
