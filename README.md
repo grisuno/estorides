@@ -198,6 +198,14 @@ python3 estorides_cli.py serve --port 5050
 # open http://127.0.0.1:5050
 ```
 
+<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/fb65013a-6cd0-4486-a5c9-88d31a31ed2d" />
+
+
+<img width="1503" height="979" alt="image" src="https://github.com/user-attachments/assets/039fd29c-4973-4ba5-be44-7b5fe1024ba0" />
+
+
+<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/01ae4738-26ec-49bb-a925-55286e4fb50f" />
+
 UI features:
 
 - 2D map (Leaflet) of every geolocated result
