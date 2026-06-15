@@ -8,12 +8,14 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/static/css/estorides.css" />
+    <link rel="stylesheet" href="/static/css/estorides_ui.css" />
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
 </head>
 <body>
     <header class="topbar">
+        <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">☰</button>
         <div class="brand">
             <span class="logo">⬢</span>
             <span class="title">ESTORIDES</span>
@@ -26,6 +28,11 @@
             <button id="clear-btn" class="ghost">Clear</button>
         </div>
         <div class="status">
+            <span id="query-chip" class="query-chip hidden">type</span>
+            <div id="run-progress" class="progress-wrap" style="display:none">
+                <div class="progress-track"><div id="run-progress-bar" class="progress-bar"></div></div>
+                <span id="run-progress-text" class="progress-text">0 / 0</span>
+            </div>
             <span id="src-count" class="badge">…</span>
             <span id="last-run" class="badge subtle">no run yet</span>
             <span id="discover-progress" class="badge subtle" style="display:none">
@@ -50,6 +57,29 @@
             <div class="tab-panels">
                 <section id="tab-results" class="tab-panel active">
                     <div id="results-meta" class="meta-row"></div>
+                    <div id="result-filters" class="result-filters" style="display:none">
+                        <input id="result-filter-text" type="text" placeholder="filter results..." />
+                        <select id="result-filter-cat">
+                            <option value="">all categories</option>
+                        </select>
+                        <select id="result-filter-status">
+                            <option value="">all statuses</option>
+                            <option value="ok">success</option>
+                            <option value="error">failed</option>
+                        </select>
+                    </div>
+                    <div id="results-empty" class="empty-state">
+                        <div class="logo">⬢</div>
+                        <h3>Start an OSINT run</h3>
+                        <p>Type a domain, IP, email, CVE or crypto address and press <strong>Run</strong>. Estorides will query 100+ public sources in parallel and build a map, graph and timeline.</p>
+                        <div class="examples">
+                            <span class="example-chip">8.8.8.8</span>
+                            <span class="example-chip">example.com</span>
+                            <span class="example-chip">CVE-2021-44228</span>
+                            <span class="example-chip">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
+                        </div>
+                        <div class="shortcuts"><kbd>/</kbd> focus · <kbd>Ctrl+Enter</kbd> run · <kbd>Esc</kbd> clear · <kbd>?</kbd> help</div>
+                    </div>
                     <div id="results-list" class="results-list"></div>
                 </section>
 
@@ -155,6 +185,43 @@
         <span class="sep">·</span>
         <span id="footer-status">idle</span>
     </footer>
+
+    <div id="toast-stack"></div>
+
+    <div id="onboarding" class="onboarding-overlay" style="display:none">
+        <div class="onboarding-card">
+            <h2>Welcome to Estorides</h2>
+            <p>State-level OSINT without the state-level price tag. Drop a domain, IP, email or CVE and watch 100+ public sources converge into one intelligence picture.</p>
+            <div class="steps">
+                <div class="step"><span class="num">1</span><div><strong>Query</strong><br><span>Enter any indicator. The engine detects its type automatically.</span></div></div>
+                <div class="step"><span class="num">2</span><div><strong>Fanout</strong><br><span>Sources run in parallel. Results, entities and geolocation appear as they resolve.</span></div></div>
+                <div class="step"><span class="num">3</span><div><strong>Correlate</strong><br><span>Switch to Graph, expand nodes, run transforms and export STIX/MISP/GraphML.</span></div></div>
+            </div>
+            <div class="onboarding-actions">
+                <button id="onboarding-skip" class="ghost">Skip</button>
+                <button id="onboarding-start" class="primary">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="kbd-help" class="kbd-overlay" style="display:none">
+        <div class="kbd-card">
+            <h3>Keyboard shortcuts</h3>
+            <dl>
+                <dt>/</dt><dd>Focus the query box</dd>
+                <dt>Ctrl+Enter</dt><dd>Run the current query</dd>
+                <dt>Esc</dt><dd>Clear / close overlays</dd>
+                <dt>?</dt><dd>Show this help</dd>
+                <dt>1-6</dt><dd>Switch sidebar tabs (Results, Entities, ...)</dd>
+                <dt>G</dt><dd>Switch to Graph canvas</dd>
+                <dt>M</dt><dd>Switch to Map canvas</dd>
+                <dt>T</dt><dd>Switch to Timeline canvas</dd>
+            </dl>
+            <div class="onboarding-actions" style="margin-top:12px">
+                <button id="kbd-help-close" class="primary">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/static/js/estorides.js"></script>
 </body>

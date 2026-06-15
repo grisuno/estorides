@@ -5,6 +5,185 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+  // ---- UX helpers (v1.4) ----
+  function detectQueryTypeLocal(q) {
+    q = String(q || '').trim();
+    if (/^(\d{1,3}\.){3}\d{1,3}$/.test(q)) return 'ipv4';
+    if (/^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::1)$/.test(q)) return 'ipv6';
+    if (/^CVE-\d{4}-\d{4,}$/i.test(q)) return 'cve';
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q)) return 'email';
+    if (/^1[A-Za-z0-9]{25,34}$/.test(q)) return 'btc_address';
+    if (/^0x[a-fA-F0-9]{40}$/.test(q)) return 'eth_address';
+    if (/^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)*$/.test(q)) return 'domain';
+    return 'unknown';
+  }
+  function showToast(type, title, body, duration) {
+    const stack = document.getElementById('toast-stack');
+    if (!stack) return;
+    const t = document.createElement('div');
+    t.className = 'toast ' + (type || 'info');
+    t.innerHTML = '<div class="toast-title">' + escapeHTML(title) + '</div>' +
+                  '<div class="toast-body">' + escapeHTML(body) + '</div>';
+    stack.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 250); }, duration || 3500);
+  }
+  function updateQueryChip(type) {
+    const chip = document.getElementById('query-chip');
+    if (!chip) return;
+    if (type && type !== 'unknown') {
+      chip.textContent = type;
+      chip.classList.remove('hidden');
+    } else {
+      chip.classList.add('hidden');
+    }
+  }
+  function setRunProgress(current, total) {
+    const wrap = document.getElementById('run-progress');
+    const bar = document.getElementById('run-progress-bar');
+    const txt = document.getElementById('run-progress-text');
+    if (!wrap || !bar || !txt) return;
+    if (total > 0) {
+      wrap.style.display = 'flex';
+      const pct = Math.min(100, Math.round((current / total) * 100));
+      bar.style.width = pct + '%';
+      txt.textContent = current + ' / ' + total;
+    } else {
+      wrap.style.display = 'none';
+      bar.style.width = '0%';
+      txt.textContent = '0 / 0';
+    }
+  }
+  function showEmptyState(show) {
+    const el = document.getElementById('results-empty');
+    const filters = document.getElementById('result-filters');
+    if (el) el.style.display = show ? 'flex' : 'none';
+    if (filters) filters.style.display = show ? 'none' : 'flex';
+  }
+  function summariseObservation(obs) {
+    const p = obs.parsed;
+    if (obs.meta && obs.meta.error) return { lines: ['Source returned an error'], error: true };
+    if (p == null) return { lines: ['No structured data returned'], error: false };
+    if (Array.isArray(p)) {
+      const lines = ['Array with ' + p.length + ' item(s)'];
+      p.slice(0, 3).forEach((it, i) => lines.push('  #' + (i + 1) + ': ' + truncate(JSON.stringify(it), 120)));
+      return { lines, error: false };
+    }
+    if (typeof p === 'object') {
+      const keys = Object.keys(p).slice(0, 6);
+      const lines = keys.map((k) => {
+        let v = p[k];
+        if (v == null) return k + ': —';
+        if (typeof v === 'object') return k + ': ' + (Array.isArray(v) ? '[' + v.length + ']' : '{object}');
+        return k + ': ' + truncate(String(v), 120);
+      });
+      if (Object.keys(p).length > 6) lines.push('... and ' + (Object.keys(p).length - 6) + ' more fields');
+      return { lines, error: false };
+    }
+    return { lines: [String(p)], error: false };
+  }
+  function buildResultCard(obs) {
+    const failed = obs.meta && obs.meta.error;
+    const summary = summariseObservation(obs);
+    const div = document.createElement('div');
+    div.className = 'result-card' + (failed ? ' failed' : '');
+    div.setAttribute('data-source', obs.source || '');
+    div.setAttribute('data-category', obs.category || '');
+    div.setAttribute('data-status', failed ? 'error' : 'ok');
+    const status = (obs.meta && obs.meta.status) || (failed ? 'ERR' : 'OK');
+    const dur = obs.meta && obs.meta.cached ? 'cached' : '';
+    const bodyId = 'rc-body-' + Math.random().toString(36).slice(2, 9);
+    div.innerHTML = `
+      <div class="card-head">
+        <div>
+          <div class="src">${escapeHTML(obs.source)}</div>
+          <div class="cat">${escapeHTML(obs.category || '')}</div>
+        </div>
+        <div class="card-actions">
+          <span class="badge">${escapeHTML(String(status))}${dur ? ' · ' + dur : ''}</span>
+          <button class="ghost" type="button" data-toggle="${bodyId}">show JSON</button>
+        </div>
+      </div>
+      <div class="card-body" id="${bodyId}">
+        <div class="summary">
+          ${summary.error ? '<span class="none">' + escapeHTML(summary.lines[0]) + '</span>' :
+            '<ul>' + summary.lines.map((l) => '<li>' + escapeHTML(l) + '</li>').join('') + '</ul>'}
+        </div>
+        <pre>${escapeHTML(truncate(JSON.stringify(obs.parsed, null, 2) || (obs.meta && obs.meta.error) || '', 1800))}</pre>
+        <div class="meta-line">
+          <span>${escapeHTML(String(status))}</span>
+          ${dur ? '<span>' + dur + '</span>' : ''}
+          ${obs.meta && obs.meta.attempts ? '<span>' + obs.meta.attempts + ' attempt(s)</span>' : ''}
+        </div>
+      </div>
+    `;
+    div.querySelector('.card-head').addEventListener('click', () => div.classList.toggle('open'));
+    const toggle = div.querySelector('[data-toggle]');
+    if (toggle) {
+      toggle.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        div.classList.toggle('open');
+        toggle.textContent = div.classList.contains('open') ? 'hide JSON' : 'show JSON';
+      });
+    }
+    return div;
+  }
+  function populateCategoryFilter(categories) {
+    const sel = document.getElementById('result-filter-cat');
+    if (!sel) return;
+    const existing = new Set(Array.from(sel.options).map((o) => o.value));
+    categories.forEach((c) => { if (c && !existing.has(c)) { const o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); existing.add(c); } });
+  }
+  function applyResultFilters() {
+    const text = (document.getElementById('result-filter-text') && document.getElementById('result-filter-text').value || '').toLowerCase();
+    const cat = (document.getElementById('result-filter-cat') && document.getElementById('result-filter-cat').value) || '';
+    const status = (document.getElementById('result-filter-status') && document.getElementById('result-filter-status').value) || '';
+    const cards = document.querySelectorAll('#results-list .result-card');
+    cards.forEach((card) => {
+      const matchText = !text || (card.textContent || '').toLowerCase().includes(text);
+      const matchCat = !cat || card.getAttribute('data-category') === cat;
+      const matchStatus = !status || card.getAttribute('data-status') === status;
+      card.style.display = (matchText && matchCat && matchStatus) ? '' : 'none';
+    });
+  }
+  function bindResultFilters() {
+    const txt = document.getElementById('result-filter-text');
+    const cat = document.getElementById('result-filter-cat');
+    const st = document.getElementById('result-filter-status');
+    if (txt && !txt.dataset.bound) { txt.addEventListener('input', applyResultFilters); txt.dataset.bound = '1'; }
+    if (cat && !cat.dataset.bound) { cat.addEventListener('change', applyResultFilters); cat.dataset.bound = '1'; }
+    if (st && !st.dataset.bound) { st.addEventListener('change', applyResultFilters); st.dataset.bound = '1'; }
+  }
+  function showFriendlyError(message, retryFn) {
+    const list = document.getElementById('results-list');
+    if (!list) return;
+    const div = document.createElement('div');
+    div.className = 'friendly-error';
+    div.innerHTML = '<span>' + escapeHTML(message) + '</span>';
+    const btn = document.createElement('button');
+    btn.className = 'retry-btn';
+    btn.textContent = 'Retry';
+    btn.addEventListener('click', () => { div.remove(); retryFn(); });
+    div.appendChild(btn);
+    list.appendChild(div);
+  }
+  function focusGraphNodeByValue(value) {
+    const data = window._graphData;
+    if (!data || !data.nodes || !data.nodes.length) return false;
+    const node = data.nodes.find((n) => n.label === value || n.id === value);
+    if (!node || typeof window.focusNode !== 'function') return false;
+    window.focusNode(node);
+    window.selectNode(node);
+    return true;
+  }
+  function switchSidebarTab(index) {
+    const tabs = $$('.tab');
+    if (tabs[index]) tabs[index].click();
+  }
+  function switchCanvasTab(name) {
+    const tab = $(`.canvas-tab[data-canvas="${name}"]`);
+    if (tab) tab.click();
+  }
+
   // ---- leaflet map ----
   const map = L.map('map', { zoomControl: true, worldCopyJump: true }).setView([20, 0], 2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -92,6 +271,9 @@
   $('#query').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') runQuery();
   });
+  $('#query').addEventListener('input', () => {
+    updateQueryChip(detectQueryTypeLocal($('#query').value));
+  });
   $('#clear-btn').addEventListener('click', () => {
     $('#query').value = '';
     clearAll();
@@ -147,6 +329,10 @@
   async function runQuery() {
     const q = $('#query').value.trim();
     if (!q) return;
+    updateQueryChip(detectQueryTypeLocal(q));
+    showEmptyState(false);
+    setRunProgress(0, window._totalSources || 0);
+    bindResultFilters();
     stopRunStream();
     setStatus('running…');
     $('#run-btn').disabled = true;
@@ -188,8 +374,11 @@
     });
     _runStream.addEventListener('closed', () => {
       setStatus(`done · ${_streamSrcCount} sources · ${_streamEntCount} entities`);
+      setRunProgress(window._totalSources || _streamSrcCount, window._totalSources || _streamSrcCount);
+      showToast('ok', 'Run complete', `${_streamSrcCount} sources · ${_streamEntCount} entities`);
       stopRunStream();
       $('#run-btn').disabled = false;
+      if (typeof loadCases === 'function') setTimeout(loadCases, 800);
     });
     _runStream.onerror = () => { /* auto-reconnects; 'closed' ends the stream */ };
   }
@@ -205,14 +394,18 @@
       const data = await r.json();
       if (data.error) {
         setStatus('error: ' + data.error);
+        showFriendlyError('Run failed: ' + data.error, () => runQueryBlocking(q));
         return;
       }
       renderResult(data);
       setStatus(`done · ${data.sources_succeeded}/${data.sources_queried} sources · ${data.entities.length} entities`);
+      showToast('ok', 'Run complete', `${data.sources_succeeded}/${data.sources_queried} sources · ${data.entities.length} entities`);
     } catch (e) {
       setStatus('error: ' + e.message);
+      showFriendlyError('Network error: ' + e.message, () => runQueryBlocking(q));
     } finally {
       $('#run-btn').disabled = false;
+      setRunProgress(0, 0);
     }
   }
 
@@ -248,23 +441,17 @@
     _streamSeenSrc.add(obs.source);
     _streamSrcCount++;
     _streamObsAll.push(obs);
-    const failed = obs.meta && obs.meta.error;
-    const div = document.createElement('div');
-    div.className = 'result-item' + (failed ? ' failed' : '');
-    const status = (obs.meta && obs.meta.status) || (failed ? 'ERR' : '');
-    const dur = obs.meta && obs.meta.cached ? ' (cached)' : '';
-    div.innerHTML = `
-      <div class="head">
-        <span class="src">${escapeHTML(obs.source)}</span>
-        <span class="cat">${escapeHTML(obs.category || '')}</span>
-      </div>
-      <pre>${escapeHTML(truncate(JSON.stringify(obs.parsed, null, 2) || (obs.meta && obs.meta.error) || '', 1200))}</pre>
-      <div class="meta-line">${escapeHTML(String(status))}${dur}</div>
-    `;
-    $('#results-list').appendChild(div);
+    const card = buildResultCard(obs);
+    $('#results-list').appendChild(card);
+    populateCategoryFilter([obs.category]);
+    applyResultFilters();
+    setRunProgress(_streamSrcCount, window._totalSources || 0);
     $('#results-meta').innerHTML =
       `<span class="pill">${_streamSrcCount} sources</span>` +
       `<span class="pill">${_streamEntCount} entities</span>`;
+    if (obs.meta && obs.meta.error) {
+      showToast('warn', 'Source failed', obs.source + ' returned an error', 2500);
+    }
     // Repaint the map/timeline from the full accumulated set so geolocated
     // sources (ipapi, ipinfo, nominatim) drop pins as they resolve.
     replotStreamData();
@@ -309,6 +496,9 @@
     $('#analysis-meta').innerHTML = '';
     $('#graph-summary').innerHTML = '';
     if (window._d3svg) window._d3svg.remove();
+    updateQueryChip('');
+    setRunProgress(0, 0);
+    showEmptyState(true);
     setStatus('idle');
   }
 
@@ -319,6 +509,8 @@
 
   // ---- result rendering ----
   function renderResult(data) {
+    showEmptyState(false);
+    bindResultFilters();
     // results panel
     const meta = data.sources_queried
       ? `<span class="pill">${data.sources_succeeded}/${data.sources_queried} sources</span>` +
@@ -329,22 +521,13 @@
     $('#results-meta').innerHTML = meta;
     const list = $('#results-list');
     list.innerHTML = '';
+    const categories = [];
     (data.observations || []).forEach((obs) => {
-      const failed = obs.meta && obs.meta.error;
-      const div = document.createElement('div');
-      div.className = 'result-item' + (failed ? ' failed' : '');
-      const status = obs.meta?.status || (failed ? 'ERR' : '');
-      const dur = obs.meta?.cached ? ' (cached)' : '';
-      div.innerHTML = `
-        <div class="head">
-          <span class="src">${obs.source}</span>
-          <span class="cat">${obs.category}</span>
-        </div>
-        <pre>${escapeHTML(truncate(JSON.stringify(obs.parsed, null, 2) || obs.meta?.error || '', 1200))}</pre>
-        <div class="meta-line">${status}${dur}${obs.meta?.attempts ? ` · ${obs.meta.attempts} attempt(s)` : ''}</div>
-      `;
-      list.appendChild(div);
+      list.appendChild(buildResultCard(obs));
+      if (obs.category) categories.push(obs.category);
     });
+    populateCategoryFilter(categories);
+    applyResultFilters();
 
     // entities
     renderEntities(data.entities || []);
@@ -701,6 +884,7 @@
       window._d3svg.select('g').attr('transform', e.transform);
     }).transform, t);
   }
+  window.focusNode = focusNode;
 
   // Run a Maltego-style transform and merge the result into the graph+map.
   async function runTransform(transformId, type, value) {
@@ -777,6 +961,7 @@
       })
       .catch(() => { const box = $('#insp-transforms'); if (box) box.innerHTML = '<div class="insp-empty">unavailable</div>'; });
   }
+  window.selectNode = selectNode;
 
   // ---- unified force-graph renderer (clusters + rings + interactions) ----
   function renderGraphCore(nodes, edges, clusters) {
@@ -1073,7 +1258,11 @@
       // Click anywhere on the row → expand
       div.addEventListener('click', (ev) => {
         ev.preventDefault();
+        $$('.entity').forEach((x) => x.classList.remove('highlight'));
+        div.classList.add('highlight');
         expandNode(e.type, e.value);
+        // If the graph already has this value, focus it.
+        setTimeout(() => focusGraphNodeByValue(e.value), 120);
       });
       // Don't fire the row click when the button itself is pressed
       // (avoids double-handling and gives the button its own
@@ -1437,7 +1626,78 @@
 
 
   // ---- startup ----
+  showEmptyState(true);
+  bindResultFilters();
+
+  // Example chips in the empty state fill the query box.
+  document.querySelectorAll('.example-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      $('#query').value = chip.textContent;
+      updateQueryChip(detectQueryTypeLocal(chip.textContent));
+      $('#query').focus();
+    });
+  });
+
+  // Onboarding: show once per browser.
+  (function initOnboarding() {
+    const seen = localStorage.getItem('estorides.onboarding');
+    const overlay = document.getElementById('onboarding');
+    if (!seen && overlay) {
+      overlay.style.display = 'flex';
+      document.getElementById('onboarding-start').addEventListener('click', () => {
+        localStorage.setItem('estorides.onboarding', '1');
+        overlay.style.display = 'none';
+      });
+      document.getElementById('onboarding-skip').addEventListener('click', () => {
+        localStorage.setItem('estorides.onboarding', '1');
+        overlay.style.display = 'none';
+      });
+    }
+  })();
+
+  // Keyboard shortcuts.
+  document.addEventListener('keydown', (ev) => {
+    const tag = (ev.target && ev.target.tagName) || '';
+    const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+    if (ev.key === '/' && !typing) { ev.preventDefault(); $('#query').focus(); }
+    if (ev.key === '?' && !typing) { ev.preventDefault(); document.getElementById('kbd-help').style.display = 'flex'; }
+    if (ev.key === 'Escape') {
+      const kbd = document.getElementById('kbd-help');
+      const onboard = document.getElementById('onboarding');
+      if (kbd && kbd.style.display !== 'none') { kbd.style.display = 'none'; return; }
+      if (onboard && onboard.style.display !== 'none') { onboard.style.display = 'none'; return; }
+      if (!typing) clearAll();
+    }
+    if (ev.ctrlKey && ev.key === 'Enter') { ev.preventDefault(); runQuery(); }
+    if (!typing) {
+      if (ev.key >= '1' && ev.key <= '6') {
+        ev.preventDefault();
+        switchSidebarTab(parseInt(ev.key, 10) - 1);
+      }
+      if (ev.key === 'g' || ev.key === 'G') { ev.preventDefault(); switchCanvasTab('graph'); }
+      if (ev.key === 'm' || ev.key === 'M') { ev.preventDefault(); switchCanvasTab('map'); }
+      if (ev.key === 't' || ev.key === 'T') { ev.preventDefault(); switchCanvasTab('timeline'); }
+    }
+  });
+  document.getElementById('kbd-help-close').addEventListener('click', () => {
+    document.getElementById('kbd-help').style.display = 'none';
+  });
+  document.getElementById('kbd-help').addEventListener('click', (ev) => {
+    if (ev.target.id === 'kbd-help') document.getElementById('kbd-help').style.display = 'none';
+  });
+
+  // Responsive sidebar toggle.
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebarEl = document.getElementById('sidebar');
+  if (sidebarToggle && sidebarEl) {
+    sidebarToggle.addEventListener('click', () => {
+      sidebarEl.classList.toggle('sidebar-hidden');
+      sidebarEl.style.display = sidebarEl.classList.contains('sidebar-hidden') ? 'none' : '';
+    });
+  }
+
   fetch('/api/status').then((r) => r.json()).then((s) => {
+    window._totalSources = s.total || 0;
     $('#src-count').textContent = `${s.total} sources · ${s.categories.length} cats`;
   });
 })();
