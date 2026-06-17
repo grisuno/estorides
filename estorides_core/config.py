@@ -78,6 +78,29 @@ GRAPH_PATH: Path = DATA_DIR / "estorides_graph.graphml"
 CACHE_PATH: Path = DATA_DIR / "estorides_cache.sqlite"
 STIX_BUNDLE_PATH: Path = DATA_DIR / "estorides_stix_bundle.json"
 MISP_EVENT_PATH: Path = DATA_DIR / "estorides_misp_event.json"
+ENTITY_STORE_PATH: Path = Path(
+    os.environ.get("ESTORIDES_ENTITY_DB", str(DATA_DIR / "estorides_entities.sqlite"))
+)
+
+# -----------------------------------------------------------------------------
+# Entity resolution — canonical identity layer
+# -----------------------------------------------------------------------------
+# Replaces the v1.1 difflib clustering with type-aware normalisation,
+# blocking, and probabilistic name matching. A pair scoring at or above
+# ER_MERGE_THRESHOLD collapses into one canonical entity; a pair between
+# ER_LINK_THRESHOLD and the merge bar is surfaced as a SAME_AS candidate
+# link (recorded, never silently merged) so an analyst keeps the call.
+ER_ENABLED: bool = _env_bool("ESTORIDES_ER_ENABLED", True)
+ER_MERGE_THRESHOLD: float = _env_float("ESTORIDES_ER_MERGE_THRESHOLD", 0.92)
+ER_LINK_THRESHOLD: float = _env_float("ESTORIDES_ER_LINK_THRESHOLD", 0.84)
+# Hard cap on candidates compared inside a single blocking bucket. Keeps the
+# in-bucket pairwise scan bounded (O(k^2) with k = ER_MAX_BUCKET) on a
+# pathological fan-out where thousands of names share one blocking key.
+ER_MAX_BUCKET: int = _env_int("ESTORIDES_ER_MAX_BUCKET", 400)
+# Persist canonical IDs across runs so the same real-world entity keeps one
+# identifier between investigations. Falls back to in-memory if the store
+# cannot be opened.
+ER_PERSIST: bool = _env_bool("ESTORIDES_ER_PERSIST", True)
 
 # -----------------------------------------------------------------------------
 # Network behaviour

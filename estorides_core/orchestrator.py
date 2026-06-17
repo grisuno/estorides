@@ -27,8 +27,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
-from .config import (DATASET_PATH, DEFAULT_CONTACT, GRAPH_PATH, SOURCES_DIR,
-                     contact_level, effective_proxies)
+from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
+                     GRAPH_PATH, SOURCES_DIR, contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -60,6 +60,22 @@ try:
 except Exception as _e:  # noqa: BLE001
     log.warning("intel resolver unavailable: %s", _e)
     intel_resolver = None  # type: ignore[assignment]
+
+# Canonical identity layer. The resolver fuses near-duplicate and
+# cross-script entities into stable canonical ids; the optional store
+# persists those ids across runs. Both fail soft: without them the run
+# falls back to the exact-dedup output of merge().
+try:
+    from .entity_resolution import resolve_entities as _resolve_entities
+    if ER_PERSIST:
+        from .entity_store import open_store as _open_entity_store
+        _entity_store = _open_entity_store()
+    else:
+        _entity_store = None
+except Exception as _e:  # noqa: BLE001
+    log.warning("entity resolution unavailable: %s", _e)
+    _resolve_entities = None  # type: ignore[assignment]
+    _entity_store = None  # type: ignore[assignment]
 
 
 def _safe_format(template: Any, **kwargs: Any) -> Any:
@@ -383,7 +399,20 @@ class Orchestrator:
         mitre_techniques = all_techniques_for(observations)
 
         # ----- entity summary -----
-        merged = merge(all_entities)
+        # merge() does exact (type, value) dedup; the resolver then fuses
+        # near-duplicate and cross-script identities into canonical entities
+        # with stable ids and surfaces sub-merge look-alikes as SAME_AS
+        # candidate links for the analyst.
+        resolver_active = ER_ENABLED and _resolve_entities is not None
+        merged = merge(all_entities, fuzzy=not resolver_active)
+        same_as_links: List[Dict[str, Any]] = []
+        if resolver_active:
+            try:
+                resolution = _resolve_entities(merged, store=_entity_store)
+                merged = [ce.to_entity() for ce in resolution.entities]
+                same_as_links = [link.to_dict() for link in resolution.same_as]
+            except Exception as e:  # noqa: BLE001
+                log.debug("entity resolution failed, using merge() output: %s", e)
 
         # ----- LLM analysis (also bounded — never let a slow LLM block the run) -----
         # The request_timeout is threaded into the underlying HTTP calls so the
@@ -494,6 +523,10 @@ class Orchestrator:
             "analysis": analysis,
             "case_id": case_id,
             "enrichment": enrichment,
+            "entity_resolution": {
+                "canonical_count": len(merged),
+                "same_as": same_as_links,
+            },
         }
 
     # ----------------------------------------------------------- internals

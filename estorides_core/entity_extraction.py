@@ -334,7 +334,7 @@ def extract_structured(payload: Any, source: str) -> List[Entity]:
     return out
 
 
-def merge(*entity_lists: Iterable[Entity]) -> List[Entity]:
+def merge(*entity_lists: Iterable[Entity], fuzzy: bool = True) -> List[Entity]:
     """Deduplicate by (type, value) and merge sources / contexts.
 
     Two entities with the same (type, value) collapse into a single
@@ -355,6 +355,13 @@ def merge(*entity_lists: Iterable[Entity]) -> List[Entity]:
     `FUZZY_THRESHOLD` ratio collapses into a single record.
     Returns the deduped list, with cluster groups available via
     `fuzzy_clusters` if the caller wants them.
+
+    v1.4: pass ``fuzzy=False`` to do exact-key dedup only. The
+    orchestrator does this when the canonical identity layer
+    (`entity_resolution`) is active, so the resolver owns every fuzzy
+    decision instead of inheriting a coarser difflib pre-merge that would,
+    for example, silently fuse two distinct domain registrations the
+    resolver intends to keep separate and merely *link*.
     """
     by_key: Dict[Tuple[str, str], Entity] = {}
     for lst in entity_lists:
@@ -405,12 +412,13 @@ def merge(*entity_lists: Iterable[Entity]) -> List[Entity]:
     # `EvilCorp.com` vs `evil-corp.com` (ratio ~ 0.92) but not
     # `evilcorp.com` vs `apple.com` (ratio ~ 0.42).
     out: List[Entity] = list(by_key.values())
-    try:
-        out = _fuzzy_cluster(out)
-    except Exception:  # noqa: BLE001
-        # Fuzzy pass is best-effort; an exact-key dedup is still
-        # a valid result.
-        pass
+    if fuzzy:
+        try:
+            out = _fuzzy_cluster(out)
+        except Exception:  # noqa: BLE001
+            # Fuzzy pass is best-effort; an exact-key dedup is still
+            # a valid result.
+            pass
     return out
 
 
