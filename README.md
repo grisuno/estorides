@@ -142,6 +142,59 @@ touching the central orchestrator. The five plug-in surfaces are:
 | `GET /api/osiris/cisa-kev?limit=10&days=30`    | CISA Known Exploited Vulnerabilities, recent window. |
 | `GET /api/osiris/malware?limit=200`            | Feodo Tracker + URLhaus active C2, geolocated. |
 
+## Fusion datastore — the cross-run fused fact base
+
+The case store keeps a *per-run silo*: each investigation writes its own
+copy of what it saw, keyed by `case_id`. The same entity seen across fifty
+runs becomes fifty rows, and the relational store cannot answer "everything
+we know about X, from every source, across every case".
+
+The **fusion datastore** (`estorides_core/fusion_store.py`) is the
+data-fusion layer that closes that gap — the relational analogue of the
+Kùzu graph. Every run feeds it, and it accumulates a normalised,
+deduplicated, **source-attributed** fact base across runs:
+
+- **Deterministic identity** — every entity gets `sha1(type:normalized)` as
+  its id, so the same real-world entity computed in two different runs lands
+  on the same row with no coordination. The resolver's `canonical_id` is
+  recorded alongside but never the dedup key.
+- **Provenance survives the merge** — when N feeds corroborate an entity,
+  the record is merged but every contributing source is retained, so
+  `source_count` grounds confidence in how many independent feeds agree
+  (e.g. `1.1.1.1` corroborated by 20 sources).
+- **Property fusion with conflict preserved** — each source's flat facts are
+  attributed to the target entity. Agreement is surfaced
+  (`country=Australia` by 2 sources); disagreement is **kept with its
+  provenance** (`region=New South Wales` vs `region=Queensland`) instead of
+  silently picking one — exactly what an intelligence fusion store must do.
+- **Relationships fused** — analytic edges from the knowledge graph (skip
+  the `observed_by`/`co_occurs` plumbing) accumulate cross-run, with both
+  endpoints always materialised so the graph is navigable from either side.
+
+It mirrors the rest of the persistence layer: WAL SQLite, one serialised
+connection, and **fail-soft** — without a writable data dir a run still
+returns, it just leaves nothing in the fused store. Toggle with
+`ESTORIDES_FUSION_ENABLED=0`; relocate with `ESTORIDES_FUSION_DB=/path`.
+
+### Fusion API + CLI
+
+| Endpoint                                              | Purpose |
+| ---------------------------------------------------- | ------- |
+| `GET /api/fusion/stats`                              | Size of the fused base: entities, multi-source count, observations, properties, relationships, by-type breakdown. |
+| `GET /api/fusion/sources`                            | YAML source catalogue with accumulated fetch/ok counters. |
+| `GET /api/fusion/entities?q=&type=&min_sources=2`    | Search fused entities. `min_sources=N` is the fusion-native "only what ≥N feeds corroborate" filter. |
+| `GET /api/fusion/entity/<id>?min_sources=2`          | Full fused view of one entity: provenance, properties, edges, and the corroborated (multi-source-agreed) properties. |
+
+The fused stats are also folded into `GET /api/intel/stats` under `fusion`.
+
+```bash
+python3 estorides_cli.py run 1.1.1.1            # fan out + fuse into the store
+python3 estorides_cli.py fusion stats           # how big is the fused base
+python3 estorides_cli.py fusion entities --min-sources 2   # only corroborated entities
+python3 estorides_cli.py fusion entity <id>     # full provenance + properties
+python3 estorides_cli.py fusion sources         # per-source fetch history
+```
+
 ### v1.1 install
 
 ```

@@ -28,7 +28,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
 from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
-                     GRAPH_PATH, SOURCES_DIR, contact_level, effective_proxies)
+                     FUSION_ENABLED, GRAPH_PATH, SOURCES_DIR, contact_level,
+                     effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -60,6 +61,23 @@ try:
 except Exception as _e:  # noqa: BLE001
     log.warning("intel resolver unavailable: %s", _e)
     intel_resolver = None  # type: ignore[assignment]
+
+# Fusion datastore. The cross-run, source-attributed, deduplicated fact base
+# that turns every per-case silo into one fused intelligence picture. Like
+# the rest of the persistence layer it fails soft: without it a run still
+# returns, it just leaves nothing behind in the fused store.
+try:
+    if FUSION_ENABLED:
+        from .fusion_store import entity_id as _fusion_entity_id
+        from .fusion_store import open_store as _open_fusion_store
+        _fusion_store = _open_fusion_store()
+    else:
+        _fusion_store = None
+        _fusion_entity_id = None  # type: ignore[assignment]
+except Exception as _e:  # noqa: BLE001
+    log.warning("fusion store unavailable: %s", _e)
+    _fusion_store = None  # type: ignore[assignment]
+    _fusion_entity_id = None  # type: ignore[assignment]
 
 # Canonical identity layer. The resolver fuses near-duplicate and
 # cross-script entities into stable canonical ids; the optional store
@@ -116,6 +134,14 @@ class Orchestrator:
         self.registry.load()
         self.llm = LLMManager()
         self.kg = KnowledgeGraph()
+        # Mirror the YAML source catalogue into the fusion store once at
+        # startup so its source table tracks the same feeds the engine fans
+        # out to, with the per-source fetch counters accumulating from here.
+        if _fusion_store is not None:
+            try:
+                _fusion_store.register_sources(list(self.registry.all()))
+            except Exception as e:  # noqa: BLE001
+                log.debug("fusion source registration failed: %s", e)
 
     # -------------------------------------------------------------- single
     async def run(
@@ -466,6 +492,44 @@ class Orchestrator:
                 )
             except Exception as e:  # noqa: BLE001
                 log.debug("case finalise failed: %s", e)
+
+        # ----- fuse everything into the cross-run fusion datastore -----
+        # The data-fusion layer. Every observation, every canonical entity
+        # (with the sources that corroborate it), the flat properties each
+        # source asserted about the target, and the inferred relationships all
+        # accumulate here deduplicated across runs, so the relational store can
+        # answer "everything we know about X, from every source, every case".
+        # Best-effort and isolated: a fusion failure never breaks the run it
+        # is recording.
+        if _fusion_store is not None:
+            try:
+                for obs in observations:
+                    _fusion_store.add_observation(
+                        obs, query=query, query_type=query_type, case_id=case_id
+                    )
+                _fusion_store.fuse_entities(
+                    [e.to_dict() for e in merged], case_id=case_id
+                )
+                # Properties: attribute every source's flat parsed facts to the
+                # canonical target entity, so "source A says country=US, source
+                # B says org=Google" fuses with provenance onto one record.
+                if _fusion_entity_id is not None and query_type not in ("keyword", "empty"):
+                    target_id = _fusion_entity_id(query_type, query)
+                    _fusion_store.fuse_entity(
+                        {
+                            "type": query_type, "value": query, "confidence": 1.0,
+                            "sources": [o["source"] for o in observations if o.get("parsed")],
+                        },
+                        case_id=case_id,
+                    )
+                    for obs in observations:
+                        if obs.get("parsed") is not None:
+                            _fusion_store.fuse_properties(
+                                target_id, obs["parsed"], obs.get("source", "")
+                            )
+                _fusion_store.fuse_graph(self.kg)
+            except Exception as e:  # noqa: BLE001
+                log.debug("fusion store write failed: %s", e)
 
         # ----- cross-feed enrichment (best-effort, post-LLM) -----
         # Resolve the top entities through the intel resolver to wire

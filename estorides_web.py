@@ -383,6 +383,11 @@ def create_app() -> Flask:
         from estorides_core.intel_resolver import resolver as intel_resolver
     except Exception:  # noqa: BLE001
         intel_resolver = None  # type: ignore[assignment]
+    try:
+        from estorides_core.fusion_store import open_store as _open_fusion_store
+        fusion_store = _open_fusion_store()
+    except Exception:  # noqa: BLE001
+        fusion_store = None  # type: ignore[assignment]
 
     @app.route("/api/cases", methods=["GET"])
     @_rate_limit_decorator(event="api_cases")
@@ -554,7 +559,65 @@ def create_app() -> Flask:
             out["kuzu"] = kuzu_backend.stats()
         if intel_resolver is not None:
             out["resolver_cache"] = intel_resolver.cache.stats()
+        if fusion_store is not None:
+            out["fusion"] = fusion_store.stats()
         return jsonify(out)
+
+    # ----- fusion datastore (cross-run fused fact base) -----
+    @app.route("/api/fusion/stats", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_stats")
+    def api_fusion_stats() -> Any:
+        """One-glance dashboard of the fused, cross-run fact base."""
+        if fusion_store is None:
+            return jsonify({"error": "fusion store unavailable"}), 503
+        return jsonify(fusion_store.stats())
+
+    @app.route("/api/fusion/sources", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_sources")
+    def api_fusion_sources() -> Any:
+        """The YAML source catalogue with accumulated fetch/ok counters."""
+        if fusion_store is None:
+            return jsonify({"error": "fusion store unavailable"}), 503
+        limit = min(max(int(request.args.get("limit", 200)), 1), 500)
+        return jsonify({"sources": fusion_store.list_sources(limit=limit)})
+
+    @app.route("/api/fusion/entities", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_entities")
+    def api_fusion_entities() -> Any:
+        """Search fused entities.
+
+        Example: GET /api/fusion/entities?q=google&type=domain&min_sources=2
+        ``min_sources`` is the fusion-native filter: only entities that at
+        least N distinct feeds corroborate.
+        """
+        if fusion_store is None:
+            return jsonify({"error": "fusion store unavailable"}), 503
+        term = request.args.get("q", "").strip()
+        etype = request.args.get("type", "").strip()
+        min_sources = max(int(request.args.get("min_sources", 0) or 0), 0)
+        limit = min(max(int(request.args.get("limit", 50)), 1), 200)
+        return jsonify({
+            "entities": fusion_store.search_entities(
+                term, etype, min_sources=min_sources, limit=limit
+            ),
+        })
+
+    @app.route("/api/fusion/entity/<eid>", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_entity")
+    def api_fusion_entity(eid: str) -> Any:
+        """Full fused view of one entity: provenance, properties, edges.
+
+        ``min_sources`` (default 2) also returns the corroborated properties:
+        attributes that independent feeds agree on.
+        """
+        if fusion_store is None:
+            return jsonify({"error": "fusion store unavailable"}), 503
+        entity = fusion_store.get_entity(eid)
+        if entity is None:
+            return jsonify({"error": "not found"}), 404
+        min_sources = max(int(request.args.get("min_sources", 2) or 2), 1)
+        entity["corroborated"] = fusion_store.corroborated_properties(eid, min_sources)
+        return jsonify(entity)
 
     # ----- Maltego-style transforms -----
     try:

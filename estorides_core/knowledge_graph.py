@@ -144,6 +144,20 @@ class KnowledgeGraph:
                          **attrs: Any) -> None:
         a = self._node_id(src_type, src_value)
         b = self._node_id(dst_type, dst_value)
+        # Ensure both endpoints carry type/value/kind. Inferred relations
+        # routinely point at nodes (country, port, classification…) that no
+        # entity-extraction pass produced, so without this they would be
+        # created implicitly by add_edge as bare, untyped nodes — invisible to
+        # the graph view's colouring and dropped by the fusion store's
+        # type-keyed mirror. Set attributes idempotently so an existing
+        # entity node keeps its richer metadata.
+        for node_id, ntype, nvalue in ((a, src_type, src_value), (b, dst_type, dst_value)):
+            if node_id not in self.graph or "type" not in self.graph.nodes[node_id]:
+                self.graph.add_node(
+                    node_id, id=node_id, type=ntype, value=nvalue,
+                    kind=NODE_KIND.get(ntype, ntype),
+                    color=self._node_color(ntype),
+                )
         self.graph.add_edge(a, b, relation=rel, **attrs)
 
     # ----------------------------------------------------------------- io

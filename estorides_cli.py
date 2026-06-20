@@ -442,6 +442,47 @@ def cmd_status(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_fusion(args: argparse.Namespace) -> int:
+    """Query the cross-run fusion datastore.
+
+    Subactions:
+      stats              size of the fused fact base
+      sources            YAML catalogue with fetch/ok counters
+      entities [TERM]    search fused entities (``--type``, ``--min-sources``)
+      entity ID          full fused view of one entity (provenance + props)
+    """
+    from estorides_core.fusion_store import open_store
+    store = open_store()
+    if store is None:
+        print(json.dumps({"error": "fusion store unavailable"}))
+        return 1
+    action = args.action
+    if action == "stats":
+        out: Any = store.stats()
+    elif action == "sources":
+        out = store.list_sources(limit=args.limit)
+    elif action == "entities":
+        out = store.search_entities(
+            args.term or "", args.type or "",
+            min_sources=args.min_sources, limit=args.limit,
+        )
+    elif action == "entity":
+        if not args.term:
+            print(json.dumps({"error": "entity id required"}))
+            return 2
+        entity = store.get_entity(args.term)
+        if entity is None:
+            print(json.dumps({"error": "not found"}))
+            return 3
+        entity["corroborated"] = store.corroborated_properties(args.term, args.min_sources or 2)
+        out = entity
+    else:
+        print(json.dumps({"error": f"unknown action: {action}"}))
+        return 2
+    print(json.dumps(out, indent=2, default=str))
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     # Bootstrap sys.path so `python3 estorides_cli.py serve` works without
     # requiring the user to set PYTHONPATH.
@@ -540,6 +581,17 @@ def build_parser() -> argparse.ArgumentParser:
     d.set_defaults(func=cmd_diff)
 
     sub.add_parser("status", help="list sources and categories").set_defaults(func=cmd_status)
+
+    fu = sub.add_parser("fusion", help="query the cross-run fusion datastore")
+    fu.add_argument("action", choices=["stats", "sources", "entities", "entity"],
+                    help="stats | sources | entities [TERM] | entity ID")
+    fu.add_argument("term", nargs="?", default="",
+                    help="search term (entities) or entity id (entity)")
+    fu.add_argument("--type", default="", help="filter entities by type")
+    fu.add_argument("--min-sources", type=int, default=0,
+                    help="only entities corroborated by >= N feeds")
+    fu.add_argument("--limit", type=int, default=50, help="max rows (default 50)")
+    fu.set_defaults(func=cmd_fusion)
 
     sv = sub.add_parser("serve", help="run the web UI (dev server; use gunicorn for prod)")
     sv.add_argument("--host", default=FLASK_HOST)

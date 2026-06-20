@@ -81,6 +81,14 @@ MISP_EVENT_PATH: Path = DATA_DIR / "estorides_misp_event.json"
 ENTITY_STORE_PATH: Path = Path(
     os.environ.get("ESTORIDES_ENTITY_DB", str(DATA_DIR / "estorides_entities.sqlite"))
 )
+# Fusion datastore — the cross-run, source-attributed, deduplicated fact
+# store that turns every per-case silo into one fused intelligence picture.
+# All observations, canonical entities, their fused properties and the
+# relationships between them accumulate here across every investigation.
+FUSION_DB_PATH: Path = Path(
+    os.environ.get("ESTORIDES_FUSION_DB", str(DATA_DIR / "estorides_fusion.sqlite"))
+)
+FUSION_ENABLED: bool = _env_bool("ESTORIDES_FUSION_ENABLED", True)
 
 # -----------------------------------------------------------------------------
 # Entity resolution — canonical identity layer
