@@ -13,7 +13,8 @@
 - E — Engine (the central engine that orchestrates queries).
 - S — Scraper (automated and persistent collection).
 
-Open-source intelligence (OSINT) aggregator and correlation engine
+From the creators of LazyOwn Redteam Framework comes a free and open-source 
+intelligence (OSINT) aggregator and correlation engine
 inspired by Palantir, Bellingcat, Maltego, and Citizen Lab workflows.
 A pure open-source re-imagining of the original `fucklantir` /
 `osint_palantir` toolchain, with a much bigger source catalogue, a
