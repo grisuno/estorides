@@ -39,7 +39,10 @@ tor = ["aiohttp_socks>=0.8"]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
-    "ruff>=0.1",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "bandit>=1.7",
+    "hypothesis>=6.100",
 ]
 all = ["estorides[kuzu,tor,dev]"]
 
@@ -73,3 +76,16 @@ target-version = "py310"
 # follow the stricter subset.
 select = ["E", "F", "W", "I", "B", "UP", "S", "RUF"]
 ignore = ["E501", "B008", "RUF012"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests use ``assert`` as the contract primitive — that's the whole point.
+# S101 (assert) and S105/S106 (hardcoded passwords / fake secrets) are
+# expected inside pytest; bandit runs separately over the production code.
+"tests/**/*.py" = ["S101", "S105", "S106"]
+"tests/properties/**/*.py" = ["S101", "S105", "S106"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = true
+warn_return_any = true

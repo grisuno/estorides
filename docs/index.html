@@ -3,92 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template Page</title>
-    <!-- Bootstrap CSS -->
+    <title>Estorides — Home</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom CSS */
-        body {
-            padding-top: 56px;
-        }
-        .footer {
-            background-color: #f8f9fa;
-            padding: 20px 0;
-            text-align: center;
-        }
+        body { padding-top: 70px; background:#0d1117; color:#c9d1d9; }
+        .navbar { background:#161b22 !important; border-bottom:1px solid #30363d; }
+        .navbar-brand, .nav-link { color:#c9d1d9 !important; }
+        .card { background:#161b22; border:1px solid #30363d; }
+        .card-header { background:#21262d; border-bottom:1px solid #30363d; color:#f0f6fc; font-weight:600; }
+        .badge-milestone { background:#238636; color:#fff; }
+        .badge-spec { background:#1f6feb; color:#fff; }
+        .badge-test { background:#d29922; color:#fff; }
+        .badge-property { background:#8957e5; color:#fff; }
+        a { color:#58a6ff; }
+        pre { background:#0d1117; color:#c9d1d9; padding:12px; border-radius:6px; border:1px solid #30363d; }
+        .footer { background:#161b22; color:#8b949e; padding:24px 0; margin-top:48px; border-top:1px solid #30363d; }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">My Template</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Estorides</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMain">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#modules">Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#doctrine">Doctrine</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#quickstart">Quickstart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://github.com/grisuno/estorides">Repo</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="bg-primary text-white text-center py-5 mb-4">
-        <div class="container">
-            <h1 class="font-weight-light">Welcome to My Template Website</h1>
-        </div>
+    <header class="container text-center py-5">
+        <h1 class="display-4">Estorides</h1>
+        <p class="lead">OSINT platform · data → information → intelligence</p>
+        <p>99+ free public sources · async fanout · Kùzu graph · multi-LLM analyst</p>
     </header>
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <h2 class="my-4">Sidebar</h2>
-                <div class="list-group">
-                    <a href="#" class="list-group-item">Item 1</a>
-                    <a href="#" class="list-group-item">Item 2</a>
-                    <a href="#" class="list-group-item">Item 3</a>
+    <main class="container">
+        <!-- =========================================================== MODULES -->
+        <section id="modules" class="mb-5">
+            <h2 class="mb-4">Modules</h2>
+            <p class="text-muted">Each module follows the SDD + TDD + BDD cycle
+                declared in <code>CLAUDE.md</code>. Specs are contracts;
+                tests are the executable form of the contract.</p>
+
+            <!-- 2a: reliability_scoring -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2a · <code>reliability_scoring</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">45 tests</span>
+                        <span class="badge badge-property">9 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Single source of truth for entity <code>confidence</code>.
+                        NATO Admiralty source reliability (A-F) × information
+                        credibility (1-6) × corroboration × freshness decay.
+                        Replaces the <code>+0.1</code> heuristic in
+                        <code>entity_extraction.merge</code> and the
+                        <code>MAX()</code> SQL in <code>fusion_store</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/reliability_scoring.html">spec</a> ·
+                        <a href="../tests/test_reliability_scoring.html">tests</a> ·
+                        <a href="../tests/properties/test_reliability_scoring_properties.html">properties</a> ·
+                        <a href="../estorides_core/reliability_scoring.html">source</a>
+                    </p>
                 </div>
             </div>
-            <!-- /.col-lg-3 -->
-            <div class="col-lg-9">
-                <h2 class="my-4">Main Template Content</h2>
-                <p>This is a simple example Template page</p>
-                <article class="markdown-body entry-content container-lg" itemprop="text"><div class="markdown-heading" dir="auto"><h1 tabindex="-1" class="heading-element" dir="auto">template</h1><a id="user-content-template" class="anchor" aria-label="Permalink: template" href="#template"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
-                <p dir="auto">template for the  future proyects ;)</p>
-                <p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/0562f16a4ae7e35dae6087bf8b7805fb7e664a9e7e20ae6d163d94e56b94f32d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3336373041303f7374796c653d666f722d7468652d6261646765266c6f676f3d707974686f6e266c6f676f436f6c6f723d666664643534"><img src="https://camo.githubusercontent.com/0562f16a4ae7e35dae6087bf8b7805fb7e664a9e7e20ae6d163d94e56b94f32d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3336373041303f7374796c653d666f722d7468652d6261646765266c6f676f3d707974686f6e266c6f676f436f6c6f723d666664643534" alt="Python" data-canonical-src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&amp;logo=python&amp;logoColor=ffdd54" style="max-width: 100%;"></a> <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/814a8cc2dad24b3fbc5a7d203cad5cf605d6f2299c02468ebd4b556e1a538c20/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7368656c6c5f7363726970742d2532333132313031312e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d676e752d62617368266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/814a8cc2dad24b3fbc5a7d203cad5cf605d6f2299c02468ebd4b556e1a538c20/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7368656c6c5f7363726970742d2532333132313031312e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d676e752d62617368266c6f676f436f6c6f723d7768697465" alt="Shell Script" data-canonical-src="https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&amp;logo=gnu-bash&amp;logoColor=white" style="max-width: 100%;"></a> <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/9ed458fea6ba5324c019bbc32f837fbceaca74f3862454a77d7e94150b97fc48/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f666c61736b2d2532333030302e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d666c61736b266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/9ed458fea6ba5324c019bbc32f837fbceaca74f3862454a77d7e94150b97fc48/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f666c61736b2d2532333030302e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d666c61736b266c6f676f436f6c6f723d7768697465" alt="Flask" data-canonical-src="https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&amp;logo=flask&amp;logoColor=white" style="max-width: 100%;"></a> <a href="https://www.gnu.org/licenses/gpl-3.0" rel="nofollow"><img src="https://camo.githubusercontent.com/6be00b1b55f8b9b6f6d85fa810b501a37e0d48bf99e98bb4381e92caeff02619/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d47504c76332d626c75652e737667" alt="License: GPL v3" data-canonical-src="https://img.shields.io/badge/License-GPLv3-blue.svg" style="max-width: 100%;"></a></p>
-                <p dir="auto"><a href="https://ko-fi.com/Y8Y2Z73AV" rel="nofollow"><img src="https://camo.githubusercontent.com/ce32b4940b9ebf361cfd346ba0582815846406854cd2f701c11a85cb21eaa939/68747470733a2f2f6b6f2d66692e636f6d2f696d672f676974687562627574746f6e5f736d2e737667" alt="ko-fi" data-canonical-src="https://ko-fi.com/img/githubbutton_sm.svg" style="max-width: 100%;"></a></p>
-                </article>
-            </div>
-            <!-- /.col-lg-9 -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container -->
 
-    <!-- Footer -->
-    <footer class="footer">
+            <!-- 2b: hypothesis_engine -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2b · <code>hypothesis_engine</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">26 tests</span>
+                        <span class="badge badge-property">9 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        The "data → information" layer. 4 typed generators:
+                        <code>domain-belongsto-actor</code>,
+                        <code>email-aliasto-person</code>,
+                        <code>ip-shared-infra</code>,
+                        <code>asn-shared-infra</code>. Each hypothesis
+                        carries its full evidence trail (source, field, value,
+                        reliability-weighted weight) and a deterministic
+                        sha1 id for cross-run dedup.
+                    </p>
+                    <p>
+                        <a href="../spec/hypothesis_engine.html">spec</a> ·
+                        <a href="../tests/test_hypothesis_engine.html">tests</a> ·
+                        <a href="../tests/properties/test_hypothesis_engine_properties.html">properties</a> ·
+                        <a href="../estorides_core/hypothesis_engine.html">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Placeholders for the rest of the sprint -->
+            <div class="card mb-3 border-secondary">
+                <div class="card-header text-muted">
+                    2c · <code>change_detection</code>
+                    <span class="badge badge-secondary ml-2">pending</span>
+                </div>
+            </div>
+            <div class="card mb-3 border-secondary">
+                <div class="card-header text-muted">
+                    2c · <code>change_detection</code>
+                    <span class="badge badge-secondary ml-2">pending</span>
+                </div>
+            </div>
+            <div class="card mb-3 border-secondary">
+                <div class="card-header text-muted">
+                    2d · <code>pattern_of_life</code>
+                    <span class="badge badge-secondary ml-2">pending</span>
+                </div>
+            </div>
+            <div class="card mb-3 border-secondary">
+                <div class="card-header text-muted">
+                    2e · <code>anomaly_scoring</code>
+                    <span class="badge badge-secondary ml-2">pending</span>
+                </div>
+            </div>
+            <div class="card mb-3 border-secondary">
+                <div class="card-header text-muted">
+                    2f · <code>cross_case_correlation</code>
+                    <span class="badge badge-secondary ml-2">pending</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================== DOCTRINE -->
+        <section id="doctrine" class="mb-5">
+            <h2 class="mb-4">Doctrine (inviolable)</h2>
+            <p>The development cycle is non-negotiable:</p>
+            <ol>
+                <li><b>Spec</b> — <code>spec/&lt;modulo&gt;.md</code> with
+                    Given-When-Then BDD scenarios.</li>
+                <li><b>Test (red)</b> — <code>tests/test_&lt;modulo&gt;.py</code>
+                    must fail.</li>
+                <li><b>Code (green)</b> — minimum to pass.</li>
+                <li><b>Refactor</b> — boy-scout: dedupe, harden, simplify.
+                    Out-of-scope fixes are still in-scope.</li>
+                <li><b>Validation</b> — <code>pytest</code> + <code>ruff</code>
+                    + <code>mypy --strict</code> + <code>bandit</code>.</li>
+                <li><b>Fuzzing</b> — <code>hypothesis</code> property-based,
+                    &ge; 1000 examples/invariant.</li>
+                <li><b>Documentation</b> — update spec, CLAUDE.md, README,
+                    this home page. <i>After</i> validation.</li>
+            </ol>
+            <p>Read the full doctrine in
+               <a href="../CLAUDE.html">CLAUDE.md</a>.</p>
+        </section>
+
+        <!-- =========================================================== QUICKSTART -->
+        <section id="quickstart" class="mb-5">
+            <h2 class="mb-4">Quickstart</h2>
+            <pre><code>source .venv/bin/activate
+pip install -e '.[dev]'
+pytest tests/ -v
+ruff check estorides_core/ tests/
+mypy --strict estorides_core/
+bandit -r estorides_core/
+estorides run example.com</code></pre>
+        </section>
+    </main>
+
+    <footer class="footer text-center">
         <div class="container">
-            <p class="m-0 text-center text-black">Copyright &copy; My Template 2024</p>
+            <p class="mb-1">Estorides — state-level OSINT engine. GPLv3.</p>
+            <p class="mb-0"><small>99+ sources · 12 intelligence categories ·
+            async fanout · persistent graph · multi-LLM analyst</small></p>
         </div>
     </footer>
-
-    <!-- Bootstrap and jQuery JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

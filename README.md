@@ -96,6 +96,28 @@ touching the central orchestrator. The five plug-in surfaces are:
 | Read-only Cypher endpoint               | none       | **`/api/intel/graph?q=...`** with write-keyword guard |
 | Case history UI                         | none       | **Cases tab** + full-entity inspector |
 
+## What the data→information pipeline adds (v1.4)
+
+The original engine was a **data** collector: a fan-out, parsers, a graph, an
+LLM that summarises. The v1.4 sprint introduces the **information** layer:
+every observation now carries a *grounded* confidence score; the orchestrator
+and downstream consumers (hypothesis engine, change detection, LLM analyst)
+stop using their own ad-hoc heuristics and use this single source of truth.
+
+| Module | Spec | Status | What it does |
+| --- | --- | --- | --- |
+| `reliability_scoring` (2a) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-06-27 | NATO Admiralty (reliability A-F × credibility 1-6) × corroboration × freshness decay. Replaces `+0.1` heuristic and `MAX()` SQL. 45 BDD tests + 9 hypothesis properties. |
+| `hypothesis_engine` (2b) | [`spec/hypothesis_engine.md`](spec/hypothesis_engine.md) | closed 2026-06-27 | Capa "data → information". 4 generadores tipados (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas (sha1), audit trail con evidence items. 26 BDD tests + 9 hypothesis properties. |
+| `change_detection` (2c) | spec pending | pending | Diff between runs, deltas con peso por reliability. |
+| `pattern_of_life` (2d) | spec pending | pending | Temporal clustering, "anomalía" detection. |
+| `anomaly_scoring` (2e) | spec pending | pending | Outlier geolocation, ASN, temporal, technology. |
+| `cross_case_correlation` (2f) | spec pending | pending | Shared-infra entre casos via fusion store. |
+
+The full development doctrine (SDD + TDD + BDD + boy-scout + visual review
++ fuzzing) lives in [`CLAUDE.md`](CLAUDE.md). Every module follows the
+same cycle: spec → red test → green code → refactor → validate → fuzz →
+document.
+
 ### v1.1 architecture
 
 ```
