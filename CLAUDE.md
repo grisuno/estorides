@@ -47,8 +47,12 @@ Para cada módulo nuevo, **en este orden**:
 
 2. **Test (rojo)** — `tests/test_<modulo>.py` con `pytest`. Debe fallar al
    ejecutarlo contra la implementación inexistente. Sin esto no hay paso 3.
-   **ATDD**: el test de aceptación está en el spec y se traduce a un test
-   ejecutable en este paso.
+   **ATDD explícito**: el test de aceptación se redacta como escenario
+   *Given-When-Then* en `spec/<modulo>.md` (sección "Escenarios BDD") y se
+   traduce a un test ejecutable en este paso. El test debe poder leerse
+   como una frase del spec, sin pegarse a la implementación. Cubrir mínimo
+   4 escenarios: happy path, edge, error, seguridad. Los escenarios son
+   **contratos** y cambian solo con acuerdo explícito.
 
 3. **Code (verde)** — Mínimo código que haga pasar los tests. **Una sola
    preocupación por módulo**. Si el código necesita tocar otra capa, se abre
@@ -59,10 +63,15 @@ Para cada módulo nuevo, **en este orden**:
    ve una falla de seguridad, se arregla. Si se puede hacer en 10 líneas lo
    que se hacía en 40, se hace. La extinción de deuda técnica y
    vulnerabilidades **nunca está fuera de scope** mientras se respeta SOLID,
-   DRY y no se pierde funcionalidad.
+   DRY y no se pierde funcionalidad. La regla de reducción de líneas aplica
+   también al código de tests: un helper de 4 líneas que se usa en 5 tests
+   vale más que 5 copias de 8 líneas. **No se introduce código inseguro**:
+   un refactor que cierra una vulnerabilidad es un refactor válido aunque
+   toque código fuera del módulo que se está cerrando.
 
 5. **Validación** — Antes de declarar el módulo "hecho":
    - `pytest tests/test_<modulo>.py -v` → todos verdes.
+   - `pytest tests/properties/test_<modulo>_properties.py -v` → verdes.
    - `ruff check estorides_core/<modulo>.py tests/test_<modulo>.py` → limpio.
    - `mypy --strict estorides_core/<modulo>.py` → sin errores.
    - `bandit -r estorides_core/<modulo>.py` → sin `High` ni `Medium`.
@@ -71,6 +80,19 @@ Para cada módulo nuevo, **en este orden**:
      o `firefox --print-to-pdf=...`, `mutool draw -r 96 -o frame.png frame.pdf`,
      `Read frame.png`. El path completo está en `spec/visual_review.md`.
    - Si el módulo toca red o parseo de contenido remoto: ver paso 6.
+
+   **Validación visual (skill `/visual-review`)**: si el módulo renderiza
+   HTML/Jinja, la GUI necesita Wayland (no siempre disponible para un agente).
+   El render se inspecciona **headless** exportando a PDF y rasterizando.
+   Pasos exactos:
+     a. Exporta a PDF: `./build/freedom --download-pdf=$SP/frame.pdf <URL-o-html>`
+        (`$SP` = el scratchpad de la sesión, NO `/tmp` ni el árbol del repo).
+     b. Rasteriza a PNG: `mutool draw -r 96 -o $SP/frame.png $SP/frame.pdf 1`
+        (o `-o $SP/frame-%d.png` sin número para todas las páginas).
+     c. Lee con `Read $SP/frame.png` (fallback: `Read` del PDF con `pages`).
+     d. Verifica: ¿texto legible? ¿posicionamiento correcto (no
+        superpuesto)? ¿colores/temas aplicados? ¿artefactos?
+     e. Compara con screenshot de referencia si existe.
 
 6. **Fuzzing** — Si el módulo procesa input no confiable (HTTP, JSON remoto,
    archivos subidos, queries), se fuzzea con `hypothesis` (property-based) o
@@ -96,6 +118,18 @@ Para cada módulo nuevo, **en este orden**:
 > ejecuta código externo, descarga binarios, ni hace `eval`/`exec`/`os.system`
 > sobre datos que no sean del operador**. La SSRF guard (`ssrf_guard.py`)
 > y `validation.py` son las paredes; no se relajan.
+>
+> **Equivalencias C → Python** (para auditoría cruzada con código foráneo
+> que cita el ciclo original):
+> | C (libre/BSD) | Estorides (Python) | Rol |
+> | --- | --- | --- |
+> | CMocka / Unity | `pytest` | ATDD + TDD + BDD |
+> | libFuzzer / AFL++ | `hypothesis` (property-based) | Fuzzing |
+> | cppcheck | `ruff` | Linter |
+> | ASan / UBSan | `mypy --strict` | Type-checker (UBSan análogo) |
+> | valgrind | `mypy --strict` + `bandit` | Memory + leak (refcount+GIL + scan) |
+> | `io_uring` | `asyncio` | I/O asíncrono del lado confiable |
+> | `make asan` | `pytest -q` | Build + tests |
 
 ---
 
@@ -169,3 +203,4 @@ escribir algo durante la sesión: `.scratchpad/`.
 | --- | --- | --- | --- | --- |
 | 2026-06-27 | `reliability_scoring` (item 2a) | `spec/reliability_scoring.md` | `tests/test_reliability_scoring.py` | Bootstrap del ciclo SDD+TDD+BDD. Fuente única de verdad para `confidence` en `entity_extraction.merge`, `fusion_store.fuse_entity`, `entity_resolution.resolve_entities`, `intel_resolver.resolve`. |
 | 2026-06-27 | `hypothesis_engine` (item 2b) | `spec/hypothesis_engine.md` | `tests/test_hypothesis_engine.py` | Capa "data → information". 4 generadores (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas, audit trail completo. Wire-up a `orchestrator.run()` en el PR siguiente. |
+| 2026-06-27 | `change_detection` (item 2c) | `spec/change_detection.md` | `tests/test_change_detection.py` | Capa "temporal": diff entre dos `Snapshot` del mismo target. 8 kinds tipados, score reliability-weighted, ids sha1, audit trail completo. Puro, sin I/O, acotado por `max_changes`. 30 BDD (S1-S15) + 8 properties (1000 ex. c/u, cumple doctrina §6). Refactor boy-scout extrajo `_make_change`, `_union_sources`, `_below_min_reliability` (8 builders → 1 helper). Source F (`untrusted_webscraper`) añadido al mapa 2a para habilitar S7. |

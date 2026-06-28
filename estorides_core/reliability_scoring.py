@@ -120,6 +120,7 @@ SOURCE_RELIABILITY_MAP: dict[str, SourceReliability] = {
     "psbdmp_ws": SourceReliability.D,
     "gists_github_search": SourceReliability.C,
     "duckduckgo_instant": SourceReliability.D,
+    "untrusted_webscraper": SourceReliability.F,
 }
 
 

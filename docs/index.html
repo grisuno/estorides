@@ -114,19 +114,40 @@
                 </div>
             </div>
 
+            <!-- 2c: change_detection -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2c · <code>change_detection</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">30 tests (S1-S15)</span>
+                        <span class="badge badge-property">8 properties · 1000 ex.</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Temporal layer: diff between two <code>Snapshot</code>
+                        views of the same investigation. Emits 8 typed
+                        <code>Change</code> kinds (new, disappeared,
+                        property_changed, source_added, source_removed,
+                        edge_added, edge_removed, confidence_shifted) with a
+                        reliability-weighted score, deterministic sha1 ids,
+                        and full audit trail (before / after / diff / sources
+                        / detected_at). Pure: no I/O, no logging of payload,
+                        bounded by <code>max_changes</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/change_detection.html">spec</a> ·
+                        <a href="../tests/test_change_detection.html">tests</a> ·
+                        <a href="../tests/properties/test_change_detection_properties.html">properties</a> ·
+                        <a href="../estorides_core/change_detection.html">source</a>
+                    </p>
+                </div>
+            </div>
+
             <!-- Placeholders for the rest of the sprint -->
-            <div class="card mb-3 border-secondary">
-                <div class="card-header text-muted">
-                    2c · <code>change_detection</code>
-                    <span class="badge badge-secondary ml-2">pending</span>
-                </div>
-            </div>
-            <div class="card mb-3 border-secondary">
-                <div class="card-header text-muted">
-                    2c · <code>change_detection</code>
-                    <span class="badge badge-secondary ml-2">pending</span>
-                </div>
-            </div>
             <div class="card mb-3 border-secondary">
                 <div class="card-header text-muted">
                     2d · <code>pattern_of_life</code>

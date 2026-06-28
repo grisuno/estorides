@@ -108,7 +108,7 @@ stop using their own ad-hoc heuristics and use this single source of truth.
 | --- | --- | --- | --- |
 | `reliability_scoring` (2a) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-06-27 | NATO Admiralty (reliability A-F × credibility 1-6) × corroboration × freshness decay. Replaces `+0.1` heuristic and `MAX()` SQL. 45 BDD tests + 9 hypothesis properties. |
 | `hypothesis_engine` (2b) | [`spec/hypothesis_engine.md`](spec/hypothesis_engine.md) | closed 2026-06-27 | Capa "data → information". 4 generadores tipados (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas (sha1), audit trail con evidence items. 26 BDD tests + 9 hypothesis properties. |
-| `change_detection` (2c) | spec pending | pending | Diff between runs, deltas con peso por reliability. |
+| `change_detection` (2c) | [`spec/change_detection.md`](spec/change_detection.md) | closed 2026-06-27 | Capa "temporal": diff entre dos `Snapshot` del mismo target. 8 kinds tipados (`new`/`disappeared`/`property_changed`/`source_added`/`source_removed`/`edge_added`/`edge_removed`/`confidence_shifted`), score reliability-weighted, ids deterministas (sha1), audit trail completo. Puro: sin I/O, sin logging del payload, acotado por `max_changes`. 30 BDD tests (S1-S15) + 8 hypothesis properties (1000 ejemplos c/u). |
 | `pattern_of_life` (2d) | spec pending | pending | Temporal clustering, "anomalía" detection. |
 | `anomaly_scoring` (2e) | spec pending | pending | Outlier geolocation, ASN, temporal, technology. |
 | `cross_case_correlation` (2f) | spec pending | pending | Shared-infra entre casos via fusion store. |
