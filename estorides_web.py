@@ -356,6 +356,7 @@ def create_app() -> Flask:
 
     @app.route("/api/export/<fmt>")
     @_rate_limit_decorator(event="api_export")
+    @require_auth
     def api_export(fmt: str) -> Any:
         import networkx as nx
         if not GRAPH_PATH.exists():
