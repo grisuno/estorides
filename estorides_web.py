@@ -258,9 +258,13 @@ def create_app() -> Flask:
                 timeout=timeout,
                 deadline=deadline,
             ))
-        except Exception as e:
+        except Exception:
+            # Issue #44: log the full exception server-side, return a
+            # generic message to the client. The previous `str(e)`
+            # leaked absolute file paths, Kuzu table/column names,
+            # and Cypher fragments.
             log.exception("run failed")
-            return jsonify({"error": str(e)}), 500
+            return jsonify({"error": "internal-error"}), 500
 
         # save graph to disk for later export
         orch.kg.export_graphml(GRAPH_PATH)
@@ -580,8 +584,12 @@ def create_app() -> Flask:
                 nid = _node_id(ent_type, ent_id)
                 neighbors = kuzu_backend.neighbors(nid, hops=WEB.intel_neighbor_hops)
                 out["persistent_neighbors"] = neighbors
-            except Exception as e:
-                out["persistent_neighbors_error"] = str(e)
+            except Exception:
+                # Issue #44: don't leak Kuzu column names / schema
+                # details to the client. Log server-side; return a
+                # generic flag.
+                log.exception("persistent_neighbors lookup failed")
+                out["persistent_neighbors_error"] = "lookup-failed"
         return jsonify(out)
 
     @app.route("/api/intel/graph", methods=["GET"])
@@ -617,8 +625,13 @@ def create_app() -> Flask:
                 }), 400
         try:
             rows = kuzu_backend.cypher(q)
-        except Exception as e:
-            return jsonify({"error": "cypher-failed", "detail": str(e)}), 400
+        except Exception:
+            # Issue #44: log the Kuzu error server-side, return a
+            # generic message. The old "detail" field carried table
+            # names, column names, and query fragments back to the
+            # client.
+            log.exception("cypher query failed")
+            return jsonify({"error": "cypher-failed"}), 400
         return jsonify({"rows": rows, "count": len(rows)})
 
     @app.route("/api/intel/stats", methods=["GET"])
