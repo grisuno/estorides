@@ -66,13 +66,14 @@ class WebSecurityConfig:
     csp_policy: str = (
         "default-src 'self'; "
         "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; "
-        # Issue #41: tighten style-src against CSS injection. The UI
-        # uses element-level `style="color:..."` template literals
-        # for per-entity colouring, which is *not* the same threat
-        # surface as a free-form `<style>` block. CSP3's `unsafe-hashes`
-        # closes the inline-style-block vector while leaving the
-        # `style="..."` attribute working — the right granularity
-        # for this UI.
+        # Issue #41 (csp_safe_styles follow-up): `style-src` is tight on
+        # purpose — the frontend must NOT emit `style="…"` attributes
+        # (those would be blocked). Per-cluster / per-kind colouring
+        # goes through the CSSOM (`el.style.background = cs`), which
+        # CSP does not restrict. Static style rules live in
+        # `static/css/estorides_ui.css` as named classes. The
+        # `'unsafe-hashes'` keyword is kept as defence-in-depth in case
+        # a future contributor reintroduces a single static style attr.
         "style-src 'self' 'unsafe-hashes' https://unpkg.com; "
         "img-src 'self' data: https:; "
         # Leaflet's source map is fetched from unpkg.com. Without this

@@ -147,22 +147,68 @@
                 </div>
             </div>
 
+            <!-- 2d: csp_safe_styles -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2d · <code>csp_safe_styles</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-06-29</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">22 tests (S1-S8)</span>
+                        <span class="badge badge-property">3 properties · 1000 ex.</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Fixes the regression from <code>45c3af5</code>: the
+                        tightened <code>style-src</code> CSP was blocking
+                        every <code>style="…"</code> attribute the frontend
+                        still emitted (11 static in the template, 4 in JS
+                        including 2 with <code>${}</code> interpolation).
+                        Migrated all static styles to the HTML5
+                        <code>hidden</code> attribute and to named CSS
+                        classes (<code>.stop-btn-sm</code>,
+                        <code>.meta-row-spaced</code>,
+                        <code>.empty-entities</code>,
+                        <code>.graph-top-title</code>,
+                        <code>.timeline-title</code>,
+                        <code>.timeline-meta</code>,
+                        <code>.kbd-actions</code>); dynamic per-cluster /
+                        per-kind colours go through the CSSOM
+                        (<code>el.style.background = cs</code>) which CSP
+                        does not restrict. The <code>style-src</code>
+                        policy is unchanged. Defence-in-depth:
+                        <code>[hidden] { display: none !important }</code>
+                        added because the <code>display: flex</code> rules
+                        on <code>.onboarding-overlay</code> and
+                        <code>.kbd-overlay</code> were beating the
+                        user-agent default.
+                    </p>
+                    <p>
+                        <a href="../spec/csp_safe_styles.html">spec</a> ·
+                        <a href="../tests/test_csp_safe_styles.html">tests</a> ·
+                        <a href="../tests/properties/test_csp_safe_styles_properties.html">properties</a>
+                    </p>
+                </div>
+            </div>
+
             <!-- Placeholders for the rest of the sprint -->
             <div class="card mb-3 border-secondary">
                 <div class="card-header text-muted">
-                    2d · <code>pattern_of_life</code>
+                    2e · <code>pattern_of_life</code>
                     <span class="badge badge-secondary ml-2">pending</span>
                 </div>
             </div>
             <div class="card mb-3 border-secondary">
                 <div class="card-header text-muted">
-                    2e · <code>anomaly_scoring</code>
+                    2f · <code>anomaly_scoring</code>
                     <span class="badge badge-secondary ml-2">pending</span>
                 </div>
             </div>
             <div class="card mb-3 border-secondary">
                 <div class="card-header text-muted">
-                    2f · <code>cross_case_correlation</code>
+                    2g · <code>cross_case_correlation</code>
                     <span class="badge badge-secondary ml-2">pending</span>
                 </div>
             </div>

@@ -783,11 +783,12 @@
     const el = $('#graph-tooltip');
     if (el) el.style.display = 'none';
   }
-  function showTooltipAt(ev, html) {
+  function showTooltipAt(ev, html, paint) {
     const el = $('#graph-tooltip');
     if (!el) return;
     const host = $('#graph-canvas').getBoundingClientRect();
     el.innerHTML = html;
+    if (typeof paint === 'function') paint(el);
     el.style.display = 'block';
     el.style.left = (ev.clientX - host.left + 12) + 'px';
     el.style.top = (ev.clientY - host.top + 12) + 'px';
@@ -807,13 +808,24 @@
     };
     showTooltipAt(ev, `
       <div class="tt-title">Cross-reference</div>
-      <div class="tt-row"><span class="tt-chip" style="background:${cs}">${escapeHTML(labelFor(s.cluster))}</span>
+      <div class="tt-row"><span class="tt-chip" data-cluster-color></span>
         <span class="tt-rel">${escapeHTML(d.relation || 'related')}</span>
-        <span class="tt-chip" style="background:${ct}">${escapeHTML(labelFor(t.cluster))}</span></div>
+        <span class="tt-chip" data-cluster-color></span></div>
       <div class="tt-row"><b>${escapeHTML(s.label || s.id)}</b> <small>${escapeHTML(s.type || '')}</small></div>
       <div class="tt-row"><b>${escapeHTML(t.label || t.id)}</b> <small>${escapeHTML(t.type || '')}</small></div>
       <div class="tt-foot">bridges ${escapeHTML(labelFor(s.cluster))} ↔ ${escapeHTML(labelFor(t.cluster))}</div>
-    `);
+    `, (root) => {
+      // CSP-safe: dynamic per-cluster colour goes through the CSSOM,
+      // not an inline `style="background:…"` attribute. `style-src`
+      // only governs attribute parsing, not property assignment.
+      const chips = root.querySelectorAll('.tt-chip');
+      if (chips[0]) chips[0].style.background = cs;
+      if (chips[1]) chips[1].style.background = ct;
+      // The labels were dropped to keep the template literal
+      // attribute-free; restore them now via textContent.
+      if (chips[0]) chips[0].textContent = labelFor(s.cluster);
+      if (chips[1]) chips[1].textContent = labelFor(t.cluster);
+    });
   }
 
   function showNodeTooltip(ev, d) {
@@ -1298,7 +1310,7 @@
       }
       list.appendChild(div);
     });
-    if (!filtered.length) list.innerHTML = '<div style="color:var(--text-2);padding:12px;text-align:center">no entities</div>';
+    if (!filtered.length) list.innerHTML = '<div class="empty-entities">no entities</div>';
   }
 
   function renderGraphSummary(g) {
@@ -1310,11 +1322,22 @@
       <span class="pill">density ${(s.density || 0).toFixed(4)}</span>
     `;
     const list = $('#graph-top');
-    list.innerHTML = '<h4 style="font-size:11px;color:var(--text-2);text-transform:uppercase;margin-bottom:6px">Top entities (degree)</h4>';
+    list.innerHTML = '<h4 class="graph-top-title">Top entities (degree)</h4>';
     (g.top_entities || []).slice(0, 30).forEach((e) => {
       const row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = `<span style="color:${colorForKind(e.kind)}">${escapeHTML(e.type || '')}</span><span class="v">${escapeHTML(e.value || '')}</span><span class="score">${(e.score || 0).toFixed(1)}</span>`;
+      // CSP-safe: dynamic per-kind colour via CSSOM (style.color =),
+      // not via an inline `style="…"` attribute that style-src would block.
+      const kindEl = document.createElement('span');
+      kindEl.style.color = colorForKind(e.kind);
+      kindEl.textContent = e.type || '';
+      const valEl = document.createElement('span');
+      valEl.className = 'v';
+      valEl.textContent = e.value || '';
+      const scoreEl = document.createElement('span');
+      scoreEl.className = 'score';
+      scoreEl.textContent = (e.score || 0).toFixed(1);
+      row.append(kindEl, valEl, scoreEl);
       list.appendChild(row);
     });
   }
@@ -1329,7 +1352,7 @@
 
   function renderTimeline(data) {
     const tl = $('#timeline');
-    tl.innerHTML = '<h3 style="color:var(--accent-2);margin-bottom:8px">Acquisition Timeline</h3>';
+    tl.innerHTML = '<h3 class="timeline-title">Acquisition Timeline</h3>';
     const obs = (data.observations || []).slice().sort((a, b) => {
       return (a.meta?.status || 0) - (b.meta?.status || 0);
     });
@@ -1339,8 +1362,8 @@
       const when = new Date(data.generated_at * 1000).toISOString();
       ev.innerHTML = `
         <div class="when">${when}</div>
-        <div class="what"><b>${o.source}</b> · <span style="color:var(--text-2)">${o.category}</span><br>
-          <small style="color:var(--text-2)">${escapeHTML(truncate(JSON.stringify(o.parsed || o.meta?.error || ''), 200))}</small>
+        <div class="what"><b>${o.source}</b> · <span class="timeline-meta">${o.category}</span><br>
+          <small class="timeline-meta">${escapeHTML(truncate(JSON.stringify(o.parsed || o.meta?.error || ''), 200))}</small>
         </div>
       `;
       tl.appendChild(ev);
