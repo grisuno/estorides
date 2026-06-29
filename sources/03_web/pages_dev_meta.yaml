@@ -3,6 +3,7 @@ enabled: true
 category: 03. Web Intelligence
 description: pages.dev — link preview / OpenGraph meta extraction
 os: any
+contact: active
 requires_key: false
 parser: opengraph
 entity_hints:

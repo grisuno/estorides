@@ -1,6 +1,14 @@
 /* Estorides UI enhancements — refined palette, empty states, progress,
    filters, cards, toasts, onboarding, responsive sidebar, and fixes. */
 
+/* csp_safe_styles (issue #41 follow-up): the HTML5 `hidden` attribute
+   must beat component-level `display: flex / grid / block` rules.
+   The user-agent default `[hidden] { display: none }` has the same
+   specificity as a single-class rule and loses to `display: flex`.
+   We force it back with !important, the standard escape hatch for
+   exactly this case. */
+[hidden] { display: none !important; }
+
 :root {
   --bg-0: #0b0f19;
   --bg-1: #111827;
@@ -54,6 +62,44 @@
   white-space: nowrap;
 }
 .query-chip.hidden { display: none; }
+
+/* csp_safe_styles (issue #41 follow-up): the inline `style="…"`
+   attributes were blocked by the locked-down style-src CSP. The
+   classes below replace each former inline style. */
+
+/* Stop button inside the discover progress chip. */
+.stop-btn-sm { padding: 0 6px; font-size: 10px; }
+
+/* Spacer between adjacent meta-rows in the sidebar. */
+.meta-row-spaced { margin-top: 14px; }
+
+/* Empty-state row for the entities tab ("no entities"). */
+.empty-entities {
+  color: var(--text-2);
+  padding: 12px;
+  text-align: center;
+}
+
+/* "Top entities (degree)" header above the graph-top list. */
+.graph-top-title {
+  font-size: 11px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* "Acquisition Timeline" header above the timeline list. */
+.timeline-title {
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+/* Subdued label inside timeline event rows. */
+.timeline-meta { color: var(--text-2); }
+
+/* Action row inside the keyboard-shortcuts help modal — extends the
+   existing `.onboarding-actions` flex layout with a top margin. */
+.kbd-actions { margin-top: 12px; }
 
 /* Progress bar for streaming runs. */
 .progress-wrap {

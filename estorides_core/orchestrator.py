@@ -441,26 +441,33 @@ class Orchestrator:
                 log.debug("entity resolution failed, using merge() output: %s", e)
 
         # ----- LLM analysis (also bounded — never let a slow LLM block the run) -----
-        # The request_timeout is threaded into the underlying HTTP calls so the
-        # worker thread actually returns; otherwise wait_for would abandon it and
-        # asyncio.run() would still block on the orphan at shutdown.
-        llm_budget = min(deadline, 10.0)
+        # The HTTP-layer timeout (`llm_call_timeout`) is shorter than the
+        # wait_for timeout so the worker thread returns first and the
+        # wait_for fires only as a backstop — the previous code passed
+        # the same value to both and produced a race where a slow but
+        # not-yet-timed-out LLM could be cancelled mid-stream. Issue #32.
+        llm_call_timeout = min(deadline, 5.0)
+        wait_for_timeout = llm_call_timeout + 3.0
         try:
             analysis = await asyncio.wait_for(
                 asyncio.to_thread(
                     self.llm.generate,
                     f"Produce an intelligence assessment of the target '{query}'.",
                     context=observations,
-                    request_timeout=llm_budget,
+                    request_timeout=llm_call_timeout,
                 ),
-                timeout=llm_budget + 2.0,
+                timeout=wait_for_timeout,
             )
         except asyncio.TimeoutError:
-            log.warning("LLM analysis exceeded timeout, returning stub")
+            log.warning("LLM analysis exceeded timeout (%.1fs)", wait_for_timeout)
             analysis = {
                 "backend": "stub", "model": "stub",
                 "content": "[LLM analysis skipped — exceeded timeout]",
                 "error": "llm_timeout",
+                "error_detail": (
+                    f"LLM call timed out at {wait_for_timeout:.1f}s "
+                    f"(HTTP timeout {llm_call_timeout:.1f}s)"
+                ),
             }
 
         # ----- export -----
