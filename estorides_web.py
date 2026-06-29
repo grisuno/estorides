@@ -215,15 +215,26 @@ def create_app() -> Flask:
         # Validate query through the central guard. A failure here
         # surfaces a 400 with the rejection reason — no orchestrator work.
         q = validate_query(str(body.get("query") or ""))
+        # Clamp the resource knobs the client can request. Without this
+        # an anonymous caller could pass `parallel=10000` to fan out
+        # 10k concurrent requests, or `deadline=3600` to keep a worker
+        # tied up for an hour. Issue #10.
+        try:
+            parallel = PIVOT.clamp_parallel(int(body.get("parallel", WEB.default_parallel)))
+            timeout = max(1.0, min(float(body.get("timeout", WEB.default_timeout_seconds)),
+                                   PIVOT.deadline_cap_seconds))
+            deadline = PIVOT.clamp_deadline(float(body.get("deadline", WEB.default_deadline_seconds)))
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid-numeric-parameter"}), 400
         t0 = time.monotonic()
         try:
             result = asyncio.run(orch.run(
                 q.normalised,
                 source_names=body.get("sources") or None,
                 include_paid=bool(body.get("include_paid", False)),
-                parallel=int(body.get("parallel", WEB.default_parallel)),
-                timeout=float(body.get("timeout", WEB.default_timeout_seconds)),
-                deadline=float(body.get("deadline", WEB.default_deadline_seconds)),
+                parallel=parallel,
+                timeout=timeout,
+                deadline=deadline,
             ))
         except Exception as e:
             log.exception("run failed")
