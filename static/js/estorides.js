@@ -5,6 +5,28 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+  // ---- auth: attach the bearer token to every /api/* call when present ----
+  // The token is rendered into <meta name="estorides-auth-token"> in index.html
+  // when ESTORIDES_AUTH_TOKEN is set in the operator's environment. When the
+  // meta tag is empty, this wrapper is a no-op (local-trust single-user mode).
+  (function installAuthFetch() {
+    const meta = document.querySelector('meta[name="estorides-auth-token"]');
+    const token = meta ? (meta.getAttribute('content') || '').trim() : '';
+    if (!token) return;
+    const origFetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      init = init || {};
+      init.headers = init.headers || {};
+      // Headers may be a Headers instance, an object, or absent.
+      const set = (k, v) => {
+        if (init.headers instanceof Headers) init.headers.set(k, v);
+        else init.headers[k] = v;
+      };
+      set('Authorization', 'Bearer ' + token);
+      return origFetch(input, init);
+    };
+  })();
+
   // ---- UX helpers (v1.4) ----
   function detectQueryTypeLocal(q) {
     q = String(q || '').trim();

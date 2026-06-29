@@ -15,25 +15,37 @@ import json
 import logging
 import os
 import time
+from collections.abc import Callable
 from functools import wraps
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any
 
 from flask import Flask, Response, jsonify, render_template, request, send_from_directory
 
 from estorides_core.audit import audit_log, rate_limiter
-from estorides_core.config import (DATASET_PATH, FLASK_DEBUG, FLASK_HOST,
-    FLASK_PORT, GRAPH_PATH, PIVOT, REPORTS_DIR, STATIC_DIR, STREAM,
-    TEMPLATES_DIR, WEB)
-from estorides_core.discoverer import (DISCOVER_JOBS,
-    list_jobs as list_discover_jobs, start_discover_threadsafe)
+from estorides_core.config import (
+    FLASK_HOST,
+    FLASK_PORT,
+    GRAPH_PATH,
+    PIVOT,
+    REPORTS_DIR,
+    STATIC_DIR,
+    STREAM,
+    TEMPLATES_DIR,
+    WEB,
+)
+from estorides_core.discoverer import DISCOVER_JOBS, start_discover_threadsafe
+from estorides_core.discoverer import list_jobs as list_discover_jobs
 from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.validation import QueryValidationError, validate_query
-from estorides_core.web_security import install_security
+from estorides_core.web_security import (
+    AUTH_META,
+    install_security,
+    require_auth,
+)
 from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
@@ -41,7 +53,7 @@ log = logging.getLogger("estorides.web")
 
 # Distinct, high-contrast hues for graph clusters. Indexed by community
 # id modulo its length so an arbitrary number of clusters still colours.
-_CLUSTER_PALETTE: Tuple[str, ...] = (
+_CLUSTER_PALETTE: tuple[str, ...] = (
     "#5B8FF9", "#5AD8A6", "#F6BD16", "#E8684A", "#6DC8EC",
     "#9270CA", "#FF9D4D", "#269A99", "#FF99C3", "#A0D911",
     "#FF6B6B", "#36CFC9", "#B37FEB", "#FFC53D", "#7CB305",
@@ -91,7 +103,7 @@ class _RunStreamJob:
     off the sink so there is one source of truth.
     """
 
-    def __init__(self, job_id: str, query: str, query_type: str, case_id: "str | None") -> None:
+    def __init__(self, job_id: str, query: str, query_type: str, case_id: str | None) -> None:
         self.job_id = job_id
         self.query = query
         self.query_type = query_type
@@ -115,7 +127,7 @@ class _RunStreamJob:
         return self.sink.done
 
 
-RUN_STREAM_JOBS: Dict[str, _RunStreamJob] = {}
+RUN_STREAM_JOBS: dict[str, _RunStreamJob] = {}
 
 
 def _new_stream_job_id() -> str:
@@ -154,7 +166,7 @@ def _rate_limit_decorator(*, event: str) -> Callable:
                 resp = jsonify({"error": "invalid-query", "reason": e.reason})
                 resp.status_code = 400
                 return resp
-            except Exception:  # noqa: BLE001
+            except Exception:
                 status = "error"
                 raise
             finally:
@@ -183,7 +195,13 @@ def create_app() -> Flask:
 
     @app.route("/")
     def index() -> Any:
-        return render_template("index.html")
+        # When the auth gate is enabled, embed the token as a meta tag so
+        # the browser-side UI can attach it as `Authorization: Bearer …`.
+        # When disabled, omit the meta tag (the UI then sends no header
+        # and `require_auth` short-circuits to pass-through).
+        gate = app.extensions.get("estorides_auth")
+        auth_token = gate.auth_meta_for_index() if gate is not None else None
+        return render_template("index.html", **{AUTH_META.replace("-", "_"): auth_token or ""})
 
     @app.route("/api/status")
     def api_status() -> Any:
@@ -206,7 +224,7 @@ def create_app() -> Flask:
                 timeout=float(body.get("timeout", WEB.default_timeout_seconds)),
                 deadline=float(body.get("deadline", WEB.default_deadline_seconds)),
             ))
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             log.exception("run failed")
             return jsonify({"error": str(e)}), 500
 
@@ -270,7 +288,7 @@ def create_app() -> Flask:
         edges = edges[:WEB.graph_render_edge_limit]
 
         nodes = []
-        cluster_agg: Dict[int, Dict[str, Any]] = {}
+        cluster_agg: dict[int, dict[str, Any]] = {}
         for key, d in sub.nodes(data=True):
             cid = comm.get(key, -1)
             level = kg.intel_level(key, bridge_nodes=bridge_nodes)
@@ -324,7 +342,7 @@ def create_app() -> Flask:
                 return jsonify({"error": "invalid bbox"}), 400
         use_cache = request.args.get("no_cache", "0") != "1"
         all_points = fetch_all(bbox=bbox, use_cache=use_cache)
-        out: Dict[str, List[Dict[str, Any]]] = {}
+        out: dict[str, list[dict[str, Any]]] = {}
         for name, points in all_points.items():
             out[name] = [p.to_dict() for p in points]
         return jsonify({
@@ -373,24 +391,25 @@ def create_app() -> Flask:
     # =======================================================================
     try:
         from estorides_core.cases import store as case_store
-    except Exception:  # noqa: BLE001
+    except Exception:
         case_store = None  # type: ignore[assignment]
     try:
         from estorides_core.graph_kuzu import backend as kuzu_backend
-    except Exception:  # noqa: BLE001
+    except Exception:
         kuzu_backend = None  # type: ignore[assignment]
     try:
         from estorides_core.intel_resolver import resolver as intel_resolver
-    except Exception:  # noqa: BLE001
+    except Exception:
         intel_resolver = None  # type: ignore[assignment]
     try:
         from estorides_core.fusion_store import open_store as _open_fusion_store
         fusion_store = _open_fusion_store()
-    except Exception:  # noqa: BLE001
+    except Exception:
         fusion_store = None  # type: ignore[assignment]
 
     @app.route("/api/cases", methods=["GET"])
     @_rate_limit_decorator(event="api_cases")
+    @require_auth
     def api_cases_list() -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
@@ -444,12 +463,12 @@ def create_app() -> Flask:
         body = request.get_json(silent=True) or {}
         note = (body.get("note") or "").strip()
         bookmark = "[saved] " + (note or case.get("query", ""))
-        with case_store._lock:  # noqa: SLF001 — internal but documented
-            case_store._conn.execute(  # noqa: SLF001
+        with case_store._lock:
+            case_store._conn.execute(
                 "UPDATE cases SET notes=? WHERE id=?",
                 (bookmark, case_id),
             )
-            case_store._conn.commit()  # noqa: SLF001
+            case_store._conn.commit()
         return jsonify(case_store.get_case(case_id))
 
     @app.route("/api/cases/diff", methods=["GET"])
@@ -504,11 +523,11 @@ def create_app() -> Flask:
         if kuzu_backend is not None:
             try:
                 # Find the canonical id in our schema.
-                from estorides_core.graph_kuzu import _node_id, _label_for
+                from estorides_core.graph_kuzu import _node_id
                 nid = _node_id(ent_type, ent_id)
                 neighbors = kuzu_backend.neighbors(nid, hops=WEB.intel_neighbor_hops)
                 out["persistent_neighbors"] = neighbors
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 out["persistent_neighbors_error"] = str(e)
         return jsonify(out)
 
@@ -544,7 +563,7 @@ def create_app() -> Flask:
                 }), 400
         try:
             rows = kuzu_backend.cypher(q)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             return jsonify({"error": "cypher-failed", "detail": str(e)}), 400
         return jsonify({"rows": rows, "count": len(rows)})
 
@@ -552,7 +571,7 @@ def create_app() -> Flask:
     @_rate_limit_decorator(event="api_intel_stats")
     def api_intel_stats() -> Any:
         """Stats for both the case store and the Kùzu graph."""
-        out: Dict[str, Any] = {}
+        out: dict[str, Any] = {}
         if case_store is not None:
             out["cases"] = case_store.stats()
         if kuzu_backend is not None:
@@ -622,7 +641,7 @@ def create_app() -> Flask:
     # ----- Maltego-style transforms -----
     try:
         from estorides_core.transforms import registry as transform_registry
-    except Exception:  # noqa: BLE001
+    except Exception:
         transform_registry = None  # type: ignore[assignment]
 
     @app.route("/api/transforms", methods=["GET"])
@@ -659,7 +678,7 @@ def create_app() -> Flask:
     # ----- Osiris-style extra OSINT endpoints (keyless) -----
     try:
         from estorides_core import osiris_sources
-    except Exception:  # noqa: BLE001
+    except Exception:
         osiris_sources = None  # type: ignore[assignment]
 
     @app.route("/api/osiris/bgp", methods=["GET"])
@@ -877,7 +896,7 @@ def create_app() -> Flask:
                     query_type=q.type,
                     notes=f"deep-run seed={q.type}:{q.normalised}",
                 )
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 log.warning("deep-run case create failed, running ephemeral: %s", e)
 
         job = _RunStreamJob(_new_stream_job_id(), q.normalised, q.type or "any", case_id)
@@ -974,6 +993,8 @@ def create_app() -> Flask:
 # up a new loop per request and keeps the SSE writer in the same
 # loop that the discoverer task runs in.
 import threading
+
+
 def _serve_loop() -> None:
     global _background_loop
     _background_loop = asyncio.new_event_loop()
@@ -987,7 +1008,7 @@ _background_loop: asyncio.AbstractEventLoop = None  # type: ignore[assignment]
 threading.Thread(target=_serve_loop, daemon=True, name="estorides-discoverer").start()
 
 
-def _shape_for_ui(result: Dict[str, Any]) -> Dict[str, Any]:
+def _shape_for_ui(result: dict[str, Any]) -> dict[str, Any]:
     """Trim raw responses for the UI and reformat observations."""
     obs = []
     for o in result.get("observations", []):
