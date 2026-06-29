@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="estorides-auth-token" content="{{ estorides_auth_token or '' }}">
     <title>Estorides — State-level OSINT Platform</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>%F0%9F%9B%B0</text></svg>" />
 
@@ -29,16 +30,16 @@
         </div>
         <div class="status">
             <span id="query-chip" class="query-chip hidden">type</span>
-            <div id="run-progress" class="progress-wrap" style="display:none">
+            <div id="run-progress" class="progress-wrap" hidden>
                 <div class="progress-track"><div id="run-progress-bar" class="progress-bar"></div></div>
                 <span id="run-progress-text" class="progress-text">0 / 0</span>
             </div>
             <span id="src-count" class="badge">…</span>
             <span id="last-run" class="badge subtle">no run yet</span>
-            <span id="discover-progress" class="badge subtle" style="display:none">
+            <span id="discover-progress" class="badge subtle" hidden>
                 <span id="discover-step">0</span>/<span id="discover-max">0</span> steps ·
                 <span id="discover-found">0</span> nodes ·
-                <button id="discover-stop" class="ghost" style="padding:0 6px;font-size:10px">stop</button>
+                <button id="discover-stop" class="ghost stop-btn-sm">stop</button>
             </span>
         </div>
     </header>
@@ -57,7 +58,7 @@
             <div class="tab-panels">
                 <section id="tab-results" class="tab-panel active">
                     <div id="results-meta" class="meta-row"></div>
-                    <div id="result-filters" class="result-filters" style="display:none">
+                    <div id="result-filters" class="result-filters" hidden>
                         <input id="result-filter-text" type="text" placeholder="filter results..." />
                         <select id="result-filter-cat">
                             <option value="">all categories</option>
@@ -131,7 +132,7 @@
                         <button id="intel-resolve-btn" class="primary">Resolve</button>
                     </div>
                     <div id="intel-out" class="intel-out"></div>
-                    <div class="meta-row" style="margin-top: 14px;">
+                    <div class="meta-row meta-row-spaced">
                         <span class="meta-label">Osiris-style OSINT probes (keyless)</span>
                     </div>
                     <div class="osiris-grid">
@@ -165,9 +166,9 @@
                         <div class="legend-item"><span class="lvl-dot lvl-counter_intelligence"></span>counter-intel</div>
                         <div class="legend-hint">left-click: expand · right-click: transforms · click a dashed link: cross-ref</div>
                     </div>
-                    <div id="graph-tooltip" class="graph-tooltip" style="display:none"></div>
-                    <div id="graph-context-menu" class="graph-context-menu" style="display:none"></div>
-                    <aside id="graph-inspector" class="graph-inspector" style="display:none">
+                    <div id="graph-tooltip" class="graph-tooltip" hidden></div>
+                    <div id="graph-context-menu" class="graph-context-menu" hidden></div>
+                    <aside id="graph-inspector" class="graph-inspector" hidden>
                         <div class="inspector-head">
                             <span id="inspector-title">node</span>
                             <button id="inspector-close" class="ghost" title="close">✕</button>
@@ -188,7 +189,7 @@
 
     <div id="toast-stack"></div>
 
-    <div id="onboarding" class="onboarding-overlay" style="display:none">
+    <div id="onboarding" class="onboarding-overlay" hidden>
         <div class="onboarding-card">
             <h2>Welcome to Estorides</h2>
             <p>State-level OSINT without the state-level price tag. Drop a domain, IP, email or CVE and watch 100+ public sources converge into one intelligence picture.</p>
@@ -204,7 +205,7 @@
         </div>
     </div>
 
-    <div id="kbd-help" class="kbd-overlay" style="display:none">
+    <div id="kbd-help" class="kbd-overlay" hidden>
         <div class="kbd-card">
             <h3>Keyboard shortcuts</h3>
             <dl>
@@ -217,7 +218,7 @@
                 <dt>M</dt><dd>Switch to Map canvas</dd>
                 <dt>T</dt><dd>Switch to Timeline canvas</dd>
             </dl>
-            <div class="onboarding-actions" style="margin-top:12px">
+            <div class="onboarding-actions kbd-actions">
                 <button id="kbd-help-close" class="primary">Close</button>
             </div>
         </div>

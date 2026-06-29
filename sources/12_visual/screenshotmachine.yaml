@@ -3,6 +3,7 @@ enabled: true
 category: 12. Visual
 description: ScreenshotMachine — page screenshot (free tier, watermark)
 os: any
+contact: active
 requires_key: true
 key_env: SCREENSHOTMACHINE_KEY
 parser: screenshot

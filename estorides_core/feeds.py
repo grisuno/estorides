@@ -41,7 +41,8 @@ from .ssrf_guard import assert_safe
 log = logging.getLogger("estorides.feeds")
 
 FEED_CACHE_DIR: Path = DATA_DIR / "feeds"
-FEED_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+# Issue #49: directory is created lazily via ensure_feed_cache_dir().
+# No side effect at import time.
 
 # Default cache TTL: 15 minutes. Stable data (news, conflict zones) can
 # be cached longer; spiky data (flights) shorter. Each feed overrides.
@@ -118,6 +119,9 @@ class Feed(ABC):
                     pass
             return []
         try:
+            # Lazy directory creation (issue #49): mkdir only when
+            # we're actually about to write the cache, not at import.
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
             cache_path.write_text(
                 json.dumps({"fetched_at": time.time(),
                             "points": [p.to_dict() for p in points]},

@@ -16,6 +16,11 @@ Responsibilities
 * A Werkzeug-debugger kill-switch. Production deployments must never expose the
   interactive debugger console — this helper refuses to register routes when
   the dev debugger is on, and logs the attempt at WARNING level.
+* A bearer-token auth gate (`require_auth`) for sensitive endpoints. When the
+  operator sets `ESTORIDES_AUTH_TOKEN`, the sensitive `/api/*` surface stops
+  trusting anonymous callers; the legitimate UI gets the token from a
+  `<meta name="estorides-auth-token">` tag rendered into `index.html` and
+  includes it as a header on every fetch.
 
 Why a dedicated module?
 -----------------------
@@ -28,12 +33,15 @@ out of the factory means:
 """
 from __future__ import annotations
 
+import hmac
 import logging
 import os
-from dataclasses import dataclass, field
-from typing import Iterable, Optional
+from collections.abc import Callable
+from dataclasses import dataclass
+from functools import wraps
+from typing import Any
 
-from flask import Flask, request
+from flask import Flask, jsonify, request
 
 log = logging.getLogger("estorides.web.security")
 
@@ -58,9 +66,21 @@ class WebSecurityConfig:
     csp_policy: str = (
         "default-src 'self'; "
         "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; "
-        "style-src 'self' 'unsafe-inline' https://unpkg.com; "
+        # Issue #41 (csp_safe_styles follow-up): `style-src` is tight on
+        # purpose — the frontend must NOT emit `style="…"` attributes
+        # (those would be blocked). Per-cluster / per-kind colouring
+        # goes through the CSSOM (`el.style.background = cs`), which
+        # CSP does not restrict. Static style rules live in
+        # `static/css/estorides_ui.css` as named classes. The
+        # `'unsafe-hashes'` keyword is kept as defence-in-depth in case
+        # a future contributor reintroduces a single static style attr.
+        "style-src 'self' 'unsafe-hashes' https://unpkg.com; "
         "img-src 'self' data: https:; "
-        "connect-src 'self'; "
+        # Leaflet's source map is fetched from unpkg.com. Without this
+        # the browser logs a connect-src violation (and the dev tools
+        # are confusing). The script itself is already on the
+        # script-src allowlist; the source map is read-only.
+        "connect-src 'self' https://unpkg.com; "
         "frame-ancestors 'none'; "
         "base-uri 'self'; "
         "form-action 'self'"
@@ -127,7 +147,7 @@ def load_security_config() -> WebSecurityConfig:
 # --------------------------------------------------------------------------- #
 # Hardening installer                                                         #
 # --------------------------------------------------------------------------- #
-def install_security(app: Flask, cfg: Optional[WebSecurityConfig] = None) -> WebSecurityConfig:
+def install_security(app: Flask, cfg: WebSecurityConfig | None = None) -> WebSecurityConfig:
     """Wire security middleware into a Flask app.
 
     Idempotent: calling twice is a no-op (we re-attach, but Flask keeps the
@@ -217,4 +237,164 @@ def install_security(app: Flask, cfg: Optional[WebSecurityConfig] = None) -> Web
         "web security: cors=%s hsts=%s force_https=%s max_body=%dB",
         cfg.is_cors_enabled, cfg.hsts_enabled, cfg.force_https, cfg.max_content_length_bytes,
     )
+    install_auth_gate(app, make_auth_gate())
     return cfg
+
+
+# --------------------------------------------------------------------------- #
+# Bearer-token auth gate                                                      #
+# --------------------------------------------------------------------------- #
+# Estorides is a single-user local OSINT tool by default. When the operator
+# binds it to a non-loopback address (ESTORIDES_HOST=0.0.0.0) the unauthenticated
+# /api/* surface becomes a public relay. ESTORIDES_AUTH_TOKEN turns that gate
+# on: the legitimate UI receives the token via a meta tag in `index.html` and
+# includes it as `Authorization: Bearer <token>` on every fetch. Anonymous
+# callers (curl, scrapers, hostile relays) get 401.
+#
+# The token is compared with hmac.compare_digest to avoid timing oracles.
+# The token is a single shared secret — there is no user model, no session
+# store, no per-user quota. This is the right granularity for a single-
+# operator tool: one secret, one gate, one place to rotate it.
+AUTH_HEADER = "Authorization"
+AUTH_COOKIE = "estorides_session"
+AUTH_META = "estorides-auth-token"
+AUTH_HEADER_ALT = "X-Estorides-Token"
+
+
+def _extract_bearer_token() -> str | None:
+    """Pull the bearer token from header, alt-header, or cookie.
+
+    Header order matters: an explicit `Authorization: Bearer` always wins
+    over a cookie (the cookie is the fallback for the browser UI; the
+    header is what scripts and curl will use). We never trust query-string
+    tokens — they leak into access logs and referer headers.
+    """
+    h = request.headers.get(AUTH_HEADER, "")
+    if h.lower().startswith("bearer "):
+        return h[7:].strip() or None
+    alt = request.headers.get(AUTH_HEADER_ALT, "").strip()
+    if alt:
+        return alt
+    c = request.cookies.get(AUTH_COOKIE, "").strip()
+    if c:
+        return c
+    return None
+
+
+def make_auth_gate() -> AuthGate:
+    """Build the auth gate from the current environment.
+
+    `ESTORIDES_AUTH_TOKEN` unset → `enabled=False`, `require_auth` is a no-op
+    pass-through. This preserves the local-trust single-user default and keeps
+    existing tests working without an auth header.
+
+    When set, the gate is enabled. The token is also exposed to `index.html`
+    so the UI can auto-attach it (see `auth_meta_for_index()`).
+    """
+    raw = os.environ.get("ESTORIDES_AUTH_TOKEN", "").strip()
+    if not raw:
+        return AuthGate(required_token=None)
+    return AuthGate(required_token=raw)
+
+
+@dataclass
+class AuthGate:
+    """Bearer-token gate applied to sensitive routes.
+
+    `required_token` is the single shared secret. `None` disables the gate
+    (local-trust mode). Comparison is constant-time.
+    """
+
+    required_token: str | None = None
+
+    @property
+    def enabled(self) -> bool:
+        return self.required_token is not None
+
+    def check(self) -> bool:
+        if not self.enabled:
+            return True
+        presented = _extract_bearer_token()
+        if not presented:
+            return False
+        return hmac.compare_digest(presented, self.required_token or "")
+
+    def auth_meta_for_index(self) -> str | None:
+        """Token to embed in `index.html` so the UI can auto-authenticate.
+
+        Returns `None` when the gate is off (the UI then omits the meta
+        tag and every call goes through anonymously, which is the
+        local-trust default).
+        """
+        return self.required_token
+
+    def issue_session_cookie_kwargs(self) -> dict[str, Any]:
+        """Arguments for `set_cookie` to install the session cookie.
+
+        `Secure` is set when the request itself is over HTTPS or the operator
+        requested ESTORIDES_FORCE_HTTPS=1 (in that case we know they're behind
+        TLS). `SameSite=Lax` keeps the cookie from cross-site POSTs.
+        """
+        is_https = request.is_secure or os.environ.get("ESTORIDES_FORCE_HTTPS") == "1"
+        return {
+            "max_age": 60 * 60 * 12,  # 12h
+            "httponly": True,
+            "samesite": "Lax",
+            "secure": is_https,
+            "path": "/",
+        }
+
+
+def require_auth(view: Callable[..., Any]) -> Callable[..., Any]:
+    """Decorator: enforce the bearer-token gate on a view.
+
+    Behaviour:
+      * gate disabled (no env var) → pass-through, no overhead.
+      * gate enabled, token missing → 401 with `WWW-Authenticate: Bearer`.
+      * gate enabled, token present but wrong → 401 (same shape, constant-
+        time compare on the server side).
+
+    Use on every endpoint that reads or mutates operator-private data:
+    cases, run, run/stream/*, discover/*, export, intel/*, transform/*,
+    osiris/*, graph, status.
+    """
+    @wraps(view)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        gate: AuthGate | None = _current_gate()
+        if gate is None or not gate.enabled:
+            return view(*args, **kwargs)
+        if gate.check():
+            return view(*args, **kwargs)
+        resp = jsonify({"error": "unauthorized"})
+        resp.status_code = 401
+        resp.headers["WWW-Authenticate"] = 'Bearer realm="estorides"'
+        return resp
+    return wrapper
+
+
+# Module-level slot for the gate the factory installs. The decorator reads
+# from here so routes can be decorated before `create_app()` is called (a
+# few helper modules expose routes that way).
+_GATE: AuthGate | None = None
+
+
+def install_auth_gate(app: Flask, gate: AuthGate) -> AuthGate:
+    """Attach the gate to a Flask app and a module-level slot.
+
+    Two consumers read the gate: the `require_auth` decorator (module
+    slot, so it works even when called outside a request context) and
+    `auth_meta_for_index()` (so `index.html` can be rendered with the
+    token embedded for the UI to pick up).
+    """
+    global _GATE
+    _GATE = gate
+    app.extensions["estorides_auth"] = gate
+    if gate.enabled:
+        log.info("web security: auth-gate ENABLED (bearer token required)")
+    else:
+        log.info("web security: auth-gate disabled (ESTORIDES_AUTH_TOKEN unset)")
+    return gate
+
+
+def _current_gate() -> AuthGate | None:
+    return _GATE

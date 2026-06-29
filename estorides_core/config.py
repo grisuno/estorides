@@ -22,9 +22,9 @@ from __future__ import annotations
 
 import logging
 import os
-from dataclasses import dataclass, field
+from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping
 
 _log = logging.getLogger("estorides.config")
 
@@ -70,12 +70,39 @@ REPORTS_DIR: Path = PROJECT_ROOT / "reports"
 TEMPLATES_DIR: Path = PROJECT_ROOT / "templates"
 STATIC_DIR: Path = PROJECT_ROOT / "static"
 
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+# Issue #49: do NOT call .mkdir() at import time. The previous code
+# did, which violated the project's "no side effects at import" rule:
+# running `ruff check`, `mypy`, or any static analysis that imports
+# this module would create filesystem directories. Directories are
+# now created lazily via `ensure_data_dirs()` and `ensure_reports_dir()`
+# (idempotent), called from the app factory and from any code path
+# that actually needs to write.
 
 DATASET_PATH: Path = DATA_DIR / "estorides_dataset.jsonl"
 GRAPH_PATH: Path = DATA_DIR / "estorides_graph.graphml"
 CACHE_PATH: Path = DATA_DIR / "estorides_cache.sqlite"
+
+
+def ensure_data_dirs() -> None:
+    """Idempotently create DATA_DIR.
+
+    Replaces the import-time mkdir that issue #49 reported. Call
+    this from the app factory and from any code path that actually
+    needs to write to DATA_DIR. Idempotent: exist_ok=True so a
+    pre-existing directory is fine.
+    """
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def ensure_reports_dir() -> None:
+    """Idempotently create REPORTS_DIR.
+
+    Same posture as ensure_data_dirs(). /api/export/<fmt> used to
+    write through this path; issue #43 moved export artefacts to a
+    tempfile, but the directory is still useful for operator-facing
+    exports.
+    """
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 STIX_BUNDLE_PATH: Path = DATA_DIR / "estorides_stix_bundle.json"
 MISP_EVENT_PATH: Path = DATA_DIR / "estorides_misp_event.json"
 ENTITY_STORE_PATH: Path = Path(
@@ -383,6 +410,8 @@ class StreamConfig:
     poll_interval_seconds: float
     heartbeat_idle_ticks: int
     start_dispatch_timeout_seconds: float
+    job_registry_max_size: int
+    job_registry_ttl_seconds: int
 
 
 @dataclass(frozen=True)
@@ -476,6 +505,14 @@ STREAM: StreamConfig = StreamConfig(
     poll_interval_seconds=_env_float("ESTORIDES_SSE_POLL_S", 1.0),
     heartbeat_idle_ticks=_env_int("ESTORIDES_SSE_HEARTBEAT_TICKS", 5),
     start_dispatch_timeout_seconds=_env_float("ESTORIDES_SSE_START_TIMEOUT_S", 15.0),
+    # Eviction for the in-memory job registries. Each job can hold up
+    # to `sse_buffer_cap` events of variable size, so a few hundred
+    # jobs can pin a measurable amount of RAM. The defaults cap the
+    # running set at 32 jobs and TTL them out after 30 min so a
+    # long-idle session can't grow the registry without bound — the
+    # exact exhaustion vector called out in issues #14 and #50.
+    job_registry_max_size=_env_int("ESTORIDES_JOB_REGISTRY_MAX_SIZE", 32),
+    job_registry_ttl_seconds=_env_int("ESTORIDES_JOB_REGISTRY_TTL_S", 30 * 60),
 )
 
 WEB: WebConfig = WebConfig(

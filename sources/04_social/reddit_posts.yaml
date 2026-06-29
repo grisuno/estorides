@@ -16,6 +16,6 @@ tool:
   method: GET
   url: https://www.reddit.com/user/{query}/submitted.json
   headers:
-    User-Agent: Estorides/1.0
+    User-Agent: estorides:web:v1.3 (by /u/estorides-dev)
   params:
     limit: 50

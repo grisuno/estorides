@@ -354,6 +354,19 @@ class KuzuGraphBackend:
 
         `relation` optionally filters to a single edge label.
         Returns a list of dicts with whatever columns the query names."""
+        # Issue #46: the `relation` parameter was interpolated into a
+        # Cypher pattern via f-string (Kuzu doesn't support parameter
+        # substitution for relationship types). That made it a latent
+        # injection vector: a caller passing
+        # `"OBSERVED_BY|CO_OCCURS {p: $inject}"` could exfiltrate
+        # data. Validate against the known-relation whitelist
+        # before interpolation so any future caller that exposes
+        # this parameter cannot smuggle Cypher through it.
+        if relation is not None and relation not in _RELATION_TO_EDGE:
+            raise ValueError(
+                f"unknown relation {relation!r}; allowed: "
+                f"{sorted(_RELATION_TO_EDGE)}"
+            )
         rel_filter = f":{relation}" if relation else ""
         q = (
             f"MATCH (n:Ent {{id: $id}})-[{rel_filter}*1..{int(hops)}]"
