@@ -521,6 +521,7 @@ def create_app() -> Flask:
 
     @app.route("/api/intel/resolve", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_resolve")
+    @require_auth
     def api_intel_resolve() -> Any:
         """Cross-feed entity resolution (Osiris-style /resolve).
 
@@ -556,6 +557,7 @@ def create_app() -> Flask:
 
     @app.route("/api/intel/graph", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_graph")
+    @require_auth
     def api_intel_graph() -> Any:
         """Cypher query against the Kùzu persistent graph.
 
@@ -592,6 +594,7 @@ def create_app() -> Flask:
 
     @app.route("/api/intel/stats", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_stats")
+    @require_auth
     def api_intel_stats() -> Any:
         """Stats for both the case store and the Kùzu graph."""
         out: dict[str, Any] = {}
@@ -616,15 +619,17 @@ def create_app() -> Flask:
 
     @app.route("/api/fusion/sources", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_sources")
+    @require_auth
     def api_fusion_sources() -> Any:
         """The YAML source catalogue with accumulated fetch/ok counters."""
         if fusion_store is None:
             return jsonify({"error": "fusion store unavailable"}), 503
-        limit = min(max(int(request.args.get("limit", 200)), 1), 500)
+        limit = min(max(_arg_int("limit", 200), 1), 500)
         return jsonify({"sources": fusion_store.list_sources(limit=limit)})
 
     @app.route("/api/fusion/entities", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entities")
+    @require_auth
     def api_fusion_entities() -> Any:
         """Search fused entities.
 
@@ -636,8 +641,8 @@ def create_app() -> Flask:
             return jsonify({"error": "fusion store unavailable"}), 503
         term = request.args.get("q", "").strip()
         etype = request.args.get("type", "").strip()
-        min_sources = max(int(request.args.get("min_sources", 0) or 0), 0)
-        limit = min(max(int(request.args.get("limit", 50)), 1), 200)
+        min_sources = max(_arg_int("min_sources", 0), 0)
+        limit = min(max(_arg_int("limit", 50), 1), 200)
         return jsonify({
             "entities": fusion_store.search_entities(
                 term, etype, min_sources=min_sources, limit=limit
@@ -646,6 +651,7 @@ def create_app() -> Flask:
 
     @app.route("/api/fusion/entity/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entity")
+    @require_auth
     def api_fusion_entity(eid: str) -> Any:
         """Full fused view of one entity: provenance, properties, edges.
 
@@ -657,7 +663,7 @@ def create_app() -> Flask:
         entity = fusion_store.get_entity(eid)
         if entity is None:
             return jsonify({"error": "not found"}), 404
-        min_sources = max(int(request.args.get("min_sources", 2) or 2), 1)
+        min_sources = max(_arg_int("min_sources", 2), 1)
         entity["corroborated"] = fusion_store.corroborated_properties(eid, min_sources)
         return jsonify(entity)
 
@@ -683,6 +689,7 @@ def create_app() -> Flask:
 
     @app.route("/api/transform/run", methods=["POST"])
     @_rate_limit_decorator(event="api_transform_run")
+    @require_auth
     def api_transform_run() -> Any:
         """Run one transform and return nodes/links for graph merge.
 
@@ -706,6 +713,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/bgp", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_bgp")
+    @require_auth
     def api_osiris_bgp() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -716,6 +724,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/mac", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_mac")
+    @require_auth
     def api_osiris_mac() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -726,6 +735,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/phone", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_phone")
+    @require_auth
     def api_osiris_phone() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -736,6 +746,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/github", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_github")
+    @require_auth
     def api_osiris_github() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -746,6 +757,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/leaks", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_leaks")
+    @require_auth
     def api_osiris_leaks() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -756,19 +768,21 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/cisa-kev", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_kev")
+    @require_auth
     def api_osiris_kev() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
-        limit = int(request.args.get("limit", 10))
-        days = int(request.args.get("days", 30))
+        limit = _arg_int("limit", 10)
+        days = _arg_int("days", 30)
         return jsonify(osiris_sources.fetch_cisa_kev(limit=limit, days=days))
 
     @app.route("/api/osiris/malware", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_malware")
+    @require_auth
     def api_osiris_malware() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
-        limit = int(request.args.get("limit", 200))
+        limit = _arg_int("limit", 200)
         return jsonify(osiris_sources.fetch_malware_c2(limit=limit))
 
     @app.route("/api/osiris_threats")
@@ -832,7 +846,7 @@ def create_app() -> Flask:
     @_rate_limit_decorator(event="api_discover_jobs")
     @require_auth
     def api_discover_jobs() -> Any:
-        return jsonify({"jobs": list_discover_jobs(limit=int(request.args.get("limit", 20)))})
+        return jsonify({"jobs": list_discover_jobs(limit=_arg_int("limit", 20))})
 
     @app.route("/api/discover/stop", methods=["POST"])
     @_rate_limit_decorator(event="api_discover_stop")
