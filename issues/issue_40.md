@@ -1,8 +1,8 @@
 # Issue #40: All dependencies are unpinned (>=only) with no lockfile; multiple CVE ranges are reachable (aiohttp, gunicorn)
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:02Z
-- **Updated:** 2026-06-08T11:43:02Z
+- **Updated:** 2026-06-29T16:23:37Z
 - **Labels:** None
 
 ---

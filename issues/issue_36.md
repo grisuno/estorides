@@ -1,8 +1,8 @@
 # Issue #36: Bare int() casts on user-controlled query parameters cause unhandled ValueError (500) on four endpoints
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:44Z
-- **Updated:** 2026-06-08T11:42:44Z
+- **Updated:** 2026-06-29T16:14:11Z
 - **Labels:** None
 
 ---

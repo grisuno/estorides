@@ -1,8 +1,8 @@
 # Issue #50: RUN_STREAM_JOBS and DISCOVER_JOBS hold BufferedEventSink objects indefinitely — memory exhaustion via sustained job creation
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:49Z
-- **Updated:** 2026-06-08T11:43:49Z
+- **Updated:** 2026-06-29T16:06:45Z
 - **Labels:** None
 
 ---

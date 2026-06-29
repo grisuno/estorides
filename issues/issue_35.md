@@ -1,8 +1,8 @@
 # Issue #35: /api/graph, /api/status, and all /api/discover/* endpoints are missing rate limiting
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:35Z
-- **Updated:** 2026-06-08T11:42:35Z
+- **Updated:** 2026-06-29T16:19:17Z
 - **Labels:** None
 
 ---

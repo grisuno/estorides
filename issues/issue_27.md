@@ -1,8 +1,8 @@
 # Issue #27: Unauthenticated /api/intel/graph exposes the persistent intelligence graph through arbitrary read-only Cypher
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:48Z
-- **Updated:** 2026-06-08T10:31:48Z
+- **Updated:** 2026-06-29T16:14:00Z
 - **Labels:** None
 
 ---

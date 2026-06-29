@@ -1,8 +1,8 @@
 # Issue #21: tineye_reverse is misclassified as contact=none even though TinEye actively fetches the target URL
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:05Z
-- **Updated:** 2026-06-08T10:27:05Z
+- **Updated:** 2026-06-29T16:10:56Z
 - **Labels:** None
 
 ---

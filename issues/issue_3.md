@@ -1,8 +1,8 @@
 # Issue #3: Unauthenticated DELETE /api/cases/<id> lets any caller destroy persisted investigations
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:36Z
-- **Updated:** 2026-06-08T10:26:36Z
+- **Updated:** 2026-06-29T15:48:45Z
 - **Labels:** None
 
 ---

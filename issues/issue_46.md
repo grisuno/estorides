@@ -1,8 +1,8 @@
 # Issue #46: Latent Cypher injection in KuzuGraphBackend.neighbors() via unsanitised relation parameter
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:30Z
-- **Updated:** 2026-06-08T11:43:30Z
+- **Updated:** 2026-06-29T16:32:50Z
 - **Labels:** None
 
 ---

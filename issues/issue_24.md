@@ -1,8 +1,8 @@
 # Issue #24: pages_dev_meta is misclassified as contact=none even though Microlink fetches the submitted target URL
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:10Z
-- **Updated:** 2026-06-08T10:27:10Z
+- **Updated:** 2026-06-29T16:11:03Z
 - **Labels:** None
 
 ---

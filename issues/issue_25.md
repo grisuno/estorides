@@ -1,8 +1,8 @@
 # Issue #25: exif_remove_lookup is misclassified as contact=none even though the provider fetches the submitted image URL
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:12Z
-- **Updated:** 2026-06-08T10:34:12Z
+- **Updated:** 2026-06-29T16:11:05Z
 - **Labels:** None
 
 ---

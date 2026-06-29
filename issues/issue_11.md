@@ -1,8 +1,8 @@
 # Issue #11: Unauthenticated /api/run/stream/start lets any caller launch deep recursive cross-search jobs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:49Z
-- **Updated:** 2026-06-08T10:26:49Z
+- **Updated:** 2026-06-29T15:59:22Z
 - **Labels:** None
 
 ---

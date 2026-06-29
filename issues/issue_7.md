@@ -1,8 +1,8 @@
 # Issue #7: Unauthenticated /api/export/<fmt> lets any caller download shared investigation artifacts
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:43Z
-- **Updated:** 2026-06-08T10:26:43Z
+- **Updated:** 2026-06-29T15:53:12Z
 - **Labels:** None
 
 ---

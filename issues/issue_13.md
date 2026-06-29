@@ -1,8 +1,8 @@
 # Issue #13: Unauthenticated /api/run/stream/stop lets any caller cancel another user's deep search
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:52Z
-- **Updated:** 2026-06-08T10:26:52Z
+- **Updated:** 2026-06-29T16:00:39Z
 - **Labels:** None
 
 ---

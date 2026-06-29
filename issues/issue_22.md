@@ -1,8 +1,8 @@
 # Issue #22: screenshotmachine is misclassified as contact=none even though the provider fetches target URLs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:07Z
-- **Updated:** 2026-06-08T10:27:07Z
+- **Updated:** 2026-06-29T16:10:58Z
 - **Labels:** None
 
 ---

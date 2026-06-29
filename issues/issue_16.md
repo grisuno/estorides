@@ -1,8 +1,8 @@
 # Issue #16: Minimal-install deployments crash /api/discover/start when kuzu is absent
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:57Z
-- **Updated:** 2026-06-08T10:26:57Z
+- **Updated:** 2026-06-29T16:09:10Z
 - **Labels:** None
 
 ---

@@ -1,8 +1,8 @@
 # Issue #30: Unauthenticated /api/transform/run turns resolver, VirusTotal, GitHub, and breach lookups into a public enrichment relay
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:52Z
-- **Updated:** 2026-06-08T10:31:52Z
+- **Updated:** 2026-06-29T16:14:06Z
 - **Labels:** None
 
 ---

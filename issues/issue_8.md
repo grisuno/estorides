@@ -1,8 +1,8 @@
 # Issue #8: Encrypted export leaves plaintext intelligence artifacts on disk in reports/
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:45Z
-- **Updated:** 2026-06-08T10:26:45Z
+- **Updated:** 2026-06-29T15:55:44Z
 - **Labels:** None
 
 ---

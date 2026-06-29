@@ -1,8 +1,8 @@
 # Issue #6: Shared global GraphML file lets /api/graph disclose the last user's investigation
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:41Z
-- **Updated:** 2026-06-08T10:26:41Z
+- **Updated:** 2026-06-29T15:52:04Z
 - **Labels:** None
 
 ---

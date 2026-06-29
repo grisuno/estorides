@@ -1,8 +1,8 @@
 # Issue #18: Unauthenticated /api/discover/stream leaks live discovery events and case IDs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:00Z
-- **Updated:** 2026-06-08T10:27:00Z
+- **Updated:** 2026-06-29T16:08:20Z
 - **Labels:** None
 
 ---

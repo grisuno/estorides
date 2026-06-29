@@ -1,8 +1,8 @@
 # Issue #42: _multi_test.sh hardcodes developer's home directory path, breaking all end-to-end tests for every other user
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:11Z
-- **Updated:** 2026-06-08T11:43:11Z
+- **Updated:** 2026-06-29T16:24:51Z
 - **Labels:** None
 
 ---

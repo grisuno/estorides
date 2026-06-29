@@ -1,8 +1,8 @@
 # Issue #38: In-process rate limiter is multiplied by gunicorn worker count — effective limit is N_workers × 30/min
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:53Z
-- **Updated:** 2026-06-08T11:42:53Z
+- **Updated:** 2026-06-29T16:21:46Z
 - **Labels:** None
 
 ---

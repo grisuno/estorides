@@ -1,8 +1,8 @@
 # Issue #37: Reddit sources scrape the JSON API without OAuth, violating Reddit's ToS and causing IP blocking
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:49Z
-- **Updated:** 2026-06-08T11:42:49Z
+- **Updated:** 2026-06-29T16:20:30Z
 - **Labels:** None
 
 ---

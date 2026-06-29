@@ -1,8 +1,8 @@
 # Issue #41: CSP includes style-src 'unsafe-inline', enabling CSS injection and data exfiltration from intelligence reports
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:06Z
-- **Updated:** 2026-06-08T11:43:06Z
+- **Updated:** 2026-06-29T16:18:07Z
 - **Labels:** None
 
 ---
