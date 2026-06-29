@@ -14,26 +14,41 @@ import asyncio
 import json
 import logging
 import os
+import shutil
+import tempfile
 import time
+from collections.abc import Callable
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any
 
 from flask import Flask, Response, jsonify, render_template, request, send_from_directory
 
 from estorides_core.audit import audit_log, rate_limiter
-from estorides_core.config import (DATASET_PATH, FLASK_DEBUG, FLASK_HOST,
-    FLASK_PORT, GRAPH_PATH, PIVOT, REPORTS_DIR, STATIC_DIR, STREAM,
-    TEMPLATES_DIR, WEB)
-from estorides_core.discoverer import (DISCOVER_JOBS,
-    list_jobs as list_discover_jobs, start_discover_threadsafe)
+from estorides_core.config import (
+    FLASK_HOST,
+    FLASK_PORT,
+    GRAPH_PATH,
+    PIVOT,
+    STATIC_DIR,
+    STREAM,
+    TEMPLATES_DIR,
+    WEB,
+)
+from estorides_core.discoverer import DISCOVER_JOBS, start_discover_threadsafe
+from estorides_core.discoverer import list_jobs as list_discover_jobs
 from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
+from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.validation import QueryValidationError, validate_query
-from estorides_core.web_security import install_security
+from estorides_core.web_security import (
+    AUTH_META,
+    install_security,
+    require_auth,
+)
 from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
@@ -41,7 +56,7 @@ log = logging.getLogger("estorides.web")
 
 # Distinct, high-contrast hues for graph clusters. Indexed by community
 # id modulo its length so an arbitrary number of clusters still colours.
-_CLUSTER_PALETTE: Tuple[str, ...] = (
+_CLUSTER_PALETTE: tuple[str, ...] = (
     "#5B8FF9", "#5AD8A6", "#F6BD16", "#E8684A", "#6DC8EC",
     "#9270CA", "#FF9D4D", "#269A99", "#FF99C3", "#A0D911",
     "#FF6B6B", "#36CFC9", "#B37FEB", "#FFC53D", "#7CB305",
@@ -83,6 +98,20 @@ def _arg_int(name: str, default: int) -> int:
         return default
 
 
+def _send_and_cleanup(p: Path, tmpdir: Path) -> Any:
+    """Send `p` as an attachment, then nuke `tmpdir` regardless of outcome.
+
+    Used by /api/export/<fmt> so reports/ doesn't accumulate a copy of
+    every exported bundle — see issue #43. The `finally` runs even when
+    the client disconnects mid-stream, which is the realistic failure
+    case for the exhaustion attack.
+    """
+    try:
+        return send_from_directory(p.parent, p.name, as_attachment=True)
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
 class _RunStreamJob:
     """A live deep-run cross-search whose events feed an SSE stream.
 
@@ -91,7 +120,7 @@ class _RunStreamJob:
     off the sink so there is one source of truth.
     """
 
-    def __init__(self, job_id: str, query: str, query_type: str, case_id: "str | None") -> None:
+    def __init__(self, job_id: str, query: str, query_type: str, case_id: str | None) -> None:
         self.job_id = job_id
         self.query = query
         self.query_type = query_type
@@ -115,7 +144,10 @@ class _RunStreamJob:
         return self.sink.done
 
 
-RUN_STREAM_JOBS: Dict[str, _RunStreamJob] = {}
+RUN_STREAM_JOBS: BoundedJobRegistry = BoundedJobRegistry(
+    max_size=STREAM.job_registry_max_size,
+    ttl_seconds=STREAM.job_registry_ttl_seconds,
+)
 
 
 def _new_stream_job_id() -> str:
@@ -154,7 +186,7 @@ def _rate_limit_decorator(*, event: str) -> Callable:
                 resp = jsonify({"error": "invalid-query", "reason": e.reason})
                 resp.status_code = 400
                 return resp
-            except Exception:  # noqa: BLE001
+            except Exception:
                 status = "error"
                 raise
             finally:
@@ -183,32 +215,56 @@ def create_app() -> Flask:
 
     @app.route("/")
     def index() -> Any:
-        return render_template("index.html")
+        # When the auth gate is enabled, embed the token as a meta tag so
+        # the browser-side UI can attach it as `Authorization: Bearer …`.
+        # When disabled, omit the meta tag (the UI then sends no header
+        # and `require_auth` short-circuits to pass-through).
+        gate = app.extensions.get("estorides_auth")
+        auth_token = gate.auth_meta_for_index() if gate is not None else None
+        return render_template("index.html", **{AUTH_META.replace("-", "_"): auth_token or ""})
 
     @app.route("/api/status")
+    @_rate_limit_decorator(event="api_status")
+    @require_auth
     def api_status() -> Any:
         return jsonify(orch.registry.summary())
 
     @app.route("/api/run", methods=["POST"])
     @_rate_limit_decorator(event="api_run")
+    @require_auth
     def api_run() -> Any:
         body = request.get_json(silent=True) or {}
         # Validate query through the central guard. A failure here
         # surfaces a 400 with the rejection reason — no orchestrator work.
         q = validate_query(str(body.get("query") or ""))
+        # Clamp the resource knobs the client can request. Without this
+        # an anonymous caller could pass `parallel=10000` to fan out
+        # 10k concurrent requests, or `deadline=3600` to keep a worker
+        # tied up for an hour. Issue #10.
+        try:
+            parallel = PIVOT.clamp_parallel(int(body.get("parallel", WEB.default_parallel)))
+            timeout = max(1.0, min(float(body.get("timeout", WEB.default_timeout_seconds)),
+                                   PIVOT.deadline_cap_seconds))
+            deadline = PIVOT.clamp_deadline(float(body.get("deadline", WEB.default_deadline_seconds)))
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid-numeric-parameter"}), 400
         t0 = time.monotonic()
         try:
             result = asyncio.run(orch.run(
                 q.normalised,
                 source_names=body.get("sources") or None,
                 include_paid=bool(body.get("include_paid", False)),
-                parallel=int(body.get("parallel", WEB.default_parallel)),
-                timeout=float(body.get("timeout", WEB.default_timeout_seconds)),
-                deadline=float(body.get("deadline", WEB.default_deadline_seconds)),
+                parallel=parallel,
+                timeout=timeout,
+                deadline=deadline,
             ))
-        except Exception as e:  # noqa: BLE001
+        except Exception:
+            # Issue #44: log the full exception server-side, return a
+            # generic message to the client. The previous `str(e)`
+            # leaked absolute file paths, Kuzu table/column names,
+            # and Cypher fragments.
             log.exception("run failed")
-            return jsonify({"error": str(e)}), 500
+            return jsonify({"error": "internal-error"}), 500
 
         # save graph to disk for later export
         orch.kg.export_graphml(GRAPH_PATH)
@@ -230,6 +286,8 @@ def create_app() -> Flask:
         return jsonify(shaped)
 
     @app.route("/api/graph")
+    @_rate_limit_decorator(event="api_graph")
+    @require_auth
     def api_graph() -> Any:
         if not GRAPH_PATH.exists():
             return jsonify({"nodes": [], "edges": []})
@@ -270,7 +328,7 @@ def create_app() -> Flask:
         edges = edges[:WEB.graph_render_edge_limit]
 
         nodes = []
-        cluster_agg: Dict[int, Dict[str, Any]] = {}
+        cluster_agg: dict[int, dict[str, Any]] = {}
         for key, d in sub.nodes(data=True):
             cid = comm.get(key, -1)
             level = kg.intel_level(key, bridge_nodes=bridge_nodes)
@@ -324,7 +382,7 @@ def create_app() -> Flask:
                 return jsonify({"error": "invalid bbox"}), 400
         use_cache = request.args.get("no_cache", "0") != "1"
         all_points = fetch_all(bbox=bbox, use_cache=use_cache)
-        out: Dict[str, List[Dict[str, Any]]] = {}
+        out: dict[str, list[dict[str, Any]]] = {}
         for name, points in all_points.items():
             out[name] = [p.to_dict() for p in points]
         return jsonify({
@@ -336,6 +394,7 @@ def create_app() -> Flask:
 
     @app.route("/api/export/<fmt>")
     @_rate_limit_decorator(event="api_export")
+    @require_auth
     def api_export(fmt: str) -> Any:
         import networkx as nx
         if not GRAPH_PATH.exists():
@@ -347,50 +406,62 @@ def create_app() -> Flask:
         # produce an .age file; otherwise we fall back to plaintext
         # and let the client encrypt out-of-band.
         age_key = request.args.get("key", "").strip()
+        # Issue #43: write to a tempdir-backed path that we own and
+        # unlink in `finally` so reports/ doesn't grow without bound.
+        # The `send_from_directory` call below serves the file as an
+        # attachment; the on-disk copy exists only for the lifetime of
+        # the response.
+        tmpdir = Path(tempfile.mkdtemp(prefix="estorides_export_"))
         try:
             if fmt == "stix":
-                p = REPORTS_DIR / f"bundle_{int(time.time())}.json"
+                p = tmpdir / f"bundle_{int(time.time())}.json"
                 p = export_stix_encrypted(kg, age_key, p) if age_key else export_stix(kg, path=p)
             elif fmt == "misp":
-                p = REPORTS_DIR / f"event_{int(time.time())}.json"
+                p = tmpdir / f"event_{int(time.time())}.json"
                 p = export_misp_encrypted(kg, age_key, p) if age_key else export_misp(kg, path=p)
             elif fmt == "graphml":
-                p = kg.export_graphml(REPORTS_DIR / f"graph_{int(time.time())}.graphml")
+                p = kg.export_graphml(tmpdir / f"graph_{int(time.time())}.graphml")
             elif fmt == "json":
-                p = REPORTS_DIR / f"graph_{int(time.time())}.json"
+                p = tmpdir / f"graph_{int(time.time())}.json"
                 p.write_text(json.dumps(kg.export_json(), indent=2, ensure_ascii=False),
                              encoding="utf-8")
             else:
                 return jsonify({"error": f"unknown format {fmt}"}), 400
         except ValueError as e:
+            shutil.rmtree(tmpdir, ignore_errors=True)
             return jsonify({"error": "invalid-encryption-key", "detail": str(e)}), 400
         except RuntimeError as e:
+            shutil.rmtree(tmpdir, ignore_errors=True)
             return jsonify({"error": "encryption-failed", "detail": str(e)}), 500
-        return send_from_directory(p.parent, p.name, as_attachment=True)
+        # Best-effort: send the file, then nuke the tempdir. If the
+        # connection dies before send_from_directory finishes, the
+        # unlink in `finally` still runs.
+        return _send_and_cleanup(p, tmpdir)
 
     # =======================================================================
     # v1.1 — Case store, Kùzu graph, intel resolver, extra OSINT sources
     # =======================================================================
     try:
         from estorides_core.cases import store as case_store
-    except Exception:  # noqa: BLE001
+    except Exception:
         case_store = None  # type: ignore[assignment]
     try:
         from estorides_core.graph_kuzu import backend as kuzu_backend
-    except Exception:  # noqa: BLE001
+    except Exception:
         kuzu_backend = None  # type: ignore[assignment]
     try:
         from estorides_core.intel_resolver import resolver as intel_resolver
-    except Exception:  # noqa: BLE001
+    except Exception:
         intel_resolver = None  # type: ignore[assignment]
     try:
         from estorides_core.fusion_store import open_store as _open_fusion_store
         fusion_store = _open_fusion_store()
-    except Exception:  # noqa: BLE001
+    except Exception:
         fusion_store = None  # type: ignore[assignment]
 
     @app.route("/api/cases", methods=["GET"])
     @_rate_limit_decorator(event="api_cases")
+    @require_auth
     def api_cases_list() -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
@@ -404,6 +475,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_get")
+    @require_auth
     def api_cases_get(case_id: str) -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
@@ -418,6 +490,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>", methods=["DELETE"])
     @_rate_limit_decorator(event="api_cases_delete")
+    @require_auth
     def api_cases_delete(case_id: str) -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
@@ -426,6 +499,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>/save", methods=["POST"])
     @_rate_limit_decorator(event="api_cases_save")
+    @require_auth
     def api_cases_save(case_id: str) -> Any:
         """Bookmark a case from the UI.
 
@@ -444,16 +518,17 @@ def create_app() -> Flask:
         body = request.get_json(silent=True) or {}
         note = (body.get("note") or "").strip()
         bookmark = "[saved] " + (note or case.get("query", ""))
-        with case_store._lock:  # noqa: SLF001 — internal but documented
-            case_store._conn.execute(  # noqa: SLF001
+        with case_store._lock:
+            case_store._conn.execute(
                 "UPDATE cases SET notes=? WHERE id=?",
                 (bookmark, case_id),
             )
-            case_store._conn.commit()  # noqa: SLF001
+            case_store._conn.commit()
         return jsonify(case_store.get_case(case_id))
 
     @app.route("/api/cases/diff", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_diff")
+    @require_auth
     def api_cases_diff() -> Any:
         """Symmetric diff between two cases by entity (type, value).
 
@@ -479,6 +554,7 @@ def create_app() -> Flask:
 
     @app.route("/api/intel/resolve", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_resolve")
+    @require_auth
     def api_intel_resolve() -> Any:
         """Cross-feed entity resolution (Osiris-style /resolve).
 
@@ -504,16 +580,21 @@ def create_app() -> Flask:
         if kuzu_backend is not None:
             try:
                 # Find the canonical id in our schema.
-                from estorides_core.graph_kuzu import _node_id, _label_for
+                from estorides_core.graph_kuzu import _node_id
                 nid = _node_id(ent_type, ent_id)
                 neighbors = kuzu_backend.neighbors(nid, hops=WEB.intel_neighbor_hops)
                 out["persistent_neighbors"] = neighbors
-            except Exception as e:  # noqa: BLE001
-                out["persistent_neighbors_error"] = str(e)
+            except Exception:
+                # Issue #44: don't leak Kuzu column names / schema
+                # details to the client. Log server-side; return a
+                # generic flag.
+                log.exception("persistent_neighbors lookup failed")
+                out["persistent_neighbors_error"] = "lookup-failed"
         return jsonify(out)
 
     @app.route("/api/intel/graph", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_graph")
+    @require_auth
     def api_intel_graph() -> Any:
         """Cypher query against the Kùzu persistent graph.
 
@@ -544,15 +625,21 @@ def create_app() -> Flask:
                 }), 400
         try:
             rows = kuzu_backend.cypher(q)
-        except Exception as e:  # noqa: BLE001
-            return jsonify({"error": "cypher-failed", "detail": str(e)}), 400
+        except Exception:
+            # Issue #44: log the Kuzu error server-side, return a
+            # generic message. The old "detail" field carried table
+            # names, column names, and query fragments back to the
+            # client.
+            log.exception("cypher query failed")
+            return jsonify({"error": "cypher-failed"}), 400
         return jsonify({"rows": rows, "count": len(rows)})
 
     @app.route("/api/intel/stats", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_stats")
+    @require_auth
     def api_intel_stats() -> Any:
         """Stats for both the case store and the Kùzu graph."""
-        out: Dict[str, Any] = {}
+        out: dict[str, Any] = {}
         if case_store is not None:
             out["cases"] = case_store.stats()
         if kuzu_backend is not None:
@@ -574,15 +661,17 @@ def create_app() -> Flask:
 
     @app.route("/api/fusion/sources", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_sources")
+    @require_auth
     def api_fusion_sources() -> Any:
         """The YAML source catalogue with accumulated fetch/ok counters."""
         if fusion_store is None:
             return jsonify({"error": "fusion store unavailable"}), 503
-        limit = min(max(int(request.args.get("limit", 200)), 1), 500)
+        limit = min(max(_arg_int("limit", 200), 1), 500)
         return jsonify({"sources": fusion_store.list_sources(limit=limit)})
 
     @app.route("/api/fusion/entities", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entities")
+    @require_auth
     def api_fusion_entities() -> Any:
         """Search fused entities.
 
@@ -594,8 +683,8 @@ def create_app() -> Flask:
             return jsonify({"error": "fusion store unavailable"}), 503
         term = request.args.get("q", "").strip()
         etype = request.args.get("type", "").strip()
-        min_sources = max(int(request.args.get("min_sources", 0) or 0), 0)
-        limit = min(max(int(request.args.get("limit", 50)), 1), 200)
+        min_sources = max(_arg_int("min_sources", 0), 0)
+        limit = min(max(_arg_int("limit", 50), 1), 200)
         return jsonify({
             "entities": fusion_store.search_entities(
                 term, etype, min_sources=min_sources, limit=limit
@@ -604,6 +693,7 @@ def create_app() -> Flask:
 
     @app.route("/api/fusion/entity/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entity")
+    @require_auth
     def api_fusion_entity(eid: str) -> Any:
         """Full fused view of one entity: provenance, properties, edges.
 
@@ -615,14 +705,14 @@ def create_app() -> Flask:
         entity = fusion_store.get_entity(eid)
         if entity is None:
             return jsonify({"error": "not found"}), 404
-        min_sources = max(int(request.args.get("min_sources", 2) or 2), 1)
+        min_sources = max(_arg_int("min_sources", 2), 1)
         entity["corroborated"] = fusion_store.corroborated_properties(eid, min_sources)
         return jsonify(entity)
 
     # ----- Maltego-style transforms -----
     try:
         from estorides_core.transforms import registry as transform_registry
-    except Exception:  # noqa: BLE001
+    except Exception:
         transform_registry = None  # type: ignore[assignment]
 
     @app.route("/api/transforms", methods=["GET"])
@@ -641,6 +731,7 @@ def create_app() -> Flask:
 
     @app.route("/api/transform/run", methods=["POST"])
     @_rate_limit_decorator(event="api_transform_run")
+    @require_auth
     def api_transform_run() -> Any:
         """Run one transform and return nodes/links for graph merge.
 
@@ -659,11 +750,12 @@ def create_app() -> Flask:
     # ----- Osiris-style extra OSINT endpoints (keyless) -----
     try:
         from estorides_core import osiris_sources
-    except Exception:  # noqa: BLE001
+    except Exception:
         osiris_sources = None  # type: ignore[assignment]
 
     @app.route("/api/osiris/bgp", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_bgp")
+    @require_auth
     def api_osiris_bgp() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -674,6 +766,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/mac", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_mac")
+    @require_auth
     def api_osiris_mac() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -684,6 +777,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/phone", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_phone")
+    @require_auth
     def api_osiris_phone() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -694,6 +788,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/github", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_github")
+    @require_auth
     def api_osiris_github() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -704,6 +799,7 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/leaks", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_leaks")
+    @require_auth
     def api_osiris_leaks() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
@@ -714,19 +810,21 @@ def create_app() -> Flask:
 
     @app.route("/api/osiris/cisa-kev", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_kev")
+    @require_auth
     def api_osiris_kev() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
-        limit = int(request.args.get("limit", 10))
-        days = int(request.args.get("days", 30))
+        limit = _arg_int("limit", 10)
+        days = _arg_int("days", 30)
         return jsonify(osiris_sources.fetch_cisa_kev(limit=limit, days=days))
 
     @app.route("/api/osiris/malware", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_malware")
+    @require_auth
     def api_osiris_malware() -> Any:
         if osiris_sources is None:
             return jsonify({"error": "osiris sources unavailable"}), 503
-        limit = int(request.args.get("limit", 200))
+        limit = _arg_int("limit", 200)
         return jsonify(osiris_sources.fetch_malware_c2(limit=limit))
 
     @app.route("/api/osiris_threats")
@@ -741,6 +839,8 @@ def create_app() -> Flask:
     # to the stream — no polling, no manual orchestration.
 
     @app.route("/api/discover/start", methods=["POST"])
+    @_rate_limit_decorator(event="api_discover_start")
+    @require_auth
     def api_discover_start() -> Any:
         body = request.get_json(silent=True) or {}
         seed_value = (body.get("value") or request.args.get("value") or "").strip()
@@ -785,10 +885,14 @@ def create_app() -> Flask:
         })
 
     @app.route("/api/discover/jobs", methods=["GET"])
+    @_rate_limit_decorator(event="api_discover_jobs")
+    @require_auth
     def api_discover_jobs() -> Any:
-        return jsonify({"jobs": list_discover_jobs(limit=int(request.args.get("limit", 20)))})
+        return jsonify({"jobs": list_discover_jobs(limit=_arg_int("limit", 20))})
 
     @app.route("/api/discover/stop", methods=["POST"])
+    @_rate_limit_decorator(event="api_discover_stop")
+    @require_auth
     def api_discover_stop() -> Any:
         body = request.get_json(silent=True) or {}
         job_id = (body.get("job_id") or request.args.get("job_id") or "").strip()
@@ -799,6 +903,8 @@ def create_app() -> Flask:
         return jsonify({"job_id": job_id, "status": "stopping"})
 
     @app.route("/api/discover/stream", methods=["GET"])
+    @_rate_limit_decorator(event="api_discover_stream")
+    @require_auth
     def api_discover_stream() -> Any:
         """Server-Sent Events for a discoverer job.
 
@@ -853,6 +959,7 @@ def create_app() -> Flask:
 
     @app.route("/api/run/stream/start", methods=["POST"])
     @_rate_limit_decorator(event="api_run_stream_start")
+    @require_auth
     def api_run_stream_start() -> Any:
         body = request.get_json(silent=True) or {}
         q = validate_query(str(body.get("query") or ""))
@@ -877,11 +984,11 @@ def create_app() -> Flask:
                     query_type=q.type,
                     notes=f"deep-run seed={q.type}:{q.normalised}",
                 )
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 log.warning("deep-run case create failed, running ephemeral: %s", e)
 
         job = _RunStreamJob(_new_stream_job_id(), q.normalised, q.type or "any", case_id)
-        RUN_STREAM_JOBS[job.job_id] = job
+        RUN_STREAM_JOBS.register(job.job_id, job)
 
         async def _drive() -> None:
             # Build the Orchestrator off the event loop: loading the
@@ -918,6 +1025,8 @@ def create_app() -> Flask:
         })
 
     @app.route("/api/run/stream/stop", methods=["POST"])
+    @_rate_limit_decorator(event="api_run_stream_stop")
+    @require_auth
     def api_run_stream_stop() -> Any:
         body = request.get_json(silent=True) or {}
         job_id = (body.get("job_id") or request.args.get("job_id") or "").strip()
@@ -928,6 +1037,8 @@ def create_app() -> Flask:
         return jsonify({"job_id": job_id, "status": "stopping"})
 
     @app.route("/api/run/stream", methods=["GET"])
+    @_rate_limit_decorator(event="api_run_stream")
+    @require_auth
     def api_run_stream() -> Any:
         job_id = (request.args.get("job_id") or "").strip()
         job = RUN_STREAM_JOBS.get(job_id)
@@ -974,6 +1085,8 @@ def create_app() -> Flask:
 # up a new loop per request and keeps the SSE writer in the same
 # loop that the discoverer task runs in.
 import threading
+
+
 def _serve_loop() -> None:
     global _background_loop
     _background_loop = asyncio.new_event_loop()
@@ -987,7 +1100,7 @@ _background_loop: asyncio.AbstractEventLoop = None  # type: ignore[assignment]
 threading.Thread(target=_serve_loop, daemon=True, name="estorides-discoverer").start()
 
 
-def _shape_for_ui(result: Dict[str, Any]) -> Dict[str, Any]:
+def _shape_for_ui(result: dict[str, Any]) -> dict[str, Any]:
     """Trim raw responses for the UI and reformat observations."""
     obs = []
     for o in result.get("observations", []):

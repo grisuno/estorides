@@ -105,10 +105,24 @@ def export_stix_encrypted(
     """Build the STIX bundle, write to disk, encrypt to <path>.age.
 
     `path` is the plaintext filename; the returned path is the
-    encrypted artefact next to it."""
+    encrypted artefact next to it. The plaintext is removed once
+    encryption succeeds so reports/ never accumulates raw intel
+    bundles — that was the disk-residue problem fixed for issue #8.
+    """
     from estorides_export import export_stix  # local import to avoid cycle
     plain = export_stix(kg, path=path)
-    return encrypt_file(plain, recipient_pubkey)
+    try:
+        return encrypt_file(plain, recipient_pubkey)
+    finally:
+        # Always clean the plaintext, even on encryption failure —
+        # leaving a plaintext bundle on a half-failed export is the
+        # exact leak this helper exists to prevent.
+        try:
+            plain.unlink()
+        except FileNotFoundError:
+            pass
+        except OSError as e:
+            log.warning("could not remove plaintext %s: %s", plain, e)
 
 
 def export_misp_encrypted(
@@ -118,4 +132,12 @@ def export_misp_encrypted(
 ) -> Path:
     from estorides_export import export_misp
     plain = export_misp(kg, path=path)
-    return encrypt_file(plain, recipient_pubkey)
+    try:
+        return encrypt_file(plain, recipient_pubkey)
+    finally:
+        try:
+            plain.unlink()
+        except FileNotFoundError:
+            pass
+        except OSError as e:
+            log.warning("could not remove plaintext %s: %s", plain, e)

@@ -28,10 +28,11 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any
 
 from .cases import store as case_store
 from .config import PIVOT, PIVOT_POLICY_INFRA, STREAM
+from .job_registry import BoundedJobRegistry
 from .pivot_engine import EventSink, PivotEngine, PivotEvent
 
 log = logging.getLogger("estorides.discoverer")
@@ -63,15 +64,15 @@ class DiscoverJob:
     deadline_s: float = PIVOT.per_target_timeout_seconds
     parallel: int = PIVOT.parallel
     passive_only: bool = False
-    proxy: Optional[str] = None
+    proxy: str | None = None
     started_at: float = field(default_factory=time.time)
     status: str = "queued"  # queued | running | done | error | stopped
     steps_done: int = 0
     entities_seen: int = 0
     queue_remaining: int = 0
-    seen: Set[Tuple[str, str]] = field(default_factory=set)
-    events: List[Dict[str, Any]] = field(default_factory=list)
-    error: Optional[str] = None
+    seen: set[tuple[str, str]] = field(default_factory=set)
+    events: list[dict[str, Any]] = field(default_factory=list)
+    error: str | None = None
     _stop: bool = False
 
     def stop(self) -> None:
@@ -80,7 +81,7 @@ class DiscoverJob:
     def should_stop(self) -> bool:
         return self._stop
 
-    def push_event(self, ev: Dict[str, Any]) -> None:
+    def push_event(self, ev: dict[str, Any]) -> None:
         """Append an event and keep the buffer bounded."""
         ev = dict(ev)
         ev.setdefault("ts", time.time())
@@ -109,10 +110,10 @@ class _DiscoverJobSink:
 
     # The job already announced "started" in start_discover; ignore the
     # engine's duplicate so the UI sees exactly one.
-    def _on_started(self, data: Dict[str, Any]) -> None:
+    def _on_started(self, data: dict[str, Any]) -> None:
         self._job.status = "running"
 
-    def _on_target_start(self, data: Dict[str, Any]) -> None:
+    def _on_target_start(self, data: dict[str, Any]) -> None:
         target = data.get("target") or {}
         self._job.push_event({
             "type": "step_start",
@@ -122,7 +123,7 @@ class _DiscoverJobSink:
             "queue_remaining": self._job.queue_remaining,
         })
 
-    def _on_entity(self, data: Dict[str, Any]) -> None:
+    def _on_entity(self, data: dict[str, Any]) -> None:
         self._job.entities_seen += 1
         # Every surfaced entity is reported as node_found so the UI renders
         # it in the entities tab — including non-pivotable human selectors
@@ -137,7 +138,7 @@ class _DiscoverJobSink:
             "pivoted": bool(data.get("pivoted", True)),
         })
 
-    def _on_target_done(self, data: Dict[str, Any]) -> None:
+    def _on_target_done(self, data: dict[str, Any]) -> None:
         self._job.steps_done = int(data.get("step", self._job.steps_done))
         self._job.queue_remaining = int(data.get("queue_remaining", 0))
         self._job.push_event({
@@ -149,17 +150,17 @@ class _DiscoverJobSink:
             "step": self._job.steps_done,
         })
 
-    def _on_target_error(self, data: Dict[str, Any]) -> None:
+    def _on_target_error(self, data: dict[str, Any]) -> None:
         self._job.push_event({
             "type": "step_error",
             "target": data.get("target") or {},
             "error": data.get("error", "unknown"),
         })
 
-    def _on_stopping(self, data: Dict[str, Any]) -> None:
+    def _on_stopping(self, data: dict[str, Any]) -> None:
         self._job.push_event({"type": "stopping", "reason": data.get("reason", "")})
 
-    def _on_finished(self, data: Dict[str, Any]) -> None:
+    def _on_finished(self, data: dict[str, Any]) -> None:
         self._job.status = str(data.get("status", "done"))
         self._job.steps_done = int(data.get("steps_done", self._job.steps_done))
         self._job.entities_seen = int(data.get("entities_seen", self._job.entities_seen))
@@ -170,15 +171,19 @@ class _DiscoverJobSink:
             "entities_seen": self._job.entities_seen,
         })
 
-    def _on_fatal(self, data: Dict[str, Any]) -> None:
+    def _on_fatal(self, data: dict[str, Any]) -> None:
         self._job.status = "error"
         self._job.error = str(data.get("error", "unknown"))
         self._job.push_event({"type": "error", "error": self._job.error})
 
 
-# In-process registry. A single web worker is the only writer, so a plain
-# dict is safe (key writes are atomic in CPython and never mutated in place).
-DISCOVER_JOBS: Dict[str, DiscoverJob] = {}
+# In-process registry with LRU + TTL eviction. Issues #20 and #50 reported
+# that the old `Dict[str, DiscoverJob]` accumulated jobs without bound; a
+# `BoundedJobRegistry` (max size + TTL) keeps the active set bounded.
+DISCOVER_JOBS = BoundedJobRegistry[DiscoverJob](
+    max_size=STREAM.job_registry_max_size,
+    ttl_seconds=STREAM.job_registry_ttl_seconds,
+)
 
 
 def _new_job_id() -> str:
@@ -196,7 +201,7 @@ def create_discover_job(
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
     passive_only: bool = False,
-    proxy: Optional[str] = None,
+    proxy: str | None = None,
 ) -> DiscoverJob:
     """Create and register a discovery job synchronously.
 
@@ -224,7 +229,7 @@ def create_discover_job(
         passive_only=passive_only,
         proxy=proxy,
     )
-    DISCOVER_JOBS[job.job_id] = job
+    DISCOVER_JOBS.register(job.job_id, job)
     job.push_event({
         "type": "started",
         "job_id": job.job_id,
@@ -254,7 +259,7 @@ async def start_discover(
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
     passive_only: bool = False,
-    proxy: Optional[str] = None,
+    proxy: str | None = None,
 ) -> DiscoverJob:
     """Create a discovery job and schedule its worker on the current loop.
 
@@ -288,7 +293,7 @@ def start_discover_threadsafe(
     deadline_s: float = PIVOT.per_target_timeout_seconds,
     parallel: int = PIVOT.parallel,
     passive_only: bool = False,
-    proxy: Optional[str] = None,
+    proxy: str | None = None,
 ) -> DiscoverJob:
     """Create the job in the calling thread, fire its worker on `loop`.
 
@@ -341,7 +346,7 @@ async def _run_discoverer(job: DiscoverJob) -> None:
     await engine.run(job.seed_type, job.seed_value)
 
 
-def list_jobs(limit: int = 20) -> List[Dict[str, Any]]:
+def list_jobs(limit: int = 20) -> list[dict[str, Any]]:
     """Snapshot of the recent jobs for the /api/discover/jobs endpoint."""
     items = sorted(
         DISCOVER_JOBS.values(),
