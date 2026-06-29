@@ -70,12 +70,39 @@ REPORTS_DIR: Path = PROJECT_ROOT / "reports"
 TEMPLATES_DIR: Path = PROJECT_ROOT / "templates"
 STATIC_DIR: Path = PROJECT_ROOT / "static"
 
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+# Issue #49: do NOT call .mkdir() at import time. The previous code
+# did, which violated the project's "no side effects at import" rule:
+# running `ruff check`, `mypy`, or any static analysis that imports
+# this module would create filesystem directories. Directories are
+# now created lazily via `ensure_data_dirs()` and `ensure_reports_dir()`
+# (idempotent), called from the app factory and from any code path
+# that actually needs to write.
 
 DATASET_PATH: Path = DATA_DIR / "estorides_dataset.jsonl"
 GRAPH_PATH: Path = DATA_DIR / "estorides_graph.graphml"
 CACHE_PATH: Path = DATA_DIR / "estorides_cache.sqlite"
+
+
+def ensure_data_dirs() -> None:
+    """Idempotently create DATA_DIR.
+
+    Replaces the import-time mkdir that issue #49 reported. Call
+    this from the app factory and from any code path that actually
+    needs to write to DATA_DIR. Idempotent: exist_ok=True so a
+    pre-existing directory is fine.
+    """
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def ensure_reports_dir() -> None:
+    """Idempotently create REPORTS_DIR.
+
+    Same posture as ensure_data_dirs(). /api/export/<fmt> used to
+    write through this path; issue #43 moved export artefacts to a
+    tempfile, but the directory is still useful for operator-facing
+    exports.
+    """
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 STIX_BUNDLE_PATH: Path = DATA_DIR / "estorides_stix_bundle.json"
 MISP_EVENT_PATH: Path = DATA_DIR / "estorides_misp_event.json"
 ENTITY_STORE_PATH: Path = Path(
