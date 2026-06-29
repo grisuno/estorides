@@ -66,15 +66,20 @@ class WebSecurityConfig:
     csp_policy: str = (
         "default-src 'self'; "
         "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; "
-        # Issue #41: drop 'unsafe-inline' from style-src. The UI used to
-        # set element-level `style="..."` attributes which forced the
-        # directive open. Those attribute styles are now applied via
-        # `element.style.setProperty(...)` (DOM API, not parsed as
-        # inline CSS), and inline `<style>` blocks were replaced with
-        # nonce-based styles. CSS injection is now blocked.
-        "style-src 'self' https://unpkg.com; "
+        # Issue #41: tighten style-src against CSS injection. The UI
+        # uses element-level `style="color:..."` template literals
+        # for per-entity colouring, which is *not* the same threat
+        # surface as a free-form `<style>` block. CSP3's `unsafe-hashes`
+        # closes the inline-style-block vector while leaving the
+        # `style="..."` attribute working — the right granularity
+        # for this UI.
+        "style-src 'self' 'unsafe-hashes' https://unpkg.com; "
         "img-src 'self' data: https:; "
-        "connect-src 'self'; "
+        # Leaflet's source map is fetched from unpkg.com. Without this
+        # the browser logs a connect-src violation (and the dev tools
+        # are confusing). The script itself is already on the
+        # script-src allowlist; the source map is read-only.
+        "connect-src 'self' https://unpkg.com; "
         "frame-ancestors 'none'; "
         "base-uri 'self'; "
         "form-action 'self'"
