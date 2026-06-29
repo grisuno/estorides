@@ -783,6 +783,8 @@ def create_app() -> Flask:
     # to the stream — no polling, no manual orchestration.
 
     @app.route("/api/discover/start", methods=["POST"])
+    @_rate_limit_decorator(event="api_discover_start")
+    @require_auth
     def api_discover_start() -> Any:
         body = request.get_json(silent=True) or {}
         seed_value = (body.get("value") or request.args.get("value") or "").strip()
@@ -827,10 +829,14 @@ def create_app() -> Flask:
         })
 
     @app.route("/api/discover/jobs", methods=["GET"])
+    @_rate_limit_decorator(event="api_discover_jobs")
+    @require_auth
     def api_discover_jobs() -> Any:
         return jsonify({"jobs": list_discover_jobs(limit=int(request.args.get("limit", 20)))})
 
     @app.route("/api/discover/stop", methods=["POST"])
+    @_rate_limit_decorator(event="api_discover_stop")
+    @require_auth
     def api_discover_stop() -> Any:
         body = request.get_json(silent=True) or {}
         job_id = (body.get("job_id") or request.args.get("job_id") or "").strip()
@@ -841,6 +847,8 @@ def create_app() -> Flask:
         return jsonify({"job_id": job_id, "status": "stopping"})
 
     @app.route("/api/discover/stream", methods=["GET"])
+    @_rate_limit_decorator(event="api_discover_stream")
+    @require_auth
     def api_discover_stream() -> Any:
         """Server-Sent Events for a discoverer job.
 
