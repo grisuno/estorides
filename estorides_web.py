@@ -208,6 +208,8 @@ def create_app() -> Flask:
         return render_template("index.html", **{AUTH_META.replace("-", "_"): auth_token or ""})
 
     @app.route("/api/status")
+    @_rate_limit_decorator(event="api_status")
+    @require_auth
     def api_status() -> Any:
         return jsonify(orch.registry.summary())
 
