@@ -438,6 +438,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>", methods=["DELETE"])
     @_rate_limit_decorator(event="api_cases_delete")
+    @require_auth
     def api_cases_delete(case_id: str) -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
