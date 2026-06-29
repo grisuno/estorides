@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
-cd /home/grisun0/src_note/py/fucklantir/estorides
+# Issue #42: replace the developer's hardcoded home-directory path
+# with a portable BASH_SOURCE-derived path. This pattern is identical
+# to the one already used in install.sh.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 echo "=== TEST 1: IP query (8.8.8.8) ==="
 timeout 50 python3 estorides_cli.py run 8.8.8.8 --parallel 4 2>&1 | grep -E "query_type|sources queried|sources succeeded|Top entities|backend" | head -8
