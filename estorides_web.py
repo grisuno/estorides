@@ -14,9 +14,12 @@ import asyncio
 import json
 import logging
 import os
+import shutil
+import tempfile
 import time
 from collections.abc import Callable
 from functools import wraps
+from pathlib import Path
 from typing import Any
 
 from flask import Flask, Response, jsonify, render_template, request, send_from_directory
@@ -27,7 +30,6 @@ from estorides_core.config import (
     FLASK_PORT,
     GRAPH_PATH,
     PIVOT,
-    REPORTS_DIR,
     STATIC_DIR,
     STREAM,
     TEMPLATES_DIR,
@@ -94,6 +96,20 @@ def _arg_int(name: str, default: int) -> int:
         return int(raw)
     except ValueError:
         return default
+
+
+def _send_and_cleanup(p: Path, tmpdir: Path) -> Any:
+    """Send `p` as an attachment, then nuke `tmpdir` regardless of outcome.
+
+    Used by /api/export/<fmt> so reports/ doesn't accumulate a copy of
+    every exported bundle — see issue #43. The `finally` runs even when
+    the client disconnects mid-stream, which is the realistic failure
+    case for the exhaustion attack.
+    """
+    try:
+        return send_from_directory(p.parent, p.name, as_attachment=True)
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 class _RunStreamJob:
@@ -386,26 +402,37 @@ def create_app() -> Flask:
         # produce an .age file; otherwise we fall back to plaintext
         # and let the client encrypt out-of-band.
         age_key = request.args.get("key", "").strip()
+        # Issue #43: write to a tempdir-backed path that we own and
+        # unlink in `finally` so reports/ doesn't grow without bound.
+        # The `send_from_directory` call below serves the file as an
+        # attachment; the on-disk copy exists only for the lifetime of
+        # the response.
+        tmpdir = Path(tempfile.mkdtemp(prefix="estorides_export_"))
         try:
             if fmt == "stix":
-                p = REPORTS_DIR / f"bundle_{int(time.time())}.json"
+                p = tmpdir / f"bundle_{int(time.time())}.json"
                 p = export_stix_encrypted(kg, age_key, p) if age_key else export_stix(kg, path=p)
             elif fmt == "misp":
-                p = REPORTS_DIR / f"event_{int(time.time())}.json"
+                p = tmpdir / f"event_{int(time.time())}.json"
                 p = export_misp_encrypted(kg, age_key, p) if age_key else export_misp(kg, path=p)
             elif fmt == "graphml":
-                p = kg.export_graphml(REPORTS_DIR / f"graph_{int(time.time())}.graphml")
+                p = kg.export_graphml(tmpdir / f"graph_{int(time.time())}.graphml")
             elif fmt == "json":
-                p = REPORTS_DIR / f"graph_{int(time.time())}.json"
+                p = tmpdir / f"graph_{int(time.time())}.json"
                 p.write_text(json.dumps(kg.export_json(), indent=2, ensure_ascii=False),
                              encoding="utf-8")
             else:
                 return jsonify({"error": f"unknown format {fmt}"}), 400
         except ValueError as e:
+            shutil.rmtree(tmpdir, ignore_errors=True)
             return jsonify({"error": "invalid-encryption-key", "detail": str(e)}), 400
         except RuntimeError as e:
+            shutil.rmtree(tmpdir, ignore_errors=True)
             return jsonify({"error": "encryption-failed", "detail": str(e)}), 500
-        return send_from_directory(p.parent, p.name, as_attachment=True)
+        # Best-effort: send the file, then nuke the tempdir. If the
+        # connection dies before send_from_directory finishes, the
+        # unlink in `finally` still runs.
+        return _send_and_cleanup(p, tmpdir)
 
     # =======================================================================
     # v1.1 — Case store, Kùzu graph, intel resolver, extra OSINT sources
