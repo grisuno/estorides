@@ -209,6 +209,7 @@ def create_app() -> Flask:
 
     @app.route("/api/run", methods=["POST"])
     @_rate_limit_decorator(event="api_run")
+    @require_auth
     def api_run() -> Any:
         body = request.get_json(silent=True) or {}
         # Validate query through the central guard. A failure here
