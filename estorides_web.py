@@ -423,6 +423,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_get")
+    @require_auth
     def api_cases_get(case_id: str) -> Any:
         if case_store is None:
             return jsonify({"error": "case store unavailable"}), 503
