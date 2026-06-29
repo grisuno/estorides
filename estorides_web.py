@@ -476,6 +476,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/diff", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_diff")
+    @require_auth
     def api_cases_diff() -> Any:
         """Symmetric diff between two cases by entity (type, value).
 
