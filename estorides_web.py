@@ -891,6 +891,7 @@ def create_app() -> Flask:
 
     @app.route("/api/run/stream/start", methods=["POST"])
     @_rate_limit_decorator(event="api_run_stream_start")
+    @require_auth
     def api_run_stream_start() -> Any:
         body = request.get_json(silent=True) or {}
         q = validate_query(str(body.get("query") or ""))
