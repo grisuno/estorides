@@ -184,3 +184,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 estorides_result_*.json
+
+# Generated intelligence exports (STIX / MISP / GraphML / JSON bundles).
+# Each /api/export/<fmt> call drops a new file in reports/; committing them
+# would publish real OSINT investigation data (IPs, domains, entities) to
+# the repo. See issue #33 — the directory must stay gitignored.
+reports/*.json
+reports/*.json.age
+reports/*.graphml
+reports/*.age
