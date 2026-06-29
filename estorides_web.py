@@ -248,6 +248,8 @@ def create_app() -> Flask:
         return jsonify(shaped)
 
     @app.route("/api/graph")
+    @_rate_limit_decorator(event="api_graph")
+    @require_auth
     def api_graph() -> Any:
         if not GRAPH_PATH.exists():
             return jsonify({"nodes": [], "edges": []})
