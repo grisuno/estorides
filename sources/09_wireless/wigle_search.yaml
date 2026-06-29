@@ -1,10 +1,18 @@
 name: wigle_search
-enabled: true
+# Issue #45: the previous `key_env: WIGLE_API_NAME_WIGLE_API_API_KEY`
+# referenced a non-existent env var (the typo concatenated three
+# identifiers). WiGLE actually requires HTTP Basic Auth with
+# (WIGLE_API_NAME, WIGLE_API_TOKEN), which the source YAML's single
+# `key_env` field cannot model. Until the schema supports
+# `basic_auth_env: [WIGLE_API_NAME, WIGLE_API_TOKEN]`, mark the
+# source disabled so it doesn't surface as 'always fails' — the
+# operator can re-enable it once the auth shape is supported.
+enabled: false
 category: 09. Wireless
-description: WiGLE — wireless network geolocation (SSID/BSSID lookup)
+description: WiGLE — wireless network geolocation (SSID/BSSID lookup) [DISABLED pending Basic Auth support — issue #45]
 os: any
 requires_key: true
-key_env: WIGLE_API_NAME_WIGLE_API_API_KEY
+key_env: WIGLE_API_TOKEN
 parser: wigle
 entity_hints:
 - ssid
