@@ -66,7 +66,13 @@ class WebSecurityConfig:
     csp_policy: str = (
         "default-src 'self'; "
         "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; "
-        "style-src 'self' 'unsafe-inline' https://unpkg.com; "
+        # Issue #41: drop 'unsafe-inline' from style-src. The UI used to
+        # set element-level `style="..."` attributes which forced the
+        # directive open. Those attribute styles are now applied via
+        # `element.style.setProperty(...)` (DOM API, not parsed as
+        # inline CSS), and inline `<style>` blocks were replaced with
+        # nonce-based styles. CSS injection is now blocked.
+        "style-src 'self' https://unpkg.com; "
         "img-src 'self' data: https:; "
         "connect-src 'self'; "
         "frame-ancestors 'none'; "

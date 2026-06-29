@@ -1314,7 +1314,7 @@
     (g.top_entities || []).slice(0, 30).forEach((e) => {
       const row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = `<span style="color:${colorForKind(e.kind)}">${e.type}</span><span class="v">${escapeHTML(e.value || '')}</span><span class="score">${(e.score || 0).toFixed(1)}</span>`;
+      row.innerHTML = `<span style="color:${colorForKind(e.kind)}">${escapeHTML(e.type || '')}</span><span class="v">${escapeHTML(e.value || '')}</span><span class="score">${(e.score || 0).toFixed(1)}</span>`;
       list.appendChild(row);
     });
   }
@@ -1911,7 +1911,7 @@ function addDiscoverEntityToTab(entity, from) {
   div.setAttribute('data-type', entity.type);
   div.setAttribute('data-value', entity.value);
   div.innerHTML = `
-    <span class="type">${entity.type}</span>
+    <span class="type">${escapeHtml(entity.type || '')}</span>
     <span class="value">${escapeHtml(entity.value)}</span>
     <span class="srcs">via ${escapeHtml((from && from.value) || 'discoverer')}</span>
     <button class="entity-expand" type="button" title="Resolve and add to graph">⤴</button>
