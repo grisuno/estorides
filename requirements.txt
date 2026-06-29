@@ -1,24 +1,28 @@
 # Core runtime — needed for any non-trivial run.
 # Without these: `import estorides_core.orchestrator` fails on import.
-flask>=3.0
-networkx>=3.0
-requests>=2.31
-pyyaml>=6.0
-aiohttp>=3.9
+# Issue #40: upper bounds added to keep known-CVE ranges unreachable
+# from a fresh `pip install`. Pin to the first version that closes
+# the relevant CVE.
+flask>=3.0,<4.0
+networkx>=3.0,<4.0
+requests>=2.32.0,<3.0     # closes CVE-2024-35195
+pyyaml>=6.0,<7.0
+aiohttp>=3.10.11,<4.0      # closes CVE-2024-23334 + GHSA-v6wp-4m6f-hafc
+aiohttp>=3.9.4,<4.0        # closes GHSA-jwhx-xcg6-8xhj (request smuggling)
 
 # Persistent graph (v1.1) — embedded Cypher DB.
 # Optional: the orchestrator falls back to in-memory NetworkX if
 # kuzu is not importable, but a persistent cross-run graph only
 # happens with this dep present.
-kuzu>=0.11
+kuzu>=0.11,<1.0
 
 # Egress anonymisation (operator OPSEC) — SOCKS5/Tor support.
 # Optional: only needed when routing requests through a SOCKS proxy
 # (e.g. --tor / --proxy socks5://...). HTTP/HTTPS proxies work without
 # it. When a SOCKS proxy is requested and this is absent the client
 # fails closed rather than sending traffic in the clear.
-aiohttp_socks>=0.8
+aiohttp_socks>=0.8,<1.0
 
 # Optional but recommended for production deployments:
 # gunicorn — proper WSGI server (Flask's dev server is not for prod)
-gunicorn>=21.2
+gunicorn>=22.0,<24.0       # closes CVE-2024-1135 (request smuggling)
