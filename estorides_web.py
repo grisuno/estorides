@@ -447,6 +447,7 @@ def create_app() -> Flask:
 
     @app.route("/api/cases/<case_id>/save", methods=["POST"])
     @_rate_limit_decorator(event="api_cases_save")
+    @require_auth
     def api_cases_save(case_id: str) -> Any:
         """Bookmark a case from the UI.
 
