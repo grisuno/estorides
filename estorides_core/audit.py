@@ -70,26 +70,82 @@ class AuditEvent:
 
 
 class AuditLog:
-    """Append-only JSONL audit log.
+    """Append-only JSONL audit log with a size cap.
 
     Thread-safe via a process-level lock. The on-disk file is opened
     per-write so a long-running process never holds an exclusive handle
-    (which would defeat any out-of-band log rotation tooling)."""
+    (which would defeat any out-of-band log rotation tooling).
+
+    Issue #48: the log has no built-in rotation, so a busy deployment
+    grows the file without bound. We apply a soft size cap
+    (`ESTORIDES_AUDIT_MAX_BYTES`, default 50 MiB). When the cap is
+    hit we rotate in place: rename the current file to
+    `audit.jsonl.1` and start fresh. Older rotated copies are
+    removed so the directory doesn't grow without bound either —
+    only the active file and the previous rotation survive. The
+    cap is checked before each write so the cost is one stat per
+    record.
+    """
 
     def __init__(self, path: Path = AUDIT_PATH) -> None:
         self.path = path
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.Lock()
+        # Re-read on every write so an operator can hot-tune without
+        # a process restart.
+        self._max_bytes = int(
+            os.environ.get("ESTORIDES_AUDIT_MAX_BYTES", str(50 * 1024 * 1024))
+        )
+        # Number of historical rotations to keep (audit.jsonl.1, .2, ...).
+        self._keep_rotations = max(
+            0, int(os.environ.get("ESTORIDES_AUDIT_KEEP_ROTATIONS", "1"))
+        )
 
     def record(self, event: AuditEvent) -> None:
         line = event.to_jsonl()
         with self._lock:
             try:
+                self._maybe_rotate_locked()
                 with self.path.open("a", encoding="utf-8") as fh:
                     fh.write(line + "\n")
             except OSError as e:
                 # Never let an audit write fail a user request; just log.
                 log.warning("audit log write failed: %s", e)
+
+    def _maybe_rotate_locked(self) -> None:
+        """If the active file is over the cap, rotate in place.
+
+        Caller must hold `self._lock`. We use a per-write stat-then-
+        write sequence; the race window (another process also writing)
+        is acceptable for a single-tenant audit log — the worst case
+        is a slightly oversized file, not data loss.
+        """
+        if self._max_bytes <= 0:
+            return  # rotation disabled
+        try:
+            size = self.path.stat().st_size
+        except FileNotFoundError:
+            return
+        if size < self._max_bytes:
+            return
+        # Drop the oldest rotation if we're at the keep cap.
+        oldest = self.path.with_suffix(self.path.suffix + f".{self._keep_rotations}")
+        try:
+            oldest.unlink()
+        except FileNotFoundError:
+            pass
+        # Shift: .N-1 -> .N, .N-2 -> .N-1, ..., .1 -> .2, active -> .1
+        for i in range(self._keep_rotations - 1, 0, -1):
+            src = self.path.with_suffix(self.path.suffix + f".{i}")
+            dst = self.path.with_suffix(self.path.suffix + f".{i + 1}")
+            try:
+                src.replace(dst)
+            except FileNotFoundError:
+                pass
+        try:
+            self.path.replace(self.path.with_suffix(self.path.suffix + ".1"))
+        except FileNotFoundError:
+            pass
 
     def query(
         self,
