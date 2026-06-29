@@ -37,6 +37,7 @@ from estorides_core.discoverer import DISCOVER_JOBS, start_discover_threadsafe
 from estorides_core.discoverer import list_jobs as list_discover_jobs
 from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
+from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
@@ -127,7 +128,10 @@ class _RunStreamJob:
         return self.sink.done
 
 
-RUN_STREAM_JOBS: dict[str, _RunStreamJob] = {}
+RUN_STREAM_JOBS: BoundedJobRegistry = BoundedJobRegistry(
+    max_size=STREAM.job_registry_max_size,
+    ttl_seconds=STREAM.job_registry_ttl_seconds,
+)
 
 
 def _new_stream_job_id() -> str:
@@ -920,7 +924,7 @@ def create_app() -> Flask:
                 log.warning("deep-run case create failed, running ephemeral: %s", e)
 
         job = _RunStreamJob(_new_stream_job_id(), q.normalised, q.type or "any", case_id)
-        RUN_STREAM_JOBS[job.job_id] = job
+        RUN_STREAM_JOBS.register(job.job_id, job)
 
         async def _drive() -> None:
             # Build the Orchestrator off the event loop: loading the

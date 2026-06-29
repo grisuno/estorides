@@ -22,9 +22,9 @@ from __future__ import annotations
 
 import logging
 import os
-from dataclasses import dataclass, field
+from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping
 
 _log = logging.getLogger("estorides.config")
 
@@ -383,6 +383,8 @@ class StreamConfig:
     poll_interval_seconds: float
     heartbeat_idle_ticks: int
     start_dispatch_timeout_seconds: float
+    job_registry_max_size: int
+    job_registry_ttl_seconds: int
 
 
 @dataclass(frozen=True)
@@ -476,6 +478,14 @@ STREAM: StreamConfig = StreamConfig(
     poll_interval_seconds=_env_float("ESTORIDES_SSE_POLL_S", 1.0),
     heartbeat_idle_ticks=_env_int("ESTORIDES_SSE_HEARTBEAT_TICKS", 5),
     start_dispatch_timeout_seconds=_env_float("ESTORIDES_SSE_START_TIMEOUT_S", 15.0),
+    # Eviction for the in-memory job registries. Each job can hold up
+    # to `sse_buffer_cap` events of variable size, so a few hundred
+    # jobs can pin a measurable amount of RAM. The defaults cap the
+    # running set at 32 jobs and TTL them out after 30 min so a
+    # long-idle session can't grow the registry without bound — the
+    # exact exhaustion vector called out in issues #14 and #50.
+    job_registry_max_size=_env_int("ESTORIDES_JOB_REGISTRY_MAX_SIZE", 32),
+    job_registry_ttl_seconds=_env_int("ESTORIDES_JOB_REGISTRY_TTL_S", 30 * 60),
 )
 
 WEB: WebConfig = WebConfig(
