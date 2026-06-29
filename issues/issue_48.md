@@ -1,8 +1,8 @@
 # Issue #48: Audit log (data/audit.jsonl) has no rotation, size cap, or retention policy — unbounded growth and privacy risk
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:40Z
-- **Updated:** 2026-06-08T11:43:40Z
+- **Updated:** 2026-06-29T16:35:49Z
 - **Labels:** None
 
 ---

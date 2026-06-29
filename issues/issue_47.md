@@ -1,8 +1,8 @@
 # Issue #47: /api/graph serves the last operator's full intelligence graph without authentication or session isolation
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:35Z
-- **Updated:** 2026-06-08T11:43:35Z
+- **Updated:** 2026-06-29T16:32:58Z
 - **Labels:** None
 
 ---

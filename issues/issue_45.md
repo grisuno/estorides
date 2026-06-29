@@ -1,8 +1,8 @@
 # Issue #45: WiGLE source references non-existent env var WIGLE_API_NAME_WIGLE_API_API_KEY — source never authenticates
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:26Z
-- **Updated:** 2026-06-08T11:43:26Z
+- **Updated:** 2026-06-29T16:31:18Z
 - **Labels:** None
 
 ---

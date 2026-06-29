@@ -1,8 +1,8 @@
 # Issue #2: Unauthenticated /api/cases/<id>?full=1 exposes raw observations, entities, and analyst output
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:35Z
-- **Updated:** 2026-06-08T10:26:35Z
+- **Updated:** 2026-06-29T15:47:39Z
 - **Labels:** None
 
 ---

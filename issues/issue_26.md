@@ -1,8 +1,8 @@
 # Issue #26: Unauthenticated /api/intel/resolve leaks cross-run intelligence and can spend VirusTotal quota
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:46Z
-- **Updated:** 2026-06-08T10:31:46Z
+- **Updated:** 2026-06-29T16:13:58Z
 - **Labels:** None
 
 ---

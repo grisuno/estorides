@@ -1,8 +1,8 @@
 # Issue #43: /api/export/<fmt> creates permanent unbounded files in reports/ — unauthenticated disk exhaustion attack
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:16Z
-- **Updated:** 2026-06-08T11:43:16Z
+- **Updated:** 2026-06-29T16:28:03Z
 - **Labels:** None
 
 ---

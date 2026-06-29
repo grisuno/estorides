@@ -1,8 +1,8 @@
 # Issue #9: Unauthenticated /api/run allows arbitrary callers to burn paid-source keys and upstream quota
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:46Z
-- **Updated:** 2026-06-08T10:26:46Z
+- **Updated:** 2026-06-29T15:56:48Z
 - **Labels:** None
 
 ---

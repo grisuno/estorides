@@ -1,8 +1,8 @@
 # Issue #14: RUN_STREAM_JOBS is never evicted, so anonymous callers can grow server memory without bound
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:54Z
-- **Updated:** 2026-06-08T10:26:54Z
+- **Updated:** 2026-06-29T16:06:41Z
 - **Labels:** None
 
 ---

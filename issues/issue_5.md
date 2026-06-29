@@ -1,8 +1,8 @@
 # Issue #5: Unauthenticated /api/cases/diff reveals deltas between arbitrary investigations
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:40Z
-- **Updated:** 2026-06-08T10:26:40Z
+- **Updated:** 2026-06-29T15:50:56Z
 - **Labels:** None
 
 ---

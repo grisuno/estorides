@@ -1,8 +1,8 @@
 # Issue #49: estorides_core/config.py creates filesystem directories at module import time — violates project's own hard rules
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:44Z
-- **Updated:** 2026-06-08T11:43:44Z
+- **Updated:** 2026-06-29T16:38:34Z
 - **Labels:** None
 
 ---

@@ -1,8 +1,8 @@
 # Issue #44: Internal exception details (file paths, schema names, query fragments) returned to unauthenticated API clients
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:43:21Z
-- **Updated:** 2026-06-08T11:43:21Z
+- **Updated:** 2026-06-29T16:29:55Z
 - **Labels:** None
 
 ---

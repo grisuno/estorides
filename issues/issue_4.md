@@ -1,8 +1,8 @@
 # Issue #4: Unauthenticated POST /api/cases/<id>/save lets any caller overwrite case notes
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:38Z
-- **Updated:** 2026-06-08T10:26:38Z
+- **Updated:** 2026-06-29T15:49:53Z
 - **Labels:** None
 
 ---

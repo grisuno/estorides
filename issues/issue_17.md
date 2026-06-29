@@ -1,8 +1,8 @@
 # Issue #17: Unauthenticated /api/discover/jobs discloses every active discovery job and seed
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:59Z
-- **Updated:** 2026-06-08T10:26:59Z
+- **Updated:** 2026-06-29T16:08:19Z
 - **Labels:** None
 
 ---

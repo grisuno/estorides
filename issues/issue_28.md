@@ -1,8 +1,8 @@
 # Issue #28: /api/intel/graph accepts arbitrary expensive Cypher with no server-side timeout or enforced row cap
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:49Z
-- **Updated:** 2026-06-08T10:31:49Z
+- **Updated:** 2026-06-29T16:14:02Z
 - **Labels:** None
 
 ---

@@ -1,8 +1,8 @@
 # Issue #10: Client-controlled parallel, timeout, and deadline values make /api/run a single-request resource exhaustion primitive
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:48Z
-- **Updated:** 2026-06-08T10:26:48Z
+- **Updated:** 2026-06-29T15:58:14Z
 - **Labels:** None
 
 ---

@@ -1,8 +1,8 @@
 # Issue #34: Stored XSS via unescaped entity.type field in innerHTML template literals
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:31Z
-- **Updated:** 2026-06-08T11:42:31Z
+- **Updated:** 2026-06-29T16:18:05Z
 - **Labels:** None
 
 ---

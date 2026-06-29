@@ -1,8 +1,8 @@
 # Issue #19: Unauthenticated /api/discover/stop lets any caller cancel discovery jobs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:02Z
-- **Updated:** 2026-06-08T10:27:02Z
+- **Updated:** 2026-06-29T16:08:22Z
 - **Labels:** None
 
 ---

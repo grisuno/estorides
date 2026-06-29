@@ -1,8 +1,8 @@
 # Issue #12: Unauthenticated /api/run/stream leaks live deep-search events and case IDs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:51Z
-- **Updated:** 2026-06-08T10:26:51Z
+- **Updated:** 2026-06-29T16:00:37Z
 - **Labels:** None
 
 ---

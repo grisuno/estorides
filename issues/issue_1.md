@@ -1,8 +1,8 @@
 # Issue #1: Unauthenticated /api/cases leaks the full historical investigation corpus
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:33Z
-- **Updated:** 2026-06-08T10:26:33Z
+- **Updated:** 2026-06-29T15:46:22Z
 - **Labels:** None
 
 ---

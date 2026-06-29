@@ -1,8 +1,8 @@
 # Issue #29: Unauthenticated /api/intel/stats leaks corpus size and internal database paths
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:51Z
-- **Updated:** 2026-06-08T10:31:51Z
+- **Updated:** 2026-06-29T16:14:04Z
 - **Labels:** None
 
 ---

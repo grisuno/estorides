@@ -1,8 +1,8 @@
 # Issue #20: DISCOVER_JOBS is never evicted, allowing anonymous callers to retain unbounded job state in memory
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:04Z
-- **Updated:** 2026-06-08T10:27:04Z
+- **Updated:** 2026-06-29T16:06:43Z
 - **Labels:** None
 
 ---

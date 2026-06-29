@@ -1,8 +1,8 @@
 # Issue #23: microlink is misclassified as contact=none even though it fetches and screenshots target URLs
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:27:08Z
-- **Updated:** 2026-06-08T10:27:08Z
+- **Updated:** 2026-06-29T16:11:01Z
 - **Labels:** None
 
 ---

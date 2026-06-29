@@ -1,8 +1,8 @@
 # Issue #31: Public /api/osiris/* endpoints turn the deployment into an unauthenticated third-party reconnaissance relay
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:31:54Z
-- **Updated:** 2026-06-08T10:31:54Z
+- **Updated:** 2026-06-29T16:14:08Z
 - **Labels:** None
 
 ---

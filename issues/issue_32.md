@@ -1,8 +1,8 @@
 # Issue #32: [CRITICAL] #3: Unsafe LLM timeout handling causes race condition
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:35:04Z
-- **Updated:** 2026-06-08T10:35:04Z
+- **Updated:** 2026-06-29T16:15:32Z
 - **Labels:** None
 
 ---

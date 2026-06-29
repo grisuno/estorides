@@ -1,8 +1,8 @@
 # Issue #15: Unauthenticated /api/discover/start lets arbitrary callers queue background discovery crawls
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T10:26:55Z
-- **Updated:** 2026-06-08T10:26:55Z
+- **Updated:** 2026-06-29T16:08:15Z
 - **Labels:** None
 
 ---

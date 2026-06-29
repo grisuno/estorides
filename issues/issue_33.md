@@ -1,8 +1,8 @@
 # Issue #33: Real OSINT investigation data (IPs, domains) committed to git in reports/bundle_1780871293.json
 
-- **State:** open
+- **State:** closed
 - **Created:** 2026-06-08T11:42:27Z
-- **Updated:** 2026-06-08T11:42:27Z
+- **Updated:** 2026-06-29T16:16:06Z
 - **Labels:** None
 
 ---
