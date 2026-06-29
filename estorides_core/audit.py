@@ -124,9 +124,22 @@ class AuditLog:
 class RateLimiter:
     """In-process sliding-window rate limiter.
 
-    For a multi-worker deployment swap this for a Redis-backed
-    implementation; the call sites only depend on `allow()` returning
-    a bool, so the swap is local to this module.
+    The bucket state is a `dict[str, deque[float]]` held under a
+    `threading.Lock`. **The state is per-process** — when the
+    application is deployed with gunicorn's default multi-worker mode
+    (`-w 4`, as documented in `wsgi.py`), each worker process has its
+    own counter and the effective rate limit is `N_workers * limit`.
+
+    For a multi-worker deployment there are two safe options:
+
+    1.  Set `ESTORIDES_RATE_LIMIT = ceil(desired_total / N_workers)`,
+        so the per-worker cap × worker count approximates the
+        documented limit. This is the recommended shape for a
+        single-tenant deployment behind a reverse proxy that does
+        not share state.
+    2.  Swap this class for a Redis-backed implementation; the call
+        sites only depend on `allow()` returning a bool, so the swap
+        is local to this module. Issue #38 documents the trade-off.
     """
 
     def __init__(
