@@ -15,5 +15,5 @@ tool:
   method: GET
   url: https://www.reddit.com/user/{query}/about.json
   headers:
-    User-Agent: Estorides/1.0
+    User-Agent: estorides:web:v1.3 (by /u/estorides-dev)
   params: {}
