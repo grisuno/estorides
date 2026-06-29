@@ -957,6 +957,8 @@ def create_app() -> Flask:
         })
 
     @app.route("/api/run/stream/stop", methods=["POST"])
+    @_rate_limit_decorator(event="api_run_stream_stop")
+    @require_auth
     def api_run_stream_stop() -> Any:
         body = request.get_json(silent=True) or {}
         job_id = (body.get("job_id") or request.args.get("job_id") or "").strip()
@@ -967,6 +969,8 @@ def create_app() -> Flask:
         return jsonify({"job_id": job_id, "status": "stopping"})
 
     @app.route("/api/run/stream", methods=["GET"])
+    @_rate_limit_decorator(event="api_run_stream")
+    @require_auth
     def api_run_stream() -> Any:
         job_id = (request.args.get("job_id") or "").strip()
         job = RUN_STREAM_JOBS.get(job_id)
