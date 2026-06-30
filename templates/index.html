@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="estorides-auth-token" content="{{ estorides_auth_token or '' }}">
-    <title>Estorides — State-level OSINT Platform</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>%F0%9F%9B%B0</text></svg>" />
+    <title>{{ telemetry.brand }} — {{ telemetry.tagline }}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><polygon points='8,1 14,4.5 14,11.5 8,15 2,11.5 2,4.5' fill='none' stroke='%236366f1' stroke-width='1.5'/></svg>" />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/static/css/estorides.css" />
@@ -16,11 +16,11 @@
 </head>
 <body>
     <header class="topbar">
-        <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">☰</button>
+        <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
         <div class="brand">
             <span class="logo">⬢</span>
-            <span class="title">ESTORIDES</span>
-            <span class="subtitle">State-level OSINT Platform</span>
+            <span class="title">{{ telemetry.brand | upper }}</span>
+            <span class="subtitle">{{ telemetry.tagline }}</span>
         </div>
         <div class="search">
             <input id="query" type="text" placeholder="domain, IP, email, person, BTC address, CVE..." autocomplete="off" />
@@ -30,9 +30,9 @@
         </div>
         <div class="status">
             <span id="query-chip" class="query-chip hidden">type</span>
-            <div id="run-progress" class="progress-wrap" hidden>
+            <div id="run-progress" class="progress-wrap" role="progressbar" aria-label="Search progress" aria-valuemin="0" aria-valuemax="100" aria-busy="false" hidden>
                 <div class="progress-track"><div id="run-progress-bar" class="progress-bar"></div></div>
-                <span id="run-progress-text" class="progress-text">0 / 0</span>
+                <span id="run-progress-text" class="progress-text" aria-live="polite">0 / 0</span>
             </div>
             <span id="src-count" class="badge">…</span>
             <span id="last-run" class="badge subtle">no run yet</span>
@@ -79,7 +79,7 @@
                             <span class="example-chip">CVE-2021-44228</span>
                             <span class="example-chip">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
                         </div>
-                        <div class="shortcuts"><kbd>/</kbd> focus · <kbd>Ctrl+Enter</kbd> run · <kbd>Esc</kbd> clear · <kbd>?</kbd> help</div>
+                        <div class="shortcuts">{% for s in telemetry.shortcuts[:4] %}<kbd>{{ s.keys }}</kbd>{% if not loop.last %} · {% endif %}{% endfor %} · press <kbd>?</kbd> for all shortcuts</div>
                     </div>
                     <div id="results-list" class="results-list"></div>
                 </section>
@@ -133,7 +133,7 @@
                     </div>
                     <div id="intel-out" class="intel-out"></div>
                     <div class="meta-row meta-row-spaced">
-                        <span class="meta-label">Osiris-style OSINT probes (keyless)</span>
+                        <span class="meta-label">Direct OSINT probes (keyless)</span>
                     </div>
                     <div class="osiris-grid">
                         <button class="osiris-btn" data-osiris="bgp" data-args='{"query":"1.1.1.1"}'>BGP / ASN</button>
@@ -171,7 +171,7 @@
                     <aside id="graph-inspector" class="graph-inspector" hidden>
                         <div class="inspector-head">
                             <span id="inspector-title">node</span>
-                            <button id="inspector-close" class="ghost" title="close">✕</button>
+                            <button id="inspector-close" class="ghost" title="close" aria-label="close">×</button>
                         </div>
                         <div id="inspector-body" class="inspector-body"></div>
                     </aside>
@@ -191,13 +191,14 @@
 
     <div id="onboarding" class="onboarding-overlay" hidden>
         <div class="onboarding-card">
-            <h2>Welcome to Estorides</h2>
-            <p>State-level OSINT without the state-level price tag. Drop a domain, IP, email or CVE and watch 100+ public sources converge into one intelligence picture.</p>
+            <h2>Welcome to {{ telemetry.brand }}</h2>
+            <p>{{ telemetry.tagline }}. Drop a domain, IP, email or CVE and watch public sources converge into one intelligence picture.</p>
             <div class="steps">
-                <div class="step"><span class="num">1</span><div><strong>Query</strong><br><span>Enter any indicator. The engine detects its type automatically.</span></div></div>
-                <div class="step"><span class="num">2</span><div><strong>Fanout</strong><br><span>Sources run in parallel. Results, entities and geolocation appear as they resolve.</span></div></div>
-                <div class="step"><span class="num">3</span><div><strong>Correlate</strong><br><span>Switch to Graph, expand nodes, run transforms and export STIX/MISP/GraphML.</span></div></div>
+                {% for tip in telemetry.tips %}
+                <div class="step"><span class="num">{{ loop.index }}</span><div><strong>{{ tip.title }}</strong><br><span>{{ tip.body }}</span></div></div>
+                {% endfor %}
             </div>
+            <p class="onboarding-hint">Press <kbd>?</kbd> at any time to see every keyboard shortcut.</p>
             <div class="onboarding-actions">
                 <button id="onboarding-skip" class="ghost">Skip</button>
                 <button id="onboarding-start" class="primary">Got it</button>
@@ -209,14 +210,8 @@
         <div class="kbd-card">
             <h3>Keyboard shortcuts</h3>
             <dl>
-                <dt>/</dt><dd>Focus the query box</dd>
-                <dt>Ctrl+Enter</dt><dd>Run the current query</dd>
-                <dt>Esc</dt><dd>Clear / close overlays</dd>
-                <dt>?</dt><dd>Show this help</dd>
-                <dt>1-6</dt><dd>Switch sidebar tabs (Results, Entities, ...)</dd>
-                <dt>G</dt><dd>Switch to Graph canvas</dd>
-                <dt>M</dt><dd>Switch to Map canvas</dd>
-                <dt>T</dt><dd>Switch to Timeline canvas</dd>
+                {% for s in telemetry.shortcuts %}<dt>{{ s.keys }}</dt><dd>{{ s.description }}</dd>
+                {% endfor %}
             </dl>
             <div class="onboarding-actions kbd-actions">
                 <button id="kbd-help-close" class="primary">Close</button>
@@ -224,6 +219,7 @@
         </div>
     </div>
 
+    <script type="application/json" id="estorides-telemetry">{{ telemetry | tojson }}</script>
     <script src="/static/js/estorides.js"></script>
 </body>
 </html>

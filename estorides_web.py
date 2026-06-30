@@ -43,6 +43,7 @@ from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
+from estorides_core.search_telemetry import SearchTelemetry
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_core.web_security import (
     AUTH_META,
@@ -212,6 +213,7 @@ def create_app() -> Flask:
     app.config["PROPAGATE_EXCEPTIONS"] = False
     install_security(app)
     orch = Orchestrator()
+    telemetry = SearchTelemetry()
 
     @app.route("/")
     def index() -> Any:
@@ -221,7 +223,11 @@ def create_app() -> Flask:
         # and `require_auth` short-circuits to pass-through).
         gate = app.extensions.get("estorides_auth")
         auth_token = gate.auth_meta_for_index() if gate is not None else None
-        return render_template("index.html", **{AUTH_META.replace("-", "_"): auth_token or ""})
+        return render_template(
+            "index.html",
+            telemetry=telemetry.context(),
+            **{AUTH_META.replace("-", "_"): auth_token or ""},
+        )
 
     @app.route("/api/status")
     @_rate_limit_decorator(event="api_status")
@@ -575,7 +581,7 @@ def create_app() -> Flask:
         out = intel_resolver.resolve(ent_type, ent_id)
         # If Kùzu is up, also dump what we have on this entity in the
         # persistent graph (cross-run memory). The combination of
-        # "fresh intel" + "historical observations" is the Palantir
+        # "fresh intel" + "historical observations" is the fusion
         # payoff: a single endpoint that says "everything we know."
         if kuzu_backend is not None:
             try:
@@ -709,7 +715,7 @@ def create_app() -> Flask:
         entity["corroborated"] = fusion_store.corroborated_properties(eid, min_sources)
         return jsonify(entity)
 
-    # ----- Maltego-style transforms -----
+    # ----- graph pivot transforms -----
     try:
         from estorides_core.transforms import registry as transform_registry
     except Exception:
@@ -953,7 +959,7 @@ def create_app() -> Flask:
         })
 
     # ------------------------------------------------- v1.3 deep-run stream
-    # Recursive, scored, Palantir-style cross-search that streams every
+    # Recursive, scored, fusion-style cross-search that streams every
     # source result and every discovered selector as it lands — so the UI
     # populates within seconds instead of blocking on the slowest source.
 

@@ -27,6 +27,8 @@ from pathlib import Path
 import pytest
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from estorides_core.search_telemetry import SearchTelemetry
+
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "templates" / "index.html"
 JS_FILE = ROOT / "static" / "js" / "estorides.js"
@@ -297,7 +299,10 @@ def test_rendered_template_has_no_style_attribute_and_uses_hidden():
             autoescape=select_autoescape(["html"]),
         )
         tmpl = env.get_template("index.html")
-        html = tmpl.render(estorides_auth_token="")
+        html = tmpl.render(
+            estorides_auth_token="",
+            telemetry=SearchTelemetry().context(),
+        )
     assert 'style="' not in html, (
         f"Rendered index.html still contains `style=\"`. "
         f"Refactor is incomplete. First 200 chars around the first match:\n"

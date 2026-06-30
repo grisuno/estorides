@@ -384,6 +384,15 @@
 .onboarding-card .primary { background: var(--accent); color: #fff; border: 0; }
 .onboarding-card .primary:hover { background: #4f46e5; }
 .onboarding-card .ghost { background: transparent; color: var(--text-1); border: 1px solid var(--line-2); }
+.onboarding-hint { color: var(--text-2); font-size: 11px; margin: 0 0 14px; }
+.onboarding-hint kbd, .empty-state .shortcuts kbd {
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 10px;
+  color: var(--text-1);
+}
 
 /* Keyboard shortcuts help modal. */
 .kbd-overlay {

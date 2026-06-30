@@ -27,6 +27,19 @@
     };
   })();
 
+  const TELEMETRY = (function readTelemetry() {
+    const fallback = { brand: 'Estorides', phases: [], shortcuts: [], tips: [] };
+    const node = document.getElementById('estorides-telemetry');
+    if (!node) return fallback;
+    try {
+      const parsed = JSON.parse(node.textContent || '{}');
+      return Object.assign(fallback, parsed);
+    } catch (e) {
+      return fallback;
+    }
+  })();
+  window.ESTORIDES_TELEMETRY = TELEMETRY;
+
   // ---- UX helpers (v1.4) ----
   function detectQueryTypeLocal(q) {
     q = String(q || '').trim();
@@ -69,10 +82,15 @@
       const pct = Math.min(100, Math.round((current / total) * 100));
       bar.style.width = pct + '%';
       txt.textContent = current + ' / ' + total;
+      wrap.setAttribute('aria-busy', current < total ? 'true' : 'false');
+      wrap.setAttribute('aria-valuenow', String(pct));
+      wrap.setAttribute('aria-valuetext', current + ' of ' + total + ' sources, ' + pct + '%');
     } else {
       wrap.style.display = 'none';
       bar.style.width = '0%';
       txt.textContent = '0 / 0';
+      wrap.setAttribute('aria-busy', 'false');
+      wrap.removeAttribute('aria-valuenow');
     }
   }
   function showEmptyState(show) {
@@ -713,7 +731,7 @@
   }
 
   // =====================================================================
-  // v1.3 — interactive graph intelligence (Maltego-style)
+  // v1.3 — interactive graph intelligence (node expand + pivot transforms)
   // =====================================================================
   // Node colour = cluster, ring = intelligence tier. Left-click expands
   // (resolver + VT relationships) and selects; right-click opens the
@@ -920,7 +938,7 @@
   }
   window.focusNode = focusNode;
 
-  // Run a Maltego-style transform and merge the result into the graph+map.
+  // Run a graph pivot transform and merge the result into the graph+map.
   async function runTransform(transformId, type, value) {
     setStatus(`transform ${transformId}…`);
     try {
