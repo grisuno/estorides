@@ -36,6 +36,7 @@ from .knowledge_graph import KnowledgeGraph
 from .mitre_attack import all_techniques_for, map_observations
 from .ontology import ontology
 from .parsers import get_parser
+from .recon_fusion import ReconFusionEngine
 from .relationship_inference import infer_relationship
 from .source_loader import Source, SourceRegistry
 
@@ -364,6 +365,7 @@ class Orchestrator:
                 "parsed": parsed,
                 "raw": raw,
                 "meta": meta,
+                "observed_at": time.time(),
             }
             # Ontology cross-check: stamp every observation with a
             # sanctions verdict so the LLM analyst stage can mention
@@ -538,6 +540,18 @@ class Orchestrator:
             except Exception as e:  # noqa: BLE001
                 log.debug("fusion store write failed: %s", e)
 
+        # ----- passive recon fusion (tiered relevance classification) -----
+        recon_tiers: dict[str, Any] = {}
+        if observations or merged:
+            try:
+                fusion_engine = ReconFusionEngine()
+                fusion_result = fusion_engine.classify(
+                    query, query_type, observations, [e.to_dict() for e in merged],
+                )
+                recon_tiers = fusion_result.to_dict()
+            except Exception as e:  # noqa: BLE001
+                log.debug("recon fusion failed, skipping tiered classification: %s", e)
+
         # ----- cross-feed enrichment (best-effort, post-LLM) -----
         # Resolve the top entities through the intel resolver to wire
         # them to OFAC + Wikidata + IP-API. The resolver does its own
@@ -598,6 +612,7 @@ class Orchestrator:
                 "canonical_count": len(merged),
                 "same_as": same_as_links,
             },
+            "recon_tiers": recon_tiers,
         }
 
     # ----------------------------------------------------------- internals
@@ -687,6 +702,7 @@ class Orchestrator:
                     "parser": source["parser"],
                     "parsed": parsed,
                     "meta": meta,
+                    "observed_at": time.time(),
                 })
             except Exception:  # never let a subscriber break the run
                 pass

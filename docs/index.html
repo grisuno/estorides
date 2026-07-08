@@ -40,8 +40,8 @@
 
     <header class="container text-center py-5">
         <h1 class="display-4">Estorides</h1>
-        <p class="lead">OSINT platform · data → information → intelligence</p>
-        <p>99+ free public sources · async fanout · Kùzu graph · multi-LLM analyst</p>
+        <p class="lead">OSINT platform &middot; data &rarr; information &rarr; intelligence</p>
+        <p>99+ free public sources &middot; async fanout &middot; K&ugrave;zu graph &middot; multi-LLM analyst</p>
     </header>
 
     <main class="container">
@@ -55,7 +55,7 @@
             <!-- 2a: reliability_scoring -->
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>2a · <code>reliability_scoring</code>
+                    <span>2a &middot; <code>reliability_scoring</code>
                         <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
                     </span>
                     <span>
@@ -67,17 +67,14 @@
                 <div class="card-body">
                     <p class="card-text">
                         Single source of truth for entity <code>confidence</code>.
-                        NATO Admiralty source reliability (A-F) × information
-                        credibility (1-6) × corroboration × freshness decay.
-                        Replaces the <code>+0.1</code> heuristic in
-                        <code>entity_extraction.merge</code> and the
-                        <code>MAX()</code> SQL in <code>fusion_store</code>.
+                        NATO Admiralty source reliability (A-F) &times; information
+                        credibility (1-6) &times; corroboration &times; freshness decay.
                     </p>
                     <p>
-                        <a href="../spec/reliability_scoring.html">spec</a> ·
-                        <a href="../tests/test_reliability_scoring.html">tests</a> ·
-                        <a href="../tests/properties/test_reliability_scoring_properties.html">properties</a> ·
-                        <a href="../estorides_core/reliability_scoring.html">source</a>
+                        <a href="../spec/reliability_scoring.md">spec</a> &middot;
+                        <a href="../tests/test_reliability_scoring.py">tests</a> &middot;
+                        <a href="../tests/properties/test_reliability_scoring_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/reliability_scoring.py">source</a>
                     </p>
                 </div>
             </div>
@@ -85,7 +82,7 @@
             <!-- 2b: hypothesis_engine -->
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>2b · <code>hypothesis_engine</code>
+                    <span>2b &middot; <code>hypothesis_engine</code>
                         <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
                     </span>
                     <span>
@@ -96,20 +93,17 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">
-                        The "data → information" layer. 4 typed generators:
+                        The &ldquo;data &rarr; information&rdquo; layer. 4 typed generators:
                         <code>domain-belongsto-actor</code>,
                         <code>email-aliasto-person</code>,
                         <code>ip-shared-infra</code>,
-                        <code>asn-shared-infra</code>. Each hypothesis
-                        carries its full evidence trail (source, field, value,
-                        reliability-weighted weight) and a deterministic
-                        sha1 id for cross-run dedup.
+                        <code>asn-shared-infra</code>.
                     </p>
                     <p>
-                        <a href="../spec/hypothesis_engine.html">spec</a> ·
-                        <a href="../tests/test_hypothesis_engine.html">tests</a> ·
-                        <a href="../tests/properties/test_hypothesis_engine_properties.html">properties</a> ·
-                        <a href="../estorides_core/hypothesis_engine.html">source</a>
+                        <a href="../spec/hypothesis_engine.md">spec</a> &middot;
+                        <a href="../tests/test_hypothesis_engine.py">tests</a> &middot;
+                        <a href="../tests/properties/test_hypothesis_engine_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/hypothesis_engine.py">source</a>
                     </p>
                 </div>
             </div>
@@ -117,32 +111,25 @@
             <!-- 2c: change_detection -->
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>2c · <code>change_detection</code>
+                    <span>2c &middot; <code>change_detection</code>
                         <span class="badge badge-milestone ml-2">closed 2026-06-27</span>
                     </span>
                     <span>
                         <span class="badge badge-spec">spec</span>
                         <span class="badge badge-test">30 tests (S1-S15)</span>
-                        <span class="badge badge-property">8 properties · 1000 ex.</span>
+                        <span class="badge badge-property">8 properties &middot; 1000 ex.</span>
                     </span>
                 </div>
                 <div class="card-body">
                     <p class="card-text">
                         Temporal layer: diff between two <code>Snapshot</code>
-                        views of the same investigation. Emits 8 typed
-                        <code>Change</code> kinds (new, disappeared,
-                        property_changed, source_added, source_removed,
-                        edge_added, edge_removed, confidence_shifted) with a
-                        reliability-weighted score, deterministic sha1 ids,
-                        and full audit trail (before / after / diff / sources
-                        / detected_at). Pure: no I/O, no logging of payload,
-                        bounded by <code>max_changes</code>.
+                        views of the same investigation. 8 typed <code>Change</code> kinds.
                     </p>
                     <p>
-                        <a href="../spec/change_detection.html">spec</a> ·
-                        <a href="../tests/test_change_detection.html">tests</a> ·
-                        <a href="../tests/properties/test_change_detection_properties.html">properties</a> ·
-                        <a href="../estorides_core/change_detection.html">source</a>
+                        <a href="../spec/change_detection.md">spec</a> &middot;
+                        <a href="../tests/test_change_detection.py">tests</a> &middot;
+                        <a href="../tests/properties/test_change_detection_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/change_detection.py">source</a>
                     </p>
                 </div>
             </div>
@@ -150,45 +137,26 @@
             <!-- 2d: csp_safe_styles -->
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>2d · <code>csp_safe_styles</code>
+                    <span>2d &middot; <code>csp_safe_styles</code>
                         <span class="badge badge-milestone ml-2">closed 2026-06-29</span>
                     </span>
                     <span>
                         <span class="badge badge-spec">spec</span>
                         <span class="badge badge-test">22 tests (S1-S8)</span>
-                        <span class="badge badge-property">3 properties · 1000 ex.</span>
+                        <span class="badge badge-property">3 properties &middot; 1000 ex.</span>
                     </span>
                 </div>
                 <div class="card-body">
                     <p class="card-text">
                         Fixes the regression from <code>45c3af5</code>: the
                         tightened <code>style-src</code> CSP was blocking
-                        every <code>style="…"</code> attribute the frontend
-                        still emitted (11 static in the template, 4 in JS
-                        including 2 with <code>${}</code> interpolation).
-                        Migrated all static styles to the HTML5
-                        <code>hidden</code> attribute and to named CSS
-                        classes (<code>.stop-btn-sm</code>,
-                        <code>.meta-row-spaced</code>,
-                        <code>.empty-entities</code>,
-                        <code>.graph-top-title</code>,
-                        <code>.timeline-title</code>,
-                        <code>.timeline-meta</code>,
-                        <code>.kbd-actions</code>); dynamic per-cluster /
-                        per-kind colours go through the CSSOM
-                        (<code>el.style.background = cs</code>) which CSP
-                        does not restrict. The <code>style-src</code>
-                        policy is unchanged. Defence-in-depth:
-                        <code>[hidden] { display: none !important }</code>
-                        added because the <code>display: flex</code> rules
-                        on <code>.onboarding-overlay</code> and
-                        <code>.kbd-overlay</code> were beating the
-                        user-agent default.
+                        every <code>style="&hellip;"</code> attribute. All migrated
+                        to named CSS classes.
                     </p>
                     <p>
-                        <a href="../spec/csp_safe_styles.html">spec</a> ·
-                        <a href="../tests/test_csp_safe_styles.html">tests</a> ·
-                        <a href="../tests/properties/test_csp_safe_styles_properties.html">properties</a>
+                        <a href="../spec/csp_safe_styles.md">spec</a> &middot;
+                        <a href="../tests/test_csp_safe_styles.py">tests</a> &middot;
+                        <a href="../tests/properties/test_csp_safe_styles_properties.py">properties</a>
                     </p>
                 </div>
             </div>
@@ -196,7 +164,7 @@
             <!-- 2e: fusion_analytics -->
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>2e · <code>fusion_analytics</code>
+                    <span>2e &middot; <code>fusion_analytics</code>
                         <span class="badge badge-milestone ml-2">closed 2026-06-29</span>
                     </span>
                     <span>
@@ -208,28 +176,89 @@
                     <p class="card-text">
                         Intelligence analytics layer over the fusion store.
                         Multi-source consensus, entity timelines, source
-                        reliability stats, corroboration analytics, entity
-                        search with faceted filters, and source corroboration
-                        matrix. All read-only parameterized SQL over the
-                        cross-run fused fact base.
+                        reliability stats, corroboration analytics.
                     </p>
                     <p>
-                        <a href="../spec/fusion_analytics.html">spec</a> ·
-                        <a href="../tests/test_fusion_analytics.html">tests</a> ·
-                        <a href="../estorides_core/fusion_analytics.html">source</a>
+                        <a href="../spec/fusion_analytics.md">spec</a> &middot;
+                        <a href="../tests/test_fusion_analytics.py">tests</a> &middot;
+                        <a href="../estorides_core/fusion_analytics.py">source</a>
                     </p>
                 </div>
             </div>
-            <div class="card mb-3 border-secondary">
-                <div class="card-header text-muted">
-                    2f · <code>anomaly_scoring</code>
-                    <span class="badge badge-secondary ml-2">pending</span>
+
+            <!-- 2f: search_telemetry -->
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2f &middot; <code>search_telemetry</code>
+                        <span class="badge badge-info ml-2">in progress</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">tests</span>
+                        <span class="badge badge-property">properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Operator-facing telemetry: search-in-progress model,
+                        onboarding catalog, brand/emoji integrity invariants.
+                        Pure Python, no Flask import.
+                    </p>
+                    <p>
+                        <a href="../spec/search_telemetry.md">spec</a> &middot;
+                        <a href="../tests/test_search_telemetry.py">tests</a> &middot;
+                        <a href="../tests/properties/test_search_telemetry_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/search_telemetry.py">source</a>
+                    </p>
                 </div>
             </div>
-            <div class="card mb-3 border-secondary">
-                <div class="card-header text-muted">
-                    2g · <code>cross_case_correlation</code>
-                    <span class="badge badge-secondary ml-2">pending</span>
+
+            <!-- 2g: recon_fusion -->
+            <div class="card mb-3 border-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2g &middot; <code>recon_fusion</code>
+                        <span class="badge badge-success ml-2">closed 2026-07-08</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">16 tests</span>
+                        <span class="badge badge-property">6 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Passive reconnaissance fusion engine. Groups, deduplicates
+                        and classifies OSINT results into relevance tiers
+                        (CRITICAL, HIGH, MEDIUM, LOW, NOISE) so the operator sees
+                        the most useful data first. Pure transformation, no I/O.
+                    </p>
+                    <p>
+                        <a href="../spec/recon_fusion.md">spec</a> &middot;
+                        <a href="../tests/test_recon_fusion.py">tests</a> &middot;
+                        <a href="../tests/properties/test_recon_fusion_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/recon_fusion.py">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2h: ui_professional -->
+            <div class="card mb-3 border-warning">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2h &middot; <code>ui_professional</code>
+                        <span class="badge badge-warning ml-2">planning</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Professional UI/UX: CSS loading animation, tiered
+                        result display by relevance, modern visual refinements.
+                    </p>
+                    <p>
+                        <a href="../spec/ui_professional.md">spec</a>
+                    </p>
                 </div>
             </div>
         </section>
@@ -239,22 +268,21 @@
             <h2 class="mb-4">Doctrine (inviolable)</h2>
             <p>The development cycle is non-negotiable:</p>
             <ol>
-                <li><b>Spec</b> — <code>spec/&lt;modulo&gt;.md</code> with
+                <li><b>Spec</b> &mdash; <code>spec/&lt;modulo&gt;.md</code> with
                     Given-When-Then BDD scenarios.</li>
-                <li><b>Test (red)</b> — <code>tests/test_&lt;modulo&gt;.py</code>
+                <li><b>Test (red)</b> &mdash; <code>tests/test_&lt;modulo&gt;.py</code>
                     must fail.</li>
-                <li><b>Code (green)</b> — minimum to pass.</li>
-                <li><b>Refactor</b> — boy-scout: dedupe, harden, simplify.
-                    Out-of-scope fixes are still in-scope.</li>
-                <li><b>Validation</b> — <code>pytest</code> + <code>ruff</code>
+                <li><b>Code (green)</b> &mdash; minimum to pass.</li>
+                <li><b>Refactor</b> &mdash; boy-scout: dedupe, harden, simplify.</li>
+                <li><b>Validation</b> &mdash; <code>pytest</code> + <code>ruff</code>
                     + <code>mypy --strict</code> + <code>bandit</code>.</li>
-                <li><b>Fuzzing</b> — <code>hypothesis</code> property-based,
+                <li><b>Fuzzing</b> &mdash; <code>hypothesis</code> property-based,
                     &ge; 1000 examples/invariant.</li>
-                <li><b>Documentation</b> — update spec, CLAUDE.md, README,
+                <li><b>Documentation</b> &mdash; update spec, CLAUDE.md, README,
                     this home page. <i>After</i> validation.</li>
             </ol>
             <p>Read the full doctrine in
-               <a href="../CLAUDE.html">CLAUDE.md</a>.</p>
+               <a href="../CLAUDE.md">CLAUDE.md</a>.</p>
         </section>
 
         <!-- =========================================================== QUICKSTART -->
@@ -272,9 +300,9 @@ estorides run example.com</code></pre>
 
     <footer class="footer text-center">
         <div class="container">
-            <p class="mb-1">Estorides — state-level OSINT engine. GPLv3.</p>
-            <p class="mb-0"><small>99+ sources · 12 intelligence categories ·
-            async fanout · persistent graph · multi-LLM analyst</small></p>
+            <p class="mb-1">Estorides &mdash; state-level OSINT engine. GPLv3.</p>
+            <p class="mb-0"><small>99+ sources &middot; 12 intelligence categories &middot;
+            async fanout &middot; persistent graph &middot; multi-LLM analyst</small></p>
         </div>
     </footer>
 </body>

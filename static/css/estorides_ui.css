@@ -92,6 +92,52 @@
 .timeline-title {
   color: var(--accent-2);
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Timeline time-range slider controls */
+.timeline-controls {
+  padding: 8px 0 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.timeline-slider {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.timeline-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+}
+.timeline-label {
+  font-size: 10px;
+  color: var(--text-2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.timeline-play {
+  background: none;
+  border: 1px solid var(--line-2);
+  color: var(--text-0);
+  border-radius: 3px;
+  padding: 1px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+.timeline-play:hover {
+  background: var(--bg-3);
+}
+
+/* Timeline events that are filtered out by the slider */
+.timeline-event.filtered-out {
+  display: none;
 }
 
 /* Subdued label inside timeline event rows. */
@@ -432,10 +478,371 @@
 }
 .sidebar-toggle:hover { color: var(--text-0); border-color: var(--accent); }
 
-/* Highlighted entity row. */
-.entity.highlight {
+/* ---- Splash / loading screen ---- */
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-0);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#splash-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.splash-logo {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: splashFadeIn 0.8s ease-out 0.1s forwards;
+}
+.splash-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-0);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: splashFadeIn 0.8s ease-out 0.3s forwards;
+}
+.splash-tagline {
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 2px;
+  opacity: 0;
+  animation: splashFadeIn 0.8s ease-out 0.5s forwards;
+}
+.splash-bar {
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  margin-top: 20px;
+  border-radius: 1px;
+  opacity: 0;
+  animation: splashBar 1.2s ease-in-out 0.7s forwards infinite;
+}
+@keyframes splashFadeIn {
+  to { opacity: 1; }
+}
+@keyframes splashBar {
+  0%, 100% { width: 40px; opacity: 0.4; }
+  50% { width: 80px; opacity: 1; }
+}
+
+/* ---- Subtle micro-interactions ---- */
+/* Buttons: subtle scale + border glow on click */
+.sidebar .tab:active,
+.primary:active,
+.ghost:active {
+  transform: scale(0.97);
+}
+.sidebar .tab {
+  transition: color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.primary,
+.ghost,
+.sidebar-toggle,
+.entity-expand,
+.map-expand,
+.osiris-btn,
+.export-btn {
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+button.primary:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+.ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Pills and badges subtle hover lift */
+.pill,
+.badge {
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.pill:hover {
+  border-color: var(--accent-2);
+}
+
+/* Result cards: subtle lift on hover */
+.result-item {
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.result-item:hover {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+/* Entity rows: grow indicator on hover */
+.entity {
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.entity:hover {
+  background: var(--bg-2);
+  border-color: var(--accent-2);
+}
+
+/* Timeline events: subtle background pulse on hover */
+.timeline-event {
+  transition: background 0.12s ease;
+}
+.timeline-event:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
   background: rgba(99, 102, 241, 0.12);
   border-color: var(--accent);
+}
+
+/* ---- Professional UI: loading animation ---- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Status indicator dot — replaces inline spinner HTML */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.status-dot.idle {
+  background: var(--text-2);
+}
+.status-dot.busy {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.status-dot.done {
+  background: var(--ok);
+}
+.status-dot.error {
+  background: var(--err);
+}
+
+/* Status text pulsing animation */
+.status-text-busy {
+  animation: pulse 2s ease-in-out infinite;
+  color: var(--accent-2);
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.status-working {
+  color: var(--accent-2);
+  animation: pulse 2s ease-in-out infinite;
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ---- Professional UI: tiered result sections ---- */
+.tier-section {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  transition: border-color 0.2s ease;
+}
+.tier-section:hover {
+  border-color: var(--line-2);
+}
+
+.tier-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg-2);
+  border-left: 3px solid var(--accent);
+  transition: background 0.15s ease;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.tier-header:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tier-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-0);
+}
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tier-body {
+  border-top: 1px solid var(--line);
+}
+
+.tier-group {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
+}
+.tier-group:last-child {
+  border-bottom: none;
+}
+.tier-group:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tier-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tier-group-type {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent-2);
+  font-weight: 600;
+  padding: 1px 5px;
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: 3px;
+}
+
+.tier-group-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-0);
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+
+.tier-group-score {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-1);
+  min-width: 36px;
+  text-align: right;
+}
+
+.tier-group-sources {
+  font-size: 10px;
+  color: var(--text-2);
+  min-width: 40px;
+  text-align: right;
+}
+
+.tier-group-findings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.tier-group-findings .finding {
+  font-size: 10px;
+  color: var(--text-2);
+  background: var(--bg-3);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+
+.tier-group-match {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ok);
+  font-weight: 600;
+  padding: 1px 4px;
+  background: rgba(52, 211, 153, 0.12);
+  border-radius: 3px;
+}
+
+/* Score bar for entity relevance */
+.entity-score-bar {
+  display: inline-block;
+  width: 60px;
+  height: 4px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.entity-score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Tier-specific left border colors */
+.tier-critical .tier-header { border-left-color: #f43f5e; }
+.tier-high .tier-header { border-left-color: #f59e0b; }
+.tier-medium .tier-header { border-left-color: #eab308; }
+.tier-low .tier-header { border-left-color: #6b7280; }
+.tier-noise .tier-header { border-left-color: #374151; }
+.tier-noise { opacity: 0.7; }
+
+/* Transition for progress bar pulse */
+@keyframes barPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.progress-bar.indeterminate {
+  animation: barPulse 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent));
+  background-size: 200% 100%;
+}
+
+/* Fade transition for results */
+#results-list > * {
+  animation: fadeIn 0.25s ease-out;
+}
+
+.results-list {
+  scroll-behavior: smooth;
 }
 
 /* Responsive adjustments. */

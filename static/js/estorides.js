@@ -335,6 +335,7 @@
   // renderer did from one complete response.
   let _streamObsAll = [];
   let _streamEntsAll = [];
+  var _runStartTs = 0;
 
   // Rebuild the geospatial + temporal views from everything seen so far.
   // plotPoints clears and redraws from the full coord set, so feeding it
@@ -372,9 +373,10 @@
     updateQueryChip(detectQueryTypeLocal(q));
     showEmptyState(false);
     setRunProgress(0, window._totalSources || 0);
+    showWorkingIndicator();
     bindResultFilters();
     stopRunStream();
-    setStatus('running…');
+    setStatus('starting');
     $('#run-btn').disabled = true;
     // Fresh panels for the streamed run.
     $('#results-list').innerHTML = '';
@@ -386,6 +388,7 @@
     _streamEntCount = 0;
     _streamObsAll = [];
     _streamEntsAll = [];
+    _runStartTs = Date.now();
     clearMap();
 
     let start;
@@ -405,7 +408,7 @@
     }
 
     _runJobId = start.job_id;
-    setStatus(`streaming · ${start.query_type || ''}`);
+    setStatus('streaming');
     _runStream = new EventSource(start.stream_url);
     _runStream.addEventListener('message', (ev) => {
       let d;
@@ -413,18 +416,28 @@
       if (d && d.type) handleRunStreamEvent(d);
     });
     _runStream.addEventListener('closed', () => {
-      setStatus(`done · ${_streamSrcCount} sources · ${_streamEntCount} entities`);
+      var elapsed = '';
+      if (_runStartTs) {
+        var sec = Math.round((Date.now() - _runStartTs) / 1000);
+        elapsed = ' ' + (sec >= 60 ? Math.floor(sec / 60) + 'm ' + (sec % 60) + 's' : sec + 's');
+      }
+      setStatusDot('done');
+      setStatus(_streamSrcCount + ' sources · ' + _streamEntCount + ' entities' + elapsed);
       setRunProgress(window._totalSources || _streamSrcCount, window._totalSources || _streamSrcCount);
-      showToast('ok', 'Run complete', `${_streamSrcCount} sources · ${_streamEntCount} entities`);
+      showToast('ok', 'Run complete', _streamSrcCount + ' sources · ' + _streamEntCount + ' entities');
       stopRunStream();
       $('#run-btn').disabled = false;
+      hideWorkingIndicator();
       if (typeof loadCases === 'function') setTimeout(loadCases, 800);
     });
-    _runStream.onerror = () => { /* auto-reconnects; 'closed' ends the stream */ };
+    _runStream.onerror = function() {
+      setStatusDot('error');
+    };
   }
 
   // Blocking fallback: the original one-shot render path.
   async function runQueryBlocking(q) {
+    showWorkingIndicator();
     try {
       const r = await fetch('/api/run', {
         method: 'POST',
@@ -435,24 +448,81 @@
       if (data.error) {
         setStatus('error: ' + data.error);
         showFriendlyError('Run failed: ' + data.error, () => runQueryBlocking(q));
+        hideWorkingIndicator();
         return;
       }
       renderResult(data);
-      setStatus(`done · ${data.sources_succeeded}/${data.sources_queried} sources · ${data.entities.length} entities`);
-      showToast('ok', 'Run complete', `${data.sources_succeeded}/${data.sources_queried} sources · ${data.entities.length} entities`);
+      renderTieredResults(data);
+      setStatusDot('done');
+      setStatus(data.sources_succeeded + '/' + data.sources_queried + ' sources · ' + data.entities.length + ' entities');
+      showToast('ok', 'Run complete', data.sources_succeeded + '/' + data.sources_queried + ' sources · ' + data.entities.length + ' entities');
     } catch (e) {
+      setStatusDot('error');
       setStatus('error: ' + e.message);
       showFriendlyError('Network error: ' + e.message, () => runQueryBlocking(q));
     } finally {
       $('#run-btn').disabled = false;
       setRunProgress(0, 0);
+      hideWorkingIndicator();
     }
+  }
+
+  // Deep-search an entity through the full OSINT pipeline without
+  // clearing existing data — appends and merges into current state.
+  async function searchEntity(entityType, query) {
+    if (!query) return;
+    stopRunStream();
+    showWorkingIndicator();
+    setStatus('searching ' + query);
+    $('#run-btn').disabled = true;
+    var q = query.trim();
+    try {
+      var r = await fetch('/api/run/stream/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q, max_depth: 0, max_steps: 30 }),
+      });
+      var start = await r.json();
+      if (!r.ok || start.error) throw new Error(start.error || 'HTTP ' + r.status);
+    } catch (e) {
+      setStatusDot('error');
+      setStatus('search failed: ' + e.message);
+      $('#run-btn').disabled = false;
+      hideWorkingIndicator();
+      return;
+    }
+    _runJobId = start.job_id;
+    setStatus('searching ' + query);
+    _runStream = new EventSource(start.stream_url);
+    _runStream.addEventListener('message', function(ev) {
+      var d;
+      try { d = JSON.parse(ev.data); } catch (_) { return; }
+      if (d && d.type) handleRunStreamEvent(d);
+    });
+    _runStream.addEventListener('closed', function() {
+      setStatusDot('done');
+      setStatus('done: ' + query + ' (' + _streamSrcCount + ' sources, ' + _streamEntCount + ' entities)');
+      showToast('ok', 'Search complete', query + ': ' + _streamSrcCount + ' sources, ' + _streamEntCount + ' entities');
+      stopRunStream();
+      $('#run-btn').disabled = false;
+      hideWorkingIndicator();
+    });
+    _runStream.onerror = function() {
+      setStatusDot('error');
+    };
   }
 
   function handleRunStreamEvent(d) {
     switch (d.type) {
       case 'target_start':
-        setStatus(`resolving ${d.target && d.target.value} (depth ${d.depth})`);
+        setStatusDot('busy');
+        setStatus('querying');
+        break;
+      case 'source_tick':
+        setStatusDot('busy');
+        if (d.source) {
+          setStatus('querying ' + d.source);
+        }
         break;
       case 'source_result':
         appendStreamObservation(d.observation);
@@ -463,13 +533,17 @@
       case 'target_done':
         if (d.analysis && d.analysis.content) {
           $('#analysis-meta').innerHTML = d.analysis.backend
-            ? `<span class="pill">${escapeHTML(d.analysis.backend)}</span><span class="pill">${escapeHTML(d.analysis.model || '')}</span>`
+            ? '<span class="pill">' + escapeHTML(d.analysis.backend) + '</span><span class="pill">' + escapeHTML(d.analysis.model || '') + '</span>'
             : '';
           $('#analysis-body').textContent = d.analysis.content;
         }
         if (d.graph) renderGraphSummary(d.graph);
         break;
+      case 'stopping':
+        setStatus('stopping: ' + (d.reason || 'budget exhausted'));
+        break;
       case 'fatal':
+        setStatusDot('error');
         setStatus('error: ' + (d.error || 'pivot failed'));
         break;
     }
@@ -527,6 +601,7 @@
   }
 
   function clearAll() {
+    stopRunStream();
     clearMap();
     $('#results-list').innerHTML = '';
     $('#entities-list').innerHTML = '';
@@ -536,10 +611,20 @@
     $('#analysis-meta').innerHTML = '';
     $('#graph-summary').innerHTML = '';
     if (window._d3svg) window._d3svg.remove();
+    if (window._d3sim) window._d3sim.stop();
+    window._expansionSeen = null;
     updateQueryChip('');
     setRunProgress(0, 0);
     showEmptyState(true);
+    setStatusDot('idle');
     setStatus('idle');
+    _streamSeenSrc = new Set();
+    _streamSeenEnt = new Set();
+    _streamSrcCount = 0;
+    _streamEntCount = 0;
+    _streamObsAll = [];
+    _streamEntsAll = [];
+    _runStartTs = 0;
   }
 
   function setStatus(s) {
@@ -745,11 +830,11 @@
   const LEVEL_STROKE = {
     data: 1, information: 2, intelligence: 3, counter_intelligence: 3.5,
   };
-  const CLUSTER_PALETTE = [
+  const CLUSTER_PALETTE = (TELEMETRY.cluster_palette || [
     '#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC',
     '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#A0D911',
     '#FF6B6B', '#36CFC9', '#B37FEB', '#FFC53D', '#7CB305',
-  ];
+  ]);
 
   // Map a graph node's type/kind onto a resolver/transform entity type.
   function resolverTypeFor(node) {
@@ -864,6 +949,7 @@
     menu.innerHTML = '<div class="ctx-head">' + escapeHTML(value) +
       ' <small>' + escapeHTML(type) + '</small></div>' +
       '<div class="ctx-item" data-act="expand">⤴ Expand (resolve)</div>' +
+      '<div class="ctx-item" data-act="deepsearch">∘ Deep search</div>' +
       '<div class="ctx-item" data-act="focus">⊙ Focus</div>' +
       '<div class="ctx-sub">Set intel level</div>' +
       ['data', 'information', 'intelligence', 'counter_intelligence'].map((lv) =>
@@ -878,6 +964,15 @@
       hideContextMenu();
       const rt = resolverTypeFor(d);
       if (rt) expandNode(rt, value);
+    };
+    menu.querySelector('[data-act="deepsearch"]').onclick = () => {
+      hideContextMenu();
+      var q = value;
+      // For known types, use the raw query format the orchestrator expects
+      if (type === 'ip' || type === 'domain' || type === 'email' || type === 'cve') {
+        q = value;
+      }
+      searchEntity(type, q);
     };
     menu.querySelector('[data-act="focus"]').onclick = () => { hideContextMenu(); focusNode(d); };
     menu.querySelectorAll('.ctx-level').forEach((el) => {
@@ -1121,9 +1216,90 @@
     renderGraphCore(nodes, edges, deriveClusters(nodes));
   }
 
-  function setStatus(text) {
-    const el = $('#footer-status');
-    if (el) el.textContent = text;
+  // ---- Professional UI enhancements (relevance tiers, loading) ----
+
+  function setStatusDot(state) {
+    var el = $('#status-indicator');
+    if (!el) return;
+    el.className = 'status-dot ' + state;
+  }
+
+  function showWorkingIndicator() {
+    setStatusDot('busy');
+    $('#footer-status').classList.add('status-text-busy');
+  }
+
+  function hideWorkingIndicator() {
+    setStatusDot('idle');
+    $('#footer-status').classList.remove('status-text-busy');
+  }
+
+  function toggleTierSection(key, header) {
+    const body = document.getElementById('tier-body-' + key);
+    if (!body) return;
+    const expanded = body.style.display !== 'none';
+    body.style.display = expanded ? 'none' : 'block';
+    header.setAttribute('aria-expanded', String(!expanded));
+  }
+
+  function renderTieredResults(data) {
+    const list = $('#results-list');
+    if (!list) return;
+    const tiers = data.tiers;
+    if (!tiers || typeof tiers !== 'object') return;
+    var hasTiers = Object.keys(tiers).some(function(k) { return (tiers[k] || []).length > 0; });
+    if (!hasTiers) return;
+    var fragment = document.createDocumentFragment();
+    var tierSummary = document.createElement('div');
+    tierSummary.className = 'tier-summary';
+    var tierLabels = {
+      critical: { label: 'Critical', color: '#f43f5e', expanded: true },
+      high: { label: 'High', color: '#f59e0b', expanded: true },
+      medium: { label: 'Medium', color: '#eab308', expanded: false },
+      low: { label: 'Low', color: '#6b7280', expanded: false },
+      noise: { label: 'Noise', color: '#374151', expanded: false },
+    };
+    ['critical', 'high', 'medium', 'low', 'noise'].forEach(function(key) {
+      var groups = tiers[key] || [];
+      if (groups.length === 0) return;
+      var cfg = tierLabels[key] || { label: key, color: '#888', expanded: false };
+      var section = document.createElement('section');
+      section.className = 'tier-section tier-' + key;
+      var header = document.createElement('div');
+      header.className = 'tier-header';
+      header.setAttribute('role', 'button');
+      header.setAttribute('tabindex', '0');
+      header.setAttribute('aria-expanded', String(cfg.expanded));
+      header.setAttribute('aria-controls', 'tier-body-' + key);
+      header.innerHTML = '<span class="tier-label">' +
+        escapeHTML(cfg.label) + '</span>' +
+        '<span class="tier-badge" style="background:' + cfg.color + '">' + groups.length + '</span>';
+      header.addEventListener('click', function() { toggleTierSection(key, header); });
+      header.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTierSection(key, header); } });
+      section.appendChild(header);
+      var body = document.createElement('div');
+      body.id = 'tier-body-' + key;
+      body.className = 'tier-body fade-in';
+      body.style.display = cfg.expanded ? 'block' : 'none';
+      groups.forEach(function(group) {
+        var card = document.createElement('div');
+        card.className = 'tier-group';
+        card.innerHTML = '<div class="tier-group-head">' +
+          '<span class="tier-group-type">' + escapeHTML(group.type) + '</span>' +
+          '<span class="tier-group-value">' + escapeHTML(group.value) + '</span>' +
+          '<span class="tier-group-score">' + (group.relevance_score * 100).toFixed(0) + '%</span>' +
+          '<span class="tier-group-sources">' + group.source_count + ' src</span>' +
+          '</div>' +
+          (group.key_findings && group.key_findings.length
+            ? '<div class="tier-group-findings">' + group.key_findings.map(function(f) { return '<span class="finding">' + escapeHTML(f) + '</span>'; }).join('') + '</div>'
+            : '') +
+          (group.direct_match ? '<span class="tier-group-match">direct</span>' : '');
+        body.appendChild(card);
+      });
+      section.appendChild(body);
+      fragment.appendChild(section);
+    });
+    list.insertBefore(fragment, list.firstChild);
   }
 
   function escapeAttr(s) {
@@ -1369,23 +1545,112 @@
   }
 
   function renderTimeline(data) {
-    const tl = $('#timeline');
-    tl.innerHTML = '<h3 class="timeline-title">Acquisition Timeline</h3>';
-    const obs = (data.observations || []).slice().sort((a, b) => {
-      return (a.meta?.status || 0) - (b.meta?.status || 0);
+    var tl = $('#timeline');
+    var eventsContainer = $('#timeline-events');
+    if (!tl) return;
+    var obs = (data.observations || []).slice();
+    if (obs.length === 0) {
+      eventsContainer.innerHTML = '<div class="empty-state" style="padding:24px;text-align:center"><p>No timeline data yet — run a query to populate.</p></div>';
+      return;
+    }
+    // Assign observed_at if missing (backward compat for old runs)
+    var now = Date.now() / 1000;
+    obs.forEach(function(o, i) {
+      if (!o.observed_at) {
+        // Stagger by index so they don't all collapse to one second
+        o.observed_at = (data.generated_at || now) + i * 0.001;
+      }
     });
-    obs.forEach((o) => {
-      const ev = document.createElement('div');
+    obs.sort(function(a, b) { return a.observed_at - b.observed_at; });
+    var minTs = obs[0].observed_at;
+    var maxTs = obs[obs.length - 1].observed_at;
+    var range = maxTs - minTs || 1;
+
+    // Calculate which timestamp maps to which fractional position for events
+    var slider = document.getElementById('timeline-slider');
+    var minLabel = document.getElementById('timeline-min-label');
+    var maxLabel = document.getElementById('timeline-max-label');
+    var playBtn = document.getElementById('timeline-play-btn');
+    var controls = document.getElementById('timeline-controls');
+
+    // Build event DOM nodes
+    eventsContainer.innerHTML = '';
+    obs.forEach(function(o) {
+      var ev = document.createElement('div');
       ev.className = 'timeline-event';
-      const when = new Date(data.generated_at * 1000).toISOString();
-      ev.innerHTML = `
-        <div class="when">${when}</div>
-        <div class="what"><b>${o.source}</b> · <span class="timeline-meta">${o.category}</span><br>
-          <small class="timeline-meta">${escapeHTML(truncate(JSON.stringify(o.parsed || o.meta?.error || ''), 200))}</small>
-        </div>
-      `;
-      tl.appendChild(ev);
+      var ts = o.observed_at;
+      var d = new Date(ts * 1000);
+      var timeStr = d.toISOString().replace('T', ' ').replace('Z', '');
+      var frac = ((ts - minTs) / range);
+      ev.setAttribute('data-t', String(ts));
+      ev.setAttribute('data-frac', String(frac));
+      ev.innerHTML =
+        '<div class="when">' + timeStr + '</div>' +
+        '<div class="what"><b>' + escapeHTML(o.source) + '</b> · <span class="timeline-meta">' + escapeHTML(o.category) + '</span><br>' +
+        '  <small class="timeline-meta">' + escapeHTML(truncate(JSON.stringify(o.parsed || o.meta?.error || ''), 200)) + '</small>' +
+        '</div>';
+      eventsContainer.appendChild(ev);
     });
+
+    // Show controls and set up slider
+    controls.style.display = '';
+    function fmtTime(ts) {
+      var d2 = new Date(ts * 1000);
+      return d2.toISOString().replace('T', ' ').substring(0, 19);
+    }
+    minLabel.textContent = fmtTime(minTs);
+    maxLabel.textContent = fmtTime(maxTs);
+
+    // Filter events by slider position
+    var _timelinePlaying = false;
+    var _timelineInterval = null;
+
+    function filterTimeline(fracVal) {
+      var cutoff = minTs + fracVal * range;
+      var all = eventsContainer.querySelectorAll('.timeline-event');
+      var visible = 0;
+      all.forEach(function(el) {
+        var t = parseFloat(el.getAttribute('data-t'));
+        if (t <= cutoff) {
+          el.classList.remove('filtered-out');
+          visible++;
+        } else {
+          el.classList.add('filtered-out');
+        }
+      });
+      // Update label to show "N / M visible"
+    }
+
+    slider.oninput = function() {
+      var fracVal = parseInt(this.value, 10) / 100;
+      filterTimeline(fracVal);
+    };
+    slider.value = '100';
+    // Show all by default
+
+    playBtn.onclick = function() {
+      if (_timelinePlaying) {
+        _timelinePlaying = false;
+        clearInterval(_timelineInterval);
+        playBtn.textContent = '\u25B6';
+        return;
+      }
+      _timelinePlaying = true;
+      playBtn.textContent = '\u23F8';
+      slider.value = '0';
+      filterTimeline(0);
+      _timelineInterval = setInterval(function() {
+        var cur = parseInt(slider.value, 10);
+        if (cur >= 100) {
+          clearInterval(_timelineInterval);
+          _timelinePlaying = false;
+          playBtn.textContent = '\u25B6';
+          return;
+        }
+        slider.value = String(Math.min(100, cur + 2));
+        filterTimeline(cur + 2);
+      }, 200);
+    };
   }
 
   // ---- D3 graph view ----
@@ -1702,6 +1967,13 @@
   });
 
   // Onboarding: show once per browser.
+  document.addEventListener('DOMContentLoaded', function() {
+    var splash = document.getElementById('splash-screen');
+    if (splash) {
+      setTimeout(function() { splash.classList.add('hidden'); }, 1500);
+    }
+  });
+
   (function initOnboarding() {
     const seen = localStorage.getItem('estorides.onboarding');
     const overlay = document.getElementById('onboarding');
@@ -1749,19 +2021,217 @@
     if (ev.target.id === 'kbd-help') document.getElementById('kbd-help').style.display = 'none';
   });
 
-  // Responsive sidebar toggle.
+  // Responsive sidebar toggle + resizable divider.
+  function loadSidebarWidth() {
+    try {
+      var saved = localStorage.getItem('estorides.sidebarWidth');
+      if (saved) {
+        var w = parseInt(saved, 10);
+        if (w >= 280 && w <= 900) {
+          sidebarEl.style.width = w + 'px';
+        }
+      }
+    } catch (_) {}
+  }
+  function saveSidebarWidth(w) {
+    try { localStorage.setItem('estorides.sidebarWidth', String(w)); } catch (_) {}
+  }
+  function loadSidebarCollapsed() {
+    try {
+      if (localStorage.getItem('estorides.sidebarCollapsed') === '1') {
+        sidebarEl.classList.add('sidebar-collapsed');
+        sidebarEl.style.display = 'none';
+      }
+    } catch (_) {}
+  }
+  function saveSidebarCollapsed(v) {
+    try { localStorage.setItem('estorides.sidebarCollapsed', v ? '1' : '0'); } catch (_) {}
+  }
+
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebarEl = document.getElementById('sidebar');
   if (sidebarToggle && sidebarEl) {
-    sidebarToggle.addEventListener('click', () => {
-      sidebarEl.classList.toggle('sidebar-hidden');
-      sidebarEl.style.display = sidebarEl.classList.contains('sidebar-hidden') ? 'none' : '';
+    loadSidebarWidth();
+    loadSidebarCollapsed();
+    sidebarToggle.addEventListener('click', function() {
+      sidebarEl.classList.toggle('sidebar-collapsed');
+      if (sidebarEl.classList.contains('sidebar-collapsed')) {
+        sidebarEl.style.display = 'none';
+        saveSidebarCollapsed(true);
+      } else {
+        sidebarEl.style.display = '';
+        loadSidebarWidth();
+        saveSidebarCollapsed(false);
+      }
+    });
+  }
+
+  // Resizable divider
+  var resizeHandle = document.getElementById('sidebar-resize-handle');
+  if (resizeHandle && sidebarEl) {
+    var _resizing = false;
+    var _startX = 0;
+    var _startW = 0;
+
+    resizeHandle.addEventListener('mousedown', function(ev) {
+      _resizing = true;
+      _startX = ev.clientX;
+      _startW = sidebarEl.offsetWidth;
+      document.body.classList.add('resizing');
+      ev.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(ev) {
+      if (!_resizing) return;
+      var dx = ev.clientX - _startX;
+      var newW = Math.max(280, Math.min(900, _startW + dx));
+      sidebarEl.style.width = newW + 'px';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (!_resizing) return;
+      _resizing = false;
+      document.body.classList.remove('resizing');
+      saveSidebarWidth(sidebarEl.offsetWidth);
     });
   }
 
   fetch('/api/status').then((r) => r.json()).then((s) => {
     window._totalSources = s.total || 0;
     $('#src-count').textContent = `${s.total} sources · ${s.categories.length} cats`;
+  });
+
+  // ---- Fusion tab ----
+  function switchSidebarTab(idx) {
+    var tabs = document.querySelectorAll('.sidebar .tab');
+    var panels = document.querySelectorAll('.sidebar .tab-panel');
+    tabs.forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+    panels.forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    // Reload fusion data when switching to fusion tab
+    if (idx === 4) loadFusionTab();
+  }
+
+  function loadFusionTab() {
+    loadFusionStats();
+    loadFusionTopChanged();
+    loadFusionSearch();
+  }
+
+  function loadFusionStats() {
+    var container = $('#fusion-stats');
+    if (!container) return;
+    fetch('/api/fusion/stats').then(function(r) { return r.json(); }).then(function(s) {
+      if (s.error) { container.innerHTML = '<div class="empty-state"><p>' + escapeHTML(s.error) + '</p></div>'; return; }
+      container.innerHTML =
+        '<div class="fusion-stat-card meta-row">' +
+          '<span class="pill">' + (s.entities || 0) + ' entities</span>' +
+          '<span class="pill">' + (s.observations || 0) + ' observations</span>' +
+          '<span class="pill">' + (s.sources || 0) + ' sources</span>' +
+          '<span class="pill">' + (s.properties || 0) + ' properties</span>' +
+          '<span class="pill">' + (s.relationships || 0) + ' relationships</span>' +
+          (s.multi_source_entities != null ? '<span class="pill">' + s.multi_source_entities + ' multi-source</span>' : '') +
+        '</div>';
+    }).catch(function(e) {
+      container.innerHTML = '<div class="empty-state"><p>Stats unavailable: ' + escapeHTML(e.message) + '</p></div>';
+    });
+  }
+
+  function loadFusionTopChanged() {
+    var el = $('#fusion-top-changed');
+    if (!el) return;
+    fetch('/api/fusion/analytics/top-changed?days=7&limit=20').then(function(r) { return r.json(); }).then(function(j) {
+      var entities = j.entities || [];
+      if (!entities.length) { el.innerHTML = '<div class="empty-state"><p>No recent changes.</p></div>'; return; }
+      el.innerHTML = entities.map(function(e) {
+        return '<div class="case-item" data-eid="' + escapeAttr(e.entity_id) + '">' +
+          '<span class="pill">' + escapeHTML(e.type) + '</span> ' +
+          '<code>' + escapeHTML(e.value) + '</code> ' +
+          '<span class="srcs">+' + e.new_observations + ' obs · +' + e.new_properties + ' props · +' + e.new_relationships + ' rels</span>' +
+          '<button class="ghost view-btn" data-eid="' + escapeAttr(e.entity_id) + '">View</button>' +
+          '</div>';
+      }).join('');
+      el.querySelectorAll('.view-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var eid = btn.getAttribute('data-eid');
+          if (eid) loadFusionEntityDetail(eid);
+        });
+      });
+    }).catch(function() { el.innerHTML = ''; });
+  }
+
+  function loadFusionSearch() {
+    var termEl = $('#fusion-search-term');
+    var typeEl = $('#fusion-search-type');
+    var minSrcEl = $('#fusion-min-sources');
+    var resultsEl = $('#fusion-results');
+    if (!termEl || !typeEl || !minSrcEl || !resultsEl) return;
+
+    function doSearch() {
+      var term = termEl.value.trim();
+      var etype = typeEl.value;
+      var min_s = parseInt(minSrcEl.value, 10) || 0;
+      var params = new URLSearchParams({ min_sources: String(min_s), limit: '50' });
+      if (term) params.set('q', term);
+      if (etype) params.set('type', etype);
+      fetch('/api/fusion/entities?' + params.toString()).then(function(r) { return r.json(); }).then(function(j) {
+        var entities = j.entities || [];
+        if (!entities.length) { resultsEl.innerHTML = '<div class="empty-state"><p>No results.</p></div>'; return; }
+        resultsEl.innerHTML = '<div class="meta-row"><span class="pill">' + entities.length + ' results</span></div>' +
+          entities.map(function(e) {
+            return '<div class="entity" data-eid="' + escapeAttr(e.id) + '">' +
+              '<span class="type">' + escapeHTML(e.type) + '</span> ' +
+              '<span class="value">' + escapeHTML(e.value) + '</span> ' +
+              '<span class="srcs">' + e.source_count + ' sources · ' + e.observation_count + ' obs</span>' +
+              '<button class="ghost view-btn" data-eid="' + escapeAttr(e.id) + '">View</button>' +
+              '</div>';
+          }).join('');
+        resultsEl.querySelectorAll('.view-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var eid = btn.getAttribute('data-eid');
+            if (eid) loadFusionEntityDetail(eid);
+          });
+        });
+      }).catch(function() { resultsEl.innerHTML = '<div class="empty-state"><p>Search failed.</p></div>'; });
+    }
+
+    $('#fusion-search-btn').onclick = doSearch;
+    termEl.addEventListener('keydown', function(ev) { if (ev.key === 'Enter') doSearch(); });
+  }
+
+  function loadFusionEntityDetail(eid) {
+    var el = $('#fusion-entity-detail');
+    if (!el || !eid) return;
+    el.innerHTML = '<div class="meta-row"><span class="pill">Loading ' + escapeHTML(eid) + '...</span></div>';
+    fetch('/api/fusion/analytics/entity-summary/' + encodeURIComponent(eid))
+      .then(function(r) { return r.json(); })
+      .then(function(s) {
+        if (s.error) { el.innerHTML = '<div class="empty-state"><p>' + escapeHTML(s.error) + '</p></div>'; return; }
+        el.innerHTML =
+          '<div class="case-diff-panel" id="fusion-entity-panel">' +
+          '<div class="diff-a">' +
+          '<h4>' + escapeHTML(s.type) + ': <code>' + escapeHTML(s.value) + '</code></h4>' +
+          '<p>Confidence: ' + (s.confidence * 100).toFixed(0) + '% · ' +
+          'Sources: ' + s.source_count + ' · Observations: ' + s.observation_count + '</p>' +
+          '<p>Intel level: <span class="lvl-dot lvl-' + s.intel_level + '"></span> ' + s.intel_level + '</p>' +
+          '<p>Properties: ' + s.properties_summary.total + ' total, ' + s.properties_summary.corroborated + ' corroborated</p>' +
+          '<p>Relationships: ' + s.relationships_summary.total + ' total, ' +
+          s.relationships_summary.distinct_targets + ' distinct targets</p>' +
+          '<p>First seen: ' + new Date((s.first_seen || 0) * 1000).toISOString().replace('T', ' ').substring(0, 19) +
+          ' · Last seen: ' + new Date((s.last_seen || 0) * 1000).toISOString().replace('T', ' ').substring(0, 19) + '</p>' +
+          '<p><strong>Sources:</strong> ' + (s.sources || []).join(', ') + '</p>' +
+          '<p><strong>Property keys:</strong> ' + (s.properties_summary.keys || []).join(', ') + '</p>' +
+          '<p><strong>Relationship types:</strong> ' + (s.relationships_summary.types || []).join(', ') + '</p>' +
+          '<button class="ghost" onclick="document.getElementById(\'fusion-entity-detail\').innerHTML=\'\'">Close</button>' +
+          '</div></div>';
+      }).catch(function(e) {
+        el.innerHTML = '<div class="empty-state"><p>Error: ' + escapeHTML(e.message) + '</p></div>';
+      });
+  }
+
+  $('#fusion-refresh-btn').addEventListener('click', loadFusionTab);
+  // Override switchSidebarTab to trigger fusion load on tab 5
+  document.querySelectorAll('.sidebar .tabs .tab').forEach(function(tab, i) {
+    tab.addEventListener('click', function() { switchSidebarTab(i); });
   });
 })();
 

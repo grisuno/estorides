@@ -287,6 +287,7 @@ class SearchTelemetry:
 
     def context(self) -> dict[str, Any]:
         """Return the JSON-serialisable catalog for template/JS injection."""
+        from .config import CLUSTER_PALETTE
         return {
             "brand": self._config.brand,
             "tagline": self._config.tagline,
@@ -301,6 +302,7 @@ class SearchTelemetry:
                 {"key": phase.key, "label": phase.label, "active": phase.active}
                 for phase in self._config.phases
             ],
+            "cluster_palette": list(CLUSTER_PALETTE),
         }
 
 

@@ -15,6 +15,12 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
 </head>
 <body>
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-logo">⬢</div>
+        <div class="splash-title">{{ telemetry.brand | upper }}</div>
+        <div class="splash-tagline">{{ telemetry.tagline }}</div>
+        <div class="splash-bar"></div>
+    </div>
     <header class="topbar">
         <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
         <div class="brand">
@@ -46,11 +52,13 @@
 
     <main>
         <aside id="sidebar" class="sidebar">
+            <div class="sidebar-resize-handle" id="sidebar-resize-handle" title="Drag to resize sidebar"></div>
             <div class="tabs">
                 <button class="tab active" data-tab="results">Results</button>
                 <button class="tab" data-tab="entities">Entities</button>
                 <button class="tab" data-tab="analysis">Analysis</button>
                 <button class="tab" data-tab="graph">Graph</button>
+                <button class="tab" data-tab="fusion">Fusion</button>
                 <button class="tab" data-tab="cases">Cases</button>
                 <button class="tab" data-tab="intel">Intel</button>
             </div>
@@ -105,10 +113,40 @@
                     </div>
                 </section>
 
+                <section id="tab-fusion" class="tab-panel">
+                    <div class="meta-row">
+                        <span class="meta-label">Cross-run intelligence dashboard</span>
+                        <button id="fusion-refresh-btn" class="ghost" title="Refresh fusion data">Refresh</button>
+                    </div>
+                    <div id="fusion-dashboard" class="fusion-dashboard"></div>
+                    <div class="meta-row meta-row-spaced">
+                        <span class="meta-label">Entity search</span>
+                    </div>
+                    <div class="fusion-entity-search">
+                        <input id="fusion-search-term" type="text" placeholder="entity value..." />
+                        <select id="fusion-search-type">
+                            <option value="">all types</option>
+                            <option value="ipv4">ipv4</option>
+                            <option value="domain">domain</option>
+                            <option value="email">email</option>
+                            <option value="person">person</option>
+                            <option value="company">company</option>
+                            <option value="cve">cve</option>
+                            <option value="btc_address">btc</option>
+                        </select>
+                        <input id="fusion-min-sources" type="number" min="0" max="20" value="2" title="Minimum corroborating sources" />
+                        <button id="fusion-search-btn" class="primary">Search</button>
+                    </div>
+                    <div id="fusion-results" class="fusion-results"></div>
+                    <div id="fusion-entity-detail" class="fusion-entity-detail"></div>
+                    <div class="meta-row meta-row-spaced">
+                        <span class="meta-label">Top changed entities</span>
+                    </div>
+                    <div id="fusion-top-changed" class="fusion-top-changed"></div>
+                </section>
+
                 <section id="tab-cases" class="tab-panel">
                     <div class="meta-row">
-                        <span class="meta-label">Persistent cases (cross-run memory)</span>
-                    </div>
                     <input id="case-search" type="text" placeholder="search case by query..." />
                     <div id="cases-list" class="cases-list"></div>
                 </section>
@@ -176,7 +214,17 @@
                         <div id="inspector-body" class="inspector-body"></div>
                     </aside>
                 </div>
-                <div id="timeline" class="timeline-canvas"></div>
+                <div id="timeline" class="timeline-canvas">
+                    <div class="timeline-controls" id="timeline-controls" hidden>
+                        <input type="range" id="timeline-slider" class="timeline-slider" min="0" max="100" value="100" step="1">
+                        <div class="timeline-labels">
+                            <span id="timeline-min-label" class="timeline-label"></span>
+                            <button id="timeline-play-btn" class="timeline-play" title="Play through time">▶</button>
+                            <span id="timeline-max-label" class="timeline-label"></span>
+                        </div>
+                    </div>
+                    <div id="timeline-events"></div>
+                </div>
             </div>
         </section>
     </main>
@@ -184,6 +232,7 @@
     <footer class="bottombar">
         <span>Estorides v1.1</span>
         <span class="sep">·</span>
+        <span id="status-indicator" class="status-dot idle"></span>
         <span id="footer-status">idle</span>
     </footer>
 

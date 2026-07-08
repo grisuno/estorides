@@ -292,6 +292,12 @@ DOMAIN_BLACKLIST: set[str] = {
 # -----------------------------------------------------------------------------
 # Categories used to colorize the graph / map
 # -----------------------------------------------------------------------------
+CLUSTER_PALETTE: tuple[str, ...] = (
+    "#5B8FF9", "#5AD8A6", "#F6BD16", "#E8684A", "#6DC8EC",
+    "#9270CA", "#FF9D4D", "#269A99", "#FF99C3", "#A0D911",
+    "#FF6B6B", "#36CFC9", "#B37FEB", "#FFC53D", "#7CB305",
+)
+
 CATEGORY_PALETTE: dict[str, str] = {
     "01. DNS Intelligence": "#5B8FF9",
     "02. IP & Infrastructure": "#F6BD16",
@@ -415,6 +421,31 @@ class StreamConfig:
 
 
 @dataclass(frozen=True)
+class ReconFusionConfig:
+    """Centralised tunables for the passive recon fusion engine.
+
+    Controls how raw OSINT results are grouped, deduplicated and classified
+    into relevance tiers. Every field has an env var equivalent so the
+    operator can adjust behaviour without touching code.
+    """
+
+    critical_min_sources: int
+    high_min_sources: int
+    high_min_reliability: str
+    medium_min_reliability: str
+    noise_max_reliability: str
+    freshness_max_hours: float
+    direct_match_boost: float
+
+    def __post_init__(self) -> None:
+        if self.critical_min_sources <= self.high_min_sources:
+            raise ValueError(
+                f"critical_min_sources ({self.critical_min_sources}) must be "
+                f"> high_min_sources ({self.high_min_sources})"
+            )
+
+
+@dataclass(frozen=True)
 class WebConfig:
     """Per-endpoint defaults and render limits for the Flask layer."""
 
@@ -513,6 +544,16 @@ STREAM: StreamConfig = StreamConfig(
     # exact exhaustion vector called out in issues #14 and #50.
     job_registry_max_size=_env_int("ESTORIDES_JOB_REGISTRY_MAX_SIZE", 32),
     job_registry_ttl_seconds=_env_int("ESTORIDES_JOB_REGISTRY_TTL_S", 30 * 60),
+)
+
+RECON_FUSION: ReconFusionConfig = ReconFusionConfig(
+    critical_min_sources=_env_int("ESTORIDES_RF_CRITICAL_SRC", 3),
+    high_min_sources=_env_int("ESTORIDES_RF_HIGH_SRC", 2),
+    high_min_reliability=os.environ.get("ESTORIDES_RF_HIGH_REL", "B"),
+    medium_min_reliability=os.environ.get("ESTORIDES_RF_MEDIUM_REL", "D"),
+    noise_max_reliability=os.environ.get("ESTORIDES_RF_NOISE_REL", "F"),
+    freshness_max_hours=_env_float("ESTORIDES_RF_FRESH_H", 72.0),
+    direct_match_boost=_env_float("ESTORIDES_RF_DIRECT_BOOST", 0.15),
 )
 
 WEB: WebConfig = WebConfig(

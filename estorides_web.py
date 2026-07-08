@@ -26,6 +26,7 @@ from flask import Flask, Response, jsonify, render_template, request, send_from_
 
 from estorides_core.audit import audit_log, rate_limiter
 from estorides_core.config import (
+    CLUSTER_PALETTE,
     FLASK_HOST,
     FLASK_PORT,
     GRAPH_PATH,
@@ -54,14 +55,6 @@ from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
 log = logging.getLogger("estorides.web")
-
-# Distinct, high-contrast hues for graph clusters. Indexed by community
-# id modulo its length so an arbitrary number of clusters still colours.
-_CLUSTER_PALETTE: tuple[str, ...] = (
-    "#5B8FF9", "#5AD8A6", "#F6BD16", "#E8684A", "#6DC8EC",
-    "#9270CA", "#FF9D4D", "#269A99", "#FF99C3", "#A0D911",
-    "#FF6B6B", "#36CFC9", "#B37FEB", "#FFC53D", "#7CB305",
-)
 
 # We bind helpers at module level so they can be re-used in tests
 # without going through the Flask app factory.
@@ -338,7 +331,7 @@ def create_app() -> Flask:
         for key, d in sub.nodes(data=True):
             cid = comm.get(key, -1)
             level = kg.intel_level(key, bridge_nodes=bridge_nodes)
-            color = _CLUSTER_PALETTE[cid % len(_CLUSTER_PALETTE)] if cid >= 0 else "#888"
+            color = CLUSTER_PALETTE[cid % len(CLUSTER_PALETTE)] if cid >= 0 else "#888"
             nodes.append({
                 "id": key,
                 "label": d.get("value", ""),
@@ -464,6 +457,14 @@ def create_app() -> Flask:
         fusion_store = _open_fusion_store()
     except Exception:
         fusion_store = None  # type: ignore[assignment]
+
+    fusion_analytics: Any = None
+    if fusion_store is not None:
+        try:
+            from estorides_core.fusion_analytics import FusionAnalytics
+            fusion_analytics = FusionAnalytics(fusion_store)
+        except Exception:
+            fusion_analytics = None  # type: ignore[assignment]
 
     @app.route("/api/cases", methods=["GET"])
     @_rate_limit_decorator(event="api_cases")
@@ -714,6 +715,70 @@ def create_app() -> Flask:
         min_sources = max(_arg_int("min_sources", 2), 1)
         entity["corroborated"] = fusion_store.corroborated_properties(eid, min_sources)
         return jsonify(entity)
+
+    # ----- fusion analytics (intelligence dashboard queries) -----
+    @app.route("/api/fusion/analytics/entity-timeline/<eid>", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_entity_timeline")
+    @require_auth
+    def api_fusion_analytics_entity_timeline(eid: str) -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        result = fusion_analytics.entity_timeline(eid)
+        if result is None:
+            return jsonify({"error": "not found"}), 404
+        return jsonify(result)
+
+    @app.route("/api/fusion/analytics/entity-summary/<eid>", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_entity_summary")
+    @require_auth
+    def api_fusion_analytics_entity_summary(eid: str) -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        result = fusion_analytics.entity_summary(eid)
+        if result is None:
+            return jsonify({"error": "not found"}), 404
+        return jsonify(result)
+
+    @app.route("/api/fusion/analytics/source-stats/<source_name>", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_source_stats")
+    @require_auth
+    def api_fusion_analytics_source_stats(source_name: str) -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        result = fusion_analytics.source_stats(source_name)
+        if result is None:
+            return jsonify({"error": "not found"}), 404
+        return jsonify(result)
+
+    @app.route("/api/fusion/analytics/consensus/<eid>", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_consensus")
+    @require_auth
+    def api_fusion_analytics_consensus(eid: str) -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        key = request.args.get("key", "").strip()
+        if not key:
+            return jsonify({"error": "key parameter required"}), 400
+        return jsonify(fusion_analytics.multi_source_consensus(eid, key))
+
+    @app.route("/api/fusion/analytics/top-changed", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_top_changed")
+    @require_auth
+    def api_fusion_analytics_top_changed() -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        days = max(1, min(365, _arg_int("days", 7)))
+        limit = max(1, min(200, _arg_int("limit", 20)))
+        return jsonify({"entities": fusion_analytics.top_changed(days=days, limit=limit)})
+
+    @app.route("/api/fusion/analytics/corroboration-matrix", methods=["GET"])
+    @_rate_limit_decorator(event="api_fusion_analytics_corroboration_matrix")
+    @require_auth
+    def api_fusion_analytics_corroboration_matrix() -> Any:
+        if fusion_analytics is None:
+            return jsonify({"error": "fusion analytics unavailable"}), 503
+        limit = max(1, min(100, _arg_int("limit", 20)))
+        return jsonify({"pairs": fusion_analytics.source_corroboration_matrix(limit=limit)})
 
     # ----- graph pivot transforms -----
     try:
@@ -1118,6 +1183,7 @@ def _shape_for_ui(result: dict[str, Any]) -> dict[str, Any]:
             "parsed": o.get("parsed"),
             "meta": o.get("meta"),
         })
+    recon = result.get("recon_tiers", {}) or {}
     return {
         "query": result.get("query"),
         "generated_at": result.get("generated_at"),
@@ -1127,6 +1193,8 @@ def _shape_for_ui(result: dict[str, Any]) -> dict[str, Any]:
         "entities": result.get("entities", []),
         "graph": result.get("graph", {}),
         "analysis": result.get("analysis", {}),
+        "tiers": recon.get("tiers", {}),
+        "tier_summary": recon.get("tier_summary", {}),
     }
 
 
