@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import pytest
 
-from estorides_core.recon_fusion import ReconFusionConfig, ReconFusionEngine, RelevanceTier
+from estorides_core.config import ReconFusionConfig
+from estorides_core.recon_fusion import ReconFusionEngine, RelevanceTier
 
 
 def _observation(
@@ -158,7 +159,14 @@ class TestS8BadConfig:
 
     def test_bad_thresholds_raise(self) -> None:
         with pytest.raises(ValueError):
-            ReconFusionConfig(critical_min_sources=2, high_min_sources=3)
+            ReconFusionConfig(
+                critical_min_sources=2, high_min_sources=3,
+                high_min_reliability="B", medium_min_reliability="D",
+                noise_max_reliability="F", freshness_max_hours=72.0,
+                direct_match_boost=0.15,
+                exact_dedup_keys=("source", "parser", "status"),
+                source_reliability_overrides={},
+            )
 
 
 # --------------------------------------------------------------------------- S9

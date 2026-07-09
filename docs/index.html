@@ -187,15 +187,15 @@
             </div>
 
             <!-- 2f: search_telemetry -->
-            <div class="card mb-3 border-info">
+            <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>2f &middot; <code>search_telemetry</code>
-                        <span class="badge badge-info ml-2">in progress</span>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-08</span>
                     </span>
                     <span>
                         <span class="badge badge-spec">spec</span>
-                        <span class="badge badge-test">tests</span>
-                        <span class="badge badge-property">properties</span>
+                        <span class="badge badge-test">17 tests</span>
+                        <span class="badge badge-property">6 properties</span>
                     </span>
                 </div>
                 <div class="card-body">
@@ -221,8 +221,8 @@
                     </span>
                     <span>
                         <span class="badge badge-spec">spec</span>
-                        <span class="badge badge-test">16 tests</span>
-                        <span class="badge badge-property">6 properties</span>
+                        <span class="badge badge-test">25 tests</span>
+                        <span class="badge badge-property">8 properties</span>
                     </span>
                 </div>
                 <div class="card-body">
@@ -242,22 +242,53 @@
             </div>
 
             <!-- 2h: ui_professional -->
-            <div class="card mb-3 border-warning">
+            <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>2h &middot; <code>ui_professional</code>
-                        <span class="badge badge-warning ml-2">planning</span>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-08</span>
                     </span>
                     <span>
                         <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">26 tests</span>
                     </span>
                 </div>
                 <div class="card-body">
                     <p class="card-text">
                         Professional UI/UX: CSS loading animation, tiered
                         result display by relevance, modern visual refinements.
+                        CSP-secure: no inline styles or onclick attributes.
                     </p>
                     <p>
-                        <a href="../spec/ui_professional.md">spec</a>
+                        <a href="../spec/ui_professional.md">spec</a> &middot;
+                        <a href="../tests/test_ui_professional.py">tests</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2i: target_management -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2i &middot; <code>target_management</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-08</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">69 tests</span>
+                        <span class="badge badge-property">10 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Lightweight target registration without full OSINT run.
+                        16 entity types, auto-detection, batch/text/CSV import,
+                        deterministic IDs, optional integration with fusion_store,
+                        entity_store, and case_store.
+                    </p>
+                    <p>
+                        <a href="../spec/target_management.md">spec</a> &middot;
+                        <a href="../tests/test_target_management.py">tests</a> &middot;
+                        <a href="../tests/properties/test_target_management_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/target_management.py">source</a>
                     </p>
                 </div>
             </div>
@@ -302,7 +333,8 @@ estorides run example.com</code></pre>
         <div class="container">
             <p class="mb-1">Estorides &mdash; state-level OSINT engine. GPLv3.</p>
             <p class="mb-0"><small>99+ sources &middot; 12 intelligence categories &middot;
-            async fanout &middot; persistent graph &middot; multi-LLM analyst</small></p>
+            async fanout &middot; persistent graph &middot; multi-LLM analyst &middot;
+            350 tests</small></p>
         </div>
     </footer>
 </body>

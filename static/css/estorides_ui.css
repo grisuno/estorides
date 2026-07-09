@@ -825,6 +825,13 @@ button.primary:not(:disabled):hover {
 .tier-noise .tier-header { border-left-color: #374151; }
 .tier-noise { opacity: 0.7; }
 
+/* Tier badge background colors (CSP-safe: set via CSS class, not inline style=) */
+.tier-critical .tier-badge { background: #f43f5e; }
+.tier-high .tier-badge { background: #f59e0b; }
+.tier-medium .tier-badge { background: #eab308; }
+.tier-low .tier-badge { background: #6b7280; }
+.tier-noise .tier-badge { background: #374151; }
+
 /* Transition for progress bar pulse */
 @keyframes barPulse {
   0%, 100% { opacity: 0.7; }

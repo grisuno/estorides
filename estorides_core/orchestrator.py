@@ -28,8 +28,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
 from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
-                     FUSION_ENABLED, GRAPH_PATH, SOURCES_DIR, contact_level,
-                     effective_proxies)
+                     FUSION_ENABLED, GRAPH_PATH, RECON_FUSION, SOURCES_DIR,
+                     contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -544,7 +544,7 @@ class Orchestrator:
         recon_tiers: dict[str, Any] = {}
         if observations or merged:
             try:
-                fusion_engine = ReconFusionEngine()
+                fusion_engine = ReconFusionEngine(RECON_FUSION)
                 fusion_result = fusion_engine.classify(
                     query, query_type, observations, [e.to_dict() for e in merged],
                 )

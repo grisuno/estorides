@@ -1271,9 +1271,15 @@
       header.setAttribute('tabindex', '0');
       header.setAttribute('aria-expanded', String(cfg.expanded));
       header.setAttribute('aria-controls', 'tier-body-' + key);
-      header.innerHTML = '<span class="tier-label">' +
-        escapeHTML(cfg.label) + '</span>' +
-        '<span class="tier-badge" style="background:' + cfg.color + '">' + groups.length + '</span>';
+      var badge = document.createElement('span');
+      badge.className = 'tier-badge';
+      badge.textContent = String(groups.length);
+      header.appendChild(document.createTextNode(''));
+      var label = document.createElement('span');
+      label.className = 'tier-label';
+      label.textContent = cfg.label;
+      header.appendChild(label);
+      header.appendChild(badge);
       header.addEventListener('click', function() { toggleTierSection(key, header); });
       header.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTierSection(key, header); } });
       section.appendChild(header);
@@ -2221,12 +2227,20 @@
           '<p><strong>Sources:</strong> ' + (s.sources || []).join(', ') + '</p>' +
           '<p><strong>Property keys:</strong> ' + (s.properties_summary.keys || []).join(', ') + '</p>' +
           '<p><strong>Relationship types:</strong> ' + (s.relationships_summary.types || []).join(', ') + '</p>' +
-          '<button class="ghost" onclick="document.getElementById(\'fusion-entity-detail\').innerHTML=\'\'">Close</button>' +
-          '</div></div>';
+'<button class="ghost close-btn">Close</button>' +
+           '</div></div>';
       }).catch(function(e) {
         el.innerHTML = '<div class="empty-state"><p>Error: ' + escapeHTML(e.message) + '</p></div>';
       });
   }
+
+  document.addEventListener('click', function(ev) {
+    var t = ev.target;
+    if (t && t.classList && t.classList.contains('close-btn')) {
+      var pid = t.closest('[id]');
+      if (pid) pid.innerHTML = '';
+    }
+  });
 
   $('#fusion-refresh-btn').addEventListener('click', loadFusionTab);
   // Override switchSidebarTab to trigger fusion load on tab 5

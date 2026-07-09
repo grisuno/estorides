@@ -16,6 +16,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
+from .config import RECON_FUSION as _DEFAULT_RECON_FUSION
+from .config import ReconFusionConfig as ReconFusionConfig
 from .reliability_scoring import reliability_from_name
 
 
@@ -35,34 +37,6 @@ class RelevanceTier(str, Enum):
     def ordered(cls) -> list[RelevanceTier]:
         """Return tiers in canonical display order."""
         return [cls.CRITICAL, cls.HIGH, cls.MEDIUM, cls.LOW, cls.NOISE]
-
-
-@dataclass(frozen=True)
-class ReconFusionConfig:
-    """Centralised tunables for the recon fusion engine.
-
-    Every threshold has an env var equivalent so the operator can adjust
-    classification without touching code.
-    """
-
-    critical_min_sources: int = 3
-    high_min_sources: int = 2
-    high_min_reliability: str = "B"
-    medium_min_reliability: str = "D"
-    noise_max_reliability: str = "F"
-    freshness_max_hours: float = 72.0
-    direct_match_boost: float = 0.15
-    exact_dedup_keys: tuple[str, ...] = ("source", "parser", "status")
-    source_reliability_overrides: dict[str, str] = field(default_factory=dict)
-
-    def __post_init__(self) -> None:
-        if self.critical_min_sources <= self.high_min_sources:
-            raise ValueError(
-                f"critical_min_sources ({self.critical_min_sources}) must be "
-                f"> high_min_sources ({self.high_min_sources})"
-            )
-        if self.freshness_max_hours <= 0.0:
-            object.__setattr__(self, "freshness_max_hours", 1.0)
 
 
 @dataclass(frozen=True)
@@ -207,7 +181,7 @@ class ReconFusionEngine:
     """
 
     def __init__(self, config: ReconFusionConfig | None = None) -> None:
-        self._cfg = config or ReconFusionConfig()
+        self._cfg = config if config is not None else _DEFAULT_RECON_FUSION
 
     def classify(
         self,

@@ -427,6 +427,9 @@ class ReconFusionConfig:
     Controls how raw OSINT results are grouped, deduplicated and classified
     into relevance tiers. Every field has an env var equivalent so the
     operator can adjust behaviour without touching code.
+
+    This is the SINGLE source of truth. The engine module imports from here
+    and never defines its own copy.
     """
 
     critical_min_sources: int
@@ -436,6 +439,8 @@ class ReconFusionConfig:
     noise_max_reliability: str
     freshness_max_hours: float
     direct_match_boost: float
+    exact_dedup_keys: tuple[str, ...]
+    source_reliability_overrides: dict[str, str]
 
     def __post_init__(self) -> None:
         if self.critical_min_sources <= self.high_min_sources:
@@ -443,6 +448,8 @@ class ReconFusionConfig:
                 f"critical_min_sources ({self.critical_min_sources}) must be "
                 f"> high_min_sources ({self.high_min_sources})"
             )
+        if self.freshness_max_hours <= 0.0:
+            object.__setattr__(self, "freshness_max_hours", 1.0)
 
 
 @dataclass(frozen=True)
@@ -554,6 +561,8 @@ RECON_FUSION: ReconFusionConfig = ReconFusionConfig(
     noise_max_reliability=os.environ.get("ESTORIDES_RF_NOISE_REL", "F"),
     freshness_max_hours=_env_float("ESTORIDES_RF_FRESH_H", 72.0),
     direct_match_boost=_env_float("ESTORIDES_RF_DIRECT_BOOST", 0.15),
+    exact_dedup_keys=tuple(os.environ.get("ESTORIDES_RF_DEDUP_KEYS", "source,parser,status").split(",")),
+    source_reliability_overrides={},
 )
 
 WEB: WebConfig = WebConfig(
