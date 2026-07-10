@@ -107,11 +107,13 @@ stop using their own ad-hoc heuristics and use this single source of truth.
 | Module | Spec | Status | What it does |
 | --- | --- | --- | --- |
 | `reliability_scoring` (2a) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-06-27 | NATO Admiralty (reliability A-F × credibility 1-6) × corroboration × freshness decay. Replaces `+0.1` heuristic and `MAX()` SQL. 45 BDD tests + 9 hypothesis properties. |
+| `source_hierarchy` (1) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-07-10 | SourceType enum (PRIMARY/SECONDARY/TERTIARY), SOURCE_TYPE_MAP (42 curated sources), SOURCE_TYPE_WEIGHT. Extends confidence computation with source-type weight. 64 BDD tests + 12 properties. |
+| `source_health_monitoring` (2) | [`spec/source_health_monitoring.md`](spec/source_health_monitoring.md) | closed 2026-07-10 | Source health dashboard: compute_health() with success/latency/freshness weights, tiered stats. 37 BDD + 5 properties. |
+| `entity_resolution` (3) | [`spec/entity_resolution.md`](spec/entity_resolution.md) | closed 2026-07-10 | Proper spec + 48 BDD pytest tests for the existing entity_resolution. Transliteration, Jaro-Winkler, normalisation, canonical ids, cross-script fusion. |
+| `probabilistic_fusion` (4) | [`spec/probabilistic_fusion.md`](spec/probabilistic_fusion.md) | closed 2026-07-10 | Bayesian merge_confidence() replaces MAX() in FusionStore.fuse_entity and fuse_relationship. Source-weighted merging prevents tertiary inflation. 17 BDD tests. |
+| `paged_results` (5) | [`spec/paged_results.md`](spec/paged_results.md) | closed 2026-07-10 | Pagination module with three strategies (page, offset, cursor). PaginationConfig, build_page_params, extract_cursor, count_results. Integrated into orchestrator._execute_source. 31 BDD tests. |
 | `hypothesis_engine` (2b) | [`spec/hypothesis_engine.md`](spec/hypothesis_engine.md) | closed 2026-06-27 | Capa "data → information". 4 generadores tipados (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas (sha1), audit trail con evidence items. 26 BDD tests + 9 hypothesis properties. |
 | `change_detection` (2c) | [`spec/change_detection.md`](spec/change_detection.md) | closed 2026-06-27 | Capa "temporal": diff entre dos `Snapshot` del mismo target. 8 kinds tipados (`new`/`disappeared`/`property_changed`/`source_added`/`source_removed`/`edge_added`/`edge_removed`/`confidence_shifted`), score reliability-weighted, ids deterministas (sha1), audit trail completo. Puro: sin I/O, sin logging del payload, acotado por `max_changes`. 30 BDD tests (S1-S15) + 8 hypothesis properties (1000 ejemplos c/u). |
-| `pattern_of_life` (2d) | spec pending | pending | Temporal clustering, "anomalía" detection. |
-| `anomaly_scoring` (2e) | spec pending | pending | Outlier geolocation, ASN, temporal, technology. |
-| `cross_case_correlation` (2f) | spec pending | pending | Shared-infra entre casos via fusion store. |
 
 The full development doctrine (SDD + TDD + BDD + boy-scout + visual review
 + fuzzing) lives in [`CLAUDE.md`](CLAUDE.md). Every module follows the

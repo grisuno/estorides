@@ -131,6 +131,13 @@ class SourceRegistry:
                 name, contact,
             )
 
+        pagination: Dict[str, Any] = {}
+        if isinstance(raw.get("pagination"), dict):
+            pagination = {
+                k: v for k, v in raw["pagination"].items()
+                if v is not None
+            }
+
         normalised: Dict[str, Any] = {
             "name": name.strip(),
             "description": (raw.get("description") or "").strip(),
@@ -145,6 +152,7 @@ class SourceRegistry:
             "contact": contact,
             "logs_queries": bool(raw.get("logs_queries", False)),
             "tool": tool,
+            "pagination": pagination,
         }
         return Source(normalised)
 

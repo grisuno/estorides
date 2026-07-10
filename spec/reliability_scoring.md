@@ -26,11 +26,21 @@ hoy). El LLM analyst, el hypothesis engine y el change detection no pueden
 trabajar con un score que no representa nada.
 
 Este módulo implementa el modelo **NATO Admiralty System** (source
-reliability A-F × information credibility 1-6) extendido con dos factores
-operacionales: **corroboración** (log del número de fuentes independientes)
-y **frescura** (decaimiento exponencial). Es una sola función pura más su
-tabla curada de `source_name → reliability`. El resto del motor llama a
-`compute_confidence()` o `merge_confidence()` y no redefine heurísticas.
+reliability A-F × information credibility 1-6) extendido con tres factores
+operacionales: **source type hierarchy** (primary/secondary/tertiary con peso
+diferenciado), **corroboración** (log del número de fuentes independientes)
+y **frescura** (decaimiento exponencial). Es una sola función pura más sus
+tablas curadas de `source_name → reliability` y `source_name → source_type`.
+El resto del motor llama a `compute_confidence()` o `merge_confidence()` y no
+redefine heurísticas.
+
+La jerarquía de tipos de fuente es ortogonal al NATO Admiralty score: una
+fuente primaria (registro oficial WHOIS) y una secundaria (red social) pueden
+tener ambas reliability A, pero la primaria contribuye más al confidence final
+porque está más cerca de la verdad institucional. Los pesos son:
+- **PRIMARY** (1.00): registros oficiales, bases de datos autoritativas
+- **SECONDARY** (0.85): plataformas de inteligencia curadas
+- **TERTIARY** (0.60): contenido generado por usuarios, scrapers, foros
 
 ## Inputs
 
@@ -40,6 +50,7 @@ tabla curada de `source_name → reliability`. El resto del motor llama a
 | --- | --- | --- | --- | --- |
 | `source_reliability` | `SourceReliability` (enum str) | uno de `A,B,C,D,E,F` | obligatorio | Curado por fuente en `SOURCE_RELIABILITY_MAP`; fallback `C`. |
 | `credibility` | `Credibility` (enum int) | uno de `1..6` | `6` (cannot be judged) | El extractor raramente tiene datos para mejorarlo. |
+| `source_type` | `SourceType` (enum str) | `primary`, `secondary`, `tertiary` | `TERTIARY` | Jerarquía: primary (1.0) > secondary (0.85) > tertiary (0.6). |
 | `corroboration_count` | `int` | `>= 0` | `0` | Fuentes independientes que vieron el mismo `(type, value)`. |
 | `observation_age_seconds` | `float` | `>= 0.0` | `0.0` | Edad del evento origen; `0` = "ahora mismo". |
 | `base_confidence` | `float` | `[0.0, 1.0]` | `1.0` | Score crudo del extractor; el módulo lo pondera, no lo inventa. |
@@ -47,7 +58,7 @@ tabla curada de `source_name → reliability`. El resto del motor llama a
 Validación en `__post_init__`: `ValueError` si
 `corroboration_count < 0`, `observation_age_seconds < 0`,
 `base_confidence` fuera de `[0, 1]`, o `source_reliability`/`credibility`
-no son miembros del enum.
+`source_type` no son miembros del enum.
 
 ### `merge_confidence(existing, new_observation, …)`
 
@@ -57,6 +68,7 @@ no son miembros del enum.
 | `new_observation` | `float` | `[0, 1]` | Score crudo del extractor para la nueva observación. |
 | `new_reliability` | `SourceReliability` | enum | Reliability de la fuente que acaba de llegar. |
 | `new_credibility` | `Credibility` | enum | Credibility asignada por el caller. |
+| `new_source_type` | `SourceType` | enum | Jerarquía de la fuente para esta observación. |
 | `corroboration_count` | `int` | `>= 1` | Total de fuentes independientes tras la nueva observación. |
 | `observation_age_seconds` | `float` | `>= 0` | Edad de la nueva observación. |
 
@@ -65,6 +77,14 @@ no son miembros del enum.
 | Parámetro | Tipo | Rango | Notas |
 | --- | --- | --- | --- |
 | `source_name` | `str` | cualquier `str` | Nombre del source en `fusion_sources`. **No se valida, no se lanza, no se loguea el contenido**: input hostil. |
+
+### `source_type_from_name(source_name)`
+
+| Parámetro | Tipo | Rango | Notas |
+| --- | --- | --- | --- |
+| `source_name` | `str` | cualquier `str` | Nombre del source en `fusion_sources`. **No se valida, no se lanza, no se loguea el contenido**: input hostil. |
+
+Devuelve `SourceType.TERTIARY` para fuentes desconocidas (fail-soft).
 
 ## Outputs
 
@@ -75,10 +95,12 @@ no son miembros del enum.
   "score": 0.78,
   "reliability_weight": 0.85,
   "credibility_weight": 0.85,
+  "source_type_weight": 0.85,
   "corroboration_weight": 0.70,
   "freshness_weight": 0.50,
   "source_reliability": "B",
   "credibility": 2,
+  "source_type": "secondary",
   "observation_age_seconds": 2592000.0,
   "corroboration_count": 5
 }
@@ -89,10 +111,12 @@ no son miembros del enum.
 | `score` | `float` | `[0, 1]` | Resultado final. |
 | `reliability_weight` | `float` | `{1.00, 0.85, 0.70, 0.50, 0.30, 0.10}` | Peso del reliability de la fuente. |
 | `credibility_weight` | `float` | `{1.00, 0.85, 0.60, 0.30, 0.10, 0.50}` | Peso de la credibility. |
+| `source_type_weight` | `float` | `{1.00, 0.85, 0.60}` | Peso por jerarquía de tipo de fuente. |
 | `corroboration_weight` | `float` | `[0, 1]` | `min(1, log10(1 + n))`. 0 fuentes = 0; 1 fuente = 0.30; 9 fuentes = 1.0. |
 | `freshness_weight` | `float` | `(0, 1]` | `exp(-ln(2) * age_days / half_life_days)`. |
 | `source_reliability` | `SourceReliability` | enum | Copia del input. |
 | `credibility` | `Credibility` | enum | Copia del input. |
+| `source_type` | `SourceType` | enum | Copia del input. |
 | `observation_age_seconds` | `float` | `>= 0` | Copia del input. |
 | `corroboration_count` | `int` | `>= 0` | Copia del input. |
 
@@ -110,6 +134,8 @@ es `max(existing, new_score)`, **acotado a 1.0**.
 | `merge_confidence` con `existing` o `new_observation` fuera de `[0, 1]` | `ValueError` con el campo concreto | Igual. |
 | `reliability_from_name` con `source_name = ""` o `None` | No lanza | Devuelve `DEFAULT_RELIABILITY`. |
 | `reliability_from_name` con bytes / control chars / 10kB | No lanza | Devuelve `DEFAULT_RELIABILITY`. No se loguea el contenido. |
+| `source_type_from_name` con `source_name = ""` o `None` | No lanza | Devuelve `DEFAULT_SOURCE_TYPE` (TERTIARY). |
+| `source_type_from_name` con input hostil | No lanza | Devuelve `DEFAULT_SOURCE_TYPE`. No se loguea el contenido. |
 | `compute_confidence` con `half_life_days <= 0` | `ValueError("half_life_days must be > 0")` | No calcula. |
 
 ## Garantías de seguridad
@@ -147,6 +173,9 @@ es `max(existing, new_score)`, **acotado a 1.0**.
   (`DEFAULT_HALF_LIFE_DAYS`); override por env var.
 - **Multilang / transliteración de source names.** Se hace `lower().strip()`,
   nada más.
+- **Auto-detección de source type desde la fuente YAML.** La tabla
+  `SOURCE_TYPE_MAP` es curada; la metadata del YAML no se parsea aquí.
+- **Persistencia de `SOURCE_TYPE_MAP` a BD.** Es constante del módulo.
 
 ---
 
@@ -264,7 +293,65 @@ más fiable).
 (Implementado en `tests/properties/test_reliability_scoring_properties.py`
 con `hypothesis.given` sobre estrategias acotadas.)
 
+### S11 · Source hierarchy: PRIMARY beats SECONDARY beats TERTIARY
+
+**Given** tres `ConfidenceInput` con el mismo `source_reliability=A`,
+`credibility=2`, `corroboration_count=5`, `observation_age_seconds=0`,
+`base_confidence=1.0`  
+**And** el primero con `source_type=PRIMARY`, el segundo con
+`source_type=SECONDARY`, el tercero con `source_type=TERTIARY`  
+**When** llamo a `compute_confidence` en cada uno  
+**Then** `score_primary > score_secondary > score_tertiary`  
+**And** `result.source_type_weight == {1.0, 0.85, 0.6}` respectivamente.
+
+### S12 · Source hierarchy: primary source compensates lower reliability
+
+**Given** un `ConfidenceInput` con `source_reliability=C`,
+`source_type=PRIMARY`, `credibility=2`, `corroboration_count=3`,
+`observation_age_seconds=0`, `base_confidence=1.0`  
+**And** otro con `source_reliability=A`, `source_type=TERTIARY`,
+mismos demás parámetros  
+**When** llamo a `compute_confidence` en ambos  
+**Then** el score del source_type PRIMARY con reliability C puede ser
+**mayor o igual** al del TERTIARY con reliability A (0.7*1.0 vs 1.0*0.6,
+corroboration igual: ~0.47 vs ~0.40).
+
+### S13 · `source_type_from_name` lookup
+
+**Given** `source_name="rdap_domain"` que está en `SOURCE_TYPE_MAP` como PRIMARY  
+**When** llamo a `source_type_from_name(source_name)`  
+**Then** devuelve `SourceType.PRIMARY`.
+
+**Given** `source_name="leakcheck_public"` que está en `SOURCE_TYPE_MAP` como TERTIARY  
+**When** llamo a `source_type_from_name(source_name)`  
+**Then** devuelve `SourceType.TERTIARY`.
+
+**Given** `source_name="unknown_source_xyz"` que no está en `SOURCE_TYPE_MAP`  
+**When** llamo a `source_type_from_name(source_name)`  
+**Then** devuelve `DEFAULT_SOURCE_TYPE` (TERTIARY).
+
+### S14 · Source hierarchy in merge: new PRIMARY beats existing TERTIARY
+
+**Given** `existing=0.18` (de una fuente TERTIARY C, una corroboración,
+fresh)  
+**And** un nuevo evento con `new_source_type=PRIMARY`,
+`new_reliability=A`, `new_credibility=2`, `corroboration_count=2`,
+`observation_age_seconds=0`  
+**When** llamo a `merge_confidence(existing, …)`  
+**Then** `result.score > existing`  
+**And** `result.source_type_weight == 1.0` (la nueva domina).
+
+### S15 · Source hierarchy property-based invariant
+
+**Given** cualquier `ConfidenceInput` con campos válidos en sus rangos  
+**When** llamo a `compute_confidence`  
+**Then** `result.source_type_weight in {1.00, 0.85, 0.60}`  
+**And** si `source_type=PRIMARY` entonces `source_type_weight=1.00`  
+**And** si `source_type=TERTIARY` entonces `source_type_weight=0.60`.
+
 ---
+
+
 
 ## Cierre del módulo
 
@@ -289,12 +376,16 @@ con `hypothesis.given` sobre estrategias acotadas.)
   `fusion_store.fuse_entity()` sigue con `MAX()`. Migrar en el PR siguiente
   con tests de regression.
 - **Lista de cambios:**
-  - Creado: `estorides_core/reliability_scoring.py` (245 LoC).
-  - Creado: `tests/test_reliability_scoring.py` (45 tests, BDD Given-When-Then).
-  - Creado: `tests/properties/test_reliability_scoring_properties.py` (9 properties).
+  - Creado: `estorides_core/reliability_scoring.py` (245 LoC → 320+ LoC).
+  - Creado: `tests/test_reliability_scoring.py` (45 tests → 65+ tests).
+  - Creado: `tests/properties/test_reliability_scoring_properties.py` (9 properties → 11 properties).
   - Creado: `tests/conftest.py` (path bootstrap).
   - Creado: `pytest.ini`.
   - Actualizado: `pyproject.toml` (`[dev]` con `ruff`, `mypy`, `bandit`,
     `hypothesis`; `[tool.ruff.lint.per-file-ignores]` para S101 en tests).
   - Creado: `CLAUDE.md` con doctrina inviolable (SDD + TDD + BDD + boy-scout).
   - Actualizado: `docs/index.html` (home page con atajos al spec/test).
+  - **2026-07-09:** Añadida jerarquía de tipos de fuente (SourceType enum,
+    SOURCE_TYPE_MAP, SOURCE_TYPE_WEIGHT, source_type_from_name). Nuevos
+    escenarios BDD S11-S15. Añadido `source_type` a `ConfidenceInput`,
+    `source_type_weight` a `ConfidenceResult`.

@@ -16,11 +16,14 @@ from hypothesis import strategies as st
 from estorides_core.reliability_scoring import (
     CREDIBILITY_WEIGHT,
     RELIABILITY_WEIGHT,
+    SOURCE_TYPE_WEIGHT,
     Credibility,
     SourceReliability,
+    SourceType,
     compute_confidence,
     merge_confidence,
     reliability_from_name,
+    source_type_from_name,
 )
 
 # Strategies constrained to the spec's valid ranges.
@@ -191,3 +194,50 @@ def test_higher_reliability_dominates(rel1: SourceReliability, rel2: SourceRelia
     inp_h = ConfidenceInput(source_reliability=higher, corroboration_count=3)
     inp_l = ConfidenceInput(source_reliability=lower, corroboration_count=3)
     assert compute_confidence(inp_h).score > compute_confidence(inp_l).score
+
+
+# Invariant 9: source_type_from_name never raises and always returns a valid enum.
+@given(name=source_name_st)
+@settings(max_examples=2000, deadline=None)
+def test_source_type_from_name_never_raises(name: str) -> None:
+    result = source_type_from_name(name)
+    assert isinstance(result, SourceType)
+    assert result in SourceType
+
+
+# Invariant 10: source_type_weight is always in {1.00, 0.85, 0.60}.
+@given(
+    reliability=reliability_st,
+    credibility=credibility_st,
+    source_type=st.sampled_from(list(SourceType)),
+    corroboration=nonneg_int_st,
+    age=nonneg_float_st,
+    base=base_confidence_st,
+    half_life=half_life_st,
+)
+@settings(max_examples=1000, deadline=None, suppress_health_check=list(HealthCheck))
+def test_source_type_weight_always_curated(
+    reliability, credibility, source_type, corroboration, age, base, half_life
+) -> None:
+    from estorides_core.reliability_scoring import ConfidenceInput
+
+    inp = ConfidenceInput(
+        source_reliability=reliability,
+        credibility=credibility,
+        source_type=source_type,
+        corroboration_count=corroboration,
+        observation_age_seconds=age,
+        base_confidence=base,
+    )
+    result = compute_confidence(inp, half_life_days=half_life)
+    assert result.source_type_weight in {1.00, 0.85, 0.60}, result
+    if source_type == SourceType.PRIMARY:
+        assert result.source_type_weight == 1.00
+    elif source_type == SourceType.TERTIARY:
+        assert result.source_type_weight == 0.60
+
+
+# Invariant 11: SOURCE_TYPE_WEIGHT set is exactly the curated values.
+def test_source_type_weight_set_is_curated() -> None:
+    expected = {1.00, 0.85, 0.60}
+    assert set(SOURCE_TYPE_WEIGHT.values()) == expected

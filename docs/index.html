@@ -292,6 +292,137 @@
                     </p>
                 </div>
             </div>
+
+            <!-- 1: source_hierarchy (extension) -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>1 &middot; <code>source_hierarchy</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">+19 BDD</span>
+                        <span class="badge badge-property">+3 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Source type hierarchy (primary/secondary/tertiary) for
+                        reliability_scoring. 42 curated sources in
+                        <code>SOURCE_TYPE_MAP</code>, weighted confidence formula.
+                    </p>
+                    <p>
+                        <a href="../spec/reliability_scoring.md">spec</a> &middot;
+                        <a href="../tests/test_reliability_scoring.py">tests</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2: source_health_monitoring -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2 &middot; <code>source_health_monitoring</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">37 BDD</span>
+                        <span class="badge badge-property">5 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Source health monitoring: <code>SourceHealthStatus</code>,
+                        <code>compute_health()</code> with success/latency/freshness
+                        weights, tiered <code>build_dashboard()</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/source_health_monitoring.md">spec</a> &middot;
+                        <a href="../tests/test_source_health_monitoring.py">tests</a> &middot;
+                        <a href="../tests/properties/test_source_health_monitoring_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/source_health_monitoring.py">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3: entity_resolution -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>3 &middot; <code>entity_resolution</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">48 BDD</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Canonical identity layer: Jaro-Winkler scoring,
+                        cross-script fusion, type-aware normalisation,
+                        deterministic <code>canonical_id</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/entity_resolution.md">spec</a> &middot;
+                        <a href="../tests/test_entity_resolution.py">tests</a> &middot;
+                        <a href="../estorides_core/entity_resolution.py">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4: probabilistic_fusion -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>4 &middot; <code>probabilistic_fusion</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">17 BDD</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Replaces <code>MAX()</code> in
+                        <code>FusionStore.fuse_entity</code> and
+                        <code>fuse_relationship</code> with Bayesian
+                        <code>merge_confidence()</code>. Tertiary sources
+                        cannot override well-corroborated primary ones.
+                    </p>
+                    <p>
+                        <a href="../spec/probabilistic_fusion.md">spec</a> &middot;
+                        <a href="../tests/test_probabilistic_fusion.py">tests</a> &middot;
+                        <a href="../estorides_core/fusion_store.py">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5: paged_results -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>5 &middot; <code>paged_results</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">31 BDD</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Three pagination strategies (page, offset, cursor)
+                        for sources. <code>PaginationConfig</code> +
+                        <code>build_page_params</code> +
+                        <code>extract_cursor</code> + <code>count_results</code>
+                        integrated into orchestrator.
+                    </p>
+                    <p>
+                        <a href="../spec/paged_results.md">spec</a> &middot;
+                        <a href="../tests/test_pagination.py">tests</a> &middot;
+                        <a href="../estorides_core/pagination.py">source</a>
+                    </p>
+                </div>
+            </div>
         </section>
 
         <!-- =========================================================== DOCTRINE -->
@@ -334,7 +465,7 @@ estorides run example.com</code></pre>
             <p class="mb-1">Estorides &mdash; state-level OSINT engine. GPLv3.</p>
             <p class="mb-0"><small>99+ sources &middot; 12 intelligence categories &middot;
             async fanout &middot; persistent graph &middot; multi-LLM analyst &middot;
-            350 tests</small></p>
+            510 tests</small></p>
         </div>
     </footer>
 </body>

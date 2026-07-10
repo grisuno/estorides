@@ -657,57 +657,107 @@ class Orchestrator:
         on_done: Optional[Any] = None,
         on_result: Optional[Any] = None,
     ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
+        from .pagination import PaginationConfig, build_page_params, count_results
+
         tool = source["tool"]
         method = (tool.get("method") or "GET").upper()
         api_key = _resolve_auth(source)
 
-        # ----- format url/headers/params/body with query + api_key -----
+        # ----- pagination config -----
+        pag_cfg = PaginationConfig.from_dict(source.get("pagination"))
+
+        # ----- format base url/headers/params with query + api_key -----
         fmt = {"query": query, "api_key": api_key or ""}
-        url = _safe_format(tool.get("url", ""), **fmt)
-        headers = {k: _safe_format(v, **fmt) for k, v in (tool.get("headers") or {}).items()}
-        params = {k: _safe_format(v, **fmt) for k, v in (tool.get("params") or {}).items()}
+        base_url = _safe_format(tool.get("url", ""), **fmt)
+        base_headers = {k: _safe_format(v, **fmt) for k, v in (tool.get("headers") or {}).items()}
+        base_params = {k: _safe_format(v, **fmt) for k, v in (tool.get("params") or {}).items()}
         body = {k: _safe_format(v, **fmt) for k, v in (tool.get("body") or {}).items()} or None
 
-        t0 = time.monotonic()
-        data, meta = await client.fetch(method, url, headers=headers, params=params, body=body)
-        elapsed_ms = (time.monotonic() - t0) * 1000.0
-        meta["source"] = source["name"]
+        total_elapsed = 0.0
+        total_pages = 0
+        last_parsed: Any = None
+        last_data: Any = None
+        last_meta: Dict[str, Any] = {}
+        cursor: Optional[str] = None
+        parser = get_parser(source["parser"])
 
+        max_pages = pag_cfg.max_pages if pag_cfg.enabled else 1
+
+        for page in range(1, max_pages + 1):
+            params = dict(base_params)
+            if pag_cfg.enabled and pag_cfg.strategy == "cursor" and cursor is not None:
+                params[pag_cfg.cursor_param] = cursor
+            elif pag_cfg.enabled:
+                params.update(build_page_params(pag_cfg, page))
+
+            t0 = time.monotonic()
+            data, meta = await client.fetch(method, base_url, headers=base_headers, params=params, body=body)
+            elapsed = (time.monotonic() - t0) * 1000.0
+            total_elapsed += elapsed
+            total_pages = page
+            meta["source"] = source["name"]
+            meta["page"] = page
+
+            # ----- structured parse if available -----
+            parsed: Any = None
+            try:
+                if data is not None:
+                    parsed = parser(data)
+            except Exception as e:  # noqa: BLE001
+                log.debug("parser %s failed for %s: %s", source["parser"], source["name"], e)
+
+            last_parsed = parsed
+            last_data = data
+            last_meta = meta
+
+            # Stream each page's result immediately so subscribers
+            # (SSE layer) render progressively.
+            if on_result is not None:
+                try:
+                    on_result({
+                        "source": source["name"],
+                        "category": source["category"],
+                        "description": source["description"],
+                        "parser": source["parser"],
+                        "parsed": parsed,
+                        "meta": {**meta, "page": page},
+                        "observed_at": time.time(),
+                    })
+                except Exception:  # never let a subscriber break the run
+                    pass
+
+            # ----- stop conditions -----
+            if not pag_cfg.enabled:
+                break
+
+            # Cursor strategy: extract next cursor, stop if empty
+            if pag_cfg.strategy == "cursor":
+                cursor = self._extract_cursor(data, pag_cfg)
+                if not cursor:
+                    break
+                continue
+
+            # Page/offset: stop on partial or empty page
+            result_count = count_results(parsed, pag_cfg) if parsed is not None else 0
+            if result_count < pag_cfg.page_size:
+                break
+
+        # Fire on_done once (overall success if any page resolved)
         if on_done is not None:
             try:
-                ok = data is not None
-                on_done(source["name"], ok, meta.get("status", "—"), elapsed_ms)
+                ok = last_data is not None
+                on_done(source["name"], ok, meta.get("status", "—"), total_elapsed)
             except Exception:  # never let the callback break the run
                 pass
 
-        # ----- structured parse if available -----
-        parser = get_parser(source["parser"])
-        parsed: Any = None
-        try:
-            if data is not None:
-                parsed = parser(data)
-        except Exception as e:  # noqa: BLE001
-            log.debug("parser %s failed for %s: %s", source["parser"], source["name"], e)
+        last_meta["pages"] = total_pages
+        return source, last_parsed, last_data, last_meta
 
-        # Stream the per-source observation the instant it resolves so a
-        # subscriber (the SSE layer) can render it without waiting for the
-        # whole fan-out. The downstream batch still produces the canonical,
-        # ontology/MITRE-stamped observation; this is the live preview.
-        if on_result is not None:
-            try:
-                on_result({
-                    "source": source["name"],
-                    "category": source["category"],
-                    "description": source["description"],
-                    "parser": source["parser"],
-                    "parsed": parsed,
-                    "meta": meta,
-                    "observed_at": time.time(),
-                })
-            except Exception:  # never let a subscriber break the run
-                pass
-
-        return source, parsed, data, meta
+    @staticmethod
+    def _extract_cursor(data: Any, cfg: Any) -> Optional[str]:
+        """Extract the next-page cursor from a parsed response body."""
+        from .pagination import extract_cursor
+        return extract_cursor(data, cfg)
 
     def _infer_relationships(self, observations: List[Dict[str, Any]], query: str) -> None:
         """Delegate each observation to its registered inferer.

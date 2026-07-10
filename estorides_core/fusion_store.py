@@ -58,6 +58,15 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 from .config import FUSION_DB_PATH
+from .reliability_scoring import (
+    ConfidenceInput,
+    Credibility,
+    DEFAULT_HALF_LIFE_DAYS,
+    compute_confidence,
+    merge_confidence,
+    reliability_from_name,
+    source_type_from_name,
+)
 
 try:
     from .entity_resolution import normalize_value
@@ -322,9 +331,14 @@ class FusionStore:
         """Fuse one entity into the canonical store and return its id.
 
         The ``(type, normalized)`` pair is the dedup key. On a repeat sighting
-        the row's ``last_seen``, confidence (max wins), and observation count
-        advance, and every contributing source is recorded in
+        the row's ``last_seen``, confidence (Bayesian merge), and observation
+        count advance, and every contributing source is recorded in
         ``fusion_entity_sources`` so provenance survives the merge.
+
+        Confidence uses the :mod:`reliability_scoring` pipeline: source
+        reliability, source type hierarchy, and corroboration count are
+        factored into the score instead of a raw ``MAX()``. A tertiary or
+        unreliable source cannot override a well-corroborated primary one.
         """
         etype = entity.get("type", "")
         value = entity.get("value", "")
@@ -341,24 +355,57 @@ class FusionStore:
         sources = entity.get("sources") or []
         if not sources and entity.get("source"):
             sources = [entity["source"]]
+        source_name = sources[0] if sources else ""
+        rel = reliability_from_name(source_name)
+        st = source_type_from_name(source_name)
+        n_sources = len(set(sources))
         now = time.time()
         with self._tx() as c:
-            c.execute(
-                "INSERT INTO fusion_entities("
-                "id, type, value, normalized, canonical_id, confidence, "
-                "source_count, observation_count, case_count, first_seen, last_seen) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?) "
-                "ON CONFLICT(id) DO UPDATE SET "
-                "value=excluded.value, "
-                "canonical_id=COALESCE(NULLIF(excluded.canonical_id,''), fusion_entities.canonical_id), "
-                "confidence=MAX(fusion_entities.confidence, excluded.confidence), "
-                "observation_count=fusion_entities.observation_count+1, "
-                "last_seen=excluded.last_seen",
-                (
-                    eid, etype, value, normalized, canonical, confidence,
-                    len(set(sources)), 1 if case_id else 0, now, now,
-                ),
-            )
+            row = c.execute(
+                "SELECT confidence FROM fusion_entities WHERE id=?", (eid,)
+            ).fetchone()
+            if row is not None:
+                existing_conf = float(row[0])
+                result = merge_confidence(
+                    existing=existing_conf,
+                    new_observation=confidence,
+                    new_reliability=rel,
+                    new_credibility=Credibility.CONFIRMED,
+                    new_source_type=st,
+                    corroboration_count=max(n_sources, 1),
+                    observation_age_seconds=0.0,
+                    half_life_days=DEFAULT_HALF_LIFE_DAYS,
+                )
+                fused_conf = result.score
+                c.execute(
+                    "UPDATE fusion_entities SET "
+                    "value=?, "
+                    "canonical_id=COALESCE(NULLIF(?,''), canonical_id), "
+                    "confidence=?, observation_count=observation_count+1, "
+                    "last_seen=? WHERE id=?",
+                    (value, canonical, fused_conf, now, eid),
+                )
+            else:
+                inp = ConfidenceInput(
+                    source_reliability=rel,
+                    credibility=Credibility.CONFIRMED,
+                    source_type=st,
+                    corroboration_count=n_sources,
+                    observation_age_seconds=0.0,
+                    base_confidence=confidence,
+                )
+                result = compute_confidence(inp, half_life_days=DEFAULT_HALF_LIFE_DAYS)
+                fused_conf = result.score
+                c.execute(
+                    "INSERT INTO fusion_entities("
+                    "id, type, value, normalized, canonical_id, confidence, "
+                    "source_count, observation_count, case_count, first_seen, last_seen) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)",
+                    (
+                        eid, etype, value, normalized, canonical, fused_conf,
+                        n_sources, 1 if case_id else 0, now, now,
+                    ),
+                )
             for src in dict.fromkeys(sources):
                 if not src:
                     continue
@@ -450,6 +497,9 @@ class FusionStore:
 
         Both endpoints are resolved to their deterministic fusion ids so the
         edge joins the same canonical entities the entity table holds.
+        Confidence uses the :mod:`reliability_scoring` pipeline instead of a
+        raw ``MAX()``, so a low-reliability source cannot inflate the score
+        of a well-corroborated edge.
         """
         if not (src_value and dst_value and relation):
             return
@@ -457,19 +507,52 @@ class FusionStore:
         did = entity_id(dst_type, str(dst_value))
         if sid == did:
             return
+        rel = reliability_from_name(source)
+        st = source_type_from_name(source)
         now = time.time()
         with self._tx() as c:
             self._ensure_entity_stub(c, src_type, str(src_value))
             self._ensure_entity_stub(c, dst_type, str(dst_value))
-            c.execute(
-                "INSERT INTO fusion_relationships("
-                "src_id, relation, dst_id, source, confidence, observed_at) "
-                "VALUES (?, ?, ?, ?, ?, ?) "
-                "ON CONFLICT(src_id, relation, dst_id, source) DO UPDATE SET "
-                "confidence=MAX(fusion_relationships.confidence, excluded.confidence), "
-                "observed_at=excluded.observed_at",
-                (sid, relation, did, source, float(confidence), now),
-            )
+            row = c.execute(
+                "SELECT confidence FROM fusion_relationships "
+                "WHERE src_id=? AND relation=? AND dst_id=? AND source=?",
+                (sid, relation, did, source),
+            ).fetchone()
+            if row is not None:
+                result = merge_confidence(
+                    existing=float(row[0]),
+                    new_observation=float(confidence),
+                    new_reliability=rel,
+                    new_credibility=Credibility.CONFIRMED,
+                    new_source_type=st,
+                    corroboration_count=1,
+                    observation_age_seconds=0.0,
+                    half_life_days=DEFAULT_HALF_LIFE_DAYS,
+                )
+                fused_conf = result.score
+                c.execute(
+                    "UPDATE fusion_relationships SET "
+                    "confidence=?, observed_at=? "
+                    "WHERE src_id=? AND relation=? AND dst_id=? AND source=?",
+                    (fused_conf, now, sid, relation, did, source),
+                )
+            else:
+                inp = ConfidenceInput(
+                    source_reliability=rel,
+                    credibility=Credibility.CONFIRMED,
+                    source_type=st,
+                    corroboration_count=1,
+                    observation_age_seconds=0.0,
+                    base_confidence=float(confidence),
+                )
+                result = compute_confidence(inp, half_life_days=DEFAULT_HALF_LIFE_DAYS)
+                fused_conf = result.score
+                c.execute(
+                    "INSERT INTO fusion_relationships("
+                    "src_id, relation, dst_id, source, confidence, observed_at) "
+                    "VALUES (?, ?, ?, ?, ?, ?)",
+                    (sid, relation, did, source, fused_conf, now),
+                )
 
     def fuse_graph(self, kg: Any) -> int:
         """Mirror the analytic edges of a knowledge graph into the store.

@@ -25,13 +25,17 @@ from estorides_core.reliability_scoring import (
     DEFAULT_CREDIBILITY,
     DEFAULT_HALF_LIFE_DAYS,
     DEFAULT_RELIABILITY,
+    DEFAULT_SOURCE_TYPE,
     RELIABILITY_WEIGHT,
+    SOURCE_TYPE_WEIGHT,
     ConfidenceInput,
     Credibility,
     SourceReliability,
+    SourceType,
     compute_confidence,
     merge_confidence,
     reliability_from_name,
+    source_type_from_name,
 )
 
 
@@ -42,11 +46,12 @@ class TestHappyPathHighReliabilityCorroboratedFresh:
     """S1 del spec."""
 
     def test_score_in_high_band(self) -> None:
-        # Given: A source, probably-true, 5 corroborators, fresh.
-        # Formula: 1.0 * 1.0 * 0.85 * log10(6) * 1.0 * 1.0 ≈ 0.66
+        # Given: A source, probably-true, 5 corroborators, fresh, PRIMARY type.
+        # Formula: 1.0 * 1.0 * 0.85 * 1.0 * log10(6) * 1.0 * 1.0 ≈ 0.66
         inp = ConfidenceInput(
             source_reliability=SourceReliability.A,
             credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.PRIMARY,
             corroboration_count=5,
             observation_age_seconds=0.0,
             base_confidence=1.0,
@@ -62,6 +67,7 @@ class TestHappyPathHighReliabilityCorroboratedFresh:
     def test_reliability_weight_is_one(self) -> None:
         inp = ConfidenceInput(
             source_reliability=SourceReliability.A,
+            source_type=SourceType.PRIMARY,
             corroboration_count=5,
         )
         result = compute_confidence(inp)
@@ -70,6 +76,7 @@ class TestHappyPathHighReliabilityCorroboratedFresh:
     def test_freshness_weight_is_one_when_age_zero(self) -> None:
         inp = ConfidenceInput(
             source_reliability=SourceReliability.A,
+            source_type=SourceType.PRIMARY,
             corroboration_count=5,
             observation_age_seconds=0.0,
         )
@@ -77,9 +84,9 @@ class TestHappyPathHighReliabilityCorroboratedFresh:
         assert result.freshness_weight == 1.0
 
     def test_corroboration_weight_matches_log10(self) -> None:
-        # log10(1 + 5) ≈ 0.778
         inp = ConfidenceInput(
             source_reliability=SourceReliability.A,
+            source_type=SourceType.PRIMARY,
             corroboration_count=5,
         )
         result = compute_confidence(inp)
@@ -89,6 +96,7 @@ class TestHappyPathHighReliabilityCorroboratedFresh:
         inp = ConfidenceInput(
             source_reliability=SourceReliability.A,
             credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.PRIMARY,
             corroboration_count=5,
         )
         result = compute_confidence(inp)
@@ -138,12 +146,13 @@ class TestUnknownSourceFallsBackToDefault:
     def test_unknown_source_with_many_corroborators_reaches_high_band(self) -> None:
         # 50 fuentes independientes C, fresh, credibility 2 (probably true).
         # cor satura en 1.0 (log10(51) ≈ 1.71, clamp). El techo es reliability
-        # * credibility = 0.7 * 0.85 = 0.595. El modelo dice: "muchas fuentes
-        # C siguen siendo C, no llegan a 1.0".
+        # * credibility * source_type = 0.7 * 0.85 * 1.0 = 0.595.
+        # Usando PRIMARY source para aislar el efecto de corroboración.
         reliability = reliability_from_name("totally_unknown_xyz_123")
         inp = ConfidenceInput(
             source_reliability=reliability,
             credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.PRIMARY,
             corroboration_count=50,
             observation_age_seconds=0.0,
             base_confidence=1.0,
@@ -292,13 +301,14 @@ class TestMergeReliableBeatsLessReliable:
 
     def test_new_a_source_raises_score(self) -> None:
         # existing = 0.18 viene de una fuente C, fresh, una sola
-        # corroboración (1*0.7*0.85*log10(2)*1*1 ≈ 0.179).
-        # El nuevo evento es A con cor=2 → new_score ≈ 0.41 > 0.18.
+        # corroboración (1*0.7*0.85*0.6*log10(2)*1*1 ≈ 0.107).
+        # El nuevo evento es A + PRIMARY con cor=2 → new_score ≈ 0.41 > 0.18.
         result = merge_confidence(
             existing=0.18,
             new_observation=1.0,
             new_reliability=SourceReliability.A,
             new_credibility=Credibility.PROBABLY_TRUE,
+            new_source_type=SourceType.PRIMARY,
             corroboration_count=2,
             observation_age_seconds=0.0,
         )
@@ -307,29 +317,31 @@ class TestMergeReliableBeatsLessReliable:
         assert result.source_reliability == SourceReliability.A
 
     def test_merge_takes_max_of_existing_and_new(self) -> None:
-        # El merge es max(existing, new_score), no suma ni promedio.
         # existing=0.7 (entidad ya vista con score 0.7).
-        # Nueva observación: A + CONFIRMED + 10 corroboradores + fresh.
-        # new_score = 1*1*1*log10(11)*1*1 = 1.04 → clamp a 1.0.
+        # Nueva observación: A + PRIMARY + CONFIRMED + 10 corroboradores + fresh.
+        # new_score = 1*1*1*1*log10(11)*1*1 = 1.04 → clamp a 1.0.
         # result = max(0.7, 1.0) = 1.0.
         result = merge_confidence(
             existing=0.7,
             new_observation=1.0,
             new_reliability=SourceReliability.A,
             new_credibility=Credibility.CONFIRMED,
+            new_source_type=SourceType.PRIMARY,
             corroboration_count=10,
             observation_age_seconds=0.0,
         )
         assert result.score == pytest.approx(1.0, rel=1e-9)
 
     def test_merge_keeps_existing_when_new_is_weaker(self) -> None:
-        # existing=0.7 (entidad fuerte). Nueva observación F → new_score ≈ 0.015
-        # → result = max(0.7, 0.015) = 0.7. La débil no sube el score.
+        # existing=0.7 (entidad fuerte). Nueva observación F + TERTIARY
+        # → new_score = 0.1*0.5*0.6*log10(2)*1*1 ≈ 0.009
+        # → result = max(0.7, 0.009) = 0.7.
         result = merge_confidence(
             existing=0.7,
             new_observation=1.0,
             new_reliability=SourceReliability.F,
             new_credibility=Credibility.CANNOT_BE_JUDGED,
+            new_source_type=SourceType.TERTIARY,
             corroboration_count=1,
             observation_age_seconds=0.0,
         )
@@ -341,6 +353,7 @@ class TestMergeReliableBeatsLessReliable:
             new_observation=1.0,
             new_reliability=SourceReliability.A,
             new_credibility=Credibility.CONFIRMED,
+            new_source_type=SourceType.PRIMARY,
             corroboration_count=10,
             observation_age_seconds=0.0,
         )
@@ -359,12 +372,13 @@ class TestMergeUnreliableCannotRaise:
             new_observation=1.0,
             new_reliability=SourceReliability.F,
             new_credibility=Credibility.CANNOT_BE_JUDGED,
+            new_source_type=SourceType.TERTIARY,
             corroboration_count=1,
             observation_age_seconds=0.0,
         )
         # La nueva observación, por sí sola, no debe superar el existing.
-        # Fórmula con F (0.10) * 6 (0.50) * cor(1)=0.30 * fresh(1) = 0.015.
-        # max(0.9, 0.015) = 0.9.
+        # Formula: F (0.10) * 6 (0.50) * TERTIARY (0.6) * cor(1)=0.30 * fresh(1) ≈ 0.009.
+        # max(0.9, 0.009) = 0.9.
         assert result.score == pytest.approx(0.9, rel=1e-9)
 
     def test_merge_existing_out_of_range_raises(self) -> None:
@@ -374,6 +388,7 @@ class TestMergeUnreliableCannotRaise:
                 new_observation=1.0,
                 new_reliability=SourceReliability.A,
                 new_credibility=Credibility.CONFIRMED,
+                new_source_type=SourceType.PRIMARY,
                 corroboration_count=1,
                 observation_age_seconds=0.0,
             )
@@ -385,6 +400,7 @@ class TestMergeUnreliableCannotRaise:
                 new_observation=-0.1,
                 new_reliability=SourceReliability.A,
                 new_credibility=Credibility.CONFIRMED,
+                new_source_type=SourceType.PRIMARY,
                 corroboration_count=1,
                 observation_age_seconds=0.0,
             )
@@ -415,6 +431,7 @@ class TestDeterminism:
             new_observation=0.8,
             new_reliability=SourceReliability.C,
             new_credibility=Credibility.POSSIBLY_TRUE,
+            new_source_type=SourceType.SECONDARY,
             corroboration_count=2,
             observation_age_seconds=100.0,
         )
@@ -423,6 +440,7 @@ class TestDeterminism:
             new_observation=0.8,
             new_reliability=SourceReliability.C,
             new_credibility=Credibility.POSSIBLY_TRUE,
+            new_source_type=SourceType.SECONDARY,
             corroboration_count=2,
             observation_age_seconds=100.0,
         )
@@ -457,3 +475,212 @@ class TestBoundedSmoke:
 
     def test_default_credibility_is_cannot_be_judged(self) -> None:
         assert DEFAULT_CREDIBILITY == Credibility.CANNOT_BE_JUDGED
+
+
+# ---------------------------------------------------------------------------
+# S11 — Source hierarchy: PRIMARY > SECONDARY > TERTIARY
+# ---------------------------------------------------------------------------
+class TestSourceHierarchyPrimaryBeatsSecondaryBeatsTertiary:
+    """S11 del spec: mismo reliability, distinto source_type."""
+
+    def test_primary_tertiary_score_order(self) -> None:
+        primary = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.PRIMARY,
+            corroboration_count=5,
+            observation_age_seconds=0.0,
+            base_confidence=1.0,
+        )
+        secondary = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.SECONDARY,
+            corroboration_count=5,
+            observation_age_seconds=0.0,
+            base_confidence=1.0,
+        )
+        tertiary = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.TERTIARY,
+            corroboration_count=5,
+            observation_age_seconds=0.0,
+            base_confidence=1.0,
+        )
+        r_primary = compute_confidence(primary)
+        r_secondary = compute_confidence(secondary)
+        r_tertiary = compute_confidence(tertiary)
+        assert r_primary.score > r_secondary.score > r_tertiary.score, (
+            f"PRIMARY={r_primary.score:.4f} SECONDARY={r_secondary.score:.4f} "
+            f"TERTIARY={r_tertiary.score:.4f}"
+        )
+
+    def test_primary_weight_is_one(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            source_type=SourceType.PRIMARY,
+            corroboration_count=5,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 1.00
+
+    def test_secondary_weight_is_085(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            source_type=SourceType.SECONDARY,
+            corroboration_count=5,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 0.85
+
+    def test_tertiary_weight_is_060(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            source_type=SourceType.TERTIARY,
+            corroboration_count=5,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 0.60
+
+
+# ---------------------------------------------------------------------------
+# S12 — Source hierarchy: PRIMARY C can beat TERTIARY A
+# ---------------------------------------------------------------------------
+class TestSourceHierarchyPrimaryCBeatsTertiaryA:
+    """S12 del spec: source type compensates for lower reliability."""
+
+    def test_primary_c_beats_tertiary_a(self) -> None:
+        primary_c = ConfidenceInput(
+            source_reliability=SourceReliability.C,
+            credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.PRIMARY,
+            corroboration_count=3,
+            observation_age_seconds=0.0,
+            base_confidence=1.0,
+        )
+        tertiary_a = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            credibility=Credibility.PROBABLY_TRUE,
+            source_type=SourceType.TERTIARY,
+            corroboration_count=3,
+            observation_age_seconds=0.0,
+            base_confidence=1.0,
+        )
+        rc = compute_confidence(primary_c)
+        ra = compute_confidence(tertiary_a)
+        # PRIMARY C: 0.7 * 0.85 * 1.0 * log10(4) ≈ 0.7 * 0.85 * 1.0 * 0.602 ≈ 0.358
+        # TERTIARY A: 1.0 * 0.85 * 0.6 * log10(4) ≈ 1.0 * 0.85 * 0.6 * 0.602 ≈ 0.307
+        # PRIMARY C should be >= TERTIARY A
+        assert rc.score >= ra.score, (
+            f"PRIMARY C={rc.score:.4f} < TERTIARY A={ra.score:.4f}, "
+            f"expected PRIMARY C >= TERTIARY A"
+        )
+
+    def test_primary_c_weight(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.C,
+            source_type=SourceType.PRIMARY,
+            corroboration_count=3,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 1.00
+        assert result.reliability_weight == 0.70
+
+
+# ---------------------------------------------------------------------------
+# S13 — source_type_from_name lookup
+# ---------------------------------------------------------------------------
+class TestSourceTypeFromName:
+    """S13 del spec: lookup known and unknown source names."""
+
+    def test_rdap_is_primary(self) -> None:
+        assert source_type_from_name("rdap_domain") == SourceType.PRIMARY
+
+    def test_leakcheck_is_tertiary(self) -> None:
+        assert source_type_from_name("leakcheck_public") == SourceType.TERTIARY
+
+    def test_wikidata_is_secondary(self) -> None:
+        assert source_type_from_name("wikidata_search") == SourceType.SECONDARY
+
+    def test_shodan_is_secondary(self) -> None:
+        assert source_type_from_name("shodan_internetdb") == SourceType.SECONDARY
+
+    def test_unknown_falls_back_to_default(self) -> None:
+        assert source_type_from_name("unknown_source_xyz") == DEFAULT_SOURCE_TYPE == SourceType.TERTIARY
+
+    def test_none_falls_back(self) -> None:
+        assert source_type_from_name(None) == SourceType.TERTIARY
+
+    def test_empty_falls_back(self) -> None:
+        assert source_type_from_name("") == SourceType.TERTIARY
+
+    def test_hostile_input_does_not_raise(self) -> None:
+        for hostile in ["\x00evil", "' OR 1=1 --", "A" * 10_000, "<script>"]:
+            result = source_type_from_name(hostile)
+            assert isinstance(result, SourceType)
+            assert result in SourceType
+
+
+# ---------------------------------------------------------------------------
+# S14 — Source hierarchy in merge: new PRIMARY beats existing TERTIARY
+# ---------------------------------------------------------------------------
+class TestSourceHierarchyInMerge:
+    """S14 del spec: merge with source type hierarchy."""
+
+    def test_new_primary_raises_score(self) -> None:
+        result = merge_confidence(
+            existing=0.18,
+            new_observation=1.0,
+            new_reliability=SourceReliability.A,
+            new_credibility=Credibility.PROBABLY_TRUE,
+            new_source_type=SourceType.PRIMARY,
+            corroboration_count=2,
+            observation_age_seconds=0.0,
+        )
+        assert result.score > 0.18
+        assert result.source_type_weight == 1.0
+
+    def test_new_tertiary_does_not_raise_weak_existing(self) -> None:
+        # existing=0.6 from a strong source; tertiary A with 1 corroboration
+        # cannot beat it: 1.0*0.85*0.6*log10(2)*1*1 ≈ 0.154 < 0.6
+        result = merge_confidence(
+            existing=0.6,
+            new_observation=1.0,
+            new_reliability=SourceReliability.A,
+            new_credibility=Credibility.PROBABLY_TRUE,
+            new_source_type=SourceType.TERTIARY,
+            corroboration_count=1,
+            observation_age_seconds=0.0,
+        )
+        assert result.score == pytest.approx(0.6, rel=1e-9)
+
+
+# ---------------------------------------------------------------------------
+# S15 — Source type property-based invariant (smoke)
+# ---------------------------------------------------------------------------
+class TestSourceTypeWeightsBounded:
+    """S15 del spec: source_type_weight is always in {1.00, 0.85, 0.60}."""
+
+    def test_source_type_weights_are_exact(self) -> None:
+        assert SOURCE_TYPE_WEIGHT[SourceType.PRIMARY] == 1.00
+        assert SOURCE_TYPE_WEIGHT[SourceType.SECONDARY] == 0.85
+        assert SOURCE_TYPE_WEIGHT[SourceType.TERTIARY] == 0.60
+
+    def test_primary_always_gives_one(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            source_type=SourceType.PRIMARY,
+            corroboration_count=1,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 1.00
+
+    def test_tertiary_always_gives_060(self) -> None:
+        inp = ConfidenceInput(
+            source_reliability=SourceReliability.A,
+            source_type=SourceType.TERTIARY,
+            corroboration_count=1,
+        )
+        result = compute_confidence(inp)
+        assert result.source_type_weight == 0.60
