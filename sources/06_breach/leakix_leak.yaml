@@ -1,0 +1,26 @@
+name: leakix_leak
+enabled: true
+category: 06. Breach Intelligence
+description: LeakIX — search indexed leaks by domain, email, or keyword (passive, no key)
+os: any
+requires_key: false
+contact: none
+parser: raw_text
+entity_hints:
+- email
+- domain
+- leak
+- ip
+- url
+applies_to:
+- email
+- domain
+- keyword
+tool:
+  method: GET
+  url: https://leakix.net/api/search
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    q: '{query}'

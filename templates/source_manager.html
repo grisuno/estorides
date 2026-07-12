@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="estorides-auth-token" content="{{ estorides_auth_token or '' }}">
+  <title>Source Manager — Estorides</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><polygon points='8,1 14,4.5 14,11.5 8,15 2,11.5 2,4.5' fill='none' stroke='%236366f1' stroke-width='1.5'/></svg>" />
+  <link rel="stylesheet" href="/static/css/estorides.css" />
+  <link rel="stylesheet" href="/static/css/estorides_ui.css" />
+  <link rel="stylesheet" href="/static/css/source_manager.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">⬢</span>
+      <span class="title">SOURCE MANAGER</span>
+      <span class="subtitle">YAML source editor — add, edit, delete OSINT feed configs without writing YAML</span>
+    </div>
+    <div class="status">
+      <a href="/" class="primary" style="text-decoration:none;padding:6px 14px;border-radius:4px;background:var(--bg-2);color:var(--text-0);font-size:13px;">&larr; Back to main</a>
+      <span id="src-count" class="badge">… sources</span>
+    </div>
+  </header>
+
+  <main class="src-mgr-layout">
+    <!-- LEFT: source list sidebar -->
+    <aside class="src-mgr-sidebar">
+      <div class="src-mgr-sidebar-head">
+        <span class="src-mgr-sidebar-title">Sources by category</span>
+        <button id="new-source-btn" class="primary" style="font-size:12px;padding:4px 10px;">+ New</button>
+      </div>
+      <div class="src-mgr-filter">
+        <input id="src-filter-input" type="text" placeholder="filter by name or category..." autocomplete="off" />
+      </div>
+      <div id="src-list" class="src-mgr-list"></div>
+    </aside>
+
+    <!-- RIGHT: editor form -->
+    <section class="src-mgr-editor">
+      <div id="editor-empty" class="src-mgr-empty">
+        <div class="logo">⬢</div>
+        <h3>Select or create a source</h3>
+        <p>Pick a source from the left panel to edit, or click <strong>+ New</strong> to define a new OSINT feed.</p>
+        <p class="src-mgr-hint">All fields have tooltips (hover the <span class="help-icon">?</span> icon) and placeholders showing the expected format.</p>
+      </div>
+
+      <form id="source-form" class="src-mgr-form" hidden>
+        <!-- Hidden field: original name for rename detection -->
+        <input type="hidden" id="field-original-name" value="" />
+
+        <div class="form-grid">
+          <!-- Name -->
+          <div class="form-group">
+            <label for="field-name">
+              Name
+              <span class="help-icon" title="Unique identifier for this source. Used as the YAML filename and API reference. Lowercase, no spaces. E.g. shodan_internetdb, hackertarget_dns.">?</span>
+            </label>
+            <input id="field-name" type="text" required placeholder="e.g. shodan_internetdb, leakcheck_public" autocomplete="off" spellcheck="false" />
+            <span class="field-hint">Lowercase alphanumeric + underscores. Used as filename and API key.</span>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="field-desc">
+              Description
+              <span class="help-icon" title="Human-readable summary of what this source returns. One to two sentences. E.g. 'HackerTarget forward DNS (A, MX, TXT, NS)'.">?</span>
+            </label>
+            <textarea id="field-desc" rows="2" placeholder="Describe what this source does — what data it fetches, from where…"></textarea>
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label for="field-cat">
+              Category
+              <span class="help-icon" title="Grouping label for the UI. Format: 'NN. Name' (number prefix for ordering). Select an existing one or type a new one.">?</span>
+            </label>
+            <input id="field-cat" type="text" list="cat-list" placeholder="e.g. 01. DNS Intelligence, 06. Breach Intelligence" autocomplete="off" />
+            <datalist id="cat-list">
+              {% for c in categories %}
+              <option value="{{ c }}">{% endfor %}
+            </datalist>
+            <span class="field-hint">Format: <code>NN. Name</code>. The number prefix controls sort order in the source list.</span>
+          </div>
+
+          <!-- OS -->
+          <div class="form-group">
+            <label for="field-os">
+              OS
+              <span class="help-icon" title="Target operating system this source applies to. 'any' for most sources (they return OS-agnostic data).">?</span>
+            </label>
+            <select id="field-os">
+              <option value="any">any</option>
+              <option value="windows">windows</option>
+              <option value="linux">linux</option>
+              <option value="macos">macos</option>
+              <option value="ios">ios</option>
+              <option value="android">android</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Parser -->
+        <div class="form-group">
+          <label for="field-parser">
+            Parser
+            <span class="help-icon" title="Named function used to parse the source's response. Select an existing parser or type a custom one. The parser must be registered in the parsers module.">?</span>
+          </label>
+          <input id="field-parser" type="text" list="parser-list" placeholder="e.g. raw_text, text_lines, vt_domain, dehashed, threatfox, hibp_breach" autocomplete="off" />
+          <datalist id="parser-list">
+            {% for p in parsers %}
+            <option value="{{ p }}">{% endfor %}
+          </datalist>
+          <span class="field-hint">The parser module must exist in <code>estorides_core/parsers.py</code>. <code>raw_text</code> is the safest default.</span>
+        </div>
+
+        <!-- Requires Key + Key Env -->
+        <div class="form-inline-group">
+          <div class="form-group form-group-inline">
+            <label class="checkbox-label">
+              <input id="field-req-key" type="checkbox" />
+              Requires API key
+              <span class="help-icon" title="Check this if the source needs an API key. When checked, the Key Env field below becomes mandatory.">?</span>
+            </label>
+          </div>
+          <div class="form-group form-group-inline" id="key-env-group">
+            <label for="field-key-env">
+              Key Env Var
+              <span class="help-icon" title="Name of the environment variable that holds the API key. E.g. VT_API_KEY, SHODAN_API_KEY, DEHASHED_API_KEY.">?</span>
+            </label>
+            <input id="field-key-env" type="text" placeholder="e.g. VT_API_KEY, SHODAN_API_KEY" autocomplete="off" disabled />
+          </div>
+        </div>
+
+        <!-- Contact + Logs Queries -->
+        <div class="form-inline-group">
+          <div class="form-group form-group-inline">
+            <label for="field-contact">
+              Contact class
+              <span class="help-icon" title="OPSEC classification: 'none' = passive (never touches target), 'broker' = third-party probes the target, 'active' = connects to target directly. Drives the passive-only filter.">?</span>
+            </label>
+            <select id="field-contact">
+              <option value="none">none — passive, no target contact</option>
+              <option value="broker">broker — third-party probes target</option>
+              <option value="active">active — connects to target directly</option>
+            </select>
+          </div>
+          <div class="form-group form-group-inline">
+            <label class="checkbox-label">
+              <input id="field-logs-queries" type="checkbox" />
+              Logs queries
+              <span class="help-icon" title="Check if the provider logs or records your queries. Relevant for OPSEC-conscious operators.">?</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Applies To (entity types the source works for) -->
+        <div class="form-group">
+          <label>
+            Applies to
+            <span class="help-icon" title="Which query types this source can handle. Multi-select: Cmd/Ctrl+click to toggle individual items. The source will only be used when the query type matches one of these.">?</span>
+          </label>
+          <div class="tag-grid" id="field-applies-to">
+            {% set all_types = ['any', 'domain', 'ipv4', 'ipv6', 'email', 'username', 'url', 'keyword', 'md5', 'sha256', 'btc_address', 'eth_address', 'phone', 'asn', 'mac', 'cve', 'person', 'company', 'org'] %}
+            {% for t in all_types %}
+            <label class="tag-option" data-value="{{ t }}">
+              <input type="checkbox" value="{{ t }}" />
+              <span>{{ t }}</span>
+            </label>
+            {% endfor %}
+          </div>
+          <span class="field-hint">Select all entity types this source applies to. <code>any</code> matches everything.</span>
+        </div>
+
+        <!-- Entity Hints -->
+        <div class="form-group">
+          <label>
+            Entity hints
+            <span class="help-icon" title="Entity types this source might discover (beyond the query type). Used for type hints during extraction. E.g. a DNS source hints [domain, ip, mail_server].">?</span>
+          </label>
+          <div class="tag-grid" id="field-entity-hints">
+            {% set hint_types = ['domain', 'ip', 'ipv4', 'ipv6', 'email', 'username', 'url', 'md5', 'sha256', 'btc_address', 'eth_address', 'phone', 'asn', 'mac', 'cve', 'person', 'company', 'org', 'password', 'hash', 'leak', 'breach_name', 'breach_date', 'pwn_count', 'data_classes', 'mail_server', 'registrar', 'category', 'malicious', 'name', 'address'] %}
+            {% for t in hint_types %}
+            <label class="tag-option" data-value="{{ t }}">
+              <input type="checkbox" value="{{ t }}" />
+              <span>{{ t }}</span>
+            </label>
+            {% endfor %}
+          </div>
+          <span class="field-hint">Optional entity types this source may return <em>in addition to</em> the query type. Used for extraction hints.</span>
+        </div>
+
+        <!-- Tool section -->
+        <fieldset class="form-fieldset">
+          <legend>
+            Tool — HTTP request configuration
+            <span class="help-icon" title="The HTTP request spec. URL is required; method, headers, params, and body are optional. Use {query} and {api_key} as placeholders.">?</span>
+          </legend>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="field-tool-url">
+                URL
+                <span class="help-icon" title="The API endpoint URL. Use {query} where the search term goes, and {api_key} for the API key. E.g. https://api.hackertarget.com/dnslookup/?q={query}">?</span>
+              </label>
+              <input id="field-tool-url" type="url" required placeholder="https://api.example.com/v1/{query}" autocomplete="off" spellcheck="false" />
+              <span class="field-hint">Use <code>{query}</code> for search term, <code>{api_key}</code> for API key.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="field-tool-method">
+                Method
+                <span class="help-icon" title="HTTP method for the request. GET for simple lookups, POST when the API expects JSON body.">?</span>
+              </label>
+              <select id="field-tool-method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="field-tool-headers">
+              Headers <span class="field-sub">(JSON object)</span>
+              <span class="help-icon" title="HTTP headers as a JSON object. Values support {query} and {api_key} placeholders. E.g. {\"Authorization\": \"Bearer {api_key}\", \"Accept\": \"application/json\"}">?</span>
+            </label>
+            <textarea id="field-tool-headers" class="json-input" rows="3" placeholder='{"Authorization": "Bearer {api_key}", "Accept": "application/json", "User-Agent": "Estorides/1.0"}' spellcheck="false"></textarea>
+            <span class="field-hint">JSON object. <a href="#" class="suggest-btn" data-target="field-tool-headers" data-template='{"User-Agent": "Estorides/1.0", "Accept": "application/json"}'>Insert common headers</a></span>
+          </div>
+
+          <div class="form-group">
+            <label for="field-tool-params">
+              Query params <span class="field-sub">(JSON object)</span>
+              <span class="help-icon" title="URL query parameters as a JSON object. E.g. {\"q\": \"{query}\", \"limit\": \"50\"}">?</span>
+            </label>
+            <textarea id="field-tool-params" class="json-input" rows="2" placeholder='{"q": "{query}", "limit": "50"}' spellcheck="false"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="field-tool-body">
+              Body <span class="field-sub">(JSON object, POST only)</span>
+              <span class="help-icon" title="JSON body for POST requests. E.g. {\"query\": \"search_ioc\", \"search_term\": \"{query}\"}">?</span>
+            </label>
+            <textarea id="field-tool-body" class="json-input" rows="3" placeholder='{"query": "search_ioc", "search_term": "{query}"}' spellcheck="false"></textarea>
+          </div>
+        </fieldset>
+
+        <!-- Pagination section -->
+        <fieldset class="form-fieldset">
+          <legend>
+            Pagination <span class="field-sub">(optional)</span>
+            <span class="help-icon" title="Pagination config for multi-page sources. Only needed when the API returns paginated results. Leave empty for single-page sources.">?</span>
+          </legend>
+          <div class="form-inline-group">
+            <div class="form-group form-group-inline">
+              <label for="field-pag-strategy">
+                Strategy
+                <span class="help-icon" title="Pagination strategy: 'page' for ?page=N, 'offset' for ?offset=N&limit=M, 'cursor' for a next-page token in the response.">?</span>
+              </label>
+              <select id="field-pag-strategy">
+                <option value="">none</option>
+                <option value="page">page</option>
+                <option value="offset">offset</option>
+                <option value="cursor">cursor</option>
+              </select>
+            </div>
+            <div class="form-group form-group-inline">
+              <label for="field-pag-limit">
+                Per-page limit
+                <span class="help-icon" title="Number of results per page (for page/offset strategies).">?</span>
+              </label>
+              <input id="field-pag-limit" type="number" min="1" max="1000" placeholder="50" />
+            </div>
+            <div class="form-group form-group-inline">
+              <label for="field-pag-param">
+                Page param
+                <span class="help-icon" title="Query parameter name for the page number. E.g. 'page' for ?page=N.">?</span>
+              </label>
+              <input id="field-pag-param" type="text" placeholder="page" autocomplete="off" />
+            </div>
+            <div class="form-group form-group-inline">
+              <label for="field-pag-cursor-path">
+                Cursor path
+                <span class="help-icon" title="JSON path to the cursor field in the response (for cursor strategy). E.g. 'next_page' or 'meta.cursor'.">?</span>
+              </label>
+              <input id="field-pag-cursor-path" type="text" placeholder="next_page" autocomplete="off" />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Action buttons -->
+        <div class="form-actions">
+          <button id="save-btn" type="submit" class="primary">Save source</button>
+          <button id="delete-btn" type="button" class="danger" hidden>Delete source</button>
+          <button id="cancel-btn" type="button" class="ghost">Cancel</button>
+          <span id="form-status" class="form-status"></span>
+        </div>
+
+        <!-- YAML preview -->
+        <details class="yaml-preview">
+          <summary>YAML preview</summary>
+          <pre id="yaml-preview-content" class="yaml-preview-content"></pre>
+        </details>
+      </form>
+    </section>
+  </main>
+
+  <div id="toast-stack"></div>
+
+  <script type="application/json" id="estorides-telemetry">{"brand":"Estorides","tagline":"OSINT platform: data → information → intelligence","tips":[],"shortcuts":[]}</script>
+  <script src="/static/js/source_manager.js"></script>
+</body>
+</html>

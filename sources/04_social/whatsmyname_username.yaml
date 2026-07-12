@@ -1,0 +1,22 @@
+name: whatsmyname_username
+enabled: true
+category: 04. Social Media
+description: What's My Name — check username existence across 400+ platforms (passive, no key)
+os: any
+requires_key: false
+contact: none
+parser: raw_text
+entity_hints:
+- username
+- url
+- platform
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://whatsmyname.app/api/v1/username
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    username: '{query}'

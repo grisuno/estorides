@@ -22,6 +22,10 @@ Responsibilities
   `<meta name="estorides-auth-token">` tag rendered into `index.html` and
   includes it as a header on every fetch.
 
+  When `ESTORIDES_AUTH_TOKEN` is unset, the system **auto-generates** a random
+  64-hex-char token on startup and prints it to the terminal. This ensures API
+  abuse protection is always on — no login page needed, no explicit registration.
+
 Why a dedicated module?
 -----------------------
 The Flask app is built by `estorides_web.create_app()`. Keeping the hardening
@@ -29,13 +33,14 @@ out of the factory means:
   * unit tests can spin up an app with a stripped-down middleware set,
   * the surface is one file to audit (CVE-2023-style header regressions),
   * everything is policy-driven by env vars, not magic literals scattered
-    across route definitions.
+      across route definitions.
 """
 from __future__ import annotations
 
 import hmac
 import logging
 import os
+import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
@@ -262,12 +267,17 @@ AUTH_HEADER_ALT = "X-Estorides-Token"
 
 
 def _extract_bearer_token() -> str | None:
-    """Pull the bearer token from header, alt-header, or cookie.
+    """Pull the bearer token from header, alt-header, cookie, or query param.
 
     Header order matters: an explicit `Authorization: Bearer` always wins
     over a cookie (the cookie is the fallback for the browser UI; the
-    header is what scripts and curl will use). We never trust query-string
-    tokens — they leak into access logs and referer headers.
+    header is what scripts and curl will use).
+
+    Query-param ``?token=`` is a **last resort** for Server-Sent Events
+    (``EventSource`` cannot set custom headers). It leaks into server
+    access logs — we accept this limitation because there is no other
+    transport for streaming endpoints in a browser. The token is never
+    accepted from query params on POST/PUT/DELETE requests.
     """
     h = request.headers.get(AUTH_HEADER, "")
     if h.lower().startswith("bearer "):
@@ -278,22 +288,35 @@ def _extract_bearer_token() -> str | None:
     c = request.cookies.get(AUTH_COOKIE, "").strip()
     if c:
         return c
+    # Query-param fallback for GET-only (SSE streaming).
+    if request.method == "GET":
+        q = request.args.get("token", "").strip()
+        if q:
+            log.warning("token received via query param (leaks into access logs) — "
+                        "use Authorization header or cookie instead")
+            return q
     return None
+
+
+AUTO_GENERATED_TOKEN: str | None = None
 
 
 def make_auth_gate() -> AuthGate:
     """Build the auth gate from the current environment.
 
-    `ESTORIDES_AUTH_TOKEN` unset → `enabled=False`, `require_auth` is a no-op
-    pass-through. This preserves the local-trust single-user default and keeps
-    existing tests working without an auth header.
-
-    When set, the gate is enabled. The token is also exposed to `index.html`
-    so the UI can auto-attach it (see `auth_meta_for_index()`).
+    When `ESTORIDES_AUTH_TOKEN` is set, the gate uses that value.
+    When unset, the system auto-generates a random 64-hex-char token,
+    stores it in `AUTO_GENERATED_TOKEN` (so the startup banner can
+    display it), and returns an enabled gate. This guarantees API
+    abuse protection is always active — no login screen, no explicit
+    enrolment.
     """
+    global AUTO_GENERATED_TOKEN
     raw = os.environ.get("ESTORIDES_AUTH_TOKEN", "").strip()
     if not raw:
-        return AuthGate(required_token=None)
+        raw = secrets.token_hex(32)
+        os.environ["ESTORIDES_AUTH_TOKEN"] = raw
+        AUTO_GENERATED_TOKEN = raw
     return AuthGate(required_token=raw)
 
 
@@ -390,7 +413,8 @@ def install_auth_gate(app: Flask, gate: AuthGate) -> AuthGate:
     _GATE = gate
     app.extensions["estorides_auth"] = gate
     if gate.enabled:
-        log.info("web security: auth-gate ENABLED (bearer token required)")
+        source = "auto-generated" if AUTO_GENERATED_TOKEN else "ESTORIDES_AUTH_TOKEN"
+        log.info("web security: auth-gate ENABLED (bearer token required; source=%s)", source)
     else:
         log.info("web security: auth-gate disabled (ESTORIDES_AUTH_TOKEN unset)")
     return gate
@@ -398,3 +422,8 @@ def install_auth_gate(app: Flask, gate: AuthGate) -> AuthGate:
 
 def _current_gate() -> AuthGate | None:
     return _GATE
+
+
+def auto_generated_token() -> str | None:
+    """Return the auto-generated token (None if user set ESTORIDES_AUTH_TOKEN manually)."""
+    return AUTO_GENERATED_TOKEN

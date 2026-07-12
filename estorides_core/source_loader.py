@@ -6,11 +6,11 @@ the rest of the engine can iterate over.
 """
 from __future__ import annotations
 
-import os
-import re
 import logging
+import re
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any
 
 import yaml
 
@@ -25,7 +25,7 @@ class Source(dict):
     Stored as a dict for JSON-serialisation convenience, but exposes
     attribute access for ergonomic call sites."""
 
-    def __init__(self, data: Dict[str, Any]) -> None:
+    def __init__(self, data: dict[str, Any]) -> None:
         super().__init__(data)
 
     def __getattr__(self, key: str) -> Any:
@@ -40,8 +40,8 @@ class SourceRegistry:
 
     def __init__(self, sources_dir: Path) -> None:
         self.sources_dir: Path = sources_dir
-        self._by_name: Dict[str, Source] = {}
-        self._by_category: Dict[str, List[Source]] = {}
+        self._by_name: dict[str, Source] = {}
+        self._by_category: dict[str, list[Source]] = {}
 
     # ---------------------------------------------------------------- load --
     def load(self) -> None:
@@ -97,7 +97,7 @@ class SourceRegistry:
             self._by_category.setdefault(source["category"], []).append(source)
             log.debug("registered source %s [%s]", name, source["category"])
 
-    def _normalise(self, raw: Dict[str, Any]) -> Optional[Source]:
+    def _normalise(self, raw: dict[str, Any]) -> Source | None:
         name = raw.get("name")
         if not name or not isinstance(name, str):
             log.warning("source without name skipped: %s", raw)
@@ -131,14 +131,14 @@ class SourceRegistry:
                 name, contact,
             )
 
-        pagination: Dict[str, Any] = {}
+        pagination: dict[str, Any] = {}
         if isinstance(raw.get("pagination"), dict):
             pagination = {
                 k: v for k, v in raw["pagination"].items()
                 if v is not None
             }
 
-        normalised: Dict[str, Any] = {
+        normalised: dict[str, Any] = {
             "name": name.strip(),
             "description": (raw.get("description") or "").strip(),
             "category": (raw.get("category") or "00. Misc").strip(),
@@ -157,27 +157,27 @@ class SourceRegistry:
         return Source(normalised)
 
     # --------------------------------------------------------------- access --
-    def get(self, name: str) -> Optional[Source]:
+    def get(self, name: str) -> Source | None:
         return self._by_name.get(name)
 
-    def all(self) -> List[Source]:
+    def all(self) -> list[Source]:
         return list(self._by_name.values())
 
-    def by_category(self, category: str) -> List[Source]:
+    def by_category(self, category: str) -> list[Source]:
         return list(self._by_category.get(category, []))
 
-    def categories(self) -> List[str]:
+    def categories(self) -> list[str]:
         return sorted(self._by_category.keys())
 
-    def names(self) -> List[str]:
+    def names(self) -> list[str]:
         return sorted(self._by_name.keys())
 
     def filter(
         self,
         *,
-        requires_key: Optional[bool] = None,
-        max_contact: Optional[str] = None,
-    ) -> List[Source]:
+        requires_key: bool | None = None,
+        max_contact: str | None = None,
+    ) -> list[Source]:
         """Return sources matching the given predicates.
 
         `max_contact` keeps only sources whose contact class is at or below
@@ -193,8 +193,112 @@ class SourceRegistry:
             items = [s for s in items if contact_level(s.get("contact", DEFAULT_CONTACT)) <= ceiling]
         return list(items)
 
+    # -------------------------------------------------------------- save / del --
+    def _category_dir_name(self, category: str) -> str:
+        """Derive a filesystem-safe directory name from a category label.
+
+        E.g. ``"06. Breach Intelligence"`` → ``"06_breach_intelligence"``.
+        """
+        parts = category.split(".", 1)
+        if len(parts) > 1:
+            prefix_parts = parts[0].strip().split()
+            prefix = prefix_parts[0].strip().zfill(2) if prefix_parts else "00"
+            suffix = parts[1].strip().lower()
+        else:
+            prefix = "00"
+            suffix = parts[0].strip().lower()
+        suffix = re.sub(r'[^a-z0-9]+', '_', suffix).strip('_')
+        return f"{prefix}_{suffix}"
+
+    def _source_path(self, name: str, category: str) -> Path:
+        """Derive the filesystem path for a source based on its name and category."""
+        category_dir = self.sources_dir / self._category_dir_name(category)
+        safe_name = re.sub(r'[^a-z0-9_]', '_', name.lower().replace('-', '_'))
+        return category_dir / f"{safe_name}.yaml"
+
+    def _find_source_file(self, name: str) -> Path | None:
+        """Locate a source file on disk by name, scanning all category dirs."""
+        for f in self.sources_dir.rglob("*.y*ml"):
+            try:
+                with f.open("r", encoding="utf-8") as fh:
+                    doc = yaml.safe_load(fh)
+                if isinstance(doc, dict) and doc.get("name") == name:
+                    return f.resolve()
+            except (yaml.YAMLError, OSError):
+                continue
+        return None
+
+    def write_source_file(self, data: dict[str, Any]) -> Path:
+        """Write a source dict to the correct YAML file, overwriting if exists.
+
+        This is a pure file-write operation — no normalisation, no registry
+        update. The caller is responsible for reloading the registry if needed.
+        Returns the path written.
+        """
+        name = data.get("name", "").strip()
+        if not name:
+            raise ValueError("source must have a non-empty 'name'")
+        category = data.get("category", "00. Misc").strip()
+        path = self._source_path(name, category)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Build clean serialisation — skip empty defaults, keep booleans
+        out: dict[str, Any] = {}
+        for key in ("name", "description", "category", "os", "parser", "key_env"):
+            val = data.get(key)
+            if val not in (None, ""):
+                out[key] = val
+        out["enabled"] = bool(data.get("enabled", True))
+        out["requires_key"] = bool(data.get("requires_key", False))
+        # entity_hints / applies_to: always list
+        for key in ("entity_hints", "applies_to"):
+            raw = data.get(key)
+            if isinstance(raw, list) and raw:
+                out[key] = raw
+            elif isinstance(raw, str):
+                out[key] = [s.strip() for s in raw.split(",") if s.strip()]
+            else:
+                out[key] = [] if key == "entity_hints" else ["any"]
+        # contact
+        contact = data.get("contact", "none")
+        if contact not in ("none", "broker", "active"):
+            contact = "none"
+        if contact != "none":
+            out["contact"] = contact
+        out["logs_queries"] = bool(data.get("logs_queries", False))
+        # tool block
+        tool = data.get("tool", {})
+        if not tool.get("url"):
+            raise ValueError("source must have a tool.url")
+        out["tool"] = {
+            "method": tool.get("method", "GET"),
+            "url": tool["url"],
+        }
+        if tool.get("headers"):
+            out["tool"]["headers"] = tool["headers"]
+        if tool.get("params"):
+            out["tool"]["params"] = tool["params"]
+        if tool.get("body"):
+            out["tool"]["body"] = tool["body"]
+        # pagination
+        if isinstance(data.get("pagination"), dict) and data["pagination"]:
+            out["pagination"] = {k: v for k, v in data["pagination"].items() if v not in (None, "")}
+
+        with path.open("w", encoding="utf-8") as fh:
+            yaml.dump(out, fh, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        log.info("wrote source %s → %s", name, path)
+        return path
+
+    def delete_source_file(self, name: str) -> None:
+        """Delete a source file by name. Raises KeyError if not found on disk."""
+        path = self._find_source_file(name)
+        if path is None:
+            raise KeyError(f"no source file found for: {name}")
+        path.unlink()
+        log.info("deleted source file %s", path)
+
     # ----------------------------------------------------------------- fmt --
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         """Compact summary used by /api/status."""
         return {
             "total": len(self._by_name),

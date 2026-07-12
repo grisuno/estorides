@@ -409,7 +409,7 @@
 
     _runJobId = start.job_id;
     setStatus('streaming');
-    _runStream = new EventSource(start.stream_url);
+    _runStream = new EventSource(_sseUrl(start.stream_url));
     _runStream.addEventListener('message', (ev) => {
       let d;
       try { d = JSON.parse(ev.data); } catch (_) { return; }
@@ -493,7 +493,7 @@
     }
     _runJobId = start.job_id;
     setStatus('searching ' + query);
-    _runStream = new EventSource(start.stream_url);
+    _runStream = new EventSource(_sseUrl(start.stream_url));
     _runStream.addEventListener('message', function(ev) {
       var d;
       try { d = JSON.parse(ev.data); } catch (_) { return; }
@@ -2257,6 +2257,23 @@
 // survive tab navigation; the inner module only owns the per-render
 // helpers.
 
+// Auth token for SSE (EventSource can't set custom headers).
+var _sseAuthToken = (function () {
+  var m = document.querySelector('meta[name="estorides-auth-token"]');
+  return m ? (m.getAttribute('content') || '').trim() : '';
+})();
+
+function _sseUrl(base) {
+  // Append the auth token as query param for EventSource connections.
+  // EventSource cannot set Authorization headers, so we fall back to
+  // ?token= which the server accepts for GET requests only.
+  if (_sseAuthToken) {
+    var sep = base.indexOf('?') === -1 ? '?' : '&';
+    return base + sep + 'token=' + encodeURIComponent(_sseAuthToken);
+  }
+  return base;
+}
+
 let _discoverEventSource = null;
 let _discoverJobId = null;
 let _discoverStep = 0;
@@ -2329,7 +2346,7 @@ function startDiscover() {
       _discoverMax = j.max_steps || 0;
       setStatus(`discover started · ${j.job_id} · case ${j.case_id}`);
       // Open the SSE stream.
-      _discoverEventSource = new EventSource('/api/discover/stream?job_id=' + j.job_id);
+      _discoverEventSource = new EventSource(_sseUrl('/api/discover/stream?job_id=' + j.job_id));
       _discoverEventSource.addEventListener('hello', (ev) => {
         try {
           const d = JSON.parse(ev.data);

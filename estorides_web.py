@@ -15,6 +15,7 @@ import json
 import logging
 import os
 import shutil
+import sys
 import tempfile
 import time
 from collections.abc import Callable
@@ -48,6 +49,7 @@ from estorides_core.search_telemetry import SearchTelemetry
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_core.web_security import (
     AUTH_META,
+    auto_generated_token,
     install_security,
     require_auth,
 )
@@ -205,6 +207,21 @@ def create_app() -> Flask:
     app.config["DEBUG"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = False
     install_security(app)
+
+    token_source = auto_generated_token()
+    if token_source:
+        border = "=" * 60
+        dash   = "-" * 60
+        print(f"\n{border}", file=sys.stderr)
+        print("  ⬢  ESTORIDES API TOKEN (auto-generated, no login needed)", file=sys.stderr)
+        print("  ⬢  Share this token with trusted clients to access the API", file=sys.stderr)
+        print(f"{dash}", file=sys.stderr)
+        print(f"     Token:  {token_source}", file=sys.stderr)
+        print(f"{dash}", file=sys.stderr)
+        print(f"     Header: Authorization: Bearer {token_source}", file=sys.stderr)
+        print("     The web UI auto-includes this token — no action needed.", file=sys.stderr)
+        print(f"{border}\n", file=sys.stderr)
+
     orch = Orchestrator()
     telemetry = SearchTelemetry()
 
@@ -770,6 +787,100 @@ def create_app() -> Flask:
         days = max(1, min(365, _arg_int("days", 7)))
         limit = max(1, min(200, _arg_int("limit", 20)))
         return jsonify({"entities": fusion_analytics.top_changed(days=days, limit=limit)})
+
+    # ================================================================ source manager
+    # YAML source CRUD — form-based editor for source configuration.
+
+    @app.route("/admin/sources", methods=["GET"])
+    @require_auth
+    def admin_sources() -> Any:
+        """Render the YAML source manager page."""
+        categories = sorted(orch.registry.categories())
+        parsers = sorted({
+            s.get("parser", "raw_text")
+            for s in orch.registry.all()
+        })
+        return render_template("source_manager.html",
+                               categories=categories,
+                               parsers=parsers)
+
+    @app.route("/api/sources/yaml", methods=["GET"])
+    @_rate_limit_decorator(event="api_sources_yaml_list")
+    @require_auth
+    def api_sources_yaml_list() -> Any:
+        """Return every YAML source with full configuration."""
+        srcs = []
+        for s in orch.registry.all():
+            srcs.append({
+                "name": s.get("name"),
+                "description": s.get("description"),
+                "category": s.get("category"),
+                "enabled": s.get("enabled", True),
+                "os": s.get("os", "any"),
+                "requires_key": s.get("requires_key", False),
+                "key_env": s.get("key_env"),
+                "parser": s.get("parser", "raw_text"),
+                "entity_hints": s.get("entity_hints", []),
+                "applies_to": s.get("applies_to", ["any"]),
+                "contact": s.get("contact", "none"),
+                "logs_queries": s.get("logs_queries", False),
+                "tool": s.get("tool", {}),
+                "pagination": s.get("pagination"),
+            })
+        return jsonify({"sources": srcs, "total": len(srcs)})
+
+    @app.route("/api/sources/yaml", methods=["POST"])
+    @_rate_limit_decorator(event="api_sources_yaml_create")
+    @require_auth
+    def api_sources_yaml_create() -> Any:
+        """Create a new YAML source."""
+        body = request.get_json(silent=True) or {}
+        name = (body.get("name") or "").strip()
+        if not name:
+            return jsonify({"error": "missing source name"}), 400
+        if orch.registry.get(name):
+            return jsonify({"error": f"source '{name}' already exists"}), 409
+        try:
+            path = orch.registry.write_source_file(body)
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        # Reload so it's available for queries
+        orch.registry.load()
+        source = orch.registry.get(name)
+        return jsonify({"created": name, "path": str(path), "source": source}), 201
+
+    @app.route("/api/sources/yaml/<name>", methods=["PUT"])
+    @_rate_limit_decorator(event="api_sources_yaml_update")
+    @require_auth
+    def api_sources_yaml_update(name: str) -> Any:
+        """Update/replace a YAML source."""
+        body = request.get_json(silent=True) or {}
+        body["name"] = name
+        existing = orch.registry.get(name)
+        if not existing:
+            return jsonify({"error": f"unknown source: {name}"}), 404
+        try:
+            path = orch.registry.write_source_file(body)
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        orch.registry.load()
+        source = orch.registry.get(name)
+        return jsonify({"updated": name, "path": str(path), "source": source})
+
+    @app.route("/api/sources/yaml/<name>", methods=["DELETE"])
+    @_rate_limit_decorator(event="api_sources_yaml_delete")
+    @require_auth
+    def api_sources_yaml_delete(name: str) -> Any:
+        """Delete a YAML source."""
+        existing = orch.registry.get(name)
+        if not existing:
+            return jsonify({"error": f"unknown source: {name}"}), 404
+        try:
+            orch.registry.delete_source_file(name)
+        except KeyError as e:
+            return jsonify({"error": str(e)}), 404
+        orch.registry.load()
+        return jsonify({"deleted": name})
 
     @app.route("/api/fusion/analytics/corroboration-matrix", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_corroboration_matrix")

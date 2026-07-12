@@ -1,0 +1,24 @@
+name: scylla_email
+enabled: true
+category: 06. Breach Intelligence
+description: Scylla.so — public breach database search for emails and usernames (passive, no key)
+os: any
+requires_key: false
+parser: raw_text
+entity_hints:
+- email
+- username
+- password
+- domain
+- hash
+applies_to:
+- email
+- username
+tool:
+  method: GET
+  url: https://scylla.so/api/search/{query}
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    size: '50'

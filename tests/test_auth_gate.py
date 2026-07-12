@@ -38,12 +38,16 @@ def app_with_gate(monkeypatch):
     return app
 
 
-def test_gate_off_by_default(monkeypatch):
+def test_gate_auto_generates_token_when_unset(monkeypatch):
     monkeypatch.delenv("ESTORIDES_AUTH_TOKEN", raising=False)
     g = make_auth_gate()
-    assert g.enabled is False
-    assert g.check() is True
-    assert g.auth_meta_for_index() is None
+    assert g.enabled is True
+    # Token should be a 64-char hex string
+    token = g.auth_meta_for_index()
+    assert token is not None
+    assert len(token) == 64
+    import re
+    assert re.match(r'^[a-f0-9]{64}$', token) is not None
 
 
 def test_gate_on_rejects_anonymous(app_with_gate):
@@ -80,10 +84,12 @@ def test_gate_on_rejects_wrong_token(app_with_gate):
     assert r.status_code == 401
 
 
-def test_gate_on_does_not_leak_token_in_meta_when_off(monkeypatch):
+def test_gate_on_auto_generated_token_in_meta(monkeypatch):
     monkeypatch.delenv("ESTORIDES_AUTH_TOKEN", raising=False)
     g = make_auth_gate()
-    assert g.auth_meta_for_index() is None
+    token = g.auth_meta_for_index()
+    assert token is not None
+    assert len(token) == 64
 
 
 def test_gate_on_exposes_token_for_index_meta():
