@@ -443,12 +443,14 @@ def create_app() -> Flask:
                              encoding="utf-8")
             else:
                 return jsonify({"error": f"unknown format {fmt}"}), 400
-        except ValueError as e:
+        except ValueError:
             shutil.rmtree(tmpdir, ignore_errors=True)
-            return jsonify({"error": "invalid-encryption-key", "detail": str(e)}), 400
-        except RuntimeError as e:
+            log.warning("export encryption key invalid")
+            return jsonify({"error": "invalid-encryption-key"}), 400
+        except RuntimeError:
             shutil.rmtree(tmpdir, ignore_errors=True)
-            return jsonify({"error": "encryption-failed", "detail": str(e)}), 500
+            log.exception("export encryption failed")
+            return jsonify({"error": "encryption-failed"}), 500
         # Best-effort: send the file, then nuke the tempdir. If the
         # connection dies before send_from_directory finishes, the
         # unlink in `finally` still runs.
@@ -632,7 +634,6 @@ def create_app() -> Flask:
             return jsonify({
                 "error": "missing query parameter",
                 "usage": "/api/intel/graph?q=<cypher>&limit=N",
-                "stats": kuzu_backend.stats(),
             }), 400
         # Defence: only allow MATCH / RETURN-style read queries.
         # We don't want the public endpoint to run arbitrary writes
@@ -664,14 +665,18 @@ def create_app() -> Flask:
     def api_intel_stats() -> Any:
         """Stats for both the case store and the Kùzu graph."""
         out: dict[str, Any] = {}
-        if case_store is not None:
-            out["cases"] = case_store.stats()
-        if kuzu_backend is not None:
-            out["kuzu"] = kuzu_backend.stats()
-        if intel_resolver is not None:
-            out["resolver_cache"] = intel_resolver.cache.stats()
-        if fusion_store is not None:
-            out["fusion"] = fusion_store.stats()
+        try:
+            if case_store is not None:
+                out["cases"] = case_store.stats()
+            if kuzu_backend is not None:
+                out["kuzu"] = kuzu_backend.stats()
+            if intel_resolver is not None:
+                out["resolver_cache"] = intel_resolver.cache.stats()
+            if fusion_store is not None:
+                out["fusion"] = fusion_store.stats()
+        except Exception:
+            log.exception("intel stats failed")
+            return jsonify({"error": "stats-unavailable"}), 503
         return jsonify(out)
 
     # ----- fusion datastore (cross-run fused fact base) -----
@@ -842,8 +847,9 @@ def create_app() -> Flask:
             return jsonify({"error": f"source '{name}' already exists"}), 409
         try:
             path = orch.registry.write_source_file(body)
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 400
+        except ValueError:
+            log.warning("invalid source config on create")
+            return jsonify({"error": "invalid-source-config"}), 400
         # Reload so it's available for queries
         orch.registry.load()
         source = orch.registry.get(name)
@@ -861,8 +867,9 @@ def create_app() -> Flask:
             return jsonify({"error": f"unknown source: {name}"}), 404
         try:
             path = orch.registry.write_source_file(body)
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 400
+        except ValueError:
+            log.warning("invalid source config on update")
+            return jsonify({"error": "invalid-source-config"}), 400
         orch.registry.load()
         source = orch.registry.get(name)
         return jsonify({"updated": name, "path": str(path), "source": source})
@@ -877,8 +884,9 @@ def create_app() -> Flask:
             return jsonify({"error": f"unknown source: {name}"}), 404
         try:
             orch.registry.delete_source_file(name)
-        except KeyError as e:
-            return jsonify({"error": str(e)}), 404
+        except KeyError:
+            log.warning("source not found for deletion: %s", name)
+            return jsonify({"error": "source-not-found"}), 404
         orch.registry.load()
         return jsonify({"deleted": name})
 
@@ -927,7 +935,12 @@ def create_app() -> Flask:
         value = (body.get("value") or "").strip()
         if not (tid and ent_type and value):
             return jsonify({"error": "transform_id, type and value required"}), 400
-        return jsonify(transform_registry.run(tid, ent_type, value))
+        try:
+            result = transform_registry.run(tid, ent_type, value)
+        except Exception:
+            log.exception("transform run failed: %s/%s", tid, ent_type)
+            return jsonify({"error": "transform-failed"}), 500
+        return jsonify(result)
 
     # ----- Osiris-style extra OSINT endpoints (keyless) -----
     try:
@@ -944,7 +957,11 @@ def create_app() -> Flask:
         q = request.args.get("query", "").strip()
         if not q:
             return jsonify({"error": "missing query (IP or ASxxxxx)"}), 400
-        return jsonify(osiris_sources.fetch_bgp(q))
+        try:
+            return jsonify(osiris_sources.fetch_bgp(q))
+        except Exception:
+            log.exception("osiris bgp fetch failed")
+            return jsonify({"error": "osiris-failed"}), 500
 
     @app.route("/api/osiris/mac", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_mac")
@@ -955,7 +972,11 @@ def create_app() -> Flask:
         mac = request.args.get("mac", "").strip()
         if not mac:
             return jsonify({"error": "missing mac"}), 400
-        return jsonify(osiris_sources.fetch_mac(mac))
+        try:
+            return jsonify(osiris_sources.fetch_mac(mac))
+        except Exception:
+            log.exception("osiris mac fetch failed")
+            return jsonify({"error": "osiris-failed"}), 500
 
     @app.route("/api/osiris/phone", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_phone")
@@ -966,7 +987,11 @@ def create_app() -> Flask:
         n = request.args.get("number", "").strip()
         if not n:
             return jsonify({"error": "missing number"}), 400
-        return jsonify(osiris_sources.fetch_phone(n))
+        try:
+            return jsonify(osiris_sources.fetch_phone(n))
+        except Exception:
+            log.exception("osiris phone fetch failed")
+            return jsonify({"error": "osiris-failed"}), 500
 
     @app.route("/api/osiris/github", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_github")
@@ -977,7 +1002,11 @@ def create_app() -> Flask:
         u = request.args.get("user", "").strip()
         if not u:
             return jsonify({"error": "missing user"}), 400
-        return jsonify(osiris_sources.fetch_github_user(u))
+        try:
+            return jsonify(osiris_sources.fetch_github_user(u))
+        except Exception:
+            log.exception("osiris github fetch failed")
+            return jsonify({"error": "osiris-failed"}), 500
 
     @app.route("/api/osiris/leaks", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_leaks")
@@ -988,7 +1017,11 @@ def create_app() -> Flask:
         e = request.args.get("email", "").strip()
         if not e:
             return jsonify({"error": "missing email"}), 400
-        return jsonify(osiris_sources.fetch_leaks(e))
+        try:
+            return jsonify(osiris_sources.fetch_leaks(e))
+        except Exception:
+            log.exception("osiris leaks fetch failed")
+            return jsonify({"error": "osiris-failed"}), 500
 
     @app.route("/api/osiris/cisa-kev", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_kev")

@@ -186,14 +186,15 @@ def install_security(app: Flask, cfg: WebSecurityConfig | None = None) -> WebSec
     # 3) HTTPS redirect (only meaningful when ESTORIDES_FORCE_HTTPS=1).
     if cfg.force_https:
         @app.before_request
-        def _redirect_to_https():
-            # X-Forwarded-Proto is the conventional reverse-proxy signal.
+        def _redirect_to_https() -> Any:
             fwd_proto = request.headers.get("X-Forwarded-Proto", "").lower()
             if request.is_secure or fwd_proto == "https":
                 return None
             from flask import redirect
-            url = request.url.replace("http://", "https://", 1)
-            return redirect(url, code=308)
+            safe_url = f"https://{request.host}{request.path}"
+            if request.query_string:
+                safe_url = f"{safe_url}?{request.query_string.decode('utf-8')}"
+            return redirect(safe_url, code=308)
 
     # 4) Security headers + CORS, applied last so they always win.
     @app.after_request

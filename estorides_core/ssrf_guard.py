@@ -165,8 +165,8 @@ def _resolve(host: str) -> FrozenSet[str]:
     out: set[str] = set()
     try:
         infos = socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)
-    except socket.gaierror as e:
-        log.debug("DNS resolution failed for %s: %s", host, e)
+    except socket.gaierror:
+        log.debug("DNS resolution failed (len=%d)", len(host))
         return frozenset()
     for fam, *_rest, sockaddr in infos:
         sock_host: str = sockaddr[0]  # type: ignore[assignment]

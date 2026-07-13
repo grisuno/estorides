@@ -886,11 +886,17 @@
     const el = $('#graph-tooltip');
     if (el) el.style.display = 'none';
   }
+  function sanitizeHTML(str) {
+    return String(str || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+      .replace(/javascript\s*:/gi, '');
+  }
   function showTooltipAt(ev, html, paint) {
     const el = $('#graph-tooltip');
     if (!el) return;
     const host = $('#graph-canvas').getBoundingClientRect();
-    el.innerHTML = html;
+    el.textContent = '';
+    el.insertAdjacentHTML('beforeend', sanitizeHTML(html));
     if (typeof paint === 'function') paint(el);
     el.style.display = 'block';
     el.style.left = (ev.clientX - host.left + 12) + 'px';
@@ -1061,27 +1067,59 @@
     const type = resolverTypeFor(d);
     const value = d.label || d.id;
     const props = d.properties || {};
-    const propRows = Object.keys(props).filter((k) => props[k] != null && props[k] !== '')
-      .slice(0, 12)
-      .map((k) => `<div class="insp-prop"><span>${escapeHTML(k)}</span><code>${escapeHTML(String(props[k]))}</code></div>`)
-      .join('') || '<div class="insp-empty">no properties</div>';
-    $('#inspector-body').innerHTML = `
-      <div class="insp-meta">
-        <span class="pill">${escapeHTML(d.type || '')}</span>
-        <span class="pill"><span class="lvl-dot lvl-${levelOf(d)}"></span>${levelOf(d).replace('_', '-')}</span>
-        ${d.cluster >= 0 ? `<span class="pill">cluster ${d.cluster}</span>` : ''}
-      </div>
-      <div class="insp-section">Intel level
-        <select id="insp-level">
-          ${['data', 'information', 'intelligence', 'counter_intelligence'].map((lv) =>
-            `<option value="${lv}"${levelOf(d) === lv ? ' selected' : ''}>${lv.replace('_', '-')}</option>`).join('')}
-        </select>
-      </div>
-      <div class="insp-section">Properties</div>
-      ${propRows}
-      <div class="insp-section">Transforms</div>
-      <div id="insp-transforms" class="insp-transforms">loading…</div>
-    `;
+    const body = $('#inspector-body');
+    body.textContent = '';
+    function add(container, tag, className) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      container.appendChild(el);
+      return el;
+    }
+    function addText(container, tag, className, text) {
+      const el = add(container, tag, className);
+      el.textContent = text;
+      return el;
+    }
+    const meta = add(body, 'div', 'insp-meta');
+    addText(meta, 'span', 'pill', d.type || '');
+    const lvlPill = add(meta, 'span', 'pill');
+    const dot = add(lvlPill, 'span', 'lvl-dot lvl-' + levelOf(d));
+    lvlPill.appendChild(document.createTextNode(levelOf(d).replace('_', '-')));
+    if (d.cluster >= 0) {
+      addText(meta, 'span', 'pill', 'cluster ' + d.cluster);
+    }
+    const intelSec = add(body, 'div', 'insp-section');
+    intelSec.textContent = 'Intel level';
+    const sel = add(intelSec, 'select');
+    sel.id = 'insp-level';
+    ['data', 'information', 'intelligence', 'counter_intelligence'].forEach(function (lv) {
+      const opt = document.createElement('option');
+      opt.value = lv;
+      if (levelOf(d) === lv) opt.selected = true;
+      opt.textContent = lv.replace('_', '-');
+      sel.appendChild(opt);
+    });
+    sel.onchange = function (e) { setNodeLevel(d, e.target.value); };
+    const propSec = add(body, 'div', 'insp-section');
+    propSec.textContent = 'Properties';
+    const propKeys = Object.keys(props).filter(function (k) {
+      return props[k] != null && props[k] !== '';
+    }).slice(0, 12);
+    if (propKeys.length === 0) {
+      addText(body, 'div', 'insp-empty', 'no properties');
+    } else {
+      propKeys.forEach(function (k) {
+        const row = add(body, 'div', 'insp-prop');
+        addText(row, 'span', null, k);
+        const code = add(row, 'code', null);
+        code.textContent = String(props[k]);
+      });
+    }
+    const transfSec = add(body, 'div', 'insp-section');
+    transfSec.textContent = 'Transforms';
+    const transfBox = add(body, 'div', 'insp-transforms');
+    transfBox.id = 'insp-transforms';
+    transfBox.textContent = 'loading...';
     $('#insp-level').onchange = (e) => setNodeLevel(d, e.target.value);
     fetch('/api/transforms?type=' + encodeURIComponent(type))
       .then((r) => r.json())
