@@ -4,12 +4,12 @@
 
 | Metric | Value |
 |--------|-------|
-| ⭐ Stars | 63 |
-| 📥 Clones (last 14 days) | 238 |
-| 🟢 Open Issues | 0 |
+| ⭐ Stars | 85 |
+| 📥 Clones (last 14 days) | 1031 |
+| 🟢 Open Issues | 2 |
 | 📋 Total Issues | 50 |
 | 🛡 Dependabot Open Alerts | 0 |
-| 🔍 CodeScan Open Alerts | 14 |
+| 🔍 CodeScan Open Alerts | 20 |
 
 ## Issues
 - [#50](./issue_50.md) - RUN_STREAM_JOBS and DISCOVER_JOBS hold BufferedEventSink objects indefinitely — memory exhaustion via sustained job creation (closed)
@@ -64,6 +64,12 @@
 - [#1](./issue_1.md) - Unauthenticated /api/cases leaks the full historical investigation corpus (closed)
 
 ## Code Scanning Alerts
+- [CodeScan #26](./codescan/alert_26.md) - py/stack-trace-exposure (error) - open
+- [CodeScan #25](./codescan/alert_25.md) - py/stack-trace-exposure (error) - open
+- [CodeScan #24](./codescan/alert_24.md) - py/stack-trace-exposure (error) - open
+- [CodeScan #23](./codescan/alert_23.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #22](./codescan/alert_22.md) - py/stack-trace-exposure (error) - open
+- [CodeScan #21](./codescan/alert_21.md) - py/stack-trace-exposure (error) - open
 - [CodeScan #20](./codescan/alert_20.md) - js/xss-through-dom (warning) - open
 - [CodeScan #19](./codescan/alert_19.md) - py/stack-trace-exposure (error) - open
 - [CodeScan #18](./codescan/alert_18.md) - py/stack-trace-exposure (error) - open
