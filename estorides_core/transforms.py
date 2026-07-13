@@ -213,9 +213,9 @@ class TransformRegistry:
                     "nodes": [], "links": [], "sources": []}
         try:
             res = t.runner(ent_type, value)
-        except Exception as e:  # noqa: BLE001
-            log.debug("transform %s failed: %s", transform_id, e)
-            return {"error": str(e), "nodes": [], "links": [], "sources": []}
+        except Exception:
+            log.exception("transform %s failed", transform_id)
+            return {"error": "transform-run-failed", "nodes": [], "links": [], "sources": []}
         res.setdefault("nodes", [])
         res.setdefault("links", [])
         res.setdefault("sources", [])

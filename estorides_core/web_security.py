@@ -92,6 +92,7 @@ class WebSecurityConfig:
     )
     hsts_enabled: bool = False
     hsts_max_age_seconds: int = 31_536_000  # 1 year
+    public_host: str = "localhost:5050"
     force_https: bool = False
 
     @property
@@ -137,6 +138,7 @@ def load_security_config() -> WebSecurityConfig:
     ESTORIDES_HSTS            1 to emit Strict-Transport-Security
     ESTORIDES_FORCE_HTTPS     1 to redirect plain http to https (only meaningful behind TLS)
     ESTORIDES_CSP             override the default Content-Security-Policy
+    ESTORIDES_PUBLIC_HOST     public hostname for HTTPS redirect (default localhost:5050)
     """
     origins_raw = _env_str("ESTORIDES_CORS_ORIGINS", "")
     origins = tuple(o.strip() for o in origins_raw.split(",") if o.strip()) if origins_raw else ()
@@ -145,6 +147,7 @@ def load_security_config() -> WebSecurityConfig:
         max_content_length_bytes=_env_int("ESTORIDES_MAX_BODY_BYTES", 1_048_576),
         csp_policy=_env_str("ESTORIDES_CSP", WebSecurityConfig.csp_policy),
         hsts_enabled=_env_bool("ESTORIDES_HSTS", False),
+        public_host=_env_str("ESTORIDES_PUBLIC_HOST", WebSecurityConfig.public_host),
         force_https=_env_bool("ESTORIDES_FORCE_HTTPS", False),
     )
 
@@ -191,7 +194,7 @@ def install_security(app: Flask, cfg: WebSecurityConfig | None = None) -> WebSec
             if request.is_secure or fwd_proto == "https":
                 return None
             from flask import redirect
-            safe_url = f"https://{request.host}{request.path}"
+            safe_url = f"https://{cfg.public_host}{request.path}"
             if request.query_string:
                 safe_url = f"{safe_url}?{request.query_string.decode('utf-8')}"
             return redirect(safe_url, code=308)

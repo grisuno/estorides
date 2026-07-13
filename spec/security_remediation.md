@@ -14,14 +14,22 @@ root cause in its owning module and is fixed without breaking existing behavior.
 | 10 | High | ssrf_guard.py | 169 | CWE-532 | DNS resolution exceptions logged with sensitive hostname |
 | 20 | High | estorides.js | 893 | CWE-79 | `innerHTML = html` without sanitisation of template content |
 | 16 | High | estorides.js | 1068 | CWE-79 | `innerHTML = ...` with unescaped user data in class/value attrs |
+| 37 | High | estorides.js | 890 | CWE-79 | Regex-based sanitizeHTML can be bypassed (bad HTML filtering regexp) |
+| 36 | High | estorides.js | 890 | CWE-79 | Regex-based sanitizeHTML incomplete multi-character sanitisation |
+| 35 | High | estorides.js | 890 | CWE-79 | Regex-based sanitizeHTML incomplete multi-character sanitisation |
 | 26 | Medium | estorides_web.py | 881 | CWE-209 | `str(e)` from KeyError returned to client |
 | 25 | Medium | estorides_web.py | 865 | CWE-209 | `str(e)` from ValueError returned to client |
 | 24 | Medium | estorides_web.py | 846 | CWE-209 | `str(e)` from ValueError returned to client |
-| 22 | Medium | estorides_web.py | 675 | CWE-209 | Stats endpoint leaks internal state shape |
+| 22 | Medium | graph_kuzu.py | 433 | CWE-209 | `stats()` returns `str(e)` in error dict, jsonified by estorides_web.py |
 | 21 | Medium | estorides_web.py | 632 | CWE-209 | Error response includes usage hints with table/column names |
 | 19 | Medium | estorides_web.py | 451 | CWE-209 | `str(e)` from RuntimeError returned to client |
 | 18 | Medium | estorides_web.py | 448 | CWE-209 | `str(e)` from ValueError returned to client |
-| 11 | Medium | web_security.py | 196 | CWE-601 | `redirect(request.url.replace(...))` — open redirect via Host header |
+| 11 | Medium | web_security.py | 197 | CWE-601 | `redirect(request.host)` — Host header is attacker-controlled |
+| 32 | Medium | osiris_sources.py | 392 | CWE-209 | `fetch_leaks` returns `str(e)` in error dict, jsonified by estorides_web.py |
+| 31 | Medium | osiris_sources.py | 350 | CWE-209 | `fetch_github_user` returns `str(e)` in error dict, jsonified by estorides_web.py |
+| 30 | Medium | osiris_sources.py | 210 | CWE-209 | `fetch_mac` returns `str(e)` in error dict, jsonified by estorides_web.py |
+| 29 | Medium | osiris_sources.py | 178 | CWE-209 | `fetch_bgp` returns `str(e)` in error dict, jsonified by estorides_web.py |
+| 28 | Medium | transforms.py | 218 | CWE-209 | `transform_registry.run()` returns `str(e)`, jsonified by estorides_web.py |
 | 9 | Medium | estorides_web.py | 991 | CWE-209 | Unvalidated osiris endpoint returns raw error |
 | 8 | Medium | estorides_web.py | 980 | CWE-209 | Unvalidated osiris endpoint returns raw error |
 | 7 | Medium | estorides_web.py | 958 | CWE-209 | Unvalidated osiris endpoint returns raw error |
@@ -51,8 +59,11 @@ root cause in its owning module and is fixed without breaking existing behavior.
   for user-controlled values. No `innerHTML` assignment with dynamic content.
 - **estorides_web.py**: JSON response `{"error": "<safe-error-code>"}` with
   no `detail` or `str(e)` fields. Exception logged server-side only.
-- **web_security.py**: HTTPS redirect constructed from `request.host` (validated
-  by Flask's host matching) + `request.path`, not from `request.url`.
+- **web_security.py**: HTTPS redirect constructed from `cfg.public_host`
+  (configured via `ESTORIDES_PUBLIC_HOST` env var, default `localhost:5050`),
+  not from `request.host` or `request.url`.
+- **transforms.py / osiris_sources.py / graph_kuzu.py**: Exception error dicts
+  use generic strings (e.g. `"bgp-lookup-failed"`), not `str(e)`.
 - **ci.yml**: `permissions: read-all` at top level, `contents: read` per job.
 
 ## Error table
@@ -77,7 +88,7 @@ root cause in its owning module and is fixed without breaking existing behavior.
 - No `innerHTML` assignment uses unescaped user data — all DOM construction
   goes through `textContent` or `escapeHTML()`.
 - HTTPS redirect cannot be hijacked via the `Host` header — only
-  `request.host` (Flask-validated) is used.
+  `cfg.public_host` is used.
 - CI workflow has minimum necessary `read-all` permissions — no write access
   to any scope.
 
@@ -122,9 +133,9 @@ When: `registry.write_source_file` raises `ValueError("missing required field: u
 Then: the response is `{"error": "invalid-source-config"}` with status 400.
 
 ### S7 — HTTPS redirect is safe from Host header injection
-Given: a request to `http://evil.com:8080/path` with `Host: attacker.com`  
+Given: a request to `http://example.com/path` with `Host: attacker.com`  
 When: `_redirect_to_https` runs  
-Then: the redirect URL uses `request.host` not `request.url`, preventing open redirect.
+Then: the redirect URL uses `cfg.public_host` (e.g. `localhost:5050`), NOT `request.host`, preventing Host header injection open redirect.
 
 ### S8 — DOM tooltip does not use innerHTML with unsanitised data
 Given: a graph node with label `<script>alert(1)</script>`  
@@ -150,3 +161,33 @@ Then: the response is `{"error": "osiris-failed"}` with status 500.
 Given: a GET to `/api/intel/graph?q=MATCH...` with a query that fails  
 When: the cypher execution raises an exception  
 Then: the response is `{"error": "cypher-failed"}` (the existing behaviour is already correct — verified no regression).
+
+### S13 — sanitizeHTML uses DOMParser not regex
+Given: a string containing `\x3Cscript\x3Ealert(1)\x3C/script\x3E`  
+When: `sanitizeHTML` is called  
+Then: the DOMParser parses it safely and strips the script element.
+
+### S14 — sanitizeHTML removes event handlers
+Given: a string containing `<img onerror=alert(1) src=x>`  
+When: `sanitizeHTML` is called  
+Then: the `onerror` attribute is removed.
+
+### S15 — sanitizeHTML removes javascript: URIs
+Given: a string containing `<a href="javascript:alert(1)">click</a>`  
+When: `sanitizeHTML` is called  
+Then: the `href` attribute with `javascript:` is removed.
+
+### S16 — Osiris fetch_bgp does not leak exception detail
+Given: `fetch_bgp` catches an exception with message `"connection refused"`  
+When: the exception handler runs  
+Then: the error dict contains `"bgp-lookup-failed"`, not the exception message.
+
+### S17 — TransformRegistry.run does not leak exception detail
+Given: `TransformRegistry.run` catches an exception with message `"cache full"`  
+When: the exception handler runs  
+Then: the error dict contains `"transform-run-failed"`, not the exception message.
+
+### S18 — graph_kuzu stats does not leak exception detail
+Given: `KuzuBackend.stats` catches a Cypher exception with message `"Binder exception"`  
+When: the exception handler runs  
+Then: the error dict contains `"stats-query-failed"`, not the exception message.

@@ -268,7 +268,7 @@ class TestHttpsRedirectSafety:
         install_security(app, cfg)
         return app
 
-    def test_redirect_uses_host_not_url(self, app):
+    def test_redirect_uses_public_host_not_request_host(self, app):
         c = app.test_client()
         resp = c.get(
             "/api/status",
@@ -277,12 +277,10 @@ class TestHttpsRedirectSafety:
                           "wsgi.url_scheme": "http"},
         )
         assert resp.status_code == 308
-        # The redirect URL should be https://localhost/..., not https://evil.com/...
-        # Flask's test client may normalize the host depending on the
-        # environment, so we check that the redirect scheme is https
-        # and that it does NOT point to an attacker-controlled host
-        # when using real request.host.
-        assert resp.headers.get("Location", "").startswith("https://")
+        location = resp.headers.get("Location", "")
+        # The redirect URL uses cfg.public_host (default localhost:5050),
+        # not the attacker-controlled Host header.
+        assert location.startswith("https://localhost:5050/api/status")
 
     def test_redirect_scheme_is_https(self, app):
         c = app.test_client()
@@ -401,24 +399,21 @@ class TestOsirisExceptionSafety:
 class TestWebSecurityRedirect:
     """Verify the HTTP-to-HTTPS redirect in web_security.py is safe."""
 
-    def test_redirect_implementation_uses_request_host(self):
-        cfg = WebSecurityConfig(force_https=True)
+    def test_redirect_implementation_uses_public_host(self):
+        cfg = WebSecurityConfig(force_https=True, public_host="estorides.test")
         app = Flask(__name__)
         app.config["TESTING"] = True
 
         install_security(app, cfg)
 
-        # Check that the before_request function exists
-        # We verify by reading the source: the redirect should use
-        # request.host + request.path, not a string replace on request.url
         import inspect
 
         from estorides_core import web_security as ws
         source = inspect.getsource(ws)
         assert "request.url.replace" not in source, \
             "redirect must NOT use request.url.replace (open redirect via Host header)"
-        assert "request.host" in source or "request.host_url" in source, \
-            "redirect must use request.host or request.host_url"
+        assert "cfg.public_host" in source, \
+            "redirect must use cfg.public_host, not request.host"
 
     def test_source_has_no_url_replace(self):
         import inspect

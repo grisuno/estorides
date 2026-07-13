@@ -429,8 +429,8 @@ class KuzuGraphBackend:
                         out["rels"][rel] = int(r.get_next()[0])
                 except Exception:
                     pass
-        except Exception as e:  # noqa: BLE001
-            out["error"] = str(e)
+        except Exception:
+            out["error"] = "stats-query-failed"
         return out
 
     def close(self) -> None:

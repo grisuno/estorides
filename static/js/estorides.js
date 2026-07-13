@@ -887,9 +887,19 @@
     if (el) el.style.display = 'none';
   }
   function sanitizeHTML(str) {
-    return String(str || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-      .replace(/javascript\s*:/gi, '');
+    const doc = new DOMParser().parseFromString(String(str || ''), 'text/html');
+    const removals = doc.body.querySelectorAll('script, iframe, object, embed, style, link, meta');
+    removals.forEach(function(n) { n.remove(); });
+    const all = doc.body.querySelectorAll('*');
+    all.forEach(function(n) {
+      for (var i = n.attributes.length - 1; i >= 0; i--) {
+        var attr = n.attributes[i];
+        if (attr.name.startsWith('on') || /javascript/i.test(attr.value)) {
+          n.removeAttribute(attr.name);
+        }
+      }
+    });
+    return doc.body.innerHTML;
   }
   function showTooltipAt(ev, html, paint) {
     const el = $('#graph-tooltip');

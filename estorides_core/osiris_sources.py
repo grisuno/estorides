@@ -173,8 +173,9 @@ def fetch_bgp(query: str) -> Dict[str, Any]:
             out["type"] = "asn"
         else:
             return {"error": "unrecognised — use IPv4 or ASxxxxx", "query": query}
-    except Exception as e:  # noqa: BLE001
-        return {"error": f"bgp lookup failed: {e}", "query": query}
+    except Exception:
+        log.exception("bgp lookup failed for %s", query)
+        return {"error": "bgp-lookup-failed", "query": query}
     return out
 
 
@@ -204,8 +205,9 @@ def fetch_mac(mac: str) -> Dict[str, Any]:
             "address": result.get("address"),
             "prefix": result.get("mac_prefix"),
         }
-    except Exception as e:  # noqa: BLE001
-        return {"error": f"mac lookup failed: {e}", "mac": clean}
+    except Exception:
+        log.exception("mac lookup failed for %s", clean)
+        return {"error": "mac-lookup-failed", "mac": clean}
 
 
 # ---------------------------------------------------------------------------
@@ -343,8 +345,9 @@ def fetch_github_user(username: str) -> Dict[str, Any]:
             "avatar_url": data.get("avatar_url"),
             "recent_repos": repos,
         }
-    except Exception as e:  # noqa: BLE001
-        return {"error": f"github lookup failed: {e}", "username": username}
+    except Exception:
+        log.exception("github lookup failed for %s", username)
+        return {"error": "github-lookup-failed", "username": username}
 
 
 # ---------------------------------------------------------------------------
@@ -386,8 +389,9 @@ def fetch_leaks(email: str) -> Dict[str, Any]:
             "breaches": breach_list,
             "data_exposed": sorted(exposed),
         }
-    except Exception as e:  # noqa: BLE001
-        return {"error": f"leak lookup failed: {e}", "email": email}
+    except Exception:
+        log.exception("leak lookup failed for %s", email)
+        return {"error": "leak-lookup-failed", "email": email}
 
 
 # ---------------------------------------------------------------------------
@@ -515,7 +519,7 @@ def fetch_malware_c2(limit: int = 200) -> Dict[str, Any]:
                         "threat_type": "malware_url",
                     })
                     nxt += 1
-        except Exception as e:  # noqa: BLE001
-            log.debug("urlhaus fetch failed: %s", e)
+        except Exception:
+            log.exception("urlhaus fetch failed")
 
     return {"threats": threats, "count": len(threats), "fetched_at": time.time()}
