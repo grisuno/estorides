@@ -108,6 +108,8 @@ input, select, textarea { font-family: inherit; color: var(--text-0); }
   white-space: nowrap;
 }
 .badge.subtle { color: var(--text-2); }
+.sources-btn { color: var(--text-2); text-decoration: none; cursor: pointer; }
+.sources-btn:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ------------------------ MAIN ------------------------ */
 main {

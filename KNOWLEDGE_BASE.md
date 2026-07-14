@@ -3,8 +3,8 @@
 > Generated offline by **readmenator**. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM, Ruby, Swift, Kotlin, Scala, Lua, Elixir.
 > No LLMs. No tokens. Pure static analysis. See more [here](https://github.com/grisuno/ReadMenator)
 
-**Total Files Parsed:** 90 | **Total Symbols Extracted:** 1652 | **Total Imports:** 668
- | **Resolved Imports:** 194
+**Total Files Parsed:** 91 | **Total Symbols Extracted:** 1701 | **Total Imports:** 700
+ | **Resolved Imports:** 196
 
 
 ## Table of Contents
@@ -18,7 +18,7 @@
 7. [Structural Knowledge Map](#structural-knowledge-map)
 8. [Architecture Reference](#architecture-reference)
     - [JS (2 files)](#js-2-files)
-    - [PY (86 files)](#py-86-files)
+    - [PY (87 files)](#py-87-files)
     - [SH (2 files)](#sh-2-files)
 
 ---
@@ -27,21 +27,22 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Files | 90 |
-| Total Symbols | 1652 |
-| Total Imports | 668 |
-| Call Edges | 9583 |
+| Total Files | 91 |
+| Total Symbols | 1701 |
+| Total Imports | 700 |
+| Call Edges | 9869 |
 | Inheritance Edges | 34 |
 | Languages | 3 |
-| Avg Symbols/File | 18.4 |
-| Avg Imports/File | 7.4 |
-| Resolved Imports | 194 |
+| Avg Symbols/File | 18.7 |
+| Avg Imports/File | 7.7 |
+| Resolved Imports | 196 |
 
 ### Top Files by Import Count (Fan-Out)
 
 | File | Imports | Symbols | Language |
 |------|---------|---------|----------|
 | `estorides_web.py` | 40 | 65 | py |
+| `test_security_remediation.py` | 32 | 46 | py |
 | `orchestrator.py` | 29 | 12 | py |
 | `estorides_cli.py` | 27 | 18 | py |
 | `_test_hardening.py` | 21 | 13 | py |
@@ -50,7 +51,6 @@
 | `ontology.py` | 16 | 25 | py |
 | `intel_resolver.py` | 14 | 26 | py |
 | `discoverer.py` | 13 | 21 | py |
-| `fusion_store.py` | 13 | 22 | py |
 
 ---
 
@@ -61,7 +61,7 @@ Auto-detected from path patterns, naming conventions, and imported frameworks.
 | Layer | Files |
 |-------|-------|
 | utility | 45 |
-| testing | 34 |
+| testing | 35 |
 | infrastructure | 4 |
 | presentation | 3 |
 | business_logic | 2 |
@@ -84,7 +84,7 @@ Auto-detected from path patterns, naming conventions, and imported frameworks.
 - `test_recon_fusion_properties.py` (py, 17 symbols)
 - `test_reliability_scoring_properties.py` (py, 12 symbols)
 - `test_search_telemetry_properties.py` (py, 6 symbols)
-- *... and 19 more*
+- *... and 20 more*
 
 ### utility
 
@@ -153,9 +153,9 @@ Most architecturally central files ranked by combined import/export degree and s
 
 Files grouped by import-based community detection. Cohesion measures how tightly connected each community is internally.
 
-### estorides_core (Cohesion: 0.92)
+### estorides_core (Cohesion: 0.91)
 
-**56 files** in this community:
+**54 files** in this community:
 
 - `_test_entity_resolution.py` (py, 12 symbols)
 - `_test_fusion.py` (py, 10 symbols)
@@ -175,9 +175,9 @@ Files grouped by import-based community detection. Cohesion measures how tightly
 - `entity_resolution.py` (py, 35 symbols)
 - `entity_store.py` (py, 9 symbols)
 - `feeds.py` (py, 16 symbols)
+- `fusion_analytics.py` (py, 14 symbols)
 - `fusion_store.py` (py, 22 symbols)
-- `graph_kuzu.py` (py, 11 symbols)
-- ... and 36 more files
+- ... and 34 more files
 
 ### root (Cohesion: 0.50)
 
@@ -200,13 +200,6 @@ Files grouped by import-based community detection. Cohesion measures how tightly
 - `test_hypothesis_engine.py` (py, 35 symbols)
 - `test_reliability_scoring.py` (py, 64 symbols)
 
-### estorides_core (Cohesion: 0.33)
-
-**2 files** in this community:
-
-- `fusion_analytics.py` (py, 14 symbols)
-- `test_fusion_analytics.py` (py, 36 symbols)
-
 ### estorides_core (Cohesion: 0.50)
 
 **2 files** in this community:
@@ -214,14 +207,14 @@ Files grouped by import-based community detection. Cohesion measures how tightly
 - `pagination.py` (py, 7 symbols)
 - `test_pagination.py` (py, 38 symbols)
 
-### tests (Cohesion: 0.43)
+### tests (Cohesion: 0.38)
 
 **4 files** in this community:
 
-- `search_telemetry.py` (py, 22 symbols)
-- `test_search_telemetry_properties.py` (py, 6 symbols)
-- `test_csp_safe_styles.py` (py, 11 symbols)
-- `test_search_telemetry.py` (py, 19 symbols)
+- `recon_fusion.py` (py, 21 symbols)
+- `test_recon_fusion_properties.py` (py, 17 symbols)
+- `test_recon_fusion.py` (py, 33 symbols)
+- `test_ui_professional.py` (py, 39 symbols)
 
 ### estorides_core (Cohesion: 1.00)
 
@@ -239,13 +232,23 @@ Files grouped by import-based community detection. Cohesion measures how tightly
 - `test_target_management_properties.py` (py, 10 symbols)
 - `test_target_management.py` (py, 86 symbols)
 
-### estorides_core (Cohesion: 0.50)
+### tests (Cohesion: 0.57)
 
-**3 files** in this community:
+**5 files** in this community:
 
 - `web_security.py` (py, 23 symbols)
 - `test_csp_safe_styles_properties.py` (py, 3 symbols)
 - `test_auth_gate.py` (py, 10 symbols)
+- `test_csp_safe_styles.py` (py, 11 symbols)
+- `test_security_remediation.py` (py, 46 symbols)
+
+### estorides_llm (Cohesion: 0.67)
+
+**3 files** in this community:
+
+- `__init__.py` (py, 0 symbols)
+- `intelligence_prompts.py` (py, 1 symbols)
+- `manager.py` (py, 17 symbols)
 
 ---
 
@@ -253,8 +256,8 @@ Files grouped by import-based community detection. Cohesion measures how tightly
 
 Files in different communities connected through 3+ indirect hops.
 
-- `_test_hardening.py` <-> `test_change_detection_properties.py` (6 hops, across 2 communities)
-- `_test_hardening.py` <-> `test_hypothesis_engine_properties.py` (6 hops, across 2 communities)
+- `_test_hardening.py` <-> `test_change_detection_properties.py` (6 hops, across 3 communities)
+- `_test_hardening.py` <-> `test_hypothesis_engine_properties.py` (6 hops, across 3 communities)
 - `_test_scope.py` <-> `test_change_detection_properties.py` (6 hops, across 3 communities)
 - `_test_scope.py` <-> `test_hypothesis_engine_properties.py` (6 hops, across 3 communities)
 - `_test_scope.py` <-> `test_target_management_properties.py` (6 hops, across 3 communities)
@@ -268,8 +271,8 @@ Auto-generated exploration prompts based on graph structure:
 - What does config.py depend on, and what depends on it? (29 connections)
 - What does estorides_web.py depend on, and what depends on it? (23 connections)
 - What does orchestrator.py depend on, and what depends on it? (21 connections)
-- How are the 56 files in 'estorides_core' related to each other?
-- Why are _test_hardening.py and test_change_detection_properties.py connected through 6 hops across 2 communities?
+- How are the 54 files in 'estorides_core' related to each other?
+- Why are _test_hardening.py and test_change_detection_properties.py connected through 6 hops across 3 communities?
 
 ---
 
@@ -369,6 +372,25 @@ graph TD
     estorides_cli_py_cmd_discover["cmd_discover"]
     class estorides_cli_py_cmd_discover fn;
     estorides_cli_py --> estorides_cli_py_cmd_discover
+    end
+    subgraph community_7 ["tests"]
+    tests_test_security_remediation_py["test_security_remediation.py (py)"]
+    class tests_test_security_remediation_py mod;
+    tests_test_security_remediation_py_TestSsrfLogSanitisation["TestSsrfLogSanitisation"]
+    class tests_test_security_remediation_py_TestSsrfLogSanitisation cls;
+    tests_test_security_remediation_py --> tests_test_security_remediation_py_TestSsrfLogSanitisation
+    tests_test_security_remediation_py_TestInfoExposureEncryption["TestInfoExposureEncryption"]
+    class tests_test_security_remediation_py_TestInfoExposureEncryption cls;
+    tests_test_security_remediation_py --> tests_test_security_remediation_py_TestInfoExposureEncryption
+    tests_test_security_remediation_py_TestInfoExposureSourceOps["TestInfoExposureSourceOps"]
+    class tests_test_security_remediation_py_TestInfoExposureSourceOps cls;
+    tests_test_security_remediation_py --> tests_test_security_remediation_py_TestInfoExposureSourceOps
+    tests_test_security_remediation_py_TestHttpsRedirectSafety["TestHttpsRedirectSafety"]
+    class tests_test_security_remediation_py_TestHttpsRedirectSafety cls;
+    tests_test_security_remediation_py --> tests_test_security_remediation_py_TestHttpsRedirectSafety
+    tests_test_security_remediation_py_TestCiWorkflowPermissions["TestCiWorkflowPermissions"]
+    class tests_test_security_remediation_py_TestCiWorkflowPermissions cls;
+    tests_test_security_remediation_py --> tests_test_security_remediation_py_TestCiWorkflowPermissions
     _test_hardening_py["_test_hardening.py (py)"]
     class _test_hardening_py mod;
     _test_hardening_py__ok["_ok"]
@@ -471,6 +493,8 @@ graph TD
     estorides_core_intel_resolver_py__norm["_norm"]
     class estorides_core_intel_resolver_py__norm fn;
     estorides_core_intel_resolver_py --> estorides_core_intel_resolver_py__norm
+    end
+    subgraph community_4 ["tests"]
     estorides_core_recon_fusion_py["recon_fusion.py (py)"]
     class estorides_core_recon_fusion_py mod;
     estorides_core_recon_fusion_py_RelevanceTier["RelevanceTier"]
@@ -643,8 +667,6 @@ graph TD
     _test_entity_resolution_py_test_jaro_winkler["test_jaro_winkler"]
     class _test_entity_resolution_py_test_jaro_winkler fn;
     _test_entity_resolution_py --> _test_entity_resolution_py_test_jaro_winkler
-    end
-    subgraph community_5 ["tests"]
     tests_test_csp_safe_styles_py["test_csp_safe_styles.py (py)"]
     class tests_test_csp_safe_styles_py mod;
     tests_test_csp_safe_styles_py__strip_template_jinja["_strip_template_jinja"]
@@ -679,8 +701,6 @@ graph TD
     tests_test_entity_resolution_py_TestNormalization["TestNormalization"]
     class tests_test_entity_resolution_py_TestNormalization cls;
     tests_test_entity_resolution_py --> tests_test_entity_resolution_py_TestNormalization
-    end
-    subgraph community_8 ["estorides_core"]
     estorides_core_web_security_py["web_security.py (py)"]
     class estorides_core_web_security_py mod;
     estorides_core_web_security_py_WebSecurityConfig["WebSecurityConfig"]
@@ -774,8 +794,6 @@ graph TD
     tests_test_ui_professional_py_TestS3NoiseCollapsed["TestS3NoiseCollapsed"]
     class tests_test_ui_professional_py_TestS3NoiseCollapsed cls;
     tests_test_ui_professional_py --> tests_test_ui_professional_py_TestS3NoiseCollapsed
-    end
-    subgraph community_3 ["estorides_core"]
     tests_test_fusion_analytics_py["test_fusion_analytics.py (py)"]
     class tests_test_fusion_analytics_py mod;
     tests_test_fusion_analytics_py_store_and_analytics["store_and_analytics"]
@@ -908,6 +926,8 @@ graph TD
     estorides_core_source_loader_py___init__["__init__"]
     class estorides_core_source_loader_py___init__ fn;
     estorides_core_source_loader_py --> estorides_core_source_loader_py___init__
+    end
+    subgraph community_8 ["estorides_llm"]
     estorides_llm_manager_py["manager.py (py)"]
     class estorides_llm_manager_py mod;
     estorides_llm_manager_py_LLMBackend["LLMBackend"]
@@ -960,7 +980,7 @@ graph TD
     class estorides_core_entity_extraction_py_extract_from_text fn;
     estorides_core_entity_extraction_py --> estorides_core_entity_extraction_py_extract_from_text
     end
-    subgraph community_7 ["estorides_core"]
+    subgraph community_6 ["estorides_core"]
     estorides_core_target_management_py["target_management.py (py)"]
     class estorides_core_target_management_py mod;
     estorides_core_target_management_py_auto_detect_type["auto_detect_type"]
@@ -1126,23 +1146,6 @@ graph TD
     estorides_core_validation_py --> estorides_core_validation_py___init__
     tests_properties_test_csp_safe_styles_properties_py["test_csp_safe_styles_properties.py (py)"]
     class tests_properties_test_csp_safe_styles_properties_py mod;
-    tests_properties_test_csp_safe_styles_properties_py_test_js_never_gains_a_style_attribute_in_template_literal["test_js_never_gains_a_style_attribute_in_template_literal"]
-    class tests_properties_test_csp_safe_styles_properties_py_test_js_never_gains_a_style_attribute_in_template_literal fn;
-    tests_properties_test_csp_safe_styles_properties_py --> tests_properties_test_csp_safe_styles_properties_py_test_js_never_gains_a_style_attribute_in_template_literal
-    tests_properties_test_csp_safe_styles_properties_py_test_template_never_gains_a_style_attribute["test_template_never_gains_a_style_attribute"]
-    class tests_properties_test_csp_safe_styles_properties_py_test_template_never_gains_a_style_attribute fn;
-    tests_properties_test_csp_safe_styles_properties_py --> tests_properties_test_csp_safe_styles_properties_py_test_template_never_gains_a_style_attribute
-    tests_properties_test_csp_safe_styles_properties_py_test_csp_style_src_never_gains_unsafe_inline["test_csp_style_src_never_gains_unsafe_inline"]
-    class tests_properties_test_csp_safe_styles_properties_py_test_csp_style_src_never_gains_unsafe_inline fn;
-    tests_properties_test_csp_safe_styles_properties_py --> tests_properties_test_csp_safe_styles_properties_py_test_csp_style_src_never_gains_unsafe_inline
-    tests_test_target_management_py["test_target_management.py (py)"]
-    class tests_test_target_management_py mod;
-    tests_test_target_management_py_TestS1HappyPath["TestS1HappyPath"]
-    class tests_test_target_management_py_TestS1HappyPath cls;
-    tests_test_target_management_py --> tests_test_target_management_py_TestS1HappyPath
-    tests_test_target_management_py_TestS2AutoDetect["TestS2AutoDetect"]
-    class tests_test_target_management_py_TestS2AutoDetect cls;
-    tests_test_target_management_py --> tests_test_target_management_py_TestS2AutoDetect
     end
 ```
 
@@ -1158,7 +1161,7 @@ graph TD
 
 **Classes:**
 - `to` (line 301) - *Panels are keyed by the `<name>-canvas` class, not by id (the map panel's*
-- `on` (line 1400) - *Geolocated entities (parsed.lat / parsed.lon) AND country codes. Many parsers stash coords on the entity itself (e.g. abuseipdb has a "countryCode"...*
+- `on` (line 1448) - *Geolocated entities (parsed.lat / parsed.lon) AND country codes. Many parsers stash coords on the entity itself (e.g. abuseipdb has a "countryCode" field). The whole point of v1.1 is to*
 
 **Functions:**
 - `detectQueryTypeLocal` (line 44) - *--- UX helpers (v1.4) ----*
@@ -1177,7 +1180,7 @@ graph TD
 - `switchCanvasTab` (line 222)
 - `clearMap` (line 236)
 - `plotPoints` (line 241)
-- `replotStreamData` (line 343) - *Rebuild the geospatial + temporal views from everything seen so far. plotPoints clears and redraws from the full coord set, so feeding it the accum...*
+- `replotStreamData` (line 343) - *Rebuild the geospatial + temporal views from everything seen so far. plotPoints clears and redraws from the full coord set, so feeding it the accumulated observations makes the map grow as sources resolve.*
 - `stopRunStream` (line 355)
 - `runQuery` (line 370)
 - `runQueryBlocking` (line 439) - *Blocking fallback: the original one-shot render path.*
@@ -1189,8 +1192,8 @@ graph TD
 - `setStatus` (line 630)
 - `renderResult` (line 636) - *--- result rendering ----*
 - `expandNode` (line 694)
-- `mergeExpansionIntoGraph` (line 722) - *Merge a /api/intel/resolve response into the current D3 graph and Leaflet map. Idempotent: re-clicking the same node won't duplicate edges. Returns...*
-- `drawGraphWithExtras` (line 782) - *Re-draws the D3 graph with the original nodes/edges PLUS any extras passed in (from a /api/intel/resolve call). The extras are translated to the sh...*
+- `mergeExpansionIntoGraph` (line 722) - *Merge a /api/intel/resolve response into the current D3 graph and Leaflet map. Idempotent: re-clicking the same node won't duplicate edges. Returns {nodes, links} counts of what was actually added.*
+- `drawGraphWithExtras` (line 782) - *Re-draws the D3 graph with the original nodes/edges PLUS any extras passed in (from a /api/intel/resolve call). The extras are translated to the shape the drawGraph() function already understands (id, label, type, color, size).*
 - `pushLink` (line 806)
 - `resolverTypeFor` (line 840) - *Map a graph node's type/kind onto a resolver/transform entity type.*
 - `saveLevelOverrides` (line 856)
@@ -1198,67 +1201,70 @@ graph TD
 - `clusterColor` (line 864)
 - `deriveClusters` (line 872) - *Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't carried along).*
 - `hideTooltip` (line 885) - *--- floating overlays (tooltip + context menu) ----*
-- `showTooltipAt` (line 889)
-- `hideContextMenu` (line 899)
-- `showBridgeTooltip` (line 905) - *Cross-referenced tooltip for an inter-cluster (bridge) link.*
-- `showNodeTooltip` (line 934)
-- `showContextMenu` (line 943) - *--- context menu: transforms grouped by intel tier ----*
-- `setNodeLevel` (line 1008)
-- `applyLevelStyles` (line 1017) - *Re-apply level rings to every rendered node circle.*
-- `focusNode` (line 1025)
-- `runTransform` (line 1037) - *Run a graph pivot transform and merge the result into the graph+map.*
-- `selectNode` (line 1055) - *--- side inspector panel ----*
-- `renderGraphCore` (line 1114) - *--- unified force-graph renderer (clusters + rings + interactions) ----*
-- `drawHulls` (line 1184)
-- `_redrawGraph` (line 1215) - *Low-level D3 redraw given a flat nodes/links list (back-compat shim).*
-- `setStatusDot` (line 1221)
-- `showWorkingIndicator` (line 1227)
-- `hideWorkingIndicator` (line 1232)
-- `toggleTierSection` (line 1237)
-- `renderTieredResults` (line 1245)
-- `escapeAttr` (line 1311)
-- `buildMapCoords` (line 1347)
-- `validCoord` (line 1443)
-- `colorFor` (line 1447)
-- `renderEntities` (line 1466)
-- `renderGraphSummary` (line 1516)
-- `colorForKind` (line 1545)
-- `renderTimeline` (line 1553)
-- `fmtTime` (line 1603)
-- `filterTimeline` (line 1614)
-- `drawGraph` (line 1663) - *--- D3 graph view ----*
-- `loadCases` (line 1694)
-- `renderCaseItem` (line 1721)
-- `debounce` (line 1747)
-- `escapeHTML` (line 1796) - *--- utils ----*
-- `truncate` (line 1801)
-- `caseActionSave` (line 1824) - *Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a glance.*
-- `caseActionDiff` (line 1844) - *Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the case.*
-- `renderCaseDiffPanel` (line 1862) - *Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).*
-- `caseActionReport` (line 1903) - *Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI command produces a file copy for ...*
-- `showReportModal` (line 1939)
-- `loadSidebarWidth` (line 2031) - *Responsive sidebar toggle + resizable divider.*
-- `saveSidebarWidth` (line 2042)
-- `loadSidebarCollapsed` (line 2045)
-- `saveSidebarCollapsed` (line 2053)
-- `switchSidebarTab` (line 2111) - *--- Fusion tab ----*
-- `loadFusionTab` (line 2120)
-- `loadFusionStats` (line 2126)
-- `loadFusionTopChanged` (line 2145)
-- `loadFusionSearch` (line 2168)
-- `doSearch` (line 2175)
-- `loadFusionEntityDetail` (line 2207)
-- `_sseUrl` (line 2265)
-- `setStatus` (line 2289) - *The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one that writes to the*
-- `setDiscoverProgress` (line 2296)
-- `hideDiscoverProgress` (line 2308)
-- `startDiscover` (line 2313)
-- `stopDiscover` (line 2387)
-- `handleDiscoverEvent` (line 2404)
-- `addDiscoverEntityToTab` (line 2443)
-- `escapeHtml` (line 2471)
-- `maybePlotDiscoverEntity` (line 2476)
-- `flushDiscoverEntities` (line 2483)
+- `sanitizeHTML` (line 889)
+- `showTooltipAt` (line 904)
+- `hideContextMenu` (line 915)
+- `showBridgeTooltip` (line 921) - *Cross-referenced tooltip for an inter-cluster (bridge) link.*
+- `showNodeTooltip` (line 950)
+- `showContextMenu` (line 959) - *--- context menu: transforms grouped by intel tier ----*
+- `setNodeLevel` (line 1024)
+- `applyLevelStyles` (line 1033) - *Re-apply level rings to every rendered node circle.*
+- `focusNode` (line 1041)
+- `runTransform` (line 1053) - *Run a graph pivot transform and merge the result into the graph+map.*
+- `selectNode` (line 1071) - *--- side inspector panel ----*
+- `add` (line 1082)
+- `addText` (line 1088)
+- `renderGraphCore` (line 1162) - *--- unified force-graph renderer (clusters + rings + interactions) ----*
+- `drawHulls` (line 1232)
+- `_redrawGraph` (line 1263) - *Low-level D3 redraw given a flat nodes/links list (back-compat shim).*
+- `setStatusDot` (line 1269)
+- `showWorkingIndicator` (line 1275)
+- `hideWorkingIndicator` (line 1280)
+- `toggleTierSection` (line 1285)
+- `renderTieredResults` (line 1293)
+- `escapeAttr` (line 1359)
+- `buildMapCoords` (line 1395)
+- `validCoord` (line 1491)
+- `colorFor` (line 1495)
+- `renderEntities` (line 1514)
+- `renderGraphSummary` (line 1564)
+- `colorForKind` (line 1593)
+- `renderTimeline` (line 1601)
+- `fmtTime` (line 1651)
+- `filterTimeline` (line 1662)
+- `drawGraph` (line 1711) - *--- D3 graph view ----*
+- `loadCases` (line 1742)
+- `renderCaseItem` (line 1769)
+- `debounce` (line 1795)
+- `escapeHTML` (line 1844) - *--- utils ----*
+- `truncate` (line 1849)
+- `caseActionSave` (line 1872) - *Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a glance.*
+- `caseActionDiff` (line 1892) - *Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the case.*
+- `renderCaseDiffPanel` (line 1910) - *Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).*
+- `caseActionReport` (line 1951) - *Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI command produces a file copy for sharing.*
+- `showReportModal` (line 1987)
+- `loadSidebarWidth` (line 2079) - *Responsive sidebar toggle + resizable divider.*
+- `saveSidebarWidth` (line 2090)
+- `loadSidebarCollapsed` (line 2093)
+- `saveSidebarCollapsed` (line 2101)
+- `switchSidebarTab` (line 2159) - *--- Fusion tab ----*
+- `loadFusionTab` (line 2168)
+- `loadFusionStats` (line 2174)
+- `loadFusionTopChanged` (line 2193)
+- `loadFusionSearch` (line 2216)
+- `doSearch` (line 2223)
+- `loadFusionEntityDetail` (line 2255)
+- `_sseUrl` (line 2313)
+- `setStatus` (line 2337) - *The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one that writes to the*
+- `setDiscoverProgress` (line 2344)
+- `hideDiscoverProgress` (line 2356)
+- `startDiscover` (line 2361)
+- `stopDiscover` (line 2435)
+- `handleDiscoverEvent` (line 2452)
+- `addDiscoverEntityToTab` (line 2491)
+- `escapeHtml` (line 2519)
+- `maybePlotDiscoverEntity` (line 2524)
+- `flushDiscoverEntities` (line 2531)
 - `set` (line 21) - *Headers may be a Headers instance, an object, or absent.*
 - `TELEMETRY` (line 30)
 - `status` (line 132)
@@ -1270,19 +1276,19 @@ graph TD
 - `CLUSTER_PALETTE` (line 833)
 - `c` (line 866)
 - `cid` (line 875)
-- `labelFor` (line 908)
-- `c` (line 909)
-- `tr` (line 988)
-- `tr` (line 1091)
-- `obs` (line 1557)
-- `frac` (line 1590)
-- `q` (line 1695)
-- `saved` (line 1725) - *Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.*
-- `rows` (line 1870)
-- `removed` (line 1873)
-- `tag` (line 2001)
-- `_sseAuthToken` (line 2261) - *Auth token for SSE (EventSource can't set custom headers).*
-- `sig` (line 2448) - *Avoid duplicates with the simple in-memory check.*
+- `labelFor` (line 924)
+- `c` (line 925)
+- `tr` (line 1004)
+- `tr` (line 1139)
+- `obs` (line 1605)
+- `frac` (line 1638)
+- `q` (line 1743)
+- `saved` (line 1773) - *Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.*
+- `rows` (line 1918)
+- `removed` (line 1921)
+- `tag` (line 2049)
+- `_sseAuthToken` (line 2309) - *Auth token for SSE (EventSource can't set custom headers).*
+- `sig` (line 2496) - *Avoid duplicates with the simple in-memory check.*
 
 #### `source_manager.js`
 **Path:** `static/js/source_manager.js`
@@ -1294,23 +1300,23 @@ graph TD
 **Functions:**
 - `authHeaders` (line 7) - */* Estorides Source Manager — form-based YAML editor (function () { 'use strict'; /* ─── auth ───*
 - `apiFetch` (line 15)
-- `getCheckedTags` (line 65) - *contact: $('field-contact'), logsQueries: $('field-logs-queries'), toolUrl: $('field-tool-url'), toolMethod: $('field-tool-method'), toolHeaders: $...*
+- `getCheckedTags` (line 65) - *contact: $('field-contact'), logsQueries: $('field-logs-queries'), toolUrl: $('field-tool-url'), toolMethod: $('field-tool-method'), toolHeaders: $('field-tool-headers'), toolParams: $('field-tool-params'), toolBody: $('field-tool-body'), pagStrategy: $('field-pag-strategy'), pagLimit: $('field-pag-limit'), pagParam: $('field-pag-param'), pagCursorPath: $('field-pag-cursor-path'), }; /* ─── get checked tags ───*
 - `setCheckedTags` (line 72)
-- `readForm` (line 82) - *var checks = container.querySelectorAll('input[type="checkbox"]:checked'); return Array.from(checks).map(function (c) { return c.value; }); } funct...*
-- `writeForm` (line 118) - *try { var b = JSON.parse(fields.toolBody.value.trim() || '{}'); if (Object.keys(b).length) s.tool.body = b; } catch (e) {} Pagination var strat = f...*
-- `updateYamlPreview` (line 168) - *fields.pagCursorPath.value = pag.cursor_path || ''; setCheckedTags('field-applies-to', s.applies_to); setCheckedTags('field-entity-hints', s.entity...*
-- `renderList` (line 178) - *updateYamlPreview(); } /* ─── update YAML preview ─── function updateYamlPreview() { try { var s = readForm(); yamlPreview.textContent = JSON.strin...*
-- `escHtml` (line 207) - *var onOff = s.enabled !== false ? 'on' : 'off'; var keyBadge = s.requires_key ? '<span class="src-item-key-badge">key</span>' : ''; html += '<div c...*
+- `readForm` (line 82) - *var checks = container.querySelectorAll('input[type="checkbox"]:checked'); return Array.from(checks).map(function (c) { return c.value; }); } function setCheckedTags(containerId, values) { var container = $(containerId); if (!container) return; var vals = new Set(values || []); container.querySelectorAll('input[type="checkbox"]').forEach(function (c) { c.checked = vals.has(c.value); }); } /* ─── read form → source object ───*
+- `writeForm` (line 118) - *try { var b = JSON.parse(fields.toolBody.value.trim() || '{}'); if (Object.keys(b).length) s.tool.body = b; } catch (e) {} Pagination var strat = fields.pagStrategy.value; if (strat) { s.pagination = { strategy: strat }; var lim = parseInt(fields.pagLimit.value, 10); if (lim > 0) s.pagination.limit = lim; if (fields.pagParam.value.trim()) s.pagination.param = fields.pagParam.value.trim(); if (fields.pagCursorPath.value.trim()) s.pagination.cursor_path = fields.pagCursorPath.value.trim(); } return s; } /* ─── write source object → form ───*
+- `updateYamlPreview` (line 168) - *fields.pagCursorPath.value = pag.cursor_path || ''; setCheckedTags('field-applies-to', s.applies_to); setCheckedTags('field-entity-hints', s.entity_hints); currentName = s.name; isDirty = false; formStatus.textContent = ''; formStatus.className = 'form-status'; deleteBtn.hidden = false; updateYamlPreview(); } /* ─── update YAML preview ───*
+- `renderList` (line 178) - *updateYamlPreview(); } /* ─── update YAML preview ─── function updateYamlPreview() { try { var s = readForm(); yamlPreview.textContent = JSON.stringify(s, null, 2); } catch (e) { yamlPreview.textContent = '/* cannot render preview */'; } } /* ─── render source list ───*
+- `escHtml` (line 207) - *var onOff = s.enabled !== false ? 'on' : 'off'; var keyBadge = s.requires_key ? '<span class="src-item-key-badge">key</span>' : ''; html += '<div class="src-item' + active + '" data-name="' + escAttr(s.name) + '">' + '<span class="src-item-icon ' + onOff + '"></span>' + '<div class="src-item-info">' + '<div class="src-item-name">' + escHtml(s.name) + keyBadge + '</div>' + '<div class="src-item-cat">' + escHtml(s.description || '') + '</div>' + '</div></div>'; }); }); listEl.innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text-2);font-size:13px;">No sources match filter</div>'; } /* ─── helpers ───*
 - `escAttr` (line 208)
-- `toast` (line 211) - *'<div class="src-item-info">' + '<div class="src-item-name">' + escHtml(s.name) + keyBadge + '</div>' + '<div class="src-item-cat">' + escHtml(s.de...*
-- `loadSources` (line 220) - */* ─── helpers ─── function escHtml(s) { return String(s).replace(/[&<>"]/g, function (m) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': ...*
-- `clearEditor` (line 235) - *apiFetch('/api/sources/yaml').then(function (data) { sources = data.sources || []; srcCount.textContent = data.total + ' sources'; renderList(filte...*
-- `selectSource` (line 245) - *}); } /* ─── clear editor ─── function clearEditor() { form.hidden = true; editorEmpty.hidden = false; writeForm(null); Remove active class from al...*
-- `saveSource` (line 257) - */* ─── select source ─── function selectSource(name) { var s = sources.filter(function (s) { return s.name === name; })[0]; if (!s) return; form.hi...*
-- `deleteSource` (line 284) - *toast('Source "' + data.name + '" saved', 'ok'); formStatus.textContent = 'Saved'; formStatus.className = 'form-status ok'; loadSources(); Re-selec...*
-- `newSource` (line 314) - *overlay.remove(); apiFetch('/api/sources/yaml/' + encodeURIComponent(currentName), { method: 'DELETE' }).then(function () { toast('Source "' + curr...*
+- `toast` (line 211) - *'<div class="src-item-info">' + '<div class="src-item-name">' + escHtml(s.name) + keyBadge + '</div>' + '<div class="src-item-cat">' + escHtml(s.description || '') + '</div>' + '</div></div>'; }); }); listEl.innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text-2);font-size:13px;">No sources match filter</div>'; } /* ─── helpers ─── function escHtml(s) { return String(s).replace(/[&<>"]/g, function (m) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[m]; }); } function escAttr(s) { return String(s).replace(/"/g, '&quot;'); } /* ─── toast ───*
+- `loadSources` (line 220) - */* ─── helpers ─── function escHtml(s) { return String(s).replace(/[&<>"]/g, function (m) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[m]; }); } function escAttr(s) { return String(s).replace(/"/g, '&quot;'); } /* ─── toast ─── function toast(msg, kind) { var el = document.createElement('div'); el.className = 'toast ' + (kind || 'info'); el.textContent = msg; document.getElementById('toast-stack').appendChild(el); setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 4000); } /* ─── load sources ───*
+- `clearEditor` (line 235) - *apiFetch('/api/sources/yaml').then(function (data) { sources = data.sources || []; srcCount.textContent = data.total + ' sources'; renderList(filterInput.value); If currently selected source still exists, keep it; otherwise clear if (currentName && !data.sources.some(function (s) { return s.name === currentName; })) { clearEditor(); } }).catch(function (err) { toast('Failed to load sources: ' + err.message, 'err'); }); } /* ─── clear editor ───*
+- `selectSource` (line 245) - *}); } /* ─── clear editor ─── function clearEditor() { form.hidden = true; editorEmpty.hidden = false; writeForm(null); Remove active class from all list items listEl.querySelectorAll('.src-item.active').forEach(function (el) { el.classList.remove('active'); }); currentName = null; } /* ─── select source ───*
+- `saveSource` (line 257) - */* ─── select source ─── function selectSource(name) { var s = sources.filter(function (s) { return s.name === name; })[0]; if (!s) return; form.hidden = false; editorEmpty.hidden = true; writeForm(s); listEl.querySelectorAll('.src-item.active').forEach(function (el) { el.classList.remove('active'); }); var item = listEl.querySelector('.src-item[data-name="' + escAttr(name) + '"]'); if (item) item.classList.add('active'); } /* ─── save source ───*
+- `deleteSource` (line 284) - *toast('Source "' + data.name + '" saved', 'ok'); formStatus.textContent = 'Saved'; formStatus.className = 'form-status ok'; loadSources(); Re-select the saved source selectSource(data.name); }).catch(function (err) { toast('Save failed: ' + err.message, 'err'); formStatus.textContent = 'Error: ' + err.message; formStatus.className = 'form-status err'; }); } /* ─── delete source ───*
+- `newSource` (line 314) - *overlay.remove(); apiFetch('/api/sources/yaml/' + encodeURIComponent(currentName), { method: 'DELETE' }).then(function () { toast('Source "' + currentName + '" deleted', 'ok'); clearEditor(); loadSources(); }).catch(function (err) { toast('Delete failed: ' + err.message, 'err'); }); }); document.getElementById('confirm-cancel').addEventListener('click', function () { overlay.remove(); }); overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); }); } /* ─── new source ───*
 
-### PY (86 files)
+### PY (87 files)
 
 #### `_test_entity_resolution.py`
 **Path:** `_test_entity_resolution.py`
@@ -2574,17 +2580,17 @@ to this method.*
 Used for the slow-changing feeds (CISA KEV, malware lists) so a
 burst of operator clicks doesn't hammer the upstream.*
 - `fetch_bgp` (line 119) `def fetch_bgp(query)` - *Look up an IP or AS number against bgpview.io (free, no key).*
-- `fetch_mac` (line 184) `def fetch_mac(mac)` - *Look up a MAC address against macvendors.co (free, no key).*
-- `fetch_phone` (line 231) `def fetch_phone(number)` - *Best-effort phone geolocation.
+- `fetch_mac` (line 185) `def fetch_mac(mac)` - *Look up a MAC address against macvendors.co (free, no key).*
+- `fetch_phone` (line 233) `def fetch_phone(number)` - *Best-effort phone geolocation.
 
 The implementation is intentionally simple (regex + region
 table). It does NOT replace libphonenumber; it provides a
 same-shape response without the dep so the API stays consistent
 with Osiris' /api/osint/phone.*
-- `fetch_github_user` (line 300) `def fetch_github_user(username)` - *Look up a GitHub user (keyless, rate-limited).*
-- `fetch_leaks` (line 353) `def fetch_leaks(email)` - *Breach analytics for `email` via xposedornot (free, no key).*
-- `fetch_cisa_kev` (line 396) `def fetch_cisa_kev(limit, days)` - *Recently-added CVEs from the CISA KEV feed (authoritative).*
-- `fetch_malware_c2` (line 448) `def fetch_malware_c2(limit)` - *Active botnet C2 (Feodo) + recent malware URLs (URLhaus).
+- `fetch_github_user` (line 302) `def fetch_github_user(username)` - *Look up a GitHub user (keyless, rate-limited).*
+- `fetch_leaks` (line 356) `def fetch_leaks(email)` - *Breach analytics for `email` via xposedornot (free, no key).*
+- `fetch_cisa_kev` (line 400) `def fetch_cisa_kev(limit, days)` - *Recently-added CVEs from the CISA KEV feed (authoritative).*
+- `fetch_malware_c2` (line 452) `def fetch_malware_c2(limit)` - *Active botnet C2 (Feodo) + recent malware URLs (URLhaus).
 
 Both abuse.ch, both keyless. Each entry is geolocated against the
 country centroid table with deterministic jitter so multiple
@@ -3285,28 +3291,29 @@ Returns:
 All fields are read from the environment at import time and frozen so
 the policy cannot drift at runtime. Changing a knob requires a restart
 — the right call for a tool that mostly runs as a long-lived daemon.*
-- `AuthGate` (line 324) `class AuthGate` - *Bearer-token gate applied to sensitive routes.
+- `AuthGate` (line 328) `class AuthGate` - *Bearer-token gate applied to sensitive routes.
 
 `required_token` is the single shared secret. `None` disables the gate
 (local-trust mode). Comparison is constant-time.*
 
 **Methods:**
-- `_env_str` (line 107) `def _env_str(name, default)`
-- `_env_int` (line 114) `def _env_int(name, default)`
-- `_env_bool` (line 125) `def _env_bool(name, default)`
-- `load_security_config` (line 132) `def load_security_config()` - *Resolve the security policy from env vars.
+- `_env_str` (line 108) `def _env_str(name, default)`
+- `_env_int` (line 115) `def _env_int(name, default)`
+- `_env_bool` (line 126) `def _env_bool(name, default)`
+- `load_security_config` (line 133) `def load_security_config()` - *Resolve the security policy from env vars.
 
 ESTORIDES_CORS_ORIGINS    comma-separated list, e.g. "https://app.example.com"
 ESTORIDES_MAX_BODY_BYTES  int, default 1 MiB
 ESTORIDES_HSTS            1 to emit Strict-Transport-Security
 ESTORIDES_FORCE_HTTPS     1 to redirect plain http to https (only meaningful behind TLS)
-ESTORIDES_CSP             override the default Content-Security-Policy*
-- `install_security` (line 155) `def install_security(app, cfg)` - *Wire security middleware into a Flask app.
+ESTORIDES_CSP             override the default Content-Security-Policy
+ESTORIDES_PUBLIC_HOST     public hostname for HTTPS redirect (default localhost:5050)*
+- `install_security` (line 158) `def install_security(app, cfg)` - *Wire security middleware into a Flask app.
 
 Idempotent: calling twice is a no-op (we re-attach, but Flask keeps the
 last hook, and our hooks are stateless). Returns the resolved config so
 the caller can echo it in a startup banner.*
-- `_extract_bearer_token` (line 269) `def _extract_bearer_token()` - *Pull the bearer token from header, alt-header, cookie, or query param.
+- `_extract_bearer_token` (line 273) `def _extract_bearer_token()` - *Pull the bearer token from header, alt-header, cookie, or query param.
 
 Header order matters: an explicit `Authorization: Bearer` always wins
 over a cookie (the cookie is the fallback for the browser UI; the
@@ -3317,7 +3324,7 @@ Query-param ``?token=`` is a **last resort** for Server-Sent Events
 access logs — we accept this limitation because there is no other
 transport for streaming endpoints in a browser. The token is never
 accepted from query params on POST/PUT/DELETE requests.*
-- `make_auth_gate` (line 304) `def make_auth_gate()` - *Build the auth gate from the current environment.
+- `make_auth_gate` (line 308) `def make_auth_gate()` - *Build the auth gate from the current environment.
 
 When `ESTORIDES_AUTH_TOKEN` is set, the gate uses that value.
 When unset, the system auto-generates a random 64-hex-char token,
@@ -3325,7 +3332,7 @@ stores it in `AUTO_GENERATED_TOKEN` (so the startup banner can
 display it), and returns an enabled gate. This guarantees API
 abuse protection is always active — no login screen, no explicit
 enrolment.*
-- `require_auth` (line 371) `def require_auth(view)` - *Decorator: enforce the bearer-token gate on a view.
+- `require_auth` (line 375) `def require_auth(view)` - *Decorator: enforce the bearer-token gate on a view.
 
 Behaviour:
   * gate disabled (no env var) → pass-through, no overhead.
@@ -3336,32 +3343,32 @@ Behaviour:
 Use on every endpoint that reads or mutates operator-private data:
 cases, run, run/stream/*, discover/*, export, intel/*, transform/*,
 osiris/*, graph, status.*
-- `install_auth_gate` (line 404) `def install_auth_gate(app, gate)` - *Attach the gate to a Flask app and a module-level slot.
+- `install_auth_gate` (line 408) `def install_auth_gate(app, gate)` - *Attach the gate to a Flask app and a module-level slot.
 
 Two consumers read the gate: the `require_auth` decorator (module
 slot, so it works even when called outside a request context) and
 `auth_meta_for_index()` (so `index.html` can be rendered with the
 token embedded for the UI to pick up).*
-- `_current_gate` (line 423) `def _current_gate()`
-- `auto_generated_token` (line 427) `def auto_generated_token()` - *Return the auto-generated token (None if user set ESTORIDES_AUTH_TOKEN manually).*
-- `is_cors_enabled` (line 98) `def is_cors_enabled(self)`
-- `is_origin_allowed` (line 102) `def is_origin_allowed(self)` - *CORS is opt-in; this is the runtime check used by the after_request hook.*
-- `_security_headers` (line 200) `def _security_headers(resp)`
-- `_cors_preflight` (line 233) `def _cors_preflight()`
-- `enabled` (line 334) `def enabled(self)`
-- `check` (line 337) `def check(self)`
-- `auth_meta_for_index` (line 345) `def auth_meta_for_index(self)` - *Token to embed in `index.html` so the UI can auto-authenticate.
+- `_current_gate` (line 427) `def _current_gate()`
+- `auto_generated_token` (line 431) `def auto_generated_token()` - *Return the auto-generated token (None if user set ESTORIDES_AUTH_TOKEN manually).*
+- `is_cors_enabled` (line 99) `def is_cors_enabled(self)`
+- `is_origin_allowed` (line 103) `def is_origin_allowed(self)` - *CORS is opt-in; this is the runtime check used by the after_request hook.*
+- `_security_headers` (line 204) `def _security_headers(resp)`
+- `_cors_preflight` (line 237) `def _cors_preflight()`
+- `enabled` (line 338) `def enabled(self)`
+- `check` (line 341) `def check(self)`
+- `auth_meta_for_index` (line 349) `def auth_meta_for_index(self)` - *Token to embed in `index.html` so the UI can auto-authenticate.
 
 Returns `None` when the gate is off (the UI then omits the meta
 tag and every call goes through anonymously, which is the
 local-trust default).*
-- `issue_session_cookie_kwargs` (line 354) `def issue_session_cookie_kwargs(self)` - *Arguments for `set_cookie` to install the session cookie.
+- `issue_session_cookie_kwargs` (line 358) `def issue_session_cookie_kwargs(self)` - *Arguments for `set_cookie` to install the session cookie.
 
 `Secure` is set when the request itself is over HTTPS or the operator
 requested ESTORIDES_FORCE_HTTPS=1 (in that case we know they're behind
 TLS). `SameSite=Lax` keeps the cookie from cross-site POSTs.*
-- `wrapper` (line 385) `def wrapper()`
-- `_redirect_to_https` (line 189) `def _redirect_to_https()`
+- `wrapper` (line 389) `def wrapper()`
+- `_redirect_to_https` (line 192) `def _redirect_to_https()`
 
 #### `__init__.py`
 **Path:** `estorides_export/__init__.py`
@@ -3509,26 +3516,26 @@ backend, model, content, error.*
 **Path:** `estorides_web.py`
 
 **Classes:**
-- `_RunStreamJob` (line 111) `class _RunStreamJob` - *A live deep-run cross-search whose events feed an SSE stream.
+- `_RunStreamJob` (line 112) `class _RunStreamJob` - *A live deep-run cross-search whose events feed an SSE stream.
 
 Wraps a `BufferedEventSink` (the engine writes to it) and a cooperative
 stop flag the UI can set. Status and terminal state are read straight
 off the sink so there is one source of truth.*
 
 **Functions:**
-- `_client_ip` (line 64) `def _client_ip()` - *Best-effort client IP extraction.
+- `_client_ip` (line 65) `def _client_ip()` - *Best-effort client IP extraction.
 
 Trusts X-Forwarded-For only when behind a known proxy
 (ESTORIDES_TRUST_PROXY=1). Without that, falls back to
 `request.remote_addr`. This avoids the classic
 "set X-Forwarded-For to bypass rate limits" mistake on a
 directly-exposed deployment.*
-- `_arg_int` (line 81) `def _arg_int(name, default)` - *Read an int query-string arg, falling back to `default` on parse error.
+- `_arg_int` (line 82) `def _arg_int(name, default)` - *Read an int query-string arg, falling back to `default` on parse error.
 
 Guards every endpoint that previously did `int(request.args.get(...))`
 directly, where a non-numeric value raised ValueError and surfaced as
 an unhandled 500 to the client.*
-- `_send_and_cleanup` (line 97) `def _send_and_cleanup(p, tmpdir)` - *Send `p` as an attachment, then nuke `tmpdir` regardless of outcome.
+- `_send_and_cleanup` (line 98) `def _send_and_cleanup(p, tmpdir)` - *Send `p` as an attachment, then nuke `tmpdir` regardless of outcome.
 
 Used by /api/export/<fmt> so reports/ doesn't accumulate a copy of
 every exported bundle — see issue #43. The `finally` runs even when
@@ -3536,35 +3543,35 @@ the client disconnects mid-stream, which is the realistic failure
 case for the exhaustion attack.*
 
 **Methods:**
-- `_new_stream_job_id` (line 149) `def _new_stream_job_id()` - *Timestamp-prefixed id so jobs sort chronologically.*
-- `_rate_limit_decorator` (line 154) `def _rate_limit_decorator()` - *Decorator: enforce per-IP rate limit, write an audit row either way.
+- `_new_stream_job_id` (line 150) `def _new_stream_job_id()` - *Timestamp-prefixed id so jobs sort chronologically.*
+- `_rate_limit_decorator` (line 155) `def _rate_limit_decorator()` - *Decorator: enforce per-IP rate limit, write an audit row either way.
 
 Catches the rate-limit denial BEFORE doing real work, so a flood
 can't tie up the orchestrator. Audit row written for both allow
 and deny so the trail is complete.*
-- `create_app` (line 198) `def create_app()`
-- `_serve_loop` (line 1272) `def _serve_loop()`
-- `_shape_for_ui` (line 1285) `def _shape_for_ui(result)` - *Trim raw responses for the UI and reformat observations.*
-- `__init__` (line 119) `def __init__(self, job_id, query, query_type, case_id)`
-- `stop` (line 128) `def stop(self)`
-- `should_stop` (line 131) `def should_stop(self)`
-- `status` (line 135) `def status(self)`
-- `done` (line 139) `def done(self)`
-- `deco` (line 161) `def deco(view)`
-- `index` (line 229) `def index()`
-- `api_status` (line 245) `def api_status()`
-- `api_run` (line 251) `def api_run()`
-- `api_graph` (line 307) `def api_graph()`
-- `api_feeds` (line 383) `def api_feeds()` - *Return real-time feed points (quakes, fires, news) for the map.
+- `create_app` (line 199) `def create_app()`
+- `_serve_loop` (line 1314) `def _serve_loop()`
+- `_shape_for_ui` (line 1327) `def _shape_for_ui(result)` - *Trim raw responses for the UI and reformat observations.*
+- `__init__` (line 120) `def __init__(self, job_id, query, query_type, case_id)`
+- `stop` (line 129) `def stop(self)`
+- `should_stop` (line 132) `def should_stop(self)`
+- `status` (line 136) `def status(self)`
+- `done` (line 140) `def done(self)`
+- `deco` (line 162) `def deco(view)`
+- `index` (line 230) `def index()`
+- `api_status` (line 251) `def api_status()`
+- `api_run` (line 257) `def api_run()`
+- `api_graph` (line 313) `def api_graph()`
+- `api_feeds` (line 389) `def api_feeds()` - *Return real-time feed points (quakes, fires, news) for the map.
 
 Optional query string:
   bbox=min_lon,min_lat,max_lon,max_lat — drop points outside.
   no_cache=1 — bypass the on-disk cache.*
-- `api_export` (line 414) `def api_export(fmt)`
-- `api_cases_list` (line 489) `def api_cases_list()`
-- `api_cases_get` (line 503) `def api_cases_get(case_id)`
-- `api_cases_delete` (line 518) `def api_cases_delete(case_id)`
-- `api_cases_save` (line 527) `def api_cases_save(case_id)` - *Bookmark a case from the UI.
+- `api_export` (line 420) `def api_export(fmt)`
+- `api_cases_list` (line 497) `def api_cases_list()`
+- `api_cases_get` (line 511) `def api_cases_get(case_id)`
+- `api_cases_delete` (line 526) `def api_cases_delete(case_id)`
+- `api_cases_save` (line 535) `def api_cases_save(case_id)` - *Bookmark a case from the UI.
 
 Sets a `notes` prefix so the case is easy to spot in the cases
 list, then echoes the updated case back. The store is
@@ -3572,75 +3579,75 @@ append-only for observations, but `notes` is a free-text column
 we can overwrite. This is the "I want to come back to this"
 gesture: in v1 the only durable artefact was the case id; in
 v1.3 we want the user to be able to tag their wins.*
-- `api_cases_diff` (line 556) `def api_cases_diff()` - *Symmetric diff between two cases by entity (type, value).
+- `api_cases_diff` (line 564) `def api_cases_diff()` - *Symmetric diff between two cases by entity (type, value).
 
 Query string: ?a=<case_id>&b=<case_id>
 Returns the entities present in B but not in A ("added"), the
 inverse ("removed"), and the per-type breakdown. The UI uses
 this to show "what's new since last run" without a re-query.*
-- `api_intel_resolve` (line 582) `def api_intel_resolve()` - *Cross-feed entity resolution (Osiris-style /resolve).
+- `api_intel_resolve` (line 590) `def api_intel_resolve()` - *Cross-feed entity resolution (Osiris-style /resolve).
 
 Examples:
   GET /api/intel/resolve?type=ip&id=1.1.1.1
   GET /api/intel/resolve?type=person&id=Tim%20Cook
   GET /api/intel/resolve?type=cve&id=CVE-2024-3094*
-- `api_intel_graph` (line 622) `def api_intel_graph()` - *Cypher query against the Kùzu persistent graph.
+- `api_intel_graph` (line 630) `def api_intel_graph()` - *Cypher query against the Kùzu persistent graph.
 
 Examples:
   GET /api/intel/graph?q=MATCH%20(n%3AEnt)%20RETURN%20n.id%20LIMIT%2010*
-- `api_intel_stats` (line 664) `def api_intel_stats()` - *Stats for both the case store and the Kùzu graph.*
-- `api_fusion_stats` (line 680) `def api_fusion_stats()` - *One-glance dashboard of the fused, cross-run fact base.*
-- `api_fusion_sources` (line 689) `def api_fusion_sources()` - *The YAML source catalogue with accumulated fetch/ok counters.*
-- `api_fusion_entities` (line 699) `def api_fusion_entities()` - *Search fused entities.
+- `api_intel_stats` (line 671) `def api_intel_stats()` - *Stats for both the case store and the Kùzu graph.*
+- `api_fusion_stats` (line 691) `def api_fusion_stats()` - *One-glance dashboard of the fused, cross-run fact base.*
+- `api_fusion_sources` (line 700) `def api_fusion_sources()` - *The YAML source catalogue with accumulated fetch/ok counters.*
+- `api_fusion_entities` (line 710) `def api_fusion_entities()` - *Search fused entities.
 
 Example: GET /api/fusion/entities?q=google&type=domain&min_sources=2
 ``min_sources`` is the fusion-native filter: only entities that at
 least N distinct feeds corroborate.*
-- `api_fusion_entity` (line 721) `def api_fusion_entity(eid)` - *Full fused view of one entity: provenance, properties, edges.
+- `api_fusion_entity` (line 732) `def api_fusion_entity(eid)` - *Full fused view of one entity: provenance, properties, edges.
 
 ``min_sources`` (default 2) also returns the corroborated properties:
 attributes that independent feeds agree on.*
-- `api_fusion_analytics_entity_timeline` (line 740) `def api_fusion_analytics_entity_timeline(eid)`
-- `api_fusion_analytics_entity_summary` (line 751) `def api_fusion_analytics_entity_summary(eid)`
-- `api_fusion_analytics_source_stats` (line 762) `def api_fusion_analytics_source_stats(source_name)`
-- `api_fusion_analytics_consensus` (line 773) `def api_fusion_analytics_consensus(eid)`
-- `api_fusion_analytics_top_changed` (line 784) `def api_fusion_analytics_top_changed()`
-- `admin_sources` (line 796) `def admin_sources()` - *Render the YAML source manager page.*
-- `api_sources_yaml_list` (line 810) `def api_sources_yaml_list()` - *Return every YAML source with full configuration.*
-- `api_sources_yaml_create` (line 835) `def api_sources_yaml_create()` - *Create a new YAML source.*
-- `api_sources_yaml_update` (line 855) `def api_sources_yaml_update(name)` - *Update/replace a YAML source.*
-- `api_sources_yaml_delete` (line 873) `def api_sources_yaml_delete(name)` - *Delete a YAML source.*
-- `api_fusion_analytics_corroboration_matrix` (line 888) `def api_fusion_analytics_corroboration_matrix()`
-- `api_transforms` (line 902) `def api_transforms()` - *List the transforms applicable to an entity type.
+- `api_fusion_analytics_entity_timeline` (line 751) `def api_fusion_analytics_entity_timeline(eid)`
+- `api_fusion_analytics_entity_summary` (line 762) `def api_fusion_analytics_entity_summary(eid)`
+- `api_fusion_analytics_source_stats` (line 773) `def api_fusion_analytics_source_stats(source_name)`
+- `api_fusion_analytics_consensus` (line 784) `def api_fusion_analytics_consensus(eid)`
+- `api_fusion_analytics_top_changed` (line 795) `def api_fusion_analytics_top_changed()`
+- `admin_sources` (line 807) `def admin_sources()` - *Render the YAML source manager page.*
+- `api_sources_yaml_list` (line 824) `def api_sources_yaml_list()` - *Return every YAML source with full configuration.*
+- `api_sources_yaml_create` (line 849) `def api_sources_yaml_create()` - *Create a new YAML source.*
+- `api_sources_yaml_update` (line 870) `def api_sources_yaml_update(name)` - *Update/replace a YAML source.*
+- `api_sources_yaml_delete` (line 889) `def api_sources_yaml_delete(name)` - *Delete a YAML source.*
+- `api_fusion_analytics_corroboration_matrix` (line 905) `def api_fusion_analytics_corroboration_matrix()`
+- `api_transforms` (line 919) `def api_transforms()` - *List the transforms applicable to an entity type.
 
 Example: GET /api/transforms?type=ip*
-- `api_transform_run` (line 917) `def api_transform_run()` - *Run one transform and return nodes/links for graph merge.
+- `api_transform_run` (line 934) `def api_transform_run()` - *Run one transform and return nodes/links for graph merge.
 
 Body: {"transform_id": "...", "type": "ip", "value": "1.2.3.4"}*
-- `api_osiris_bgp` (line 941) `def api_osiris_bgp()`
-- `api_osiris_mac` (line 952) `def api_osiris_mac()`
-- `api_osiris_phone` (line 963) `def api_osiris_phone()`
-- `api_osiris_github` (line 974) `def api_osiris_github()`
-- `api_osiris_leaks` (line 985) `def api_osiris_leaks()`
-- `api_osiris_kev` (line 996) `def api_osiris_kev()`
-- `api_osiris_malware` (line 1006) `def api_osiris_malware()`
-- `api_osiris_threats` (line 1013) `def api_osiris_threats()`
-- `api_discover_start` (line 1026) `def api_discover_start()`
-- `api_discover_jobs` (line 1072) `def api_discover_jobs()`
-- `api_discover_stop` (line 1078) `def api_discover_stop()`
-- `api_discover_stream` (line 1090) `def api_discover_stream()` - *Server-Sent Events for a discoverer job.
+- `api_osiris_bgp` (line 963) `def api_osiris_bgp()`
+- `api_osiris_mac` (line 978) `def api_osiris_mac()`
+- `api_osiris_phone` (line 993) `def api_osiris_phone()`
+- `api_osiris_github` (line 1008) `def api_osiris_github()`
+- `api_osiris_leaks` (line 1023) `def api_osiris_leaks()`
+- `api_osiris_kev` (line 1038) `def api_osiris_kev()`
+- `api_osiris_malware` (line 1048) `def api_osiris_malware()`
+- `api_osiris_threats` (line 1055) `def api_osiris_threats()`
+- `api_discover_start` (line 1068) `def api_discover_start()`
+- `api_discover_jobs` (line 1114) `def api_discover_jobs()`
+- `api_discover_stop` (line 1120) `def api_discover_stop()`
+- `api_discover_stream` (line 1132) `def api_discover_stream()` - *Server-Sent Events for a discoverer job.
 
 The browser opens `EventSource('/api/discover/stream?job_id=...')`
 and we keep the connection open, pushing one event per
 JSON line as the background worker discovers things. The
 stream closes when the job finishes (status=done|error|stopped).*
-- `api_run_stream_start` (line 1145) `def api_run_stream_start()`
-- `api_run_stream_stop` (line 1212) `def api_run_stream_stop()`
-- `api_run_stream` (line 1224) `def api_run_stream()`
-- `wrapper` (line 163) `def wrapper()`
-- `gen` (line 1103) `def gen()`
-- `_drive` (line 1175) `def _drive()`
-- `gen` (line 1230) `def gen()`
+- `api_run_stream_start` (line 1187) `def api_run_stream_start()`
+- `api_run_stream_stop` (line 1254) `def api_run_stream_stop()`
+- `api_run_stream` (line 1266) `def api_run_stream()`
+- `wrapper` (line 164) `def wrapper()`
+- `gen` (line 1145) `def gen()`
+- `_drive` (line 1217) `def _drive()`
+- `gen` (line 1272) `def gen()`
 
 #### `conftest.py`
 **Path:** `tests/conftest.py`
@@ -4334,6 +4341,60 @@ for the chip is built without a `style="background:…"` attribute.*
 - `test_s11_template_renders_from_catalog` (line 233) `def test_s11_template_renders_from_catalog()`
 - `test_default_telemetry_is_a_shared_instance` (line 247) `def test_default_telemetry_is_a_shared_instance()`
 
+#### `test_security_remediation.py`
+**Path:** `tests/test_security_remediation.py`
+
+**Classes:**
+- `TestSsrfLogSanitisation` (line 25) `class TestSsrfLogSanitisation` - *BDD S1, S2: ssrf_guard._resolve log messages must not contain the
+hostname or exception detail.*
+- `TestInfoExposureEncryption` (line 75) `class TestInfoExposureEncryption` - *BDD S3, S4: encryption error endpoints must not leak str(e).*
+- `TestInfoExposureSourceOps` (line 176) `class TestInfoExposureSourceOps` - *BDD S5, S6: source file operations must not leak str(e).*
+- `TestHttpsRedirectSafety` (line 260) `class TestHttpsRedirectSafety` - *BDD S7: the HTTPS redirect must use request.host, not request.url.*
+- `TestCiWorkflowPermissions` (line 306) `class TestCiWorkflowPermissions` - *BDD S10: .github/workflows/ci.yml must have permissions: read-all.*
+- `TestOsirisExceptionSafety` (line 336) `class TestOsirisExceptionSafety` - *BDD S11: osiris endpoint exceptions must return generic error.*
+- `TestWebSecurityRedirect` (line 399) `class TestWebSecurityRedirect` - *Verify the HTTP-to-HTTPS redirect in web_security.py is safe.*
+- `TestJavaScriptDomSafety` (line 431) `class TestJavaScriptDomSafety` - *BDD S8, S9: verify no innerHTML with unsanitized data in JS.*
+
+**Methods:**
+- `test_dns_failure_log_omits_hostname` (line 29) `def test_dns_failure_log_omits_hostname(self, caplog)`
+- `test_dns_failure_log_omits_ip_in_hostname` (line 43) `def test_dns_failure_log_omits_ip_in_hostname(self, caplog)`
+- `test_dns_failure_log_contains_host_length_not_host` (line 55) `def test_dns_failure_log_contains_host_length_not_host(self, caplog)`
+- `app` (line 79) `def app(self)`
+- `_make_export_route` (line 86) `def _make_export_route(self, app, raise_val, error_msg, status)`
+- `_make_export_route_fixed` (line 118) `def _make_export_route_fixed(self, app, raise_val, error_msg, status)`
+- `test_encryption_valueerror_leaks_detail` (line 151) `def test_encryption_valueerror_leaks_detail(self, app)`
+- `test_encryption_valueerror_fixed_no_detail` (line 159) `def test_encryption_valueerror_fixed_no_detail(self, app)`
+- `test_encryption_runtimeerror_fixed_no_detail` (line 167) `def test_encryption_runtimeerror_fixed_no_detail(self, app)`
+- `app` (line 180) `def app(self)`
+- `test_source_delete_keyerror_fixed` (line 187) `def test_source_delete_keyerror_fixed(self, app)`
+- `test_source_create_valueerror_fixed` (line 208) `def test_source_create_valueerror_fixed(self, app)`
+- `test_source_update_valueerror_fixed` (line 232) `def test_source_update_valueerror_fixed(self, app)`
+- `app` (line 264) `def app(self)`
+- `test_redirect_uses_public_host_not_request_host` (line 271) `def test_redirect_uses_public_host_not_request_host(self, app)`
+- `test_redirect_scheme_is_https` (line 285) `def test_redirect_scheme_is_https(self, app)`
+- `test_ci_yml_has_permissions` (line 309) `def test_ci_yml_has_permissions(self)`
+- `test_ci_yml_permissions_is_read_all` (line 325) `def test_ci_yml_permissions_is_read_all(self)`
+- `app` (line 340) `def app(self)`
+- `_make_osiris_route_fixed` (line 347) `def _make_osiris_route_fixed(self, app, route_path)`
+- `test_osiris_exception_returns_generic` (line 386) `def test_osiris_exception_returns_generic(self, app)`
+- `test_redirect_implementation_uses_public_host` (line 402) `def test_redirect_implementation_uses_public_host(self)`
+- `test_source_has_no_url_replace` (line 418) `def test_source_has_no_url_replace(self)`
+- `test_js_file_exists` (line 436) `def test_js_file_exists(self)`
+- `test_innerhtml_not_used_with_template_literals` (line 439) `def test_innerhtml_not_used_with_template_literals(self)`
+- `test_showtooltipat_safe` (line 459) `def test_showtooltipat_safe(self)` - *showTooltipAt must sanitize html before innerHTML assignment.*
+- `test_selectnode_inspector_safe` (line 473) `def test_selectnode_inspector_safe(self)` - *selectNode must build DOM safely for the inspector panel.*
+- `api_export_test` (line 97) `def api_export_test()`
+- `api_export_fixed` (line 130) `def api_export_fixed()`
+- `api_delete` (line 191) `def api_delete(name)`
+- `api_create` (line 212) `def api_create()`
+- `api_update` (line 236) `def api_update(name)`
+- `fetch_bgp` (line 354) `def fetch_bgp(q)`
+- `fetch_mac` (line 357) `def fetch_mac(mac)`
+- `fetch_phone` (line 360) `def fetch_phone(n)`
+- `fetch_github_user` (line 363) `def fetch_github_user(u)`
+- `fetch_leaks` (line 366) `def fetch_leaks(e)`
+- `osiris_endpoint` (line 376) `def osiris_endpoint()`
+
 #### `test_source_health_monitoring.py`
 **Path:** `tests/test_source_health_monitoring.py`
 
@@ -4559,8 +4620,8 @@ for the chip is built without a `style="background:…"` attribute.*
 
 #### `install.sh`
 **Path:** `install.sh`
-**File Doc:** *Bootstrap a venv and install the runtime + optional test dependencies.  Idempotent: re-running on an existing venv is a no-op for the venv step. Tr...*
+**File Doc:** *Bootstrap a venv and install the runtime + optional test dependencies.  Idempotent: re-running on an existing venv is a no-op for the venv step. Tries the full install first (kuzu + aiohttp_socks + gunicorn), then degrades gracefully if a native dep fails to build (e.g. ARM Kali).  Usage: ./install.sh           install everything ./install.sh --minimal install only the minimum required deps ./install.sh --dev     also install test/lint extras*
 
 **Functions:**
-- `install_full` (line 51) - *3) Two install passes: full first, minimal fallback. We don't want a single Cython build error to leave the user with a half-installed project — be...*
+- `install_full` (line 51) - *3) Two install passes: full first, minimal fallback. We don't want a single Cython build error to leave the user with a half-installed project — better to fall back to a working baseline and tell them what didn't make it.*
 - `install_minimal` (line 55)

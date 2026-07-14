@@ -23,7 +23,7 @@ from functools import wraps
 from pathlib import Path
 from typing import Any
 
-from flask import Flask, Response, jsonify, render_template, request, send_from_directory
+from flask import Flask, Response, jsonify, make_response, render_template, request, send_from_directory
 
 from estorides_core.audit import audit_log, rate_limiter
 from estorides_core.config import (
@@ -48,6 +48,7 @@ from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.search_telemetry import SearchTelemetry
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_core.web_security import (
+    AUTH_COOKIE,
     AUTH_META,
     auto_generated_token,
     install_security,
@@ -233,11 +234,16 @@ def create_app() -> Flask:
         # and `require_auth` short-circuits to pass-through).
         gate = app.extensions.get("estorides_auth")
         auth_token = gate.auth_meta_for_index() if gate is not None else None
-        return render_template(
+        resp = make_response(render_template(
             "index.html",
             telemetry=telemetry.context(),
             **{AUTH_META.replace("-", "_"): auth_token or ""},
-        )
+        ))
+        # Set a httponly session cookie so server-rendered navigations (e.g.
+        # /admin/sources) carry the token without requiring a JS patched fetch.
+        if gate is not None and gate.enabled and auth_token:
+            resp.set_cookie(AUTH_COOKIE, auth_token, **gate.issue_session_cookie_kwargs())
+        return resp
 
     @app.route("/api/status")
     @_rate_limit_decorator(event="api_status")
@@ -800,6 +806,8 @@ def create_app() -> Flask:
     @require_auth
     def admin_sources() -> Any:
         """Render the YAML source manager page."""
+        gate = app.extensions.get("estorides_auth")
+        auth_token = gate.auth_meta_for_index() if gate is not None else None
         categories = sorted(orch.registry.categories())
         parsers = sorted({
             s.get("parser", "raw_text")
@@ -807,7 +815,8 @@ def create_app() -> Flask:
         })
         return render_template("source_manager.html",
                                categories=categories,
-                               parsers=parsers)
+                               parsers=parsers,
+                               **{AUTH_META.replace("-", "_"): auth_token or ""})
 
     @app.route("/api/sources/yaml", methods=["GET"])
     @_rate_limit_decorator(event="api_sources_yaml_list")
