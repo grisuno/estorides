@@ -666,8 +666,15 @@ class Orchestrator:
         # ----- pagination config -----
         pag_cfg = PaginationConfig.from_dict(source.get("pagination"))
 
-        # ----- format base url/headers/params with query + api_key -----
-        fmt = {"query": query, "api_key": api_key or ""}
+        # ----- format base url/headers/params with query + api_key + common env vars -----
+        fmt: dict[str, str] = {"query": query, "api_key": api_key or ""}
+        # Additional env vars available for template substitution in source YAMLs.
+        # This supports sources that need multiple auth values (e.g. Twitch needs
+        # both Client-ID and Bearer token in separate headers).
+        for _env_name in ("TWITCH_CLIENT_ID", "GOOGLE_API_KEY", "TWITTER_BEARER_TOKEN", "TWITCH_ACCESS_TOKEN"):
+            _val = os.environ.get(_env_name, "")
+            if _val:
+                fmt[_env_name.lower()] = _val
         base_url = _safe_format(tool.get("url", ""), **fmt)
         base_headers = {k: _safe_format(v, **fmt) for k, v in (tool.get("headers") or {}).items()}
         base_params = {k: _safe_format(v, **fmt) for k, v in (tool.get("params") or {}).items()}

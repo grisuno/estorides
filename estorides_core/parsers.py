@@ -14,22 +14,23 @@ from __future__ import annotations
 import json
 import logging
 import re
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import Any, Union
 
 # A parser takes whatever the HTTP client produced (dict / list / str /
 # None) and returns the structured view. Parsers MUST be total: any
 # unrecognised input must return an empty container, not raise. The
 # orchestrator trusts this contract.
 ParserFunc = Callable[[Any], Any]
-ParserSpec = Union[ParserFunc, Tuple[ParserFunc, str]]  # (func, description)
+ParserSpec = Union[ParserFunc, tuple[ParserFunc, str]]  # (func, description)
 
 log = logging.getLogger("estorides.parsers")
 
 
 # --------------------------------------------------------------------- utils
-def _flat(obj: Any) -> List[Any]:
+def _flat(obj: Any) -> list[Any]:
     """Recursively flatten a dict/list into a list of leaf values."""
-    out: List[Any] = []
+    out: list[Any] = []
     if isinstance(obj, dict):
         for v in obj.values():
             out.extend(_flat(v))
@@ -41,7 +42,7 @@ def _flat(obj: Any) -> List[Any]:
     return out
 
 
-def _first(obj: Any, *keys: str) -> Optional[Any]:
+def _first(obj: Any, *keys: str) -> Any | None:
     """Recursively dig into a JSON-ish structure to find the first matching key."""
     if isinstance(obj, dict):
         for k, v in obj.items():
@@ -59,9 +60,9 @@ def _first(obj: Any, *keys: str) -> Optional[Any]:
 
 
 # ----------------------------------------------------------------- specific
-def parse_dns_json(payload: Any) -> Dict[str, Any]:
+def parse_dns_json(payload: Any) -> dict[str, Any]:
     """Google/Cloudflare DNS-over-HTTPS response."""
-    out: Dict[str, Any] = {"answers": [], "records": {}}
+    out: dict[str, Any] = {"answers": [], "records": {}}
     if not isinstance(payload, dict):
         return out
     for ans in payload.get("Answer", []) or []:
@@ -74,10 +75,10 @@ def parse_dns_json(payload: Any) -> Dict[str, Any]:
     return out
 
 
-def parse_crtsh_json(payload: Any) -> Dict[str, Any]:
+def parse_crtsh_json(payload: Any) -> dict[str, Any]:
     """crt.sh CT log response."""
-    domains: List[str] = []
-    issuers: List[str] = []
+    domains: list[str] = []
+    issuers: list[str] = []
     if isinstance(payload, list):
         for cert in payload:
             if isinstance(cert, dict):
@@ -92,7 +93,7 @@ def parse_crtsh_json(payload: Any) -> Dict[str, Any]:
     return {"subdomains": sorted(set(domains)), "issuers": sorted(set(issuers))}
 
 
-def parse_rdap(payload: Any) -> Dict[str, Any]:
+def parse_rdap(payload: Any) -> dict[str, Any]:
     """RDAP (RFC 7483) domain object.
 
     Returns a flat dict with registrar, registry handle, status flags,
@@ -111,7 +112,7 @@ def parse_rdap(payload: Any) -> Dict[str, Any]:
     """
     if not isinstance(payload, dict):
         return {}
-    out: Dict[str, Any] = {
+    out: dict[str, Any] = {
         "handle": payload.get("handle"),
         "ldhName": payload.get("ldhName") or payload.get("unicodeName"),
         "status": payload.get("status") or [],
@@ -131,7 +132,7 @@ def parse_rdap(payload: Any) -> Dict[str, Any]:
     for ent in payload.get("entities") or []:
         roles = ent.get("roles") or []
         vcard = (ent.get("vcardArray") or [None, []])[1] or []
-        flat: Dict[str, Any] = {"roles": roles}
+        flat: dict[str, Any] = {"roles": roles}
         for item in vcard:
             # jCard: [name, params, value-type, value]
             if not isinstance(item, list) or len(item) < 4:
@@ -167,7 +168,7 @@ def parse_rdap(payload: Any) -> Dict[str, Any]:
     return out
 
 
-def parse_ipapi(payload: Any) -> Dict[str, Any]:
+def parse_ipapi(payload: Any) -> dict[str, Any]:
     """ip-api.com response."""
     if not isinstance(payload, dict):
         return {}
@@ -193,7 +194,7 @@ def parse_ipapi(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_ipinfo(payload: Any) -> Dict[str, Any]:
+def parse_ipinfo(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "ip" not in payload:
         return {"error": "no result"}
     return {
@@ -208,7 +209,7 @@ def parse_ipinfo(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_ipapi_co(payload: Any) -> Dict[str, Any]:
+def parse_ipapi_co(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or payload.get("error"):
         return {"error": str(payload.get("reason") or payload.get("error") or "no result")}
     return {k: payload.get(k) for k in (
@@ -217,7 +218,7 @@ def parse_ipapi_co(payload: Any) -> Dict[str, Any]:
     ) if k in payload}
 
 
-def parse_shodan_internetdb(payload: Any) -> Dict[str, Any]:
+def parse_shodan_internetdb(payload: Any) -> dict[str, Any]:
     """internetdb.shodan.io — IP service summary."""
     if not isinstance(payload, dict) or "ip" not in payload:
         return {"error": "no result"}
@@ -231,7 +232,7 @@ def parse_shodan_internetdb(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_greynoise(payload: Any) -> Dict[str, Any]:
+def parse_greynoise(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "ip" not in payload:
         return {"error": "no result"}
     return {
@@ -246,7 +247,7 @@ def parse_greynoise(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_ipwhois(payload: Any) -> Dict[str, Any]:
+def parse_ipwhois(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or not payload.get("success", True):
         return {"error": str(payload.get("message", "no result"))}
     return {
@@ -264,7 +265,7 @@ def parse_ipwhois(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_abuseipdb(payload: Any) -> Dict[str, Any]:
+def parse_abuseipdb(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
     d = payload["data"]
@@ -280,7 +281,7 @@ def parse_abuseipdb(payload: Any) -> Dict[str, Any]:
     }
 
 
-def _vt_stats(attrs: Dict[str, Any]) -> Dict[str, Any]:
+def _vt_stats(attrs: dict[str, Any]) -> dict[str, Any]:
     """Flatten VirusTotal v3 last_analysis_stats into a compact dict."""
     stats = attrs.get("last_analysis_stats") or {}
     if not isinstance(stats, dict):
@@ -294,7 +295,7 @@ def _vt_stats(attrs: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def parse_vt_ip(payload: Any) -> Dict[str, Any]:
+def parse_vt_ip(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — IP address object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
@@ -315,7 +316,7 @@ def parse_vt_ip(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_vt_domain(payload: Any) -> Dict[str, Any]:
+def parse_vt_domain(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — domain object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
@@ -342,7 +343,7 @@ def parse_vt_domain(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_vt_file(payload: Any) -> Dict[str, Any]:
+def parse_vt_file(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — file object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
@@ -366,7 +367,7 @@ def parse_vt_file(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_ripe_stat(payload: Any) -> Dict[str, Any]:
+def parse_ripe_stat(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     records = payload.get("data", {}).get("records", [])
@@ -377,7 +378,7 @@ def parse_ripe_stat(payload: Any) -> Dict[str, Any]:
     return {"records": out, "irr_records": payload.get("data", {}).get("irr_records", [])}
 
 
-def parse_nominatim(payload: Any) -> List[Dict[str, Any]]:
+def parse_nominatim(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list):
         return []
     out = []
@@ -395,7 +396,7 @@ def parse_nominatim(payload: Any) -> List[Dict[str, Any]]:
     return out
 
 
-def parse_urlscan(payload: Any) -> Dict[str, Any]:
+def parse_urlscan(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     out = {"results": [], "stats": {}}
@@ -417,7 +418,7 @@ def parse_urlscan(payload: Any) -> Dict[str, Any]:
     return out
 
 
-def parse_wayback_cdx(payload: Any) -> List[Dict[str, Any]]:
+def parse_wayback_cdx(payload: Any) -> list[dict[str, Any]]:
     """CDX returns a list where the first row is the header."""
     if not isinstance(payload, list) or not payload:
         return []
@@ -430,7 +431,7 @@ def parse_wayback_cdx(payload: Any) -> List[Dict[str, Any]]:
     return out
 
 
-def parse_wayback_avail(payload: Any) -> Dict[str, Any]:
+def parse_wayback_avail(payload: Any) -> dict[str, Any]:
     snap = ((payload or {}).get("archived_snapshots") or {}).get("closest") or {}
     return {
         "available": bool(snap.get("available")),
@@ -439,7 +440,7 @@ def parse_wayback_avail(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_threatfox(payload: Any) -> Dict[str, Any]:
+def parse_threatfox(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -448,7 +449,7 @@ def parse_threatfox(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_urlhaus(payload: Any) -> Dict[str, Any]:
+def parse_urlhaus(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -457,7 +458,7 @@ def parse_urlhaus(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_urlhaus_payloads(payload: Any) -> Dict[str, Any]:
+def parse_urlhaus_payloads(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -466,7 +467,7 @@ def parse_urlhaus_payloads(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_malwarebazaar(payload: Any) -> Dict[str, Any]:
+def parse_malwarebazaar(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -475,7 +476,7 @@ def parse_malwarebazaar(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_otx(payload: Any) -> Dict[str, Any]:
+def parse_otx(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     pulses = payload.get("results", []) or []
@@ -499,7 +500,7 @@ def parse_otx(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_hibp_breach(payload: Any) -> List[Dict[str, Any]]:
+def parse_hibp_breach(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list):
         return []
     return [
@@ -517,7 +518,7 @@ def parse_hibp_breach(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_hibp_paste(payload: Any) -> List[Dict[str, Any]]:
+def parse_hibp_paste(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list):
         return []
     return [
@@ -533,7 +534,7 @@ def parse_hibp_paste(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_phonebook(payload: Any) -> Dict[str, Any]:
+def parse_phonebook(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -554,7 +555,7 @@ def parse_phonebook(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_wikipedia(payload: Any) -> List[Dict[str, Any]]:
+def parse_wikipedia(payload: Any) -> list[dict[str, Any]]:
     hits = (((payload or {}).get("query") or {}).get("search") or [])
     return [
         {"title": h.get("title"), "snippet": re.sub("<.*?>", "", h.get("snippet", "")),
@@ -563,7 +564,7 @@ def parse_wikipedia(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_wikidata(payload: Any) -> List[Dict[str, Any]]:
+def parse_wikidata(payload: Any) -> list[dict[str, Any]]:
     hits = ((payload or {}).get("search") or [])
     return [
         {
@@ -575,7 +576,7 @@ def parse_wikidata(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_openalex(payload: Any) -> Dict[str, Any]:
+def parse_openalex(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     results = payload.get("results", []) or []
@@ -595,7 +596,7 @@ def parse_openalex(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_crossref(payload: Any) -> Dict[str, Any]:
+def parse_crossref(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     items = ((payload.get("message") or {}).get("items") or [])
@@ -615,7 +616,7 @@ def parse_crossref(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_arxiv(payload: Any) -> List[Dict[str, Any]]:
+def parse_arxiv(payload: Any) -> list[dict[str, Any]]:
     """arXiv returns Atom XML; we expect callers to have converted to a dict."""
     if isinstance(payload, dict):
         payload = payload.get("entries", [])
@@ -636,7 +637,7 @@ def parse_arxiv(payload: Any) -> List[Dict[str, Any]]:
     return out
 
 
-def parse_nvd_cve(payload: Any) -> Dict[str, Any]:
+def parse_nvd_cve(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     vulns = payload.get("vulnerabilities", []) or []
@@ -647,7 +648,7 @@ def parse_nvd_cve(payload: Any) -> Dict[str, Any]:
                 "cve": c.get("cve", {}).get("id"),
                 "published": c.get("cve", {}).get("published"),
                 "descriptions": [
-                    d.get("value") for d in ((c.get("cve", {}).get("descriptions") or []))
+                    d.get("value") for d in (c.get("cve", {}).get("descriptions") or [])
                     if isinstance(d, dict) and d.get("lang") == "en"
                 ],
                 "metrics": c.get("cve", {}).get("metrics", {}),
@@ -658,7 +659,7 @@ def parse_nvd_cve(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_github_advisories(payload: Any) -> List[Dict[str, Any]]:
+def parse_github_advisories(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list):
         return []
     return [
@@ -682,7 +683,7 @@ def parse_github_advisories(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_blockchain_btc(payload: Any) -> Dict[str, Any]:
+def parse_blockchain_btc(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -698,7 +699,7 @@ def parse_blockchain_btc(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_blockstream(payload: Any) -> Dict[str, Any]:
+def parse_blockstream(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     chain = payload.get("chain_stats", {}) or {}
@@ -714,7 +715,7 @@ def parse_blockstream(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_ethplorer(payload: Any) -> Dict[str, Any]:
+def parse_ethplorer(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     return {
@@ -730,7 +731,7 @@ def parse_ethplorer(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_microlink(payload: Any) -> Dict[str, Any]:
+def parse_microlink(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     status = payload.get("status", "unknown")
@@ -750,7 +751,7 @@ def parse_microlink(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_github_user(payload: Any) -> Dict[str, Any]:
+def parse_github_user(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "login" not in payload:
         return {"error": "no result"}
     return {
@@ -770,7 +771,7 @@ def parse_github_user(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_github_search(payload: Any) -> List[Dict[str, Any]]:
+def parse_github_search(payload: Any) -> list[dict[str, Any]]:
     items = ((payload or {}).get("items") or [])
     return [
         {
@@ -785,7 +786,7 @@ def parse_github_search(payload: Any) -> List[Dict[str, Any]]:
     ][:30]
 
 
-def parse_reddit(payload: Any) -> Dict[str, Any]:
+def parse_reddit(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     data = (payload.get("data") or {})
@@ -815,7 +816,7 @@ def parse_reddit(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_mastodon(payload: Any) -> List[Dict[str, Any]]:
+def parse_mastodon(payload: Any) -> list[dict[str, Any]]:
     accounts = ((payload or {}).get("accounts") or [])
     return [
         {
@@ -831,7 +832,7 @@ def parse_mastodon(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_keybase(payload: Any) -> Dict[str, Any]:
+def parse_keybase(payload: Any) -> dict[str, Any]:
     them = ((payload or {}).get("them") or [])
     if not them:
         return {"error": "no result"}
@@ -855,7 +856,7 @@ def parse_keybase(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_hackernews(payload: Any) -> Dict[str, Any]:
+def parse_hackernews(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "id" not in payload:
         return {"error": "no result"}
     return {
@@ -867,7 +868,7 @@ def parse_hackernews(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_reddit_search(payload: Any) -> List[Dict[str, Any]]:
+def parse_reddit_search(payload: Any) -> list[dict[str, Any]]:
     children = (((payload or {}).get("data") or {}).get("children") or [])
     return [
         {
@@ -881,7 +882,7 @@ def parse_reddit_search(payload: Any) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_dev_to(payload: Any) -> Dict[str, Any]:
+def parse_dev_to(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "username" not in payload:
         return {"error": "no result"}
     return {
@@ -896,7 +897,7 @@ def parse_dev_to(payload: Any) -> Dict[str, Any]:
     }
 
 
-def parse_text_lines(payload: Any) -> List[str]:
+def parse_text_lines(payload: Any) -> list[str]:
     """Generic: split raw_text by newlines, drop empties."""
     if isinstance(payload, dict) and "raw_text" in payload:
         return [ln for ln in (payload.get("raw_text") or "").splitlines() if ln.strip()]
@@ -915,7 +916,7 @@ def parse_raw_text(payload: Any) -> str:
     return json.dumps(payload, ensure_ascii=False)
 
 
-def parse_http_headers(payload: Any) -> Dict[str, str]:
+def parse_http_headers(payload: Any) -> dict[str, str]:
     """hackertarget returns text; expect a one-line-per-header response."""
     if isinstance(payload, dict) and "raw_text" in payload:
         text = payload["raw_text"]
@@ -923,7 +924,7 @@ def parse_http_headers(payload: Any) -> Dict[str, str]:
         text = payload
     else:
         return {}
-    out: Dict[str, str] = {}
+    out: dict[str, str] = {}
     for line in text.splitlines():
         if ":" in line:
             k, _, v = line.partition(":")
@@ -931,8 +932,8 @@ def parse_http_headers(payload: Any) -> Dict[str, str]:
     return out
 
 
-def parse_whois_text(payload: Any) -> Dict[str, str]:
-    out: Dict[str, str] = {}
+def parse_whois_text(payload: Any) -> dict[str, str]:
+    out: dict[str, str] = {}
     if isinstance(payload, dict) and "raw_text" in payload:
         text = payload["raw_text"]
     elif isinstance(payload, str):
@@ -944,6 +945,149 @@ def parse_whois_text(payload: Any) -> Dict[str, str]:
             k, _, v = line.partition(":")
             out[k.strip()] = v.strip()
     return out
+
+
+# ============================================================= SOCMINT parsers
+
+
+def parse_twitter_user(payload: Any) -> dict[str, Any]:
+    """Twitter/X API v2 user by username.
+
+    Expects the v2 JSON shape: {"data": {"id": ..., "name": ..., "username": ..., ...}}
+    Returns flat dict with the core profile fields.
+    """
+    if not isinstance(payload, dict):
+        return {"error": "unexpected_response"}
+    data = payload.get("data")
+    if not isinstance(data, dict):
+        errors = payload.get("errors", [])
+        if errors:
+            detail = errors[0].get("detail", "unknown") if isinstance(errors[0], dict) else str(errors[0])
+            return {"error": "not_found", "detail": detail}
+        return {"error": "not_found"}
+    metrics = data.get("public_metrics") or {}
+    return {
+        "kind": "twitter_user",
+        "id": data.get("id"),
+        "name": data.get("name"),
+        "username": data.get("username"),
+        "description": data.get("description"),
+        "location": data.get("location"),
+        "verified": bool(data.get("verified", False)),
+        "followers_count": int(metrics.get("followers_count", 0) or 0),
+        "following_count": int(metrics.get("following_count", 0) or 0),
+        "tweet_count": int(metrics.get("tweet_count", 0) or 0),
+        "listed_count": int(metrics.get("listed_count", 0) or 0),
+        "created_at": data.get("created_at"),
+        "profile_image_url": data.get("profile_image_url"),
+        "url": data.get("url"),
+        "protected": bool(data.get("protected", False)),
+    }
+
+
+def parse_youtube_user(payload: Any) -> dict[str, Any]:
+    """YouTube Data API v3 channel by handle.
+
+    Expects: {"items": [{"id": ..., "snippet": {...}, "statistics": {...}}]}
+    Returns a flat profile dict with channel metadata.
+    """
+    if not isinstance(payload, dict):
+        return {"error": "unexpected_response"}
+    items = payload.get("items") or []
+    if not items or not isinstance(items, list):
+        return {"error": "not_found"}
+    channel = items[0]
+    if not isinstance(channel, dict):
+        return {"error": "not_found"}
+    snippet = channel.get("snippet") or {}
+    statistics = channel.get("statistics") or {}
+    topic_details = channel.get("topicDetails") or {}
+    branding = channel.get("brandingSettings") or {}
+    image = branding.get("image") or {} if isinstance(branding, dict) else {}
+    return {
+        "kind": "youtube_channel",
+        "channel_id": channel.get("id"),
+        "title": snippet.get("title"),
+        "description": (snippet.get("description") or "")[:500],
+        "custom_url": snippet.get("customUrl"),
+        "published_at": snippet.get("publishedAt"),
+        "country": snippet.get("country"),
+        "view_count": int(statistics.get("viewCount", 0) or 0),
+        "subscriber_count": int(statistics.get("subscriberCount", 0) or 0),
+        "video_count": int(statistics.get("videoCount", 0) or 0),
+        "avatar_url": (snippet.get("thumbnails") or {}).get("default", {}).get("url") if isinstance(snippet.get("thumbnails"), dict) else None,
+        "banner_url": image.get("bannerExternalUrl"),
+        "topic_ids": topic_details.get("topicIds", []) or [],
+        "keywords": (branding.get("channel") or {}).get("keywords", "").split("\"") if isinstance(branding.get("channel"), dict) else None,
+    }
+
+
+def parse_twitch_user(payload: Any) -> dict[str, Any]:
+    """Twitch Helix API user by login.
+
+    Expects: {"data": [{"id": ..., "login": ..., "display_name": ..., ...}]}
+    Returns a flat profile dict with core Twitch metadata.
+    """
+    if not isinstance(payload, dict):
+        return {"error": "unexpected_response"}
+    data_list = payload.get("data")
+    if not isinstance(data_list, list) or not data_list:
+        # Check for error response
+        error = payload.get("error")
+        if error:
+            return {"error": "api_error", "detail": payload.get("message", str(error))}
+        return {"error": "not_found"}
+    user = data_list[0]
+    if not isinstance(user, dict):
+        return {"error": "not_found"}
+    return {
+        "kind": "twitch_user",
+        "id": user.get("id"),
+        "login": user.get("login"),
+        "display_name": user.get("display_name"),
+        "description": user.get("description"),
+        "type": user.get("type"),
+        "broadcaster_type": user.get("broadcaster_type"),
+        "view_count": int(user.get("view_count", 0) or 0),
+        "created_at": user.get("created_at"),
+        "offline_image_url": user.get("offline_image_url"),
+        "profile_image_url": user.get("profile_image_url"),
+    }
+
+
+def parse_discord_discovery(payload: Any) -> dict[str, Any]:
+    """Discord server discovery via discords.com API.
+
+    Expected shape: a list of server dicts with name, description,
+    member_count, etc. Or a dict with a 'results' or 'servers' key.
+    """
+    if payload is None:
+        return {"results": [], "total": 0}
+    if isinstance(payload, list):
+        servers = [_normalise_discord_server(s) for s in payload if isinstance(s, dict)]
+        return {"results": servers, "total": len(servers)}
+    if isinstance(payload, dict):
+        # Try common response shapes
+        servers_raw = payload.get("results") or payload.get("servers") or payload.get("guilds") or []
+        if isinstance(servers_raw, list):
+            servers = [_normalise_discord_server(s) for s in servers_raw if isinstance(s, dict)]
+            return {"results": servers, "total": len(servers)}
+    return {"results": [], "total": 0}
+
+
+def _normalise_discord_server(raw: dict[str, Any]) -> dict[str, Any]:
+    """Normalise a single raw Discord server dict into a standard shape."""
+    return {
+        "kind": "discord_server",
+        "id": str(raw.get("id") or raw.get("guild_id") or ""),
+        "name": raw.get("name"),
+        "description": raw.get("description") or raw.get("short_description"),
+        "approximate_member_count": int(raw.get("approximate_member_count") or raw.get("members", 0) or 0),
+        "approximate_presence_count": int(raw.get("approximate_presence_count") or raw.get("online", 0) or 0),
+        "vanity_url_code": raw.get("vanity_url_code"),
+        "features": raw.get("features", []) or [],
+        "icon_url": (raw.get("icon") or "") if isinstance(raw.get("icon"), str) and raw.get("icon").startswith("http") else None,
+    }
 
 
 # ------------------------------------------------------------- registry ----
@@ -1018,6 +1162,11 @@ PARSERS = {
     "cve_circl": parse_raw_text,
     "exploitdb": parse_text_lines,
     "blocklist": parse_text_lines,
+    # --- SOCMINT parsers (v1.4) ---
+    "twitter_user": parse_twitter_user,
+    "youtube_user": parse_youtube_user,
+    "twitch_user": parse_twitch_user,
+    "discord_discovery": parse_discord_discovery,
 }
 
 
@@ -1050,14 +1199,14 @@ def register_parser(name: str, description: str = "") -> ParserFunc:
     return deco
 
 
-def list_parsers() -> List[Tuple[str, str]]:
+def list_parsers() -> list[tuple[str, str]]:
     """Return (name, description) tuples for every registered parser.
 
     Used by the CLI `status` endpoint to advertise the available
     parser names, and by tests to assert that a custom parser made it
     into the registry.
     """
-    out: List[Tuple[str, str]] = []
+    out: list[tuple[str, str]] = []
     for name, spec in PARSERS.items():
         if isinstance(spec, tuple):
             out.append((name, spec[1]))

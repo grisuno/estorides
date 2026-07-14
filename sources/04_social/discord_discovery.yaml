@@ -1,0 +1,24 @@
+name: discord_discovery
+enabled: true
+category: 04. Social Media
+description: Discord server discovery — search public servers by keyword (via discords.com, no key)
+os: any
+requires_key: false
+parser: discord_discovery
+entity_hints:
+- channel
+- community
+- keyword
+applies_to:
+- keyword
+- username
+contact: none
+tool:
+  method: GET
+  url: https://discordservers.com/api/search
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    q: '{query}'
+    limit: 20

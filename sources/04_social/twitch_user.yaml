@@ -1,0 +1,26 @@
+name: twitch_user
+enabled: true
+category: 04. Social Media
+description: Twitch user profile lookup (requires TWITCH_CLIENT_ID + TWITCH_ACCESS_TOKEN env vars)
+os: any
+requires_key: true
+key_env: TWITCH_ACCESS_TOKEN
+parser: twitch_user
+entity_hints:
+- person
+- channel
+- organization
+- social_media_url
+applies_to:
+- username
+- keyword
+contact: none
+tool:
+  method: GET
+  url: https://api.twitch.tv/helix/users
+  headers:
+    User-Agent: Estorides/1.0
+    Client-ID: '{twitch_client_id}'
+    Authorization: Bearer {api_key}
+  params:
+    login: '{query}'

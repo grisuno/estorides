@@ -1,0 +1,26 @@
+name: youtube_user
+enabled: true
+category: 04. Social Media
+description: YouTube channel lookup by handle (requires Google API key)
+os: any
+requires_key: true
+key_env: GOOGLE_API_KEY
+parser: youtube_user
+entity_hints:
+- person
+- channel
+- organization
+- social_media_url
+applies_to:
+- username
+- keyword
+contact: none
+tool:
+  method: GET
+  url: https://www.googleapis.com/youtube/v3/channels
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    part: snippet,statistics,topicDetails,brandingSettings
+    forHandle: '{query}'
+    key: '{api_key}'

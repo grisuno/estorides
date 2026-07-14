@@ -1,0 +1,23 @@
+name: twitter_user
+enabled: true
+category: 04. Social Media
+description: Twitter/X user profile lookup (API v2, requires paid Basic tier $100/mo)
+os: any
+requires_key: true
+key_env: TWITTER_BEARER_TOKEN
+parser: twitter_user
+entity_hints:
+- person
+- organization
+- social_media_url
+applies_to:
+- username
+contact: none
+tool:
+  method: GET
+  url: https://api.twitter.com/2/users/by/username/{query}
+  headers:
+    User-Agent: Estorides/1.0
+    Authorization: Bearer {api_key}
+  params:
+    user.fields: description,public_metrics,created_at,location,profile_image_url,url,verified

@@ -908,6 +908,59 @@ def create_app() -> Flask:
         limit = max(1, min(100, _arg_int("limit", 20)))
         return jsonify({"pairs": fusion_analytics.source_corroboration_matrix(limit=limit)})
 
+    # ----- SOCMINT endpoints (v1.4) -----
+    try:
+        from estorides_core.socmint import inferer as socmint_inferer
+    except Exception:
+        socmint_inferer = None  # type: ignore[assignment]
+
+    @app.route("/api/socmint/resolve", methods=["GET"])
+    @_rate_limit_decorator(event="api_socmint_resolve")
+    @require_auth
+    def api_socmint_resolve() -> Any:
+        """Resolve a username across known social media platforms.
+
+        Example: GET /api/socmint/resolve?username=torvalds
+                 GET /api/socmint/resolve?username=torvalds&platforms=github,keybase
+
+        Returns a SocialMediaProfile with profile URLs for every platform.
+        """
+        if socmint_inferer is None:
+            return jsonify({"error": "socmint inferer unavailable"}), 503
+        username = request.args.get("username", "").strip()
+        if not username:
+            return jsonify({"error": "username parameter required"}), 400
+        platforms_raw = request.args.get("platforms", "").strip()
+        platforms: list[str] | None = None
+        if platforms_raw:
+            platforms = [p.strip().lower() for p in platforms_raw.split(",") if p.strip()]
+        result = socmint_inferer.resolve(username, platforms=platforms)
+        return jsonify(result)
+
+    @app.route("/api/socmint/platforms", methods=["GET"])
+    @_rate_limit_decorator(event="api_socmint_platforms")
+    @require_auth
+    def api_socmint_platforms() -> Any:
+        """Return the list of all known social media platforms."""
+        if socmint_inferer is None:
+            return jsonify({"error": "socmint inferer unavailable"}), 503
+        return jsonify({"platforms": socmint_inferer.platform_list()})
+
+    @app.route("/api/socmint/discover", methods=["POST"])
+    @_rate_limit_decorator(event="api_socmint_discover")
+    @require_auth
+    def api_socmint_discover() -> Any:
+        """Extract social media profile URLs from a text blob.
+
+        Body: {"text": "Follow me on Twitter: https://x.com/johndoe"}
+        """
+        if socmint_inferer is None:
+            return jsonify({"error": "socmint inferer unavailable"}), 503
+        body = request.get_json(silent=True) or {}
+        text = str(body.get("text") or "")
+        result = socmint_inferer.discover_from_text(text)
+        return jsonify(result)
+
     # ----- graph pivot transforms -----
     try:
         from estorides_core.transforms import registry as transform_registry
