@@ -4,12 +4,12 @@
 
 | Metric | Value |
 |--------|-------|
-| ⭐ Stars | 63 |
-| 📥 Clones (last 14 days) | 238 |
-| 🟢 Open Issues | 0 |
+| ⭐ Stars | 85 |
+| 📥 Clones (last 14 days) | 479 |
+| 🟢 Open Issues | 2 |
 | 📋 Total Issues | 50 |
 | 🛡 Dependabot Open Alerts | 0 |
-| 🔍 CodeScan Open Alerts | 14 |
+| 🔍 CodeScan Open Alerts | 4 |
 
 ## Issues
 - [#50](./issue_50.md) - RUN_STREAM_JOBS and DISCOVER_JOBS hold BufferedEventSink objects indefinitely — memory exhaustion via sustained job creation (closed)
@@ -64,19 +64,9 @@
 - [#1](./issue_1.md) - Unauthenticated /api/cases leaks the full historical investigation corpus (closed)
 
 ## Code Scanning Alerts
-- [CodeScan #20](./codescan/alert_20.md) - js/xss-through-dom (warning) - open
-- [CodeScan #19](./codescan/alert_19.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #18](./codescan/alert_18.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #17](./codescan/alert_17.md) - actions/missing-workflow-permissions (warning) - open
-- [CodeScan #16](./codescan/alert_16.md) - js/xss-through-dom (warning) - open
-- [CodeScan #13](./codescan/alert_13.md) - py/incomplete-url-substring-sanitization (warning) - open
-- [CodeScan #12](./codescan/alert_12.md) - py/incomplete-url-substring-sanitization (warning) - open
-- [CodeScan #11](./codescan/alert_11.md) - py/url-redirection (error) - open
-- [CodeScan #10](./codescan/alert_10.md) - py/clear-text-logging-sensitive-data (error) - open
-- [CodeScan #9](./codescan/alert_9.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #8](./codescan/alert_8.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #7](./codescan/alert_7.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #6](./codescan/alert_6.md) - py/stack-trace-exposure (error) - open
-- [CodeScan #5](./codescan/alert_5.md) - py/stack-trace-exposure (error) - open
+- [CodeScan #40](./codescan/alert_40.md) - py/full-ssrf (error) - open
+- [CodeScan #39](./codescan/alert_39.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #38](./codescan/alert_38.md) - js/xss-through-dom (warning) - open
+- [CodeScan #27](./codescan/alert_27.md) - py/url-redirection (error) - open
 
 Total issues downloaded: 50
