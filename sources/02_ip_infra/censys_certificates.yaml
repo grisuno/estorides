@@ -1,0 +1,28 @@
+name: censys_certificates
+enabled: true
+category: 02. IP & Infrastructure
+description: Censys certificate search — TLS certificates for a domain (requires API ID + Secret as base64(ID:Secret) in CENSYS_BASIC_AUTH)
+os: any
+requires_key: true
+key_env: CENSYS_BASIC_AUTH
+parser: raw_text
+entity_hints:
+- domain
+- certificate
+- issuer
+- organization
+- ipv4
+applies_to:
+- domain
+- ipv4
+contact: none
+tool:
+  method: GET
+  url: https://search.censys.io/api/v2/certificates/search
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+    Authorization: 'Basic {api_key}'
+  params:
+    q: 'parsed.names: {query}'
+    per_page: '100'

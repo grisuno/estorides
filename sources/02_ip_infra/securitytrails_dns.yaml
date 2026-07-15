@@ -1,0 +1,24 @@
+name: securitytrails_dns
+enabled: true
+category: 02. IP & Infrastructure
+description: SecurityTrails DNS history — subdomains, A/AAAA/MX/NS records (requires API key)
+os: any
+requires_key: true
+key_env: SECURITYTRAILS_API_KEY
+parser: raw_text
+entity_hints:
+- domain
+- subdomain
+- ipv4
+- nameserver
+applies_to:
+- domain
+contact: none
+tool:
+  method: GET
+  url: https://api.securitytrails.com/v1/domain/{query}/subdomains
+  headers:
+    User-Agent: Estorides/1.0
+    APIKEY: '{api_key}'
+    Accept: application/json
+  params: {}

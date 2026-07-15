@@ -961,6 +961,183 @@ def create_app() -> Flask:
         result = socmint_inferer.discover_from_text(text)
         return jsonify(result)
 
+    # ----- monitoring endpoints (v1.4) -----
+    try:
+        from estorides_core.monitoring import store as watch_store
+        from estorides_core.monitoring import scheduler as watch_scheduler
+        from estorides_core.monitoring import WatchTarget as _WT
+        # Wire the orchestrator as the watch scheduler's runner so
+        # scheduled watches actually execute queries instead of being
+        # decorative CRUD records.
+        if watch_scheduler is not None and watch_scheduler._runner is None:
+            async def _watch_runner(swatch: _WT) -> dict[str, Any]:
+                from estorides_core.orchestrator import Orchestrator
+                _w_orch = Orchestrator()
+                _result = await _w_orch.run(
+                    swatch.query,
+                    passive_only=True,
+                    parallel=4,
+                    deadline=30.0,
+                )
+                return _result
+            watch_scheduler.set_runner(_watch_runner)
+    except Exception:
+        watch_store = None  # type: ignore[assignment]
+        watch_scheduler = None  # type: ignore[assignment]
+
+    try:
+        from estorides_core.alerter import dispatcher as alert_dispatcher
+    except Exception:
+        alert_dispatcher = None  # type: ignore[assignment]
+
+    @app.route("/api/watch", methods=["GET"])
+    @_rate_limit_decorator(event="api_watch_list")
+    @require_auth
+    def api_watch_list() -> Any:
+        """List all watch targets."""
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watches = [w.to_dict() for w in watch_store.list_watches()]
+        return jsonify({"watches": watches, "total": len(watches)})
+
+    @app.route("/api/watch", methods=["POST"])
+    @_rate_limit_decorator(event="api_watch_create")
+    @require_auth
+    def api_watch_create() -> Any:
+        """Create a new watch target.
+
+        Body: {"query": "example.com", "type": "domain", "interval": 1440, "channels": ["slack"], "notes": "..."}
+        """
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        from estorides_core.monitoring import WatchTarget as WT
+        body = request.get_json(silent=True) or {}
+        query = str(body.get("query") or "").strip()
+        if not query:
+            return jsonify({"error": "query required"}), 400
+        qtype = str(body.get("type") or "auto")
+        if qtype == "auto":
+            from estorides_core.entity_extraction import detect_query_type
+            qtype = detect_query_type(query) or "domain"
+        interval = int(body.get("interval", 1440))
+        if interval < 15:
+            return jsonify({"error": "minimum interval is 15 minutes"}), 400
+        channels = list(body.get("channels", []))
+        watch = WT(
+            query=query, query_type=qtype,
+            interval_minutes=interval, channels=channels,
+            notes=str(body.get("notes", "")),
+            next_run_at=time.time() + 60,
+        )
+        watch_store.create_watch(watch)
+        # Start scheduler if not running
+        if watch_scheduler is not None and not watch_scheduler.running:
+            watch_scheduler.start()
+        return jsonify(watch.to_dict()), 201
+
+    @app.route("/api/watch/<watch_id>", methods=["GET"])
+    @_rate_limit_decorator(event="api_watch_get")
+    @require_auth
+    def api_watch_get(watch_id: str) -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watch = watch_store.get_watch(watch_id)
+        if not watch:
+            return jsonify({"error": "not-found"}), 404
+        result = watch.to_dict()
+        result["history"] = watch_store.history(watch_id)
+        return jsonify(result)
+
+    @app.route("/api/watch/<watch_id>", methods=["DELETE"])
+    @_rate_limit_decorator(event="api_watch_delete")
+    @require_auth
+    def api_watch_delete(watch_id: str) -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watch = watch_store.get_watch(watch_id)
+        if not watch:
+            return jsonify({"error": "not-found"}), 404
+        watch_store.delete_watch(watch_id)
+        return jsonify({"deleted": watch_id})
+
+    @app.route("/api/watch/<watch_id>/enable", methods=["POST"])
+    @_rate_limit_decorator(event="api_watch_enable")
+    @require_auth
+    def api_watch_enable(watch_id: str) -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watch = watch_store.get_watch(watch_id)
+        if not watch:
+            return jsonify({"error": "not-found"}), 404
+        watch.enabled = True
+        watch.next_run_at = time.time() + 60
+        watch_store.update_watch(watch)
+        return jsonify(watch.to_dict())
+
+    @app.route("/api/watch/<watch_id>/disable", methods=["POST"])
+    @_rate_limit_decorator(event="api_watch_disable")
+    @require_auth
+    def api_watch_disable(watch_id: str) -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watch = watch_store.get_watch(watch_id)
+        if not watch:
+            return jsonify({"error": "not-found"}), 404
+        watch.enabled = False
+        watch_store.update_watch(watch)
+        return jsonify(watch.to_dict())
+
+    @app.route("/api/watch/<watch_id>/history", methods=["GET"])
+    @_rate_limit_decorator(event="api_watch_history")
+    @require_auth
+    def api_watch_history(watch_id: str) -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        watch = watch_store.get_watch(watch_id)
+        if not watch:
+            return jsonify({"error": "not-found"}), 404
+        return jsonify({"history": watch_store.history(watch_id)})
+
+    @app.route("/api/alerts/channels", methods=["GET"])
+    @_rate_limit_decorator(event="api_alerts_channels")
+    @require_auth
+    def api_alerts_channels() -> Any:
+        """List configured alert channels and their status."""
+        if alert_dispatcher is None:
+            return jsonify({"error": "alerter unavailable"}), 503
+        return jsonify({"channels": alert_dispatcher.available_channels()})
+
+    @app.route("/api/alerts/test", methods=["POST"])
+    @_rate_limit_decorator(event="api_alerts_test")
+    @require_auth
+    def api_alerts_test() -> Any:
+        """Send a test alert to a channel.
+
+        Body: {"channel": "slack"}
+        """
+        if alert_dispatcher is None:
+            return jsonify({"error": "alerter unavailable"}), 503
+        body = request.get_json(silent=True) or {}
+        channel = str(body.get("channel") or "").strip()
+        if not channel:
+            return jsonify({"error": "channel required"}), 400
+        ok = alert_dispatcher.test(channel)
+        return jsonify({"channel": channel, "success": ok})
+
+    @app.route("/api/scheduler/status", methods=["GET"])
+    @_rate_limit_decorator(event="api_scheduler_status")
+    @require_auth
+    def api_scheduler_status() -> Any:
+        if watch_store is None:
+            return jsonify({"error": "monitoring unavailable"}), 503
+        stats = watch_store.stats()
+        running = watch_scheduler.running if watch_scheduler is not None else False
+        return jsonify({
+            "running": running,
+            "total_watches": stats["total"],
+            "enabled_watches": stats["enabled"],
+        })
+
     # ----- graph pivot transforms -----
     try:
         from estorides_core.transforms import registry as transform_registry

@@ -1,0 +1,24 @@
+name: fullhunt_surface
+enabled: true
+category: 02. IP & Infrastructure
+description: FullHunt.io — attack surface discovery, subdomains, technology stack (requires API key)
+os: any
+requires_key: true
+key_env: FULLHUNT_API_KEY
+parser: raw_text
+entity_hints:
+- domain
+- subdomain
+- ipv4
+- technology
+applies_to:
+- domain
+contact: none
+tool:
+  method: GET
+  url: https://fullhunt.io/api/v1/domain/{query}/subdomains
+  headers:
+    User-Agent: Estorides/1.0
+    X-API-Key: '{api_key}'
+    Accept: application/json
+  params: {}

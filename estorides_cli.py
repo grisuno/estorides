@@ -483,6 +483,195 @@ def cmd_fusion(args: argparse.Namespace) -> int:
     return 0
 
 
+# ================================================================ watch commands
+
+def cmd_watch_add(args: argparse.Namespace) -> int:
+    """Add a new recurring watch target."""
+    from estorides_core.monitoring import WatchTarget, store, scheduler
+    from estorides_core.entity_extraction import detect_query_type
+
+    qtype = args.type
+    if qtype == "auto":
+        qtype = detect_query_type(args.query) or "domain"
+    if args.interval < 15:
+        print("error: minimum interval is 15 minutes", file=sys.stderr)
+        return 2
+    channels = [c.strip() for c in args.channels.split(",") if c.strip()] if args.channels else []
+
+    watch = WatchTarget(
+        query=args.query, query_type=qtype,
+        interval_minutes=args.interval,
+        channels=channels, notes=args.notes,
+        next_run_at=time.time() + 60,  # first run in 60s
+    )
+    store.create_watch(watch)
+    print(f"Watch added: {watch.id}")
+    print(f"  Query: {watch.query} ({watch.query_type})")
+    print(f"  Interval: {watch.interval_minutes}min")
+    print(f"  Channels: {', '.join(watch.channels) or 'none'}")
+    print(f"  First run: ~60s from now")
+    # Wire the orchestrator as runner so watches actually execute
+    if scheduler._runner is None:
+        scheduler.set_runner(_watch_runner_factory(args.proxy, args.passive_only))
+    # Start scheduler if not running
+    if not scheduler.running and SCHEDULER_ENABLED:
+        scheduler.start()
+        print("  Scheduler: started")
+    return 0
+
+
+def _watch_runner_factory(proxy: str | None = None, passive_only: bool = False) -> Callable:
+    """Create an async watch runner wired to the Orchestrator.
+
+    Returns an async function that takes a WatchTarget and returns
+    the orchestrator's run result dict.
+    """
+    from estorides_core.orchestrator import Orchestrator
+
+    async def _run(watch: WatchTarget) -> dict[str, Any]:
+        orch = Orchestrator()
+        result = await orch.run(
+            watch.query,
+            passive_only=passive_only,
+            proxy=proxy,
+            parallel=4,
+            deadline=30.0,
+        )
+        watch.last_status = "ok" if "error" not in result else "error"
+        return result
+    return _run
+
+
+def cmd_watch_list(args: argparse.Namespace) -> int:
+    """List all watch targets."""
+    from estorides_core.monitoring import store
+    watches = store.list_watches()
+    if not watches:
+        print("No watch targets. Use 'estorides watch add <query>' to create one.")
+        return 0
+    if args.json:
+        print(json.dumps([w.to_dict() for w in watches], indent=2, default=str))
+        return 0
+    print(f"\n{'ID':<10} {'Query':<30} {'Interval':<10} {'Status':<10} {'Channels':<20} Next Run")
+    print("-" * 100)
+    for w in watches:
+        chans = ",".join(w.channels) if w.channels else "-"
+        next_s = time.strftime("%m-%d %H:%M", time.localtime(w.next_run_at))
+        print(f"{w.id:<10} {w.query:<30} {w.interval_minutes:<10} {w.last_status:<10} {chans:<20} {next_s}")
+    print(f"\nTotal: {len(watches)}")
+    return 0
+
+
+def cmd_watch_remove(args: argparse.Namespace) -> int:
+    """Delete a watch target."""
+    from estorides_core.monitoring import store
+    watch = store.get_watch(args.watch_id)
+    if not watch:
+        print(f"error: watch {args.watch_id} not found", file=sys.stderr)
+        return 2
+    store.delete_watch(args.watch_id)
+    print(f"Watch {args.watch_id} deleted ({watch.query})")
+    return 0
+
+
+def cmd_watch_enable(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import store
+    watch = store.get_watch(args.watch_id)
+    if not watch:
+        print(f"error: watch {args.watch_id} not found", file=sys.stderr)
+        return 2
+    watch.enabled = True
+    watch.next_run_at = time.time() + 60
+    store.update_watch(watch)
+    print(f"Watch {args.watch_id} enabled")
+    return 0
+
+
+def cmd_watch_disable(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import store
+    watch = store.get_watch(args.watch_id)
+    if not watch:
+        print(f"error: watch {args.watch_id} not found", file=sys.stderr)
+        return 2
+    watch.enabled = False
+    store.update_watch(watch)
+    print(f"Watch {args.watch_id} disabled")
+    return 0
+
+
+def cmd_watch_history(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import store
+    watch = store.get_watch(args.watch_id)
+    if not watch:
+        print(f"error: watch {args.watch_id} not found", file=sys.stderr)
+        return 2
+    history = store.history(args.watch_id)
+    print(f"\nHistory for watch {args.watch_id} ({watch.query}):")
+    if not history:
+        print("  No runs yet.")
+        return 0
+    for h in history:
+        ts = time.strftime("%m-%d %H:%M", time.localtime(h["started_at"]))
+        dur = f"{h['completed_at'] - h['started_at']:.0f}s" if h["completed_at"] else "running"
+        ents = h["entity_count"]
+        print(f"  {ts} | {h['status']:<8} | {dur:<8} | {ents} entities")
+    return 0
+
+
+# ================================================================ alerts commands
+
+def cmd_alerts_test(args: argparse.Namespace) -> int:
+    from estorides_core.alerter import dispatcher
+    print(f"Sending test alert to {args.channel}...")
+    ok = dispatcher.test(args.channel)
+    if ok:
+        print("✅ Alert sent successfully")
+    else:
+        print("❌ Alert failed. Check channel configuration (env vars).")
+        return 1
+    return 0
+
+
+def cmd_alerts_channels(args: argparse.Namespace) -> int:
+    from estorides_core.alerter import dispatcher
+    channels = dispatcher.available_channels()
+    print("\nConfigured alert channels:")
+    for ch in channels:
+        status = "✅" if ch["configured"] else "❌"
+        print(f"  {status} {ch['name']:<12} ({ch['env_var']})")
+    return 0
+
+
+# ================================================================ scheduler commands
+
+def cmd_scheduler_start(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import scheduler
+    if scheduler.running:
+        print("Scheduler already running")
+        return 0
+    scheduler.start()
+    print("Scheduler started")
+    return 0
+
+
+def cmd_scheduler_stop(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import scheduler
+    if not scheduler.running:
+        print("Scheduler not running")
+        return 0
+    scheduler.stop()
+    print("Scheduler stopped")
+    return 0
+
+
+def cmd_scheduler_status(args: argparse.Namespace) -> int:
+    from estorides_core.monitoring import scheduler, store
+    stats = store.stats()
+    print(f"\nScheduler: {'🟢 Running' if scheduler.running else '🔴 Stopped'}")
+    print(f"Watches:   {stats['total']} total, {stats['enabled']} enabled")
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     # Bootstrap sys.path so `python3 estorides_cli.py serve` works without
     # requiring the user to set PYTHONPATH.
@@ -593,6 +782,60 @@ def build_parser() -> argparse.ArgumentParser:
     fu.add_argument("--limit", type=int, default=50, help="max rows (default 50)")
     fu.set_defaults(func=cmd_fusion)
 
+    # ----------------------------------------------------------- watch
+    watch = sub.add_parser("watch", help="manage recurring watch targets")
+    watch_sub = watch.add_subparsers(dest="watch_action", required=True)
+
+    wa = watch_sub.add_parser("add", help="add a new watch target")
+    wa.add_argument("query", help="domain, IP, email, or username to watch")
+    wa.add_argument("--type", default="auto", help="query type (auto, domain, ipv4, email, username)")
+    wa.add_argument("--interval", type=int, default=1440,
+                    help="check interval in minutes (default 1440 = 24h, min 15)")
+    wa.add_argument("--channels", default="",
+                    help="comma-separated alert channels: slack,discord,telegram,email,webhook")
+    wa.add_argument("--notes", default="", help="optional notes")
+    wa.set_defaults(func=cmd_watch_add)
+
+    wl = watch_sub.add_parser("list", help="list all watch targets")
+    wl.add_argument("--json", action="store_true", help="output as JSON")
+    wl.set_defaults(func=cmd_watch_list)
+
+    wr = watch_sub.add_parser("remove", help="delete a watch target")
+    wr.add_argument("watch_id", help="watch ID to delete")
+    wr.set_defaults(func=cmd_watch_remove)
+
+    we = watch_sub.add_parser("enable", help="enable a watch target")
+    we.add_argument("watch_id", help="watch ID to enable")
+    we.set_defaults(func=cmd_watch_enable)
+
+    wd = watch_sub.add_parser("disable", help="disable a watch target")
+    wd.add_argument("watch_id", help="watch ID to disable")
+    wd.set_defaults(func=cmd_watch_disable)
+
+    wh = watch_sub.add_parser("history", help="show run history for a watch")
+    wh.add_argument("watch_id", help="watch ID")
+    wh.set_defaults(func=cmd_watch_history)
+
+    # ----------------------------------------------------------- alerts
+    alerts = sub.add_parser("alerts", help="manage alert channels")
+    alerts_sub = alerts.add_subparsers(dest="alerts_action", required=True)
+
+    at = alerts_sub.add_parser("test", help="send a test alert to verify channel config")
+    at.add_argument("channel", choices=["slack", "discord", "telegram", "email", "webhook"],
+                    help="channel to test")
+    at.set_defaults(func=cmd_alerts_test)
+
+    al = alerts_sub.add_parser("channels", help="list configured alert channels")
+    al.set_defaults(func=cmd_alerts_channels)
+
+    # ----------------------------------------------------------- scheduler
+    sched = sub.add_parser("scheduler", help="control the monitoring scheduler")
+    sched_sub = sched.add_subparsers(dest="sched_action", required=True)
+    sched_sub.add_parser("start", help="start the scheduler").set_defaults(func=cmd_scheduler_start)
+    sched_sub.add_parser("stop", help="stop the scheduler").set_defaults(func=cmd_scheduler_stop)
+    sched_sub.add_parser("status", help="show scheduler status").set_defaults(func=cmd_scheduler_status)
+
+    # ----------------------------------------------------------- serve (existing)
     sv = sub.add_parser("serve", help="run the web UI (dev server; use gunicorn for prod)")
     sv.add_argument("--host", default=FLASK_HOST)
     sv.add_argument("--port", type=int, default=FLASK_PORT)

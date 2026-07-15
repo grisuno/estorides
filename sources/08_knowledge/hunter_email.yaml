@@ -1,0 +1,25 @@
+name: hunter_email
+enabled: true
+category: 08. Knowledge
+description: "Hunter.io — email addresses associated with a domain (requires API key, free tier: 25 searches/mo)"
+os: any
+requires_key: true
+key_env: HUNTER_API_KEY
+parser: raw_text
+entity_hints:
+- email
+- person
+- organization
+applies_to:
+- domain
+contact: none
+tool:
+  method: GET
+  url: https://api.hunter.io/v2/domain-search
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
+  params:
+    domain: '{query}'
+    api_key: '{api_key}'
+    limit: '25'
