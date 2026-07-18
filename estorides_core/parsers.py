@@ -1162,6 +1162,8 @@ PARSERS = {
     "cve_circl": parse_raw_text,
     "exploitdb": parse_text_lines,
     "blocklist": parse_text_lines,
+    # --- Recon parsers ---
+    "tech_fingerprint": parse_raw_text,
     # --- SOCMINT parsers (v1.4) ---
     "twitter_user": parse_twitter_user,
     "youtube_user": parse_youtube_user,

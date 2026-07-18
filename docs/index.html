@@ -425,6 +425,44 @@
             </div>
         </section>
 
+            <!-- 2k: Passive Recon Suite (10 modules) -->
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2k &middot; <code>Passive Recon Suite</code>
+                        <span class="badge badge-milestone ml-2">closed 2026-07-17</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p>Complete passive reconnaissance pipeline for red-team/pentesting
+                    phase 1. 10 new modules, 34 YAML sources, 82 new BDD tests.</p>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/tech_fingerprint.md">tech_fingerprint</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/vuln_correlation.md">vuln_correlation</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/cloud_asset_discovery.md">cloud_asset</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/people_intel.md">people_intel</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/code_exposure.md">code_exposure</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/supply_chain.md">supply_chain</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/pdns_monitor.md">pdns_monitor</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/target_scoring.md">target_scoring</a></span></li>
+                        <li class="list-inline-item"><span class="badge badge-spec">
+                            <a href="../spec/recon_report.md">recon_report</a></span></li>
+                    </ul>
+                    <p class="mb-0"><small>
+                        <a href="../spec/tech_fingerprint.md">Specs</a> &middot;
+                        <a href="../tests/test_tech_fingerprint.py">Tests</a> &middot;
+                        <a href="../estorides_core/recon_pipeline.py">Pipeline</a>
+                    </small></p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>
@@ -463,9 +501,9 @@ estorides run example.com</code></pre>
     <footer class="footer text-center">
         <div class="container">
             <p class="mb-1">Estorides &mdash; state-level OSINT engine. GPLv3.</p>
-            <p class="mb-0"><small>99+ sources &middot; 12 intelligence categories &middot;
+            <p class="mb-0"><small>107+ sources &middot; 12 intelligence categories &middot;
             async fanout &middot; persistent graph &middot; multi-LLM analyst &middot;
-            510 tests</small></p>
+            703 tests &middot; Passive Recon Suite</small></p>
         </div>
     </footer>
 </body>

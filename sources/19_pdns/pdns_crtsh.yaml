@@ -1,0 +1,23 @@
+name: pdns_crtsh
+enabled: true
+category: 19. Passive DNS & Certificate Monitoring
+description: Certificate Transparency log query via crt.sh — subdomain discovery
+os: any
+requires_key: false
+contact: none
+logs_queries: false
+parser: crtsh_json
+entity_hints:
+  - subdomain
+  - certificate
+applies_to:
+  - domain
+  - ipv4
+tool:
+  method: GET
+  url: https://crt.sh/
+  params:
+    q: '%.{query}'
+    output: json
+  headers:
+    User-Agent: Estorides/1.0

@@ -1,0 +1,20 @@
+name: psbdmp_search
+enabled: true
+category: 16. People Intelligence
+description: Pastebin dump search for employee emails and passwords
+os: any
+requires_key: false
+contact: broker
+logs_queries: true
+parser: pass_through
+entity_hints:
+  - email
+  - credential
+applies_to:
+  - email
+  - domain
+tool:
+  method: GET
+  url: https://psbdmp.ws/api/search/{query}
+  headers:
+    User-Agent: Estorides/1.0

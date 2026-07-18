@@ -1,0 +1,19 @@
+name: bucket_probe
+enabled: true
+category: 15. Cloud Asset Discovery
+description: Passive S3/Azure/GCP bucket name permutation probing
+os: any
+requires_key: false
+contact: broker
+logs_queries: false
+parser: pass_through
+entity_hints:
+  - cloud_bucket
+  - cdn_endpoint
+applies_to:
+  - domain
+tool:
+  method: GET
+  url: https://{bucket}.s3.amazonaws.com/
+  headers:
+    User-Agent: Mozilla/5.0

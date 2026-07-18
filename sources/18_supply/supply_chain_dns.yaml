@@ -1,0 +1,22 @@
+name: supply_chain_dns
+enabled: true
+category: 18. Supply Chain
+description: Third-party service detection via DNS MX/NS/CNAME records
+os: any
+requires_key: false
+contact: none
+logs_queries: false
+parser: pass_through
+entity_hints:
+  - third_party
+  - organization
+applies_to:
+  - domain
+tool:
+  method: GET
+  url: https://cloudflare-dns.com/dns-query
+  headers:
+    Accept: application/dns-json
+  params:
+    name: '{query}'
+    type: ANY

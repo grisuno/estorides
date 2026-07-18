@@ -1,0 +1,29 @@
+name: tech_fingerprint
+enabled: true
+category: 14. Technology Fingerprinting
+description: Passive HTTP technology stack fingerprinting — server, WAF, CMS, JS libs, CDN
+os: any
+requires_key: false
+contact: broker
+logs_queries: false
+parser: tech_fingerprint
+entity_hints:
+  - technology
+  - server
+  - waf
+  - cms
+  - framework
+  - js_library
+  - analytics
+  - cdn
+applies_to:
+  - domain
+  - ipv4
+  - url
+tool:
+  method: GET
+  url: https://api.hackertarget.com/httpheaders/
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

@@ -1,0 +1,24 @@
+name: pdns_certspotter
+enabled: true
+category: 19. Passive DNS & Certificate Monitoring
+description: CertSpotter API — certificate transparency monitoring for new subdomains
+os: any
+requires_key: true
+key_env: CERTSPOTTER_API_KEY
+contact: none
+logs_queries: false
+parser: pass_through
+entity_hints:
+  - subdomain
+  - certificate
+applies_to:
+  - domain
+tool:
+  method: GET
+  url: https://api.certspotter.com/v1/issuances
+  params:
+    domain: '{query}'
+    include_subdomains: 'true'
+    expand: 'dns_names'
+  headers:
+    Authorization: Bearer {api_key}

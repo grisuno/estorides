@@ -1,0 +1,22 @@
+name: hunter_email
+enabled: true
+category: 16. People Intelligence
+description: Email discovery via Hunter.io API — find employees by domain
+os: any
+requires_key: true
+key_env: HUNTER_API_KEY
+contact: none
+logs_queries: true
+parser: pass_through
+entity_hints:
+  - email
+  - person
+applies_to:
+  - domain
+tool:
+  method: GET
+  url: https://api.hunter.io/v2/domain-search
+  params:
+    domain: '{query}'
+    api_key: '{api_key}'
+    limit: '25'

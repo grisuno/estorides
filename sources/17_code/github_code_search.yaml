@@ -1,0 +1,26 @@
+name: github_code_search
+enabled: true
+category: 17. Code Exposure
+description: GitHub code search for org-level secrets and credentials
+os: any
+requires_key: true
+key_env: GITHUB_TOKEN
+contact: none
+logs_queries: true
+parser: pass_through
+entity_hints:
+  - credential
+  - api_key
+  - internal_url
+applies_to:
+  - domain
+  - keyword
+tool:
+  method: GET
+  url: https://api.github.com/search/code
+  headers:
+    Authorization: Bearer {api_key}
+    Accept: application/vnd.github.v3+json
+  params:
+    q: 'org:{query} password'
+    per_page: '30'
