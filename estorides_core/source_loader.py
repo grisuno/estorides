@@ -106,8 +106,11 @@ class SourceRegistry:
             return None
 
         tool = raw.get("tool", {}) or {}
-        if not tool.get("url") and not tool.get("body"):
-            log.warning("source %s has no url/body — skipped", name)
+        has_url = bool(tool.get("url"))
+        has_body = bool(tool.get("body"))
+        has_binary = bool(tool.get("binary"))
+        if not has_url and not has_body and not has_binary:
+            log.warning("source %s has no url/body/binary — skipped", name)
             return None
 
         # applies_to: which query types does this source make sense for?
@@ -268,18 +271,22 @@ class SourceRegistry:
         out["logs_queries"] = bool(data.get("logs_queries", False))
         # tool block
         tool = data.get("tool", {})
-        if not tool.get("url"):
-            raise ValueError("source must have a tool.url")
-        out["tool"] = {
-            "method": tool.get("method", "GET"),
-            "url": tool["url"],
-        }
+        if not tool.get("url") and not tool.get("body") and not tool.get("binary"):
+            raise ValueError("source must have a tool.url, tool.body, or tool.binary")
+        out["tool"] = {}
+        if tool.get("url"):
+            out["tool"]["url"] = tool["url"]
+            out["tool"]["method"] = tool.get("method", "GET")
         if tool.get("headers"):
             out["tool"]["headers"] = tool["headers"]
         if tool.get("params"):
             out["tool"]["params"] = tool["params"]
         if tool.get("body"):
             out["tool"]["body"] = tool["body"]
+        if tool.get("binary"):
+            out["tool"]["binary"] = tool["binary"]
+            out["tool"]["args"] = tool.get("args", [])
+            out["tool"]["timeout"] = tool.get("timeout", 300)
         # pagination
         if isinstance(data.get("pagination"), dict) and data["pagination"]:
             out["pagination"] = {k: v for k, v in data["pagination"].items() if v not in (None, "")}

@@ -660,6 +660,56 @@ class Orchestrator:
         from .pagination import PaginationConfig, build_page_params, count_results
 
         tool = source["tool"]
+
+        # CLI tool source: invoke via tool_runner instead of HTTP.
+        binary_name = tool.get("binary")
+        if binary_name:
+            args = [tool.get("query", query)] + list(tool.get("args") or [])
+            timeout = int(tool.get("timeout", 300))
+            log.info("tool_runner: executing %s for query=%s", binary_name, query)
+            from .tool_runner import run_tool, ToolResult
+
+            raw_result = run_tool(binary_name, args, target=query, timeout=timeout)
+            if isinstance(raw_result, ToolResult):
+                stdout_data = raw_result.stdout
+                exit_code = raw_result.exit_code
+            else:
+                stdout_data = raw_result.stderr or ""
+                exit_code = raw_result.exit_code or -1
+
+            meta = {
+                "source": source["name"],
+                "page": 1,
+                "tool_binary": binary_name,
+                "exit_code": exit_code,
+                "duration_s": raw_result.duration_s if isinstance(raw_result, ToolResult) else 0.0,
+            }
+            if isinstance(raw_result, ToolResult) and raw_result.parsed_entities:
+                parsed = raw_result.parsed_entities
+            else:
+                parser = get_parser(source["parser"])
+                try:
+                    parsed = parser(stdout_data) if stdout_data else None
+                except Exception as exc:  # noqa: BLE001
+                    log.debug("parser %s failed for %s: %s", source["parser"], source["name"], exc)
+                    parsed = None
+
+            if on_result is not None:
+                try:
+                    on_result({
+                        "source": source["name"],
+                        "category": source["category"],
+                        "description": source["description"],
+                        "parser": source["parser"],
+                        "parsed": parsed,
+                        "meta": meta,
+                        "observed_at": time.time(),
+                    })
+                except Exception:  # never let a subscriber break the run
+                    pass
+
+            return source, parsed, stdout_data, meta
+
         method = (tool.get("method") or "GET").upper()
         api_key = _resolve_auth(source)
 

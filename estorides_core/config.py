@@ -147,6 +147,31 @@ HTTP_BACKOFF_FACTOR: float = float(os.environ.get("ESTORIDES_BACKOFF_FACTOR", 2.
 HTTP_MAX_PARALLEL: int = int(os.environ.get("ESTORIDES_PARALLEL", 8))
 USER_AGENT: str = os.environ.get("ESTORIDES_UA", "Estorides/1.0 (+open-source OSINT platform)")
 
+
+def _env_tool_allowlist() -> set[str]:
+    raw = os.environ.get("ESTORIDES_TOOL_ALLOWLIST", "")
+    if not raw.strip():
+        return {
+            "nmap", "nikto", "sqlmap", "dnsrecon", "dnsenum",
+            "theHarvester", "whatweb", "wafw00f",
+            "sslscan", "sslyze",
+            "enum4linux", "smbclient", "nbtscan", "snmpwalk",
+            "amass", "bulk_extractor", "binwalk", "strings", "file",
+            "radare2", "r2", "pyinstaller",
+            "john", "hashcat", "hydra", "medusa", "patator", "ncrack",
+            "msfconsole",
+            "tcpdump", "tshark",
+            "wfuzz", "ffuf", "dirb", "gobuster", "feroxbuster", "nuclei",
+            "ncat", "socat", "netcat",
+            "arp-scan", "netdiscover",
+        }
+    return {t.strip() for t in raw.split(",") if t.strip()}
+
+# Tool runner — safe subprocess execution for Kali CLI tools.
+TOOL_ALLOWLIST: set[str] = _env_tool_allowlist()
+TOOL_TIMEOUT: int = _env_int("ESTORIDES_TOOL_TIMEOUT", 300)
+TOOL_MAX_OUTPUT_BYTES: int = int(os.environ.get("ESTORIDES_TOOL_MAX_OUTPUT", 10_485_760))
+
 # Circuit breaker — if a host fails this many times in a window, skip for cooldown.
 CIRCUIT_FAIL_THRESHOLD: int = _env_int("ESTORIDES_CIRCUIT_FAIL_THRESHOLD", 5)
 CIRCUIT_COOLDOWN_S: int = _env_int("ESTORIDES_CIRCUIT_COOLDOWN_S", 300)
