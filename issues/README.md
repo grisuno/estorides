@@ -4,12 +4,12 @@
 
 | Metric | Value |
 |--------|-------|
-| ⭐ Stars | 85 |
-| 📥 Clones (last 14 days) | 479 |
+| ⭐ Stars | 89 |
+| 📥 Clones (last 14 days) | 240 |
 | 🟢 Open Issues | 2 |
 | 📋 Total Issues | 50 |
 | 🛡 Dependabot Open Alerts | 0 |
-| 🔍 CodeScan Open Alerts | 4 |
+| 🔍 CodeScan Open Alerts | 8 |
 
 ## Issues
 - [#50](./issue_50.md) - RUN_STREAM_JOBS and DISCOVER_JOBS hold BufferedEventSink objects indefinitely — memory exhaustion via sustained job creation (closed)
@@ -64,8 +64,12 @@
 - [#1](./issue_1.md) - Unauthenticated /api/cases leaks the full historical investigation corpus (closed)
 
 ## Code Scanning Alerts
+- [CodeScan #45](./codescan/alert_45.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #44](./codescan/alert_44.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #43](./codescan/alert_43.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #42](./codescan/alert_42.md) - py/incomplete-url-substring-sanitization (warning) - open
+- [CodeScan #41](./codescan/alert_41.md) - py/incomplete-url-substring-sanitization (warning) - open
 - [CodeScan #40](./codescan/alert_40.md) - py/full-ssrf (error) - open
-- [CodeScan #39](./codescan/alert_39.md) - py/incomplete-url-substring-sanitization (warning) - open
 - [CodeScan #38](./codescan/alert_38.md) - js/xss-through-dom (warning) - open
 - [CodeScan #27](./codescan/alert_27.md) - py/url-redirection (error) - open
 
