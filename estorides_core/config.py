@@ -257,11 +257,11 @@ LLM_TEMPERATURE: float = float(os.environ.get("ESTORIDES_LLM_TEMP", 0.25))
 # Hard wall-clock cap (seconds) for any single LLM HTTP call. Threaded into the
 # requests timeout so a slow local model can never orphan a thread that blocks
 # process shutdown for minutes.
-LLM_REQUEST_TIMEOUT: float = float(os.environ.get("ESTORIDES_LLM_REQUEST_TIMEOUT", 12.0))
+LLM_REQUEST_TIMEOUT: float = float(os.environ.get("ESTORIDES_LLM_REQUEST_TIMEOUT", 120.0))
 
 # Model selection per backend.
 LLM_MODELS: dict[str, str] = {
-    "ollama": os.environ.get("ESTORIDES_OLLAMA_MODEL", "llama3.1:8b"),
+    "ollama": os.environ.get("ESTORIDES_OLLAMA_MODEL", ""),
     "openrouter": os.environ.get("ESTORIDES_OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
     "anthropic": os.environ.get("ESTORIDES_ANTHROPIC_MODEL", "claude-3-5-sonnet-20241022"),
     "openai": os.environ.get("ESTORIDES_OPENAI_MODEL", "gpt-4o-mini"),

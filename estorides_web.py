@@ -251,6 +251,12 @@ def create_app() -> Flask:
     def api_status() -> Any:
         return jsonify(orch.registry.summary())
 
+    @app.route("/api/ollama-status")
+    @_rate_limit_decorator(event="api_ollama_status")
+    @require_auth
+    def api_ollama_status() -> Any:
+        return jsonify(orch.llm.get_ollama_status())
+
     @app.route("/api/run", methods=["POST"])
     @_rate_limit_decorator(event="api_run")
     @require_auth

@@ -2537,3 +2537,42 @@ function flushDiscoverEntities() {
     window._drawDiscoverGraph(_discoverEntities);
   }
 }
+
+// ---- ollama model check ----
+(function initOllamaCheck() {
+  var modal = document.getElementById('no-model-modal');
+  if (!modal) return;
+  var statusEl = document.getElementById('modal-ollama-status');
+  var dismiss = document.getElementById('modal-dismiss-btn');
+  var retry = document.getElementById('modal-retry-btn');
+  var close = document.getElementById('modal-close-btn');
+
+  function check() {
+    fetch('/api/ollama-status')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.reachable) {
+          statusEl.textContent = 'Ollama is not running. Start it with: ollama serve';
+          statusEl.className = 'modal-status error';
+          modal.hidden = false;
+        } else if (!data.models.length) {
+          statusEl.textContent = 'Ollama is running but has no models pulled.';
+          statusEl.className = 'modal-status error';
+          modal.hidden = false;
+        } else {
+          modal.hidden = true;
+        }
+      })
+      .catch(function() {
+        statusEl.textContent = 'Could not reach the ollama status endpoint.';
+        statusEl.className = 'modal-status error';
+        modal.hidden = false;
+      });
+  }
+
+  if (dismiss) dismiss.addEventListener('click', function() { modal.hidden = true; });
+  if (close) close.addEventListener('click', function() { modal.hidden = true; });
+  if (retry) retry.addEventListener('click', check);
+
+  check();
+})();

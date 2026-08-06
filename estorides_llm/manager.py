@@ -86,14 +86,24 @@ def register(name: str) -> Callable[[Any], LLMBackend]:
 class OllamaBackend:
     name = "ollama"
 
+    @staticmethod
+    def get_status() -> Dict[str, Any]:
+        """Return available ollama models and reachability status."""
+        try:
+            r = requests.get(f"{OLLAMA_URL.rstrip('/')}/api/tags", timeout=3.0)
+            r.raise_for_status()
+            available = [m.get("name", "") for m in r.json().get("models", [])]
+            return {"reachable": True, "models": available, "error": None}
+        except requests.exceptions.RequestException as e:
+            return {"reachable": False, "models": [], "error": str(e)}
+
     def _resolve_model(self, request_timeout: float) -> str:
         """Pick a model ollama actually has pulled.
 
-        Prefers the configured model; falls back to the first available
-        tag so a stale config can't silently degrade every run to the
-        stub. (Previous behaviour; preserved here.)
-        """
-        want = LLM_MODELS["ollama"]
+        If ESTORIDES_OLLAMA_MODEL is set via env, use that (verify it's
+        pulled). Otherwise auto-detect from /api/tags and use the first
+        available model."""
+        want = LLM_MODELS.get("ollama", "")
         try:
             r = requests.get(
                 f"{OLLAMA_URL.rstrip('/')}/api/tags",
@@ -102,16 +112,33 @@ class OllamaBackend:
             r.raise_for_status()
             available = [m.get("name", "") for m in r.json().get("models", [])]
         except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"ollama unreachable: {e}") from e
+            raise RuntimeError(
+                f"ollama unreachable at {OLLAMA_URL}. "
+                f"Is ollama running? (error: {e})"
+            ) from e
         if not available:
-            raise RuntimeError("ollama has no models pulled")
-        if want in available:
+            raise RuntimeError(
+                "ollama has no models pulled. "
+                "Pull one with: ollama pull llama3.1:8b"
+            )
+        if want and want in available:
             return want
-        bare = {a.split(":")[0]: a for a in available}
-        if want.split(":")[0] in bare:
-            return bare[want.split(":")[0]]
-        log.warning("ollama model %s not installed; using %s instead", want, available[0])
-        return available[0]
+        if want:
+            bare = {a.split(":")[0]: a for a in available}
+            if want.split(":")[0] in bare:
+                log.warning(
+                    "ollama model %r not found, using %r instead",
+                    want, bare[want.split(":")[0]],
+                )
+                return bare[want.split(":")[0]]
+            raise RuntimeError(
+                f"ollama model {want!r} not pulled and no matching base model "
+                f"found. Available: {', '.join(available)}. "
+                f"Pull it with: ollama pull {want}"
+            )
+        chosen = available[0]
+        log.info("auto-detected ollama model: %r", chosen)
+        return chosen
 
     def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
         model = self._resolve_model(request_timeout)
@@ -288,17 +315,27 @@ class LLMManager:
             "error": "all backends failed",
         }
 
+    def get_ollama_status(self) -> Dict[str, Any]:
+        """Return ollama reachability and available models."""
+        ollama = BACKENDS.get("ollama")
+        if ollama is None:
+            return {"reachable": False, "models": [], "error": "ollama backend not registered"}
+        return ollama.get_status()
+
     # ----------------------------------------------------- stub fallback
     def _stub_response(self, prompt: str, context: Optional[List[Dict[str, Any]]]) -> str:
         n = len(context or [])
         srcs = sorted({s.get("source", "?") for s in (context or [])})
         return (
-            f"[Stub LLM — set ESTORIDES_OLLAMA_URL or API keys for real analysis]\n\n"
-            f"Query: {prompt}\n\n"
-            f"Pulled {n} sources: {', '.join(srcs)}.\n\n"
-            f"Install or configure a backend:\n"
-            f"  ollama:    pip install ollama + ollama pull llama3.1:8b\n"
-            f"  openai:    export OPENAI_API_KEY=...\n"
-            f"  anthropic: export ANTHROPIC_API_KEY=...\n"
-            f"  openrouter:export OPENROUTER_API_KEY=...\n"
+            f"[Stub LLM — no backends available]\n\n"
+            f"Query: {prompt}\n"
+            f"Sources collected: {n} ({', '.join(srcs[:15])}{'...' if len(srcs) > 15 else ''}).\n\n"
+            f"To enable analysis, either:\n"
+            f"  1. Start ollama and pull a model:\n"
+            f"     $ ollama serve\n"
+            f"     $ ollama pull llama3.1:8b\n"
+            f"  2. Or set a cloud API key:\n"
+            f"     $ export OPENAI_API_KEY=sk-...\n"
+            f"     $ export ANTHROPIC_API_KEY=sk-ant-...\n"
+            f"     $ export OPENROUTER_API_KEY=sk-or-...\n"
         )

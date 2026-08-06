@@ -1,5 +1,5 @@
 name: hunter_email
-enabled: true
+enabled: false
 category: 08. Knowledge
 description: "Hunter.io — email addresses associated with a domain (requires API key, free tier: 25 searches/mo)"
 os: any

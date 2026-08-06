@@ -1,7 +1,7 @@
 name: hunter_email
 enabled: true
 category: 16. People Intelligence
-description: Email discovery via Hunter.io API — find employees by domain
+description: "Hunter.io — email addresses associated with a domain (requires API key, free tier: 25 searches/mo)"
 os: any
 requires_key: true
 key_env: HUNTER_API_KEY
@@ -11,11 +11,15 @@ parser: pass_through
 entity_hints:
   - email
   - person
+  - organization
 applies_to:
   - domain
 tool:
   method: GET
   url: https://api.hunter.io/v2/domain-search
+  headers:
+    User-Agent: Estorides/1.0
+    Accept: application/json
   params:
     domain: '{query}'
     api_key: '{api_key}'

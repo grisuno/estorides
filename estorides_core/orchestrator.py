@@ -28,8 +28,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
 from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
-                     FUSION_ENABLED, GRAPH_PATH, RECON_FUSION, SOURCES_DIR,
-                     contact_level, effective_proxies)
+                     FUSION_ENABLED, GRAPH_PATH, LLM_REQUEST_TIMEOUT,
+                     RECON_FUSION, SOURCES_DIR, contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -448,7 +448,7 @@ class Orchestrator:
         # wait_for fires only as a backstop — the previous code passed
         # the same value to both and produced a race where a slow but
         # not-yet-timed-out LLM could be cancelled mid-stream. Issue #32.
-        llm_call_timeout = min(deadline, 5.0)
+        llm_call_timeout = LLM_REQUEST_TIMEOUT
         wait_for_timeout = llm_call_timeout + 3.0
         try:
             analysis = await asyncio.wait_for(

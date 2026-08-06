@@ -271,5 +271,27 @@
 
     <script type="application/json" id="estorides-telemetry">{{ telemetry | tojson }}</script>
     <script src="/static/js/estorides.js"></script>
+
+    <div id="no-model-modal" class="modal-overlay" hidden>
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-icon">&#9888;</span>
+                <h2>No Local LLM Available</h2>
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Estorides uses <strong>Ollama</strong> for local intelligence analysis, but no models are currently pulled.</p>
+                <p>To fix this, run the following commands in your terminal:</p>
+                <pre class="modal-code">ollama serve                  # start ollama (if not running)
+ollama pull llama3.1:8b      # pull a model</pre>
+                <p class="modal-hint">Or set a cloud API key (<code>OPENAI_API_KEY</code>, <code>ANTHROPIC_API_KEY</code>, or <code>OPENROUTER_API_KEY</code>) and disable ollama with <code>ESTORIDES_DISABLE_BACKENDS=ollama</code>.</p>
+                <span class="modal-status" id="modal-ollama-status"></span>
+            </div>
+            <div class="modal-footer">
+                <button class="primary" id="modal-dismiss-btn">Dismiss</button>
+                <button class="ghost" id="modal-retry-btn">Retry</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
