@@ -37,6 +37,8 @@
   var formStatus = $('form-status');
   var yamlPreview = $('yaml-preview-content');
   var deleteBtn = $('delete-btn');
+  var saveBtn = $('save-btn');
+  var isSystemApp = false; // binary sources are YAML-only in this editor
 
   /* ─── form fields ─── */
   var fields = {
@@ -120,12 +122,20 @@
       form.reset();
       currentName = null;
       isDirty = false;
+      isSystemApp = false;
+      saveBtn.disabled = false;
+      saveBtn.title = '';
       formStatus.textContent = '';
       formStatus.className = 'form-status';
       yamlPreview.textContent = '';
       deleteBtn.hidden = true;
       return;
     }
+    isSystemApp = s.kind === 'system_app';
+    saveBtn.disabled = isSystemApp;
+    saveBtn.title = isSystemApp
+      ? 'System app sources are YAML-only — edit the file directly'
+      : '';
     fields.originalName.value = s.name || '';
     fields.name.value = s.name || '';
     fields.desc.value = s.description || '';
@@ -138,6 +148,11 @@
     fields.contact.value = s.contact || 'none';
     fields.logsQueries.checked = !!s.logs_queries;
     fields.toolUrl.value = (s.tool && s.tool.url) || '';
+    if (isSystemApp && s.tool && s.tool.binary) {
+      var binDesc = s.tool.binary;
+      if (s.tool.args && s.tool.args.length) binDesc += ' ' + JSON.stringify(s.tool.args);
+      fields.toolUrl.value = '(binary) ' + binDesc;
+    }
     fields.toolMethod.value = (s.tool && s.tool.method) || 'GET';
     fields.toolHeaders.value = (s.tool && s.tool.headers && Object.keys(s.tool.headers).length)
       ? JSON.stringify(s.tool.headers, null, 2) : '';
@@ -192,10 +207,11 @@
         var active = s.name === currentName ? ' active' : '';
         var onOff = s.enabled !== false ? 'on' : 'off';
         var keyBadge = s.requires_key ? '<span class="src-item-key-badge">key</span>' : '';
+        var sysBadge = s.kind === 'system_app' ? '<span class="src-item-sys-badge">sys</span>' : '';
         html += '<div class="src-item' + active + '" data-name="' + escAttr(s.name) + '">'
           + '<span class="src-item-icon ' + onOff + '"></span>'
           + '<div class="src-item-info">'
-          + '<div class="src-item-name">' + escHtml(s.name) + keyBadge + '</div>'
+          + '<div class="src-item-name">' + escHtml(s.name) + sysBadge + keyBadge + '</div>'
           + '<div class="src-item-cat">' + escHtml(s.description || '') + '</div>'
           + '</div></div>';
       });
@@ -255,6 +271,10 @@
 
   /* ─── save source ─── */
   function saveSource() {
+    if (isSystemApp) {
+      toast('System app sources are YAML-only — edit the file directly', 'err');
+      return;
+    }
     var data = readForm();
     if (!data.name) { toast('Name is required', 'err'); return; }
     if (!data.tool.url) { toast('Tool URL is required', 'err'); return; }

@@ -41,7 +41,7 @@
     <header class="container text-center py-5">
         <h1 class="display-4">Estorides</h1>
         <p class="lead">OSINT platform &middot; data &rarr; information &rarr; intelligence</p>
-        <p>99+ free public sources &middot; async fanout &middot; K&ugrave;zu graph &middot; multi-LLM analyst</p>
+        <p>126+ free public + Kali system sources &middot; async fanout &middot; K&ugrave;zu graph &middot; multi-LLM analyst</p>
     </header>
 
     <main class="container">
@@ -463,6 +463,44 @@
                 </div>
             </div>
 
+            <!-- 2m: system_app_sources -->
+            <div class="card mb-3 border-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2m &middot; <code>system_app_sources</code>
+                        <span class="badge badge-success ml-2">closed 2026-08-16</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">24 tests (S1-S9)</span>
+                        <span class="badge badge-property">6 properties &middot; 1000 ex.</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Kali OSINT CLI tools as first-class sources
+                        (<code>kind: system_app</code>). 19 tools — theHarvester,
+                        amass, dnsrecon, dnsenum, fierce, sublist3r, dmitry,
+                        urlcrazy, sherlock, maigret, holehe, usufy, mailfy,
+                        phonefy, searchfy, metagoofil, whatweb, wafw00f,
+                        phoneinfoga — executed through the tool_runner sandbox
+                        and fused into the same aggregation pipeline as HTTP
+                        sources. New YAML schema:
+                        <code>tool.binary</code> + <code>tool.args</code> with
+                        <code>{query}</code>/<code>{outdir}</code> templating,
+                        JSON-or-text output parsing, conservative
+                        <code>contact</code> classification (passive-only
+                        guarantee intact).
+                    </p>
+                    <p>
+                        <a href="../spec/system_app_sources.md">spec</a> &middot;
+                        <a href="../tests/test_system_app_sources.py">tests</a> &middot;
+                        <a href="../tests/properties/test_system_app_sources_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/system_app_sources.py">source</a> &middot;
+                        <a href="../sources/20_system_tools/">YAMLs</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>
@@ -501,9 +539,9 @@ estorides run example.com</code></pre>
     <footer class="footer text-center">
         <div class="container">
             <p class="mb-1">Estorides &mdash; state-level OSINT engine. GPLv3.</p>
-            <p class="mb-0"><small>107+ sources &middot; 12 intelligence categories &middot;
+            <p class="mb-0"><small>126+ sources &middot; 20 intelligence categories &middot;
             async fanout &middot; persistent graph &middot; multi-LLM analyst &middot;
-            703 tests &middot; Passive Recon Suite</small></p>
+            770 tests &middot; Passive Recon Suite &middot; Kali system tools</small></p>
         </div>
     </footer>
 </body>

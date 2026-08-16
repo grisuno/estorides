@@ -1,0 +1,28 @@
+name: kali_theharvester
+enabled: true
+category: 20. System Tools (Kali)
+description: "theHarvester — emails, subdomains, hosts and names from search engines and public sources"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: theharvester_text
+entity_hints:
+  - email
+  - domain
+  - person
+  - url
+applies_to:
+  - domain
+tool:
+  binary: theHarvester
+  args:
+    - '-d'
+    - '{query}'
+    - '-b'
+    - 'all'
+    - '-l'
+    - '500'
+  output_format: text
+  timeout: 300

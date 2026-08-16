@@ -1,0 +1,28 @@
+name: kali_amass
+enabled: true
+category: 20. System Tools (Kali)
+description: "amass enum -passive — subdomains and infrastructure from public DNS/CT data (no target contact)"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: amass_json
+entity_hints:
+  - domain
+  - ipv4
+  - asn
+applies_to:
+  - domain
+tool:
+  binary: amass
+  args:
+    - 'enum'
+    - '-passive'
+    - '-d'
+    - '{query}'
+    - '-json'
+    - '{outdir}/amass.json'
+  output_format: json
+  output_file: '{outdir}/amass.json'
+  timeout: 300

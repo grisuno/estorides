@@ -357,13 +357,40 @@ export VT_API_KEY=...   # https://www.virustotal.com/gui/my-apikey
                                  Ethplorer, mempool.space
 11. Paste & Leaks          (4)  - psbdmp, GitHub gist search, TGStat, LeakCheck
 12. Visual                 (4)  - ScreenshotMachine, Microlink, TinEye, EXIF
+20. System Tools (Kali)    (19) - local OSINT CLI tools as first-class sources
+                                 (`kind: system_app`): theHarvester, amass,
+                                 dnsrecon, dnsenum, fierce, sublist3r, dmitry,
+                                 urlcrazy, sherlock, maigret, holehe, usufy,
+                                 mailfy, phonefy, searchfy, metagoofil, whatweb,
+                                 wafw00f, phoneinfoga — executed through the
+                                 tool_runner sandbox and fused into the same
+                                 aggregation pipeline as HTTP sources.
 
 Sources are addons: one YAML file per source, organised into category
 subdirectories under `sources/` (lazyaddons-style). The loader recurses, so
 add a new source by dropping `sources/<NN_category>/<name>.yaml` — no central
 registry to edit. Grouped multi-document files still load if present. Point
 `ESTORIDES_SOURCES_DIR` at another tree to use your own addon set. The schema
-is documented at the top of `estorides_core/source_loader.py`.
+is documented at the top of `estorides_core/source_loader.py` and the
+system_app schema in `spec/system_app_sources.md`:
+
+```yaml
+# sources/20_system_tools/kali_sherlock.yaml — a Kali binary as a source
+name: kali_sherlock
+enabled: true
+category: 20. System Tools (Kali)
+kind: system_app          # local binary vs remote HTTP API
+os: linux                 # platform gate; "any" allowed
+contact: none             # none|broker|active — feeds the passive-only guarantee
+parser: sherlock_text
+entity_hints: [username, url]
+applies_to: [username]
+tool:
+  binary: sherlock        # must be in TOOL_ALLOWLIST and on the filesystem
+  args: ["{query}", "--print-found", "--no-color", "--timeout", "30"]
+  output_format: text     # json | text | lines
+  timeout: 300
+```
 
 ```
 sources/
@@ -380,12 +407,13 @@ sources/
 ## Architecture
 
 ```
-sources/                  one YAML per addon, grouped by category dir (99 addons)
+sources/                  one YAML per addon, grouped by category dir (126 addons)
 estorides_core/
     config.py             every tunable (env-overridable)
     source_loader.py      registry, validation, lookup
     async_client.py       aiohttp + circuit breaker + SQLite cache
     parsers.py            50+ structured parsers (ipapi, dns_json, crtsh…)
+    system_app_sources.py Kali CLI tools as sources (tool_runner sandbox + parsers)
     entity_extraction.py  regex-based entity finder with dedup
     knowledge_graph.py    NetworkX MultiDiGraph + GraphML export
     orchestrator.py       glues everything, infers higher-level relations

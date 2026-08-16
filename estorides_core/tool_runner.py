@@ -148,12 +148,18 @@ def _parse_entities_generic(stdout: str, tool_name: str) -> list[dict[str, Any]]
     return entities
 
 
+# Public alias: system_app_sources reuses this scanner as the fallback
+# parser for tool output whose declared parser failed or returned nothing.
+parse_entities_generic = _parse_entities_generic
+
+
 def run_tool(
     tool_name: str,
     args: list[str],
     target: str = "",
     timeout: int | None = None,
     max_output_bytes: int = TOOL_MAX_OUTPUT_BYTES,
+    cwd: str | None = None,
 ) -> ToolResult | ToolErrorResult:
     start = __import__("time").monotonic()
 
@@ -221,6 +227,7 @@ def run_tool(
             capture_output=True,
             timeout=effective_timeout,
             text=False,
+            cwd=cwd or None,
         )
         duration = __import__("time").monotonic() - start
     except subprocess.TimeoutExpired:

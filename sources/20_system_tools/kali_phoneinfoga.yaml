@@ -1,0 +1,22 @@
+name: kali_phoneinfoga
+enabled: true
+category: 20. System Tools (Kali)
+description: "phoneinfoga scan — phone number footprinting: carrier, country, line type (JSON)"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: phoneinfoga_json
+entity_hints:
+  - phone
+applies_to:
+  - username
+tool:
+  binary: phoneinfoga
+  args:
+    - 'scan'
+    - '-n'
+    - '{query}'
+  output_format: json
+  timeout: 300

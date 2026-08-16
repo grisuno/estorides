@@ -1,0 +1,24 @@
+name: kali_sublist3r
+enabled: true
+category: 20. System Tools (Kali)
+description: "sublist3r -d — subdomains from search engines, VT, ThreatCrowd, PassiveDNS (no target contact)"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: sublist3r_lines
+entity_hints:
+  - domain
+applies_to:
+  - domain
+tool:
+  binary: sublist3r
+  args:
+    - '-d'
+    - '{query}'
+    - '-o'
+    - '{outdir}/sublist3r.txt'
+  output_format: lines
+  output_file: '{outdir}/sublist3r.txt'
+  timeout: 300

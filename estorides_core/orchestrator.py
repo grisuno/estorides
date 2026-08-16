@@ -661,38 +661,37 @@ class Orchestrator:
 
         tool = source["tool"]
 
-        # CLI tool source: invoke via tool_runner instead of HTTP.
+        # CLI tool source: invoke via system_app_sources (tool_runner sandbox).
         binary_name = tool.get("binary")
         if binary_name:
-            args = [tool.get("query", query)] + list(tool.get("args") or [])
-            timeout = int(tool.get("timeout", 300))
-            log.info("tool_runner: executing %s for query=%s", binary_name, query)
-            from .tool_runner import run_tool, ToolResult
+            from .system_app_sources import execute as execute_system_app
 
-            raw_result = run_tool(binary_name, args, target=query, timeout=timeout)
-            if isinstance(raw_result, ToolResult):
-                stdout_data = raw_result.stdout
-                exit_code = raw_result.exit_code
-            else:
-                stdout_data = raw_result.stderr or ""
-                exit_code = raw_result.exit_code or -1
+            timeout = int(tool.get("timeout", 300))
+            log.info("system_app: executing %s for query=%s", binary_name, query)
+            # run_tool blocks on a subprocess — offload to a worker thread so
+            # a slow Kali tool cannot freeze the event loop and stall every
+            # other source's fanout (HTTP sources run concurrently here).
+            raw_result = await asyncio.to_thread(
+                execute_system_app, source, query, timeout=timeout
+            )
 
             meta = {
                 "source": source["name"],
                 "page": 1,
                 "tool_binary": binary_name,
-                "exit_code": exit_code,
-                "duration_s": raw_result.duration_s if isinstance(raw_result, ToolResult) else 0.0,
+                "exit_code": raw_result.exit_code,
+                "duration_s": raw_result.duration_s,
+                "tool_sha1": raw_result.raw_output_sha1,
             }
-            if isinstance(raw_result, ToolResult) and raw_result.parsed_entities:
-                parsed = raw_result.parsed_entities
-            else:
-                parser = get_parser(source["parser"])
-                try:
-                    parsed = parser(stdout_data) if stdout_data else None
-                except Exception as exc:  # noqa: BLE001
-                    log.debug("parser %s failed for %s: %s", source["parser"], source["name"], exc)
-                    parsed = None
+            if raw_result.error_code:
+                # Failures are error observations (case store, UI, health),
+                # never exceptions — one missing tool cannot poison a run.
+                meta["error"] = raw_result.error_code
+                meta["error_detail"] = raw_result.error_message or ""
+            parsed = raw_result.parsed
+            stdout_data = raw_result.stdout if raw_result.stdout else None
+            if raw_result.error_code:
+                stdout_data = None
 
             if on_result is not None:
                 try:

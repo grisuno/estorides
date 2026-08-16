@@ -1,0 +1,27 @@
+name: kali_sherlock
+enabled: true
+category: 20. System Tools (Kali)
+description: "sherlock — username presence check across hundreds of public platforms"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: sherlock_text
+entity_hints:
+  - username
+  - url
+applies_to:
+  - username
+tool:
+  binary: sherlock
+  args:
+    - '{query}'
+    - '--print-found'
+    - '--no-color'
+    - '--timeout'
+    - '30'
+    - '--folderoutput'
+    - '{outdir}'
+  output_format: text
+  timeout: 300

@@ -1,0 +1,32 @@
+name: kali_metagoofil
+enabled: true
+category: 20. System Tools (Kali)
+description: "metagoofil -d — finds and downloads public documents, extracts metadata and emails (downloads from target servers)"
+os: linux
+kind: system_app
+requires_key: false
+contact: active
+logs_queries: true
+parser: metagoofil_text
+entity_hints:
+  - email
+  - url
+  - person
+applies_to:
+  - domain
+tool:
+  binary: metagoofil
+  args:
+    - '-d'
+    - '{query}'
+    - '-t'
+    - 'pdf,doc,xls,ppt,docx,xlsx,pptx'
+    - '-l'
+    - '50'
+    - '-n'
+    - '20'
+    - '-o'
+    - '{outdir}'
+    - '-w'
+  output_format: text
+  timeout: 300

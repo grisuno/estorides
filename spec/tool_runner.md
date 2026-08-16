@@ -10,6 +10,10 @@ Estorides currently executes all OSINT sources via HTTP (aiohttp). This module a
 - `target: str` — the OSINT query (domain, IP, email, etc.) being investigated. Already validated by `validate_query()`.
 - `timeout: int` — maximum seconds before the subprocess is killed. Default from `config.TOOL_TIMEOUT` (300s).
 - `max_output_bytes: int` — cap on stdout+stderr combined. Default 10MB.
+- `cwd: str | None` — optional working directory for the subprocess (default:
+  inherit). Added 2026-08-16 for `system_app_sources`, which runs tools inside
+  a private TemporaryDirectory so they can never write into the repo or `/tmp`
+  with a predictable path. Existing callers are unaffected (default None).
 
 Preconditions:
 - `tool_name` must be in `TOOL_ALLOWLIST` (raises `ToolNotAllowedError` otherwise).

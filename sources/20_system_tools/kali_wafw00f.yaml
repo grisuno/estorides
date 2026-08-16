@@ -1,0 +1,21 @@
+name: kali_wafw00f
+enabled: true
+category: 20. System Tools (Kali)
+description: "wafw00f — WAF detection (direct HTTP to target)"
+os: linux
+kind: system_app
+requires_key: false
+contact: active
+logs_queries: true
+parser: wafw00f_text
+entity_hints:
+  - url
+applies_to:
+  - domain
+  - url
+tool:
+  binary: wafw00f
+  args:
+    - '{query}'
+  output_format: text
+  timeout: 300

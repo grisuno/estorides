@@ -101,7 +101,10 @@
   }
   function summariseObservation(obs) {
     const p = obs.parsed;
-    if (obs.meta && obs.meta.error) return { lines: ['Source returned an error'], error: true };
+    if (obs.meta && obs.meta.error) {
+      const detail = obs.meta.error_detail ? ': ' + truncate(obs.meta.error_detail, 160) : '';
+      return { lines: ['Source returned an error (' + obs.meta.error + ')' + detail], error: true };
+    }
     if (p == null) return { lines: ['No structured data returned'], error: false };
     if (Array.isArray(p)) {
       const lines = ['Array with ' + p.length + ' item(s)'];

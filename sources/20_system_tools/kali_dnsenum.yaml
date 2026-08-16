@@ -1,0 +1,23 @@
+name: kali_dnsenum
+enabled: true
+category: 20. System Tools (Kali)
+description: "dnsenum --enum — subdomains via search engines + zone-transfer attempt (touches target nameservers)"
+os: linux
+kind: system_app
+requires_key: false
+contact: active
+logs_queries: true
+parser: dnsenum_text
+entity_hints:
+  - domain
+  - ipv4
+applies_to:
+  - domain
+tool:
+  binary: dnsenum
+  args:
+    - '--enum'
+    - '--noreverse'
+    - '{query}'
+  output_format: text
+  timeout: 300

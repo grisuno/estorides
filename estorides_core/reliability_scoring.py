@@ -144,6 +144,26 @@ SOURCE_RELIABILITY_MAP: dict[str, SourceReliability] = {
     "gists_github_search": SourceReliability.C,
     "duckduckgo_instant": SourceReliability.D,
     "untrusted_webscraper": SourceReliability.F,
+    # --- Kali system_app sources (spec/system_app_sources.md) ---
+    "kali_amass": SourceReliability.B,
+    "kali_dnsrecon": SourceReliability.B,
+    "kali_dnsenum": SourceReliability.B,
+    "kali_fierce": SourceReliability.B,
+    "kali_sublist3r": SourceReliability.B,
+    "kali_theharvester": SourceReliability.B,
+    "kali_dmitry": SourceReliability.C,
+    "kali_urlcrazy": SourceReliability.C,
+    "kali_sherlock": SourceReliability.C,
+    "kali_maigret": SourceReliability.C,
+    "kali_holehe": SourceReliability.C,
+    "kali_usufy": SourceReliability.C,
+    "kali_mailfy": SourceReliability.C,
+    "kali_phonefy": SourceReliability.C,
+    "kali_searchfy": SourceReliability.C,
+    "kali_metagoofil": SourceReliability.B,
+    "kali_whatweb": SourceReliability.B,
+    "kali_wafw00f": SourceReliability.C,
+    "kali_phoneinfoga": SourceReliability.C,
 }
 
 
@@ -191,6 +211,29 @@ SOURCE_TYPE_MAP: dict[str, SourceType] = {
     "gists_github_search": SourceType.TERTIARY,
     "duckduckgo_instant": SourceType.TERTIARY,
     "untrusted_webscraper": SourceType.TERTIARY,
+    # --- Kali system_app sources (spec/system_app_sources.md) ---
+    # DNS tools query registries/resolvers directly → primary records.
+    "kali_amass": SourceType.PRIMARY,
+    "kali_dnsrecon": SourceType.PRIMARY,
+    "kali_dnsenum": SourceType.PRIMARY,
+    "kali_fierce": SourceType.PRIMARY,
+    # Aggregators of third-party indexes.
+    "kali_sublist3r": SourceType.SECONDARY,
+    "kali_theharvester": SourceType.SECONDARY,
+    "kali_dmitry": SourceType.SECONDARY,
+    "kali_metagoofil": SourceType.SECONDARY,
+    "kali_whatweb": SourceType.SECONDARY,
+    # Platform-existence checks: third-party answers about third-party data.
+    "kali_urlcrazy": SourceType.TERTIARY,
+    "kali_sherlock": SourceType.TERTIARY,
+    "kali_maigret": SourceType.TERTIARY,
+    "kali_holehe": SourceType.TERTIARY,
+    "kali_usufy": SourceType.TERTIARY,
+    "kali_mailfy": SourceType.TERTIARY,
+    "kali_phonefy": SourceType.TERTIARY,
+    "kali_searchfy": SourceType.TERTIARY,
+    "kali_wafw00f": SourceType.TERTIARY,
+    "kali_phoneinfoga": SourceType.TERTIARY,
 }
 
 

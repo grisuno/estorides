@@ -837,6 +837,7 @@ def create_app() -> Flask:
                 "category": s.get("category"),
                 "enabled": s.get("enabled", True),
                 "os": s.get("os", "any"),
+                "kind": s.get("kind", "http_api"),
                 "requires_key": s.get("requires_key", False),
                 "key_env": s.get("key_env"),
                 "parser": s.get("parser", "raw_text"),

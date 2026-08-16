@@ -1,0 +1,24 @@
+name: kali_usufy
+enabled: true
+category: 20. System Tools (Kali)
+description: "OSRFramework usufy — username existence check across supported platforms"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: usufy_text
+entity_hints:
+  - username
+  - url
+applies_to:
+  - username
+tool:
+  binary: usufy
+  args:
+    - '-n'
+    - '{query}'
+    - '-e'
+    - 'email'
+  output_format: text
+  timeout: 300

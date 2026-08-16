@@ -164,6 +164,11 @@ def _env_tool_allowlist() -> set[str]:
             "wfuzz", "ffuf", "dirb", "gobuster", "feroxbuster", "nuclei",
             "ncat", "socat", "netcat",
             "arp-scan", "netdiscover",
+            # Kali OSINT tools as system_app sources (spec/system_app_sources.md)
+            "sherlock", "maigret", "holehe", "phoneinfoga",
+            "sublist3r", "fierce", "dmitry", "urlcrazy",
+            "metagoofil",
+            "usufy", "mailfy", "phonefy", "searchfy",
         }
     return {t.strip() for t in raw.split(",") if t.strip()}
 

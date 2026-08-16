@@ -98,6 +98,14 @@ html, body { height: 100%; margin: 0; background: var(--bg-0); color: var(--text
   color: #000;
   font-weight: 700;
 }
+.src-item-sys-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--accent, #1f6feb);
+  color: #fff;
+  font-weight: 700;
+}
 
 /* category group headers in list */
 .src-cat-header {

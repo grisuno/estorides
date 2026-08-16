@@ -1,0 +1,24 @@
+name: kali_dmitry
+enabled: true
+category: 20. System Tools (Kali)
+description: "dmitry -s -e -w — whois, email search and subdomain discovery from search engines (no target contact)"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: dmitry_text
+entity_hints:
+  - domain
+  - email
+applies_to:
+  - domain
+tool:
+  binary: dmitry
+  args:
+    - '-s'
+    - '-e'
+    - '-w'
+    - '{query}'
+  output_format: text
+  timeout: 300

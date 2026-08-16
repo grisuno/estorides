@@ -1,0 +1,26 @@
+name: kali_maigret
+enabled: true
+category: 20. System Tools (Kali)
+description: "maigret — username footprinting across thousands of sites with metadata (JSON)"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: maigret_json
+entity_hints:
+  - username
+  - url
+  - person
+applies_to:
+  - username
+tool:
+  binary: maigret
+  args:
+    - '{query}'
+    - '--json'
+    - 'simple'
+    - '--timeout'
+    - '30'
+  output_format: json
+  timeout: 300

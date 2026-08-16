@@ -1,0 +1,22 @@
+name: kali_holehe
+enabled: true
+category: 20. System Tools (Kali)
+description: "holehe — checks which public services an email address is registered on"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: holehe_text
+entity_hints:
+  - email
+  - url
+applies_to:
+  - email
+tool:
+  binary: holehe
+  args:
+    - '{query}'
+    - '--no-color'
+  output_format: text
+  timeout: 300

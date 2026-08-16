@@ -1,0 +1,22 @@
+name: kali_mailfy
+enabled: true
+category: 20. System Tools (Kali)
+description: "OSRFramework mailfy — email leak/existence verification across public services"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: mailfy_text
+entity_hints:
+  - email
+applies_to:
+  - email
+tool:
+  binary: mailfy
+  args:
+    - '-m'
+    - '-n'
+    - '{query}'
+  output_format: text
+  timeout: 300

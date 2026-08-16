@@ -1,0 +1,24 @@
+name: kali_searchfy
+enabled: true
+category: 20. System Tools (Kali)
+description: "OSRFramework searchfy — multi-platform search by name/alias/phone/email"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: searchfy_text
+entity_hints:
+  - person
+  - email
+  - url
+applies_to:
+  - keyword
+  - username
+tool:
+  binary: searchfy
+  args:
+    - '-q'
+    - '{query}'
+  output_format: text
+  timeout: 300

@@ -1,0 +1,21 @@
+name: kali_phonefy
+enabled: true
+category: 20. System Tools (Kali)
+description: "OSRFramework phonefy — phone number reconnaissance across public services"
+os: linux
+kind: system_app
+requires_key: false
+contact: none
+logs_queries: true
+parser: phonefy_text
+entity_hints:
+  - phone
+applies_to:
+  - username
+tool:
+  binary: phonefy
+  args:
+    - '-n'
+    - '{query}'
+  output_format: text
+  timeout: 300

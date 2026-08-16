@@ -113,6 +113,30 @@ class SourceRegistry:
             log.warning("source %s has no url/body/binary — skipped", name)
             return None
 
+        # kind: origin kind. `system_app` sources execute a local Kali CLI
+        # tool through tool_runner; `http_api` sources fetch a remote URL.
+        # Derived from the tool block when omitted so legacy YAMLs keep
+        # loading; an unknown explicit value falls back to the derived kind.
+        kind = (raw.get("kind") or ("system_app" if has_binary else "http_api")).strip().lower()
+        if kind not in ("http_api", "system_app"):
+            log.warning("source %s declares unknown kind=%r; deriving from tool block", name, kind)
+            kind = "system_app" if has_binary else "http_api"
+        if kind == "system_app":
+            args = tool.get("args")
+            if args is None:
+                tool["args"] = []
+            elif not isinstance(args, list) or not all(isinstance(a, str) for a in args):
+                log.warning("source %s: tool.args must be a list of strings — reset", name)
+                tool["args"] = []
+            output_format = str(tool.get("output_format") or "text").strip().lower()
+            if output_format not in ("json", "text", "lines"):
+                log.warning("source %s: unknown output_format=%r — treating as 'text'", name, output_format)
+                output_format = "text"
+            tool["output_format"] = output_format
+            if tool.get("output_file") is not None and not isinstance(tool["output_file"], str):
+                log.warning("source %s: output_file must be a string — dropped", name)
+                del tool["output_file"]
+
         # applies_to: which query types does this source make sense for?
         # Accepts a list of strings, or a single string. Defaults to ['any'].
         applies_raw = raw.get("applies_to", "any")
@@ -146,6 +170,7 @@ class SourceRegistry:
             "description": (raw.get("description") or "").strip(),
             "category": (raw.get("category") or "00. Misc").strip(),
             "os": (raw.get("os") or "any").strip().lower(),
+            "kind": kind,
             "enabled": True,
             "requires_key": bool(raw.get("requires_key", False)),
             "key_env": (raw.get("key_env") or "").strip() or None,
@@ -284,9 +309,14 @@ class SourceRegistry:
         if tool.get("body"):
             out["tool"]["body"] = tool["body"]
         if tool.get("binary"):
+            out["kind"] = "system_app"
             out["tool"]["binary"] = tool["binary"]
             out["tool"]["args"] = tool.get("args", [])
             out["tool"]["timeout"] = tool.get("timeout", 300)
+            if tool.get("output_format"):
+                out["tool"]["output_format"] = tool["output_format"]
+            if tool.get("output_file"):
+                out["tool"]["output_file"] = tool["output_file"]
         # pagination
         if isinstance(data.get("pagination"), dict) and data["pagination"]:
             out["pagination"] = {k: v for k, v in data["pagination"].items() if v not in (None, "")}
@@ -317,6 +347,7 @@ class SourceRegistry:
                 {
                     "name": s["name"],
                     "category": s["category"],
+                    "kind": s.get("kind", "http_api"),
                     "requires_key": s["requires_key"],
                     "contact": s.get("contact", DEFAULT_CONTACT),
                     "logs_queries": bool(s.get("logs_queries", False)),
