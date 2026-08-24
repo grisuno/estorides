@@ -1,0 +1,4 @@
+name: whatweb
+description: "Kali/OSINT CLI tool installed via the 'whatweb' apt package."
+os: any
+apt: whatweb

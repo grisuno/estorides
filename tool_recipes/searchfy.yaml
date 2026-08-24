@@ -1,0 +1,8 @@
+name: searchfy
+description: Kali/OSINT CLI tool installed via the 'searchfy' apt package.
+os: any
+apt: searchfy
+git:
+  repo_url: https://github.com/sherlock-project/sherlock.git
+  install_path: sherlock
+  install_command: pip install -r requirements.txt

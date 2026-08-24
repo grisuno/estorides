@@ -1,0 +1,4 @@
+name: sqlmap
+description: "Kali/OSINT CLI tool installed via the 'sqlmap' apt package."
+os: any
+apt: sqlmap

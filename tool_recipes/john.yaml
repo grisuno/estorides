@@ -1,0 +1,4 @@
+name: john
+description: "Kali/OSINT CLI tool installed via the 'john' apt package."
+os: any
+apt: john

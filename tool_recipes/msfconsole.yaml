@@ -1,0 +1,4 @@
+name: msfconsole
+description: "Kali/OSINT CLI tool installed via the 'metasploit-framework' apt package."
+os: any
+apt: metasploit-framework

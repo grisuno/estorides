@@ -1,0 +1,8 @@
+name: sublist3r
+description: Kali/OSINT CLI tool installed via the 'sublist3r' apt package.
+os: any
+apt: sublist3r
+git:
+  repo_url: https://github.com/aboul3la/Sublist3r.git
+  install_path: Sublist3r
+  install_command: pip install -r requirements.txt

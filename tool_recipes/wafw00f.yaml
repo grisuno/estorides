@@ -1,0 +1,4 @@
+name: wafw00f
+description: "Kali/OSINT CLI tool installed via the 'wafw00f' apt package."
+os: any
+apt: wafw00f

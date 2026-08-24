@@ -15,6 +15,7 @@
         .badge-spec { background:#1f6feb; color:#fff; }
         .badge-test { background:#d29922; color:#fff; }
         .badge-property { background:#8957e5; color:#fff; }
+        .badge-mutation { background:#cf222e; color:#fff; }
         a { color:#58a6ff; }
         pre { background:#0d1117; color:#c9d1d9; padding:12px; border-radius:6px; border:1px solid #30363d; }
         .footer { background:#161b22; color:#8b949e; padding:24px 0; margin-top:48px; border-top:1px solid #30363d; }
@@ -497,6 +498,73 @@
                         <a href="../tests/properties/test_system_app_sources_properties.py">properties</a> &middot;
                         <a href="../estorides_core/system_app_sources.py">source</a> &middot;
                         <a href="../sources/20_system_tools/">YAMLs</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2n: observation_models -->
+            <div class="card mb-3 border-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2n &middot; <code>observation_models</code>
+                        <span class="badge badge-success ml-2">closed 2026-08-23</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">24 BDD</span>
+                        <span class="badge badge-property">4 properties &middot; 1000 ex.</span>
+                        <span class="badge badge-mutation">mutation 79/79</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Strict Pydantic v2 data contracts
+                        (<code>ObservationMeta</code>, <code>Observation</code>,
+                        <code>ObservedEntity</code>, <code>RunResult</code>) with
+                        <code>strict=True</code> + <code>extra="forbid"</code> and
+                        recursive JSON-safe validation (sets, bytes, arbitrary
+                        objects and non-string dict keys are rejected). Bounds
+                        centralised in <code>SchemaConfig</code> (env-tunable).
+                        First module closed with 100% mutation coverage.
+                    </p>
+                    <p>
+                        <a href="../spec/observation_models.md">spec</a> &middot;
+                        <a href="../tests/test_observation_models.py">tests</a> &middot;
+                        <a href="../tests/properties/test_observation_models_properties.py">properties</a> &middot;
+                        <a href="../estorides_core/observation_models.py">source</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2o: tool_install (one-click) -->
+            <div class="card mb-3 border-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2o &middot; <code>tool_install</code>
+                        <span class="badge badge-success ml-2">closed 2026-08-23</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">14 BDD</span>
+                        <span class="badge badge-security">run0</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        One-click install of missing Kali/OSINT tools from the
+                        <b>Results</b> section: a card that fails with
+                        <code>TOOL_NOT_FOUND</code> shows an "Install tool"
+                        button → <code>POST /api/tools/&lt;name&gt;/install</code>
+                        → background thread → lazyaddon-style recipes in
+                        <code>tool_recipes/*.yaml</code> (54 recipes, apt primary
+                        + git/pip fallback). Privilege elevation is graphical via
+                        <code>run0</code> (polkit); <code>sudo</code> only as a
+                        fallback. Every subprocess is an argument list
+                        (<code>shell=False</code>) — zero injection.
+                    </p>
+                    <p>
+                        <a href="../spec/tool_install.md">spec</a> &middot;
+                        <a href="../tests/test_tool_install.py">tests</a> &middot;
+                        <a href="../estorides_core/tool_install.py">source</a> &middot;
+                        <a href="../tool_recipes/">recipes</a>
                     </p>
                 </div>
             </div>

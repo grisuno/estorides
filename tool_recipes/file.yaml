@@ -1,0 +1,4 @@
+name: file
+description: "Kali/OSINT CLI tool installed via the 'file' apt package."
+os: any
+apt: file

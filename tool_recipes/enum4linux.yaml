@@ -1,0 +1,4 @@
+name: enum4linux
+description: "Kali/OSINT CLI tool installed via the 'enum4linux' apt package."
+os: any
+apt: enum4linux

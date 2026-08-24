@@ -1,0 +1,4 @@
+name: dnsrecon
+description: "Kali/OSINT CLI tool installed via the 'dnsrecon' apt package."
+os: any
+apt: dnsrecon

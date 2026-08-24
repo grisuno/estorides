@@ -14,9 +14,11 @@ import asyncio
 import json
 import logging
 import os
+import queue
 import shutil
 import sys
 import tempfile
+import threading
 import time
 from collections.abc import Callable
 from functools import wraps
@@ -31,6 +33,7 @@ from estorides_core.config import (
     FLASK_HOST,
     FLASK_PORT,
     GRAPH_PATH,
+    LLM_REQUEST_TIMEOUT,
     PIVOT,
     STATIC_DIR,
     STREAM,
@@ -43,9 +46,10 @@ from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
 from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
-from estorides_core.orchestrator import Orchestrator
+from estorides_core.orchestrator import Orchestrator, pending_system_app_tasks
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.search_telemetry import SearchTelemetry
+from estorides_core.tool_install import install_tool, list_recipes, recipe_available
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_core.web_security import (
     AUTH_COOKIE,
@@ -58,6 +62,12 @@ from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
 log = logging.getLogger("estorides.web")
+
+# Background tool-install results, keyed by tool name. A POST to
+# /api/tools/<name>/install kicks off a daemon thread that writes its
+# InstallResult here so the UI can poll without blocking a request.
+_tool_install_state: dict[str, dict[str, Any]] = {}
+_tool_install_lock = threading.Lock()
 
 # We bind helpers at module level so they can be re-used in tests
 # without going through the Flask app factory.
@@ -256,6 +266,81 @@ def create_app() -> Flask:
     @require_auth
     def api_ollama_status() -> Any:
         return jsonify(orch.llm.get_ollama_status())
+
+    # ------------------------------------------------------------------ tools ----
+    # One-click install of a missing Kali/OSINT tool (lazyaddon-style recipes
+    # in tool_recipes/). Install runs in a background thread so the sync Flask
+    # worker is never blocked by apt update/install; the UI polls for status.
+    @app.route("/api/tools")
+    @_rate_limit_decorator(event="api_tools_list")
+    @require_auth
+    def api_tools_list() -> Any:
+        from estorides_core.tool_install import tool_available
+
+        recipes = list_recipes()
+        with _tool_install_lock:
+            states = dict(_tool_install_state)
+        return jsonify({
+            "recipes": [
+                {
+                    "name": r,
+                    "available": tool_available(r),
+                    "install": states.get(r),
+                }
+                for r in recipes
+            ],
+        })
+
+    @app.route("/api/tools/<name>/install", methods=["POST"])
+    @_rate_limit_decorator(event="api_tool_install")
+    @require_auth
+    def api_tool_install(name: str) -> Any:
+        if not recipe_available(name):
+            return jsonify({"error": f"no install recipe for '{name}'"}), 404
+        body = request.get_json(silent=True) or {}
+        binary = body.get("binary") or name
+        force = bool(body.get("force", False))
+        with _tool_install_lock:
+            current = _tool_install_state.get(name)
+            if current and current.get("running"):
+                return jsonify({"status": "running"}), 202
+            _tool_install_state[name] = {"running": True, "result": None}
+
+        def _worker() -> None:
+            result = None
+            exc_msg = ""
+            try:
+                result = install_tool(name, binary=binary, force=force)
+            except Exception as exc:  # noqa: BLE001
+                log.exception("tool install %s raised", name)
+                exc_msg = str(exc)
+            with _tool_install_lock:
+                _tool_install_state[name] = {
+                    "running": False,
+                    "result": result.to_dict() if result is not None else {
+                        "tool_name": name, "success": False, "method": None,
+                        "output": "", "error": f"install raised: {exc_msg}",
+                    },
+                }
+
+        threading.Thread(
+            target=_worker, daemon=True, name=f"estorides-install-{name}"
+        ).start()
+        audit_log.query(
+            "api_tool_install", remote_ip=_client_ip(), method=request.method,
+            path=request.path, query=binary, status="started",
+        )
+        return jsonify({"status": "started", "tool": name})
+
+    @app.route("/api/tools/<name>/install/status")
+    @_rate_limit_decorator(event="api_tool_install_status")
+    @require_auth
+    def api_tool_install_status(name: str) -> Any:
+        with _tool_install_lock:
+            state = _tool_install_state.get(name)
+        if state is None:
+            return jsonify({"status": "idle"})
+        return jsonify(state)
 
     @app.route("/api/run", methods=["POST"])
     @_rate_limit_decorator(event="api_run")
@@ -1523,12 +1608,77 @@ def create_app() -> Flask:
                     yield f": keepalive {int(time.time())}\n\n"
                     idle_ticks = 0
                 if job.done and cursor >= len(job.sink.events):
+                    # Keep the stream open while slow CLI tools (whatweb,
+                    # urlcrazy, …) are still running in the background so their
+                    # real results stream in instead of a fake timeout card.
+                    if pending_system_app_tasks() > 0:
+                        yield f": waiting {pending_system_app_tasks()} slow tool(s)…\n\n"
+                        time.sleep(STREAM.poll_interval_seconds)
+                        continue
                     yield (
                         "event: closed\n"
                         f"data: {json.dumps({'status': job.status, 'case_id': job.case_id, 'error': job.sink.error})}\n\n"
                     )
                     return
                 time.sleep(STREAM.poll_interval_seconds)
+
+        return Response(gen(), mimetype="text/event-stream", headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        })
+
+    # ------------------------------------------------- streaming LLM analysis
+    # Re-run an intelligence assessment against a chosen local model and
+    # stream it to the UI (thinking + content) so a slow qwen-on-CPU model
+    # doesn't look frozen. The model name is treated as hostile and validated
+    # server-side against the actual ollama model list.
+    @app.route("/api/analyze/stream", methods=["POST"])
+    @_rate_limit_decorator(event="api_analyze_stream")
+    @require_auth
+    def api_analyze_stream() -> Any:
+        body = request.get_json(silent=True) or {}
+        q = validate_query(str(body.get("query") or ""))
+        model = (body.get("model") or "").strip() or None
+        observations = body.get("observations")
+        if not isinstance(observations, list):
+            observations = []
+        timeout = PIVOT.clamp_deadline(
+            float(body.get("timeout_s", LLM_REQUEST_TIMEOUT))
+        )
+
+        q_in = queue.Queue(maxsize=64)
+
+        def _run() -> None:
+            try:
+                for chunk in orch.llm.stream(
+                    f"Produce an intelligence assessment of the target '{q.normalised}'.",
+                    context=observations, model=model, request_timeout=timeout,
+                ):
+                    q_in.put(chunk)
+            except Exception as exc:  # noqa: BLE001
+                log.warning("analyze stream failed: %s", exc)
+                q_in.put({"kind": "error", "text": str(exc)})
+            finally:
+                q_in.put({"kind": "done"})
+
+        threading.Thread(target=_run, daemon=True, name="estorides-analyze").start()
+
+        def gen():
+            yield (
+                "event: hello\n"
+                f"data: {json.dumps({'query': q.normalised, 'model': model or 'auto'})}\n\n"
+            )
+            while True:
+                try:
+                    chunk = q_in.get(timeout=STREAM.poll_interval_seconds)
+                except queue.Empty:
+                    yield f": keepalive {int(time.time())}\n\n"
+                    continue
+                if chunk.get("kind") == "done":
+                    yield "event: closed\ndata: {}\n\n"
+                    return
+                yield f"data: {json.dumps(chunk)}\n\n"
 
         return Response(gen(), mimetype="text/event-stream", headers={
             "Cache-Control": "no-cache",
@@ -1545,7 +1695,6 @@ def create_app() -> Flask:
 # above to dispatch `start_discover` into it. This avoids spinning
 # up a new loop per request and keeps the SSE writer in the same
 # loop that the discoverer task runs in.
-import threading
 
 
 def _serve_loop() -> None:

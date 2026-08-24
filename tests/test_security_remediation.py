@@ -488,3 +488,33 @@ class TestJavaScriptDomSafety:
         for lineno, linetext in inner_html_lines:
             assert "escapeHTML" in linetext, \
                 f"line {lineno}: selectNode innerHTML must escape data: {linetext}"
+
+
+# =========================================================================
+# S — Alert webhooks must pass the SSRF guard (CodeQL #40)
+# =========================================================================
+
+class TestAlerterSsrf:
+    """Alert webhook URLs (incl. user-supplied `channel` URLs) are validated
+    by the central SSRF guard before any socket opens. Treats all webhook
+    destinations as hostile."""
+
+    def test_refuses_link_local_metadata(self) -> None:
+        from estorides_core.alerter import _http_post
+        # 169.254.169.254 (cloud metadata) is blocked without any network I/O.
+        assert _http_post("http://169.254.169.254/latest/meta-data", {"x": 1}) is False
+
+    def test_refuses_loopback(self) -> None:
+        from estorides_core.alerter import _http_post
+        assert _http_post("http://127.0.0.1/admin", {"x": 1}) is False
+
+    def test_refuses_disallowed_scheme(self) -> None:
+        from estorides_core.alerter import _http_post
+        assert _http_post("file:///etc/passwd", {"x": 1}) is False
+
+    def test_user_channel_url_cannot_reach_internal_host(self) -> None:
+        from estorides_core.alerter import AlertDispatcher
+        # A channel string that begins with http is used verbatim as the
+        # webhook URL; an internal host must still be refused.
+        dispatcher = AlertDispatcher()
+        assert dispatcher.send("http://127.0.0.1:8080/hook", "t", "b") is False

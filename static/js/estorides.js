@@ -127,6 +127,8 @@
   function buildResultCard(obs) {
     const failed = obs.meta && obs.meta.error;
     const summary = summariseObservation(obs);
+    const isToolMissing = obs.meta && obs.meta.error === 'TOOL_NOT_FOUND';
+    const toolBinary = (obs.meta && obs.meta.tool_binary) || obs.source || '';
     const div = document.createElement('div');
     div.className = 'result-card' + (failed ? ' failed' : '');
     div.setAttribute('data-source', obs.source || '');
@@ -135,6 +137,9 @@
     const status = (obs.meta && obs.meta.status) || (failed ? 'ERR' : 'OK');
     const dur = obs.meta && obs.meta.cached ? 'cached' : '';
     const bodyId = 'rc-body-' + Math.random().toString(36).slice(2, 9);
+    const installBtn = isToolMissing
+      ? `<button class="ghost install-btn" type="button" data-tool="${escapeHTML(toolBinary)}">Install tool</button>`
+      : '';
     div.innerHTML = `
       <div class="card-head">
         <div>
@@ -143,6 +148,7 @@
         </div>
         <div class="card-actions">
           <span class="badge">${escapeHTML(String(status))}${dur ? ' · ' + dur : ''}</span>
+          ${installBtn}
           <button class="ghost" type="button" data-toggle="${bodyId}">show JSON</button>
         </div>
       </div>
@@ -168,7 +174,70 @@
         toggle.textContent = div.classList.contains('open') ? 'hide JSON' : 'show JSON';
       });
     }
+    const installBtnEl = div.querySelector('.install-btn');
+    if (installBtnEl) {
+      installBtnEl.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        requestToolInstall(toolBinary, installBtnEl);
+      });
+    }
     return div;
+  }
+  function requestToolInstall(tool, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Installing…';
+    fetch('/api/tools/' + encodeURIComponent(tool) + '/install', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ binary: tool }),
+    }).then((r) => {
+      if (r.status === 404) {
+        btn.disabled = false;
+        btn.textContent = 'Install tool';
+        showToast('warn', 'No recipe', 'No install recipe for "' + tool + '"', 4000);
+        return null;
+      }
+      return r.json();
+    }).then((data) => {
+      if (data) pollToolInstall(tool, btn, 0);
+    }).catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Install tool';
+      showToast('error', 'Install failed', 'Could not reach the server', 4000);
+    });
+  }
+  function pollToolInstall(tool, btn, tries) {
+    fetch('/api/tools/' + encodeURIComponent(tool) + '/install/status').then((r) => r.json()).then((state) => {
+      if (state.status === 'running') {
+        if (tries < 600) setTimeout(() => pollToolInstall(tool, btn, tries + 1), 2000);
+        return;
+      }
+      const res = state.result || {};
+      btn.disabled = false;
+      if (res.success) {
+        btn.textContent = 'Installed';
+        showToast('ok', 'Tool installed', tool + ' installed successfully — re-run to collect.', 5000);
+      } else {
+        btn.textContent = 'Install tool';
+        const msg = _installErrMsg(tool, res);
+        showToast('error', 'Install failed (' + (res.method || 'error') + ')', msg, 7000);
+      }
+    }).catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Install tool';
+      showToast('error', 'Install failed', 'The server did not respond to the install status check.', 5000);
+    });
+  }
+  // Turn a failed install result into a meaningful, non-"unknown" message.
+  function _installErrMsg(tool, res) {
+    const err = res.error || '';
+    if (err) return err;
+    const out = (res.output || '').toString().replace(/\s+/g, ' ').trim().slice(0, 220);
+    if (res.method === 'verify') {
+      return tool + ' installed, but the binary is not on PATH. Check the tool\'s install_command and PATH.';
+    }
+    if (out) return 'No error code returned. Output: ' + out;
+    return 'Installation finished without success and without an error message (code: ' + (res.method || 'none') + ').';
   }
   function populateCategoryFilter(categories) {
     const sel = document.getElementById('result-filter-cat');
@@ -181,12 +250,21 @@
     const cat = (document.getElementById('result-filter-cat') && document.getElementById('result-filter-cat').value) || '';
     const status = (document.getElementById('result-filter-status') && document.getElementById('result-filter-status').value) || '';
     const cards = document.querySelectorAll('#results-list .result-card');
+    let shown = 0;
     cards.forEach((card) => {
       const matchText = !text || (card.textContent || '').toLowerCase().includes(text);
       const matchCat = !cat || card.getAttribute('data-category') === cat;
       const matchStatus = !status || card.getAttribute('data-status') === status;
-      card.style.display = (matchText && matchCat && matchStatus) ? '' : 'none';
+      const show = matchText && matchCat && matchStatus;
+      card.style.display = show ? '' : 'none';
+      if (show) shown++;
     });
+    const countEl = document.getElementById('result-filter-count');
+    if (countEl) {
+      countEl.textContent = text || cat || status
+        ? shown + ' / ' + cards.length + (text ? ' match "' + text + '"' : ' shown')
+        : '';
+    }
   }
   function bindResultFilters() {
     const txt = document.getElementById('result-filter-text');
@@ -254,16 +332,16 @@
         weight: 2,
       })
         .bindPopup(
-          `<b>${c.label || ''}</b><br>` +
-            `<small>${c.type || ''}</small><br>` +
-            (c.value ? `<code>${c.value}</code><br>` : '') +
-            (c.sources ? `<i>via: ${c.sources.join(', ')}</i><br>` : '') +
+          `<b>${escapeHTML(c.label || '')}</b><br>` +
+            `<small>${escapeHTML(c.type || '')}</small><br>` +
+            (c.value ? `<code>${escapeHTML(c.value)}</code><br>` : '') +
+            (c.sources ? `<i>via: ${escapeHTML(c.sources.join(', '))}</i><br>` : '') +
             // The "expand" button calls the intel resolver for this
             // entity and merges the new nodes into the D3 graph.
             // `c.expandKey` is `{type, value}`; missing for raw
             // observation coords where the type isn't an entity.
             (c.expandKey
-              ? `<button class="map-expand" data-type="${c.expandKey.type}" data-value="${escapeAttr(c.expandKey.value)}">Resolve & expand</button>`
+              ? `<button class="map-expand" data-type="${escapeAttr(c.expandKey.type)}" data-value="${escapeAttr(c.expandKey.value)}">Resolve & expand</button>`
               : '')
         )
         .addTo(map);
@@ -391,6 +469,7 @@
     _streamEntCount = 0;
     _streamObsAll = [];
     _streamEntsAll = [];
+    _lastRun = { query: q || '', observations: [] };
     _runStartTs = Date.now();
     clearMap();
 
@@ -535,10 +614,11 @@
         break;
       case 'target_done':
         if (d.analysis && d.analysis.content) {
-          $('#analysis-meta').innerHTML = d.analysis.backend
-            ? '<span class="pill">' + escapeHTML(d.analysis.backend) + '</span><span class="pill">' + escapeHTML(d.analysis.model || '') + '</span>'
-            : '';
-          $('#analysis-body').textContent = d.analysis.content;
+          // Keep the analysis context in sync with the Results tab. We do NOT
+          // overwrite _lastRun.query here — a discovered lead must never
+          // replace the user's original query.
+          loadAnalysisModels();
+          renderAnalysis(d.analysis);
         }
         if (d.graph) renderGraphSummary(d.graph);
         break;
@@ -627,6 +707,7 @@
     _streamEntCount = 0;
     _streamObsAll = [];
     _streamEntsAll = [];
+    _lastRun = { query: '', observations: [] };
     _runStartTs = 0;
   }
 
@@ -639,6 +720,10 @@
   function renderResult(data) {
     showEmptyState(false);
     bindResultFilters();
+    // Keep the current query + results in sync so re-analysis uses the data
+    // actually shown in the Results tab.
+    _lastRun = { query: data.query || '', observations: [] };
+    _streamObsAll = (data.observations || []).slice();
     // results panel
     const meta = data.sources_queried
       ? `<span class="pill">${data.sources_succeeded}/${data.sources_queried} sources</span>` +
@@ -661,11 +746,8 @@
     renderEntities(data.entities || []);
 
     // analysis
-    const a = data.analysis || {};
-    $('#analysis-meta').innerHTML = a.backend
-      ? `<span class="pill">${a.backend}</span><span class="pill">${a.model || ''}</span>`
-      : '';
-    $('#analysis-body').textContent = a.content || '(no analysis)';
+    loadAnalysisModels();
+    renderAnalysis(data.analysis || {});
 
     // graph
     renderGraphSummary(data.graph);
@@ -675,6 +757,188 @@
 
     // timeline
     renderTimeline(data);
+  }
+
+  // ---- analysis: model selector + streaming re-run (with thinking) ----
+  let _lastRun = { query: '', observations: [] };
+  let _selectedModel = null;
+  let _analyzing = false;
+  let _analysisAbort = null;
+
+  function loadAnalysisModels() {
+    fetch('/api/ollama-status').then((r) => r.json()).then((st) => {
+      const models = Array.isArray(st.models) ? st.models : [];
+      renderAnalysisModels(models);
+    }).catch(() => { /* non-fatal; selector stays empty */ });
+  }
+
+  function renderAnalysisModels(models) {
+    const bar = $('#analysis-models');
+    if (!bar) return;
+    bar.innerHTML = '';
+    // "auto" mirrors the original ollama/deepseek backend pill: pick the
+    // auto-detected fast local model.
+    const auto = makeModelPill('auto', 'auto', _selectedModel === null);
+    bar.appendChild(auto);
+    models.forEach((m) => {
+      bar.appendChild(makeModelPill(m, m, m === _selectedModel));
+    });
+  }
+  function makeModelPill(label, model, active) {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'model-chip' + (active ? ' active' : '');
+    chip.textContent = label;
+    chip.title = 'Analyse with ' + label;
+    chip.addEventListener('click', () => {
+      _selectedModel = (model === 'auto') ? null : model;
+      reanalyze();
+    });
+    return chip;
+  }
+
+  function renderAnalysis(a) {
+    const meta = $('#analysis-meta');
+    if (meta) {
+      meta.innerHTML = a.backend
+        ? `<span class="pill">${escapeHTML(a.backend)}</span><span class="pill">${escapeHTML(a.model || '')}</span>`
+        : '';
+    }
+    const body = $('#analysis-body');
+    if (body) body.innerHTML = renderMarkdown(a.content || '(no analysis)');
+    setThinkingVisible(false);
+  }
+
+  // Render Markdown to sanitised HTML (CSP-safe). The LLM output is treated
+  // as hostile: marked() is a text→HTML parser with no inline scripts, and we
+  // run the result through the DOMParser-based sanitizer to strip any
+  // script/on*/javascript: that could sneak through.
+  function renderMarkdown(text) {
+    const src = String(text == null ? '' : text);
+    if (typeof window.marked === 'function') {
+      try {
+        return sanitizeHTML(window.marked.parse(src));
+      } catch (_e) { /* fall through to plain text */ }
+    }
+    return escapeHTML(src).replace(/\n/g, '<br>');
+  }
+
+  function setThinkingVisible(show) {
+    const wrap = $('#analysis-thinking-wrap');
+    if (wrap) wrap.hidden = !show;
+    const pre = $('#analysis-thinking');
+    if (pre) pre.hidden = !show;
+  }
+
+  function toggleThinking() {
+    const pre = $('#analysis-thinking');
+    if (pre) pre.hidden = !pre.hidden;
+  }
+
+  function reanalyze() {
+    if (_analyzing || !_lastRun.query) return;
+    _analyzing = true;
+    const body = $('#analysis-body');
+    const thinking = $('#analysis-thinking');
+    const wrap = $('#analysis-thinking-wrap');
+    if (body) body.textContent = '';
+    if (thinking) thinking.textContent = '';
+    if (wrap) {
+      wrap.hidden = false;
+      thinking.hidden = true;
+    }
+    const toggle = $('#analysis-thinking-toggle');
+    if (toggle) { toggle.textContent = 'Show thinking'; toggle.disabled = false; }
+    if (_analysisAbort) _analysisAbort.abort();
+    _analysisAbort = new AbortController();
+
+    // The target being assessed = the current query box (if the user typed
+    // something) else the last completed run.
+    const boxQ = ($('#query') ? $('#query').value.trim() : '') || '';
+    const target = boxQ || _lastRun.query;
+
+    const payload = {
+      query: target,
+      // Analyse the data currently shown in the Results tab.
+      observations: _streamObsAll.slice(),
+      model: _selectedModel,
+      // qwen3.8 runs on CPU/RAM, not VRAM — be generous.
+      timeout_s: 900,
+    };
+
+    fetch('/api/analyze/stream', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: _analysisAbort.signal,
+    }).then((resp) => {
+      if (!resp.ok || !resp.body) throw new Error('HTTP ' + resp.status);
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+    let acc = '';
+    let _renderPending = false;
+    const scheduleRender = () => {
+      if (_renderPending) return;
+      _renderPending = true;
+      requestAnimationFrame(() => { _renderPending = false; if (body) body.innerHTML = renderMarkdown(acc); });
+    };
+    const flush = () => {
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+      lines.forEach((raw) => {
+        const line = raw.trim();
+        if (!line || line.startsWith(':')) return;
+        if (line.startsWith('data: ')) {
+          try {
+            const ev = JSON.parse(line.slice(6));
+            if (ev.kind === 'thinking') {
+              if (thinking) { thinking.textContent += ev.text; thinking.scrollTop = thinking.scrollHeight; }
+            } else if (ev.kind === 'content') {
+              acc += ev.text;
+              scheduleRender();
+            } else if (ev.kind === 'error') {
+              if (body) body.innerHTML = '<p class="analysis-error">Analysis failed: ' + escapeHTML(ev.text) + '</p>';
+            }
+          } catch (_e) { /* ignore partial fragments */ }
+        }
+      });
+    };
+      const pump = () => {
+        return reader.read().then(({ done, value }) => {
+          if (done) { flush(); return; }
+          buf += decoder.decode(value, { stream: true });
+          flush();
+          return pump();
+        });
+      };
+      return pump();
+    }).catch((err) => {
+      if (err && err.name !== 'AbortError' && body) {
+        body.textContent = 'Analysis failed: ' + err.message;
+      }
+    }).finally(() => {
+      _analyzing = false;
+    });
+  }
+
+  // Analyse a single graph/fusion entity: seed the analysis context with the
+  // entity's own data (kept in the Results context so re-analysis uses it) and
+  // stream an assessment into the Analysis tab.
+  function analyseEntity(value, type, node) {
+    const obs = {
+      source: 'graph',
+      category: type || 'entity',
+      parsed: { type: type || '', value: value, attributes: (node && node.attributes) || {} },
+    };
+    _lastRun = { query: value, observations: [] };
+    if (!_streamObsAll.some((o) => o.parsed && o.parsed.value === value)) {
+      _streamObsAll.push(obs);
+    }
+    switchSidebarTab(2);
+    loadAnalysisModels();
+    renderAnalysis({});
+    reanalyze();
   }
 
   // ---- v1.1: click-to-expand ----
@@ -867,7 +1131,18 @@
   function clusterColor(cid, clusters) {
     if (cid == null || cid < 0) return '#888';
     const c = (clusters || []).find((x) => x.id === cid);
-    return (c && c.color) || CLUSTER_PALETTE[cid % CLUSTER_PALETTE.length];
+    return safeColor((c && c.color) || CLUSTER_PALETTE[cid % CLUSTER_PALETTE.length]);
+  }
+
+  // Cluster colors come from remote data (TELEMETRY.cluster_palette and
+  // per-cluster `color`). Treat them as hostile: only accept a CSS-safe hex
+  // or rgb() colour, else fall back to a neutral grey. This keeps a
+  // tampered value from ever carrying CSS/HTML into the graph overlays.
+  function safeColor(v) {
+    const s = String(v || '').trim();
+    if (/^#[0-9a-fA-F]{3,8}$/.test(s)) return s;
+    if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*[\d.]+)?\s*\)$/.test(s)) return s;
+    return '#888';
   }
 
   // Build a clusters[] summary from a flat node list (used after a merge
@@ -877,7 +1152,7 @@
     nodes.forEach((n) => {
       const cid = (n.cluster == null) ? -1 : n.cluster;
       if (cid < 0) return;
-      const a = agg[cid] || (agg[cid] = { id: cid, size: 0, color: n.cluster_color || clusterColor(cid), label: '' });
+      const a = agg[cid] || (agg[cid] = { id: cid, size: 0, color: safeColor(n.cluster_color) || clusterColor(cid), label: '' });
       a.size++;
       if (!a.label) a.label = n.label || n.type || '';
     });
@@ -955,7 +1230,17 @@
       <div class="tt-title">${escapeHTML(d.label || d.id)}</div>
       <div class="tt-row"><small>${escapeHTML(d.type || '')}</small></div>
       <div class="tt-row"><span class="lvl-dot lvl-${levelOf(d)}"></span>${levelOf(d).replace('_', '-')}</div>
-    `);
+      <button class="tt-analyse" type="button">Analyse entity</button>
+    `, (root) => {
+      const btn = root.querySelector('.tt-analyse');
+      if (btn) {
+        btn.addEventListener('click', (ev2) => {
+          ev2.stopPropagation();
+          hideTooltip();
+          analyseEntity(d.label || d.id, d.type || '', d);
+        });
+      }
+    });
   }
 
   // ---- context menu: transforms grouped by intel tier ----
@@ -970,6 +1255,7 @@
       '<div class="ctx-item" data-act="expand">⤴ Expand (resolve)</div>' +
       '<div class="ctx-item" data-act="deepsearch">∘ Deep search</div>' +
       '<div class="ctx-item" data-act="focus">⊙ Focus</div>' +
+      '<div class="ctx-item" data-act="analyse">Analyse entity</div>' +
       '<div class="ctx-sub">Set intel level</div>' +
       ['data', 'information', 'intelligence', 'counter_intelligence'].map((lv) =>
         '<div class="ctx-item ctx-level" data-level="' + lv + '"><span class="lvl-dot lvl-' + lv + '"></span>' +
@@ -994,6 +1280,10 @@
       searchEntity(type, q);
     };
     menu.querySelector('[data-act="focus"]').onclick = () => { hideContextMenu(); focusNode(d); };
+    menu.querySelector('[data-act="analyse"]').onclick = () => {
+      hideContextMenu();
+      analyseEntity(value, type, d);
+    };
     menu.querySelectorAll('.ctx-level').forEach((el) => {
       el.onclick = () => { setNodeLevel(d, el.getAttribute('data-level')); hideContextMenu(); };
     });
@@ -1209,7 +1499,7 @@
     node.append('circle')
       .attr('class', 'node')
       .attr('r', (d) => d.size || 6)
-      .attr('fill', (d) => d.cluster_color || d.color || '#5fb4ff')
+      .attr('fill', (d) => safeColor(d.cluster_color || d.color) || '#5fb4ff')
       .attr('stroke', (d) => LEVEL_COLORS[levelOf(d)])
       .attr('stroke-width', (d) => LEVEL_STROKE[levelOf(d)])
       .attr('stroke-dasharray', (d) => levelOf(d) === 'counter_intelligence' ? '2 2' : null);
@@ -1760,14 +2050,107 @@
             const id = el.getAttribute('data-id');
             fetch('/api/cases/' + id + '?full=1')
               .then((r) => r.json())
-              .then((c) => alert(
-                'Case ' + c.id + '\nQuery: ' + c.query +
-                '\nType: ' + c.query_type + '\nEntities: ' + c.entity_count +
-                '\nObservations: ' + c.obs_count + '\nStatus: ' + c.status
-              ));
+              .then((c) => openCaseDetail(c));
           });
         });
       });
+  }
+  // Rich case modal: loads the saved DB record (query, entities,
+  // observations) and offers Analyse (re-run on the case data) and
+  // "Load in workspace" (restore entities into the tabs).
+  function openCaseDetail(c) {
+    const entities = (c.entities || []).slice(0, 40);
+    const obs = (c.observations || []).slice(0, 30);
+    const entList = entities.length
+      ? '<ul class="case-ent-list">' + entities.map((e) =>
+          '<li><span class="pill">' + escapeHTML(e.type || '') + '</span> ' +
+          '<code>' + escapeHTML(e.value || '') + '</code>' +
+          (e.attributes && e.attributes.organization ? ' · ' + escapeHTML(e.attributes.organization) : '') +
+          '</li>').join('') + '</ul>'
+      : '<p class="muted">no entities stored</p>';
+    const obsList = obs.length
+      ? '<ul class="case-obs-list">' + obs.map((o) =>
+          '<li><span class="pill">' + escapeHTML(o.source || '') + '</span> ' +
+          escapeHTML((o.meta && o.meta.status) || 'ok') +
+          (o.meta && o.meta.error ? ' <span class="pill err">' + escapeHTML(o.meta.error) + '</span>' : '') +
+          '</li>').join('') + '</ul>'
+      : '<p class="muted">no observations stored</p>';
+    const ts = new Date((c.created_at || 0) * 1000).toISOString().slice(0, 16).replace('T', ' ');
+    const modal = openModal({
+      title: 'Case · ' + (c.query || c.id),
+      onClose: () => {},
+      actions: [
+        { label: 'Analyse', onClick: () => {
+            _lastRun = { query: c.query || '', observations: [] };
+            _streamObsAll = (c.observations || []).slice();
+            switchSidebarTab(2); // analysis tab
+            loadAnalysisModels();
+            renderAnalysis({});
+            reanalyze();
+            return false; // keep modal? close after triggering
+          } },
+        { label: 'Load in workspace', onClick: () => {
+            restoreCaseToWorkspace(c);
+            return false;
+          } },
+      ],
+    });
+    const box = modal.querySelector('.estorides-modal-content');
+    if (box) {
+      box.innerHTML =
+        '<div class="case-detail-meta">' +
+          '<span class="pill">' + escapeHTML(c.query_type || 'unknown') + '</span>' +
+          '<span class="pill">' + escapeHTML(c.status || '') + '</span>' +
+          '<span class="pill">' + (c.entity_count || 0) + ' ents</span>' +
+          '<span class="pill">' + (c.obs_count || 0) + ' obs</span>' +
+          '<span>' + escapeHTML(ts) + '</span>' +
+        '</div>' +
+        (c.notes ? '<p class="case-detail-notes">' + escapeHTML(c.notes) + '</p>' : '') +
+        '<h4>Entities (' + (c.entity_count || 0) + ')</h4>' + entList +
+        '<h4>Observations (' + (c.obs_count || 0) + ')</h4>' + obsList +
+        '<p class="muted">Tip: "Analyse" runs a fresh intelligence assessment over this case\u2019s saved data; "Load in workspace" restores the entities into the Results/Graph/Map tabs.</p>';
+    }
+  }
+  // Restore a case's saved entities into the workspace tabs (entities
+  // list, graph summary, map, timeline) without re-running collection.
+  function restoreCaseToWorkspace(c) {
+    const entities = c.entities || [];
+    showEmptyState(false);
+    renderEntities(entities);
+    // Rebuild the graph from the saved entities.
+    const nodes = entities.map((e, i) => ({
+      id: e.value || String(i), label: e.value || '', type: e.type || '',
+      size: 6, cluster: 0, cluster_color: '#5fb4ff',
+      attributes: e.attributes || {},
+    }));
+    renderGraphSummary({ nodes: nodes, edges: [], summary: { node_count: nodes.length, edge_count: 0 } });
+    // Rebuild the map from any entity carrying coordinates (same key
+    // resolution as buildMapCoords) or a country code.
+    const coords = buildCaseMapCoords(entities);
+    if (coords.length) plotPoints(coords);
+    renderTimeline({ observations: c.observations || [], entities: entities });
+    showToast('ok', 'Case loaded', (c.query || c.id) + ' restored to workspace', 3500);
+  }
+  // Build map coords from a case's saved entities, reusing the same
+  // latitude/longitude resolution and country-centroid fallback as the
+  // normal run renderer so a case without explicit lat/lon still drops pins.
+  function buildCaseMapCoords(entities) {
+    const coords = [];
+    (entities || []).forEach((e) => {
+      const a = e.attributes || {};
+      const lat = parseFloat(a.lat || a.latitude);
+      const lon = parseFloat(a.lon || a.lng || a.longitude);
+      if (validCoord(lat, lon)) {
+        coords.push({ lat: lat, lon: lon, label: e.value, value: e.value, type: e.type || '', sources: [e.source || 'case'], color: colorForKind(e.type) });
+        return;
+      }
+      // Fall back to country centroids (same table buildMapCoords uses).
+      const cc = String(a.country_code || a.countryCode || a.country || '').toUpperCase();
+      if (cc && COUNTRY_CENTROIDS[cc]) {
+        coords.push({ lat: COUNTRY_CENTROIDS[cc][0], lon: COUNTRY_CENTROIDS[cc][1], label: e.value, value: e.value, type: e.type || '', sources: [e.source || 'case'], color: colorForKind(e.type) });
+      }
+    });
+    return coords;
   }
   function renderCaseItem(c) {
     const ts = new Date((c.created_at || 0) * 1000).toISOString().slice(0, 16).replace('T', ' ');
@@ -1830,16 +2213,17 @@
       // for one-shot probes (e.g. "try your own number").
       const firstKey = Object.keys(args)[0];
       const current = firstKey ? args[firstKey] : '';
-      const v = prompt('Value for ' + name + ' (' + firstKey + '):', current);
-      if (v === null) return;
-      if (firstKey) args[firstKey] = v;
-      const out = $('#osiris-out');
-      out.textContent = 'querying ' + name + '...';
-      const params = new URLSearchParams(args);
-      fetch('/api/osiris/' + name + '?' + params.toString())
-        .then((r) => r.json())
-        .then((data) => { out.textContent = JSON.stringify(data, null, 2); })
-        .catch((e) => { out.textContent = 'error: ' + e; });
+      promptModal({ title: 'Value for ' + name, label: firstKey, value: current }).then((v) => {
+        if (v === null) return;
+        if (firstKey) args[firstKey] = v;
+        const out = $('#osiris-out');
+        out.textContent = 'querying ' + name + '...';
+        const params = new URLSearchParams(args);
+        fetch('/api/osiris/' + name + '?' + params.toString())
+          .then((r) => r.json())
+          .then((data) => { out.textContent = JSON.stringify(data, null, 2); })
+          .catch((e) => { out.textContent = 'error: ' + e; });
+      });
     });
   });
 
@@ -1873,39 +2257,42 @@
   // Bookmark a case. The endpoint prefixes the notes column with
   // "[saved]" so the bookmarked case surfaces in the list at a glance.
   function caseActionSave(id, btn) {
-    const note = prompt('Optional note for this case:', '');
-    if (note === null) return;  // user cancelled
-    btn.disabled = true;
-    fetch('/api/cases/' + encodeURIComponent(id) + '/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ note: note }),
-    })
-      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
-      .then(({ ok, j }) => {
-        if (!ok) throw new Error(j.error || 'save failed');
-        btn.textContent = 'saved';
-        loadCases();
+    promptModal({ title: 'Note for this case', label: 'Optional note', value: '' }).then((note) => {
+      if (note === null) return;
+      btn.disabled = true;
+      fetch('/api/cases/' + encodeURIComponent(id) + '/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note: note }),
       })
-      .catch((e) => { alert('save failed: ' + e.message); btn.disabled = false; });
+        .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+        .then(({ ok, j }) => {
+          if (!ok) throw new Error(j.error || 'save failed');
+          btn.textContent = 'saved';
+          loadCases();
+        })
+        .catch((e) => { showToast('error', 'Save failed', e.message, 4000); btn.disabled = false; });
+    });
   }
 
   // Compare this case to another. The user picks the baseline; the
   // response is rendered inline in a diff panel under the case.
   function caseActionDiff(id) {
-    const baseline = prompt(
-      'Compare to which case id? (case A — the older one)\n\n' +
-      'Tip: the id is in the URL or in the case detail.', ''
-    );
-    if (!baseline) return;
-    fetch('/api/cases/diff?a=' + encodeURIComponent(baseline) +
-          '&b=' + encodeURIComponent(id))
-      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
-      .then(({ ok, j }) => {
-        if (!ok) throw new Error(j.error || 'diff failed');
-        renderCaseDiffPanel(id, j);
-      })
-      .catch((e) => alert('diff failed: ' + e.message));
+    promptModal({
+      title: 'Compare with a baseline case',
+      label: 'Baseline case id (older case)',
+      value: '',
+    }).then((baseline) => {
+      if (!baseline) return;
+      fetch('/api/cases/diff?a=' + encodeURIComponent(baseline) +
+            '&b=' + encodeURIComponent(id))
+        .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+        .then(({ ok, j }) => {
+          if (!ok) throw new Error(j.error || 'diff failed');
+          renderCaseDiffPanel(id, j);
+        })
+        .catch((e) => showToast('error', 'Diff failed', e.message, 4000));
+    });
   }
 
   // Render the diff result below the case. The panel survives until
@@ -1984,7 +2371,7 @@
         lines.push('```');
         showReportModal(lines.join('\n'));
       })
-      .catch((e) => alert('report failed: ' + e.message));
+      .catch((e) => showToast('error', 'Report failed', e.message, 4000));
   }
 
   function showReportModal(text) {
@@ -2009,9 +2396,96 @@
     });
   }
 
+  // ---- generic modal helpers (replace alert/prompt/confirm) ----
+  // User input collected here is treated as hostile: coerced to a string
+  // and stripped of control chars before it goes into any request/HTML.
+  function _sanitizeInput(v) {
+    return String(v == null ? '' : v).replace(/[\u0000-\u001F\u007F]/g, '');
+  }
+  function openModal(opts) {
+    let modal = document.getElementById('estorides-modal');
+    if (modal) modal.remove();
+    modal = document.createElement('div');
+    modal.id = 'estorides-modal';
+    modal.className = 'estorides-modal';
+    const actions = (opts.actions || []).map((a, i) =>
+      `<button class="ghost" data-modal-act="${i}" type="button">${escapeHTML(a.label)}</button>`
+    ).join('');
+    modal.innerHTML = `
+      <div class="estorides-modal-body">
+        <div class="estorides-modal-head">
+          <strong>${escapeHTML(opts.title || '')}</strong>
+          <button class="ghost" data-modal-close type="button">close</button>
+        </div>
+        <div class="estorides-modal-content">${opts.bodyHTML || ''}</div>
+        ${actions ? '<div class="estorides-modal-actions">' + actions + '</div>' : ''}
+      </div>
+    `;
+    document.body.appendChild(modal);
+    const close = () => { modal.remove(); if (opts.onClose) opts.onClose(); };
+    modal.querySelector('[data-modal-close]').addEventListener('click', close);
+    modal.addEventListener('click', (ev) => { if (ev.target === modal) close(); });
+    if (opts.actions) {
+      modal.querySelectorAll('[data-modal-act]').forEach((b) => {
+        b.addEventListener('click', () => {
+          const i = Number(b.getAttribute('data-modal-act'));
+          const act = opts.actions[i];
+          if (act && act.onClick) { const keep = act.onClick(); if (keep !== false) close(); }
+        });
+      });
+    }
+    return modal;
+  }
+  // Promise-style text prompt. Resolves with a sanitized string or null.
+  function promptModal(opts) {
+    return new Promise((resolve) => {
+      const modal = openModal({
+        title: opts.title || 'Input',
+        bodyHTML:
+          '<label class="modal-field">' + escapeHTML(opts.label || '') + '</label>' +
+          '<input id="modal-prompt-input" type="text" class="modal-input" ' +
+            'value="' + escapeHTML(_sanitizeInput(opts.value || '')) + '" />',
+        onClose: () => resolve(null),
+        actions: [
+          { label: 'Cancel', onClick: () => { resolve(null); } },
+          { label: 'OK', onClick: () => {
+              const v = $('#modal-prompt-input');
+              resolve(_sanitizeInput(v ? v.value : ''));
+            } },
+        ],
+      });
+      const inp = modal.querySelector('#modal-prompt-input');
+      if (inp) {
+        inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { resolve(_sanitizeInput(inp.value)); modal.remove(); } });
+        setTimeout(() => inp.focus(), 0);
+      }
+    });
+  }
+  function confirmModal(opts) {
+    return new Promise((resolve) => {
+      openModal({
+        title: opts.title || 'Confirm',
+        bodyHTML: '<p class="modal-message">' + escapeHTML(opts.message || '') + '</p>',
+        onClose: () => resolve(false),
+        actions: [
+          { label: 'Cancel', onClick: () => { resolve(false); } },
+          { label: opts.okLabel || 'OK', onClick: () => { resolve(true); } },
+        ],
+      });
+    });
+  }
+
 
   // ---- startup ----
   showEmptyState(true);
+  // Load the "analyse with <model>" pills immediately so the user can always
+  // re-run an assessment with any available model, without waiting for a run.
+  loadAnalysisModels();
+  // The result filters/search are authored with the `hidden` attribute for
+  // CSP safety, but we surface them at runtime so the search box is always
+  // visible once the tab has content.
+  var _filters = document.getElementById('result-filters');
+  if (_filters) _filters.hidden = false;
   bindResultFilters();
 
   // Example chips in the empty state fill the query box.
@@ -2166,6 +2640,10 @@
     panels.forEach(function(p, i) { p.classList.toggle('active', i === idx); });
     // Reload fusion data when switching to fusion tab
     if (idx === 4) loadFusionTab();
+    // Load the available models into the analysis toolbar whenever the
+    // Analysis tab is opened, so the "analyse with <model>" pills are always
+    // visible — not only after a completed run.
+    if (idx === 2 && typeof loadAnalysisModels === 'function') loadAnalysisModels();
   }
 
   function loadFusionTab() {
@@ -2205,12 +2683,18 @@
           '<code>' + escapeHTML(e.value) + '</code> ' +
           '<span class="srcs">+' + e.new_observations + ' obs · +' + e.new_properties + ' props · +' + e.new_relationships + ' rels</span>' +
           '<button class="ghost view-btn" data-eid="' + escapeAttr(e.entity_id) + '">View</button>' +
+          '<button class="ghost analyse-btn" data-val="' + escapeAttr(e.value) + '" data-type="' + escapeAttr(e.type || '') + '">Analyse</button>' +
           '</div>';
       }).join('');
       el.querySelectorAll('.view-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var eid = btn.getAttribute('data-eid');
           if (eid) loadFusionEntityDetail(eid);
+        });
+      });
+      el.querySelectorAll('.analyse-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          analyseEntity(btn.getAttribute('data-val'), btn.getAttribute('data-type'), {});
         });
       });
     }).catch(function() { el.innerHTML = ''; });
@@ -2240,12 +2724,18 @@
               '<span class="value">' + escapeHTML(e.value) + '</span> ' +
               '<span class="srcs">' + e.source_count + ' sources · ' + e.observation_count + ' obs</span>' +
               '<button class="ghost view-btn" data-eid="' + escapeAttr(e.id) + '">View</button>' +
+              '<button class="ghost analyse-btn" data-val="' + escapeAttr(e.value) + '" data-type="' + escapeAttr(e.type || '') + '">Analyse</button>' +
               '</div>';
           }).join('');
         resultsEl.querySelectorAll('.view-btn').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var eid = btn.getAttribute('data-eid');
             if (eid) loadFusionEntityDetail(eid);
+          });
+        });
+        resultsEl.querySelectorAll('.analyse-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            analyseEntity(btn.getAttribute('data-val'), btn.getAttribute('data-type'), {});
           });
         });
       }).catch(function() { resultsEl.innerHTML = '<div class="empty-state"><p>Search failed.</p></div>'; });
@@ -2294,6 +2784,11 @@
   });
 
   $('#fusion-refresh-btn').addEventListener('click', loadFusionTab);
+  var _thinkBtn = document.getElementById('analysis-thinking-toggle');
+  if (_thinkBtn) _thinkBtn.addEventListener('click', function () {
+    toggleThinking();
+    _thinkBtn.textContent = _thinkBtn.textContent === 'Show thinking' ? 'Hide thinking' : 'Show thinking';
+  });
   // Override switchSidebarTab to trigger fusion load on tab 5
   document.querySelectorAll('.sidebar .tabs .tab').forEach(function(tab, i) {
     tab.addEventListener('click', function() { switchSidebarTab(i); });

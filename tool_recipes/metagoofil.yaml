@@ -1,0 +1,4 @@
+name: metagoofil
+description: "Kali/OSINT CLI tool installed via the 'metagoofil' apt package."
+os: any
+apt: metagoofil

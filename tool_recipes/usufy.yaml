@@ -1,0 +1,8 @@
+name: usufy
+description: Kali/OSINT CLI tool installed via the 'usufy' apt package.
+os: any
+apt: usufy
+git:
+  repo_url: https://github.com/sherlock-project/sherlock.git
+  install_path: sherlock
+  install_command: pip install -r requirements.txt

@@ -1,0 +1,4 @@
+name: tcpdump
+description: "Kali/OSINT CLI tool installed via the 'tcpdump' apt package."
+os: any
+apt: tcpdump

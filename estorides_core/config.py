@@ -177,6 +177,15 @@ TOOL_ALLOWLIST: set[str] = _env_tool_allowlist()
 TOOL_TIMEOUT: int = _env_int("ESTORIDES_TOOL_TIMEOUT", 300)
 TOOL_MAX_OUTPUT_BYTES: int = int(os.environ.get("ESTORIDES_TOOL_MAX_OUTPUT", 10_485_760))
 
+# One-click tool installation (lazyaddon-style, spec/tool_install.md).
+# `tool_recipes/` holds one YAML recipe per installable Kali/OSINT tool
+# (apt package and/or git repo + install_command, mirroring LazyOwn's
+# lazyaddons/*.yaml). `.tools/` is where git-based recipes clone to.
+TOOL_RECIPES_DIR: Path = Path(
+    os.environ.get("ESTORIDES_TOOL_RECIPES_DIR", str(PROJECT_ROOT / "tool_recipes"))
+)
+TOOLS_DIR: Path = Path(os.environ.get("ESTORIDES_TOOLS_DIR", str(PROJECT_ROOT / ".tools")))
+
 # Circuit breaker — if a host fails this many times in a window, skip for cooldown.
 CIRCUIT_FAIL_THRESHOLD: int = _env_int("ESTORIDES_CIRCUIT_FAIL_THRESHOLD", 5)
 CIRCUIT_COOLDOWN_S: int = _env_int("ESTORIDES_CIRCUIT_COOLDOWN_S", 300)
@@ -262,7 +271,14 @@ LLM_TEMPERATURE: float = float(os.environ.get("ESTORIDES_LLM_TEMP", 0.25))
 # Hard wall-clock cap (seconds) for any single LLM HTTP call. Threaded into the
 # requests timeout so a slow local model can never orphan a thread that blocks
 # process shutdown for minutes.
-LLM_REQUEST_TIMEOUT: float = float(os.environ.get("ESTORIDES_LLM_REQUEST_TIMEOUT", 120.0))
+#
+# The default is deliberately generous (600 s = 10 min): local ollama models
+# like qwen3.8:27b routinely take several minutes to stream a full
+# intelligence assessment, and the analysis call runs offloaded to a worker
+# thread (async), so a long cap does not freeze the event loop. A short cap
+# (the old 120 s) made the manager fall through to the stub on the big local
+# models — the "no backends available" symptom.
+LLM_REQUEST_TIMEOUT: float = float(os.environ.get("ESTORIDES_LLM_REQUEST_TIMEOUT", 600.0))
 
 # Model selection per backend.
 LLM_MODELS: dict[str, str] = {
@@ -480,6 +496,33 @@ class ReconFusionConfig:
             )
         if self.freshness_max_hours <= 0.0:
             object.__setattr__(self, "freshness_max_hours", 1.0)
+
+
+@dataclass(frozen=True)
+class SchemaConfig:
+    """Bounds and version for the strict observation/entity data contracts.
+
+    `max_str_len` caps any free-form string field (source, category, …).
+    `max_value_len` caps the identity-bearing entity `value`: it is tighter
+    than `max_str_len` because a `value` is the merge/identity key used to
+    derive `canonical_id` downstream, so an oversized blob must be rejected,
+    not truncated. `max_url_len` is applied as a truncation bound on `meta.url`
+    (a URL is not identity-bearing; truncating it is a documented, safe bound).
+    `schema_version` lets consumers detect a contract drift.
+    """
+
+    max_str_len: int
+    max_value_len: int
+    max_url_len: int
+    schema_version: int
+
+
+SCHEMA: SchemaConfig = SchemaConfig(
+    max_str_len=_env_int("ESTORIDES_SCHEMA_MAX_STR_LEN", 1024),
+    max_value_len=_env_int("ESTORIDES_SCHEMA_MAX_VALUE_LEN", 512),
+    max_url_len=_env_int("ESTORIDES_SCHEMA_MAX_URL_LEN", 2048),
+    schema_version=_env_int("ESTORIDES_SCHEMA_VERSION", 1),
+)
 
 
 @dataclass(frozen=True)

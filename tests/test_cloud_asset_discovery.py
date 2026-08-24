@@ -113,8 +113,14 @@ class TestBucketNamePermutations:
 
     def test_strips_tld_for_permutations(self) -> None:
         names = generate_bucket_names("example.com")
-        assert all("example.com" not in n for n in names
-                   if not n.startswith("example.com"))
+        # Anchor the apex-domain check to a real label boundary so a
+        # permutation like "example.com.evil" cannot slip through a naive
+        # `startswith("example.com")` (incomplete URL substring sanitization).
+        assert all(
+            "example.com" not in n
+            for n in names
+            if not (n == "example.com" or n.startswith("example.com."))
+        )
 
 
 # S8 — Security: Rate limiting enforced

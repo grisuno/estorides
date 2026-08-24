@@ -201,7 +201,7 @@ class RateLimiter:
     def __init__(
         self,
         *,
-        max_requests: int = 30,
+        max_requests: int = 120,
         window_seconds: int = 60,
     ) -> None:
         self.max_requests = int(

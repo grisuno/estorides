@@ -1,0 +1,4 @@
+name: gobuster
+description: "Kali/OSINT CLI tool installed via the 'gobuster' apt package."
+os: any
+apt: gobuster

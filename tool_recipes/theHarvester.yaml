@@ -1,0 +1,8 @@
+name: theHarvester
+description: Kali/OSINT CLI tool installed via the 'theharvester' apt package.
+os: any
+apt: theharvester
+git:
+  repo_url: https://github.com/laramies/theHarvester.git
+  install_path: theHarvester
+  install_command: pip install -r requirements/base.txt

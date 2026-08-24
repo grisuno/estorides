@@ -1,0 +1,4 @@
+name: smbclient
+description: "Kali/OSINT CLI tool installed via the 'smbclient' apt package."
+os: any
+apt: smbclient

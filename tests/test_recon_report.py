@@ -5,6 +5,8 @@ Implements the Given-When-Then contracts declared in
 """
 from __future__ import annotations
 
+import re
+
 from estorides_export.recon_report import (
     ReportMetadata,
     build_executive_summary,
@@ -46,7 +48,9 @@ class TestExecutiveSummaryFindings:
         )
         assert "Open S3 bucket" in summary
         assert "Hardcoded AWS keys" in summary
-        assert "example.com" in summary
+        # Boundary-anchored domain check so a longer host like
+        # "example.com.evil" cannot satisfy it (incomplete sanitization).
+        assert re.search(r"(?<![A-Za-z0-9.-])example\.com(?![A-Za-z0-9-])", summary) is not None
 
 
 # S3 — Edge: Minimal data
@@ -58,7 +62,10 @@ class TestMinimalReport:
             metadata=_make_meta(),
         )
         assert result.word_count >= 50
-        assert "No significant findings" in result.markdown or "unknown-target.com" in result.markdown
+        assert "No significant findings" in result.markdown or (
+            re.search(r"(?<![A-Za-z0-9.-])unknown-target\.com(?![A-Za-z0-9-])",
+                      result.markdown) is not None
+        )
 
 
 # S4 — Security: TLP classification header
@@ -99,10 +106,12 @@ class TestSubdomainTree:
         from estorides_export.recon_report import build_subdomain_tree
         subs = ["example.com", "www.example.com", "api.example.com", "admin.example.com"]
         tree = build_subdomain_tree(subs)
-        assert "example.com" in tree
-        assert "www" in tree
-        assert "api" in tree
-        assert "admin" in tree
+        # The ASCII tree is a string; anchor each label to its own line so
+        # a substring of a longer host cannot satisfy the assertion.
+        assert re.search(r"(?m)^  example\.com\s*$", tree) is not None
+        assert re.search(r"(?m)^\s+www\s*$", tree) is not None
+        assert re.search(r"(?m)^\s+api\s*$", tree) is not None
+        assert re.search(r"(?m)^\s+admin\s*$", tree) is not None
 
 
 # S8 — Edge: Single finding report

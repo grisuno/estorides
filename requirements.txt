@@ -26,3 +26,7 @@ aiohttp_socks>=0.8,<1.0
 # Optional but recommended for production deployments:
 # gunicorn — proper WSGI server (Flask's dev server is not for prod)
 gunicorn>=22.0,<27.0       # closes CVE-2024-1135 (request smuggling)
+
+# Strict schema validation for observation/entity contracts
+# (estorides_core/observation_models.py). Pure Python, no external services.
+pydantic>=2.0,<3.0

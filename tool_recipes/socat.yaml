@@ -1,0 +1,4 @@
+name: socat
+description: "Kali/OSINT CLI tool installed via the 'socat' apt package."
+os: any
+apt: socat

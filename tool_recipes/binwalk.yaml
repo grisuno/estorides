@@ -1,0 +1,4 @@
+name: binwalk
+description: "Kali/OSINT CLI tool installed via the 'binwalk' apt package."
+os: any
+apt: binwalk

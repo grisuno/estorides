@@ -39,8 +39,19 @@ from .parsers import get_parser
 from .recon_fusion import ReconFusionEngine
 from .relationship_inference import infer_relationship
 from .source_loader import Source, SourceRegistry
+from .system_app_sources import is_system_app
 
 log = logging.getLogger("estorides.orchestrator")
+
+# Detached background system_app tool runs (slow CLI tools launched so they
+# are NOT killed by the run deadline). The web layer keeps its SSE stream open
+# while this set is non-empty so late results still reach the UI.
+_BG_SYS_TASKS: set[asyncio.Task] = set()
+
+
+def pending_system_app_tasks() -> int:
+    """Number of slow CLI-tool runs still in flight (for the stream gate)."""
+    return len([t for t in list(_BG_SYS_TASKS) if not t.done()])
 
 # New modules (v1.0 → v1.1 wiring). Each is wrapped in a try/except
 # so a missing optional dep (kuzu, etc.) can never break a run that
@@ -218,14 +229,32 @@ class Orchestrator:
                  query_type, len(targets), query, deadline)
 
         # ----- fan out, capped by a global deadline -----
+        # Slow CLI tools (`system_app`) must NOT be killed by the short
+        # per-target deadline: a whatweb can take minutes. We run them as
+        # detached background tasks that stream their real result via
+        # `on_source_result` when the tool finally finishes. HTTP sources
+        # stay bounded by the run deadline so a hung endpoint can't stall
+        # the whole fanout.
         async with AsyncClient(
             timeout=timeout, max_parallel=parallel, proxies=effective_proxies(proxy)
         ) as client:
+            sys_sources = [s for s in targets if is_system_app(s)]
+            http_sources = [s for s in targets if not is_system_app(s)]
+
+            bg_tasks: List[asyncio.Task] = []
+            for s in sys_sources:
+                task = asyncio.ensure_future(
+                    self._execute_source(client, s, query, on_source_done, on_source_result)
+                )
+                bg_tasks.append(task)
+                _BG_SYS_TASKS.add(task)
+                task.add_done_callback(_BG_SYS_TASKS.discard)
+
             tasks: List[asyncio.Task] = [
                 asyncio.create_task(
                     self._execute_source(client, s, query, on_source_done, on_source_result)
                 )
-                for s in targets
+                for s in http_sources
             ]
             try:
                 raw_results = await asyncio.wait_for(
@@ -240,14 +269,8 @@ class Orchestrator:
                         t.cancel()
                 # give cancelled tasks a moment to clean up
                 await asyncio.gather(*tasks, return_exceptions=True)
-                # Use whatever did complete, mark the rest as missed.
-                # IMPORTANT: a cancelled task's .result() raises
-                # CancelledError; only call it for tasks that we know
-                # completed without exception. Anything else becomes
-                # a synthetic 4-tuple so the downstream unpacking can
-                # never trip on a BaseException instance.
                 raw_results = []
-                for t, s in zip(tasks, targets):
+                for t, s in zip(tasks, http_sources):
                     if (
                         t.done()
                         and not t.cancelled()
@@ -256,9 +279,6 @@ class Orchestrator:
                         try:
                             raw_results.append(t.result())
                         except Exception as e:  # noqa: BLE001
-                            # Defensive: t.exception() said None but
-                            # t.result() still raised. Treat as a
-                            # failed source rather than crashing.
                             log.warning("source %s result() raised: %s",
                                         s["name"], e)
                             raw_results.append((s, None, None, {
@@ -281,6 +301,16 @@ class Orchestrator:
                                 on_source_done(s["name"], False, "deadline", deadline * 1000.0)
                             except Exception:
                                 pass
+
+            # Fold in any system_app results that finished within the
+            # deadline window (the slow ones keep streaming via on_source_result).
+            for t in bg_tasks:
+                if t.done() and not t.cancelled() and t.exception() is None:
+                    try:
+                        raw_results.append(t.result())
+                    except Exception:  # noqa: BLE001
+                        pass
+
 
         # ----- post-process -----
         # `asyncio.gather(..., return_exceptions=True)` puts the actual

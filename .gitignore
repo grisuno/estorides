@@ -84,6 +84,10 @@ data/feeds/
 data/osiris_cache/
 data/ontology_sdn.json
 
+# Git-cloned tool installs (tool_install.py writes here at runtime).
+# Recipes are committed in tool_recipes/; the clones themselves are not.
+.tools/
+
 # Flask stuff:
 instance/
 .webassets-cache

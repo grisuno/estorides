@@ -1,0 +1,4 @@
+name: dmitry
+description: "Kali/OSINT CLI tool installed via the 'dmitry' apt package."
+os: any
+apt: dmitry

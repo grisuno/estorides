@@ -1,0 +1,4 @@
+name: tshark
+description: "Kali/OSINT CLI tool installed via the 'tshark' apt package."
+os: any
+apt: tshark

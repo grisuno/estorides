@@ -1,0 +1,4 @@
+name: sslscan
+description: "Kali/OSINT CLI tool installed via the 'sslscan' apt package."
+os: any
+apt: sslscan

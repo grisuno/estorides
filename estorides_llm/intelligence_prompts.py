@@ -95,7 +95,7 @@ PROMPTS: Dict[str, str] = {
 }
 
 
-def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int = 3500) -> str:
+def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int = 3500, max_total_chars: int = 100_000) -> str:
     """Render a list of observation dicts into a context block for the LLM.
 
     The previous implementation truncated at 3500 chars but did not
@@ -103,6 +103,13 @@ def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int =
     and a different answer. This version sorts by source name (stable
     order) and truncates per source so a single 100KB crt.sh response
     cannot blow past the model's context window.
+
+    A hard ``max_total_chars`` cap bounds the WHOLE block. Without it a
+    wide run (dozens of sources) could produce a prompt that dwarfs the
+    model's context window, and the model would only see the first blocks
+    — silently dropping the data it actually needs to answer. The cap is
+    applied in source order so the assessment never goes blind on a large
+    collection.
 
     If the orchestrator has stamped an ontology verdict on an
     observation (the `ontology` key), the formatted block carries a
@@ -112,10 +119,21 @@ def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int =
     if not sources:
         return "(no source observations)"
     blocks: List[str] = []
+    total = 0
     for s in sorted(sources, key=lambda x: x.get("source", "")):
+        # Hostile/empty input: drop error observations and sources that
+        # produced no data. Feeding "TOOL_NOT_FOUND"/empty records to the
+        # model just wastes its context window and dilutes the assessment.
+        meta = s.get("meta")
+        if isinstance(meta, dict) and meta.get("error"):
+            continue
+        parsed = s.get("parsed")
+        raw = s.get("raw")
+        body = parsed if parsed is not None else raw
+        if not body:
+            continue
         src = s.get("source", "unknown")
         cat = s.get("category", "")
-        body = s.get("parsed") if s.get("parsed") is not None else s.get("raw")
         try:
             body_text = json.dumps(body, ensure_ascii=False, default=str)[:max_chars_per_source]
         except (TypeError, ValueError):
@@ -132,5 +150,13 @@ def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int =
                 f"\n> SANCTIONED — OFAC SDN match on fields={ont.get('fields', [])!r}"
                 f"{program_str}\n"
             )
-        blocks.append(f"=== {src} [{cat}]{ontology_header} ===\n{body_text}")
+        block = f"=== {src} [{cat}]{ontology_header} ===\n{body_text}"
+        # Respect the global cap so the prompt always fits the model's window.
+        remaining = max_total_chars - total
+        if remaining <= 0:
+            break
+        blocks.append(block[:remaining])
+        total += min(len(block), remaining)
+    if not blocks:
+        return "(no usable observations — all sources errored or empty)"
     return "\n\n".join(blocks)

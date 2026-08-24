@@ -1,0 +1,4 @@
+name: strings
+description: "Kali/OSINT CLI tool installed via the 'binutils' apt package."
+os: any
+apt: binutils

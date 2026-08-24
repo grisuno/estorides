@@ -39,7 +39,7 @@ class TestIPHistory:
         }
         sub = [HistoricalSubdomain("example.com", "2024-01-01", "2024-06-01", 2, ["1.1.1.1", "2.2.2.2"], ["pdns"], True)]
         result = analyse_pdns_data(sub, ip_records, [])
-        assert "example.com" in result.ip_history
+        assert "example.com" in result.ip_history.keys()
         assert len(result.ip_history["example.com"]) == 2
 
 

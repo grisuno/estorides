@@ -1,0 +1,4 @@
+name: netcat
+description: "Kali/OSINT CLI tool installed via the 'netcat-openbsd' apt package."
+os: any
+apt: netcat-openbsd

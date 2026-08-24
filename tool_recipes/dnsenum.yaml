@@ -1,0 +1,4 @@
+name: dnsenum
+description: "Kali/OSINT CLI tool installed via the 'dnsenum' apt package."
+os: any
+apt: dnsenum

@@ -1,0 +1,4 @@
+name: wfuzz
+description: "Kali/OSINT CLI tool installed via the 'wfuzz' apt package."
+os: any
+apt: wfuzz

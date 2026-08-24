@@ -1,0 +1,8 @@
+name: maigret
+description: Kali/OSINT CLI tool installed via the 'maigret' apt package.
+os: any
+apt: maigret
+git:
+  repo_url: https://github.com/soxoj/maigret.git
+  install_path: maigret
+  install_command: pip install -r requirements.txt

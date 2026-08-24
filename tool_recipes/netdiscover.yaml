@@ -1,0 +1,4 @@
+name: netdiscover
+description: "Kali/OSINT CLI tool installed via the 'netdiscover' apt package."
+os: any
+apt: netdiscover

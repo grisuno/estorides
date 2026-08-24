@@ -27,6 +27,8 @@ from email.mime.text import MIMEText
 from typing import Any
 from urllib.request import Request, urlopen
 
+from .ssrf_guard import check_url
+
 log = logging.getLogger("estorides.alerter")
 
 
@@ -49,12 +51,26 @@ def _check_cooldown(channel: str) -> bool:
 
 
 def _http_post(url: str, payload: dict[str, Any]) -> bool:
-    """POST JSON payload to URL, return True on success."""
+    """POST JSON payload to URL, return True on success.
+
+    The destination is treated as hostile: every webhook URL is validated by
+    the central SSRF guard before any socket is opened, so a user-supplied
+    ``channel`` (e.g. ``channel.startswith("http")`` in ``send``) can never
+    reach internal hosts, link-local/cloud-metadata ranges, or be used to
+    smuggle a disallowed scheme.
+    """
+    guard = check_url(url)
+    if not guard.allowed:
+        log.warning("alerter: refused SSRF-unsafe webhook URL: %s", guard.reason)
+        return False
     try:
         data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        req = Request(url, data=data, method="POST")
+        # nosec S310: the SSRF guard above already rejected any non-http(s)
+        # scheme (file:, gopher:, custom, …), so urlopen only ever sees a
+        # validated HTTP(S) destination here.
+        req = Request(url, data=data, method="POST")  # noqa: S310
         req.add_header("Content-Type", "application/json")
-        with urlopen(req, timeout=10) as resp:
+        with urlopen(req, timeout=10) as resp:  # noqa: S310
             return resp.status < 300
     except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
         log.warning("HTTP POST to %s failed: %s", url, e)

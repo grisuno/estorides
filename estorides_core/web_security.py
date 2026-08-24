@@ -45,10 +45,36 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
 from typing import Any
+from urllib.parse import quote, urlsplit, urlunsplit
 
 from flask import Flask, jsonify, request
 
 log = logging.getLogger("estorides.web.security")
+
+
+def build_https_url(public_host: str, path: str, query_string: bytes) -> str:
+    """Build a safe HTTPS redirect target from a trusted host and client path.
+
+    The client controls ``path``/``query_string``, so they are treated as
+    hostile (the standing doctrine: never trust user input). We parse the
+    reconstructed URL and refuse to emit a Location header whose scheme is
+    not ``https`` or whose host differs from the configured ``public_host``.
+    On any mismatch we fall back to a bare host root, so a crafted ``//evil``
+    or ``\\evil`` path can never become an open redirect.
+    """
+
+    path_qs = query_string.decode("utf-8", errors="replace") if query_string else ""
+    # Percent-encode the path so embedded whitespace/`//`/`\`/`?`/`#` cannot
+    # alter the host or scheme. ``//``-preserving safe chars are NOT allowed.
+    safe_path = quote(path, safe="/:@-._~!$&'()*+,;=")
+    raw = urlunsplit(("https", public_host, safe_path, path_qs, ""))
+    try:
+        parsed = urlsplit(raw)
+    except ValueError:
+        return f"https://{public_host}/"
+    if parsed.scheme != "https" or parsed.netloc != public_host:
+        return f"https://{public_host}/"
+    return raw
 
 
 # --------------------------------------------------------------------------- #
@@ -67,7 +93,7 @@ class WebSecurityConfig:
     allow_methods: tuple[str, ...] = ("GET", "POST", "DELETE", "OPTIONS")
     allow_headers: tuple[str, ...] = ("Content-Type", "Authorization")
     allow_credentials: bool = False
-    max_content_length_bytes: int = 1_048_576  # 1 MiB; OSINT endpoints don't need more
+    max_content_length_bytes: int = 16 * 1024 * 1024  # 16 MiB; OSINT runs can carry large observation payloads
     csp_policy: str = (
         "default-src 'self'; "
         "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; "
@@ -144,7 +170,7 @@ def load_security_config() -> WebSecurityConfig:
     origins = tuple(o.strip() for o in origins_raw.split(",") if o.strip()) if origins_raw else ()
     return WebSecurityConfig(
         allow_origins=origins,
-        max_content_length_bytes=_env_int("ESTORIDES_MAX_BODY_BYTES", 1_048_576),
+        max_content_length_bytes=_env_int("ESTORIDES_MAX_BODY_BYTES", 16 * 1024 * 1024),
         csp_policy=_env_str("ESTORIDES_CSP", WebSecurityConfig.csp_policy),
         hsts_enabled=_env_bool("ESTORIDES_HSTS", False),
         public_host=_env_str("ESTORIDES_PUBLIC_HOST", WebSecurityConfig.public_host),
@@ -190,14 +216,16 @@ def install_security(app: Flask, cfg: WebSecurityConfig | None = None) -> WebSec
     if cfg.force_https:
         @app.before_request
         def _redirect_to_https() -> Any:
+            # Never auto-redirect state-changing methods — a client POST to
+            # http would lose its body and CSRF token in the 308 round-trip.
+            if request.method not in ("GET", "HEAD"):
+                return None
             fwd_proto = request.headers.get("X-Forwarded-Proto", "").lower()
             if request.is_secure or fwd_proto == "https":
                 return None
             from flask import redirect
-            safe_url = f"https://{cfg.public_host}{request.path}"
-            if request.query_string:
-                safe_url = f"{safe_url}?{request.query_string.decode('utf-8')}"
-            return redirect(safe_url, code=308)
+            target = build_https_url(cfg.public_host, request.path, request.query_string)
+            return redirect(target, code=308)
 
     # 4) Security headers + CORS, applied last so they always win.
     @app.after_request

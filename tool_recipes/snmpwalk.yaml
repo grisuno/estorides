@@ -1,0 +1,4 @@
+name: snmpwalk
+description: "Kali/OSINT CLI tool installed via the 'snmp' apt package."
+os: any
+apt: snmp

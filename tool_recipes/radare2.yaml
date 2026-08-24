@@ -1,0 +1,4 @@
+name: radare2
+description: "Kali/OSINT CLI tool installed via the 'radare2' apt package."
+os: any
+apt: radare2

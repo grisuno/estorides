@@ -1,0 +1,8 @@
+name: phoneinfoga
+description: Kali/OSINT CLI tool installed via the 'phoneinfoga' apt package.
+os: any
+apt: phoneinfoga
+git:
+  repo_url: https://github.com/sundowndev/phoneinfoga.git
+  install_path: phoneinfoga
+  install_command: make build

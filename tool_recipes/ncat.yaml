@@ -1,0 +1,4 @@
+name: ncat
+description: "Kali/OSINT CLI tool installed via the 'nmap' apt package."
+os: any
+apt: nmap

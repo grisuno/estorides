@@ -1,0 +1,8 @@
+name: mailfy
+description: Kali/OSINT CLI tool installed via the 'mailfy' apt package.
+os: any
+apt: mailfy
+git:
+  repo_url: https://github.com/sherlock-project/sherlock.git
+  install_path: sherlock
+  install_command: pip install -r requirements.txt

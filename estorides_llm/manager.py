@@ -18,6 +18,7 @@ forking the manager.
 """
 from __future__ import annotations
 
+import json
 import logging
 import os
 from typing import Any, Callable, Dict, List, Optional, Protocol, Tuple
@@ -31,6 +32,21 @@ from estorides_core.config import (ANTHROPIC_URL, LLM_MAX_TOKENS,
 from estorides_llm.intelligence_prompts import SYSTEM_PROMPT, format_context
 
 log = logging.getLogger("estorides.llm")
+
+# Default auto-detection preference for local ollama models (used only when
+# ESTORIDES_OLLAMA_MODEL is not set). Ordered best-to-worst: small/fast
+# models go first so the first analysis answers promptly instead of falling
+# through to the stub while a 27B model warms up. Override the whole thing
+# with ESTORIDES_OLLAMA_MODEL to force a specific model (e.g. the big qwen
+# for higher-quality assessments).
+PREFERRED_OLLAMA_MODELS: tuple[str, ...] = (
+    "deepseek-r1:1.5b",
+    "llama3.2:3b",
+    "llama3.1:8b",
+    "qwen2.5:7b",
+    "qwen3:8b",
+    "phi3:mini",
+)
 
 
 # ------------------------------------------------------------------- Protocol
@@ -52,6 +68,17 @@ class LLMBackend(Protocol):
         request_timeout: float,
     ) -> Tuple[str, str]:
         """Return (content, model_id). Empty content means "skip me"."""
+        ...
+
+    def stream_generate(
+        self,
+        prompt: str,
+        context: Optional[List[Dict[str, Any]]],
+        model: str,
+        temperature: float,
+        request_timeout: float,
+    ) -> Any:
+        """Optional: stream (kind, text) chunks. Base backends may skip."""
         ...
 
 
@@ -137,34 +164,96 @@ class OllamaBackend:
                 f"Pull it with: ollama pull {want}"
             )
         chosen = available[0]
+        # Prefer a fast local model by default so the first answer is prompt.
+        for pref in PREFERRED_OLLAMA_MODELS:
+            for avail in available:
+                if avail == pref or avail.split(":")[0] == pref.split(":")[0]:
+                    chosen = avail
+                    log.info(
+                        "ollama: preferring fast model %r over %r (set "
+                        "ESTORIDES_OLLAMA_MODEL to force another)",
+                        chosen, available[0],
+                    )
+                    return chosen
         log.info("auto-detected ollama model: %r", chosen)
         return chosen
+
+    def stream_generate(self, prompt, context, model, temperature, request_timeout):
+        """Stream an ollama response as (kind, text) chunks.
+
+        kind ∈ {"thinking", "content"} so the UI can render the model's
+        reasoning preamble into a collapsible "thinking" panel and stream
+        the final answer below it. Yields dicts, never raises; a hard
+        ``request_timeout`` guards the whole stream.
+        """
+        url = f"{OLLAMA_URL.rstrip('/')}/api/generate"
+        full = f"{SYSTEM_PROMPT}\n\n{format_context(context or [])}\n\nUser question: {prompt}"
+        r = requests.post(
+            url,
+            json={
+                "model": model,
+                "prompt": full,
+                "stream": True,
+                "options": {"temperature": temperature, "num_predict": 8192},
+            },
+            timeout=request_timeout,
+            stream=True,
+        )
+        r.raise_for_status()
+        for line in r.iter_lines(decode_unicode=True):
+            if not line:
+                continue
+            try:
+                obj = json.loads(line)
+            except ValueError:
+                continue
+            done = obj.get("done", False)
+            thinking = obj.get("thinking", "")
+            if thinking:
+                yield {"kind": "thinking", "text": thinking}
+            resp = obj.get("response", "")
+            if resp:
+                yield {"kind": "content", "text": resp}
+            if done:
+                return
 
     def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
         model = self._resolve_model(request_timeout)
         url = f"{OLLAMA_URL.rstrip('/')}/api/generate"
         full = f"{SYSTEM_PROMPT}\n\n{format_context(context or [])}\n\nUser question: {prompt}"
-        try:
-            r = requests.post(
-                url,
-                json={
-                    "model": model,
-                    "prompt": full,
-                    "stream": False,
-                    "options": {"temperature": temperature, "num_predict": max_tokens},
-                },
-                timeout=request_timeout,
-            )
-            r.raise_for_status()
-            response = r.json().get("response", "").strip()
-            if not response:
+        for attempt, budget in ((1, max_tokens), (2, max(max_tokens, 512) * 2)):
+            try:
+                r = requests.post(
+                    url,
+                    json={
+                        "model": model,
+                        "prompt": full,
+                        "stream": False,
+                        "options": {"temperature": temperature, "num_predict": budget},
+                    },
+                    timeout=request_timeout,
+                )
+                r.raise_for_status()
+                response = r.json().get("response", "").strip()
+                if response:
+                    return response, model
+                # Reasoning models (deepseek-r1, qwen3) can burn the whole
+                # token budget on their hidden "thinking" preamble and emit
+                # an empty final answer. Retry once with a doubled budget
+                # before declaring the model unusable.
+                if attempt == 1:
+                    log.info(
+                        "ollama model %r returned empty with %d tokens; "
+                        "retrying with %d", model, budget, max(max_tokens, 512) * 2,
+                    )
+                    continue
                 raise RuntimeError(
-                    f"model {model!r} returned no text — is it a generative model? "
+                    f"model {model!r} returned no text even with a larger "
+                    f"token budget — is it a generative model? "
                     f"(embedding-only models cannot answer; try `ollama pull llama3.1:8b`)"
                 )
-            return response, model
-        except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"ollama: {e}") from e
+            except requests.exceptions.RequestException as e:
+                raise RuntimeError(f"ollama: {e}") from e
 
 
 class _OpenAICompatibleBackend:
@@ -321,6 +410,42 @@ class LLMManager:
         if ollama is None:
             return {"reachable": False, "models": [], "error": "ollama backend not registered"}
         return ollama.get_status()
+
+    # ----------------------------------------------------- streaming analysis
+    def stream(
+        self,
+        prompt: str,
+        *,
+        context: Optional[List[Dict[str, Any]]] = None,
+        model: Optional[str] = None,
+        temperature: float = LLM_TEMPERATURE,
+        request_timeout: float = LLM_REQUEST_TIMEOUT,
+    ) -> Any:
+        """Stream an analysis from a specific ollama model.
+
+        Yields ``{"kind": "thinking"|"content", "text": …}`` chunks. The
+        model name is treated as hostile: it must match an actual ollama
+        model, else we raise before touching the network. If no model is
+        given, we fall back to the auto-detected fast default.
+        """
+        ollama = BACKENDS.get("ollama")
+        if ollama is None:
+            raise RuntimeError("ollama backend not registered")
+        status = ollama.get_status()
+        if not status.get("reachable"):
+            raise RuntimeError(f"ollama unreachable: {status.get('error')}")
+        available = status.get("models") or []
+        if model:
+            if model not in available:
+                raise RuntimeError(
+                    f"model {model!r} not available on ollama. "
+                    f"Available: {', '.join(available)}"
+                )
+        else:
+            model = ollama._resolve_model(request_timeout)  # noqa: SLF001
+        yield from ollama.stream_generate(
+            prompt, context or [], model, temperature, request_timeout,
+        )
 
     # ----------------------------------------------------- stub fallback
     def _stub_response(self, prompt: str, context: Optional[List[Dict[str, Any]]]) -> str:

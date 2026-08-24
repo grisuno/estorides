@@ -1,0 +1,4 @@
+name: ffuf
+description: "Kali/OSINT CLI tool installed via the 'ffuf' apt package."
+os: any
+apt: ffuf

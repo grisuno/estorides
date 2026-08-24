@@ -68,7 +68,7 @@
                 <section id="tab-results" class="tab-panel active">
                     <div id="results-meta" class="meta-row"></div>
                     <div id="result-filters" class="result-filters" hidden>
-                        <input id="result-filter-text" type="text" placeholder="filter results..." />
+                        <input id="result-filter-text" type="search" placeholder="search results..." autocomplete="off" />
                         <select id="result-filter-cat">
                             <option value="">all categories</option>
                         </select>
@@ -77,6 +77,7 @@
                             <option value="ok">success</option>
                             <option value="error">failed</option>
                         </select>
+                        <span id="result-filter-count" class="filter-count"></span>
                     </div>
                     <div id="results-empty" class="empty-state">
                         <div class="logo">⬢</div>
@@ -99,7 +100,15 @@
                 </section>
 
                 <section id="tab-analysis" class="tab-panel">
+                    <div class="analysis-toolbar">
+                        <span class="analysis-label">Analyse with</span>
+                        <div id="analysis-models" class="analysis-models"></div>
+                    </div>
                     <div id="analysis-meta" class="meta-row"></div>
+                    <div id="analysis-thinking-wrap" class="analysis-thinking-wrap" hidden>
+                        <button id="analysis-thinking-toggle" class="ghost" type="button">Show thinking</button>
+                        <pre id="analysis-thinking" class="analysis-thinking" hidden></pre>
+                    </div>
                     <div id="analysis-body" class="analysis-body"></div>
                 </section>
 
@@ -270,6 +279,7 @@
     </div>
 
     <script type="application/json" id="estorides-telemetry">{{ telemetry | tojson }}</script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <script src="/static/js/estorides.js"></script>
 
     <div id="no-model-modal" class="modal-overlay" hidden>

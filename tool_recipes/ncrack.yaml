@@ -1,0 +1,4 @@
+name: ncrack
+description: "Kali/OSINT CLI tool installed via the 'ncrack' apt package."
+os: any
+apt: ncrack

@@ -1,0 +1,4 @@
+name: hashcat
+description: "Kali/OSINT CLI tool installed via the 'hashcat' apt package."
+os: any
+apt: hashcat

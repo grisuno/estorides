@@ -1,0 +1,4 @@
+name: sslyze
+description: "Kali/OSINT CLI tool installed via the 'sslyze' apt package."
+os: any
+apt: sslyze

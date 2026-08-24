@@ -1,0 +1,4 @@
+name: nbtscan
+description: "Kali/OSINT CLI tool installed via the 'nbtscan' apt package."
+os: any
+apt: nbtscan

@@ -1,0 +1,4 @@
+name: bulk_extractor
+description: "Kali/OSINT CLI tool installed via the 'bulk-extractor' apt package."
+os: any
+apt: bulk-extractor

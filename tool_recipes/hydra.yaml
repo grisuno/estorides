@@ -1,0 +1,4 @@
+name: hydra
+description: "Kali/OSINT CLI tool installed via the 'hydra' apt package."
+os: any
+apt: hydra

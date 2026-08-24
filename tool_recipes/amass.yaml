@@ -1,0 +1,4 @@
+name: amass
+description: "Kali/OSINT CLI tool installed via the 'amass' apt package."
+os: any
+apt: amass

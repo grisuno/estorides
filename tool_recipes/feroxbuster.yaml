@@ -1,0 +1,4 @@
+name: feroxbuster
+description: "Kali/OSINT CLI tool installed via the 'feroxbuster' apt package."
+os: any
+apt: feroxbuster

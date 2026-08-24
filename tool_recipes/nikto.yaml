@@ -1,0 +1,4 @@
+name: nikto
+description: "Kali/OSINT CLI tool installed via the 'nikto' apt package."
+os: any
+apt: nikto

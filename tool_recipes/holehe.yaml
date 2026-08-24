@@ -1,0 +1,8 @@
+name: holehe
+description: Kali/OSINT CLI tool installed via the 'holehe' apt package.
+os: any
+apt: holehe
+git:
+  repo_url: https://github.com/megadose/holehe.git
+  install_path: holehe
+  install_command: pip install .

@@ -1,0 +1,4 @@
+name: nuclei
+description: "Kali/OSINT CLI tool installed via the 'nuclei' apt package."
+os: any
+apt: nuclei

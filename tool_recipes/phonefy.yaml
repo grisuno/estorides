@@ -1,0 +1,8 @@
+name: phonefy
+description: Kali/OSINT CLI tool installed via the 'phonefy' apt package.
+os: any
+apt: phonefy
+git:
+  repo_url: https://github.com/sherlock-project/sherlock.git
+  install_path: sherlock
+  install_command: pip install -r requirements.txt

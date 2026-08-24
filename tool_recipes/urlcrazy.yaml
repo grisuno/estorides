@@ -1,0 +1,4 @@
+name: urlcrazy
+description: "Kali/OSINT CLI tool installed via the 'urlcrazy' apt package."
+os: any
+apt: urlcrazy

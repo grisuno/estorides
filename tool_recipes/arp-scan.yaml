@@ -1,0 +1,4 @@
+name: arp-scan
+description: "Kali/OSINT CLI tool installed via the 'arp-scan' apt package."
+os: any
+apt: arp-scan

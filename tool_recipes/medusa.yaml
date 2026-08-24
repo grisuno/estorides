@@ -1,0 +1,4 @@
+name: medusa
+description: "Kali/OSINT CLI tool installed via the 'medusa' apt package."
+os: any
+apt: medusa

@@ -114,6 +114,7 @@ stop using their own ad-hoc heuristics and use this single source of truth.
 | `paged_results` (5) | [`spec/paged_results.md`](spec/paged_results.md) | closed 2026-07-10 | Pagination module with three strategies (page, offset, cursor). PaginationConfig, build_page_params, extract_cursor, count_results. Integrated into orchestrator._execute_source. 31 BDD tests. |
 | `hypothesis_engine` (2b) | [`spec/hypothesis_engine.md`](spec/hypothesis_engine.md) | closed 2026-06-27 | Capa "data → information". 4 generadores tipados (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas (sha1), audit trail con evidence items. 26 BDD tests + 9 hypothesis properties. |
 | `change_detection` (2c) | [`spec/change_detection.md`](spec/change_detection.md) | closed 2026-06-27 | Capa "temporal": diff entre dos `Snapshot` del mismo target. 8 kinds tipados (`new`/`disappeared`/`property_changed`/`source_added`/`source_removed`/`edge_added`/`edge_removed`/`confidence_shifted`), score reliability-weighted, ids deterministas (sha1), audit trail completo. Puro: sin I/O, sin logging del payload, acotado por `max_changes`. 30 BDD tests (S1-S15) + 8 hypothesis properties (1000 ejemplos c/u). |
+| `observation_models` (2n) | [`spec/observation_models.md`](spec/observation_models.md) | closed 2026-08-23 | Strict Pydantic v2 data contracts (`ObservationMeta`, `Observation`, `ObservedEntity`, `RunResult`) with `strict=True` + `extra="forbid"` and recursive JSON-safe validation. Bounds centralised in `SchemaConfig` (env-tunable). First module closed with **100% mutation coverage (79/79)**. 24 BDD tests + 4 hypothesis properties (1000 examples each). |
 
 The full development doctrine (SDD + TDD + BDD + boy-scout + visual review
 + fuzzing) lives in [`CLAUDE.md`](CLAUDE.md). Every module follows the
@@ -241,12 +242,18 @@ python3 -m pip install flask networkx requests pyyaml
 Optional, for a real LLM:
 
 ```bash
-# pick one
-ollama serve && ollama pull llama3.1:8b
+# pick one — local is preferred (async, no API cost)
+ollama serve && ollama pull deepseek-r1:1.5b   # fast local default
+ollama pull qwen3.8:27b                        # bigger, higher-quality (slower)
 export OPENAI_API_KEY=sk-...
 export ANTHROPIC_API_KEY=sk-ant-...
 export OPENROUTER_API_KEY=sk-or-...
 ```
+
+Estorides auto-detects a fast local ollama model and waits generously for it
+(`LLM_REQUEST_TIMEOUT` default 600s, runs offloaded/async) — no more
+`[Stub LLM — no backends available]` when a local model is present. Force a
+specific model with `ESTORIDES_OLLAMA_MODEL` (e.g. `qwen3.8:27b`).
 
 ### 2. CLI
 
@@ -414,6 +421,7 @@ estorides_core/
     async_client.py       aiohttp + circuit breaker + SQLite cache
     parsers.py            50+ structured parsers (ipapi, dns_json, crtsh…)
     system_app_sources.py Kali CLI tools as sources (tool_runner sandbox + parsers)
+    observation_models.py Strict Pydantic v2 data contracts for observations/entities
     entity_extraction.py  regex-based entity finder with dedup
     knowledge_graph.py    NetworkX MultiDiGraph + GraphML export
     orchestrator.py       glues everything, infers higher-level relations
@@ -438,10 +446,20 @@ static/{css,js}/estorides.*  UI styles + D3 controller
    `--include-paid` off in the CLI).
 5. The SQLite cache lives in `data/estorides_cache.sqlite` —
    delete it to force fresh fetches.
-6. The LLM stage needs a **generative** model. Ollama auto-selects an
-   installed model if `ESTORIDES_OLLAMA_MODEL` is missing, but an
-   embedding-only model (e.g. `*:e2b`) returns no text and the run falls
-   back to the stub. `ollama pull llama3.1:8b` for real analysis.
+6. The LLM stage needs a **generative** model. Ollama auto-selects a fast
+   installed model (prefers `deepseek-r1:1.5b`; override with
+   `ESTORIDES_OLLAMA_MODEL`) and retries with a larger token budget if a
+   reasoning model burns its preamble and returns empty. An embedding-only
+   model (`*:e2b`) still returns no text and falls back to the stub.
+   `ollama pull llama3.1:8b` for a real analysis.
+
+### Missing CLI tools? Install from the GUI
+
+When a `system_app` source fails with `TOOL_NOT_FOUND`, the result card
+shows an **"Install tool"** button. Clicking it installs the binary via a
+lazyaddon-style recipe in `tool_recipes/` (apt primary, git/pip fallback)
+using **graphical `run0`** elevation — no terminal `sudo` password needed.
+Re-run the query afterwards to collect.
 
 ### Performance knobs (bounds that keep a run from stalling)
 
@@ -451,7 +469,7 @@ static/{css,js}/estorides.*  UI styles + D3 controller
 | `ESTORIDES_ENTITY_MAX_SCAN` | 120000 | chars scanned per response (huge crt.sh/wayback dumps) |
 | `ESTORIDES_ENTITY_MAX_PER_TYPE` | 750 | entities kept per type per source |
 | `ESTORIDES_KG_MAX_COOCCUR` | 30 | entities per source in the co-occurrence clique (O(n²) guard) |
-| `ESTORIDES_LLM_REQUEST_TIMEOUT` | 12s | per-call LLM HTTP timeout (no orphaned threads) |
+| `ESTORIDES_LLM_REQUEST_TIMEOUT` | 600s | per-call LLM HTTP timeout (local models can take minutes; runs offloaded/async) |
 
 ## Passive recon & operator OPSEC (bug-bounty mode)
 
