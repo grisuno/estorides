@@ -5,6 +5,17 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+  // Show/hide that respects the HTML5 `hidden` attribute. `[hidden]` is
+  // enforced with `!important` (see estorides_ui.css), so toggling inline
+  // `style.display` alone can never reveal an element that carries the
+  // attribute — the attribute must be cleared too.
+  function setVisible(el, show, display) {
+    if (!el) return;
+    el.hidden = !show;
+    if (!show) el.style.removeProperty('display');
+    else if (display) el.style.display = display;
+  }
+
   // ---- auth: attach the bearer token to every /api/* call when present ----
   // The token is rendered into <meta name="estorides-auth-token"> in index.html
   // when ESTORIDES_AUTH_TOKEN is set in the operator's environment. When the
@@ -78,7 +89,7 @@
     const txt = document.getElementById('run-progress-text');
     if (!wrap || !bar || !txt) return;
     if (total > 0) {
-      wrap.style.display = 'flex';
+      setVisible(wrap, true, 'flex');
       const pct = Math.min(100, Math.round((current / total) * 100));
       bar.style.width = pct + '%';
       txt.textContent = current + ' / ' + total;
@@ -86,7 +97,7 @@
       wrap.setAttribute('aria-valuenow', String(pct));
       wrap.setAttribute('aria-valuetext', current + ' of ' + total + ' sources, ' + pct + '%');
     } else {
-      wrap.style.display = 'none';
+      setVisible(wrap, false);
       bar.style.width = '0%';
       txt.textContent = '0 / 0';
       wrap.setAttribute('aria-busy', 'false');
@@ -96,8 +107,8 @@
   function showEmptyState(show) {
     const el = document.getElementById('results-empty');
     const filters = document.getElementById('result-filters');
-    if (el) el.style.display = show ? 'flex' : 'none';
-    if (filters) filters.style.display = show ? 'none' : 'flex';
+    setVisible(el, show, 'flex');
+    setVisible(filters, !show, 'flex');
   }
   function summariseObservation(obs) {
     const p = obs.parsed;
@@ -1161,8 +1172,7 @@
 
   // ---- floating overlays (tooltip + context menu) ----
   function hideTooltip() {
-    const el = $('#graph-tooltip');
-    if (el) el.style.display = 'none';
+    setVisible($('#graph-tooltip'), false);
   }
   function sanitizeHTML(str) {
     const doc = new DOMParser().parseFromString(String(str || ''), 'text/html');
@@ -1186,13 +1196,12 @@
     el.textContent = '';
     el.insertAdjacentHTML('beforeend', sanitizeHTML(html));
     if (typeof paint === 'function') paint(el);
-    el.style.display = 'block';
+    setVisible(el, true, 'block');
     el.style.left = (ev.clientX - host.left + 12) + 'px';
     el.style.top = (ev.clientY - host.top + 12) + 'px';
   }
   function hideContextMenu() {
-    const el = $('#graph-context-menu');
-    if (el) el.style.display = 'none';
+    setVisible($('#graph-context-menu'), false);
   }
 
   // Cross-referenced tooltip for an inter-cluster (bridge) link.
@@ -1261,7 +1270,7 @@
         '<div class="ctx-item ctx-level" data-level="' + lv + '"><span class="lvl-dot lvl-' + lv + '"></span>' +
         lv.replace('_', '-') + '</div>').join('') +
       '<div class="ctx-loading">loading transforms…</div>';
-    menu.style.display = 'block';
+    setVisible(menu, true, 'block');
     menu.style.left = (ev.clientX - host.left) + 'px';
     menu.style.top = (ev.clientY - host.top) + 'px';
 
@@ -1365,7 +1374,7 @@
     window._selectedNodeId = d.id;
     const panel = $('#graph-inspector');
     if (!panel) return;
-    panel.style.display = 'block';
+    setVisible(panel, true, 'block');
     $('#inspector-title').textContent = d.label || d.id;
     const type = resolverTypeFor(d);
     const value = d.label || d.id;
@@ -1806,15 +1815,17 @@
 
   function renderEntities(entities) {
     const filterEl = $('#entity-filter');
+    filterEl._entities = entities;
     if (!filterEl.dataset.bound) {
-      filterEl.addEventListener('input', () => renderEntities(entities));
+      filterEl.addEventListener('input', () => renderEntities(filterEl._entities || []));
       filterEl.dataset.bound = '1';
     }
     const f = filterEl.value.trim().toLowerCase();
     const list = $('#entities-list');
     list.innerHTML = '';
     const filtered = entities.filter((e) =>
-      !f || e.type.toLowerCase().includes(f) || e.value.toLowerCase().includes(f)
+      !f || String(e.type || '').toLowerCase().includes(f)
+         || String(e.value || '').toLowerCase().includes(f)
     );
     filtered.slice(0, 800).forEach((e) => {
       const div = document.createElement('div');
@@ -1825,9 +1836,9 @@
       div.setAttribute('data-type', e.type);
       div.setAttribute('data-value', e.value);
       div.innerHTML = `
-        <span class="type">${e.type}</span>
+        <span class="type">${escapeHTML(e.type)}</span>
         <span class="value">${escapeHTML(e.value)}</span>
-        <span class="srcs">${e.source}</span>
+        <span class="srcs">${escapeHTML(e.source)}</span>
         <button class="entity-expand" type="button" title="Resolve and add to graph">⤴</button>
       `;
       // Click anywhere on the row → expand
@@ -1940,7 +1951,7 @@
     });
 
     // Show controls and set up slider
-    controls.style.display = '';
+    setVisible(controls, true);
     function fmtTime(ts) {
       var d2 = new Date(ts * 1000);
       return d2.toISOString().replace('T', ' ').substring(0, 19);
@@ -2013,13 +2024,12 @@
   (function wireGraphOverlays() {
     const close = $('#inspector-close');
     if (close) close.addEventListener('click', () => {
-      const p = $('#graph-inspector');
-      if (p) p.style.display = 'none';
+      setVisible($('#graph-inspector'), false);
       window._selectedNodeId = null;
     });
     document.addEventListener('click', (ev) => {
       const menu = $('#graph-context-menu');
-      if (menu && menu.style.display !== 'none' && !menu.contains(ev.target)) hideContextMenu();
+      if (menu && !menu.hidden && !menu.contains(ev.target)) hideContextMenu();
     });
     document.addEventListener('keydown', (ev) => {
       if (ev.key === 'Escape') { hideContextMenu(); hideTooltip(); }
@@ -2509,14 +2519,14 @@
     const seen = localStorage.getItem('estorides.onboarding');
     const overlay = document.getElementById('onboarding');
     if (!seen && overlay) {
-      overlay.style.display = 'flex';
+      setVisible(overlay, true, 'flex');
       document.getElementById('onboarding-start').addEventListener('click', () => {
         localStorage.setItem('estorides.onboarding', '1');
-        overlay.style.display = 'none';
+        setVisible(overlay, false);
       });
       document.getElementById('onboarding-skip').addEventListener('click', () => {
         localStorage.setItem('estorides.onboarding', '1');
-        overlay.style.display = 'none';
+        setVisible(overlay, false);
       });
     }
   })();
@@ -2526,12 +2536,12 @@
     const tag = (ev.target && ev.target.tagName) || '';
     const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
     if (ev.key === '/' && !typing) { ev.preventDefault(); $('#query').focus(); }
-    if (ev.key === '?' && !typing) { ev.preventDefault(); document.getElementById('kbd-help').style.display = 'flex'; }
+    if (ev.key === '?' && !typing) { ev.preventDefault(); setVisible(document.getElementById('kbd-help'), true, 'flex'); }
     if (ev.key === 'Escape') {
       const kbd = document.getElementById('kbd-help');
       const onboard = document.getElementById('onboarding');
-      if (kbd && kbd.style.display !== 'none') { kbd.style.display = 'none'; return; }
-      if (onboard && onboard.style.display !== 'none') { onboard.style.display = 'none'; return; }
+      if (kbd && !kbd.hidden) { setVisible(kbd, false); return; }
+      if (onboard && !onboard.hidden) { setVisible(onboard, false); return; }
       if (!typing) clearAll();
     }
     if (ev.ctrlKey && ev.key === 'Enter') { ev.preventDefault(); runQuery(); }
@@ -2546,10 +2556,10 @@
     }
   });
   document.getElementById('kbd-help-close').addEventListener('click', () => {
-    document.getElementById('kbd-help').style.display = 'none';
+    setVisible(document.getElementById('kbd-help'), false);
   });
   document.getElementById('kbd-help').addEventListener('click', (ev) => {
-    if (ev.target.id === 'kbd-help') document.getElementById('kbd-help').style.display = 'none';
+    if (ev.target.id === 'kbd-help') setVisible(document.getElementById('kbd-help'), false);
   });
 
   // Responsive sidebar toggle + resizable divider.
@@ -2753,21 +2763,30 @@
       .then(function(r) { return r.json(); })
       .then(function(s) {
         if (s.error) { el.innerHTML = '<div class="empty-state"><p>' + escapeHTML(s.error) + '</p></div>'; return; }
+        // Whitelist the intel level before it reaches a class attribute,
+        // and escape every list item: these values originate from remote
+        // fused data and must never be reinterpreted as HTML.
+        var lvl = String(s.intel_level || 'unknown').replace(/[^a-z_]/gi, '');
+        var props = s.properties_summary || {};
+        var rels = s.relationships_summary || {};
+        var srcs = Array.isArray(s.sources) ? s.sources.map(function(x) { return escapeHTML(x); }).join(', ') : '';
+        var keys = Array.isArray(props.keys) ? props.keys.map(function(x) { return escapeHTML(x); }).join(', ') : '';
+        var relTypes = Array.isArray(rels.types) ? rels.types.map(function(x) { return escapeHTML(x); }).join(', ') : '';
         el.innerHTML =
           '<div class="case-diff-panel" id="fusion-entity-panel">' +
           '<div class="diff-a">' +
           '<h4>' + escapeHTML(s.type) + ': <code>' + escapeHTML(s.value) + '</code></h4>' +
-          '<p>Confidence: ' + (s.confidence * 100).toFixed(0) + '% · ' +
-          'Sources: ' + s.source_count + ' · Observations: ' + s.observation_count + '</p>' +
-          '<p>Intel level: <span class="lvl-dot lvl-' + s.intel_level + '"></span> ' + s.intel_level + '</p>' +
-          '<p>Properties: ' + s.properties_summary.total + ' total, ' + s.properties_summary.corroborated + ' corroborated</p>' +
-          '<p>Relationships: ' + s.relationships_summary.total + ' total, ' +
-          s.relationships_summary.distinct_targets + ' distinct targets</p>' +
+          '<p>Confidence: ' + (Number(s.confidence || 0) * 100).toFixed(0) + '% · ' +
+          'Sources: ' + Number(s.source_count || 0) + ' · Observations: ' + Number(s.observation_count || 0) + '</p>' +
+          '<p>Intel level: <span class="lvl-dot lvl-' + lvl + '"></span> ' + escapeHTML(lvl) + '</p>' +
+          '<p>Properties: ' + Number(props.total || 0) + ' total, ' + Number(props.corroborated || 0) + ' corroborated</p>' +
+          '<p>Relationships: ' + Number(rels.total || 0) + ' total, ' +
+          Number(rels.distinct_targets || 0) + ' distinct targets</p>' +
           '<p>First seen: ' + new Date((s.first_seen || 0) * 1000).toISOString().replace('T', ' ').substring(0, 19) +
           ' · Last seen: ' + new Date((s.last_seen || 0) * 1000).toISOString().replace('T', ' ').substring(0, 19) + '</p>' +
-          '<p><strong>Sources:</strong> ' + (s.sources || []).join(', ') + '</p>' +
-          '<p><strong>Property keys:</strong> ' + (s.properties_summary.keys || []).join(', ') + '</p>' +
-          '<p><strong>Relationship types:</strong> ' + (s.relationships_summary.types || []).join(', ') + '</p>' +
+          '<p><strong>Sources:</strong> ' + srcs + '</p>' +
+          '<p><strong>Property keys:</strong> ' + keys + '</p>' +
+          '<p><strong>Relationship types:</strong> ' + relTypes + '</p>' +
 '<button class="ghost close-btn">Close</button>' +
            '</div></div>';
       }).catch(function(e) {
@@ -2846,7 +2865,7 @@ function setDiscoverProgress(step, found, max) {
   _discoverMax = max;
   const el = document.getElementById('discover-progress');
   if (!el) return;
-  el.style.display = '';
+  el.hidden = false;
   document.getElementById('discover-step').textContent = step;
   document.getElementById('discover-found').textContent = found;
   document.getElementById('discover-max').textContent = max;
@@ -2854,7 +2873,7 @@ function setDiscoverProgress(step, found, max) {
 
 function hideDiscoverProgress() {
   const el = document.getElementById('discover-progress');
-  if (el) el.style.display = 'none';
+  if (el) el.hidden = true;
 }
 
 function startDiscover() {

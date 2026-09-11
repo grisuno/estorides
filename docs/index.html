@@ -569,6 +569,41 @@
                 </div>
             </div>
 
+            <!-- 2p: boy_scout_remediation (audit) -->
+            <div class="card mb-3 border-warning">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2p &middot; <code>boy_scout_remediation</code>
+                        <span class="badge badge-warning ml-2">closed 2026-09-11</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">+45 tests</span>
+                        <span class="badge badge-mutation">bandit 0 H/M</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Repo-wide senior architecture &amp; quality audit closed
+                        under boy-scout rules. Fixed the dead
+                        <code>watch add</code> CLI path, crash-on-malformed-env
+                        config, <b>26</b> parsers that violated the totality
+                        contract (found by hypothesis fuzzing), the TLP:AMBER
+                        hardcode, fuzzy-merge canonical selection, multi-doc
+                        YAML loss, SQLite category corruption, the
+                        <code>hidden</code>-attribute UI regression (8 surfaces)
+                        and two <code>innerHTML</code> XSS sinks, plus bandit
+                        hardening (SHA1 <code>usedforsecurity=False</code>).
+                    </p>
+                    <p>
+                        <a href="../spec/boy_scout_remediation.md">spec</a> &middot;
+                        <a href="../tests/test_parsers.py">parsers</a> &middot;
+                        <a href="../tests/properties/test_parsers_properties.py">fuzz</a> &middot;
+                        <a href="../tests/test_cli_watch.py">cli</a> &middot;
+                        <a href="../tests/test_ui_visibility.py">ui</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

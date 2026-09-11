@@ -78,6 +78,21 @@ class TestTlpClassification:
         )
         assert "TLP:AMBER" in result.markdown
 
+    def test_classification_propagates_to_exec_summary(self) -> None:
+        """Given a TLP:RED report, the executive summary must say RED too.
+
+        Regression: the executive summary used to hardcode TLP:AMBER while
+        the header printed the caller's classification, so a RED report
+        carried two contradicting markings.
+        """
+        meta = ReportMetadata(
+            operator="test-op", engagement="PT-2024-001",
+            date="2024-06-15", classification="TLP:RED",
+        )
+        result = generate_report(query="example.com", target_scoring={}, metadata=meta)
+        assert "TLP:RED" in result.markdown
+        assert "TLP:AMBER" not in result.markdown
+
 
 # S5 — Happy path: Recommendations ordered
 class TestRecommendationsOrdered:

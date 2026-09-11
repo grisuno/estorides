@@ -228,6 +228,22 @@ Given: a watch with pending alerts
   And: the watch is removed from the scheduler
 ```
 
+### M11 — CLI `watch add` (regression, 2026-09-11)
+
+```
+Given: an operator runs `estorides watch add example.com --interval 30`
+ When: the command executes
+ Then: the watch is persisted in the watch store
+  And: the orchestrator runner is wired exactly once (scheduler.has_runner)
+  And: the scheduler starts unless ESTORIDES_SCHEDULER_ENABLED is off
+  And: `--proxy`, `--tor` and `--passive-only` are accepted on the subcommand
+```
+
+Regression context: the CLI path previously raised `AttributeError`
+(`args.proxy`/`args.passive_only` never declared on `watch add`) and then
+`NameError` (`SCHEDULER_ENABLED` undefined in `estorides_cli`). Covered by
+`tests/test_cli_watch.py`.
+
 ---
 
 ## Changelog
@@ -235,3 +251,4 @@ Given: a watch with pending alerts
 | Date | Change |
 |------|--------|
 | 2026-07-14 | Initial spec |
+| 2026-09-11 | CLI `watch add` path fixed and pinned (CW1–CW4); `WatchScheduler.has_runner` public property added |

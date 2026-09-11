@@ -85,10 +85,11 @@ and notes "No significant findings discovered"
 and word_count >= 50
 
 ### S4 [Security] TLP classification header
-Given a report with classification "TLP:AMBER"
+Given a report with classification "TLP:AMBER" (or any other TLP label)
 When recon_report formats the report
-Then the first line contains "TLP:AMBER"
-and the classification is prominently displayed
+Then the header contains the given classification
+and the executive summary carries the **same** classification
+(it must never degrade to a hardcoded TLP:AMBER when the caller passed RED)
 
 ### S5 [Happy path] Recommendations prioritised
 Given 10 findings across all modules

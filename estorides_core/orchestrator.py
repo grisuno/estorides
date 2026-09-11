@@ -28,8 +28,9 @@ from typing import Any, Dict, List, Optional, Tuple
 from estorides_llm import LLMManager
 from .async_client import AsyncClient
 from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
-                     FUSION_ENABLED, GRAPH_PATH, LLM_REQUEST_TIMEOUT,
-                     RECON_FUSION, SOURCES_DIR, contact_level, effective_proxies)
+                     FUSION_ENABLED, GRAPH_PATH, HTTP_MAX_PARALLEL,
+                     LLM_REQUEST_TIMEOUT, PASSIVE_ONLY, RECON_FUSION,
+                     SOURCES_DIR, contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -162,7 +163,7 @@ class Orchestrator:
         *,
         source_names: Optional[List[str]] = None,
         include_paid: bool = False,
-        parallel: int = 8,
+        parallel: int = HTTP_MAX_PARALLEL,
         timeout: float = 12.0,
         deadline: float = 30.0,
         on_source_done: Optional[Any] = None,
@@ -207,7 +208,10 @@ class Orchestrator:
         query = query.strip()
 
         query_type = detect_query_type(query)
-        max_contact = "none" if passive_only else None
+        # ESTORIDES_PASSIVE_ONLY=1 is an operator-wide policy: it forces the
+        # passive ceiling on even when a caller forgets the flag (the README
+        # documents it as equivalent to --passive-only).
+        max_contact = "none" if (passive_only or PASSIVE_ONLY) else None
         targets = self._select_sources(
             source_names, include_paid=include_paid, query_type=query_type,
             max_contact=max_contact,

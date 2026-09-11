@@ -28,35 +28,34 @@ log = logging.getLogger("estorides.parsers")
 
 
 # --------------------------------------------------------------------- utils
-def _flat(obj: Any) -> list[Any]:
-    """Recursively flatten a dict/list into a list of leaf values."""
-    out: list[Any] = []
-    if isinstance(obj, dict):
-        for v in obj.values():
-            out.extend(_flat(v))
-    elif isinstance(obj, list):
-        for v in obj:
-            out.extend(_flat(v))
-    else:
-        out.append(obj)
-    return out
+def _d(obj: Any) -> dict[str, Any]:
+    """Return `obj` as a dict, or an empty dict when it is anything else.
+
+    Remote JSON frequently puts `null`/a string where a nested object is
+    expected. Coercing here keeps every parser total (the module contract).
+    """
+    return obj if isinstance(obj, dict) else {}
 
 
-def _first(obj: Any, *keys: str) -> Any | None:
-    """Recursively dig into a JSON-ish structure to find the first matching key."""
-    if isinstance(obj, dict):
-        for k, v in obj.items():
-            if k in keys:
-                return v
-            sub = _first(v, *keys)
-            if sub is not None:
-                return sub
-    elif isinstance(obj, list):
-        for v in obj:
-            sub = _first(v, *keys)
-            if sub is not None:
-                return sub
-    return None
+def _first_dict(items: Any) -> dict[str, Any]:
+    """Return the first dict element of `items`, else an empty dict."""
+    if isinstance(items, list) and items:
+        return _d(items[0])
+    return {}
+
+
+def _list(obj: Any) -> list[Any]:
+    """Return `obj` as a list, or [] when it is anything else.
+
+    Guards the very common `...get("items") or []` idiom, which is NOT
+    safe against a truthy non-iterable (a remote `"items": true`).
+    """
+    return obj if isinstance(obj, list) else []
+
+
+def _text(obj: Any) -> str:
+    """Return `obj` as a string, or "" when it is anything else."""
+    return obj if isinstance(obj, str) else ""
 
 
 # ----------------------------------------------------------------- specific
@@ -65,8 +64,9 @@ def parse_dns_json(payload: Any) -> dict[str, Any]:
     out: dict[str, Any] = {"answers": [], "records": {}}
     if not isinstance(payload, dict):
         return out
-    for ans in payload.get("Answer", []) or []:
-        out["answers"].append(ans)
+    for raw_ans in _list(payload.get("Answer")):
+        ans = _d(raw_ans)
+        out["answers"].append(raw_ans)
         rtype = ans.get("type")
         data = ans.get("data")
         if rtype is None or data is None:
@@ -116,22 +116,25 @@ def parse_rdap(payload: Any) -> dict[str, Any]:
         "handle": payload.get("handle"),
         "ldhName": payload.get("ldhName") or payload.get("unicodeName"),
         "status": payload.get("status") or [],
-        "events": payload.get("events") or [],
+        "events": _list(payload.get("events")),
         "registrar": None,
         "registrar_iana_id": None,
         "nameservers": [],
         "entities": [],
     }
     # Events: events[].eventAction -> eventDate.
-    for ev in out["events"]:
-        action = (ev.get("eventAction") or "").lower()
+    for raw_ev in out["events"]:
+        ev = _d(raw_ev)
+        action = _text(ev.get("eventAction")).lower()
         if action in ("registration", "expiration", "last changed",
                       "last update of rdap database", "transfer"):
             out.setdefault("event_dates", {})[action] = ev.get("eventDate")
     # Entities: entities[].roles + vcardArray[1] (jCard-style list).
-    for ent in payload.get("entities") or []:
+    for raw_ent in _list(payload.get("entities")):
+        ent = _d(raw_ent)
         roles = ent.get("roles") or []
-        vcard = (ent.get("vcardArray") or [None, []])[1] or []
+        vcard_raw = ent.get("vcardArray")
+        vcard = _list(vcard_raw[1]) if isinstance(vcard_raw, list) and len(vcard_raw) > 1 else []
         flat: dict[str, Any] = {"roles": roles}
         for item in vcard:
             # jCard: [name, params, value-type, value]
@@ -153,15 +156,17 @@ def parse_rdap(payload: Any) -> dict[str, Any]:
                 # jCard "kind" tells us if this is an org, person, etc.
                 flat["kind"] = val
         out["entities"].append(flat)
-        if "registrar" in roles and flat.get("fn"):
+        if isinstance(roles, list) and "registrar" in roles and flat.get("fn"):
             out["registrar"] = flat["fn"]
         # IANA registrar id lives in the publicIds array of the
         # registrar entity (per RFC 7483 §4.5).
-        for pid in ent.get("publicIds") or []:
+        for raw_pid in _list(ent.get("publicIds")):
+            pid = _d(raw_pid)
             if pid.get("type") == "IANA Registrar ID":
                 out["registrar_iana_id"] = pid.get("identifier")
     # Nameservers.
-    for ns in payload.get("nameservers") or []:
+    for raw_ns in _list(payload.get("nameservers")):
+        ns = _d(raw_ns)
         ldh = ns.get("ldhName") or ns.get("unicodeName")
         if ldh:
             out["nameservers"].append(ldh)
@@ -211,7 +216,8 @@ def parse_ipinfo(payload: Any) -> dict[str, Any]:
 
 def parse_ipapi_co(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or payload.get("error"):
-        return {"error": str(payload.get("reason") or payload.get("error") or "no result")}
+        data = _d(payload)
+        return {"error": str(data.get("reason") or data.get("error") or "no result")}
     return {k: payload.get(k) for k in (
         "ip", "city", "region", "country_name", "country_code", "continent_code",
         "latitude", "longitude", "timezone", "asn", "org", "currency", "languages",
@@ -249,7 +255,7 @@ def parse_greynoise(payload: Any) -> dict[str, Any]:
 
 def parse_ipwhois(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or not payload.get("success", True):
-        return {"error": str(payload.get("message", "no result"))}
+        return {"error": str(_d(payload).get("message", "no result"))}
     return {
         "ip": payload.get("ip"),
         "country": payload.get("country"),
@@ -268,7 +274,7 @@ def parse_ipwhois(payload: Any) -> dict[str, Any]:
 def parse_abuseipdb(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
-    d = payload["data"]
+    d = _d(payload.get("data"))
     return {
         "ip": d.get("ipAddress"),
         "abuseConfidenceScore": d.get("abuseConfidenceScore"),
@@ -299,8 +305,8 @@ def parse_vt_ip(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — IP address object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
-    data = payload["data"]
-    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    data = _d(payload.get("data"))
+    attrs = _d(data.get("attributes"))
     stats = _vt_stats(attrs)
     return {
         "ip": data.get("id"),
@@ -320,13 +326,13 @@ def parse_vt_domain(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — domain object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
-    data = payload["data"]
-    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    data = _d(payload.get("data"))
+    attrs = _d(data.get("attributes"))
     stats = _vt_stats(attrs)
     categories = attrs.get("categories", {})
     if isinstance(categories, dict):
         categories = sorted(set(str(v) for v in categories.values() if v))
-    records = attrs.get("last_dns_records", []) or []
+    records = _list(attrs.get("last_dns_records"))
     ips = [r.get("value") for r in records
            if isinstance(r, dict) and r.get("type") in ("A", "AAAA") and r.get("value")]
     return {
@@ -347,10 +353,10 @@ def parse_vt_file(payload: Any) -> dict[str, Any]:
     """VirusTotal v3 — file object."""
     if not isinstance(payload, dict) or "data" not in payload:
         return {"error": "no result"}
-    data = payload["data"]
-    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    data = _d(payload.get("data"))
+    attrs = _d(data.get("attributes"))
     stats = _vt_stats(attrs)
-    names = attrs.get("names", []) or []
+    names = _list(attrs.get("names"))
     return {
         "sha256": attrs.get("sha256") or data.get("id"),
         "md5": attrs.get("md5"),
@@ -370,12 +376,12 @@ def parse_vt_file(payload: Any) -> dict[str, Any]:
 def parse_ripe_stat(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    records = payload.get("data", {}).get("records", [])
+    data = _d(payload.get("data"))
     out = []
-    for r in records:
+    for r in _list(data.get("records")):
         if isinstance(r, list) and len(r) >= 2:
             out.append(r[0])
-    return {"records": out, "irr_records": payload.get("data", {}).get("irr_records", [])}
+    return {"records": out, "irr_records": _list(data.get("irr_records"))}
 
 
 def parse_nominatim(payload: Any) -> list[dict[str, Any]]:
@@ -400,20 +406,20 @@ def parse_urlscan(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
     out = {"results": [], "stats": {}}
-    for r in payload.get("results", []) or []:
+    for r in _list(payload.get("results")):
         if not isinstance(r, dict):
             continue
-        page = r.get("page", {}) or {}
+        page = _d(r.get("page"))
         out["results"].append({
             "url": page.get("url"),
             "domain": page.get("domain"),
             "ip": page.get("ip"),
             "country": page.get("country"),
             "server": page.get("server"),
-            "tls_issuer": (page.get("tls") or {}).get("issuer") if isinstance(page.get("tls"), dict) else None,
+            "tls_issuer": _d(page.get("tls")).get("issuer"),
             "screenshot": r.get("screenshot"),
-            "submittedAt": r.get("task", {}).get("submittedAt") if isinstance(r.get("task"), dict) else None,
-            "technologies": [t.get("app") for t in (r.get("tech") or []) if isinstance(t, dict)],
+            "submittedAt": _d(r.get("task")).get("submittedAt"),
+            "technologies": [t.get("app") for t in _list(r.get("tech")) if isinstance(t, dict)],
         })
     return out
 
@@ -423,6 +429,8 @@ def parse_wayback_cdx(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list) or not payload:
         return []
     header = payload[0]
+    if not isinstance(header, list) or not all(isinstance(h, str) for h in header):
+        return []
     out = []
     for row in payload[1:50]:
         if not isinstance(row, list):
@@ -432,7 +440,8 @@ def parse_wayback_cdx(payload: Any) -> list[dict[str, Any]]:
 
 
 def parse_wayback_avail(payload: Any) -> dict[str, Any]:
-    snap = ((payload or {}).get("archived_snapshots") or {}).get("closest") or {}
+    snap = _d(_d(payload).get("archived_snapshots")).get("closest") or {}
+    snap = _d(snap)
     return {
         "available": bool(snap.get("available")),
         "url": snap.get("url"),
@@ -445,7 +454,7 @@ def parse_threatfox(payload: Any) -> dict[str, Any]:
         return {}
     return {
         "query_status": payload.get("query_status"),
-        "iocs": payload.get("data", []) or [],
+        "iocs": _list(payload.get("data")),
     }
 
 
@@ -454,7 +463,7 @@ def parse_urlhaus(payload: Any) -> dict[str, Any]:
         return {}
     return {
         "query_status": payload.get("query_status"),
-        "urls": payload.get("urls", []) or [],
+        "urls": _list(payload.get("urls")),
     }
 
 
@@ -479,7 +488,7 @@ def parse_malwarebazaar(payload: Any) -> dict[str, Any]:
 def parse_otx(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    pulses = payload.get("results", []) or []
+    pulses = _list(payload.get("results"))
     return {
         "count": payload.get("count", 0),
         "pulses": [
@@ -491,11 +500,12 @@ def parse_otx(payload: Any) -> dict[str, Any]:
                 "targeted_countries": p.get("targeted_countries"),
                 "malware_families": p.get("malware_families"),
                 "attack_ids": p.get("attack_ids"),
-                "indicators_count": len(p.get("indicators", []) or []),
+                "indicators_count": len(p.get("indicators") or []),
                 "tags": p.get("tags"),
                 "created": p.get("created"),
             }
             for p in pulses
+            if isinstance(p, dict)
         ],
     }
 
@@ -549,28 +559,28 @@ def parse_phonebook(payload: Any) -> dict[str, Any]:
                 "department": r.get("department"),
                 "position": r.get("position"),
             }
-            for r in (payload.get("results") or [])
+            for r in _list(payload.get("results"))
             if isinstance(r, dict)
         ],
     }
 
 
 def parse_wikipedia(payload: Any) -> list[dict[str, Any]]:
-    hits = (((payload or {}).get("query") or {}).get("search") or [])
+    hits = _list(_d(_d(payload).get("query")).get("search"))
     return [
-        {"title": h.get("title"), "snippet": re.sub("<.*?>", "", h.get("snippet", "")),
+        {"title": h.get("title"), "snippet": re.sub("<.*?>", "", _text(h.get("snippet"))),
          "timestamp": h.get("timestamp")}
         for h in hits if isinstance(h, dict)
     ]
 
 
 def parse_wikidata(payload: Any) -> list[dict[str, Any]]:
-    hits = ((payload or {}).get("search") or [])
+    hits = _list(_d(payload).get("search"))
     return [
         {
             "id": h.get("id"),
             "label": h.get("label"),
-            "description": h.get("description") or h.get("match", {}).get("text"),
+            "description": h.get("description") or _d(h.get("match")).get("text"),
         }
         for h in hits if isinstance(h, dict)
     ]
@@ -579,9 +589,9 @@ def parse_wikidata(payload: Any) -> list[dict[str, Any]]:
 def parse_openalex(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    results = payload.get("results", []) or []
+    results = _list(payload.get("results"))
     return {
-        "meta": payload.get("meta", {}),
+        "meta": _d(payload.get("meta")),
         "results": [
             {
                 "id": r.get("id"),
@@ -589,9 +599,14 @@ def parse_openalex(payload: Any) -> dict[str, Any]:
                 "title": r.get("title") or r.get("display_name"),
                 "publication_year": r.get("publication_year"),
                 "cited_by_count": r.get("cited_by_count"),
-                "authors": [a.get("author", {}).get("display_name") for a in (r.get("authorships") or []) if isinstance(a, dict)],
+                "authors": [
+                    _d(a.get("author")).get("display_name")
+                    for a in _list(r.get("authorships"))
+                    if isinstance(a, dict)
+                ],
             }
             for r in results
+            if isinstance(r, dict)
         ],
     }
 
@@ -599,13 +614,13 @@ def parse_openalex(payload: Any) -> dict[str, Any]:
 def parse_crossref(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    items = ((payload.get("message") or {}).get("items") or [])
+    items = _list(_d(payload.get("message")).get("items"))
     return {
         "items": [
             {
                 "DOI": i.get("DOI"),
-                "title": (i.get("title") or [""])[0],
-                "container_title": (i.get("container-title") or [""])[0],
+                "title": (_list(i.get("title")) or [""])[0],
+                "container_title": (_list(i.get("container-title")) or [""])[0],
                 "publisher": i.get("publisher"),
                 "type": i.get("type"),
                 "URL": i.get("URL"),
@@ -628,11 +643,11 @@ def parse_arxiv(payload: Any) -> list[dict[str, Any]]:
             continue
         out.append({
             "id": e.get("id"),
-            "title": re.sub(r"\s+", " ", (e.get("title") or "")).strip(),
-            "summary": (e.get("summary") or "")[:500],
-            "authors": [a.get("name") for a in (e.get("authors") or []) if isinstance(a, dict)],
+            "title": re.sub(r"\s+", " ", _text(e.get("title"))).strip(),
+            "summary": _text(e.get("summary"))[:500],
+            "authors": [a.get("name") for a in _list(e.get("authors")) if isinstance(a, dict)],
             "published": e.get("published"),
-            "categories": e.get("categories") or [],
+            "categories": _list(e.get("categories")),
         })
     return out
 
@@ -640,23 +655,22 @@ def parse_arxiv(payload: Any) -> list[dict[str, Any]]:
 def parse_nvd_cve(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    vulns = payload.get("vulnerabilities", []) or []
-    return {
-        "totalResults": payload.get("totalResults"),
-        "items": [
-            {
-                "cve": c.get("cve", {}).get("id"),
-                "published": c.get("cve", {}).get("published"),
-                "descriptions": [
-                    d.get("value") for d in (c.get("cve", {}).get("descriptions") or [])
-                    if isinstance(d, dict) and d.get("lang") == "en"
-                ],
-                "metrics": c.get("cve", {}).get("metrics", {}),
-                "references_count": len(c.get("cve", {}).get("references", []) or []),
-            }
-            for c in vulns if isinstance(c, dict)
-        ],
-    }
+    items = []
+    for c in _list(payload.get("vulnerabilities")):
+        if not isinstance(c, dict):
+            continue
+        cve = _d(c.get("cve"))
+        items.append({
+            "cve": cve.get("id"),
+            "published": cve.get("published"),
+            "descriptions": [
+                d.get("value") for d in _list(cve.get("descriptions"))
+                if isinstance(d, dict) and d.get("lang") == "en"
+            ],
+            "metrics": _d(cve.get("metrics")),
+            "references_count": len(_list(cve.get("references"))),
+        })
+    return {"totalResults": payload.get("totalResults"), "items": items}
 
 
 def parse_github_advisories(payload: Any) -> list[dict[str, Any]]:
@@ -672,11 +686,12 @@ def parse_github_advisories(payload: Any) -> list[dict[str, Any]]:
             "published_at": a.get("published_at"),
             "vulnerabilities": [
                 {
-                    "package": v.get("package", {}).get("name"),
-                    "ecosystem": v.get("package", {}).get("ecosystem"),
+                    "package": _d(v.get("package")).get("name"),
+                    "ecosystem": _d(v.get("package")).get("ecosystem"),
                     "vulnerable_version_range": v.get("vulnerable_version_range"),
                 }
                 for v in (a.get("vulnerabilities") or [])
+                if isinstance(v, dict)
             ],
         }
         for a in payload if isinstance(a, dict)
@@ -694,7 +709,8 @@ def parse_blockchain_btc(payload: Any) -> dict[str, Any]:
         "n_tx": payload.get("n_tx"),
         "txs": [
             {"hash": t.get("hash"), "time": t.get("time"), "result": t.get("result")}
-            for t in (payload.get("txs") or [])[:10]
+            for t in _list(payload.get("txs"))[:10]
+            if isinstance(t, dict)
         ],
     }
 
@@ -702,7 +718,7 @@ def parse_blockchain_btc(payload: Any) -> dict[str, Any]:
 def parse_blockstream(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    chain = payload.get("chain_stats", {}) or {}
+    chain = _d(payload.get("chain_stats"))
     return {
         "address": payload.get("address"),
         "chain_stats": {
@@ -711,7 +727,7 @@ def parse_blockstream(payload: Any) -> dict[str, Any]:
             "funded_txo_sum": chain.get("funded_txo_sum"),
             "spent_txo_sum": chain.get("spent_txo_sum"),
         },
-        "mempool_stats": payload.get("mempool_stats", {}),
+        "mempool_stats": _d(payload.get("mempool_stats")),
     }
 
 
@@ -720,13 +736,14 @@ def parse_ethplorer(payload: Any) -> dict[str, Any]:
         return {}
     return {
         "address": payload.get("address"),
-        "ETH": (payload.get("ETH") or {}).get("balance"),
+        "ETH": _d(payload.get("ETH")).get("balance"),
         "countTxs": payload.get("countTxs"),
         "tokens": [
-            {"symbol": t.get("tokenInfo", {}).get("symbol"),
-             "name": t.get("tokenInfo", {}).get("name"),
+            {"symbol": _d(t.get("tokenInfo")).get("symbol"),
+             "name": _d(t.get("tokenInfo")).get("name"),
              "balance": t.get("balance")}
-            for t in (payload.get("tokens") or [])
+            for t in _list(payload.get("tokens"))
+            if isinstance(t, dict)
         ],
     }
 
@@ -772,7 +789,7 @@ def parse_github_user(payload: Any) -> dict[str, Any]:
 
 
 def parse_github_search(payload: Any) -> list[dict[str, Any]]:
-    items = ((payload or {}).get("items") or [])
+    items = _list(_d(payload).get("items"))
     return [
         {
             "name": i.get("name") or i.get("path"),
@@ -789,18 +806,18 @@ def parse_github_search(payload: Any) -> list[dict[str, Any]]:
 def parse_reddit(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
-    data = (payload.get("data") or {})
+    data = _d(payload.get("data"))
     if "children" in data:
         # listing
-        children = data.get("children", [])
+        children = _list(data.get("children"))
         return {
             "kind": "listing",
             "count": len(children),
             "items": [
-                ((c.get("data") or {}).get("title"),
-                 (c.get("data") or {}).get("url"),
-                 (c.get("data") or {}).get("subreddit"),
-                 (c.get("data") or {}).get("created_utc"))
+                (_d(c.get("data")).get("title"),
+                 _d(c.get("data")).get("url"),
+                 _d(c.get("data")).get("subreddit"),
+                 _d(c.get("data")).get("created_utc"))
                 for c in children if isinstance(c, dict)
             ],
         }
@@ -817,41 +834,46 @@ def parse_reddit(payload: Any) -> dict[str, Any]:
 
 
 def parse_mastodon(payload: Any) -> list[dict[str, Any]]:
-    accounts = ((payload or {}).get("accounts") or [])
+    accounts = _list(_d(payload).get("accounts"))
     return [
         {
             "id": a.get("id"),
             "username": a.get("username"),
             "display_name": a.get("display_name"),
             "url": a.get("url"),
-            "instance": (a.get("url") or "").split("/@")[-1].split("/")[0] if a.get("url") else None,
+            "instance": _text(a.get("url")).split("/@")[-1].split("/")[0] if _text(a.get("url")) else None,
             "followers_count": a.get("followers_count"),
-            "note": re.sub("<.*?>", "", a.get("note") or "")[:200],
+            "note": re.sub("<.*?>", "", _text(a.get("note")))[:200],
         }
         for a in accounts if isinstance(a, dict)
     ]
 
 
 def parse_keybase(payload: Any) -> dict[str, Any]:
-    them = ((payload or {}).get("them") or [])
+    them = _list(_d(payload).get("them"))
     if not them:
         return {"error": "no result"}
-    p = them[0] or {}
-    proofs = p.get("proofs_summary", {}) or {}
+    p = _d(them[0])
+    proofs = _d(p.get("proofs_summary"))
+    basics = _d(p.get("basics"))
+    profile = _d(p.get("profile"))
+    primary_keys = _d(p.get("public_keys")).get("primary") or []
     return {
-        "username": p.get("basics", {}).get("username"),
-        "full_name": p.get("profile", {}).get("full_name"),
-        "bio": p.get("profile", {}).get("bio"),
-        "location": p.get("profile", {}).get("location"),
-        "twitter": proofs.get("twitter", [{}])[0].get("service_url") if proofs.get("twitter") else None,
-        "github": proofs.get("github", [{}])[0].get("service_url") if proofs.get("github") else None,
+        "username": basics.get("username"),
+        "full_name": profile.get("full_name"),
+        "bio": profile.get("bio"),
+        "location": profile.get("location"),
+        "twitter": _first_dict(proofs.get("twitter")).get("service_url"),
+        "github": _first_dict(proofs.get("github")).get("service_url"),
         "public_keys": [
             {"bundle": k.get("bundle"), "key_fingerprint": k.get("key_fingerprint")}
-            for k in (p.get("public_keys", {}) or {}).get("primary", []) or []
+            for k in primary_keys
+            if isinstance(k, dict)
         ],
         "devices": [
-            {"name": d.get("device", {}).get("name"), "type": d.get("device", {}).get("type")}
-            for d in (p.get("devices", []) or [])
+            {"name": _d(d.get("device")).get("name"), "type": _d(d.get("device")).get("type")}
+            for d in (p.get("devices") or [])
+            if isinstance(d, dict)
         ],
     }
 
@@ -864,19 +886,19 @@ def parse_hackernews(payload: Any) -> dict[str, Any]:
         "created": payload.get("created"),
         "karma": payload.get("karma"),
         "about": payload.get("about"),
-        "submitted_count": len(payload.get("submitted", []) or []),
+        "submitted_count": len(_list(payload.get("submitted"))),
     }
 
 
 def parse_reddit_search(payload: Any) -> list[dict[str, Any]]:
-    children = (((payload or {}).get("data") or {}).get("children") or [])
+    children = _list(_d(_d(payload).get("data")).get("children"))
     return [
         {
-            "name": (c.get("data") or {}).get("display_name"),
-            "title": (c.get("data") or {}).get("title"),
-            "subscribers": (c.get("data") or {}).get("subscribers"),
-            "url": (c.get("data") or {}).get("url"),
-            "public_description": (c.get("data") or {}).get("public_description"),
+            "name": _d(c.get("data")).get("display_name"),
+            "title": _d(c.get("data")).get("title"),
+            "subscribers": _d(c.get("data")).get("subscribers"),
+            "url": _d(c.get("data")).get("url"),
+            "public_description": _d(c.get("data")).get("public_description"),
         }
         for c in children if isinstance(c, dict)
     ]
@@ -900,7 +922,7 @@ def parse_dev_to(payload: Any) -> dict[str, Any]:
 def parse_text_lines(payload: Any) -> list[str]:
     """Generic: split raw_text by newlines, drop empties."""
     if isinstance(payload, dict) and "raw_text" in payload:
-        return [ln for ln in (payload.get("raw_text") or "").splitlines() if ln.strip()]
+        return [ln for ln in _text(payload.get("raw_text")).splitlines() if ln.strip()]
     if isinstance(payload, list):
         return [str(x) for x in payload]
     if isinstance(payload, str):
@@ -919,7 +941,7 @@ def parse_raw_text(payload: Any) -> str:
 def parse_http_headers(payload: Any) -> dict[str, str]:
     """hackertarget returns text; expect a one-line-per-header response."""
     if isinstance(payload, dict) and "raw_text" in payload:
-        text = payload["raw_text"]
+        text = _text(payload.get("raw_text"))
     elif isinstance(payload, str):
         text = payload
     else:
@@ -935,7 +957,7 @@ def parse_http_headers(payload: Any) -> dict[str, str]:
 def parse_whois_text(payload: Any) -> dict[str, str]:
     out: dict[str, str] = {}
     if isinstance(payload, dict) and "raw_text" in payload:
-        text = payload["raw_text"]
+        text = _text(payload.get("raw_text"))
     elif isinstance(payload, str):
         text = payload
     else:
@@ -960,12 +982,13 @@ def parse_twitter_user(payload: Any) -> dict[str, Any]:
         return {"error": "unexpected_response"}
     data = payload.get("data")
     if not isinstance(data, dict):
-        errors = payload.get("errors", [])
+        errors = _list(payload.get("errors"))
         if errors:
-            detail = errors[0].get("detail", "unknown") if isinstance(errors[0], dict) else str(errors[0])
+            first = errors[0]
+            detail = first.get("detail", "unknown") if isinstance(first, dict) else str(first)
             return {"error": "not_found", "detail": detail}
         return {"error": "not_found"}
-    metrics = data.get("public_metrics") or {}
+    metrics = _d(data.get("public_metrics"))
     return {
         "kind": "twitter_user",
         "id": data.get("id"),

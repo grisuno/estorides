@@ -251,7 +251,9 @@ def canonical_id(etype: str, normalized: str) -> str:
     The persistent store additionally maps known aliases onto an existing
     id so a never-before-seen surface form still resolves to the same node.
     """
-    digest = hashlib.sha1(f"{etype}:{normalized}".encode("utf-8")).hexdigest()
+    digest = hashlib.sha1(
+        f"{etype}:{normalized}".encode("utf-8"), usedforsecurity=False
+    ).hexdigest()
     return f"{etype}:{digest[:16]}"
 
 

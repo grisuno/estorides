@@ -603,9 +603,6 @@ button.primary:not(:disabled):hover {
 .timeline-event:hover {
   background: rgba(255, 255, 255, 0.02);
 }
-  background: rgba(99, 102, 241, 0.12);
-  border-color: var(--accent);
-}
 
 /* ---- Professional UI: loading animation ---- */
 @keyframes spin {
@@ -643,7 +640,7 @@ button.primary:not(:disabled):hover {
   background: var(--ok);
 }
 .status-dot.error {
-  background: var(--err);
+  background: var(--danger);
 }
 
 /* Status text pulsing animation */

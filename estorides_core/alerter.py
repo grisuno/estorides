@@ -70,7 +70,7 @@ def _http_post(url: str, payload: dict[str, Any]) -> bool:
         # validated HTTP(S) destination here.
         req = Request(url, data=data, method="POST")  # noqa: S310
         req.add_header("Content-Type", "application/json")
-        with urlopen(req, timeout=10) as resp:  # noqa: S310
+        with urlopen(req, timeout=10) as resp:  # noqa: S310  # nosec B310
             return resp.status < 300
     except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
         log.warning("HTTP POST to %s failed: %s", url, e)

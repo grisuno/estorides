@@ -14,7 +14,7 @@ from typing import Any
 
 import yaml
 
-from .config import CONTACT_LEVELS, DEFAULT_CONTACT, contact_level
+from .config import CONTACT_ACTIVE, CONTACT_LEVELS, DEFAULT_CONTACT, contact_level
 
 log = logging.getLogger("estorides.sources")
 
@@ -71,28 +71,39 @@ class SourceRegistry:
     def _load_file(self, path: Path) -> None:
         try:
             with path.open("r", encoding="utf-8") as fh:
-                docs = yaml.safe_load(fh)
+                # safe_load_all so a legacy grouped file with several
+                # `---`-separated documents — or one document holding a
+                # list of sources — still loads instead of being dropped.
+                docs = list(yaml.safe_load_all(fh))
         except yaml.YAMLError as e:
             log.error("YAML parse error in %s: %s", path.name, e)
             return
-        except OSError as e:
+        except (OSError, UnicodeDecodeError) as e:
             log.error("read error %s: %s", path, e)
             return
 
-        if not docs:
-            return
-        if isinstance(docs, dict):
-            docs = [docs]
+        entries: list[dict[str, Any]] = []
+        for doc in docs:
+            if isinstance(doc, dict):
+                entries.append(doc)
+            elif isinstance(doc, list):
+                entries.extend(d for d in doc if isinstance(d, dict))
 
-        for raw in docs:
-            if not isinstance(raw, dict):
-                continue
+        for raw in entries:
             source = self._normalise(raw)
             if source is None:
                 continue
             name = source["name"]
-            if name in self._by_name:
+            old = self._by_name.get(name)
+            if old is not None:
                 log.warning("duplicate source name %s in %s — overwriting", name, path.name)
+                old_cat = old.get("category")
+                if old_cat in self._by_category:
+                    remaining = [s for s in self._by_category[old_cat] if s is not old]
+                    if remaining:
+                        self._by_category[old_cat] = remaining
+                    else:
+                        del self._by_category[old_cat]
             self._by_name[name] = source
             self._by_category.setdefault(source["category"], []).append(source)
             log.debug("registered source %s [%s]", name, source["category"])
@@ -157,6 +168,7 @@ class SourceRegistry:
                 "source %s declares unknown contact=%r; treating as 'active'",
                 name, contact,
             )
+            contact = CONTACT_ACTIVE
 
         pagination: dict[str, Any] = {}
         if isinstance(raw.get("pagination"), dict):
@@ -249,11 +261,12 @@ class SourceRegistry:
         for f in self.sources_dir.rglob("*.y*ml"):
             try:
                 with f.open("r", encoding="utf-8") as fh:
-                    doc = yaml.safe_load(fh)
+                    docs = list(yaml.safe_load_all(fh))
+            except (yaml.YAMLError, OSError, UnicodeDecodeError):
+                continue
+            for doc in docs:
                 if isinstance(doc, dict) and doc.get("name") == name:
                     return f.resolve()
-            except (yaml.YAMLError, OSError):
-                continue
         return None
 
     def write_source_file(self, data: dict[str, Any]) -> Path:

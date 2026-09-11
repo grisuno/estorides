@@ -185,7 +185,9 @@ def entity_id(etype: str, value: str, normalized: Optional[str] = None) -> str:
     norm = normalized if normalized is not None else normalize_value(etype, value)
     if not norm:
         norm = (value or "").strip().lower()
-    return hashlib.sha1(f"{etype}:{norm}".encode("utf-8")).hexdigest()[:16]
+    return hashlib.sha1(
+        f"{etype}:{norm}".encode("utf-8"), usedforsecurity=False
+    ).hexdigest()[:16]
 
 
 class FusionStore:
@@ -718,7 +720,10 @@ class FusionStore:
         """One-glance dashboard of the fused store's size."""
         with self._lock:
             def _count(table: str) -> int:
-                return self._conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+                # `table` is one of the internal literals below, never user input.
+                return self._conn.execute(
+                    f"SELECT COUNT(*) FROM {table}"  # noqa: S608  # nosec B608
+                ).fetchone()[0]
             entities = _count("fusion_entities")
             sources = _count("fusion_sources")
             observations = _count("fusion_observations")

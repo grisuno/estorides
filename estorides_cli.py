@@ -20,14 +20,17 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, List
+from typing import TYPE_CHECKING, Any, Callable, List
 
 from estorides_core.config import (DATASET_PATH, FLASK_HOST, FLASK_PORT,
-                                   GRAPH_PATH, REPORTS_DIR, REPORTS_DIR as RD)
+                                   GRAPH_PATH, REPORTS_DIR)
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_export import export_misp, export_stix
+
+if TYPE_CHECKING:
+    from estorides_core.monitoring import WatchTarget
 
 
 TOR_DEFAULT_PROXY = "socks5://127.0.0.1:9050"
@@ -487,7 +490,12 @@ def cmd_fusion(args: argparse.Namespace) -> int:
 
 def cmd_watch_add(args: argparse.Namespace) -> int:
     """Add a new recurring watch target."""
-    from estorides_core.monitoring import WatchTarget, store, scheduler
+    from estorides_core.monitoring import (
+        SCHEDULER_ENABLED,
+        WatchTarget,
+        scheduler,
+        store,
+    )
     from estorides_core.entity_extraction import detect_query_type
 
     qtype = args.type
@@ -509,11 +517,13 @@ def cmd_watch_add(args: argparse.Namespace) -> int:
     print(f"  Query: {watch.query} ({watch.query_type})")
     print(f"  Interval: {watch.interval_minutes}min")
     print(f"  Channels: {', '.join(watch.channels) or 'none'}")
-    print(f"  First run: ~60s from now")
-    # Wire the orchestrator as runner so watches actually execute
-    if scheduler._runner is None:
-        scheduler.set_runner(_watch_runner_factory(args.proxy, args.passive_only))
-    # Start scheduler if not running
+    print("  First run: ~60s from now")
+    # Wire the orchestrator as runner so watches actually execute.
+    if not scheduler.has_runner:
+        scheduler.set_runner(
+            _watch_runner_factory(_resolve_proxy(args), getattr(args, "passive_only", False))
+        )
+    # Start scheduler if not running and the operator has not disabled it.
     if not scheduler.running and SCHEDULER_ENABLED:
         scheduler.start()
         print("  Scheduler: started")
@@ -526,8 +536,6 @@ def _watch_runner_factory(proxy: str | None = None, passive_only: bool = False) 
     Returns an async function that takes a WatchTarget and returns
     the orchestrator's run result dict.
     """
-    from estorides_core.orchestrator import Orchestrator
-
     async def _run(watch: WatchTarget) -> dict[str, Any]:
         orch = Orchestrator()
         result = await orch.run(
@@ -794,6 +802,7 @@ def build_parser() -> argparse.ArgumentParser:
     wa.add_argument("--channels", default="",
                     help="comma-separated alert channels: slack,discord,telegram,email,webhook")
     wa.add_argument("--notes", default="", help="optional notes")
+    _add_opsec_flags(wa)
     wa.set_defaults(func=cmd_watch_add)
 
     wl = watch_sub.add_parser("list", help="list all watch targets")

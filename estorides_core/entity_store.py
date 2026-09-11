@@ -111,14 +111,14 @@ class EntityStore:
         placeholders = ",".join("?" for _ in keys)
         with self._lock:
             row = self._conn.execute(
-                f"SELECT canonical_id FROM entities "
+                f"SELECT canonical_id FROM entities "  # noqa: S608  # nosec B608
                 f"WHERE type=? AND normalized IN ({placeholders}) LIMIT 1",
                 (etype, *keys),
             ).fetchone()
             if row:
                 return row[0]
             row = self._conn.execute(
-                f"SELECT canonical_id FROM aliases "
+                f"SELECT canonical_id FROM aliases "  # noqa: S608  # nosec B608
                 f"WHERE type=? AND alias_normalized IN ({placeholders}) LIMIT 1",
                 (etype, *keys),
             ).fetchone()

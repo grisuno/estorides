@@ -329,6 +329,11 @@ class WatchScheduler:
     def running(self) -> bool:
         return self._thread is not None and self._thread.is_alive()
 
+    @property
+    def has_runner(self) -> bool:
+        """True once an executor has been wired via set_runner()."""
+        return self._runner is not None
+
     def start(self) -> None:
         if self.running:
             log.warning("scheduler already running")

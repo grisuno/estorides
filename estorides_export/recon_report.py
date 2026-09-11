@@ -74,7 +74,7 @@ def build_subdomain_tree(subdomains: list[str]) -> str:
         if len(parts) < 2:
             lines.append(f"  {s}")
             continue
-        tld_domain = ".".join(parts[-2:]) if len(parts) >= 2 else s
+        tld_domain = ".".join(parts[-2:])
         if base != tld_domain:
             if base:
                 lines.append("")
@@ -93,13 +93,14 @@ def build_executive_summary(
     critical_findings: list[str],
     total_targets: int,
     domain: str,
+    classification: str = "TLP:AMBER",
 ) -> str:
     lines = [
         "## Executive Summary",
         "",
         f"**Target:** {domain}",
         f"**Total targets analysed:** {total_targets}",
-        "**Classification:** TLP:AMBER",
+        f"**Classification:** {classification}",
         "",
     ]
     if critical_findings:
@@ -145,7 +146,9 @@ def generate_report(
         elif hasattr(summary, "total_targets"):
             total_targets = summary.total_targets
 
-    exec_summary = build_executive_summary(critical_findings, total_targets, query)
+    exec_summary = build_executive_summary(
+        critical_findings, total_targets, query, metadata.classification,
+    )
     markdown_parts.append(exec_summary)
     sections.append(ReportSection("Executive Summary", 2, exec_summary))
 

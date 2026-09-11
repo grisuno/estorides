@@ -53,12 +53,27 @@ def _env_float(name: str, default: float) -> float:
         return default
 
 
+_TRUE_TOKENS = frozenset(("1", "true", "yes", "on"))
+_FALSE_TOKENS = frozenset(("0", "false", "no", "off"))
+
+
 def _env_bool(name: str, default: bool) -> bool:
-    """Read a boolean env var. Truthy tokens: 1/true/yes/on (case-insensitive)."""
+    """Read a boolean env var. Truthy tokens: 1/true/yes/on (case-insensitive).
+
+    An unrecognised token falls back to `default` and logs, rather than
+    silently meaning "false" — the same fault-tolerant posture as the
+    typed int/float readers.
+    """
     raw = os.environ.get(name)
     if raw is None or raw.strip() == "":
         return default
-    return raw.strip().lower() in ("1", "true", "yes", "on")
+    token = raw.strip().lower()
+    if token in _TRUE_TOKENS:
+        return True
+    if token in _FALSE_TOKENS:
+        return False
+    _log.warning("env %s=%r is not a boolean, using default %s", name, raw, default)
+    return default
 
 # -----------------------------------------------------------------------------
 # Filesystem layout
@@ -140,11 +155,11 @@ ER_PERSIST: bool = _env_bool("ESTORIDES_ER_PERSIST", True)
 # -----------------------------------------------------------------------------
 # Network behaviour
 # -----------------------------------------------------------------------------
-HTTP_TIMEOUT: float = float(os.environ.get("ESTORIDES_TIMEOUT", 12.0))
-HTTP_MAX_RETRIES: int = int(os.environ.get("ESTORIDES_MAX_RETRIES", 3))
-HTTP_BACKOFF_BASE: float = float(os.environ.get("ESTORIDES_BACKOFF_BASE", 0.6))
-HTTP_BACKOFF_FACTOR: float = float(os.environ.get("ESTORIDES_BACKOFF_FACTOR", 2.0))
-HTTP_MAX_PARALLEL: int = int(os.environ.get("ESTORIDES_PARALLEL", 8))
+HTTP_TIMEOUT: float = _env_float("ESTORIDES_TIMEOUT", 12.0)
+HTTP_MAX_RETRIES: int = _env_int("ESTORIDES_MAX_RETRIES", 3)
+HTTP_BACKOFF_BASE: float = _env_float("ESTORIDES_BACKOFF_BASE", 0.6)
+HTTP_BACKOFF_FACTOR: float = _env_float("ESTORIDES_BACKOFF_FACTOR", 2.0)
+HTTP_MAX_PARALLEL: int = _env_int("ESTORIDES_PARALLEL", 8)
 USER_AGENT: str = os.environ.get("ESTORIDES_UA", "Estorides/1.0 (+open-source OSINT platform)")
 
 
@@ -175,7 +190,7 @@ def _env_tool_allowlist() -> set[str]:
 # Tool runner — safe subprocess execution for Kali CLI tools.
 TOOL_ALLOWLIST: set[str] = _env_tool_allowlist()
 TOOL_TIMEOUT: int = _env_int("ESTORIDES_TOOL_TIMEOUT", 300)
-TOOL_MAX_OUTPUT_BYTES: int = int(os.environ.get("ESTORIDES_TOOL_MAX_OUTPUT", 10_485_760))
+TOOL_MAX_OUTPUT_BYTES: int = _env_int("ESTORIDES_TOOL_MAX_OUTPUT", 10_485_760)
 
 # One-click tool installation (lazyaddon-style, spec/tool_install.md).
 # `tool_recipes/` holds one YAML recipe per installable Kali/OSINT tool
@@ -264,10 +279,8 @@ def effective_proxies(explicit: str | None = None) -> list[str]:
 # -----------------------------------------------------------------------------
 # LLM backends (priority order)
 # -----------------------------------------------------------------------------
-LLM_BACKENDS: list[str] = ["ollama", "openrouter", "anthropic", "openai", "stub"]
-LLM_DEFAULT_TASK: str = "analysis"
-LLM_MAX_TOKENS: int = int(os.environ.get("ESTORIDES_LLM_MAX_TOKENS", 2048))
-LLM_TEMPERATURE: float = float(os.environ.get("ESTORIDES_LLM_TEMP", 0.25))
+LLM_MAX_TOKENS: int = _env_int("ESTORIDES_LLM_MAX_TOKENS", 2048)
+LLM_TEMPERATURE: float = _env_float("ESTORIDES_LLM_TEMP", 0.25)
 # Hard wall-clock cap (seconds) for any single LLM HTTP call. Threaded into the
 # requests timeout so a slow local model can never orphan a thread that blocks
 # process shutdown for minutes.
@@ -278,7 +291,7 @@ LLM_TEMPERATURE: float = float(os.environ.get("ESTORIDES_LLM_TEMP", 0.25))
 # thread (async), so a long cap does not freeze the event loop. A short cap
 # (the old 120 s) made the manager fall through to the stub on the big local
 # models — the "no backends available" symptom.
-LLM_REQUEST_TIMEOUT: float = float(os.environ.get("ESTORIDES_LLM_REQUEST_TIMEOUT", 600.0))
+LLM_REQUEST_TIMEOUT: float = _env_float("ESTORIDES_LLM_REQUEST_TIMEOUT", 600.0)
 
 # Model selection per backend.
 LLM_MODELS: dict[str, str] = {
@@ -321,13 +334,13 @@ ENTITY_REGEX = {
 # Bounds on entity extraction so a single huge response (crt.sh, wayback) can
 # never turn the post-fetch stage into an 80-second CPU stall. A blob larger
 # than the scan cap is truncated; no more than N matches per type are kept.
-ENTITY_MAX_SCAN_CHARS: int = int(os.environ.get("ESTORIDES_ENTITY_MAX_SCAN", 120_000))
-ENTITY_MAX_PER_TYPE: int = int(os.environ.get("ESTORIDES_ENTITY_MAX_PER_TYPE", 750))
+ENTITY_MAX_SCAN_CHARS: int = _env_int("ESTORIDES_ENTITY_MAX_SCAN", 120_000)
+ENTITY_MAX_PER_TYPE: int = _env_int("ESTORIDES_ENTITY_MAX_PER_TYPE", 750)
 
 # Co-occurrence is a soft "seen together" signal. Building a full clique over
 # every entity in a large response is O(n^2) and produces million-edge graphs
 # that swamp ranking and make GraphML export crawl. Cap the clique per source.
-KG_MAX_COOCCUR_ENTITIES: int = int(os.environ.get("ESTORIDES_KG_MAX_COOCCUR", 30))
+KG_MAX_COOCCUR_ENTITIES: int = _env_int("ESTORIDES_KG_MAX_COOCCUR", 30)
 
 # Service-specific heuristics to filter false-positive domains (e.g. versions like "1.0.0")
 DOMAIN_BLACKLIST: set[str] = {
@@ -634,7 +647,11 @@ RECON_FUSION: ReconFusionConfig = ReconFusionConfig(
     noise_max_reliability=os.environ.get("ESTORIDES_RF_NOISE_REL", "F"),
     freshness_max_hours=_env_float("ESTORIDES_RF_FRESH_H", 72.0),
     direct_match_boost=_env_float("ESTORIDES_RF_DIRECT_BOOST", 0.15),
-    exact_dedup_keys=tuple(os.environ.get("ESTORIDES_RF_DEDUP_KEYS", "source,parser,status").split(",")),
+    exact_dedup_keys=tuple(
+        k.strip()
+        for k in os.environ.get("ESTORIDES_RF_DEDUP_KEYS", "source,parser,status").split(",")
+        if k.strip()
+    ),
     source_reliability_overrides={},
 )
 

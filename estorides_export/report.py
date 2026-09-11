@@ -126,9 +126,10 @@ def _diff_section(diff: Optional[Dict[str, Any]]) -> List[str]:
     out.append("## Diff vs previous run")
     out.append("")
     out.append(
-        f"Compared to `{diff['case_a']}` → `{diff['case_b']}`: "
-        f"+{diff['added_count']} added, -{diff['removed_count']} removed, "
-        f"{diff['common_count']} common."
+        f"Compared to `{diff.get('case_a', '?')}` → `{diff.get('case_b', '?')}`: "
+        f"+{diff.get('added_count', 0)} added, "
+        f"-{diff.get('removed_count', 0)} removed, "
+        f"{diff.get('common_count', 0)} common."
     )
     out.append("")
     by_type = diff.get("by_type", {})
@@ -142,12 +143,13 @@ def _diff_section(diff: Optional[Dict[str, Any]]) -> List[str]:
         for t, n in sorted(by_type["removed"].items(), key=lambda x: -x[1]):
             out.append(f"- `{t}`: {n}")
         out.append("")
-    sample = diff.get("added", [])[:20]
+    added = diff.get("added", []) or []
+    sample = added[:20]
     if sample:
         out.append("### Sample of new entities")
         for e in sample:
-            out.append(f"- `{e['type']}`: {e['value']}")
-        if len(diff.get("added", [])) > 20:
+            out.append(f"- `{e.get('type', '?')}`: {e.get('value', '?')}")
+        if len(added) > 20:
             out.append(f"- … and {len(diff['added']) - 20} more")
         out.append("")
     return out

@@ -117,18 +117,10 @@ def _is_blocked_v6(addr: str) -> bool:
     Lower-cased, leading zeros collapsed, no scope-id parsing required.
     """
     a = addr.lower().split("%", 1)[0]  # strip zone id
-    for prefix in _IPV6_BLOCK_PREFIXES:
-        if a.startswith(prefix):
-            return True
-    # A 4-in-6 mapped address is also blocked via ::ffff: prefix above,
-    # but we double-check the embedded IPv4 here for clarity.
-    if a.startswith("::ffff:"):
-        tail = a.removeprefix("::ffff:")
-        try:
-            return _is_blocked_v4(ipaddress.IPv4Address(tail))
-        except ValueError:
-            return False
-    return False
+    # `::ffff:` is in the prefix table, so any IPv4-mapped literal is
+    # already blocked here. The old extra embedded-IPv4 double-check was
+    # unreachable dead code (the prefix match returns first).
+    return any(a.startswith(prefix) for prefix in _IPV6_BLOCK_PREFIXES)
 
 
 def _normalise_host(host: str) -> Optional[str]:

@@ -118,7 +118,9 @@ def extract_from_text(
     if len(text) > ENTITY_MAX_SCAN_CHARS:
         text = text[:ENTITY_MAX_SCAN_CHARS]
     out: List[Entity] = []
-    active = types or list(_COMPILED.keys())
+    # `types=None` means "all patterns"; an explicit empty list means
+    # "extract nothing" (passing `[]` must not silently scan everything).
+    active = list(_COMPILED.keys()) if types is None else list(types)
     seen: set[Tuple[str, str]] = set()
 
     for ent_type in active:
@@ -445,17 +447,19 @@ def _fuzzy_cluster(entities: List[Entity]) -> List[Entity]:
     non_fuzzy = [e for e in entities if e.type not in eligible_types]
 
     merged: List[Entity] = []
-    for ent_type, items in by_type.items():
-        # Union-find by ratio.
+    for _ent_type, items in by_type.items():
+        # Union-find by ratio. `parent` is bound as a default arg so the
+        # closure captures this iteration's dict rather than the loop cell
+        # (the loop rebinds `parent` on every pass).
         parent: Dict[int, int] = {i: i for i in range(len(items))}
 
-        def find(x: int) -> int:
+        def find(x: int, parent: Dict[int, int] = parent) -> int:
             while parent[x] != x:
                 parent[x] = parent[parent[x]]
                 x = parent[x]
             return x
 
-        def union(a: int, b: int) -> None:
+        def union(a: int, b: int, parent: Dict[int, int] = parent) -> None:
             ra, rb = find(a), find(b)
             if ra != rb:
                 parent[ra] = rb
@@ -482,9 +486,12 @@ def _fuzzy_cluster(entities: List[Entity]) -> List[Entity]:
             if len(ids) == 1:
                 merged.append(items[ids[0]])
                 continue
-            # Merge: keep the shortest, most-observed value as canonical.
+            # Merge: keep the most-observed value as canonical, breaking
+            # ties on the shortest spelling. Negating the source count is
+            # essential — the previous `min(len(sources), ...)` picked the
+            # *least*-observed variant as the canonical name.
             canon = min((items[i] for i in ids),
-                        key=lambda e: (len(e.sources), len(e.value)))
+                        key=lambda e: (-len(e.sources), len(e.value)))
             seen_sources: List[str] = []
             for i in ids:
                 for s in (items[i].sources or [items[i].source]):
