@@ -26,10 +26,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev,kuzu]"
       - name: Lint (ruff)
-        run: ruff check estorides_core estorides_export estorides_web.py tests
+        run: ruff check estorides_core estorides_export estorides_llm estorides_web.py estorides_cli.py tests
       - name: Type check (mypy)
         run: mypy --strict estorides_core estorides_export
       - name: Security scan (bandit)
-        run: bandit -r estorides_core estorides_export -ll
+        run: bandit -r estorides_core estorides_export estorides_llm estorides_cli.py -ll
       - name: Run tests
         run: pytest -q

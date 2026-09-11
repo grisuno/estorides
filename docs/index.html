@@ -604,6 +604,38 @@
                 </div>
             </div>
 
+            <!-- 2q: shared core infrastructure (DRY) -->
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2q &middot; shared core infra
+                        <span class="badge badge-info ml-2">closed 2026-09-11</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">3 specs</span>
+                        <span class="badge badge-test">+24 tests</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        DRY extraction of the plumbing the stores and pipelines
+                        kept copying: <code>sqlite_store.SqliteStore</code>
+                        (the 4 SQLite repositories now share one
+                        <code>__init__</code>/<code>_init_schema</code>/<code>_tx</code>/<code>close</code>),
+                        <code>ids.stable_id</code> (6 sha1[:16] call sites),
+                        <code>envutil</code> (3 env readers), and unified
+                        reliability weights. Also fixes a real resource leak:
+                        <code>with sqlite3.connect(...)</code> does not close,
+                        so <code>ResponseCache</code> now always closes.
+                    </p>
+                    <p>
+                        <a href="../spec/sqlite_store.md">sqlite_store</a> &middot;
+                        <a href="../spec/ids.md">ids</a> &middot;
+                        <a href="../spec/envutil.md">envutil</a> &middot;
+                        <a href="../estorides_core/sqlite_store.py">source</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

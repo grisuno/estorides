@@ -19,14 +19,15 @@ Public surface::
 """
 from __future__ import annotations
 
-import hashlib
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
+from .ids import stable_id
 from .reliability_scoring import (
     SourceReliability,
     reliability_from_name,
+    reliability_weight,
 )
 
 # --------------------------------------------------------------------------- constants
@@ -181,25 +182,7 @@ def _truncate_key(key: Any) -> str:
 
 
 def _change_id(kind: str, entity_id: str, diff_signature: str) -> str:
-    payload = "|".join([kind, entity_id, diff_signature])
-    return hashlib.sha1(payload.encode("utf-8"), usedforsecurity=False).hexdigest()[:16]
-
-
-def _reliability_weight(name: str) -> float:
-    """Reliability weight via 2a, with 0 fallback for the impossible
-    case where the enum value is not a letter A-F."""
-    rel = reliability_from_name(name)
-    if rel == SourceReliability.A:
-        return 1.00
-    if rel == SourceReliability.B:
-        return 0.85
-    if rel == SourceReliability.C:
-        return 0.70
-    if rel == SourceReliability.D:
-        return 0.50
-    if rel == SourceReliability.E:
-        return 0.30
-    return 0.10  # F or fallback
+    return stable_id("|".join([kind, entity_id, diff_signature]))
 
 
 def _reliability_floor(letter: SourceReliability) -> int:
@@ -348,7 +331,7 @@ def detect_changes(
         if eid not in before_index:
             # new entity
             filtered = _filter_sources_by_reliability(ent_after.sources, config.min_reliability)
-            score = max((_reliability_weight(s) for s in filtered), default=0.0)
+            score = max((reliability_weight(s) for s in filtered), default=0.0)
             if score < config.min_change_score:
                 continue
             changes.append(_make_change(
@@ -397,7 +380,7 @@ def detect_changes(
             for src in new_sources:
                 if _below_min_reliability(src, config.min_reliability):
                     continue
-                score = _reliability_weight(src)
+                score = reliability_weight(src)
                 if score < config.min_change_score:
                     continue
                 changes.append(_make_change(

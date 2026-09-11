@@ -86,7 +86,7 @@ pyproject.toml          console script + optional deps
 ## Validate after install
 
 ```bash
-python3 _validate.py     # runs every offline test suite
+pytest -q                # runs every test suite (BDD + property fuzzing)
 ```
 
 ## Uninstall / reset

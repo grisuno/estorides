@@ -94,3 +94,30 @@ raw-exception leaks); stage `Orchestrator.run`; move blocking
 orphaned root tests into `tests/`.
 **Low:** `recon_report` TLP metadata shape, STIX `ipv6-addr`, CI to cover
 `estorides_cli.py` + `estorides_llm`.
+
+---
+
+## Round 2 (same date) — backlog applied
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Shared SQLite base (4 stores) | **done** | `estorides_core/sqlite_store.py`, `spec/sqlite_store.md`, `tests/test_sqlite_store.py` |
+| Unified stable-id | **done** | `estorides_core/ids.py` (6 call sites), `spec/ids.md`, `tests/test_ids.py` |
+| Unified reliability weights | **done** | `reliability_scoring.reliability_weight*`, used by change_detection / recon_fusion / hypothesis_engine |
+| Shared env readers | **done** | `estorides_core/envutil.py`, `spec/envutil.md`, `tests/test_envutil.py` |
+| `provides()` decorator | **done** | `estorides_web._provides`, 39 guards removed; `tests/test_web_helpers.py` |
+| Single SSE builder | **done** | `estorides_web._sse_response` (3 call sites) |
+| CWE-209 leaks (analyze stream, tool install) | **done** | generic client message + server-side log |
+| Encapsulation: `case_store._conn` in route | **done** | `CaseStore.set_notes()` |
+| Orchestrator blocking intel HTTP | **done** | `asyncio.to_thread(intel_resolver.resolve, …)` |
+| `_execute_source` strategy dispatch | **done** | `_run_system_app` / `_run_http_source` |
+| **Resource leak**: `with sqlite3.connect()` never closes | **done** | `ResponseCache._conn` context manager (`async_client.py`) |
+| Orphan root tests | **done** | ported 7 `_test_*.py` + `_validate.py` into `tests/`; duplicates deleted |
+| CI scope | **done** | ruff + bandit now cover `estorides_cli.py` + `estorides_llm/` |
+
+**Still open (large, multi-session):** no blueprints yet — `create_app` remains
+a single factory (the duplicated guards/SSE are gone, but the route bodies
+still live in one function); `Orchestrator.run` is still one long method with
+`_execute_source` split out. Also, repo-wide `mypy --strict` / `ruff` debt in
+`estorides_core`/`estorides_web.py` predates this work and keeps CI red; it is
+a separate, mechanical cleanup.

@@ -49,6 +49,9 @@ from urllib.parse import quote, urlsplit, urlunsplit
 
 from flask import Flask, jsonify, request
 
+from .envutil import env_bool as _env_bool
+from .envutil import env_int as _env_int
+
 log = logging.getLogger("estorides.web.security")
 
 
@@ -136,24 +139,6 @@ def _env_str(name: str, default: str) -> str:
     if raw is None or raw.strip() == "":
         return default
     return raw
-
-
-def _env_int(name: str, default: int) -> int:
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    try:
-        return int(raw)
-    except ValueError:
-        log.warning("env %s=%r is not an int, using default %d", name, raw, default)
-        return default
-
-
-def _env_bool(name: str, default: bool) -> bool:
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    return raw.strip().lower() in ("1", "true", "yes", "on")
 
 
 def load_security_config() -> WebSecurityConfig:

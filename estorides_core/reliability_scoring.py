@@ -28,6 +28,7 @@ The public surface:
 from __future__ import annotations
 
 import math
+from collections.abc import Mapping
 from dataclasses import dataclass
 from enum import Enum
 
@@ -426,6 +427,37 @@ def source_type_from_name(source_name: str | None) -> SourceType:
     return SOURCE_TYPE_MAP.get(key, DEFAULT_SOURCE_TYPE)
 
 
+def reliability_weight(
+    source_name: str | None,
+    overrides: Mapping[str, str] | None = None,
+) -> float:
+    """Numeric reliability weight for a source name; never raises.
+
+    `overrides` maps a source name to an explicit reliability letter
+    (used by the recon-fusion config). An invalid override letter falls
+    back to C, matching the historical behaviour. Unknown names fall back
+    to :data:`RELIABILITY_WEIGHT` for :data:`DEFAULT_RELIABILITY`.
+    """
+    lookup = overrides.get(source_name) if overrides and source_name else None
+    if lookup is None:
+        rel = reliability_from_name(source_name)
+    else:
+        try:
+            rel = SourceReliability(str(lookup).strip().upper())
+        except ValueError:
+            rel = DEFAULT_RELIABILITY
+    return RELIABILITY_WEIGHT.get(rel, RELIABILITY_WEIGHT[DEFAULT_RELIABILITY])
+
+
+def reliability_weight_for_letter(letter: str | None) -> float:
+    """Numeric weight for a reliability letter (A-F); never raises."""
+    try:
+        rel = SourceReliability(str(letter).strip().upper())
+    except ValueError:
+        rel = DEFAULT_RELIABILITY
+    return RELIABILITY_WEIGHT.get(rel, RELIABILITY_WEIGHT[DEFAULT_RELIABILITY])
+
+
 __all__ = [
     "CREDIBILITY_WEIGHT",
     "DEFAULT_CREDIBILITY",
@@ -444,5 +476,7 @@ __all__ = [
     "compute_confidence",
     "merge_confidence",
     "reliability_from_name",
+    "reliability_weight",
+    "reliability_weight_for_letter",
     "source_type_from_name",
 ]

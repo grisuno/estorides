@@ -21,14 +21,21 @@ from __future__ import annotations
 import json
 import logging
 import os
-from typing import Any, Callable, Dict, List, Optional, Protocol, Tuple
+from collections.abc import Callable
+from typing import Any, Protocol, cast
 
 import requests
 
-from estorides_core.config import (ANTHROPIC_URL, LLM_MAX_TOKENS,
-                                   LLM_MODELS, LLM_REQUEST_TIMEOUT,
-                                   LLM_TEMPERATURE, OLLAMA_URL, OPENAI_URL,
-                                   OPENROUTER_URL)
+from estorides_core.config import (
+    ANTHROPIC_URL,
+    LLM_MAX_TOKENS,
+    LLM_MODELS,
+    LLM_REQUEST_TIMEOUT,
+    LLM_TEMPERATURE,
+    OLLAMA_URL,
+    OPENAI_URL,
+    OPENROUTER_URL,
+)
 from estorides_llm.intelligence_prompts import SYSTEM_PROMPT, format_context
 
 log = logging.getLogger("estorides.llm")
@@ -62,18 +69,18 @@ class LLMBackend(Protocol):
     def __call__(
         self,
         prompt: str,
-        context: Optional[List[Dict[str, Any]]],
+        context: list[dict[str, Any]] | None,
         max_tokens: int,
         temperature: float,
         request_timeout: float,
-    ) -> Tuple[str, str]:
+    ) -> tuple[str, str]:
         """Return (content, model_id). Empty content means "skip me"."""
         ...
 
     def stream_generate(
         self,
         prompt: str,
-        context: Optional[List[Dict[str, Any]]],
+        context: list[dict[str, Any]] | None,
         model: str,
         temperature: float,
         request_timeout: float,
@@ -83,7 +90,7 @@ class LLMBackend(Protocol):
 
 
 # ------------------------------------------------------------------- registry
-BACKENDS: Dict[str, LLMBackend] = {}
+BACKENDS: dict[str, LLMBackend] = {}
 """name -> backend instance. Populated by `@register` and module import."""
 
 
@@ -114,7 +121,7 @@ class OllamaBackend:
     name = "ollama"
 
     @staticmethod
-    def get_status() -> Dict[str, Any]:
+    def get_status() -> dict[str, Any]:
         """Return available ollama models and reachability status."""
         try:
             r = requests.get(f"{OLLAMA_URL.rstrip('/')}/api/tags", timeout=3.0)
@@ -132,7 +139,7 @@ class OllamaBackend:
         available model."""
         want = LLM_MODELS.get("ollama", "")
         try:
-            r = requests.get(
+            r = requests.get(  # nosec B113 - timeout is the expression below
                 f"{OLLAMA_URL.rstrip('/')}/api/tags",
                 timeout=min(request_timeout, 3.0),
             )
@@ -217,7 +224,7 @@ class OllamaBackend:
             if done:
                 return
 
-    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> tuple[str, str]:
         model = self._resolve_model(request_timeout)
         url = f"{OLLAMA_URL.rstrip('/')}/api/generate"
         full = f"{SYSTEM_PROMPT}\n\n{format_context(context or [])}\n\nUser question: {prompt}"
@@ -264,7 +271,7 @@ class _OpenAICompatibleBackend:
     env_key: str = ""
     base_url: str = ""
 
-    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> tuple[str, str]:
         api_key = os.environ.get(self.env_key)
         if not api_key:
             raise RuntimeError(f"{self.env_key} not set")
@@ -309,7 +316,7 @@ class OpenRouterBackend(_OpenAICompatibleBackend):
 class AnthropicBackend:
     name = "anthropic"
 
-    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> Tuple[str, str]:
+    def __call__(self, prompt, context, max_tokens, temperature, request_timeout) -> tuple[str, str]:
         api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not api_key:
             raise RuntimeError("ANTHROPIC_API_KEY not set")
@@ -343,7 +350,7 @@ class AnthropicBackend:
 # ----------------------------------------------------------------- manager
 # Priority order for backend selection. The manager walks this list
 # (skipping disabled backends) and returns the first non-empty result.
-DEFAULT_PRIORITY: Tuple[str, ...] = ("ollama", "openrouter", "anthropic", "openai")
+DEFAULT_PRIORITY: tuple[str, ...] = ("ollama", "openrouter", "anthropic", "openai")
 
 
 class LLMManager:
@@ -356,7 +363,7 @@ class LLMManager:
         # recompiling the source.
         override = os.environ.get("ESTORIDES_BACKEND_PRIORITY", "").strip()
         if override:
-            self.priority: Tuple[str, ...] = tuple(
+            self.priority: tuple[str, ...] = tuple(
                 b.strip() for b in override.split(",") if b.strip()
             )
         else:
@@ -367,11 +374,11 @@ class LLMManager:
         self,
         prompt: str,
         *,
-        context: Optional[List[Dict[str, Any]]] = None,
+        context: list[dict[str, Any]] | None = None,
         max_tokens: int = LLM_MAX_TOKENS,
         temperature: float = LLM_TEMPERATURE,
         request_timeout: float = LLM_REQUEST_TIMEOUT,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Try each backend in priority order; return the first that succeeds.
 
         `request_timeout` caps every backend's HTTP call so a slow
@@ -394,7 +401,7 @@ class LLMManager:
                         "content": content,
                         "error": None,
                     }
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 log.warning("LLM backend %s failed: %s", name, e)
                 continue
         return {
@@ -404,20 +411,20 @@ class LLMManager:
             "error": "all backends failed",
         }
 
-    def get_ollama_status(self) -> Dict[str, Any]:
+    def get_ollama_status(self) -> dict[str, Any]:
         """Return ollama reachability and available models."""
         ollama = BACKENDS.get("ollama")
         if ollama is None:
             return {"reachable": False, "models": [], "error": "ollama backend not registered"}
-        return ollama.get_status()
+        return cast("OllamaBackend", ollama).get_status()
 
     # ----------------------------------------------------- streaming analysis
     def stream(
         self,
         prompt: str,
         *,
-        context: Optional[List[Dict[str, Any]]] = None,
-        model: Optional[str] = None,
+        context: list[dict[str, Any]] | None = None,
+        model: str | None = None,
         temperature: float = LLM_TEMPERATURE,
         request_timeout: float = LLM_REQUEST_TIMEOUT,
     ) -> Any:
@@ -431,6 +438,7 @@ class LLMManager:
         ollama = BACKENDS.get("ollama")
         if ollama is None:
             raise RuntimeError("ollama backend not registered")
+        ollama = cast("OllamaBackend", ollama)
         status = ollama.get_status()
         if not status.get("reachable"):
             raise RuntimeError(f"ollama unreachable: {status.get('error')}")
@@ -442,13 +450,13 @@ class LLMManager:
                     f"Available: {', '.join(available)}"
                 )
         else:
-            model = ollama._resolve_model(request_timeout)  # noqa: SLF001
+            model = ollama._resolve_model(request_timeout)
         yield from ollama.stream_generate(
             prompt, context or [], model, temperature, request_timeout,
         )
 
     # ----------------------------------------------------- stub fallback
-    def _stub_response(self, prompt: str, context: Optional[List[Dict[str, Any]]]) -> str:
+    def _stub_response(self, prompt: str, context: list[dict[str, Any]] | None) -> str:
         n = len(context or [])
         srcs = sorted({s.get("source", "?") for s in (context or [])})
         return (

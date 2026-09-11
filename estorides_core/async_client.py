@@ -17,20 +17,30 @@ import asyncio
 import hashlib
 import json
 import logging
-import os
 import sqlite3
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 from urllib.parse import urlparse
 
 import aiohttp
 
-from .config import (CACHE_PATH, CIRCUIT_COOLDOWN_S, CIRCUIT_FAIL_THRESHOLD,
-                     HTTP_BACKOFF_BASE, HTTP_BACKOFF_FACTOR, HTTP_CACHE,
-                     HTTP_MAX_RETRIES, HTTP_TIMEOUT, PROXY_REMOTE_DNS,
-                     USER_AGENT, effective_proxies)
+from .config import (
+    CACHE_PATH,
+    CIRCUIT_COOLDOWN_S,
+    CIRCUIT_FAIL_THRESHOLD,
+    HTTP_BACKOFF_BASE,
+    HTTP_BACKOFF_FACTOR,
+    HTTP_CACHE,
+    HTTP_MAX_RETRIES,
+    HTTP_TIMEOUT,
+    PROXY_REMOTE_DNS,
+    USER_AGENT,
+    effective_proxies,
+)
 from .ssrf_guard import check_url
 
 log = logging.getLogger("estorides.http")
@@ -55,8 +65,8 @@ def _redact_proxy(proxy: str) -> str:
 @dataclass
 class CircuitBreaker:
     """Per-host circuit breaker."""
-    failures: Dict[str, int] = field(default_factory=dict)
-    open_until: Dict[str, float] = field(default_factory=dict)
+    failures: dict[str, int] = field(default_factory=dict)
+    open_until: dict[str, float] = field(default_factory=dict)
 
     def allow(self, host: str) -> bool:
         until = self.open_until.get(host, 0.0)
@@ -97,8 +107,23 @@ class ResponseCache:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
+    @contextmanager
+    def _conn(self) -> Iterator[sqlite3.Connection]:
+        """Short-lived connection that is always closed.
+
+        `with sqlite3.connect(...)` only commits/rolls back — it does NOT
+        close the connection, so the old code leaked one connection per
+        cache read/write until GC.
+        """
+        con = sqlite3.connect(self.path)
+        try:
+            yield con
+            con.commit()
+        finally:
+            con.close()
+
     def _init_db(self) -> None:
-        with sqlite3.connect(self.path) as con:
+        with self._conn() as con:
             con.execute(
                 """
                 CREATE TABLE IF NOT EXISTS cache (
@@ -110,7 +135,7 @@ class ResponseCache:
             )
 
     @staticmethod
-    def _key(method: str, url: str, body: Optional[str]) -> str:
+    def _key(method: str, url: str, body: str | None) -> str:
         h = hashlib.sha256()
         h.update(method.upper().encode())
         h.update(b"\x00")
@@ -119,11 +144,11 @@ class ResponseCache:
         h.update((body or "").encode())
         return h.hexdigest()
 
-    def get(self, method: str, url: str, body: Optional[str]) -> Optional[Any]:
+    def get(self, method: str, url: str, body: str | None) -> Any | None:
         if not self.enabled or self.ttl_seconds <= 0:
             return None
         k = self._key(method, url, body)
-        with sqlite3.connect(self.path) as con:
+        with self._conn() as con:
             row = con.execute("SELECT v, ts FROM cache WHERE k=?", (k,)).fetchone()
         if not row:
             return None
@@ -135,11 +160,11 @@ class ResponseCache:
         except json.JSONDecodeError:
             return None
 
-    def set(self, method: str, url: str, body: Optional[str], value: Any) -> None:
+    def set(self, method: str, url: str, body: str | None, value: Any) -> None:
         if not self.enabled:
             return
         k = self._key(method, url, body)
-        with sqlite3.connect(self.path) as con:
+        with self._conn() as con:
             con.execute(
                 "INSERT OR REPLACE INTO cache (k, v, ts) VALUES (?, ?, ?)",
                 (k, json.dumps(value, ensure_ascii=False), time.time()),
@@ -155,10 +180,10 @@ class AsyncClient:
         timeout: float = HTTP_TIMEOUT,
         max_retries: int = HTTP_MAX_RETRIES,
         user_agent: str = USER_AGENT,
-        cache: Optional[ResponseCache] = None,
-        breaker: Optional[CircuitBreaker] = None,
+        cache: ResponseCache | None = None,
+        breaker: CircuitBreaker | None = None,
         max_parallel: int = 8,
-        proxies: Optional[list[str]] = None,
+        proxies: list[str] | None = None,
         proxy_remote_dns: bool = PROXY_REMOTE_DNS,
     ) -> None:
         self.timeout = aiohttp.ClientTimeout(total=timeout)
@@ -167,7 +192,7 @@ class AsyncClient:
         self.cache = cache or ResponseCache()
         self.breaker = breaker or CircuitBreaker()
         self._sem = asyncio.Semaphore(max_parallel)
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
         # Egress anonymisation. A caller may pass an explicit pool; otherwise
         # fall back to the env-configured proxy so anonymity stays on even
         # when the client is constructed directly.
@@ -178,8 +203,8 @@ class AsyncClient:
         self._proxy_idx: int = 0
 
     # ---------------------------------------------------- session lifecycle
-    async def __aenter__(self) -> "AsyncClient":
-        connector: Optional[aiohttp.BaseConnector] = None
+    async def __aenter__(self) -> AsyncClient:
+        connector: aiohttp.BaseConnector | None = None
         self._request_proxies = []
         if self._proxies:
             first = self._proxies[0]
@@ -222,7 +247,7 @@ class AsyncClient:
         )
         return self
 
-    def _next_http_proxy(self) -> Optional[str]:
+    def _next_http_proxy(self) -> str | None:
         """Round-robin the next HTTP proxy, or None (SOCKS/connector or direct)."""
         if not self._request_proxies:
             return None
@@ -247,17 +272,17 @@ class AsyncClient:
         method: str,
         url: str,
         *,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, Any]] = None,
-        body: Optional[Any] = None,
+        headers: dict[str, str] | None = None,
+        params: dict[str, Any] | None = None,
+        body: Any | None = None,
         use_cache: bool = True,
-    ) -> Tuple[Optional[Any], Dict[str, Any]]:
+    ) -> tuple[Any | None, dict[str, Any]]:
         """Fetch a URL. Returns (parsed_data, meta).
 
         meta contains status, content_type, cached, attempts, error.
         parsed_data is dict/list/str/None depending on content-type."""
         host = urlparse(url).netloc
-        meta: Dict[str, Any] = {
+        meta: dict[str, Any] = {
             "url": url,
             "method": method,
             "host": host,
@@ -289,7 +314,7 @@ class AsyncClient:
             return None, meta
 
         # Cache hit?
-        body_str: Optional[str] = None
+        body_str: str | None = None
         if isinstance(body, (dict, list)):
             body_str = json.dumps(body, sort_keys=True)
         elif isinstance(body, str):
@@ -301,7 +326,7 @@ class AsyncClient:
                 meta["status"] = 200
                 return cached, meta
 
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         async with self._sem:
             for attempt in range(1, self.max_retries + 1):
                 meta["attempts"] = attempt
@@ -357,7 +382,7 @@ class AsyncClient:
                 except aiohttp.ClientError as e:
                     last_exc = e
                     meta["error"] = str(e.__class__.__name__)
-                except Exception as e:  # noqa: BLE001
+                except Exception as e:
                     last_exc = e
                     meta["error"] = str(e)
                 await asyncio.sleep(HTTP_BACKOFF_BASE * (HTTP_BACKOFF_FACTOR ** (attempt - 1)))
@@ -376,13 +401,13 @@ def sync_fetch(
     method: str,
     url: str,
     *,
-    headers: Optional[Dict[str, str]] = None,
-    params: Optional[Dict[str, Any]] = None,
-    body: Optional[Any] = None,
+    headers: dict[str, str] | None = None,
+    params: dict[str, Any] | None = None,
+    body: Any | None = None,
     timeout: float = HTTP_TIMEOUT,
-    proxy: Optional[str] = None,
+    proxy: str | None = None,
     proxy_remote_dns: bool = PROXY_REMOTE_DNS,
-) -> Tuple[Optional[Any], Dict[str, Any]]:
+) -> tuple[Any | None, dict[str, Any]]:
     import requests
 
     # Resolve the egress proxy the same way the async client does: an
@@ -391,7 +416,7 @@ def sync_fetch(
     egress_proxy = proxies_pool[0] if proxies_pool else None
     proxy_active = egress_proxy is not None
 
-    meta: Dict[str, Any] = {"url": url, "method": method, "cached": False, "proxied": proxy_active}
+    meta: dict[str, Any] = {"url": url, "method": method, "cached": False, "proxied": proxy_active}
     # SSRF guard: never let the synchronous client become a pivot into the
     # private network even when it is used from CLI or notebook contexts.
     # Skip the DNS-resolving leg when proxying with remote DNS so the local

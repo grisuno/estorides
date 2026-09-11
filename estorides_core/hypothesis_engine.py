@@ -23,13 +23,16 @@ Public surface::
 """
 from __future__ import annotations
 
-import hashlib
 import logging
 from collections import defaultdict
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Protocol, TypeGuard, runtime_checkable
 
+from .ids import stable_id
+from .reliability_scoring import (
+    RELIABILITY_WEIGHT as _RELIABILITY_TO_WEIGHT,
+)
 from .reliability_scoring import (
     ConfidenceInput,
     SourceReliability,
@@ -156,8 +159,8 @@ def _hypothesis_id(
         ]
     )
     # SHA-1 is used here as a content-hash for deduplication, not for
-    # security. The 16-char prefix is the collision space we accept.
-    return hashlib.sha1(payload.encode("utf-8"), usedforsecurity=False).hexdigest()[:16]
+    # security (see estorides_core.ids).
+    return stable_id(payload)
 
 
 def _score(supporting: Sequence[Evidence], contradicting: Sequence[Evidence]) -> float:
@@ -272,7 +275,7 @@ def _domain_belongsto_actor(
                             source=src,
                             field=key,
                             value=value,
-                            weight=0.70 if rel == SourceReliability.C else _RELIABILITY_TO_WEIGHT[rel],
+                            weight=_RELIABILITY_TO_WEIGHT[rel],
                             reliability=rel,
                         )
                         if len(pairs[(d, actor)]) >= _MAX_EVIDENCE_PER_HYPOTHESIS:
@@ -325,18 +328,6 @@ def _domains_in_obs(obs: Mapping[str, Any]) -> list[str]:
             if isinstance(v, str) and v:
                 out.append(v.strip().lower())
     return out
-
-
-# Mapping from reliability to weight, kept here as a private constant
-# to avoid a circular import with the JSON-friendly public dict.
-_RELIABILITY_TO_WEIGHT: dict[SourceReliability, float] = {
-    SourceReliability.A: 1.00,
-    SourceReliability.B: 0.85,
-    SourceReliability.C: 0.70,
-    SourceReliability.D: 0.50,
-    SourceReliability.E: 0.30,
-    SourceReliability.F: 0.10,
-}
 
 
 def _email_aliases_person(

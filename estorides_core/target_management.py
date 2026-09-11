@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import hashlib
 import logging
 import re
 import time
 from typing import Any
+
+from .ids import stable_id
 
 log = logging.getLogger("estorides.target_mgmt")
 
@@ -126,8 +127,7 @@ def validate_target(etype: str, value: str) -> tuple[list[str], str]:
 
 
 def make_target_id(etype: str, value: str) -> str:
-    raw = f"{etype}:{value.strip().lower()}"
-    return hashlib.sha1(raw.encode("utf-8"), usedforsecurity=False).hexdigest()[:16]
+    return stable_id(f"{etype}:{value.strip().lower()}")
 
 
 class TargetResult:

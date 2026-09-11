@@ -25,15 +25,13 @@ rather than breaking a run.
 """
 from __future__ import annotations
 
-import sqlite3
-import threading
 import time
-from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterable, Iterator, List, Optional
+from typing import Iterable, List, Optional
 
 from .config import ENTITY_STORE_PATH
 from .entity_resolution import CanonicalEntity, normalize_value
+from .sqlite_store import SqliteStore
 
 _DDL: tuple = (
     """CREATE TABLE IF NOT EXISTS entities (
@@ -59,34 +57,11 @@ _DDL: tuple = (
 )
 
 
-class EntityStore:
+class EntityStore(SqliteStore):
     """Thread-safe SQLite repository of canonical identities and aliases."""
 
-    def __init__(self, path: Optional[Path] = None) -> None:
-        self.path = Path(path) if path else ENTITY_STORE_PATH
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
-        self._conn = sqlite3.connect(
-            str(self.path), check_same_thread=False, isolation_level=None
-        )
-        self._conn.execute("PRAGMA journal_mode=WAL")
-        self._init_schema()
-
-    def _init_schema(self) -> None:
-        with self._lock:
-            for stmt in _DDL:
-                self._conn.execute(stmt)
-
-    @contextmanager
-    def _tx(self) -> Iterator[sqlite3.Connection]:
-        with self._lock:
-            try:
-                self._conn.execute("BEGIN")
-                yield self._conn
-                self._conn.execute("COMMIT")
-            except Exception:
-                self._conn.execute("ROLLBACK")
-                raise
+    _DDL = _DDL
+    _DEFAULT_PATH = ENTITY_STORE_PATH
 
     def lookup(
         self, etype: str, normalized: str, aliases: Iterable[str]
@@ -175,10 +150,6 @@ class EntityStore:
                 "SELECT COUNT(*) FROM aliases"
             ).fetchone()[0]
         return {"entities": entities, "aliases": aliases, "db": str(self.path)}
-
-    def close(self) -> None:
-        with self._lock:
-            self._conn.close()
 
 
 def open_store(path: Optional[Path] = None) -> Optional[EntityStore]:

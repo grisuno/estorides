@@ -9,7 +9,6 @@ Pure transformation: List[Observation] + List[Entity] + Query -> FusionResult.
 """
 from __future__ import annotations
 
-import hashlib
 import math
 import time
 from dataclasses import dataclass, field
@@ -18,7 +17,11 @@ from typing import Any
 
 from .config import RECON_FUSION as _DEFAULT_RECON_FUSION
 from .config import ReconFusionConfig as ReconFusionConfig
-from .reliability_scoring import reliability_from_name
+from .ids import stable_id
+from .reliability_scoring import (
+    reliability_weight,
+    reliability_weight_for_letter,
+)
 
 
 class RelevanceTier(str, Enum):
@@ -108,27 +111,7 @@ def _normalize_value(etype: str, value: str) -> str:
 
 def _canonical_id(etype: str, value: str) -> str:
     """Deterministic sha1-based entity id matching fusion_store convention."""
-    norm = _normalize_value(etype, value)
-    return hashlib.sha1(norm.encode("utf-8"), usedforsecurity=False).hexdigest()[:16]
-
-
-def _reliability_weight(source_name: str, overrides: dict[str, str]) -> float:
-    """Map a source name to its numeric reliability weight.
-
-    Uses overrides first, then the curated reliability_scoring map.
-    Returns 0.7 (C, fairly reliable) as default for unknown sources.
-    """
-    from .reliability_scoring import RELIABILITY_WEIGHT, SourceReliability
-
-    lookup = overrides.get(source_name)
-    if lookup is None:
-        rel = reliability_from_name(source_name)
-    else:
-        try:
-            rel = SourceReliability(lookup)
-        except ValueError:
-            rel = SourceReliability.C
-    return RELIABILITY_WEIGHT.get(rel, 0.7)
+    return stable_id(_normalize_value(etype, value))
 
 
 def _corroboration_factor(source_count: int) -> float:
@@ -358,7 +341,7 @@ class ReconFusionEngine:
             direct = _direct_match_query(gvalue, query)
 
             avg_reliability = (
-                sum(_reliability_weight(s, overrides) for s in sources)
+                sum(reliability_weight(s, overrides) for s in sources)
                 / max(source_count, 1)
             )
             corroboration = _corroboration_factor(source_count)
@@ -420,9 +403,9 @@ class ReconFusionEngine:
         """
         cfg = self._cfg
 
-        high_min_w = _reliability_weight_for_letter(cfg.high_min_reliability)
-        medium_min_w = _reliability_weight_for_letter(cfg.medium_min_reliability)
-        noise_max_w = _reliability_weight_for_letter(cfg.noise_max_reliability)
+        high_min_w = reliability_weight_for_letter(cfg.high_min_reliability)
+        medium_min_w = reliability_weight_for_letter(cfg.medium_min_reliability)
+        noise_max_w = reliability_weight_for_letter(cfg.noise_max_reliability)
 
         if source_count >= cfg.critical_min_sources:
             return RelevanceTier.CRITICAL
@@ -438,17 +421,6 @@ class ReconFusionEngine:
             return RelevanceTier.LOW
 
         return RelevanceTier.NOISE
-
-
-def _reliability_weight_for_letter(letter: str) -> float:
-    """Convert a reliability letter (A-F) to its numeric weight."""
-    from .reliability_scoring import RELIABILITY_WEIGHT, SourceReliability
-
-    try:
-        rel = SourceReliability(letter.upper())
-    except ValueError:
-        return 0.7
-    return RELIABILITY_WEIGHT.get(rel, 0.7)
 
 
 __all__ = [

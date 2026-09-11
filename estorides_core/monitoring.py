@@ -24,12 +24,12 @@ import threading
 import time
 import uuid
 from collections.abc import Awaitable, Callable
-from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 from .config import DATA_DIR
+from .sqlite_store import SqliteStore
 
 log = logging.getLogger("estorides.monitoring")
 
@@ -152,35 +152,12 @@ class WatchTarget:
 # ---------------------------------------------------------------------------
 # WatchStore — SQLite persistence
 # ---------------------------------------------------------------------------
-class WatchStore:
+class WatchStore(SqliteStore):
     """Thread-safe SQLite store for watch targets."""
 
-    def __init__(self, path: Path | None = None) -> None:
-        self.path = path or MONITOR_DB
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
-        self._conn = sqlite3.connect(
-            str(self.path), check_same_thread=False, isolation_level=None
-        )
-        self._conn.execute("PRAGMA journal_mode=WAL")
-        self._conn.execute("PRAGMA foreign_keys=ON")
-        self._init_schema()
+    _DDL = _DDL
+    _DEFAULT_PATH = MONITOR_DB
 
-    def _init_schema(self) -> None:
-        with self._lock:
-            for stmt in _DDL:
-                self._conn.execute(stmt)
-
-    @contextmanager
-    def _tx(self):
-        with self._lock:
-            try:
-                self._conn.execute("BEGIN")
-                yield self._conn
-                self._conn.execute("COMMIT")
-            except Exception:
-                self._conn.execute("ROLLBACK")
-                raise
     # --------------------------------------------------------------- CRUD
     def create_watch(self, watch: WatchTarget) -> WatchTarget:
         """Persist a new watch target."""
@@ -295,12 +272,6 @@ class WatchStore:
                 "SELECT count(*) FROM watch_targets WHERE enabled=1"
             ).fetchone()[0]
         return {"total": total, "enabled": enabled}
-
-    def close(self) -> None:
-        try:
-            self._conn.close()
-        except Exception:
-            pass
 
 
 # ---------------------------------------------------------------------------

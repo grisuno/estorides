@@ -47,17 +47,15 @@ to "no fusion" rather than breaking a run.
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 import sqlite3
-import threading
 import time
-from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from .config import FUSION_DB_PATH
+from .ids import stable_id
 from .reliability_scoring import (
     ConfidenceInput,
     Credibility,
@@ -67,6 +65,7 @@ from .reliability_scoring import (
     reliability_from_name,
     source_type_from_name,
 )
+from .sqlite_store import SqliteStore
 
 try:
     from .entity_resolution import normalize_value
@@ -185,12 +184,10 @@ def entity_id(etype: str, value: str, normalized: Optional[str] = None) -> str:
     norm = normalized if normalized is not None else normalize_value(etype, value)
     if not norm:
         norm = (value or "").strip().lower()
-    return hashlib.sha1(
-        f"{etype}:{norm}".encode("utf-8"), usedforsecurity=False
-    ).hexdigest()[:16]
+    return stable_id(f"{etype}:{norm}")
 
 
-class FusionStore:
+class FusionStore(SqliteStore):
     """Thread-safe SQLite-backed fusion datastore.
 
     One serialised connection guarded by a lock, WAL journalling, and
@@ -198,32 +195,8 @@ class FusionStore:
     provenance, properties and edges.
     """
 
-    def __init__(self, path: Optional[Path] = None) -> None:
-        self.path = Path(path) if path else FUSION_DB_PATH
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
-        self._conn = sqlite3.connect(
-            str(self.path), check_same_thread=False, isolation_level=None
-        )
-        self._conn.execute("PRAGMA journal_mode=WAL")
-        self._conn.execute("PRAGMA foreign_keys=ON")
-        self._init_schema()
-
-    def _init_schema(self) -> None:
-        with self._lock:
-            for stmt in _DDL:
-                self._conn.execute(stmt)
-
-    @contextmanager
-    def _tx(self) -> Iterator[sqlite3.Connection]:
-        with self._lock:
-            try:
-                self._conn.execute("BEGIN")
-                yield self._conn
-                self._conn.execute("COMMIT")
-            except Exception:
-                self._conn.execute("ROLLBACK")
-                raise
+    _DDL = _DDL
+    _DEFAULT_PATH = FUSION_DB_PATH
 
     @staticmethod
     def _ensure_entity_stub(conn: sqlite3.Connection, etype: str, value: str) -> str:
@@ -746,14 +719,6 @@ class FusionStore:
             "by_type": {t: n for t, n in by_type},
             "db": str(self.path),
         }
-
-    def close(self) -> None:
-        with self._lock:
-            try:
-                self._conn.close()
-            except Exception:  # noqa: BLE001
-                pass
-
 
 def open_store(path: Optional[Path] = None) -> Optional[FusionStore]:
     """Open the fusion store, returning None instead of raising on failure.

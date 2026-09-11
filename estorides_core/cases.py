@@ -38,14 +38,13 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
-import threading
 import time
 import uuid
-from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from .config import DATA_DIR
+from .sqlite_store import SqliteStore
 
 log = logging.getLogger("estorides.cases")
 
@@ -109,7 +108,7 @@ _DDL: List[str] = [
 ]
 
 
-class CaseStore:
+class CaseStore(SqliteStore):
     """Thread-safe SQLite-backed case repository.
 
     SQLite is plenty for OSINT-sized workloads (a few thousand cases
@@ -118,35 +117,8 @@ class CaseStore:
     vars at the same path; otherwise we live in `estorides_cases.sqlite`
     next to it."""
 
-    def __init__(self, path: Optional[Path] = None) -> None:
-        self.path = Path(path) if path else DB_PATH
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
-        # check_same_thread=False: SQLite is in serialised mode by
-        # default in Python 3.12+, and we hold our own lock for
-        # cross-thread write ordering.
-        self._conn = sqlite3.connect(
-            str(self.path), check_same_thread=False, isolation_level=None
-        )
-        self._conn.execute("PRAGMA journal_mode=WAL")
-        self._conn.execute("PRAGMA foreign_keys=ON")
-        self._init_schema()
-
-    def _init_schema(self) -> None:
-        with self._lock:
-            for stmt in _DDL:
-                self._conn.execute(stmt)
-
-    @contextmanager
-    def _tx(self) -> Iterator[sqlite3.Connection]:
-        with self._lock:
-            try:
-                self._conn.execute("BEGIN")
-                yield self._conn
-                self._conn.execute("COMMIT")
-            except Exception:
-                self._conn.execute("ROLLBACK")
-                raise
+    _DDL = _DDL
+    _DEFAULT_PATH = DB_PATH
 
     # ----------------------------------------------------------- write API
     def create_case(
@@ -255,6 +227,16 @@ class CaseStore:
     def delete_case(self, case_id: str) -> None:
         with self._tx() as c:
             c.execute("DELETE FROM cases WHERE id=?", (case_id,))
+
+    def set_notes(self, case_id: str, notes: str) -> None:
+        """Overwrite the free-text `notes` column for a case.
+
+        Used by the UI "save/bookmark" gesture. Kept here (rather than
+        reaching into `_lock`/`_conn` from the route) so the store owns
+        its own transaction boundary.
+        """
+        with self._tx() as c:
+            c.execute("UPDATE cases SET notes=? WHERE id=?", (notes, case_id))
 
     # ----------------------------------------------------------- read API
     def get_case(self, case_id: str) -> Optional[Dict[str, Any]]:
@@ -446,12 +428,6 @@ class CaseStore:
             return json.loads(text)
         except (TypeError, ValueError):
             return None
-
-    def close(self) -> None:
-        try:
-            self._conn.close()
-        except Exception:  # noqa: BLE001
-            pass
 
 
 # Module-level singleton

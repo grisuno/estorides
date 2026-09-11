@@ -628,20 +628,19 @@ or via the `LLMManager` constructor.
 ## Tests
 
 ```bash
-# All tests, ~10s
-python3 _validate.py
+# All tests (pytest: BDD + ATDD + property-based fuzzing)
+pytest -q
 
 # Individual suites
-python3 _test_ssrf.py        # 20 SSRF cases
-python3 _test_validation.py  # 16 input-validation cases
-python3 _test_feeds.py       # 3 real-time feeds
-python3 _test_encryption.py  # age encryption + graceful degradation
-python3 _test_routes.py      # Flask route table
-python3 _multi_test.sh       # end-to-end: 5 query types through the orchestrator
+pytest tests/test_security_remediation.py   # SSRF, redirects, exception exposure
+pytest tests/test_parsers.py                # parser totality contract
+pytest tests/properties                     # hypothesis fuzzing (1000 ex/property)
+python3 _multi_test.sh                      # end-to-end: query types through the orchestrator
 ```
 
-The validator exits 0 only when every check passes. CI runners can
-`grep FAIL` to surface regressions.
+`pytest` is the single gate (also run by CI with `ruff`, `mypy --strict` and
+`bandit`). The old root-level `_validate.py` runner and its `_test_*.py`
+scripts were ported into `tests/` so every check runs under pytest/CI.
 
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)

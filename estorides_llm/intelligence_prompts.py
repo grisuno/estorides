@@ -30,8 +30,7 @@ care.
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List
-
+from typing import Any
 
 SYSTEM_PROMPT = """You are Estorides Intelligence Analyst — a senior, elite OSINT analyst embedded within the Estorides Global Intelligence Platform. You operate at the level of a Palantir Forward Deployed Engineer crossed with a CIA PDB (Presidential Daily Brief) analyst.
 
@@ -88,14 +87,14 @@ TACTICAL_PROMPT = """You are Estorides Tactical Analyst — an operator-grade in
 Each section must cite at least one source by name. No fabrication."""
 
 
-PROMPTS: Dict[str, str] = {
+PROMPTS: dict[str, str] = {
     "system": SYSTEM_PROMPT,
     "bluf": BLUF_PROMPT,
     "tactical": TACTICAL_PROMPT,
 }
 
 
-def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int = 3500, max_total_chars: int = 100_000) -> str:
+def format_context(sources: list[dict[str, Any]], *, max_chars_per_source: int = 3500, max_total_chars: int = 100_000) -> str:
     """Render a list of observation dicts into a context block for the LLM.
 
     The previous implementation truncated at 3500 chars but did not
@@ -118,7 +117,7 @@ def format_context(sources: List[Dict[str, Any]], *, max_chars_per_source: int =
     """
     if not sources:
         return "(no source observations)"
-    blocks: List[str] = []
+    blocks: list[str] = []
     total = 0
     for s in sorted(sources, key=lambda x: x.get("source", "")):
         # Hostile/empty input: drop error observations and sources that

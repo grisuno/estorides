@@ -19,11 +19,11 @@ import json
 import logging
 import sys
 import time
+from collections.abc import Callable
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, List
+from typing import TYPE_CHECKING, Any
 
-from estorides_core.config import (DATASET_PATH, FLASK_HOST, FLASK_PORT,
-                                   GRAPH_PATH, REPORTS_DIR)
+from estorides_core.config import DATASET_PATH, FLASK_HOST, FLASK_PORT, GRAPH_PATH, REPORTS_DIR
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator
 from estorides_core.validation import QueryValidationError, validate_query
@@ -43,7 +43,7 @@ def _setup_logging(verbose: bool) -> None:
                         datefmt="%H:%M:%S")
 
 
-def _collect_selectors(events: List[dict], types: tuple) -> dict:
+def _collect_selectors(events: list[dict], types: tuple) -> dict:
     """Group discovered entity values by type for the requested type set.
 
     Used to surface the human selectors (emails, usernames, persons, orgs,
@@ -98,8 +98,8 @@ async def cmd_discover(args: argparse.Namespace) -> int:
     Streams progress to stdout. The final case is dumped to
     --out-json if provided.
     """
-    from estorides_core.discoverer import start_discover
     from estorides_core.cases import store as case_store
+    from estorides_core.discoverer import start_discover
     seed_type = args.type
     if seed_type == "auto":
         from estorides_core.entity_extraction import detect_query_type
@@ -191,7 +191,7 @@ async def cmd_discover(args: argparse.Namespace) -> int:
             print(f"    - {d}")
         if len(surface['domains']) > 15:
             print(f"    … and {len(surface['domains']) - 15} more")
-    people = surface.get("people") or {}
+    people: dict[str, list[str]] = surface.get("people") or {}
     if people:
         total = sum(len(v) for v in people.values())
         print(f"\n  people/selectors ({total}):")
@@ -245,7 +245,7 @@ async def cmd_run(args: argparse.Namespace) -> int:
 
     # print summary
     s = result.get("graph", {}).get("summary", {})
-    print(f"\n=== Estorides Report ===")
+    print("\n=== Estorides Report ===")
     print(f"Query: {result['query']}")
     print(f"Sources queried: {result['sources_queried']} | succeeded: {result['sources_succeeded']}")
     print(f"Entities: {len(result['entities'])} | Graph: {s.get('node_count',0)} nodes / {s.get('edge_count',0)} edges")
@@ -253,10 +253,10 @@ async def cmd_run(args: argparse.Namespace) -> int:
     # top entities
     if result.get("graph", {}).get("top_entities"):
         print("\nTop entities (by degree):")
-        for e in result["graph"]["top_entities"][:15]:
-            etype = e.get("type") or "?"
-            value = str(e.get("value") or "")
-            score = e.get("score") or 0
+        for top_ent in result["graph"]["top_entities"][:15]:
+            etype = top_ent.get("type") or "?"
+            value = str(top_ent.get("value") or "")
+            score = top_ent.get("score") or 0
             print(f"  {etype:<14} {value:<50} score={score:.1f}")
 
     if result.get("analysis"):
@@ -286,8 +286,7 @@ def cmd_scope(args: argparse.Namespace) -> int:
     applies the in/out-of-scope rules, and emits the in-scope host/IP
     lists an operator pipes into the active phase. Out-of-scope assets are
     surfaced explicitly so they are never targeted by accident."""
-    from estorides_core.scope import (build_report, load_assets,
-                                       load_rules_file, write_flat_lists)
+    from estorides_core.scope import build_report, load_assets, load_rules_file, write_flat_lists
 
     assets_path = Path(args.assets)
     scope_path = Path(args.scope)
@@ -490,13 +489,13 @@ def cmd_fusion(args: argparse.Namespace) -> int:
 
 def cmd_watch_add(args: argparse.Namespace) -> int:
     """Add a new recurring watch target."""
+    from estorides_core.entity_extraction import detect_query_type
     from estorides_core.monitoring import (
         SCHEDULER_ENABLED,
         WatchTarget,
         scheduler,
         store,
     )
-    from estorides_core.entity_extraction import detect_query_type
 
     qtype = args.type
     if qtype == "auto":
@@ -530,7 +529,9 @@ def cmd_watch_add(args: argparse.Namespace) -> int:
     return 0
 
 
-def _watch_runner_factory(proxy: str | None = None, passive_only: bool = False) -> Callable:
+def _watch_runner_factory(
+    proxy: str | None = None, passive_only: bool = False
+) -> Callable[..., Any]:
     """Create an async watch runner wired to the Orchestrator.
 
     Returns an async function that takes a WatchTarget and returns
@@ -853,11 +854,11 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     _setup_logging(args.verbose)
-    return args.func(args)
+    return int(args.func(args))
 
 
 if __name__ == "__main__":

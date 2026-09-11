@@ -35,6 +35,8 @@ from estorides_core.reliability_scoring import (
     compute_confidence,
     merge_confidence,
     reliability_from_name,
+    reliability_weight,
+    reliability_weight_for_letter,
     source_type_from_name,
 )
 
@@ -684,3 +686,38 @@ class TestSourceTypeWeightsBounded:
         )
         result = compute_confidence(inp)
         assert result.source_type_weight == 0.60
+
+
+# ---------------------------------------------------------------------------
+# S16 — Shared reliability-weight helpers (DRY: single source of truth)
+# ---------------------------------------------------------------------------
+class TestReliabilityWeightHelpers:
+    """`reliability_weight*` centralise the mapping that used to be copied
+    into change_detection / recon_fusion / hypothesis_engine."""
+
+    def test_known_source_letter(self) -> None:
+        # A curated source maps through reliability_from_name.
+        rel = reliability_from_name("shodan")
+        assert reliability_weight("shodan") == RELIABILITY_WEIGHT[rel]
+
+    def test_unknown_source_falls_back_to_default(self) -> None:
+        assert reliability_weight("no-such-source-xyz") == (
+            RELIABILITY_WEIGHT[DEFAULT_RELIABILITY]
+        )
+
+    def test_override_wins(self) -> None:
+        assert reliability_weight("anything", {"anything": "A"}) == 1.00
+
+    def test_invalid_override_falls_back(self) -> None:
+        assert reliability_weight("anything", {"anything": "Z"}) == (
+            RELIABILITY_WEIGHT[DEFAULT_RELIABILITY]
+        )
+
+    def test_letter_helper(self) -> None:
+        assert reliability_weight_for_letter("B") == 0.85
+        assert reliability_weight_for_letter("z") == (
+            RELIABILITY_WEIGHT[DEFAULT_RELIABILITY]
+        )
+        assert reliability_weight_for_letter(None) == (
+            RELIABILITY_WEIGHT[DEFAULT_RELIABILITY]
+        )

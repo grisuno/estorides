@@ -34,7 +34,6 @@ The engine is stdlib-only. The optional cross-run identity store lives in
 """
 from __future__ import annotations
 
-import hashlib
 import ipaddress
 import re
 from dataclasses import dataclass, field
@@ -42,6 +41,7 @@ from typing import Dict, List, Optional, Tuple
 
 from .config import (ER_LINK_THRESHOLD, ER_MAX_BUCKET, ER_MERGE_THRESHOLD)
 from .entity_extraction import Entity
+from .ids import stable_id
 from .transliteration import consonant_skeleton, is_non_latin, to_latin
 
 # Types whose identity is exact: a single differing character denotes a
@@ -251,10 +251,7 @@ def canonical_id(etype: str, normalized: str) -> str:
     The persistent store additionally maps known aliases onto an existing
     id so a never-before-seen surface form still resolves to the same node.
     """
-    digest = hashlib.sha1(
-        f"{etype}:{normalized}".encode("utf-8"), usedforsecurity=False
-    ).hexdigest()
-    return f"{etype}:{digest[:16]}"
+    return f"{etype}:{stable_id(f'{etype}:{normalized}')}"
 
 
 def blocking_keys(etype: str, normalized: str, value: str) -> List[str]:

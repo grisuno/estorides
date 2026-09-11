@@ -23,30 +23,8 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from enum import Enum
 
-
-# --------------------------------------------------------------------------- helpers (module-level, no _env_* to keep pure)
-def _env_float(name: str, default: float) -> float:
-    """Read a float env var, falling back to default on absence/error."""
-    import os
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    try:
-        return float(raw)
-    except ValueError:
-        return default
-
-
-def _env_int(name: str, default: int) -> int:
-    """Read an int env var, falling back to default on absence/error."""
-    import os
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    try:
-        return int(raw)
-    except ValueError:
-        return default
+from .envutil import env_float as _env_float
+from .envutil import env_int as _env_int
 
 
 # --------------------------------------------------------------------------- enums

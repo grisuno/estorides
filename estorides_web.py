@@ -69,6 +69,36 @@ log = logging.getLogger("estorides.web")
 _tool_install_state: dict[str, dict[str, Any]] = {}
 _tool_install_lock = threading.Lock()
 
+
+# Server-sent-events framing, defined once and reused by every stream route.
+_SSE_HEADERS: dict[str, str] = {
+    "Cache-Control": "no-cache",
+    "X-Accel-Buffering": "no",
+    "Connection": "keep-alive",
+}
+
+
+def _sse_response(gen: Any) -> Response:
+    """Wrap an event generator in an SSE `Response` with the shared headers."""
+    return Response(gen, mimetype="text/event-stream", headers=dict(_SSE_HEADERS))
+
+
+def _provides(service: Any, message: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    """Guard a route on an optional service being wired.
+
+    Replaces the ~30 hand-written `if x is None: return ..., 503` blocks
+    scattered through `create_app`. `service` is captured at decoration
+    time (it is assigned once before the routes are declared).
+    """
+    def deco(view: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(view)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            if service is None:
+                return jsonify({"error": message}), 503
+            return view(*args, **kwargs)
+        return wrapper
+    return deco
+
 # We bind helpers at module level so they can be re-used in tests
 # without going through the Flask app factory.
 
@@ -308,18 +338,17 @@ def create_app() -> Flask:
 
         def _worker() -> None:
             result = None
-            exc_msg = ""
             try:
                 result = install_tool(name, binary=binary, force=force)
-            except Exception as exc:  # noqa: BLE001
+            except Exception:
                 log.exception("tool install %s raised", name)
-                exc_msg = str(exc)
             with _tool_install_lock:
                 _tool_install_state[name] = {
                     "running": False,
                     "result": result.to_dict() if result is not None else {
                         "tool_name": name, "success": False, "method": None,
-                        "output": "", "error": f"install raised: {exc_msg}",
+                        # CWE-209: never echo the raw exception to the client.
+                        "output": "", "error": "install raised; see server logs",
                     },
                 }
 
@@ -585,9 +614,8 @@ def create_app() -> Flask:
     @app.route("/api/cases", methods=["GET"])
     @_rate_limit_decorator(event="api_cases")
     @require_auth
+    @_provides(case_store, "case store unavailable")
     def api_cases_list() -> Any:
-        if case_store is None:
-            return jsonify({"error": "case store unavailable"}), 503
         q = request.args.get("q", "").strip()
         qt = request.args.get("type", "").strip()
         limit = _arg_int("limit", WEB.cases_default_limit)
@@ -599,9 +627,8 @@ def create_app() -> Flask:
     @app.route("/api/cases/<case_id>", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_get")
     @require_auth
+    @_provides(case_store, "case store unavailable")
     def api_cases_get(case_id: str) -> Any:
-        if case_store is None:
-            return jsonify({"error": "case store unavailable"}), 503
         case = case_store.get_case(case_id)
         if not case:
             return jsonify({"error": "not-found"}), 404
@@ -614,15 +641,15 @@ def create_app() -> Flask:
     @app.route("/api/cases/<case_id>", methods=["DELETE"])
     @_rate_limit_decorator(event="api_cases_delete")
     @require_auth
+    @_provides(case_store, "case store unavailable")
     def api_cases_delete(case_id: str) -> Any:
-        if case_store is None:
-            return jsonify({"error": "case store unavailable"}), 503
         case_store.delete_case(case_id)
         return jsonify({"deleted": case_id})
 
     @app.route("/api/cases/<case_id>/save", methods=["POST"])
     @_rate_limit_decorator(event="api_cases_save")
     @require_auth
+    @_provides(case_store, "case store unavailable")
     def api_cases_save(case_id: str) -> Any:
         """Bookmark a case from the UI.
 
@@ -633,25 +660,19 @@ def create_app() -> Flask:
         gesture: in v1 the only durable artefact was the case id; in
         v1.3 we want the user to be able to tag their wins.
         """
-        if case_store is None:
-            return jsonify({"error": "case store unavailable"}), 503
         case = case_store.get_case(case_id)
         if not case:
             return jsonify({"error": "not-found"}), 404
         body = request.get_json(silent=True) or {}
         note = (body.get("note") or "").strip()
         bookmark = "[saved] " + (note or case.get("query", ""))
-        with case_store._lock:
-            case_store._conn.execute(
-                "UPDATE cases SET notes=? WHERE id=?",
-                (bookmark, case_id),
-            )
-            case_store._conn.commit()
+        case_store.set_notes(case_id, bookmark)
         return jsonify(case_store.get_case(case_id))
 
     @app.route("/api/cases/diff", methods=["GET"])
     @_rate_limit_decorator(event="api_cases_diff")
     @require_auth
+    @_provides(case_store, "case store unavailable")
     def api_cases_diff() -> Any:
         """Symmetric diff between two cases by entity (type, value).
 
@@ -660,8 +681,6 @@ def create_app() -> Flask:
         inverse ("removed"), and the per-type breakdown. The UI uses
         this to show "what's new since last run" without a re-query.
         """
-        if case_store is None:
-            return jsonify({"error": "case store unavailable"}), 503
         a = (request.args.get("a") or "").strip()
         b = (request.args.get("b") or "").strip()
         if not a or not b:
@@ -678,6 +697,7 @@ def create_app() -> Flask:
     @app.route("/api/intel/resolve", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_resolve")
     @require_auth
+    @_provides(intel_resolver, "intel resolver unavailable")
     def api_intel_resolve() -> Any:
         """Cross-feed entity resolution (Osiris-style /resolve).
 
@@ -686,8 +706,6 @@ def create_app() -> Flask:
           GET /api/intel/resolve?type=person&id=Tim%20Cook
           GET /api/intel/resolve?type=cve&id=CVE-2024-3094
         """
-        if intel_resolver is None:
-            return jsonify({"error": "intel resolver unavailable"}), 503
         ent_type = request.args.get("type", "").strip().lower()
         ent_id = request.args.get("id", "").strip()
         if not ent_type or not ent_id:
@@ -718,14 +736,13 @@ def create_app() -> Flask:
     @app.route("/api/intel/graph", methods=["GET"])
     @_rate_limit_decorator(event="api_intel_graph")
     @require_auth
+    @_provides(kuzu_backend, "kuzu backend unavailable")
     def api_intel_graph() -> Any:
         """Cypher query against the Kùzu persistent graph.
 
         Examples:
           GET /api/intel/graph?q=MATCH%20(n%3AEnt)%20RETURN%20n.id%20LIMIT%2010
         """
-        if kuzu_backend is None:
-            return jsonify({"error": "kuzu backend unavailable"}), 503
         q = request.args.get("q", "").strip()
         if not q:
             return jsonify({
@@ -779,25 +796,24 @@ def create_app() -> Flask:
     # ----- fusion datastore (cross-run fused fact base) -----
     @app.route("/api/fusion/stats", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_stats")
+    @_provides(fusion_store, "fusion store unavailable")
     def api_fusion_stats() -> Any:
         """One-glance dashboard of the fused, cross-run fact base."""
-        if fusion_store is None:
-            return jsonify({"error": "fusion store unavailable"}), 503
         return jsonify(fusion_store.stats())
 
     @app.route("/api/fusion/sources", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_sources")
     @require_auth
+    @_provides(fusion_store, "fusion store unavailable")
     def api_fusion_sources() -> Any:
         """The YAML source catalogue with accumulated fetch/ok counters."""
-        if fusion_store is None:
-            return jsonify({"error": "fusion store unavailable"}), 503
         limit = min(max(_arg_int("limit", 200), 1), 500)
         return jsonify({"sources": fusion_store.list_sources(limit=limit)})
 
     @app.route("/api/fusion/entities", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entities")
     @require_auth
+    @_provides(fusion_store, "fusion store unavailable")
     def api_fusion_entities() -> Any:
         """Search fused entities.
 
@@ -805,8 +821,6 @@ def create_app() -> Flask:
         ``min_sources`` is the fusion-native filter: only entities that at
         least N distinct feeds corroborate.
         """
-        if fusion_store is None:
-            return jsonify({"error": "fusion store unavailable"}), 503
         term = request.args.get("q", "").strip()
         etype = request.args.get("type", "").strip()
         min_sources = max(_arg_int("min_sources", 0), 0)
@@ -820,14 +834,13 @@ def create_app() -> Flask:
     @app.route("/api/fusion/entity/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_entity")
     @require_auth
+    @_provides(fusion_store, "fusion store unavailable")
     def api_fusion_entity(eid: str) -> Any:
         """Full fused view of one entity: provenance, properties, edges.
 
         ``min_sources`` (default 2) also returns the corroborated properties:
         attributes that independent feeds agree on.
         """
-        if fusion_store is None:
-            return jsonify({"error": "fusion store unavailable"}), 503
         entity = fusion_store.get_entity(eid)
         if entity is None:
             return jsonify({"error": "not found"}), 404
@@ -839,9 +852,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/entity-timeline/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_entity_timeline")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_entity_timeline(eid: str) -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         result = fusion_analytics.entity_timeline(eid)
         if result is None:
             return jsonify({"error": "not found"}), 404
@@ -850,9 +862,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/entity-summary/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_entity_summary")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_entity_summary(eid: str) -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         result = fusion_analytics.entity_summary(eid)
         if result is None:
             return jsonify({"error": "not found"}), 404
@@ -861,9 +872,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/source-stats/<source_name>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_source_stats")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_source_stats(source_name: str) -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         result = fusion_analytics.source_stats(source_name)
         if result is None:
             return jsonify({"error": "not found"}), 404
@@ -872,9 +882,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/consensus/<eid>", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_consensus")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_consensus(eid: str) -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         key = request.args.get("key", "").strip()
         if not key:
             return jsonify({"error": "key parameter required"}), 400
@@ -883,9 +892,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/top-changed", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_top_changed")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_top_changed() -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         days = max(1, min(365, _arg_int("days", 7)))
         limit = max(1, min(200, _arg_int("limit", 20)))
         return jsonify({"entities": fusion_analytics.top_changed(days=days, limit=limit)})
@@ -994,9 +1002,8 @@ def create_app() -> Flask:
     @app.route("/api/fusion/analytics/corroboration-matrix", methods=["GET"])
     @_rate_limit_decorator(event="api_fusion_analytics_corroboration_matrix")
     @require_auth
+    @_provides(fusion_analytics, "fusion analytics unavailable")
     def api_fusion_analytics_corroboration_matrix() -> Any:
-        if fusion_analytics is None:
-            return jsonify({"error": "fusion analytics unavailable"}), 503
         limit = max(1, min(100, _arg_int("limit", 20)))
         return jsonify({"pairs": fusion_analytics.source_corroboration_matrix(limit=limit)})
 
@@ -1009,6 +1016,7 @@ def create_app() -> Flask:
     @app.route("/api/socmint/resolve", methods=["GET"])
     @_rate_limit_decorator(event="api_socmint_resolve")
     @require_auth
+    @_provides(socmint_inferer, "socmint inferer unavailable")
     def api_socmint_resolve() -> Any:
         """Resolve a username across known social media platforms.
 
@@ -1017,8 +1025,6 @@ def create_app() -> Flask:
 
         Returns a SocialMediaProfile with profile URLs for every platform.
         """
-        if socmint_inferer is None:
-            return jsonify({"error": "socmint inferer unavailable"}), 503
         username = request.args.get("username", "").strip()
         if not username:
             return jsonify({"error": "username parameter required"}), 400
@@ -1032,22 +1038,20 @@ def create_app() -> Flask:
     @app.route("/api/socmint/platforms", methods=["GET"])
     @_rate_limit_decorator(event="api_socmint_platforms")
     @require_auth
+    @_provides(socmint_inferer, "socmint inferer unavailable")
     def api_socmint_platforms() -> Any:
         """Return the list of all known social media platforms."""
-        if socmint_inferer is None:
-            return jsonify({"error": "socmint inferer unavailable"}), 503
         return jsonify({"platforms": socmint_inferer.platform_list()})
 
     @app.route("/api/socmint/discover", methods=["POST"])
     @_rate_limit_decorator(event="api_socmint_discover")
     @require_auth
+    @_provides(socmint_inferer, "socmint inferer unavailable")
     def api_socmint_discover() -> Any:
         """Extract social media profile URLs from a text blob.
 
         Body: {"text": "Follow me on Twitter: https://x.com/johndoe"}
         """
-        if socmint_inferer is None:
-            return jsonify({"error": "socmint inferer unavailable"}), 503
         body = request.get_json(silent=True) or {}
         text = str(body.get("text") or "")
         result = socmint_inferer.discover_from_text(text)
@@ -1055,9 +1059,9 @@ def create_app() -> Flask:
 
     # ----- monitoring endpoints (v1.4) -----
     try:
-        from estorides_core.monitoring import store as watch_store
-        from estorides_core.monitoring import scheduler as watch_scheduler
         from estorides_core.monitoring import WatchTarget as _WT
+        from estorides_core.monitoring import scheduler as watch_scheduler
+        from estorides_core.monitoring import store as watch_store
         # Wire the orchestrator as the watch scheduler's runner so
         # scheduled watches actually execute queries instead of being
         # decorative CRUD records.
@@ -1085,23 +1089,21 @@ def create_app() -> Flask:
     @app.route("/api/watch", methods=["GET"])
     @_rate_limit_decorator(event="api_watch_list")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_list() -> Any:
         """List all watch targets."""
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watches = [w.to_dict() for w in watch_store.list_watches()]
         return jsonify({"watches": watches, "total": len(watches)})
 
     @app.route("/api/watch", methods=["POST"])
     @_rate_limit_decorator(event="api_watch_create")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_create() -> Any:
         """Create a new watch target.
 
         Body: {"query": "example.com", "type": "domain", "interval": 1440, "channels": ["slack"], "notes": "..."}
         """
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         from estorides_core.monitoring import WatchTarget as WT
         body = request.get_json(silent=True) or {}
         query = str(body.get("query") or "").strip()
@@ -1130,9 +1132,8 @@ def create_app() -> Flask:
     @app.route("/api/watch/<watch_id>", methods=["GET"])
     @_rate_limit_decorator(event="api_watch_get")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_get(watch_id: str) -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watch = watch_store.get_watch(watch_id)
         if not watch:
             return jsonify({"error": "not-found"}), 404
@@ -1143,9 +1144,8 @@ def create_app() -> Flask:
     @app.route("/api/watch/<watch_id>", methods=["DELETE"])
     @_rate_limit_decorator(event="api_watch_delete")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_delete(watch_id: str) -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watch = watch_store.get_watch(watch_id)
         if not watch:
             return jsonify({"error": "not-found"}), 404
@@ -1155,9 +1155,8 @@ def create_app() -> Flask:
     @app.route("/api/watch/<watch_id>/enable", methods=["POST"])
     @_rate_limit_decorator(event="api_watch_enable")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_enable(watch_id: str) -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watch = watch_store.get_watch(watch_id)
         if not watch:
             return jsonify({"error": "not-found"}), 404
@@ -1169,9 +1168,8 @@ def create_app() -> Flask:
     @app.route("/api/watch/<watch_id>/disable", methods=["POST"])
     @_rate_limit_decorator(event="api_watch_disable")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_disable(watch_id: str) -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watch = watch_store.get_watch(watch_id)
         if not watch:
             return jsonify({"error": "not-found"}), 404
@@ -1182,9 +1180,8 @@ def create_app() -> Flask:
     @app.route("/api/watch/<watch_id>/history", methods=["GET"])
     @_rate_limit_decorator(event="api_watch_history")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_watch_history(watch_id: str) -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         watch = watch_store.get_watch(watch_id)
         if not watch:
             return jsonify({"error": "not-found"}), 404
@@ -1193,22 +1190,20 @@ def create_app() -> Flask:
     @app.route("/api/alerts/channels", methods=["GET"])
     @_rate_limit_decorator(event="api_alerts_channels")
     @require_auth
+    @_provides(alert_dispatcher, "alerter unavailable")
     def api_alerts_channels() -> Any:
         """List configured alert channels and their status."""
-        if alert_dispatcher is None:
-            return jsonify({"error": "alerter unavailable"}), 503
         return jsonify({"channels": alert_dispatcher.available_channels()})
 
     @app.route("/api/alerts/test", methods=["POST"])
     @_rate_limit_decorator(event="api_alerts_test")
     @require_auth
+    @_provides(alert_dispatcher, "alerter unavailable")
     def api_alerts_test() -> Any:
         """Send a test alert to a channel.
 
         Body: {"channel": "slack"}
         """
-        if alert_dispatcher is None:
-            return jsonify({"error": "alerter unavailable"}), 503
         body = request.get_json(silent=True) or {}
         channel = str(body.get("channel") or "").strip()
         if not channel:
@@ -1219,9 +1214,8 @@ def create_app() -> Flask:
     @app.route("/api/scheduler/status", methods=["GET"])
     @_rate_limit_decorator(event="api_scheduler_status")
     @require_auth
+    @_provides(watch_store, "monitoring unavailable")
     def api_scheduler_status() -> Any:
-        if watch_store is None:
-            return jsonify({"error": "monitoring unavailable"}), 503
         stats = watch_store.stats()
         running = watch_scheduler.running if watch_scheduler is not None else False
         return jsonify({
@@ -1238,13 +1232,12 @@ def create_app() -> Flask:
 
     @app.route("/api/transforms", methods=["GET"])
     @_rate_limit_decorator(event="api_transforms")
+    @_provides(transform_registry, "transforms unavailable")
     def api_transforms() -> Any:
         """List the transforms applicable to an entity type.
 
         Example: GET /api/transforms?type=ip
         """
-        if transform_registry is None:
-            return jsonify({"error": "transforms unavailable"}), 503
         ent_type = request.args.get("type", "").strip()
         if not ent_type:
             return jsonify({"error": "missing type"}), 400
@@ -1253,13 +1246,12 @@ def create_app() -> Flask:
     @app.route("/api/transform/run", methods=["POST"])
     @_rate_limit_decorator(event="api_transform_run")
     @require_auth
+    @_provides(transform_registry, "transforms unavailable")
     def api_transform_run() -> Any:
         """Run one transform and return nodes/links for graph merge.
 
         Body: {"transform_id": "...", "type": "ip", "value": "1.2.3.4"}
         """
-        if transform_registry is None:
-            return jsonify({"error": "transforms unavailable"}), 503
         body = request.get_json(silent=True) or {}
         tid = (body.get("transform_id") or "").strip()
         ent_type = (body.get("type") or "").strip()
@@ -1282,9 +1274,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/bgp", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_bgp")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_bgp() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         q = request.args.get("query", "").strip()
         if not q:
             return jsonify({"error": "missing query (IP or ASxxxxx)"}), 400
@@ -1297,9 +1288,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/mac", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_mac")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_mac() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         mac = request.args.get("mac", "").strip()
         if not mac:
             return jsonify({"error": "missing mac"}), 400
@@ -1312,9 +1302,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/phone", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_phone")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_phone() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         n = request.args.get("number", "").strip()
         if not n:
             return jsonify({"error": "missing number"}), 400
@@ -1327,9 +1316,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/github", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_github")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_github() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         u = request.args.get("user", "").strip()
         if not u:
             return jsonify({"error": "missing user"}), 400
@@ -1342,9 +1330,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/leaks", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_leaks")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_leaks() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         e = request.args.get("email", "").strip()
         if not e:
             return jsonify({"error": "missing email"}), 400
@@ -1357,9 +1344,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/cisa-kev", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_kev")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_kev() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         limit = _arg_int("limit", 10)
         days = _arg_int("days", 30)
         return jsonify(osiris_sources.fetch_cisa_kev(limit=limit, days=days))
@@ -1367,9 +1353,8 @@ def create_app() -> Flask:
     @app.route("/api/osiris/malware", methods=["GET"])
     @_rate_limit_decorator(event="api_osiris_malware")
     @require_auth
+    @_provides(osiris_sources, "osiris sources unavailable")
     def api_osiris_malware() -> Any:
-        if osiris_sources is None:
-            return jsonify({"error": "osiris sources unavailable"}), 503
         limit = _arg_int("limit", 200)
         return jsonify(osiris_sources.fetch_malware_c2(limit=limit))
 
@@ -1490,13 +1475,8 @@ def create_app() -> Flask:
                     last_status = job.status
                 time.sleep(STREAM.poll_interval_seconds)
 
-        # The right content type for SSE + disable buffering so
-        # Flask doesn't accumulate events into a single response.
-        return Response(gen(), mimetype="text/event-stream", headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-            "Connection": "keep-alive",
-        })
+        # SSE framing + no buffering so Flask doesn't accumulate events.
+        return _sse_response(gen())
 
     # ------------------------------------------------- v1.3 deep-run stream
     # Recursive, scored, fusion-style cross-search that streams every
@@ -1622,11 +1602,7 @@ def create_app() -> Flask:
                     return
                 time.sleep(STREAM.poll_interval_seconds)
 
-        return Response(gen(), mimetype="text/event-stream", headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-            "Connection": "keep-alive",
-        })
+        return _sse_response(gen())
 
     # ------------------------------------------------- streaming LLM analysis
     # Re-run an intelligence assessment against a chosen local model and
@@ -1656,9 +1632,10 @@ def create_app() -> Flask:
                     context=observations, model=model, request_timeout=timeout,
                 ):
                     q_in.put(chunk)
-            except Exception as exc:  # noqa: BLE001
-                log.warning("analyze stream failed: %s", exc)
-                q_in.put({"kind": "error", "text": str(exc)})
+            except Exception:
+                # CWE-209: log the detail server-side, stream a generic error.
+                log.exception("analyze stream failed")
+                q_in.put({"kind": "error", "text": "analysis failed; see server logs"})
             finally:
                 q_in.put({"kind": "done"})
 
@@ -1680,11 +1657,7 @@ def create_app() -> Flask:
                     return
                 yield f"data: {json.dumps(chunk)}\n\n"
 
-        return Response(gen(), mimetype="text/event-stream", headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-            "Connection": "keep-alive",
-        })
+        return _sse_response(gen())
 
     return app
 

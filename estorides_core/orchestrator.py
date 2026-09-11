@@ -598,7 +598,12 @@ class Orchestrator:
                     merged, key=lambda e: e.confidence, reverse=True
                 )[:5]
                 for ent in top:
-                    res = intel_resolver.resolve(ent.type, ent.value)
+                    # resolve() does blocking requests.get() calls; offload
+                    # to a worker thread so enrichment cannot stall the
+                    # event loop (and every other in-flight coroutine).
+                    res = await asyncio.to_thread(
+                        intel_resolver.resolve, ent.type, ent.value
+                    )
                     enrichment[f"{ent.type}:{ent.value}"] = res
                     # Also mirror the resolver's nodes/edges into Kùzu.
                     if kuzu_backend is not None:
@@ -691,58 +696,78 @@ class Orchestrator:
         on_done: Optional[Any] = None,
         on_result: Optional[Any] = None,
     ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
+        """Dispatch a source to its execution strategy."""
+        if source["tool"].get("binary"):
+            return await self._run_system_app(source, query, on_result=on_result)
+        return await self._run_http_source(
+            client, source, query, on_done=on_done, on_result=on_result
+        )
+
+    async def _run_system_app(
+        self,
+        source: Source,
+        query: str,
+        on_result: Optional[Any] = None,
+    ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
+        """Run a `system_app` source through the tool_runner sandbox."""
+        from .system_app_sources import execute as execute_system_app
+
+        tool = source["tool"]
+        binary_name = tool.get("binary")
+        timeout = int(tool.get("timeout", 300))
+        log.info("system_app: executing %s for query=%s", binary_name, query)
+        # run_tool blocks on a subprocess — offload to a worker thread so
+        # a slow Kali tool cannot freeze the event loop and stall every
+        # other source's fanout (HTTP sources run concurrently here).
+        raw_result = await asyncio.to_thread(
+            execute_system_app, source, query, timeout=timeout
+        )
+
+        meta = {
+            "source": source["name"],
+            "page": 1,
+            "tool_binary": binary_name,
+            "exit_code": raw_result.exit_code,
+            "duration_s": raw_result.duration_s,
+            "tool_sha1": raw_result.raw_output_sha1,
+        }
+        if raw_result.error_code:
+            # Failures are error observations (case store, UI, health),
+            # never exceptions — one missing tool cannot poison a run.
+            meta["error"] = raw_result.error_code
+            meta["error_detail"] = raw_result.error_message or ""
+        parsed = raw_result.parsed
+        stdout_data = raw_result.stdout if raw_result.stdout else None
+        if raw_result.error_code:
+            stdout_data = None
+
+        if on_result is not None:
+            try:
+                on_result({
+                    "source": source["name"],
+                    "category": source["category"],
+                    "description": source["description"],
+                    "parser": source["parser"],
+                    "parsed": parsed,
+                    "meta": meta,
+                    "observed_at": time.time(),
+                })
+            except Exception:  # never let a subscriber break the run
+                pass
+
+        return source, parsed, stdout_data, meta
+
+    async def _run_http_source(
+        self,
+        client: AsyncClient,
+        source: Source,
+        query: str,
+        on_done: Optional[Any] = None,
+        on_result: Optional[Any] = None,
+    ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
         from .pagination import PaginationConfig, build_page_params, count_results
 
         tool = source["tool"]
-
-        # CLI tool source: invoke via system_app_sources (tool_runner sandbox).
-        binary_name = tool.get("binary")
-        if binary_name:
-            from .system_app_sources import execute as execute_system_app
-
-            timeout = int(tool.get("timeout", 300))
-            log.info("system_app: executing %s for query=%s", binary_name, query)
-            # run_tool blocks on a subprocess — offload to a worker thread so
-            # a slow Kali tool cannot freeze the event loop and stall every
-            # other source's fanout (HTTP sources run concurrently here).
-            raw_result = await asyncio.to_thread(
-                execute_system_app, source, query, timeout=timeout
-            )
-
-            meta = {
-                "source": source["name"],
-                "page": 1,
-                "tool_binary": binary_name,
-                "exit_code": raw_result.exit_code,
-                "duration_s": raw_result.duration_s,
-                "tool_sha1": raw_result.raw_output_sha1,
-            }
-            if raw_result.error_code:
-                # Failures are error observations (case store, UI, health),
-                # never exceptions — one missing tool cannot poison a run.
-                meta["error"] = raw_result.error_code
-                meta["error_detail"] = raw_result.error_message or ""
-            parsed = raw_result.parsed
-            stdout_data = raw_result.stdout if raw_result.stdout else None
-            if raw_result.error_code:
-                stdout_data = None
-
-            if on_result is not None:
-                try:
-                    on_result({
-                        "source": source["name"],
-                        "category": source["category"],
-                        "description": source["description"],
-                        "parser": source["parser"],
-                        "parsed": parsed,
-                        "meta": meta,
-                        "observed_at": time.time(),
-                    })
-                except Exception:  # never let a subscriber break the run
-                    pass
-
-            return source, parsed, stdout_data, meta
-
         method = (tool.get("method") or "GET").upper()
         api_key = _resolve_auth(source)
 
@@ -842,6 +867,37 @@ class Orchestrator:
 
         last_meta["pages"] = total_pages
         return source, last_parsed, last_data, last_meta
+
+    @staticmethod
+    def _extract_cursor(data: Any, cfg: Any) -> Optional[str]:
+        """Extract the next-page cursor from a parsed response body."""
+        from .pagination import extract_cursor
+        return extract_cursor(data, cfg)
+
+    def _infer_relationships(self, observations: List[Dict[str, Any]], query: str) -> None:
+        """Delegate each observation to its registered inferer.
+
+        The previous version of this method was a 90-line `if/elif`
+        chain hard-coded to specific source names. The new version
+        walks the inferer registry; sources with no inferer are
+        silently skipped. Adding a new inferer is now: write a
+        function and `@register_inferer("source_name")` it. No edits
+        to this method.
+        """
+        for obs in observations:
+            infer_relationship(obs, query, self.kg)
+
+    def _write_dataset(self, query: str, observations, entities, analysis):
+        record = {
+            "query": query,
+            "timestamp": time.time(),
+            "observation_count": len(observations),
+            "entities": [e.to_dict() for e in entities],
+            "analysis": analysis,
+            "graph_summary": self.kg.summary(),
+        }
+        with DATASET_PATH.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
 
     @staticmethod
     def _extract_cursor(data: Any, cfg: Any) -> Optional[str]:

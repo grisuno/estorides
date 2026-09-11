@@ -20,60 +20,16 @@ logs, instead of crashing the whole process at import time).
 """
 from __future__ import annotations
 
-import logging
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
-_log = logging.getLogger("estorides.config")
-
-
-def _env_int(name: str, default: int) -> int:
-    """Read an int env var, falling back to `default` on absence/parse error."""
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    try:
-        return int(raw)
-    except ValueError:
-        _log.warning("env %s=%r is not an int, using default %d", name, raw, default)
-        return default
-
-
-def _env_float(name: str, default: float) -> float:
-    """Read a float env var, falling back to `default` on absence/parse error."""
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    try:
-        return float(raw)
-    except ValueError:
-        _log.warning("env %s=%r is not a float, using default %s", name, raw, default)
-        return default
-
-
-_TRUE_TOKENS = frozenset(("1", "true", "yes", "on"))
-_FALSE_TOKENS = frozenset(("0", "false", "no", "off"))
-
-
-def _env_bool(name: str, default: bool) -> bool:
-    """Read a boolean env var. Truthy tokens: 1/true/yes/on (case-insensitive).
-
-    An unrecognised token falls back to `default` and logs, rather than
-    silently meaning "false" — the same fault-tolerant posture as the
-    typed int/float readers.
-    """
-    raw = os.environ.get(name)
-    if raw is None or raw.strip() == "":
-        return default
-    token = raw.strip().lower()
-    if token in _TRUE_TOKENS:
-        return True
-    if token in _FALSE_TOKENS:
-        return False
-    _log.warning("env %s=%r is not a boolean, using default %s", name, raw, default)
-    return default
+# Fault-tolerant readers live in one place; the private aliases keep the
+# historical `_env_*` call sites in this module unchanged.
+from .envutil import env_bool as _env_bool
+from .envutil import env_float as _env_float
+from .envutil import env_int as _env_int
 
 # -----------------------------------------------------------------------------
 # Filesystem layout
