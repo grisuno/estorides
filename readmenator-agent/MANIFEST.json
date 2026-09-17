@@ -1,0 +1,24 @@
+{
+  "tool": "readmenator",
+  "generated_at": "2026-09-17T04:54:11Z",
+  "project_root": "/tmp/push_estorides_20260917_010128",
+  "files": 136,
+  "symbols": 2574,
+  "imports": 13559,
+  "resolved_imports": 302,
+  "security_findings": 0,
+  "languages": {
+    "sh": 2,
+    "py": 132,
+    "js": 2
+  },
+  "entrypoints": [],
+  "start_here": "INDEX.md",
+  "workflow": [
+    "ls *.md readmenator-*/  # orient: docs first, ignore build noise",
+    "grep -n '<keyword>' INDEX.md",
+    "cat KB_<subsystem>.md",
+    "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"
+  ],
+  "regenerate": "readmenator . --rebuild"
+}
