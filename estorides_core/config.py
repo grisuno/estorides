@@ -28,6 +28,7 @@ from pathlib import Path
 # Fault-tolerant readers live in one place; the private aliases keep the
 # historical `_env_*` call sites in this module unchanged.
 from .envutil import env_bool as _env_bool
+from .envutil import env_csv as _env_csv
 from .envutil import env_float as _env_float
 from .envutil import env_int as _env_int
 
@@ -112,6 +113,9 @@ ER_PERSIST: bool = _env_bool("ESTORIDES_ER_PERSIST", True)
 # Network behaviour
 # -----------------------------------------------------------------------------
 HTTP_TIMEOUT: float = _env_float("ESTORIDES_TIMEOUT", 12.0)
+# Hard wall-clock cap (seconds) for the whole fanout. Any source that has
+# not responded by then is dropped as `deadline_exceeded` (M0).
+RUN_DEADLINE: float = _env_float("ESTORIDES_RUN_DEADLINE", 30.0)
 HTTP_MAX_RETRIES: int = _env_int("ESTORIDES_MAX_RETRIES", 3)
 HTTP_BACKOFF_BASE: float = _env_float("ESTORIDES_BACKOFF_BASE", 0.6)
 HTTP_BACKOFF_FACTOR: float = _env_float("ESTORIDES_BACKOFF_FACTOR", 2.0)
@@ -156,6 +160,12 @@ TOOL_RECIPES_DIR: Path = Path(
     os.environ.get("ESTORIDES_TOOL_RECIPES_DIR", str(PROJECT_ROOT / "tool_recipes"))
 )
 TOOLS_DIR: Path = Path(os.environ.get("ESTORIDES_TOOLS_DIR", str(PROJECT_ROOT / ".tools")))
+
+# Install-run caps for one-click tool installation (M6). Fault-tolerant
+# via envutil: a malformed value falls back to the default instead of
+# killing the import (the old `int(os.environ...)` crashed the process).
+TOOL_INSTALL_TIMEOUT_S: int = _env_int("ESTORIDES_TOOL_INSTALL_TIMEOUT", 1800)
+TOOL_INSTALL_MAX_OUTPUT_BYTES: int = _env_int("ESTORIDES_TOOL_INSTALL_MAX_OUTPUT", 1_048_576)
 
 # Circuit breaker — if a host fails this many times in a window, skip for cooldown.
 CIRCUIT_FAIL_THRESHOLD: int = _env_int("ESTORIDES_CIRCUIT_FAIL_THRESHOLD", 5)
@@ -248,6 +258,17 @@ LLM_TEMPERATURE: float = _env_float("ESTORIDES_LLM_TEMP", 0.25)
 # (the old 120 s) made the manager fall through to the stub on the big local
 # models — the "no backends available" symptom.
 LLM_REQUEST_TIMEOUT: float = _env_float("ESTORIDES_LLM_REQUEST_TIMEOUT", 600.0)
+# Backstop slack between the LLM HTTP timeout and the asyncio wait_for that
+# guards it, so the worker thread returns first (M0, issue #32).
+LLM_BACKSTOP_S: float = _env_float("ESTORIDES_LLM_BACKSTOP_S", 3.0)
+
+# Extra env vars exposed to source-YAML template substitution
+# (`{twitch_client_id}` etc. for multi-auth sources). M6 centralises the
+# previously hardcoded tuple in orchestrator._run_http_source.
+TEMPLATE_ENVS: tuple[str, ...] = _env_csv("ESTORIDES_TEMPLATE_ENVS", (
+    "TWITCH_CLIENT_ID", "GOOGLE_API_KEY",
+    "TWITTER_BEARER_TOKEN", "TWITCH_ACCESS_TOKEN",
+))
 
 # Model selection per backend.
 LLM_MODELS: dict[str, str] = {

@@ -1,0 +1,18 @@
+name: bgpview_asn
+enabled: true
+category: 02. IP & Infrastructure
+description: BGPView ASN — AS info, prefixes, peers (keyless)
+os: any
+requires_key: false
+parser: bgpview
+entity_hints:
+- asn
+- prefix
+applies_to:
+- asn
+tool:
+  method: GET
+  url: https://api.bgpview.io/asn/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

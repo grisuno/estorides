@@ -1,0 +1,20 @@
+name: cisa_kev_recent
+enabled: true
+category: 05. Threat Intel
+description: CISA Known Exploited Vulnerabilities catalog (keyless feed)
+os: any
+requires_key: false
+parser: cisa_kev
+entity_hints:
+- cve
+- vendor
+- product
+applies_to:
+- cve
+- keyword
+tool:
+  method: GET
+  url: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

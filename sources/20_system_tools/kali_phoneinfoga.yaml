@@ -11,7 +11,8 @@ parser: phoneinfoga_json
 entity_hints:
   - phone
 applies_to:
-  - username
+  - phone
+  - phone_e164
 tool:
   binary: phoneinfoga
   args:

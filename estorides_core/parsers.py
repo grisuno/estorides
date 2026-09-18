@@ -373,6 +373,57 @@ def parse_vt_file(payload: Any) -> dict[str, Any]:
     }
 
 
+def parse_bgpview(payload: Any) -> dict[str, Any]:
+    """BGPView IP/ASN response (keyless). Total: never raises."""
+    empty: dict[str, Any] = {"prefixes": [], "asns": [], "rir": "", "allocation": ""}
+    if not isinstance(payload, dict):
+        return empty
+    if payload.get("status") != "ok":
+        return empty
+    data = _d(payload.get("data"))
+    prefixes: list[Any] = []
+    asns: list[Any] = []
+    for p in _list(data.get("prefixes"))[:20]:
+        pd = _d(p)
+        if pd.get("prefix"):
+            prefixes.append(pd.get("prefix"))
+        asn = _d(pd.get("asn")).get("asn")
+        if asn is not None and asn not in asns:
+            asns.append(asn)
+    for key in ("asns", "asns_ipv4", "asns_ipv6"):
+        for a in _list(data.get(key))[:20]:
+            ad = _d(a)
+            asn = ad.get("asn", a if isinstance(a, int) else None)
+            if asn is not None and asn not in asns:
+                asns.append(asn)
+    rir = _d(data.get("rir_allocation"))
+    return {
+        "prefixes": prefixes,
+        "asns": asns,
+        "rir": rir.get("rir_name", ""),
+        "allocation": rir.get("prefix", ""),
+    }
+
+
+def parse_cisa_kev(payload: Any) -> dict[str, Any]:
+    """CISA KEV catalog (keyless). Capped at 20 items. Total: never raises."""
+    if not isinstance(payload, dict):
+        return {"vulnerabilities": [], "total": 0}
+    vulns = _list(payload.get("vulnerabilities"))
+    out: list[Any] = []
+    for v in vulns[:20]:
+        vd = _d(v)
+        out.append({
+            "cveID": vd.get("cveID", ""),
+            "vendorProject": vd.get("vendorProject", ""),
+            "product": vd.get("product", ""),
+            "vulnerabilityName": vd.get("vulnerabilityName", ""),
+            "dateAdded": vd.get("dateAdded", ""),
+            "dueDate": vd.get("dueDate", ""),
+        })
+    return {"vulnerabilities": out, "total": len(vulns)}
+
+
 def parse_ripe_stat(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
@@ -1129,6 +1180,8 @@ PARSERS = {
     "vt_domain": parse_vt_domain,
     "vt_file": parse_vt_file,
     "ripe_stat": parse_ripe_stat,
+    "bgpview": parse_bgpview,
+    "cisa_kev": parse_cisa_kev,
     "nominatim": parse_nominatim,
     "urlscan": parse_urlscan,
     "wayback_cdx": parse_wayback_cdx,

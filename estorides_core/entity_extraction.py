@@ -41,6 +41,43 @@ _COMPILED: Dict[str, re.Pattern[str]] = {
 }
 
 
+_PHONE_RE: re.Pattern[str] = re.compile(r"^\+?[0-9][0-9()\s.\-]{5,20}[0-9]$")
+_MAC_RE: re.Pattern[str] = re.compile(r"^([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$")
+_HANDLE_RE: re.Pattern[str] = re.compile(r"^@[A-Za-z0-9][A-Za-z0-9._-]{0,38}$")
+
+
+def _looks_like_phone(query: str) -> bool:
+    """True for E.164-ish numbers with 7-15 digits (never consumes hashes)."""
+    if not _PHONE_RE.match(query):
+        return False
+    digits = re.sub(r"\D", "", query)
+    return 7 <= len(digits) <= 15
+
+
+def normalize_query(query: str) -> str:
+    """Return the routing form of raw operator input.
+
+    URLs reduce to their lowercased host (userinfo, port, path, query
+    and fragment stripped); `@handles` reduce to the bare handle;
+    everything else is trimmed verbatim.
+    """
+    q = (query or "").strip()
+    if not q:
+        return ""
+    if _HANDLE_RE.match(q):
+        return q[1:]
+    low = q.lower()
+    if low.startswith("http://") or low.startswith("https://"):
+        try:
+            from urllib.parse import urlsplit
+
+            host = urlsplit(q if "://" in q else f"//{q}").hostname or ""
+            return host.lower().strip(".")
+        except ValueError:
+            return q
+    return q
+
+
 # Type detection of a free-form query — used to auto-skip sources that
 # cannot meaningfully process the target. This is the difference between
 # "national state level" and "fire 90 sources blindly".
@@ -49,7 +86,7 @@ _QUERY_TYPE_PATTERNS: List[Tuple[str, re.Pattern[str]]] = [
     ("ipv6", re.compile(r"^[0-9a-fA-F:]+::?[\w:]+$")),
     ("url", re.compile(r"^https?://", re.IGNORECASE)),
     ("email", re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")),
-    ("btc_address", re.compile(r"^(?:[13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{11,71})$")),
+    ("btc_address", re.compile(r"^(?:[13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{11,71})$", re.IGNORECASE)),
     ("eth_address", re.compile(r"^0x[a-fA-F0-9]{40}$")),
     ("md5", re.compile(r"^[a-fA-F0-9]{32}$")),
     ("sha1", re.compile(r"^[a-fA-F0-9]{40}$")),
@@ -68,6 +105,12 @@ def detect_query_type(query: str) -> str:
     q = (query or "").strip()
     if not q:
         return "empty"
+    if _HANDLE_RE.match(q):
+        return "username"
+    if _MAC_RE.match(q):
+        return "mac"
+    if _looks_like_phone(q):
+        return "phone"
     for type_name, pat in _QUERY_TYPE_PATTERNS:
         if pat.match(q):
             return type_name

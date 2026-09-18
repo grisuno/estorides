@@ -29,8 +29,10 @@ from estorides_llm import LLMManager
 from .async_client import AsyncClient
 from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
                      FUSION_ENABLED, GRAPH_PATH, HTTP_MAX_PARALLEL,
-                     LLM_REQUEST_TIMEOUT, PASSIVE_ONLY, RECON_FUSION,
-                     SOURCES_DIR, contact_level, effective_proxies)
+                     HTTP_TIMEOUT, LLM_BACKSTOP_S, LLM_REQUEST_TIMEOUT,
+                     PASSIVE_ONLY, RECON_FUSION, RUN_DEADLINE, SOURCES_DIR,
+                     TEMPLATE_ENVS, TOOL_TIMEOUT,
+                     contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
                                 extract_structured, merge)
 from .knowledge_graph import KnowledgeGraph
@@ -131,6 +133,27 @@ def _resolve_auth(source: Source) -> Optional[str]:
     return os.environ.get(env_name)
 
 
+# Query-type alias expansion for source routing (M2). Directional: a URL
+# query can fall back to domain sources (host extraction), but a bare
+# domain never fans out to URL-only sources that need a full URL.
+_QUERY_TYPE_EXPANSION: Dict[str, frozenset] = {
+    "url": frozenset({"url", "domain"}),
+    "ip": frozenset({"ip", "ipv4", "ipv6"}),
+    "btc": frozenset({"btc", "btc_address"}),
+    "eth": frozenset({"eth", "eth_address"}),
+    "hash": frozenset({"hash", "md5", "sha1", "sha256"}),
+    "phone": frozenset({"phone", "phone_e164"}),
+    "phone_e164": frozenset({"phone", "phone_e164"}),
+    "handle": frozenset({"handle", "username"}),
+}
+
+
+def _expand_query_type(query_type: str) -> frozenset:
+    """Return the set of applies_to tags a query_type matches."""
+    hit = _QUERY_TYPE_EXPANSION.get(query_type)
+    return hit if hit is not None else frozenset({query_type})
+
+
 def _domain_from_query(q: str) -> Optional[str]:
     """Heuristic: if the query looks like a domain, return it; if it's an IP, return None."""
     q = q.strip()
@@ -164,8 +187,8 @@ class Orchestrator:
         source_names: Optional[List[str]] = None,
         include_paid: bool = False,
         parallel: int = HTTP_MAX_PARALLEL,
-        timeout: float = 12.0,
-        deadline: float = 30.0,
+        timeout: float = HTTP_TIMEOUT,
+        deadline: float = RUN_DEADLINE,
         on_source_done: Optional[Any] = None,
         on_source_result: Optional[Any] = None,
         persist: bool = True,
@@ -327,35 +350,7 @@ class Orchestrator:
         # ever tripping on a non-iterable element.
         observations: List[Dict[str, Any]] = []
         all_entities: List[Entity] = []
-        normalised: List[Tuple[Source, Any, Any, Dict[str, Any]]] = []
-        for item, source in zip(raw_results, targets):
-            if isinstance(item, BaseException):
-                # Surface as an error observation, but keep going so one
-                # bad source can't poison the whole run.
-                log.warning("source %s raised: %s", source["name"], item)
-                normalised.append((source, None, None, {
-                    "source": source["name"],
-                    "error": f"exception:{item.__class__.__name__}",
-                    "error_detail": str(item),
-                    "attempts": 0,
-                }))
-                continue
-            # Defensive: a successful task could still return
-            # something that is not a 4-tuple if the underlying
-            # function is buggy. Wrap any deviation into a synthetic
-            # 4-tuple so the downstream `for source, parsed, raw,
-            # meta in normalised` cannot trip with
-            # "cannot unpack non-iterable X".
-            if not isinstance(item, tuple) or len(item) != 4:
-                log.warning("source %s returned %r (expected 4-tuple)",
-                            source["name"], type(item).__name__)
-                normalised.append((source, None, None, {
-                    "source": source["name"],
-                    "error": f"bad-result-shape:{type(item).__name__}",
-                    "attempts": 0,
-                }))
-                continue
-            normalised.append(item)
+        normalised = self._normalise_results(list(raw_results), list(targets))
 
         for source, parsed, raw, meta in normalised:
             if parsed is None and raw is None:
@@ -483,7 +478,7 @@ class Orchestrator:
         # the same value to both and produced a race where a slow but
         # not-yet-timed-out LLM could be cancelled mid-stream. Issue #32.
         llm_call_timeout = LLM_REQUEST_TIMEOUT
-        wait_for_timeout = llm_call_timeout + 3.0
+        wait_for_timeout = llm_call_timeout + LLM_BACKSTOP_S
         try:
             analysis = await asyncio.wait_for(
                 asyncio.to_thread(
@@ -671,9 +666,12 @@ class Orchestrator:
         if not include_paid:
             chosen = [s for s in chosen if not s["requires_key"]]
         if query_type:
-            # Keep sources whose applies_to contains "any" or the query_type.
+            # Alias-aware routing (M2): a url query also matches domain
+            # sources, hash matches md5/sha1/sha256, etc. `any` matches all.
+            wanted = _expand_query_type(query_type)
             chosen = [s for s in chosen
-                      if "any" in s.get("applies_to", ["any"]) or query_type in s.get("applies_to", [])]
+                      if "any" in s.get("applies_to", ["any"])
+                      or bool(wanted & set(s.get("applies_to", [])))]
         if max_contact is not None:
             # Drop any source whose traffic would reach the target above the
             # requested ceiling. Applied even for explicit --only-sources so a
@@ -698,23 +696,77 @@ class Orchestrator:
     ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
         """Dispatch a source to its execution strategy."""
         if source["tool"].get("binary"):
-            return await self._run_system_app(source, query, on_result=on_result)
+            return await self._run_system_app(
+                source, query, on_done=on_done, on_result=on_result
+            )
         return await self._run_http_source(
             client, source, query, on_done=on_done, on_result=on_result
         )
+
+    def _normalise_results(
+        self,
+        raw_results: List[Any],
+        targets: List[Source],
+    ) -> List[Tuple[Source, Any, Any, Dict[str, Any]]]:
+        """Sweep gather output into uniform 4-tuples.
+
+        Each successful task already returns its own originating source
+        as element zero, so alignment never depends on positional zip
+        against the target list. The zip fallback only supplies a source
+        name for exceptions and bad shapes.
+        """
+        normalised: List[Tuple[Source, Any, Any, Dict[str, Any]]] = []
+        fallbacks = list(targets)
+        for idx, item in enumerate(raw_results):
+            fb: Source | None = fallbacks[idx] if idx < len(fallbacks) else None
+            if isinstance(item, BaseException):
+                source = self._source_of(item, fb, raw_results)
+                log.warning("source %s raised: %s", source["name"], item)
+                normalised.append((source, None, None, {
+                    "source": source["name"],
+                    "error": f"exception:{item.__class__.__name__}",
+                    "error_detail": str(item),
+                    "attempts": 0,
+                }))
+                continue
+            if not isinstance(item, tuple) or len(item) != 4:
+                source = self._source_of(item, fb, raw_results)
+                log.warning("source %s returned %r (expected 4-tuple)",
+                            source["name"], type(item).__name__)
+                normalised.append((source, None, None, {
+                    "source": source["name"],
+                    "error": f"bad-result-shape:{type(item).__name__}",
+                    "attempts": 0,
+                }))
+                continue
+            normalised.append(item)
+        return normalised
+
+    @staticmethod
+    def _source_of(item: Any, fallback: Optional[Source], raw: List[Any]) -> Source:
+        """Best-effort source for a broken result: positional fallback."""
+        if fallback is not None:
+            return fallback
+        return {
+            "name": "unknown", "tool": {}, "category": "unknown",
+            "description": "", "parser": "raw",
+            "requires_key": False, "applies_to": ["any"],
+        }  # type: ignore[return-value]
 
     async def _run_system_app(
         self,
         source: Source,
         query: str,
+        on_done: Optional[Any] = None,
         on_result: Optional[Any] = None,
     ) -> Tuple[Source, Any, Any, Dict[str, Any]]:
         """Run a `system_app` source through the tool_runner sandbox."""
         from .system_app_sources import execute as execute_system_app
 
+        t0 = time.monotonic()
         tool = source["tool"]
         binary_name = tool.get("binary")
-        timeout = int(tool.get("timeout", 300))
+        timeout = int(tool.get("timeout", TOOL_TIMEOUT))
         log.info("system_app: executing %s for query=%s", binary_name, query)
         # run_tool blocks on a subprocess — offload to a worker thread so
         # a slow Kali tool cannot freeze the event loop and stall every
@@ -755,6 +807,17 @@ class Orchestrator:
             except Exception:  # never let a subscriber break the run
                 pass
 
+        if on_done is not None:
+            try:
+                ok = not bool(raw_result.error_code)
+                elapsed_ms = (time.monotonic() - t0) * 1000.0
+                on_done(
+                    source["name"], ok,
+                    raw_result.error_code or "ok", elapsed_ms,
+                )
+            except Exception:  # never let a subscriber break the run
+                pass
+
         return source, parsed, stdout_data, meta
 
     async def _run_http_source(
@@ -779,7 +842,7 @@ class Orchestrator:
         # Additional env vars available for template substitution in source YAMLs.
         # This supports sources that need multiple auth values (e.g. Twitch needs
         # both Client-ID and Bearer token in separate headers).
-        for _env_name in ("TWITCH_CLIENT_ID", "GOOGLE_API_KEY", "TWITTER_BEARER_TOKEN", "TWITCH_ACCESS_TOKEN"):
+        for _env_name in TEMPLATE_ENVS:
             _val = os.environ.get(_env_name, "")
             if _val:
                 fmt[_env_name.lower()] = _val
@@ -867,37 +930,6 @@ class Orchestrator:
 
         last_meta["pages"] = total_pages
         return source, last_parsed, last_data, last_meta
-
-    @staticmethod
-    def _extract_cursor(data: Any, cfg: Any) -> Optional[str]:
-        """Extract the next-page cursor from a parsed response body."""
-        from .pagination import extract_cursor
-        return extract_cursor(data, cfg)
-
-    def _infer_relationships(self, observations: List[Dict[str, Any]], query: str) -> None:
-        """Delegate each observation to its registered inferer.
-
-        The previous version of this method was a 90-line `if/elif`
-        chain hard-coded to specific source names. The new version
-        walks the inferer registry; sources with no inferer are
-        silently skipped. Adding a new inferer is now: write a
-        function and `@register_inferer("source_name")` it. No edits
-        to this method.
-        """
-        for obs in observations:
-            infer_relationship(obs, query, self.kg)
-
-    def _write_dataset(self, query: str, observations, entities, analysis):
-        record = {
-            "query": query,
-            "timestamp": time.time(),
-            "observation_count": len(observations),
-            "entities": [e.to_dict() for e in entities],
-            "analysis": analysis,
-            "graph_summary": self.kg.summary(),
-        }
-        with DATASET_PATH.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
 
     @staticmethod
     def _extract_cursor(data: Any, cfg: Any) -> Optional[str]:

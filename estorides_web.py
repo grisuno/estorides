@@ -49,7 +49,6 @@ from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.orchestrator import Orchestrator, pending_system_app_tasks
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.search_telemetry import SearchTelemetry
-from estorides_core.tool_install import install_tool, list_recipes, recipe_available
 from estorides_core.validation import QueryValidationError, validate_query
 from estorides_core.web_security import (
     AUTH_COOKIE,
@@ -62,12 +61,6 @@ from estorides_export import export_misp, export_stix
 from estorides_export.encryption import export_misp_encrypted, export_stix_encrypted
 
 log = logging.getLogger("estorides.web")
-
-# Background tool-install results, keyed by tool name. A POST to
-# /api/tools/<name>/install kicks off a daemon thread that writes its
-# InstallResult here so the UI can poll without blocking a request.
-_tool_install_state: dict[str, dict[str, Any]] = {}
-_tool_install_lock = threading.Lock()
 
 
 # Server-sent-events framing, defined once and reused by every stream route.
@@ -266,6 +259,11 @@ def create_app() -> Flask:
     orch = Orchestrator()
     telemetry = SearchTelemetry()
 
+    # Tools vertical slice (M5): routes live in estorides_web_tools.
+    from estorides_web_tools import tools_bp as _tools_bp
+
+    app.register_blueprint(_tools_bp)
+
     @app.route("/")
     def index() -> Any:
         # When the auth gate is enabled, embed the token as a meta tag so
@@ -296,80 +294,6 @@ def create_app() -> Flask:
     @require_auth
     def api_ollama_status() -> Any:
         return jsonify(orch.llm.get_ollama_status())
-
-    # ------------------------------------------------------------------ tools ----
-    # One-click install of a missing Kali/OSINT tool (lazyaddon-style recipes
-    # in tool_recipes/). Install runs in a background thread so the sync Flask
-    # worker is never blocked by apt update/install; the UI polls for status.
-    @app.route("/api/tools")
-    @_rate_limit_decorator(event="api_tools_list")
-    @require_auth
-    def api_tools_list() -> Any:
-        from estorides_core.tool_install import tool_available
-
-        recipes = list_recipes()
-        with _tool_install_lock:
-            states = dict(_tool_install_state)
-        return jsonify({
-            "recipes": [
-                {
-                    "name": r,
-                    "available": tool_available(r),
-                    "install": states.get(r),
-                }
-                for r in recipes
-            ],
-        })
-
-    @app.route("/api/tools/<name>/install", methods=["POST"])
-    @_rate_limit_decorator(event="api_tool_install")
-    @require_auth
-    def api_tool_install(name: str) -> Any:
-        if not recipe_available(name):
-            return jsonify({"error": f"no install recipe for '{name}'"}), 404
-        body = request.get_json(silent=True) or {}
-        binary = body.get("binary") or name
-        force = bool(body.get("force", False))
-        with _tool_install_lock:
-            current = _tool_install_state.get(name)
-            if current and current.get("running"):
-                return jsonify({"status": "running"}), 202
-            _tool_install_state[name] = {"running": True, "result": None}
-
-        def _worker() -> None:
-            result = None
-            try:
-                result = install_tool(name, binary=binary, force=force)
-            except Exception:
-                log.exception("tool install %s raised", name)
-            with _tool_install_lock:
-                _tool_install_state[name] = {
-                    "running": False,
-                    "result": result.to_dict() if result is not None else {
-                        "tool_name": name, "success": False, "method": None,
-                        # CWE-209: never echo the raw exception to the client.
-                        "output": "", "error": "install raised; see server logs",
-                    },
-                }
-
-        threading.Thread(
-            target=_worker, daemon=True, name=f"estorides-install-{name}"
-        ).start()
-        audit_log.query(
-            "api_tool_install", remote_ip=_client_ip(), method=request.method,
-            path=request.path, query=binary, status="started",
-        )
-        return jsonify({"status": "started", "tool": name})
-
-    @app.route("/api/tools/<name>/install/status")
-    @_rate_limit_decorator(event="api_tool_install_status")
-    @require_auth
-    def api_tool_install_status(name: str) -> Any:
-        with _tool_install_lock:
-            state = _tool_install_state.get(name)
-        if state is None:
-            return jsonify({"status": "idle"})
-        return jsonify(state)
 
     @app.route("/api/run", methods=["POST"])
     @_rate_limit_decorator(event="api_run")

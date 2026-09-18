@@ -1,0 +1,20 @@
+name: bgpview_ip
+enabled: true
+category: 02. IP & Infrastructure
+description: BGPView IP — prefixes, origin ASNs, RIR allocation (keyless)
+os: any
+requires_key: false
+parser: bgpview
+entity_hints:
+- ip
+- asn
+- prefix
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://api.bgpview.io/ip/{query}
+  headers:
+    User-Agent: Estorides/1.0
+  params: {}

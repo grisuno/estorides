@@ -54,13 +54,19 @@ from typing import Any
 
 import yaml  # type: ignore[import-untyped]
 
-from .config import TOOL_ALLOWLIST, TOOL_RECIPES_DIR, TOOLS_DIR
+from .config import (
+    TOOL_ALLOWLIST,
+    TOOL_INSTALL_MAX_OUTPUT_BYTES,
+    TOOL_INSTALL_TIMEOUT_S,
+    TOOL_RECIPES_DIR,
+    TOOLS_DIR,
+)
 from .tool_runner import ToolNotFoundError, _resolve_binary
 
 log = logging.getLogger("estorides.tool_install")
 
-_INSTALL_TIMEOUT_S: int = int(os.environ.get("ESTORIDES_TOOL_INSTALL_TIMEOUT", 1800))
-_INSTALL_MAX_OUTPUT_BYTES: int = int(os.environ.get("ESTORIDES_TOOL_INSTALL_MAX_OUTPUT", 1_048_576))
+_INSTALL_TIMEOUT_S: int = TOOL_INSTALL_TIMEOUT_S
+_INSTALL_MAX_OUTPUT_BYTES: int = TOOL_INSTALL_MAX_OUTPUT_BYTES
 
 # Verbatim command strings from trusted recipe YAML may carry shell syntax,
 # but we run them as an argument list (shlex-split) and still refuse a few
@@ -207,6 +213,86 @@ def list_recipes() -> list[str]:
     if not TOOL_RECIPES_DIR.is_dir():
         return []
     return sorted(p.stem for p in TOOL_RECIPES_DIR.glob("*.yaml"))
+
+
+@dataclass(frozen=True)
+class ToolStatus:
+    """One binary's install/readiness state for the doctor report."""
+
+    name: str
+    available: bool
+    recipe: bool
+    sources: tuple[str, ...] = ()
+    installable: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "available": self.available,
+            "recipe": self.recipe,
+            "sources": list(self.sources),
+            "installable": self.installable,
+        }
+
+
+def _system_app_binaries(sources_dir: Path | None = None) -> dict[str, list[str]]:
+    """Map binary -> source names from the system_app YAML catalog."""
+    from .config import SOURCES_DIR as _DEFAULT_SOURCES
+
+    base = sources_dir or (_DEFAULT_SOURCES / "20_system_tools")
+    out: dict[str, list[str]] = {}
+    if not base.is_dir():
+        return out
+    for path in sorted(base.glob("*.yaml")):
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception as exc:
+            log.warning("tool_install: bad system_app %s: %s", path, exc)
+            continue
+        if not isinstance(data, dict):
+            continue
+        tool = data.get("tool") or {}
+        binary = str(tool.get("binary") or "").strip()
+        if not binary:
+            continue
+        out.setdefault(binary, []).append(str(data.get("name") or path.stem))
+    return out
+
+
+def doctor(sources_dir: Path | None = None) -> dict[str, Any]:
+    """Read-only readiness report over system_app binaries + recipes.
+
+    Never installs, never elevates, never raises on malformed YAML:
+    every failure mode degrades to an entry, not an exception.
+    """
+    by_source = _system_app_binaries(sources_dir)
+    recipes = set(list_recipes())
+    names = sorted(set(by_source) | recipes | {"sh"})
+    tools: list[dict[str, Any]] = []
+    for name in names:
+        try:
+            available = tool_available(name)
+        except Exception:
+            available = False
+        has_recipe = name in recipes or f"{name}".lower() in {r.lower() for r in recipes}
+        entry = ToolStatus(
+            name=name,
+            available=available,
+            recipe=has_recipe,
+            sources=tuple(by_source.get(name, [])),
+            installable=(not available and has_recipe),
+        )
+        tools.append(entry.to_dict())
+    available_n = sum(1 for t in tools if t["available"])
+    return {
+        "tools": tools,
+        "summary": {
+            "total": len(tools),
+            "available": available_n,
+            "missing": len(tools) - available_n,
+            "installable": sum(1 for t in tools if t["installable"]),
+        },
+    }
 
 
 # ---------------------------------------------------------------- installers ----

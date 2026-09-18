@@ -341,7 +341,7 @@ export VT_API_KEY=...   # https://www.virustotal.com/gui/my-apikey
                                  crt.sh, Cert Spotter, RDAP, DNS Dumpster, host search
 02. IP & Infrastructure    (13) - ip-api, ipinfo, ipapi.co, ipwho.is, Shodan InternetDB,
                                  GreyNoise, ipwhois, Robtex, RDAP, AS lookup,
-                                 AbuseIPDB, MAC OUI, RIPE Stat
+                                 AbuseIPDB, MAC OUI, RIPE Stat, BGPView IP/ASN
 03. Web Intelligence       (10) - urlscan, Wayback CDX, Wayback availability,
                                  HTTP headers, whois, geoip, traceroute, nping,
                                  Microlink, Google cache
@@ -351,7 +351,7 @@ export VT_API_KEY=...   # https://www.virustotal.com/gui/my-apikey
 05. Threat Intelligence    (13) - ThreatFox, URLhaus, payloads, PhishTank,
                                  OpenPhish, OTX (+passive domain/IP, no key),
                                  MalwareBazaar, Feodo, SSLBL,
-                                 Emerging Threats, blocklist.de
+                                 Emerging Threats, blocklist.de, CISA KEV
 06. Breach Intelligence    (6)  - HIBP breaches, HIBP pastes, Phonebook email,
                                  Phonebook domain, DeHashed, IntelligenceX
 07. Geolocation            (5)  - Nominatim search + reverse, OpenWeather
@@ -459,7 +459,9 @@ When a `system_app` source fails with `TOOL_NOT_FOUND`, the result card
 shows an **"Install tool"** button. Clicking it installs the binary via a
 lazyaddon-style recipe in `tool_recipes/` (apt primary, git/pip fallback)
 using **graphical `run0`** elevation — no terminal `sudo` password needed.
-Re-run the query afterwards to collect.
+Re-run the query afterwards to collect. `GET /api/tools/doctor` reports
+every Kali binary at once: installed/missing, recipe available, and which
+sources depend on it.
 
 ### Performance knobs (bounds that keep a run from stalling)
 
