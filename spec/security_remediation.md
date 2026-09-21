@@ -188,6 +188,55 @@ When: the exception handler runs
 Then: the error dict contains `"transform-run-failed"`, not the exception message.
 
 ### S18 — graph_kuzu stats does not leak exception detail
-Given: `KuzuBackend.stats` catches a Cypher exception with message `"Binder exception"`  
-When: the exception handler runs  
+Given: `KuzuBackend.stats` catches a Cypher exception with message `"Binder exception"`
+When: the exception handler runs
 Then: the error dict contains `"stats-query-failed"`, not the exception message.
+
+### S19 — alerter never follows HTTP redirects (CodeQL #47)
+Given: `_http_post` to an allowlisted public URL whose server answers `302`
+  with `Location: http://169.254.169.254/latest/meta-data`
+When: the POST runs
+Then: no second request is issued (the redirect is refused and the call
+  returns `False`), so a malicious webhook cannot pivot to cloud metadata
+  after passing the initial SSRF guard.
+
+### S20 — recipe name cannot escape the recipes dir (CodeQL #48/#49)
+Given: `load_recipe("../../etc/cron")`, `load_recipe("x/y")`,
+  `load_recipe("")` or any name outside `^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$`
+When: the recipe is loaded
+Then: it returns `None` (logged as a warning); no path outside
+  `TOOL_RECIPES_DIR` is ever opened. `_recipe_path` additionally asserts
+  containment via `resolve()` + `relative_to`.
+
+### S21 — git clone target cannot escape TOOLS_DIR (CodeQL #48/#49 depth)
+Given: a recipe whose `install_path` is `"../../evil"`
+When: `_install_git` runs
+Then: it refuses (`ok=False`, error mentions escaping the tools dir) and
+  never invokes `git clone` outside `TOOLS_DIR`.
+
+### S22 — install_tool validates binary before the allowlist (CodeQL #48/#49 depth)
+Given: `install_tool("nmap", binary="/bin/sh")`,
+  `install_tool("nmap", binary="../../bin/x")`, or a binary not in
+  `TOOL_ALLOWLIST`
+When: the install runs
+Then: it returns `success=False` with an error (`invalid binary` / `not in
+  allowlist`) WITHOUT probing PATH — the already-installed shortcut may
+  never bypass the allowlist.
+
+### S23 — tool install API rejects hostile names (CodeQL #48/#49 depth)
+Given: `POST /api/tools/../../etc/install` or body `{"binary": "/bin/sh"}`
+When: the route runs
+Then: it returns `404` (unknown recipe) / `400` (invalid binary) without
+  touching the filesystem or spawning a worker thread.
+
+### S24 — tooltip sink parses sanitised HTML exactly once (CodeQL #38)
+Given: a graph node label `<img src=x onerror=alert(1)>` or
+  `<a href="JaVaScRiPt:alert(1)">x</a>` or `<div style="x:url(javascript:y)">`
+When: `showTooltipAt` / `renderMarkdown` renders it
+Then: the payload reaches the DOM only as nodes parsed from the hardened
+  `sanitizeHTML` output (no `insertAdjacentHTML` serialize→reparse
+  round-trip); event-handler attributes, dangerous-scheme URLs
+  (`javascript:`/`data:`/`vbscript:`/`file:`/`blob:` on
+  href/src/action/formaction/xlink:href/srcdoc/cite/background), `style`
+  attributes, and `script/iframe/object/embed/style/link/meta/base/form/
+  frame/frameset/applet/marquee` elements are all removed.

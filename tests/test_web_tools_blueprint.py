@@ -29,3 +29,14 @@ def test_unknown_tool_install_reaches_view() -> None:
     assert r.status_code in (401, 404, 429)
     if r.status_code == 404:
         assert "no install recipe" in (r.get_json() or {}).get("error", "")
+
+
+def test_install_route_rejects_bad_binary() -> None:
+    from estorides_web import create_app
+
+    app = create_app()
+    client = app.test_client()
+    r = client.post("/api/tools/nmap/install", json={"binary": "/bin/sh"})
+    assert r.status_code in (400, 401, 404, 429)
+    if r.status_code == 400:
+        assert "binary" in (r.get_json() or {}).get("error", "")

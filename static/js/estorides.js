@@ -318,9 +318,17 @@
 
   // ---- leaflet map ----
   const map = L.map('map', { zoomControl: true, worldCopyJump: true }).setView([20, 0], 2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '© OpenStreetMap contributors',
+  // Basemap: Esri Dark Gray Canvas (no API key, no account). Direct
+  // tile.openstreetmap.org usage is banned for heavy use/scraping, and
+  // CARTO basemaps now watermark tiles without an API key, so the raster
+  // tiles come from server.arcgisonline.com instead (note Esri order
+  // {z}/{y}/{x}). See spec/map_basemap.md. Esri attribution is required.
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    attribution: 'Powered by Esri | © OpenStreetMap contributors',
+  }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
   }).addTo(map);
 
   let mapMarkers = [];
@@ -1174,27 +1182,51 @@
   function hideTooltip() {
     setVisible($('#graph-tooltip'), false);
   }
+  // Elements that can execute code or hijack input and are never needed
+  // in tooltips or LLM-markdown output.
+  var UNSAFE_TAGS = 'script, iframe, object, embed, style, link, meta, base, form, button, ' +
+    'input, select, textarea, option, frame, frameset, applet, marquee';
+  // URL-carrying attributes whose value must never use an active scheme.
+  // Blocked schemes: javascript:, data:, vbscript:, file:, blob:.
+  var URL_ATTRS = /^(href|src|xlink:href|action|formaction|srcdoc|cite|background|poster|data)$/i;
+  var DANGEROUS_SCHEME = /^\s*(javascript|data|vbscript|file|blob)\s*:/i;
   function sanitizeHTML(str) {
     const doc = new DOMParser().parseFromString(String(str || ''), 'text/html');
-    const removals = doc.body.querySelectorAll('script, iframe, object, embed, style, link, meta');
+    const removals = doc.body.querySelectorAll(UNSAFE_TAGS);
     removals.forEach(function(n) { n.remove(); });
     const all = doc.body.querySelectorAll('*');
     all.forEach(function(n) {
       for (var i = n.attributes.length - 1; i >= 0; i--) {
         var attr = n.attributes[i];
-        if (attr.name.startsWith('on') || /javascript/i.test(attr.value)) {
+        var nm = attr.name.toLowerCase();
+        if (nm.startsWith('on') || nm === 'style' || nm === 'srcdoc' || nm === 'formaction') {
+          n.removeAttribute(attr.name);
+        } else if (URL_ATTRS.test(nm) && DANGEROUS_SCHEME.test(attr.value)) {
+          n.removeAttribute(attr.name);
+        } else if (/javascript/i.test(attr.value) && nm !== 'content') {
           n.removeAttribute(attr.name);
         }
       }
     });
     return doc.body.innerHTML;
   }
+  // Append sanitised markup WITHOUT a serialize->reparse round-trip:
+  // nodes are moved straight from the sanitizer document into the live
+  // DOM, so a payload smuggled through innerHTML serialization quirks
+  // (mXSS) has no second parse to exploit.
+  function setSanitizedHTML(el, html) {
+    const clean = sanitizeHTML(html);
+    const doc = new DOMParser().parseFromString(clean, 'text/html');
+    el.textContent = '';
+    Array.from(doc.body.childNodes).forEach(function(n) {
+      el.appendChild(document.importNode(n, true));
+    });
+  }
   function showTooltipAt(ev, html, paint) {
     const el = $('#graph-tooltip');
     if (!el) return;
     const host = $('#graph-canvas').getBoundingClientRect();
-    el.textContent = '';
-    el.insertAdjacentHTML('beforeend', sanitizeHTML(html));
+    setSanitizedHTML(el, html);
     if (typeof paint === 'function') paint(el);
     setVisible(el, true, 'block');
     el.style.left = (ev.clientX - host.left + 12) + 'px';

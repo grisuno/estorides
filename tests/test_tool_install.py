@@ -100,3 +100,56 @@ class TestInstallFlow:
                         res = ti.install_tool("sherlock", binary="sherlock")
         assert res.success is True
         assert any("git" in str(c) and "clone" in str(c) for c in mock_run.call_args_list)
+
+
+# ------------------------------------------------- path traversal (S20-S22) ----
+class TestPathTraversal:
+    """CodeQL #48/#49: uncontrolled recipe names must never escape
+    TOOL_RECIPES_DIR; clone targets must stay inside TOOLS_DIR; binary
+    names are validated before any PATH probe."""
+
+    @pytest.mark.parametrize("evil", [
+        "../evil", "../../etc/cron", "a/b", "a\\b", "", ".", "..",
+        "/abs/path", "x\x00y", "has space", "semi;colon", "a" * 200,
+    ])
+    def test_load_recipe_rejects_traversal(self, evil: str) -> None:
+        assert ti.load_recipe(evil) is None
+
+    def test_recipe_path_rejects_traversal(self) -> None:
+        with pytest.raises(ValueError):
+            ti._recipe_path("../../etc/cron")
+
+    def test_recipe_available_rejects_traversal(self) -> None:
+        assert ti.recipe_available("../evil") is False
+
+    def test_git_clone_refuses_escape(self) -> None:
+        recipe = ti.InstallRecipe(
+            name="evil", repo_url="https://example.com/r.git",
+            install_path="../../evil",
+        )
+        with patch.object(ti, "_run") as mock_run:
+            ok, _out, err = ti._install_git(recipe)
+        assert ok is False
+        assert "tools dir" in (err or "").lower()
+        mock_run.assert_not_called()
+
+    @pytest.mark.parametrize("evil", ["/bin/sh", "../../bin/x", "a/b", "", "has space"])
+    def test_install_tool_rejects_bad_binary_without_path_probe(
+        self, evil: str
+    ) -> None:
+        with patch.object(
+            ti, "_resolve_binary",
+            side_effect=AssertionError("_resolve_binary must not be called"),
+        ):
+            res = ti.install_tool("nmap", binary=evil)
+        assert res.success is False
+
+    def test_install_tool_allowlist_checked_before_shortcut(self) -> None:
+        # binary resolves on PATH but is NOT allowlisted: must still fail.
+        with patch.object(ti, "_resolve_binary", return_value="/usr/bin/notallowed"):
+            res = ti.install_tool("notallowed", binary="notallowed")
+        assert res.success is False and "allowlist" in (res.error or "")
+
+    def test_tool_available_rejects_bad_name(self) -> None:
+        assert ti.tool_available("/bin/sh") is False
+        assert ti.tool_available("../x") is False

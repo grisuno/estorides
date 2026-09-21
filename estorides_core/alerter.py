@@ -25,7 +25,7 @@ import urllib.request
 from datetime import datetime
 from email.mime.text import MIMEText
 from typing import Any
-from urllib.request import Request, urlopen
+from urllib.request import Request
 
 from .ssrf_guard import check_url
 
@@ -50,6 +50,30 @@ def _check_cooldown(channel: str) -> bool:
     return True
 
 
+class _NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Refuse every HTTP redirect.
+
+    ``urlopen`` follows 301/302/307/308 by default, which would let a
+    malicious webhook pivot to an SSRF-blocked target (e.g. cloud metadata
+    at 169.254.169.254) *after* passing the pre-flight ``check_url`` guard.
+    Returning ``None`` makes the opener raise ``HTTPError`` instead of
+    issuing a second request. Alert delivery fails closed; legitimate
+    webhook endpoints (Slack/Discord/Telegram) do not redirect POSTs.
+    """
+
+    def redirect_request(
+        self,
+        req: Request,
+        fp: Any,
+        code: int,
+        msg: str,
+        headers: Any,
+        newurl: str,
+    ) -> Request | None:
+        log.warning("alerter: refused redirect (%s) to %s", code, newurl)
+        return None
+
+
 def _http_post(url: str, payload: dict[str, Any]) -> bool:
     """POST JSON payload to URL, return True on success.
 
@@ -57,7 +81,8 @@ def _http_post(url: str, payload: dict[str, Any]) -> bool:
     the central SSRF guard before any socket is opened, so a user-supplied
     ``channel`` (e.g. ``channel.startswith("http")`` in ``send``) can never
     reach internal hosts, link-local/cloud-metadata ranges, or be used to
-    smuggle a disallowed scheme.
+    smuggle a disallowed scheme. Redirects are never followed (see
+    ``_NoRedirectHandler``): the guard vetted the first hop only.
     """
     guard = check_url(url)
     if not guard.allowed:
@@ -70,8 +95,9 @@ def _http_post(url: str, payload: dict[str, Any]) -> bool:
         # validated HTTP(S) destination here.
         req = Request(url, data=data, method="POST")  # noqa: S310
         req.add_header("Content-Type", "application/json")
-        with urlopen(req, timeout=10) as resp:  # noqa: S310  # nosec B310
-            return resp.status < 300
+        opener = urllib.request.build_opener(_NoRedirectHandler)
+        with opener.open(req, timeout=10) as resp:  # nosec B310
+            return bool(resp.status < 300)
     except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
         log.warning("HTTP POST to %s failed: %s", url, e)
         return False

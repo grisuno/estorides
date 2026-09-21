@@ -23,6 +23,8 @@ from estorides_core.audit import audit_log
 from estorides_core.tool_install import (
     doctor,
     install_tool,
+    is_valid_binary,
+    is_valid_recipe_name,
     list_recipes,
     recipe_available,
     tool_available,
@@ -71,10 +73,14 @@ def api_tools_doctor() -> Any:
 @_rate_limit_decorator(event="api_tool_install")
 @require_auth
 def api_tool_install(name: str) -> Any:
+    if not is_valid_recipe_name(name):
+        return jsonify({"error": f"invalid tool name: '{name}'"}), 404
     if not recipe_available(name):
         return jsonify({"error": f"no install recipe for '{name}'"}), 404
     body = request.get_json(silent=True) or {}
     binary = body.get("binary") or name
+    if not is_valid_binary(binary):
+        return jsonify({"error": f"invalid binary name: '{binary}'"}), 400
     force = bool(body.get("force", False))
     with _tool_install_lock:
         current = _tool_install_state.get(name)

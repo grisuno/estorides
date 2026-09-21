@@ -467,8 +467,9 @@ class TestJavaScriptDomSafety:
         func_body = func_match.group(1)
         assert "innerHTML = html" not in func_body, \
             "showTooltipAt must not assign raw html to innerHTML"
-        assert "textContent" in func_body or "escapeHTML" in func_body, \
-            "showTooltipAt must use textContent or escapeHTML"
+        assert "textContent" in func_body or "escapeHTML" in func_body \
+            or "setSanitizedHTML" in func_body, \
+            "showTooltipAt must use textContent, escapeHTML or setSanitizedHTML"
 
     def test_selectnode_inspector_safe(self):
         """selectNode must build DOM safely for the inspector panel."""
@@ -518,3 +519,98 @@ class TestAlerterSsrf:
         # webhook URL; an internal host must still be refused.
         dispatcher = AlertDispatcher()
         assert dispatcher.send("http://127.0.0.1:8080/hook", "t", "b") is False
+
+
+# =========================================================================
+# S19 — alerter never follows HTTP redirects (CodeQL #47)
+# =========================================================================
+
+class TestAlerterNoRedirect:
+    """A webhook that 302-redirects to link-local/cloud-metadata must NOT be
+    followed: the SSRF guard only vetted the first hop."""
+
+    def test_redirect_handler_refuses(self) -> None:
+        from estorides_core.alerter import _NoRedirectHandler
+        handler = _NoRedirectHandler()
+        assert handler.redirect_request(None, None, 302, "", {}, "http://169.254.169.254/") is None  # type: ignore[arg-type]
+
+    def test_http_post_does_not_follow_redirect(self) -> None:
+        import urllib.request
+
+        from estorides_core import alerter
+        from estorides_core.ssrf_guard import GuardResult
+
+        calls: list[str] = []
+
+        class _Fake302:
+            status = 302
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+        class _FakeOpener:
+            def open(self, req, timeout=10):
+                calls.append(req.full_url)
+                # A 302 whose Location points at cloud metadata: a
+                # redirect-following opener would issue a second request.
+                return _Fake302()
+
+        def _fake_build_opener(*handlers):
+            # The alerter must install a redirect-refusing handler
+            # (passed as class or instance).
+            assert any(h is alerter._NoRedirectHandler
+                       or isinstance(h, alerter._NoRedirectHandler)
+                       for h in handlers), \
+                "alerter opener must refuse redirects"
+            return _FakeOpener()
+
+        with patch.object(alerter, "check_url",
+                          return_value=GuardResult(True, host="hooks.example.com")):
+            with patch.object(urllib.request, "build_opener", _fake_build_opener):
+                assert alerter._http_post("https://hooks.example.com/hook", {"x": 1}) is False
+        assert calls == ["https://hooks.example.com/hook"], \
+            "redirect target must never be requested"
+
+
+# =========================================================================
+# S24 — tooltip sink parses sanitised HTML exactly once (CodeQL #38)
+# =========================================================================
+
+class TestTooltipSinkHardening:
+    """showTooltipAt must not round-trip through insertAdjacentHTML; the
+    hardened sanitizeHTML must strip dangerous-scheme URLs, style attrs and
+    extra executable elements."""
+
+    JS_PATH = Path(__file__).resolve().parent.parent / "static" / "js" / "estorides.js"
+
+    def test_no_insert_adjacent_html_in_tooltip(self):
+        content = self.JS_PATH.read_text(encoding="utf-8")
+        m = re.search(r"function showTooltipAt\([^)]*\)\s*\{", content)
+        assert m is not None
+        # crude brace-matched body extraction
+        depth, start = 0, m.end()
+        for i in range(m.end() - 1, len(content)):
+            if content[i] == "{":
+                depth += 1
+            elif content[i] == "}":
+                depth -= 1
+                if depth == 0:
+                    body = content[start:i]
+                    break
+        assert "insertAdjacentHTML" not in body, \
+            "showTooltipAt must append parsed nodes, not re-parse HTML strings"
+
+    def test_sanitizer_blocks_dangerous_schemes_and_style(self):
+        # The sanitizer shares module-level tables (UNSAFE_TAGS, URL_ATTRS,
+        # DANGEROUS_SCHEME) with its function body, so scan both.
+        content = self.JS_PATH.read_text(encoding="utf-8")
+        anchor = content.find("function sanitizeHTML(str)")
+        assert anchor != -1
+        window = content[max(0, anchor - 1200):anchor + 2500]
+        for token in ("data:", "vbscript:", "srcdoc", "formaction", "style"):
+            assert token in window, f"sanitizeHTML must handle {token}"
+        for tag in ("base", "form"):
+            assert tag in window, f"sanitizeHTML must strip <{tag}>"

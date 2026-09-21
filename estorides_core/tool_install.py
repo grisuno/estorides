@@ -157,17 +157,50 @@ def _needs_elevation(command: str) -> bool:
 
 
 # ------------------------------------------------------------------ recipes ----
+# Recipe/tool names come from the URL path (``/api/tools/<name>/install``)
+# and from JSON bodies, i.e. they are attacker-controlled. A bare
+# ``TOOL_RECIPES_DIR / f"{name}.yaml"`` lets ``..`` / ``/`` sequences escape
+# the recipes directory (CodeQL js/path-injection analogues #48/#49), so
+# every entry point validates before touching the filesystem.
+_RECIPE_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}")
+_BINARY_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,63}")
+
+
+def is_valid_recipe_name(name: object) -> bool:
+    """True when ``name`` is a safe recipe/tool identifier (no separators)."""
+    return isinstance(name, str) and _RECIPE_NAME_RE.fullmatch(name) is not None
+
+
+def is_valid_binary(name: object) -> bool:
+    """True when ``name`` is a plausible bare binary name (no path)."""
+    return isinstance(name, str) and _BINARY_NAME_RE.fullmatch(name) is not None
+
+
 def _recipe_path(name: str) -> Path:
-    return TOOL_RECIPES_DIR / f"{name}.yaml"
+    if not is_valid_recipe_name(name):
+        raise ValueError(f"invalid recipe name: {name!r}")
+    # Defence in depth: even a validated name must resolve inside the dir
+    # (protects against a symlinked TOOL_RECIPES_DIR component).
+    base = TOOL_RECIPES_DIR.resolve()
+    path = (base / f"{name}.yaml").resolve()
+    if path.parent != base:
+        raise ValueError(f"recipe path escapes recipes dir: {name!r}")
+    return path
 
 
 def load_recipe(name: str) -> InstallRecipe | None:
     """Load a tool recipe from ``tool_recipes/<name>.yaml`` (or ``None``).
 
     A malformed recipe is logged and treated as absent so one bad file can
-    never break the whole registry.
+    never break the whole registry. An invalid (traversal) name is likewise
+    treated as absent so a hostile ``<name>`` URL segment can never cause a
+    filesystem read outside ``TOOL_RECIPES_DIR``.
     """
-    path = _recipe_path(name)
+    try:
+        path = _recipe_path(name)
+    except ValueError:
+        log.warning("tool_install: rejected invalid recipe name %r", name)
+        return None
     if not path.is_file():
         return None
     try:
@@ -201,6 +234,8 @@ def recipe_available(name: str) -> bool:
 
 def tool_available(binary: str) -> bool:
     """True when the binary resolves on PATH (mirrors system_app_sources)."""
+    if not is_valid_binary(binary):
+        return False
     try:
         _resolve_binary(binary)
         return True
@@ -309,10 +344,22 @@ def _install_apt(recipe: InstallRecipe) -> tuple[bool, str, str | None]:
     return True, out, None
 
 
+def _tools_root() -> Path:
+    return TOOLS_DIR.resolve()
+
+
 def _install_git(recipe: InstallRecipe) -> tuple[bool, str, str | None]:
     """Clone the repo (as operator) and run install_command (elevated if system-wide)."""
     t0 = time.monotonic()
-    dest = (TOOLS_DIR / (recipe.install_path or recipe.name)).resolve()
+    root = _tools_root()
+    dest = (root / (recipe.install_path or recipe.name)).resolve()
+    try:
+        dest.relative_to(root)
+    except ValueError:
+        return False, "", (
+            f"install_path escapes the tools dir: "
+            f"{(recipe.install_path or recipe.name)!r}"
+        )
     out = ""
     if dest.is_dir():
         log.info("tool_install: clone target already exists: %s (reusing)", dest)
@@ -355,6 +402,22 @@ def install_tool(
 
     if binary is None:
         binary = tool_name
+    # Validate BEFORE any PATH probe: a hostile ``binary`` (``/bin/sh``,
+    # ``../../x``) must never reach ``shutil.which`` (existence oracle) and
+    # the already-installed shortcut must never bypass the allowlist
+    # (CodeQL #48/#49).
+    if not is_valid_binary(binary):
+        return InstallResult(
+            tool_name=tool_name, success=False, method=None,
+            output="", error=f"invalid binary name: {binary!r}",
+            duration_s=time.monotonic() - t0,
+        )
+    if binary not in TOOL_ALLOWLIST:
+        return InstallResult(
+            tool_name=tool_name, success=False, method=None,
+            output="", error=f"tool '{binary}' not in allowlist",
+            duration_s=time.monotonic() - t0,
+        )
     if not force:
         try:
             _resolve_binary(binary)
@@ -365,13 +428,6 @@ def install_tool(
             )
         except ToolNotFoundError:
             pass
-
-    if binary not in TOOL_ALLOWLIST:
-        return InstallResult(
-            tool_name=tool_name, success=False, method=None,
-            output="", error=f"tool '{binary}' not in allowlist",
-            duration_s=time.monotonic() - t0,
-        )
 
     recipe = load_recipe(tool_name)
     if recipe is None:
