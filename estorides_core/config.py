@@ -530,6 +530,22 @@ class WebConfig:
     intel_neighbor_hops: int
 
 
+@dataclass(frozen=True)
+class RetryConfig:
+    """Central retry bounds for HTTP fanout."""
+
+    attempts: int
+    base_s: float
+    factor: float
+    cap_s: float
+
+    def delay(self, attempt: int) -> float:
+        """Exponential backoff for 1-indexed attempt, clamped to cap."""
+        step = max(int(attempt), 1)
+        value = self.base_s * (self.factor ** (step - 1))
+        return min(max(value, 0.0), self.cap_s)
+
+
 def _pivot_weight_map() -> Mapping[str, float]:
     """Default per-type lead weights for the pivot scorer.
 
@@ -643,3 +659,15 @@ WEB: WebConfig = WebConfig(
     cases_default_limit=_env_int("ESTORIDES_WEB_CASES_LIMIT", 20),
     intel_neighbor_hops=_env_int("ESTORIDES_WEB_INTEL_HOPS", 2),
 )
+
+RETRY: RetryConfig = RetryConfig(
+    attempts=max(_env_int("ESTORIDES_MAX_RETRIES", 3), 0),
+    base_s=max(_env_float("ESTORIDES_BACKOFF_BASE", 0.6), 0.0),
+    factor=max(_env_float("ESTORIDES_BACKOFF_FACTOR", 2.0), 1.0),
+    cap_s=max(_env_float("ESTORIDES_BACKOFF_CAP_S", 30.0), 0.0),
+)
+
+
+def retry_delay(attempt: int) -> float:
+    """Return the backoff sleep for a 1-indexed attempt."""
+    return RETRY.delay(attempt)

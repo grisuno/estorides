@@ -32,14 +32,12 @@ from .config import (
     CACHE_PATH,
     CIRCUIT_COOLDOWN_S,
     CIRCUIT_FAIL_THRESHOLD,
-    HTTP_BACKOFF_BASE,
-    HTTP_BACKOFF_FACTOR,
     HTTP_CACHE,
-    HTTP_MAX_RETRIES,
     HTTP_TIMEOUT,
     PROXY_REMOTE_DNS,
     USER_AGENT,
     effective_proxies,
+    retry_delay,
 )
 from .ssrf_guard import check_url
 
@@ -178,7 +176,7 @@ class AsyncClient:
         self,
         *,
         timeout: float = HTTP_TIMEOUT,
-        max_retries: int = HTTP_MAX_RETRIES,
+        max_retries: int | None = None,
         user_agent: str = USER_AGENT,
         cache: ResponseCache | None = None,
         breaker: CircuitBreaker | None = None,
@@ -187,7 +185,9 @@ class AsyncClient:
         proxy_remote_dns: bool = PROXY_REMOTE_DNS,
     ) -> None:
         self.timeout = aiohttp.ClientTimeout(total=timeout)
-        self.max_retries = max_retries
+        from .config import RETRY as _RETRY
+
+        self.max_retries = _RETRY.attempts if max_retries is None else max_retries
         self.user_agent = user_agent
         self.cache = cache or ResponseCache()
         self.breaker = breaker or CircuitBreaker()
@@ -346,7 +346,7 @@ class AsyncClient:
 
                         if resp.status == 429:
                             # rate limited — backoff and retry
-                            await asyncio.sleep(HTTP_BACKOFF_BASE * (HTTP_BACKOFF_FACTOR ** (attempt - 1)))
+                            await asyncio.sleep(retry_delay(attempt))
                             continue
                         if resp.status in (401, 403):
                             self.breaker.record_failure(host)
@@ -357,7 +357,7 @@ class AsyncClient:
                             return None, meta
                         if resp.status >= 500:
                             last_exc = RuntimeError(f"http_{resp.status}")
-                            await asyncio.sleep(HTTP_BACKOFF_BASE * (HTTP_BACKOFF_FACTOR ** (attempt - 1)))
+                            await asyncio.sleep(retry_delay(attempt))
                             continue
 
                         # success
@@ -385,7 +385,7 @@ class AsyncClient:
                 except Exception as e:
                     last_exc = e
                     meta["error"] = str(e)
-                await asyncio.sleep(HTTP_BACKOFF_BASE * (HTTP_BACKOFF_FACTOR ** (attempt - 1)))
+                await asyncio.sleep(retry_delay(attempt))
 
         self.breaker.record_failure(host)
         if last_exc is not None:

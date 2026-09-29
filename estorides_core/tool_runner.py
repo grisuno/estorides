@@ -281,7 +281,7 @@ def run_tool(
         stderr_str = ""
 
     try:
-        sha1 = hashlib.sha1(stdout_raw).hexdigest()  # nosec B324
+        sha1 = hashlib.sha1(stdout_raw, usedforsecurity=False).hexdigest()  # nosec B324
     except Exception:
         sha1 = ""
 

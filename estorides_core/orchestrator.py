@@ -34,7 +34,8 @@ from .config import (DATASET_PATH, DEFAULT_CONTACT, ER_ENABLED, ER_PERSIST,
                      TEMPLATE_ENVS, TOOL_TIMEOUT,
                      contact_level, effective_proxies)
 from .entity_extraction import (Entity, detect_query_type, extract_from_json,
-                                extract_structured, merge)
+                                 extract_structured, merge)
+from .event_bus import get_bus
 from .knowledge_graph import KnowledgeGraph
 from .mitre_attack import all_techniques_for, map_observations
 from .ontology import ontology
@@ -165,11 +166,17 @@ def _domain_from_query(q: str) -> Optional[str]:
 
 
 class Orchestrator:
-    def __init__(self) -> None:
-        self.registry = SourceRegistry(SOURCES_DIR)
-        self.registry.load()
-        self.llm = LLMManager()
-        self.kg = KnowledgeGraph()
+    def __init__(
+        self,
+        registry: SourceRegistry | None = None,
+        llm: LLMManager | None = None,
+        kg: KnowledgeGraph | None = None,
+    ) -> None:
+        self.registry = registry or SourceRegistry(SOURCES_DIR)
+        if registry is None:
+            self.registry.load()
+        self.llm = llm or LLMManager()
+        self.kg = kg or KnowledgeGraph()
         # Mirror the YAML source catalogue into the fusion store once at
         # startup so its source table tracks the same feeds the engine fans
         # out to, with the per-source fetch counters accumulating from here.
@@ -627,6 +634,17 @@ class Orchestrator:
             except Exception as e:  # noqa: BLE001
                 log.debug("intel enrichment failed: %s", e)
 
+        try:
+            bus = get_bus()
+            for obs in observations:
+                meta = obs.get("meta", {}) if isinstance(obs, dict) else {}
+                bus.publish(
+                    "source_complete",
+                    {"source": str(meta.get("source", "unknown")), "query": query},
+                )
+            bus.publish("run_finished", {"query": query, "sources": len(observations)})
+        except Exception:
+            pass
         return {
             "query": query,
             "generated_at": time.time(),

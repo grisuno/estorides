@@ -43,6 +43,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
+from .case_crypto import decrypt_text, encrypt_text
 from .config import DATA_DIR
 from .sqlite_store import SqliteStore
 
@@ -120,6 +121,54 @@ class CaseStore(SqliteStore):
     _DDL = _DDL
     _DEFAULT_PATH = DB_PATH
 
+    _FTS_DDL = (
+        "CREATE VIRTUAL TABLE IF NOT EXISTS observations_fts USING fts5("
+        "source, parsed_json, raw_excerpt, content='observations', "
+        "content_rowid='id')",
+        "CREATE TRIGGER IF NOT EXISTS observations_ai AFTER INSERT ON observations BEGIN "
+        "INSERT INTO observations_fts(rowid, source, parsed_json, raw_excerpt) "
+        "VALUES (new.id, new.source, new.parsed_json, new.raw_excerpt); END",
+        "CREATE TRIGGER IF NOT EXISTS observations_ad AFTER DELETE ON observations BEGIN "
+        "INSERT INTO observations_fts(observations_fts, rowid, source, parsed_json, raw_excerpt) "
+        "VALUES ('delete', old.id, old.source, old.parsed_json, old.raw_excerpt); END",
+    )
+
+    def _init_schema(self) -> None:
+        """Create base tables then best effort FTS index."""
+        super()._init_schema()
+        try:
+            with self._lock:
+                for stmt in self._FTS_DDL:
+                    self._conn.execute(stmt)
+            self._fts = True
+        except Exception:
+            self._fts = False
+
+    def fts_available(self) -> bool:
+        """True when the FTS5 index exists and answers queries."""
+        return bool(getattr(self, "_fts", False))
+
+    def search_observations_fts(self, query: str, limit: int = 20) -> list[dict[str, object]]:
+        """Full text search over observations ordered by rank."""
+        text = (query or "").strip()
+        if not text or not self.fts_available():
+            return []
+        try:
+            with self._lock:
+                rows = self._conn.execute(
+                    "SELECT o.id, o.case_id, o.source, "
+                    "snippet(observations_fts, 2, '', '', '...', 24) "
+                    "FROM observations_fts f JOIN observations o ON o.id = f.rowid "
+                    "WHERE observations_fts MATCH ? ORDER BY rank LIMIT ?",
+                    (text, max(int(limit), 1)),
+                ).fetchall()
+        except Exception:
+            return []
+        out: list[dict[str, object]] = []
+        for r in rows:
+            out.append({"id": r[0], "case_id": r[1], "source": r[2], "snippet": str(r[3] or "")})
+        return out
+
     # ----------------------------------------------------------- write API
     def create_case(
         self,
@@ -133,7 +182,7 @@ class CaseStore(SqliteStore):
             c.execute(
                 "INSERT INTO cases(id, query, query_type, created_at, status, notes) "
                 "VALUES (?, ?, ?, ?, 'pending', ?)",
-                (case_id, query, query_type, time.time(), notes),
+                (case_id, query, query_type, time.time(), encrypt_text(notes)),
             )
         return case_id
 
@@ -214,7 +263,7 @@ class CaseStore(SqliteStore):
                 (
                     time.time(),
                     status,
-                    json.dumps(analysis, ensure_ascii=False, default=str) if analysis is not None else None,
+                    encrypt_text(json.dumps(analysis, ensure_ascii=False, default=str)) if analysis is not None else None,
                     kg_path,
                     json.dumps(mitre, ensure_ascii=False, default=str) if mitre is not None else None,
                     source_count,
@@ -236,7 +285,7 @@ class CaseStore(SqliteStore):
         its own transaction boundary.
         """
         with self._tx() as c:
-            c.execute("UPDATE cases SET notes=? WHERE id=?", (notes, case_id))
+            c.execute("UPDATE cases SET notes=? WHERE id=?", (encrypt_text(notes), case_id))
 
     # ----------------------------------------------------------- read API
     def get_case(self, case_id: str) -> Optional[Dict[str, Any]]:
@@ -404,6 +453,14 @@ class CaseStore(SqliteStore):
 
     # ----------------------------------------------------------- helpers
     def _row_to_case(self, row: sqlite3.Row) -> Dict[str, Any]:
+        notes_raw = row[6] if isinstance(row[6], str) else ""
+        analysis_raw = row[11] if isinstance(row[11], str) else ""
+        notes = decrypt_text(notes_raw) if notes_raw else ""
+        if notes == "[decrypt-error]":
+            pass
+        analysis_text = decrypt_text(analysis_raw) if analysis_raw else ""
+        if analysis_text == "[decrypt-error]":
+            analysis_text = ""
         return {
             "id": row[0],
             "query": row[1],
@@ -411,12 +468,12 @@ class CaseStore(SqliteStore):
             "created_at": row[3],
             "finalised_at": row[4],
             "status": row[5],
-            "notes": row[6],
+            "notes": notes,
             "source_count": row[7],
             "obs_count": row[8],
             "entity_count": row[9],
             "mitre": self._safe_json(row[10]),
-            "analysis": self._safe_json(row[11]),
+            "analysis": self._safe_json(analysis_text),
             "kg_path": row[12],
         }
 

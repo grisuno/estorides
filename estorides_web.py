@@ -46,6 +46,8 @@ from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
 from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
+from estorides_core.openapi import build_openapi
+from estorides_core.ops_observability import OPS, health_payload, ready_payload, render_metrics
 from estorides_core.orchestrator import Orchestrator, pending_system_app_tasks
 from estorides_core.pivot_engine import BufferedEventSink, PivotEngine
 from estorides_core.search_telemetry import SearchTelemetry
@@ -263,6 +265,43 @@ def create_app() -> Flask:
     from estorides_web_tools import tools_bp as _tools_bp
 
     app.register_blueprint(_tools_bp)
+
+    @app.route("/healthz")
+    def healthz() -> Any:
+        """Return liveness without auth for container probes."""
+        body, code = health_payload()
+        resp = jsonify(body)
+        resp.status_code = code
+        resp.headers["Cache-Control"] = "no-store"
+        return resp
+
+    @app.route("/readyz")
+    @_rate_limit_decorator(event="api_readyz")
+    @require_auth
+    def readyz() -> Any:
+        """Return readiness based on source registry state."""
+        try:
+            count = len(orch.registry.sources)
+            dir_ok = orch.registry.sources_dir.exists()
+        except Exception:
+            count = 0
+            dir_ok = False
+        body, code = ready_payload(count, dir_ok)
+        return jsonify(body), code
+
+    @app.route("/metrics")
+    @_rate_limit_decorator(event="api_metrics")
+    @require_auth
+    def metrics() -> Any:
+        """Return Prometheus text counters for this process."""
+        return Response(render_metrics(), mimetype=OPS.metrics_content_type)
+
+    @app.route("/api/openapi.json")
+    @_rate_limit_decorator(event="api_openapi")
+    @require_auth
+    def openapi_doc() -> Any:
+        """Return the generated OpenAPI document for this app."""
+        return jsonify(build_openapi(app))
 
     @app.route("/")
     def index() -> Any:
