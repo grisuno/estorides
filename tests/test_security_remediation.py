@@ -590,9 +590,8 @@ class TestAlerterNoRedirect:
 # =========================================================================
 
 class TestTooltipSinkHardening:
-    """showTooltipAt must not round-trip through insertAdjacentHTML; the
-    hardened sanitizeHTML must strip dangerous-scheme URLs, style attrs and
-    extra executable elements."""
+    """Node-only pipeline: remote text is parsed once, stripped in place
+    and appended as nodes. No HTML string round-trip exists."""
 
     JS_PATH = Path(__file__).resolve().parent.parent / "static" / "js" / "estorides.js"
 
@@ -617,16 +616,23 @@ class TestTooltipSinkHardening:
         # The sanitizer shares module-level tables (UNSAFE_TAGS, URL_ATTRS,
         # DANGEROUS_SCHEME) with its function body, so scan both.
         content = self.JS_PATH.read_text(encoding="utf-8")
-        anchor = content.find("function sanitizeHTML(str)")
+        anchor = content.find("function sanitizeDoc(doc)")
         assert anchor != -1
         window = content[max(0, anchor - 1200):anchor + 2500]
         for token in ("data:", "vbscript:", "srcdoc", "formaction", "style"):
-            assert token in window, f"sanitizeHTML must handle {token}"
+            assert token in window, f"sanitizeDoc must handle {token}"
         for tag in ("base", "form"):
-            assert tag in window, f"sanitizeHTML must strip <{tag}>"
+            assert tag in window, f"sanitizeDoc must strip <{tag}>"
 
     def test_no_innerhtml_markdown_sink(self):
         content = self.JS_PATH.read_text(encoding="utf-8")
         assert "innerHTML = renderMarkdown" not in content, \
             "remote LLM text must go through renderMarkdownInto (node append), never an innerHTML string sink"
         assert "function renderMarkdownInto(" in content
+
+    def test_no_html_string_round_trip(self):
+        content = self.JS_PATH.read_text(encoding="utf-8")
+        assert "return doc.body.innerHTML" not in content, \
+            "sanitized markup must travel as nodes, never serialized back to a string"
+        assert content.count("parseFromString") == 1, \
+            "exactly one HTML parse: parse once, sanitize in place, move nodes"

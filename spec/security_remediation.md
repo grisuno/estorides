@@ -263,3 +263,21 @@ When: rendered
 Then: it goes through `renderMarkdownInto(el, text)` (parse → sanitize →
   node append) and never through `el.innerHTML = renderMarkdown(...)`;
   no `innerHTML = renderMarkdown` string sink remains in the bundle.
+
+### S27 — recipe paths come from directory listing, never from input (CodeQL #48/#49/#52 round 6)
+Given: any `name` reaching `load_recipe` / `install_tool` / `_recipe_path`
+When: resolved
+Then: the path is `_recipe_table().get(name)` where the table is built
+  from `TOOL_RECIPES_DIR.glob("*.yaml")`; no `f"{name}.yaml"` join exists
+  anywhere, so taint cannot flow from the URL segment into the filesystem
+  sink. Unknown names raise/return-None before any FS touch; the regex,
+  separator and `resolve()`/`parent` checks stay as depth.
+
+### S28 — single-parse node pipeline, no HTML string exists (CodeQL #38 round 6)
+Given: any remote text (LLM stream, node label, markdown)
+When: rendered
+Then: exactly one `parseFromString` in the bundle feeds `sanitizeDoc`
+  (in-place strip) whose nodes are moved to the live DOM. No function
+  returns `doc.body.innerHTML`; `sanitizeHTML` and the string-returning
+  `renderMarkdown` are deleted, so the reinterpretation pattern has no
+  sink left to flag.

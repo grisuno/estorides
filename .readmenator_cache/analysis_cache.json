@@ -3,43 +3,43 @@
     "god_nodes": [
       [
         "estorides_core/config.py",
-        66.4
+        84.6
       ],
       [
         "estorides_web.py",
-        59.9
+        75.1
       ],
       [
         "estorides_core/orchestrator.py",
-        43.2
+        55.8
       ],
       [
         "estorides_cli.py",
-        31.1
+        33.1
       ],
       [
         "estorides_core/entity_extraction.py",
-        25.9
+        30.1
+      ],
+      [
+        "estorides_core/cases.py",
+        22.1
       ],
       [
         "estorides_core/fusion_store.py",
+        21.8
+      ],
+      [
+        "estorides_core/tool_runner.py",
+        21.5
+      ],
+      [
+        "estorides_core/web_security.py",
         20.2
       ],
       [
         "estorides_core/discoverer.py",
         20.1
-      ],
-      [
-        "estorides_core/knowledge_graph.py",
-        19.7
-      ],
-      [
-        "estorides_core/entity_resolution.py",
-        19.5
-      ],
-      [
-        "estorides_core/reliability_scoring.py",
-        17.4
       ]
     ],
     "communities": [
@@ -47,291 +47,229 @@
         "id": 0,
         "label": "estorides_core",
         "file_ids": [
-          "estorides_llm/manager.py",
-          "estorides_core/knowledge_graph.py",
-          "estorides_core/monitoring.py",
-          "estorides_core/ssrf_guard.py",
-          "estorides_core/recon_fusion.py",
-          "estorides_llm/__init__.py",
-          "estorides_export/__init__.py",
-          "_test_proxy.py",
+          "tests/properties/test_observation_models_properties.py",
+          "estorides_core/case_crypto.py",
           "estorides_core/discoverer.py",
-          "estorides_core/entity_extraction.py",
-          "estorides_export/report.py",
-          "estorides_core/pagination.py",
-          "estorides_core/audit.py",
-          "estorides_core/source_loader.py",
-          "estorides_core/intel_resolver.py",
-          "estorides_core/feeds.py",
-          "_test_people.py",
-          "estorides_core/entity_store.py",
-          "_test_entity_resolution.py",
-          "estorides_web.py",
-          "_test_hardening.py",
-          "_test_fusion.py",
-          "estorides_core/osiris_sources.py",
-          "estorides_core/parsers.py",
-          "estorides_core/socmint.py",
-          "estorides_core/transliteration.py",
-          "tests/test_socmint.py",
-          "estorides_core/pivot_engine.py",
-          "estorides_core/relationship_inference.py",
-          "estorides_core/fusion_store.py",
-          "estorides_core/graph_kuzu.py",
-          "estorides_export/stix.py",
-          "tests/test_recon_fusion.py",
           "estorides_core/ontology.py",
-          "estorides_core/validation.py",
-          "estorides_core/alerter.py",
-          "tests/test_pagination.py",
-          "estorides_export/misp.py",
-          "tests/test_monitoring.py",
-          "tests/test_entity_resolution.py",
-          "tests/test_probabilistic_fusion.py",
-          "tests/test_audit_log.py",
-          "static/js/estorides.js",
-          "tests/test_security_remediation.py",
+          "estorides_core/active_recon.py",
+          "tests/test_sqlite_store.py",
           "estorides_export/encryption.py",
-          "estorides_core/job_registry.py",
-          "estorides_core/mitre_attack.py",
+          "tests/test_cli_watch.py",
+          "tests/test_keyless_sources.py",
+          "estorides_core/parsers.py",
+          "estorides_core/system_app_sources.py",
+          "tests/test_web_helpers.py",
+          "estorides_core/entity_store.py",
+          "tests/test_auth_gate.py",
+          "tests/test_opsec_contact.py",
+          "tests/test_retry_policy.py",
+          "tests/test_entity_resolution.py",
+          "tests/test_config_env.py",
+          "estorides_core/event_bus.py",
+          "estorides_core/audit.py",
           "estorides_core/transforms.py",
-          "tests/test_encrypted_export.py",
-          "estorides_cli.py",
-          "estorides_core/config.py",
-          "estorides_core/entity_resolution.py",
+          "tools/sync_docs.py",
+          "wsgi.py",
+          "estorides_export/misp.py",
+          "tests/test_security_remediation.py",
+          "tests/properties/test_system_app_sources_properties.py",
+          "app.py",
+          "tests/properties/test_tool_runner_properties.py",
+          "tests/test_observation_models.py",
+          "tests/test_source_routing.py",
           "tests/properties/test_recon_fusion_properties.py",
-          "estorides_core/__init__.py",
+          "tests/test_socmint.py",
+          "estorides_core/mitre_attack.py",
+          "estorides_export/report.py",
+          "estorides_core/fusion_analytics.py",
           "tests/test_job_registry.py",
+          "estorides_core/change_detection.py",
+          "estorides_core/ops_observability.py",
+          "estorides_core/tool_runner.py",
+          "tests/test_ui_professional.py",
+          "tests/test_fusion_analytics.py",
+          "tests/test_tool_doctor.py",
+          "tests/properties/test_hypothesis_engine_properties.py",
+          "estorides_core/ids.py",
+          "estorides_export/__init__.py",
+          "tests/test_hardening.py",
+          "tests/properties/test_csp_safe_styles_properties.py",
+          "tests/test_async_client.py",
+          "static/js/estorides.js",
+          "estorides_core/graph_kuzu.py",
+          "estorides_core/sqlite_store.py",
+          "estorides_core/pivot_engine.py",
+          "estorides_core/feeds.py",
           "estorides_core/async_client.py",
-          "estorides_core/orchestrator.py",
+          "estorides_core/hypothesis_engine.py",
+          "tests/test_obs_fts.py",
+          "estorides_core/transliteration.py",
+          "estorides_core/web_security.py",
+          "tests/test_reliability_scoring.py",
+          "tests/test_web_tools_blueprint.py",
+          "tests/test_encrypted_export.py",
+          "tests/test_active_recon.py",
+          "estorides_core/intel_resolver.py",
+          "tests/test_entity_extraction.py",
+          "tests/test_pagination.py",
+          "tests/test_ids.py",
+          "tests/test_recon_report.py",
+          "estorides_core/pagination.py",
+          "estorides_core/recon_fusion.py",
+          "estorides_core/relationship_inference.py",
+          "tests/test_search_telemetry.py",
+          "estorides_core/config.py",
+          "estorides_core/socmint.py",
           "estorides_core/cases.py",
-          "estorides_llm/intelligence_prompts.py",
-          "_test_passive.py"
+          "estorides_web.py",
+          "estorides_core/validation.py",
+          "tests/test_scope.py",
+          "estorides_cli.py",
+          "tests/properties/test_reliability_scoring_properties.py",
+          "estorides_core/alerter.py",
+          "estorides_core/osiris_sources.py",
+          "tests/test_csp_safe_styles.py",
+          "estorides_web_tools.py",
+          "web.py",
+          "tests/test_ops_observability.py",
+          "tests/test_tool_install.py",
+          "tests/test_tool_runner.py",
+          "tests/test_source_loader.py",
+          "tests/test_recon_fusion.py",
+          "tests/test_structured_extraction.py",
+          "tests/test_hypothesis_engine.py",
+          "estorides_core/ssrf_guard.py",
+          "tests/test_event_bus.py",
+          "tests/test_openapi.py",
+          "estorides_core/observation_models.py",
+          "tests/test_system_app_sources.py",
+          "estorides_core/orchestrator.py",
+          "estorides_export/stix.py",
+          "estorides_core/openapi.py",
+          "tests/test_monitoring.py",
+          "tests/test_audit_log.py",
+          "tests/test_case_crypto.py",
+          "estorides_core/source_loader.py",
+          "estorides_core/scope.py",
+          "estorides_core/job_registry.py",
+          "tests/test_map_basemap.py",
+          "estorides_core/tool_install.py",
+          "estorides_export/recon_report.py",
+          "tests/test_probabilistic_fusion.py",
+          "estorides_core/search_telemetry.py",
+          "estorides_core/monitoring.py",
+          "tests/properties/test_search_telemetry_properties.py",
+          "estorides_core/entity_resolution.py",
+          "tests/test_query_intent.py",
+          "estorides_core/fusion_store.py",
+          "estorides_core/reliability_scoring.py",
+          "tests/test_change_detection.py",
+          "estorides_core/entity_extraction.py",
+          "tests/properties/test_parsers_properties.py",
+          "tests/test_central_config.py",
+          "estorides_core/__init__.py",
+          "estorides_core/knowledge_graph.py",
+          "tests/properties/test_change_detection_properties.py"
         ],
-        "cohesion": 0.9166666666666666,
-        "size": 60
+        "cohesion": 0.9958847736625515,
+        "size": 123
       },
       {
         "id": 1,
-        "label": "root",
+        "label": "estorides_core",
         "file_ids": [
-          "_test_scope.py",
-          "estorides_core/scope.py"
+          "tests/test_tech_fingerprint.py",
+          "tests/test_people_intel.py",
+          "tests/test_cloud_asset_discovery.py",
+          "estorides_core/tech_fingerprint.py",
+          "tests/test_vuln_correlation.py",
+          "estorides_core/code_exposure.py",
+          "estorides_core/recon_pipeline.py",
+          "estorides_core/pdns_monitor.py",
+          "tests/test_code_exposure.py",
+          "estorides_core/supply_chain.py",
+          "tests/test_pdns_monitor.py",
+          "tests/test_supply_chain.py",
+          "estorides_core/vuln_correlation.py",
+          "estorides_core/cloud_asset_discovery.py",
+          "estorides_core/people_intel.py"
         ],
-        "cohesion": 0.5,
-        "size": 2
+        "cohesion": 1.0,
+        "size": 15
       },
       {
         "id": 2,
-        "label": "root",
+        "label": "tests/properties",
         "file_ids": [
-          "app.py",
-          "wsgi.py",
-          "web.py"
-        ],
-        "cohesion": 0.5,
-        "size": 3
-      },
-      {
-        "id": 3,
-        "label": "estorides_core",
-        "file_ids": [
-          "estorides_core/reliability_scoring.py",
-          "tests/test_change_detection.py",
-          "tests/properties/test_hypothesis_engine_properties.py",
-          "tests/properties/test_change_detection_properties.py",
-          "estorides_core/change_detection.py",
-          "tests/properties/test_reliability_scoring_properties.py",
-          "tests/test_hypothesis_engine.py",
-          "estorides_core/hypothesis_engine.py",
-          "tests/test_reliability_scoring.py"
-        ],
-        "cohesion": 0.8333333333333334,
-        "size": 9
-      },
-      {
-        "id": 4,
-        "label": "estorides_core",
-        "file_ids": [
-          "estorides_core/cloud_asset_discovery.py",
-          "tests/test_cloud_asset_discovery.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 5,
-        "label": "estorides_core",
-        "file_ids": [
-          "tests/test_code_exposure.py",
-          "estorides_core/code_exposure.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 6,
-        "label": "estorides_core",
-        "file_ids": [
-          "estorides_core/fusion_analytics.py",
-          "tests/test_fusion_analytics.py"
-        ],
-        "cohesion": 0.3333333333333333,
-        "size": 2
-      },
-      {
-        "id": 7,
-        "label": "estorides_core",
-        "file_ids": [
-          "estorides_core/pdns_monitor.py",
-          "tests/test_pdns_monitor.py",
-          "estorides_core/recon_pipeline.py"
-        ],
-        "cohesion": 0.25,
-        "size": 3
-      },
-      {
-        "id": 8,
-        "label": "estorides_core",
-        "file_ids": [
-          "tests/test_people_intel.py",
-          "estorides_core/people_intel.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 9,
-        "label": "tests",
-        "file_ids": [
-          "estorides_core/search_telemetry.py",
-          "tests/properties/test_search_telemetry_properties.py",
-          "tests/test_csp_safe_styles.py",
-          "tests/test_search_telemetry.py",
-          "tests/test_ui_professional.py"
-        ],
-        "cohesion": 0.5,
-        "size": 5
-      },
-      {
-        "id": 10,
-        "label": "estorides_core",
-        "file_ids": [
-          "tests/properties/test_source_health_monitoring_properties.py",
           "estorides_core/source_health_monitoring.py",
+          "tests/properties/test_source_health_monitoring_properties.py",
           "tests/test_source_health_monitoring.py"
         ],
         "cohesion": 1.0,
         "size": 3
       },
       {
-        "id": 11,
-        "label": "estorides_core",
+        "id": 3,
+        "label": "estorides_llm",
         "file_ids": [
-          "tests/test_supply_chain.py",
-          "estorides_core/supply_chain.py"
+          "estorides_llm/intelligence_prompts.py",
+          "estorides_llm/__init__.py",
+          "estorides_llm/manager.py"
         ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 12,
-        "label": "estorides_core",
-        "file_ids": [
-          "tests/test_tech_fingerprint.py",
-          "estorides_core/tech_fingerprint.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 13,
-        "label": "estorides_core",
-        "file_ids": [
-          "estorides_core/vuln_correlation.py",
-          "tests/test_vuln_correlation.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
-      },
-      {
-        "id": 14,
-        "label": "estorides_core",
-        "file_ids": [
-          "tests/properties/test_csp_safe_styles_properties.py",
-          "estorides_core/web_security.py",
-          "tests/test_auth_gate.py"
-        ],
-        "cohesion": 0.4,
+        "cohesion": 0.6666666666666666,
         "size": 3
-      },
-      {
-        "id": 15,
-        "label": "estorides_export",
-        "file_ids": [
-          "tests/test_recon_report.py",
-          "estorides_export/recon_report.py"
-        ],
-        "cohesion": 0.5,
-        "size": 2
       }
     ],
     "surprising_connections": [
       [
-        "tests/properties/test_change_detection_properties.py",
-        "tests/test_recon_report.py",
-        7,
-        "{0, 3, 15}"
-      ],
-      [
-        "tests/properties/test_hypothesis_engine_properties.py",
-        "tests/test_recon_report.py",
-        7,
-        "{0, 3, 15}"
-      ],
-      [
-        "_test_hardening.py",
+        "estorides_llm/__init__.py",
         "tests/properties/test_change_detection_properties.py",
         6,
         "{0, 3}"
       ],
       [
-        "_test_hardening.py",
+        "estorides_llm/__init__.py",
         "tests/properties/test_hypothesis_engine_properties.py",
         6,
         "{0, 3}"
       ],
       [
-        "_test_scope.py",
+        "estorides_llm/__init__.py",
+        "tests/test_recon_report.py",
+        6,
+        "{0, 3}"
+      ],
+      [
+        "estorides_llm/intelligence_prompts.py",
         "tests/properties/test_change_detection_properties.py",
         6,
-        "{0, 1, 3}"
+        "{0, 3}"
+      ],
+      [
+        "estorides_llm/intelligence_prompts.py",
+        "tests/properties/test_hypothesis_engine_properties.py",
+        6,
+        "{0, 3}"
       ]
     ],
     "suggested_questions": [
-      "What does config.py depend on, and what depends on it? (32 connections)",
-      "What does estorides_web.py depend on, and what depends on it? (26 connections)",
-      "What does orchestrator.py depend on, and what depends on it? (21 connections)",
-      "How are the 60 files in 'estorides_core' related to each other?",
-      "Why are test_change_detection_properties.py and test_recon_report.py connected through 7 hops across 3 communities?"
+      "What does config.py depend on, and what depends on it? (41 connections)",
+      "What does estorides_web.py depend on, and what depends on it? (33 connections)",
+      "What does orchestrator.py depend on, and what depends on it? (27 connections)",
+      "How are the 123 files in 'estorides_core' related to each other?",
+      "Why are __init__.py and test_change_detection_properties.py connected through 6 hops across 2 communities?"
     ]
   },
   "layers": {
     "_multi_test.sh": "testing",
-    "_test_entity_resolution.py": "testing",
-    "_test_fusion.py": "testing",
-    "_test_hardening.py": "testing",
-    "_test_passive.py": "testing",
-    "_test_people.py": "testing",
-    "_test_proxy.py": "testing",
-    "_test_scope.py": "testing",
-    "_validate.py": "utility",
     "app.py": "utility",
     "estorides_cli.py": "utility",
     "estorides_core/__init__.py": "utility",
+    "estorides_core/active_recon.py": "utility",
     "estorides_core/alerter.py": "utility",
     "estorides_core/async_client.py": "infrastructure",
     "estorides_core/audit.py": "infrastructure",
+    "estorides_core/case_crypto.py": "utility",
     "estorides_core/cases.py": "utility",
     "estorides_core/change_detection.py": "utility",
     "estorides_core/cloud_asset_discovery.py": "infrastructure",
@@ -341,17 +279,22 @@
     "estorides_core/entity_extraction.py": "presentation",
     "estorides_core/entity_resolution.py": "business_logic",
     "estorides_core/entity_store.py": "business_logic",
+    "estorides_core/event_bus.py": "infrastructure",
     "estorides_core/feeds.py": "utility",
     "estorides_core/fusion_analytics.py": "utility",
     "estorides_core/fusion_store.py": "data_access",
     "estorides_core/graph_kuzu.py": "utility",
     "estorides_core/hypothesis_engine.py": "utility",
+    "estorides_core/ids.py": "utility",
     "estorides_core/intel_resolver.py": "utility",
     "estorides_core/job_registry.py": "utility",
     "estorides_core/knowledge_graph.py": "utility",
     "estorides_core/mitre_attack.py": "utility",
     "estorides_core/monitoring.py": "utility",
+    "estorides_core/observation_models.py": "business_logic",
     "estorides_core/ontology.py": "utility",
+    "estorides_core/openapi.py": "presentation",
+    "estorides_core/ops_observability.py": "utility",
     "estorides_core/orchestrator.py": "utility",
     "estorides_core/osiris_sources.py": "utility",
     "estorides_core/pagination.py": "utility",
@@ -368,9 +311,13 @@
     "estorides_core/socmint.py": "utility",
     "estorides_core/source_health_monitoring.py": "utility",
     "estorides_core/source_loader.py": "utility",
+    "estorides_core/sqlite_store.py": "data_access",
     "estorides_core/ssrf_guard.py": "utility",
     "estorides_core/supply_chain.py": "utility",
+    "estorides_core/system_app_sources.py": "utility",
     "estorides_core/tech_fingerprint.py": "utility",
+    "estorides_core/tool_install.py": "utility",
+    "estorides_core/tool_runner.py": "utility",
     "estorides_core/transforms.py": "data_access",
     "estorides_core/transliteration.py": "utility",
     "estorides_core/validation.py": "utility",
@@ -386,6 +333,7 @@
     "estorides_llm/intelligence_prompts.py": "utility",
     "estorides_llm/manager.py": "utility",
     "estorides_web.py": "presentation",
+    "estorides_web_tools.py": "presentation",
     "install.sh": "utility",
     "static/js/estorides.js": "utility",
     "static/js/source_manager.js": "utility",
@@ -393,41 +341,80 @@
     "tests/properties/test_change_detection_properties.py": "testing",
     "tests/properties/test_csp_safe_styles_properties.py": "testing",
     "tests/properties/test_hypothesis_engine_properties.py": "testing",
+    "tests/properties/test_observation_models_properties.py": "testing",
+    "tests/properties/test_parsers_properties.py": "testing",
     "tests/properties/test_recon_fusion_properties.py": "testing",
     "tests/properties/test_reliability_scoring_properties.py": "testing",
     "tests/properties/test_search_telemetry_properties.py": "testing",
     "tests/properties/test_source_health_monitoring_properties.py": "testing",
+    "tests/properties/test_system_app_sources_properties.py": "testing",
     "tests/properties/test_target_management_properties.py": "testing",
+    "tests/properties/test_tool_runner_properties.py": "testing",
+    "tests/test_active_recon.py": "testing",
+    "tests/test_async_client.py": "testing",
     "tests/test_audit_log.py": "testing",
     "tests/test_auth_gate.py": "testing",
+    "tests/test_case_crypto.py": "testing",
+    "tests/test_central_config.py": "testing",
     "tests/test_change_detection.py": "testing",
+    "tests/test_cli_watch.py": "testing",
     "tests/test_cloud_asset_discovery.py": "testing",
     "tests/test_code_exposure.py": "testing",
+    "tests/test_config_env.py": "testing",
     "tests/test_csp_safe_styles.py": "testing",
     "tests/test_encrypted_export.py": "testing",
+    "tests/test_entity_extraction.py": "testing",
     "tests/test_entity_resolution.py": "testing",
+    "tests/test_envutil.py": "testing",
+    "tests/test_event_bus.py": "testing",
     "tests/test_fusion_analytics.py": "testing",
+    "tests/test_hardening.py": "testing",
     "tests/test_hypothesis_engine.py": "testing",
+    "tests/test_ids.py": "testing",
     "tests/test_job_registry.py": "testing",
+    "tests/test_keyless_sources.py": "testing",
+    "tests/test_map_basemap.py": "testing",
     "tests/test_monitoring.py": "testing",
+    "tests/test_obs_fts.py": "testing",
+    "tests/test_observation_models.py": "testing",
+    "tests/test_openapi.py": "testing",
+    "tests/test_ops_observability.py": "testing",
+    "tests/test_opsec_contact.py": "testing",
+    "tests/test_orchestrator_fanout.py": "testing",
     "tests/test_pagination.py": "testing",
+    "tests/test_parsers.py": "testing",
     "tests/test_pdns_monitor.py": "testing",
     "tests/test_people_intel.py": "testing",
     "tests/test_probabilistic_fusion.py": "testing",
+    "tests/test_query_intent.py": "testing",
     "tests/test_recon_fusion.py": "testing",
     "tests/test_recon_report.py": "testing",
     "tests/test_reliability_scoring.py": "testing",
+    "tests/test_retry_policy.py": "testing",
+    "tests/test_scope.py": "testing",
     "tests/test_search_telemetry.py": "testing",
     "tests/test_security_remediation.py": "testing",
     "tests/test_socmint.py": "testing",
     "tests/test_source_health_monitoring.py": "testing",
+    "tests/test_source_loader.py": "testing",
+    "tests/test_source_routing.py": "testing",
+    "tests/test_sqlite_store.py": "testing",
+    "tests/test_structured_extraction.py": "testing",
     "tests/test_supply_chain.py": "testing",
+    "tests/test_system_app_sources.py": "testing",
     "tests/test_target_management.py": "testing",
     "tests/test_target_scoring.py": "testing",
     "tests/test_tech_fingerprint.py": "testing",
+    "tests/test_tool_doctor.py": "testing",
+    "tests/test_tool_install.py": "testing",
+    "tests/test_tool_runner.py": "testing",
     "tests/test_ui_professional.py": "testing",
+    "tests/test_ui_visibility.py": "testing",
     "tests/test_vuln_correlation.py": "testing",
+    "tests/test_web_helpers.py": "testing",
+    "tests/test_web_tools_blueprint.py": "testing",
     "tools/split_sources.py": "utility",
+    "tools/sync_docs.py": "utility",
     "web.py": "utility",
     "wsgi.py": "utility"
   },

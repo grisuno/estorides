@@ -176,18 +176,35 @@ def is_valid_binary(name: object) -> bool:
     return isinstance(name, str) and _BINARY_NAME_RE.fullmatch(name) is not None
 
 
+def _recipe_table() -> dict[str, Path]:
+    """Map recipe stem to its file from the directory listing.
+
+    The returned paths come from filesystem enumeration, never from
+    caller input: looking up a hostile name yields ``None`` instead of
+    a path built out of the name itself (CodeQL #48/#49/#52)."""
+    try:
+        if not TOOL_RECIPES_DIR.is_dir():
+            return {}
+        return {p.stem: p for p in sorted(TOOL_RECIPES_DIR.glob("*.yaml"))}
+    except OSError:
+        return {}
+
+
 def _recipe_path(name: str) -> Path:
     if not is_valid_recipe_name(name):
         raise ValueError(f"invalid recipe name: {name!r}")
     if "/" in name or "\\" in name or "\x00" in name or ".." in name:
         raise ValueError(f"invalid recipe name: {name!r}")
-    # Defence in depth: even a validated name must resolve inside the dir
-    # (protects against a symlinked TOOL_RECIPES_DIR component).
+    path = _recipe_table().get(name)
+    if path is None:
+        raise ValueError(f"unknown recipe name: {name!r}")
+    # Defence in depth: the looked-up entry must still resolve inside the
+    # dir (protects against a symlinked TOOL_RECIPES_DIR component).
     base = TOOL_RECIPES_DIR.resolve()
-    path = (base / f"{name}.yaml").resolve()
-    if path.parent != base:
+    resolved = path.resolve()
+    if resolved.parent != base:
         raise ValueError(f"recipe path escapes recipes dir: {name!r}")
-    return path
+    return resolved
 
 
 def load_recipe(name: str) -> InstallRecipe | None:

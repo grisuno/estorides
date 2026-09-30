@@ -828,20 +828,6 @@
     setThinkingVisible(false);
   }
 
-  // Render Markdown to sanitised HTML (CSP-safe). The LLM output is treated
-  // as hostile: marked() is a text→HTML parser with no inline scripts, and we
-  // run the result through the DOMParser-based sanitizer to strip any
-  // script/on*/javascript: that could sneak through.
-  function renderMarkdown(text) {
-    const src = String(text == null ? '' : text);
-    if (typeof window.marked === 'function') {
-      try {
-        return sanitizeHTML(window.marked.parse(src));
-      } catch (_e) { /* fall through to plain text */ }
-    }
-    return escapeHTML(src).replace(/\n/g, '<br>');
-  }
-
   // Node-only Markdown renderer (CodeQL #38). Remote LLM text must never
   // travel as an HTML string into an innerHTML sink: parse, sanitize and
   // append nodes in one step so there is no string round-trip to flag.
@@ -1208,8 +1194,12 @@
   // Blocked schemes: javascript:, data:, vbscript:, file:, blob:.
   var URL_ATTRS = /^(href|src|xlink:href|action|formaction|srcdoc|cite|background|poster|data)$/i;
   var DANGEROUS_SCHEME = /^\s*(javascript|data|vbscript|file|blob)\s*:/i;
-  function sanitizeHTML(str) {
-    const doc = new DOMParser().parseFromString(String(str || ''), 'text/html');
+  // In-place sanitizer (CodeQL #38). Remote text is parsed ONCE into a
+  // detached document, stripped here, and its nodes are moved straight
+  // into the live DOM. There is no HTML-string round-trip: nothing reads
+  // innerHTML and nothing re-parses sanitized markup, so there is no
+  // reinterpretation step for a payload to exploit (mXSS-safe by shape).
+  function sanitizeDoc(doc) {
     const removals = doc.body.querySelectorAll(UNSAFE_TAGS);
     removals.forEach(function(n) { n.remove(); });
     const all = doc.body.querySelectorAll('*');
@@ -1226,15 +1216,11 @@
         }
       }
     });
-    return doc.body.innerHTML;
   }
-  // Append sanitised markup WITHOUT a serialize->reparse round-trip:
-  // nodes are moved straight from the sanitizer document into the live
-  // DOM, so a payload smuggled through innerHTML serialization quirks
-  // (mXSS) has no second parse to exploit.
+  // Append hostile markup as nodes: parse once, sanitize in place, move.
   function setSanitizedHTML(el, html) {
-    const clean = sanitizeHTML(html);
-    const doc = new DOMParser().parseFromString(clean, 'text/html');
+    const doc = new DOMParser().parseFromString(String(html || ''), 'text/html');
+    sanitizeDoc(doc);
     el.textContent = '';
     Array.from(doc.body.childNodes).forEach(function(n) {
       el.appendChild(document.importNode(n, true));
