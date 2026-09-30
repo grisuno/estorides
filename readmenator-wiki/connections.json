@@ -11,7 +11,7 @@
     "community_a": 0,
     "community_b": 1,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 1 (estorides_core).",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (estorides_core) and community 1 (estorides_core).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
@@ -35,7 +35,7 @@
     "community_a": 1,
     "community_b": 2,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (estorides_core) and community 2 (tests/properties).",
+    "explanation": "Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 2 (tests/properties).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
@@ -43,7 +43,7 @@
     "community_a": 1,
     "community_b": 3,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).",
+    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
@@ -51,7 +51,7 @@
     "community_a": 1,
     "community_b": 4,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (estorides_core) and community 4 (orphans).",
+    "explanation": "Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 4 (orphans).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },

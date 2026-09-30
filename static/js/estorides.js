@@ -1186,45 +1186,36 @@
   function hideTooltip() {
     setVisible($('#graph-tooltip'), false);
   }
-  // Elements that can execute code or hijack input and are never needed
-  // in tooltips or LLM-markdown output.
-  var UNSAFE_TAGS = 'script, iframe, object, embed, style, link, meta, base, form, button, ' +
-    'input, select, textarea, option, frame, frameset, applet, marquee';
-  // URL-carrying attributes whose value must never use an active scheme.
-  // Blocked schemes: javascript:, data:, vbscript:, file:, blob:.
-  var URL_ATTRS = /^(href|src|xlink:href|action|formaction|srcdoc|cite|background|poster|data)$/i;
-  var DANGEROUS_SCHEME = /^\s*(javascript|data|vbscript|file|blob)\s*:/i;
-  // In-place sanitizer (CodeQL #38). Remote text is parsed ONCE into a
-  // detached document, stripped here, and its nodes are moved straight
-  // into the live DOM. There is no HTML-string round-trip: nothing reads
-  // innerHTML and nothing re-parses sanitized markup, so there is no
-  // reinterpretation step for a payload to exploit (mXSS-safe by shape).
-  function sanitizeDoc(doc) {
-    const removals = doc.body.querySelectorAll(UNSAFE_TAGS);
-    removals.forEach(function(n) { n.remove(); });
-    const all = doc.body.querySelectorAll('*');
-    all.forEach(function(n) {
-      for (var i = n.attributes.length - 1; i >= 0; i--) {
-        var attr = n.attributes[i];
-        var nm = attr.name.toLowerCase();
-        if (nm.startsWith('on') || nm === 'style' || nm === 'srcdoc' || nm === 'formaction') {
-          n.removeAttribute(attr.name);
-        } else if (URL_ATTRS.test(nm) && DANGEROUS_SCHEME.test(attr.value)) {
-          n.removeAttribute(attr.name);
-        } else if (/javascript/i.test(attr.value) && nm !== 'content') {
-          n.removeAttribute(attr.name);
-        }
-      }
-    });
+  // Central sanitizer (CodeQL #38). DOMPurify is the sanitizer CodeQL
+  // models, so remote markup reaches the sink only through
+  // DOMPurify.sanitize: no custom-sanitizer blind spot. Policy forbids
+  // executable elements (script/iframe/object/...) and active attributes
+  // (on*/style/srcdoc/formaction); DOMPurify's default URI filter already
+  // drops javascript:/data:/vbscript:/file:/blob: URLs. When the vendored
+  // library is unavailable the caller fails closed to plain text.
+  var PURIFY_FORBID_TAGS = ['script', 'iframe', 'object', 'embed', 'style',
+    'link', 'meta', 'base', 'form', 'button', 'input', 'select', 'textarea',
+    'option', 'frame', 'frameset', 'applet', 'marquee'];
+  var PURIFY_FORBID_ATTR = ['style', 'srcdoc', 'formaction'];
+  function purifyHTML(html) {
+    if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
+      return window.DOMPurify.sanitize(String(html || ''), {
+        FORBID_TAGS: PURIFY_FORBID_TAGS,
+        FORBID_ATTR: PURIFY_FORBID_ATTR,
+      });
+    }
+    return null;
   }
-  // Append hostile markup as nodes: parse once, sanitize in place, move.
+  // Append hostile markup: sanitize with DOMPurify, assign once. When the
+  // library is missing, fall back to inert plain text (fail-closed).
   function setSanitizedHTML(el, html) {
-    const doc = new DOMParser().parseFromString(String(html || ''), 'text/html');
-    sanitizeDoc(doc);
+    const clean = purifyHTML(html);
     el.textContent = '';
-    Array.from(doc.body.childNodes).forEach(function(n) {
-      el.appendChild(document.importNode(n, true));
-    });
+    if (clean === null) {
+      el.textContent = String(html == null ? '' : html);
+      return;
+    }
+    el.innerHTML = clean;
   }
   function showTooltipAt(ev, html, paint) {
     const el = $('#graph-tooltip');

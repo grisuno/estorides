@@ -1122,10 +1122,11 @@
   - `test_raw_channel_url_refused_even_for_safe_host` (method, line 523) `def test_raw_channel_url_refused_even_for_safe_host(self)`
   - `test_redirect_handler_refuses` (method, line 542) `def test_redirect_handler_refuses(self)`
   - `test_http_post_does_not_follow_redirect` (method, line 547) `def test_http_post_does_not_follow_redirect(self)`
-  - `test_no_insert_adjacent_html_in_tooltip` (method, line 598) `def test_no_insert_adjacent_html_in_tooltip(self)`
-  - `test_sanitizer_blocks_dangerous_schemes_and_style` (method, line 615) `def test_sanitizer_blocks_dangerous_schemes_and_style(self)`
-  - `test_no_innerhtml_markdown_sink` (method, line 627) `def test_no_innerhtml_markdown_sink(self)`
-  - `test_no_html_string_round_trip` (method, line 633) `def test_no_html_string_round_trip(self)`
+  - `test_no_insert_adjacent_html_in_tooltip` (method, line 601) `def test_no_insert_adjacent_html_in_tooltip(self)`
+  - `test_sanitizer_blocks_dangerous_schemes_and_style` (method, line 618) `def test_sanitizer_blocks_dangerous_schemes_and_style(self)`
+  - `test_no_innerhtml_markdown_sink` (method, line 630) `def test_no_innerhtml_markdown_sink(self)`
+  - `test_no_html_string_round_trip` (method, line 636) `def test_no_html_string_round_trip(self)`
+  - `test_vendored_dompurify_wired_with_fallback` (method, line 643) `def test_vendored_dompurify_wired_with_fallback(self)`
   - `api_export_test` (method, line 97) `def api_export_test()`
   - `api_export_fixed` (method, line 130) `def api_export_fixed()`
   - `api_delete` (method, line 191) `def api_delete(name)`

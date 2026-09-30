@@ -20,8 +20,8 @@ These files have the most connections. Changes here have high blast radius.
 - `static/js/estorides.js` -- complexity: 1.0, centrality: 1.0, combined: 1.0
 - `estorides_web.py` -- complexity: 0.6, centrality: 0.1, combined: 0.3
 - `tests/test_target_management.py` -- complexity: 0.5, centrality: 0.0, combined: 0.2
-- `tests/test_socmint.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `tests/test_security_remediation.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
+- `tests/test_socmint.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `tests/test_reliability_scoring.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `tests/test_entity_resolution.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `estorides_core/parsers.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2

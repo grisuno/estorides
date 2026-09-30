@@ -5226,319 +5226,318 @@
 - Doc: --- floating overlays (tooltip + context menu) ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
-### sanitizeDoc (function)
-- Defined: `static/js/estorides.js:1202`
-- Doc: In-place sanitizer (CodeQL #38). Remote text is parsed ONCE into a detached document, stripped here, and its nodes are m
+### purifyHTML (function)
+- Defined: `static/js/estorides.js:1200`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setSanitizedHTML (function)
-- Defined: `static/js/estorides.js:1221`
-- Doc: Append hostile markup as nodes: parse once, sanitize in place, move.
+- Defined: `static/js/estorides.js:1211`
+- Doc: Append hostile markup: sanitize with DOMPurify, assign once. When the library is missing, fall back to inert plain text 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showTooltipAt (function)
-- Defined: `static/js/estorides.js:1229`
+- Defined: `static/js/estorides.js:1220`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideContextMenu (function)
-- Defined: `static/js/estorides.js:1239`
+- Defined: `static/js/estorides.js:1230`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showBridgeTooltip (function)
-- Defined: `static/js/estorides.js:1244`
+- Defined: `static/js/estorides.js:1235`
 - Doc: Cross-referenced tooltip for an inter-cluster (bridge) link.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showNodeTooltip (function)
-- Defined: `static/js/estorides.js:1273`
+- Defined: `static/js/estorides.js:1264`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showContextMenu (function)
-- Defined: `static/js/estorides.js:1292`
+- Defined: `static/js/estorides.js:1283`
 - Doc: --- context menu: transforms grouped by intel tier ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setNodeLevel (function)
-- Defined: `static/js/estorides.js:1362`
+- Defined: `static/js/estorides.js:1353`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### applyLevelStyles (function)
-- Defined: `static/js/estorides.js:1371`
+- Defined: `static/js/estorides.js:1362`
 - Doc: Re-apply level rings to every rendered node circle.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### focusNode (function)
-- Defined: `static/js/estorides.js:1379`
+- Defined: `static/js/estorides.js:1370`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### runTransform (function)
-- Defined: `static/js/estorides.js:1391`
+- Defined: `static/js/estorides.js:1382`
 - Doc: Run a graph pivot transform and merge the result into the graph+map.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### selectNode (function)
-- Defined: `static/js/estorides.js:1409`
+- Defined: `static/js/estorides.js:1400`
 - Doc: --- side inspector panel ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### add (function)
-- Defined: `static/js/estorides.js:1420`
+- Defined: `static/js/estorides.js:1411`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### addText (function)
-- Defined: `static/js/estorides.js:1426`
+- Defined: `static/js/estorides.js:1417`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderGraphCore (function)
-- Defined: `static/js/estorides.js:1500`
+- Defined: `static/js/estorides.js:1491`
 - Doc: --- unified force-graph renderer (clusters + rings + interactions) ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### drawHulls (function)
-- Defined: `static/js/estorides.js:1570`
+- Defined: `static/js/estorides.js:1561`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _redrawGraph (function)
-- Defined: `static/js/estorides.js:1601`
+- Defined: `static/js/estorides.js:1592`
 - Doc: Low-level D3 redraw given a flat nodes/links list (back-compat shim).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setStatusDot (function)
-- Defined: `static/js/estorides.js:1607`
+- Defined: `static/js/estorides.js:1598`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showWorkingIndicator (function)
-- Defined: `static/js/estorides.js:1613`
+- Defined: `static/js/estorides.js:1604`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideWorkingIndicator (function)
-- Defined: `static/js/estorides.js:1618`
+- Defined: `static/js/estorides.js:1609`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### toggleTierSection (function)
-- Defined: `static/js/estorides.js:1623`
+- Defined: `static/js/estorides.js:1614`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderTieredResults (function)
-- Defined: `static/js/estorides.js:1631`
+- Defined: `static/js/estorides.js:1622`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeAttr (function)
-- Defined: `static/js/estorides.js:1697`
+- Defined: `static/js/estorides.js:1688`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### buildMapCoords (function)
-- Defined: `static/js/estorides.js:1733`
+- Defined: `static/js/estorides.js:1724`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### validCoord (function)
-- Defined: `static/js/estorides.js:1829`
+- Defined: `static/js/estorides.js:1820`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### colorFor (function)
-- Defined: `static/js/estorides.js:1833`
+- Defined: `static/js/estorides.js:1824`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderEntities (function)
-- Defined: `static/js/estorides.js:1852`
+- Defined: `static/js/estorides.js:1843`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderGraphSummary (function)
-- Defined: `static/js/estorides.js:1904`
+- Defined: `static/js/estorides.js:1895`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### colorForKind (function)
-- Defined: `static/js/estorides.js:1933`
+- Defined: `static/js/estorides.js:1924`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderTimeline (function)
-- Defined: `static/js/estorides.js:1941`
+- Defined: `static/js/estorides.js:1932`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### fmtTime (function)
-- Defined: `static/js/estorides.js:1991`
+- Defined: `static/js/estorides.js:1982`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### filterTimeline (function)
-- Defined: `static/js/estorides.js:2002`
+- Defined: `static/js/estorides.js:1993`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### drawGraph (function)
-- Defined: `static/js/estorides.js:2051`
+- Defined: `static/js/estorides.js:2042`
 - Doc: --- D3 graph view ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadCases (function)
-- Defined: `static/js/estorides.js:2081`
+- Defined: `static/js/estorides.js:2072`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### openCaseDetail (function)
-- Defined: `static/js/estorides.js:2107`
+- Defined: `static/js/estorides.js:2098`
 - Doc: Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case data) 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### restoreCaseToWorkspace (function)
-- Defined: `static/js/estorides.js:2162`
+- Defined: `static/js/estorides.js:2153`
 - Doc: Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without re-running
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### buildCaseMapCoords (function)
-- Defined: `static/js/estorides.js:2183`
+- Defined: `static/js/estorides.js:2174`
 - Doc: Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid fallb
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderCaseItem (function)
-- Defined: `static/js/estorides.js:2201`
+- Defined: `static/js/estorides.js:2192`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### debounce (function)
-- Defined: `static/js/estorides.js:2227`
+- Defined: `static/js/estorides.js:2218`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeHTML (function)
-- Defined: `static/js/estorides.js:2277`
+- Defined: `static/js/estorides.js:2268`
 - Doc: --- utils ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### truncate (function)
-- Defined: `static/js/estorides.js:2282`
+- Defined: `static/js/estorides.js:2273`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionSave (function)
-- Defined: `static/js/estorides.js:2305`
+- Defined: `static/js/estorides.js:2296`
 - Doc: Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionDiff (function)
-- Defined: `static/js/estorides.js:2326`
+- Defined: `static/js/estorides.js:2317`
 - Doc: Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the cas
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderCaseDiffPanel (function)
-- Defined: `static/js/estorides.js:2346`
+- Defined: `static/js/estorides.js:2337`
 - Doc: Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionReport (function)
-- Defined: `static/js/estorides.js:2387`
+- Defined: `static/js/estorides.js:2378`
 - Doc: Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI comman
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showReportModal (function)
-- Defined: `static/js/estorides.js:2423`
+- Defined: `static/js/estorides.js:2414`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sanitizeInput (function)
-- Defined: `static/js/estorides.js:2448`
+- Defined: `static/js/estorides.js:2439`
 - Doc: --- generic modal helpers (replace alert/prompt/confirm) ---- User input collected here is treated as hostile: coerced t
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### openModal (function)
-- Defined: `static/js/estorides.js:2451`
+- Defined: `static/js/estorides.js:2442`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### promptModal (function)
-- Defined: `static/js/estorides.js:2486`
+- Defined: `static/js/estorides.js:2477`
 - Doc: Promise-style text prompt. Resolves with a sanitized string or null.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### confirmModal (function)
-- Defined: `static/js/estorides.js:2510`
+- Defined: `static/js/estorides.js:2501`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadSidebarWidth (function)
-- Defined: `static/js/estorides.js:2602`
+- Defined: `static/js/estorides.js:2593`
 - Doc: Responsive sidebar toggle + resizable divider.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saveSidebarWidth (function)
-- Defined: `static/js/estorides.js:2613`
+- Defined: `static/js/estorides.js:2604`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadSidebarCollapsed (function)
-- Defined: `static/js/estorides.js:2616`
+- Defined: `static/js/estorides.js:2607`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saveSidebarCollapsed (function)
-- Defined: `static/js/estorides.js:2624`
+- Defined: `static/js/estorides.js:2615`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### switchSidebarTab (function)
-- Defined: `static/js/estorides.js:2682`
+- Defined: `static/js/estorides.js:2673`
 - Doc: --- Fusion tab ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionTab (function)
-- Defined: `static/js/estorides.js:2695`
+- Defined: `static/js/estorides.js:2686`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionStats (function)
-- Defined: `static/js/estorides.js:2701`
+- Defined: `static/js/estorides.js:2692`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionTopChanged (function)
-- Defined: `static/js/estorides.js:2720`
+- Defined: `static/js/estorides.js:2711`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionSearch (function)
-- Defined: `static/js/estorides.js:2749`
+- Defined: `static/js/estorides.js:2740`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### doSearch (function)
-- Defined: `static/js/estorides.js:2756`
+- Defined: `static/js/estorides.js:2747`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionEntityDetail (function)
-- Defined: `static/js/estorides.js:2794`
+- Defined: `static/js/estorides.js:2785`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sseUrl (function)
-- Defined: `static/js/estorides.js:2866`
+- Defined: `static/js/estorides.js:2857`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setStatus (function)
-- Defined: `static/js/estorides.js:2890`
+- Defined: `static/js/estorides.js:2881`
 - Doc: The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one t
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setDiscoverProgress (function)
-- Defined: `static/js/estorides.js:2897`
+- Defined: `static/js/estorides.js:2888`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideDiscoverProgress (function)
-- Defined: `static/js/estorides.js:2909`
+- Defined: `static/js/estorides.js:2900`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### startDiscover (function)
-- Defined: `static/js/estorides.js:2914`
+- Defined: `static/js/estorides.js:2905`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### stopDiscover (function)
-- Defined: `static/js/estorides.js:2988`
+- Defined: `static/js/estorides.js:2979`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### handleDiscoverEvent (function)
-- Defined: `static/js/estorides.js:3005`
+- Defined: `static/js/estorides.js:2996`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### addDiscoverEntityToTab (function)
-- Defined: `static/js/estorides.js:3044`
+- Defined: `static/js/estorides.js:3035`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeHtml (function)
-- Defined: `static/js/estorides.js:3072`
+- Defined: `static/js/estorides.js:3063`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### maybePlotDiscoverEntity (function)
-- Defined: `static/js/estorides.js:3077`
+- Defined: `static/js/estorides.js:3068`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### flushDiscoverEntities (function)
-- Defined: `static/js/estorides.js:3084`
+- Defined: `static/js/estorides.js:3075`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### check (function)
-- Defined: `static/js/estorides.js:3103`
+- Defined: `static/js/estorides.js:3094`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### set (function)
@@ -5612,73 +5611,73 @@
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### labelFor (function)
-- Defined: `static/js/estorides.js:1247`
+- Defined: `static/js/estorides.js:1238`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### c (function)
-- Defined: `static/js/estorides.js:1248`
+- Defined: `static/js/estorides.js:1239`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tr (function)
-- Defined: `static/js/estorides.js:1342`
+- Defined: `static/js/estorides.js:1333`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tr (function)
-- Defined: `static/js/estorides.js:1477`
+- Defined: `static/js/estorides.js:1468`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### obs (function)
-- Defined: `static/js/estorides.js:1945`
+- Defined: `static/js/estorides.js:1936`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### frac (function)
-- Defined: `static/js/estorides.js:1978`
+- Defined: `static/js/estorides.js:1969`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### q (function)
-- Defined: `static/js/estorides.js:2082`
+- Defined: `static/js/estorides.js:2073`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### entities (function)
-- Defined: `static/js/estorides.js:2108`
+- Defined: `static/js/estorides.js:2099`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### obs (function)
-- Defined: `static/js/estorides.js:2109`
+- Defined: `static/js/estorides.js:2100`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saved (function)
-- Defined: `static/js/estorides.js:2205`
+- Defined: `static/js/estorides.js:2196`
 - Doc: Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### rows (function)
-- Defined: `static/js/estorides.js:2354`
+- Defined: `static/js/estorides.js:2345`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### removed (function)
-- Defined: `static/js/estorides.js:2357`
+- Defined: `static/js/estorides.js:2348`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### actions (function)
-- Defined: `static/js/estorides.js:2457`
+- Defined: `static/js/estorides.js:2448`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### close (function)
-- Defined: `static/js/estorides.js:2471`
+- Defined: `static/js/estorides.js:2462`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tag (function)
-- Defined: `static/js/estorides.js:2572`
+- Defined: `static/js/estorides.js:2563`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sseAuthToken (function)
-- Defined: `static/js/estorides.js:2862`
+- Defined: `static/js/estorides.js:2853`
 - Doc: Auth token for SSE (EventSource can't set custom headers).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### sig (function)
-- Defined: `static/js/estorides.js:3049`
+- Defined: `static/js/estorides.js:3040`
 - Doc: Avoid duplicates with the simple in-memory check.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
@@ -8620,19 +8619,23 @@
 - Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
 
 ### test_no_insert_adjacent_html_in_tooltip (method) `def test_no_insert_adjacent_html_in_tooltip(self)`
-- Defined: `tests/test_security_remediation.py:598`
+- Defined: `tests/test_security_remediation.py:601`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
 
 ### test_sanitizer_blocks_dangerous_schemes_and_style (method) `def test_sanitizer_blocks_dangerous_schemes_and_style(self)`
-- Defined: `tests/test_security_remediation.py:615`
+- Defined: `tests/test_security_remediation.py:618`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
 
 ### test_no_innerhtml_markdown_sink (method) `def test_no_innerhtml_markdown_sink(self)`
-- Defined: `tests/test_security_remediation.py:627`
+- Defined: `tests/test_security_remediation.py:630`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
 
 ### test_no_html_string_round_trip (method) `def test_no_html_string_round_trip(self)`
-- Defined: `tests/test_security_remediation.py:633`
+- Defined: `tests/test_security_remediation.py:636`
+- Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
+
+### test_vendored_dompurify_wired_with_fallback (method) `def test_vendored_dompurify_wired_with_fallback(self)`
+- Defined: `tests/test_security_remediation.py:643`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/ssrf_guard.py`, `estorides_core/web_security.py`
 
 ### api_export_test (method) `def api_export_test()`

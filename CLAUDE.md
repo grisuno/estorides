@@ -289,3 +289,5 @@ If MANIFEST date/commit is stale vs `git HEAD`, regenerate:
 
     pip install readmenator && readmenator . --rebuild
 <!-- /readmenator-agent-kb-link -->
+
+| 2026-09-30 | security_remediation (round 7 — CodeQL #38 DOMPurify) | spec/security_remediation.md (S29) | tests/test_security_remediation.py (TestTooltipSinkHardening x4) | Vendored DOMPurify 3.2.4 (static/js/vendor), purifyHTML+setSanitizedHTML via DOMPurify.sanitize, 0 parseFromString/0 innerHTML-reads en codigo propio, fallback textContent fail-closed. 70 verdes scoped, node --check OK, index 200. |

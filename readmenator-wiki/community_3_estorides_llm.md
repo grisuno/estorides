@@ -48,7 +48,7 @@ This community groups 3 file(s) rooted at `estorides_llm` with dominant language
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_llm/manager.py imports estorides_core/config.py.
-- [INFERRED] shares_context community 1 <-> 3 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).
+- [INFERRED] shares_context community 1 <-> 3 (strength 0.5): Inferred shared context (language py and layer utility) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).
 - [INFERRED] shares_context community 2 <-> 3 (strength 0.5): Inferred shared context (language py) with no import path between community 2 (tests/properties) and community 3 (estorides_llm).
 - [INFERRED] shares_context community 3 <-> 4 (strength 0.5): Inferred shared context (language py) with no import path between community 3 (estorides_llm) and community 4 (orphans).
 - [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_change_detection_properties.py in 6 hops.

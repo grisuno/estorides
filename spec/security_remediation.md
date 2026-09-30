@@ -281,3 +281,15 @@ Then: exactly one `parseFromString` in the bundle feeds `sanitizeDoc`
   returns `doc.body.innerHTML`; `sanitizeHTML` and the string-returning
   `renderMarkdown` are deleted, so the reinterpretation pattern has no
   sink left to flag.
+
+### S29 — DOMPurify sanitizer with fail-closed fallback (CodeQL #38 round 7)
+Given: the CodeQL trace flags `DOMParser.parseFromString(remote)` itself
+  as the sink: no custom post-parse scrub is modellable, so any direct
+  parse of dynamic input stays flagged.
+When: any remote text (LLM stream, node label, markdown) renders
+Then: it flows through `purifyHTML` = `window.DOMPurify.sanitize(html,
+  {FORBID_TAGS, FORBID_ATTR})` (vendored `static/js/vendor/purify.min.js`
+  3.2.4, loaded before `estorides.js`, covered by `script-src 'self'`)
+  into the single `el.innerHTML = clean` assignment; when the library is
+  absent the sink falls back to inert `textContent`. Zero `parseFromString`
+  and zero `doc.body.innerHTML` reads remain in first-party code.

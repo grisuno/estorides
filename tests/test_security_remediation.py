@@ -590,10 +590,13 @@ class TestAlerterNoRedirect:
 # =========================================================================
 
 class TestTooltipSinkHardening:
-    """Node-only pipeline: remote text is parsed once, stripped in place
-    and appended as nodes. No HTML string round-trip exists."""
+    """DOMPurify pipeline: remote text reaches the DOM only through
+    DOMPurify.sanitize (the sanitizer CodeQL models), with a fail-closed
+    plain-text fallback when the vendored library is missing."""
 
     JS_PATH = Path(__file__).resolve().parent.parent / "static" / "js" / "estorides.js"
+    VENDOR_PATH = Path(__file__).resolve().parent.parent / "static" / "js" / "vendor" / "purify.min.js"
+    TPL_PATH = Path(__file__).resolve().parent.parent / "templates" / "index.html"
 
     def test_no_insert_adjacent_html_in_tooltip(self):
         content = self.JS_PATH.read_text(encoding="utf-8")
@@ -613,26 +616,37 @@ class TestTooltipSinkHardening:
             "showTooltipAt must append parsed nodes, not re-parse HTML strings"
 
     def test_sanitizer_blocks_dangerous_schemes_and_style(self):
-        # The sanitizer shares module-level tables (UNSAFE_TAGS, URL_ATTRS,
-        # DANGEROUS_SCHEME) with its function body, so scan both.
         content = self.JS_PATH.read_text(encoding="utf-8")
-        anchor = content.find("function sanitizeDoc(doc)")
+        assert "DOMPurify.sanitize" in content, \
+            "remote markup must flow through DOMPurify.sanitize"
+        anchor = content.find("function purifyHTML(html)")
         assert anchor != -1
-        window = content[max(0, anchor - 1200):anchor + 2500]
-        for token in ("data:", "vbscript:", "srcdoc", "formaction", "style"):
-            assert token in window, f"sanitizeDoc must handle {token}"
-        for tag in ("base", "form"):
-            assert tag in window, f"sanitizeDoc must strip <{tag}>"
+        window = content[max(0, anchor - 1500):anchor + 1500]
+        for token in ("FORBID_TAGS", "FORBID_ATTR", "srcdoc", "formaction", "style"):
+            assert token in window, f"purify policy must cover {token}"
+        for tag in ("'script'", "'base'", "'form'", "'iframe'"):
+            assert tag in window, f"purify policy must forbid {tag}"
 
     def test_no_innerhtml_markdown_sink(self):
         content = self.JS_PATH.read_text(encoding="utf-8")
         assert "innerHTML = renderMarkdown" not in content, \
-            "remote LLM text must go through renderMarkdownInto (node append), never an innerHTML string sink"
+            "remote LLM text must go through renderMarkdownInto, never an innerHTML string sink"
         assert "function renderMarkdownInto(" in content
 
     def test_no_html_string_round_trip(self):
         content = self.JS_PATH.read_text(encoding="utf-8")
         assert "return doc.body.innerHTML" not in content, \
-            "sanitized markup must travel as nodes, never serialized back to a string"
-        assert content.count("parseFromString") == 1, \
-            "exactly one HTML parse: parse once, sanitize in place, move nodes"
+            "sanitized markup must never be serialized back to a string"
+        assert "parseFromString" not in content, \
+            "no direct HTML parsing of dynamic input: DOMPurify owns the parse"
+
+    def test_vendored_dompurify_wired_with_fallback(self):
+        assert self.VENDOR_PATH.is_file(), "vendored DOMPurify must ship with the app"
+        vendor = self.VENDOR_PATH.read_text(encoding="utf-8")
+        assert "DOMPurify" in vendor and "sanitize" in vendor
+        tpl = self.TPL_PATH.read_text(encoding="utf-8")
+        assert "/static/js/vendor/purify.min.js" in tpl, \
+            "template must load the vendored sanitizer before estorides.js"
+        content = self.JS_PATH.read_text(encoding="utf-8")
+        assert "window.DOMPurify" in content and "textContent" in content, \
+            "missing library must fail closed to plain text"

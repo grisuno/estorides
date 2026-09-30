@@ -107,7 +107,7 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_llm/manager.py imports estorides_core/config.py.
-- [INFERRED] shares_context community 0 <-> 1 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 1 (estorides_core).
+- [INFERRED] shares_context community 0 <-> 1 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (estorides_core) and community 1 (estorides_core).
 - [INFERRED] shares_context community 0 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 2 (tests/properties).
 - [INFERRED] shares_context community 0 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 4 (orphans).
 - [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_change_detection_properties.py in 6 hops.
@@ -123,16 +123,16 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/alerter.py` via `urllib.request` (0 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/async_client.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 
 ## Open Questions
 

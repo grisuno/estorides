@@ -55,7 +55,7 @@ This community groups 3 file(s) rooted at `tests/properties` with dominant langu
 ## Connections
 
 - [INFERRED] shares_context community 0 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 2 (tests/properties).
-- [INFERRED] shares_context community 1 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (estorides_core) and community 2 (tests/properties).
+- [INFERRED] shares_context community 1 <-> 2 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 2 (tests/properties).
 - [INFERRED] shares_context community 2 <-> 3 (strength 0.5): Inferred shared context (language py) with no import path between community 2 (tests/properties) and community 3 (estorides_llm).
 - [INFERRED] shares_context community 2 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 2 (tests/properties) and community 4 (orphans).
 

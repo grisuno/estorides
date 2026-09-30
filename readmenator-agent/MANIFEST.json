@@ -1,10 +1,10 @@
 {
   "tool": "readmenator",
-  "generated_at": "2026-09-30T02:07:51Z",
+  "generated_at": "2026-09-30T02:20:47Z",
   "project_root": "/home/grisun0/src_note/py/fucklantir/estorides/estorides",
   "files": 156,
-  "symbols": 2718,
-  "imports": 14287,
+  "symbols": 2719,
+  "imports": 14278,
   "resolved_imports": 350,
   "security_findings": 0,
   "languages": {

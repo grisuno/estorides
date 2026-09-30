@@ -134,7 +134,7 @@
 | `tests/test_retry_policy.py` | Retry policy BDD. | tests | 2 |
 | `tests/test_scope.py` | BDD tests for the bug-bounty scope classifier (`estorides_core.scope`).  Ported  | tests | 15 |
 | `tests/test_search_telemetry.py` | BDD/ATDD suite for the `search_telemetry` module (spec/search_telemetry.md).  Ea | tests | 19 |
-| `tests/test_security_remediation.py` | - | tests | 66 |
+| `tests/test_security_remediation.py` | - | tests | 67 |
 | `tests/test_socmint.py` | BDD tests for SOCMINT sources and SocialMediaInferer.  Covers: - S1: YouTube cha | tests | 72 |
 | `tests/test_source_health_monitoring.py` | BDD tests for estorides_core.source_health_monitoring.  These tests implement th | tests | 52 |
 | `tests/test_source_loader.py` | BDD / regression tests for SourceRegistry loading.  - SL1: a multi-document YAML | tests | 12 |

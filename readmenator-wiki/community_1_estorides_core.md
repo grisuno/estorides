@@ -66,10 +66,10 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 
 ## Connections
 
-- [INFERRED] shares_context community 0 <-> 1 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 1 (estorides_core).
-- [INFERRED] shares_context community 1 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (estorides_core) and community 2 (tests/properties).
-- [INFERRED] shares_context community 1 <-> 3 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).
-- [INFERRED] shares_context community 1 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (estorides_core) and community 4 (orphans).
+- [INFERRED] shares_context community 0 <-> 1 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (estorides_core) and community 1 (estorides_core).
+- [INFERRED] shares_context community 1 <-> 2 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 2 (tests/properties).
+- [INFERRED] shares_context community 1 <-> 3 (strength 0.5): Inferred shared context (language py and layer utility) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).
+- [INFERRED] shares_context community 1 <-> 4 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 4 (orphans).
 
 ## Risks
 
