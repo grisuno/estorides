@@ -179,6 +179,8 @@ def is_valid_binary(name: object) -> bool:
 def _recipe_path(name: str) -> Path:
     if not is_valid_recipe_name(name):
         raise ValueError(f"invalid recipe name: {name!r}")
+    if "/" in name or "\\" in name or "\x00" in name or ".." in name:
+        raise ValueError(f"invalid recipe name: {name!r}")
     # Defence in depth: even a validated name must resolve inside the dir
     # (protects against a symlinked TOOL_RECIPES_DIR component).
     base = TOOL_RECIPES_DIR.resolve()
@@ -194,8 +196,13 @@ def load_recipe(name: str) -> InstallRecipe | None:
     A malformed recipe is logged and treated as absent so one bad file can
     never break the whole registry. An invalid (traversal) name is likewise
     treated as absent so a hostile ``<name>`` URL segment can never cause a
-    filesystem read outside ``TOOL_RECIPES_DIR``.
+    filesystem read outside ``TOOL_RECIPES_DIR``. Names outside the shipped
+    recipe allowlist are treated as absent before any path is built
+    (CodeQL #48/#49/#52): only directory-listed stems ever reach the
+    filesystem.
     """
+    if name not in set(list_recipes()):
+        return None
     try:
         path = _recipe_path(name)
     except ValueError:
@@ -429,6 +436,12 @@ def install_tool(
         except ToolNotFoundError:
             pass
 
+    if not is_valid_recipe_name(tool_name) or tool_name not in set(list_recipes()):
+        return InstallResult(
+            tool_name=tool_name, success=False, method=None,
+            output="", error=f"no install recipe found for '{tool_name}'",
+            duration_s=time.monotonic() - t0,
+        )
     recipe = load_recipe(tool_name)
     if recipe is None:
         return InstallResult(

@@ -515,10 +515,20 @@ class TestAlerterSsrf:
 
     def test_user_channel_url_cannot_reach_internal_host(self) -> None:
         from estorides_core.alerter import AlertDispatcher
-        # A channel string that begins with http is used verbatim as the
-        # webhook URL; an internal host must still be refused.
+        # Raw caller-supplied URLs are refused outright (CodeQL #47 closer):
+        # no user string ever becomes a request destination.
         dispatcher = AlertDispatcher()
         assert dispatcher.send("http://127.0.0.1:8080/hook", "t", "b") is False
+
+    def test_raw_channel_url_refused_even_for_safe_host(self) -> None:
+        from unittest.mock import patch
+
+        from estorides_core import alerter
+        from estorides_core.alerter import AlertDispatcher
+        dispatcher = AlertDispatcher()
+        with patch.object(alerter, "_http_post",
+                          side_effect=AssertionError("_http_post must not be called")):
+            assert dispatcher.send("https://hooks.example.com/hook", "t", "b") is False
 
 
 # =========================================================================
@@ -614,3 +624,9 @@ class TestTooltipSinkHardening:
             assert token in window, f"sanitizeHTML must handle {token}"
         for tag in ("base", "form"):
             assert tag in window, f"sanitizeHTML must strip <{tag}>"
+
+    def test_no_innerhtml_markdown_sink(self):
+        content = self.JS_PATH.read_text(encoding="utf-8")
+        assert "innerHTML = renderMarkdown" not in content, \
+            "remote LLM text must go through renderMarkdownInto (node append), never an innerHTML string sink"
+        assert "function renderMarkdownInto(" in content

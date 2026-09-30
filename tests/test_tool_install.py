@@ -104,9 +104,21 @@ class TestInstallFlow:
 
 # ------------------------------------------------- path traversal (S20-S22) ----
 class TestPathTraversal:
-    """CodeQL #48/#49: uncontrolled recipe names must never escape
+    """CodeQL #48/#49/#52: uncontrolled recipe names must never escape
     TOOL_RECIPES_DIR; clone targets must stay inside TOOLS_DIR; binary
-    names are validated before any PATH probe."""
+    names are validated before any PATH probe. Only directory-listed
+    recipe stems ever reach the filesystem."""
+
+    def test_unknown_valid_name_never_touches_filesystem(self) -> None:
+        with patch.object(ti, "_recipe_path",
+                          side_effect=AssertionError("FS path must not be built")):
+            assert ti.load_recipe("no-such-recipe-xyz") is None
+
+    def test_install_tool_unknown_recipe_without_fs_probe(self) -> None:
+        with patch.object(ti, "load_recipe",
+                          side_effect=AssertionError("load_recipe must not be called")):
+            res = ti.install_tool("no-such-recipe-xyz", binary="nmap", force=True)
+        assert res.success is False and "no install recipe" in (res.error or "")
 
     @pytest.mark.parametrize("evil", [
         "../evil", "../../etc/cron", "a/b", "a\\b", "", ".", "..",

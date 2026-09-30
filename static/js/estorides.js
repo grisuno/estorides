@@ -824,7 +824,7 @@
         : '';
     }
     const body = $('#analysis-body');
-    if (body) body.innerHTML = renderMarkdown(a.content || '(no analysis)');
+    if (body) renderMarkdownInto(body, a.content || '(no analysis)');
     setThinkingVisible(false);
   }
 
@@ -840,6 +840,24 @@
       } catch (_e) { /* fall through to plain text */ }
     }
     return escapeHTML(src).replace(/\n/g, '<br>');
+  }
+
+  // Node-only Markdown renderer (CodeQL #38). Remote LLM text must never
+  // travel as an HTML string into an innerHTML sink: parse, sanitize and
+  // append nodes in one step so there is no string round-trip to flag.
+  function renderMarkdownInto(el, text) {
+    const src = String(text == null ? '' : text);
+    let html = '';
+    if (typeof window.marked === 'function') {
+      try {
+        html = window.marked.parse(src);
+      } catch (_e) { html = ''; }
+    }
+    if (!html) {
+      el.textContent = src;
+      return;
+    }
+    setSanitizedHTML(el, html);
   }
 
   function setThinkingVisible(show) {
@@ -900,7 +918,7 @@
     const scheduleRender = () => {
       if (_renderPending) return;
       _renderPending = true;
-      requestAnimationFrame(() => { _renderPending = false; if (body) body.innerHTML = renderMarkdown(acc); });
+      requestAnimationFrame(() => { _renderPending = false; if (body) renderMarkdownInto(body, acc); });
     };
     const flush = () => {
       const lines = buf.split('\n');

@@ -240,3 +240,26 @@ Then: the payload reaches the DOM only as nodes parsed from the hardened
   href/src/action/formaction/xlink:href/srcdoc/cite/background), `style`
   attributes, and `script/iframe/object/embed/style/link/meta/base/form/
   frame/frameset/applet/marquee` elements are all removed.
+
+### S25 — raw webhook URLs refused, recipe allowlist gate (CodeQL #47/#48/#49/#52 closer round 5)
+Given: `send("https://hooks.example.com/hook")` or `send("http://127.0.0.1/x")`
+When: the dispatcher runs
+Then: it returns `False` without opening any socket (`_http_post` never
+  called); only named channels (`slack/discord/telegram/email/webhook`)
+  backed by operator env vars ever become request destinations, so no
+  caller string flows to `Request()` (the #47 sink).
+Given: `load_recipe("no-such-recipe-xyz")` or `install_tool` with an
+  unknown recipe name
+When: called
+Then: it returns `None` / "no install recipe" before any path is built
+  (`_recipe_path` never called); only directory-listed recipe stems reach
+  `TOOL_RECIPES_DIR / f"{name}.yaml"` (the #48/#49/#52 sinks), plus the
+  existing regex, separator (`/`, `\\`, NUL, `..`) and `resolve()`/
+  `parent` containment checks stay as depth.
+
+### S26 — Markdown render has no HTML-string sink (CodeQL #38 closer round 5)
+Given: streamed LLM text `acc` or case analysis `a.content`
+When: rendered
+Then: it goes through `renderMarkdownInto(el, text)` (parse → sanitize →
+  node append) and never through `el.innerHTML = renderMarkdown(...)`;
+  no `innerHTML = renderMarkdown` string sink remains in the bundle.

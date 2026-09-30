@@ -77,12 +77,13 @@ class _NoRedirectHandler(urllib.request.HTTPRedirectHandler):
 def _http_post(url: str, payload: dict[str, Any]) -> bool:
     """POST JSON payload to URL, return True on success.
 
-    The destination is treated as hostile: every webhook URL is validated by
-    the central SSRF guard before any socket is opened, so a user-supplied
-    ``channel`` (e.g. ``channel.startswith("http")`` in ``send``) can never
-    reach internal hosts, link-local/cloud-metadata ranges, or be used to
-    smuggle a disallowed scheme. Redirects are never followed (see
-    ``_NoRedirectHandler``): the guard vetted the first hop only.
+    The destination is treated as hostile: every webhook URL comes from
+    operator-owned environment variables (never from a caller-supplied
+    string) and is validated by the central SSRF guard before any socket
+    is opened. Raw caller-supplied URLs are refused outright (CodeQL #47):
+    a ``channel`` starting with ``http`` can never become a request
+    destination. Redirects are never followed (see ``_NoRedirectHandler``):
+    the guard vetted the first hop only.
     """
     guard = check_url(url)
     if not guard.allowed:
@@ -241,13 +242,16 @@ class AlertDispatcher:
                 title, body, severity,
             )
 
-        elif channel == "webhook" or channel.startswith("http"):
-            url = channel if channel.startswith("http") else \
-                os.environ.get("ESTORIDES_WEBHOOK_URL", "")
+        elif channel == "webhook":
+            url = os.environ.get("ESTORIDES_WEBHOOK_URL", "")
             if not url:
                 log.warning("webhook alert: URL not set")
                 return False
             return _send_webhook(url, title, body, severity)
+
+        elif channel.startswith("http"):
+            log.warning("alerter: raw webhook URLs are not accepted: %s", channel[:64])
+            return False
 
         else:
             log.warning("unknown alert channel: %s", channel)
