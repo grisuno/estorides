@@ -63,8 +63,8 @@
   - `_new_stream_job_id` (method, line 185) `def _new_stream_job_id()`
   - `_rate_limit_decorator` (method, line 190) `def _rate_limit_decorator()`
   - `create_app` (method, line 234) `def create_app()`
-  - `_serve_loop` (method, line 1636) `def _serve_loop()`
-  - `_shape_for_ui` (method, line 1649) `def _shape_for_ui(result)`
+  - `_serve_loop` (method, line 1669) `def _serve_loop()`
+  - `_shape_for_ui` (method, line 1682) `def _shape_for_ui(result)`
   - `deco` (method, line 88) `def deco(view)`
   - `__init__` (method, line 155) `def __init__(self, job_id, query, query_type, case_id)`
   - `stop` (method, line 164) `def stop(self)`
@@ -121,30 +121,33 @@
   - `api_scheduler_status` (method, line 1181) `def api_scheduler_status()`
   - `api_transforms` (method, line 1199) `def api_transforms()`
   - `api_transform_run` (method, line 1213) `def api_transform_run()`
-  - `api_osiris_bgp` (method, line 1241) `def api_osiris_bgp()`
-  - `api_osiris_mac` (method, line 1255) `def api_osiris_mac()`
-  - `api_osiris_phone` (method, line 1269) `def api_osiris_phone()`
-  - `api_osiris_github` (method, line 1283) `def api_osiris_github()`
-  - `api_osiris_leaks` (method, line 1297) `def api_osiris_leaks()`
-  - `api_osiris_kev` (method, line 1311) `def api_osiris_kev()`
-  - `api_osiris_malware` (method, line 1320) `def api_osiris_malware()`
-  - `api_osiris_threats` (method, line 1325) `def api_osiris_threats()`
-  - `api_discover_start` (method, line 1338) `def api_discover_start()`
-  - `api_discover_jobs` (method, line 1384) `def api_discover_jobs()`
-  - `api_discover_stop` (method, line 1390) `def api_discover_stop()`
-  - `api_discover_stream` (method, line 1402) `def api_discover_stream()`
-  - `api_run_stream_start` (method, line 1452) `def api_run_stream_start()`
-  - `api_run_stream_stop` (method, line 1519) `def api_run_stream_stop()`
-  - `api_run_stream` (method, line 1531) `def api_run_stream()`
-  - `api_analyze_stream` (method, line 1578) `def api_analyze_stream()`
+  - `api_transform_stream` (method, line 1235) `def api_transform_stream()`
+  - `api_osiris_bgp` (method, line 1274) `def api_osiris_bgp()`
+  - `api_osiris_mac` (method, line 1288) `def api_osiris_mac()`
+  - `api_osiris_phone` (method, line 1302) `def api_osiris_phone()`
+  - `api_osiris_github` (method, line 1316) `def api_osiris_github()`
+  - `api_osiris_leaks` (method, line 1330) `def api_osiris_leaks()`
+  - `api_osiris_kev` (method, line 1344) `def api_osiris_kev()`
+  - `api_osiris_malware` (method, line 1353) `def api_osiris_malware()`
+  - `api_osiris_threats` (method, line 1358) `def api_osiris_threats()`
+  - `api_discover_start` (method, line 1371) `def api_discover_start()`
+  - `api_discover_jobs` (method, line 1417) `def api_discover_jobs()`
+  - `api_discover_stop` (method, line 1423) `def api_discover_stop()`
+  - `api_discover_stream` (method, line 1435) `def api_discover_stream()`
+  - `api_run_stream_start` (method, line 1485) `def api_run_stream_start()`
+  - `api_run_stream_stop` (method, line 1552) `def api_run_stream_stop()`
+  - `api_run_stream` (method, line 1564) `def api_run_stream()`
+  - `api_analyze_stream` (method, line 1611) `def api_analyze_stream()`
   - `wrapper` (method, line 90) `def wrapper()`
   - `wrapper` (method, line 199) `def wrapper()`
-  - `gen` (method, line 1415) `def gen()`
-  - `_drive` (method, line 1482) `def _drive()`
-  - `gen` (method, line 1537) `def gen()`
-  - `_run` (method, line 1591) `def _run()`
-  - `gen` (method, line 1607) `def gen()`
+  - `_gen` (method, line 1251) `def _gen()`
+  - `gen` (method, line 1448) `def gen()`
+  - `_drive` (method, line 1515) `def _drive()`
+  - `gen` (method, line 1570) `def gen()`
+  - `_run` (method, line 1624) `def _run()`
+  - `gen` (method, line 1640) `def gen()`
   - `_watch_runner` (method, line 1032) `def _watch_runner(swatch)`
+  - `_err` (method, line 1246) `def _err()`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 

@@ -1,33 +1,129 @@
 [
   {
-    "community_a": 3,
-    "community_b": 0,
+    "community_a": 1,
+    "community_b": 6,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_llm/manager.py imports estorides_core/config.py.",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 2,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/active_recon.py imports estorides_core/tool_runner.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 3,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/alerter.py imports estorides_core/ssrf_guard.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 3,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/async_client.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 6,
+    "community_b": 4,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 4,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/ids.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 8,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 8,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_web_tools.py imports estorides_core/tool_install.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
     "community_a": 0,
     "community_b": 1,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (estorides_core) and community 1 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: wsgi.py imports estorides_web.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
     "community_a": 0,
     "community_b": 2,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 2 (tests/properties).",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 2 (estorides_core).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
   {
     "community_a": 0,
-    "community_b": 4,
+    "community_b": 3,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 4 (orphans).",
+    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 0 (root) and community 3 (estorides_core).",
+    "strength": 0.5,
+    "confidence": "INFERRED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 5,
+    "connection_type": "shares_context",
+    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 0 (root) and community 5 (estorides_core).",
+    "strength": 0.5,
+    "confidence": "INFERRED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 6,
+    "connection_type": "shares_context",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 6 (estorides_core).",
+    "strength": 0.5,
+    "confidence": "INFERRED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 7,
+    "connection_type": "shares_context",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 7 (tests/properties).",
+    "strength": 0.5,
+    "confidence": "INFERRED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 8,
+    "connection_type": "shares_context",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 8 (tests).",
+    "strength": 0.5,
+    "confidence": "INFERRED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 9,
+    "connection_type": "shares_context",
+    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 9 (orphans).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
@@ -35,88 +131,32 @@
     "community_a": 1,
     "community_b": 2,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 2 (tests/properties).",
+    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 2 (estorides_core).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
   {
     "community_a": 1,
-    "community_b": 3,
+    "community_b": 5,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 1 (estorides_core) and community 3 (estorides_llm).",
+    "explanation": "Inferred shared context (language py) with no import path between community 1 (tests) and community 5 (estorides_core).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
   {
     "community_a": 1,
-    "community_b": 4,
+    "community_b": 7,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 4 (orphans).",
+    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 7 (tests/properties).",
     "strength": 0.5,
     "confidence": "INFERRED"
   },
   {
-    "community_a": 2,
-    "community_b": 3,
+    "community_a": 1,
+    "community_b": 9,
     "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 2 (tests/properties) and community 3 (estorides_llm).",
+    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 9 (orphans).",
     "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 2,
-    "community_b": 4,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 2 (tests/properties) and community 4 (orphans).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 4,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 3 (estorides_llm) and community 4 (orphans).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 0,
-    "connection_type": "bridges",
-    "explanation": "Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_change_detection_properties.py in 6 hops.",
-    "strength": 0.4,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 0,
-    "connection_type": "bridges",
-    "explanation": "Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_hypothesis_engine_properties.py in 6 hops.",
-    "strength": 0.4,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 0,
-    "connection_type": "bridges",
-    "explanation": "Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/test_recon_report.py in 6 hops.",
-    "strength": 0.4,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 0,
-    "connection_type": "bridges",
-    "explanation": "Inferred cross-community bridge: estorides_llm/intelligence_prompts.py reaches tests/properties/test_change_detection_properties.py in 6 hops.",
-    "strength": 0.4,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 0,
-    "connection_type": "bridges",
-    "explanation": "Inferred cross-community bridge: estorides_llm/intelligence_prompts.py reaches tests/properties/test_hypothesis_engine_properties.py in 6 hops.",
-    "strength": 0.4,
     "confidence": "INFERRED"
   }
 ]

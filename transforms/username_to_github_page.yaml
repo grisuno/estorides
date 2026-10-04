@@ -1,0 +1,28 @@
+# Zero-I/O hint: public GitHub profile page for a username.
+# Complements username_to_github, which fetches the API profile.
+id: username_to_github_page
+label: Username to GitHub page
+tier: data
+description: Hint node pointing at the public GitHub profile page.
+input_types: [username]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "username:{query}"
+    label: "{query}"
+    type: username
+    kind: person
+    properties:
+      source: query
+  - id: "url:github.com/{query}"
+    label: "github.com/{query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://github.com/{query}"
+links:
+  - source: "username:{query}"
+    target: "url:github.com/{query}"
+    relation: profile_at

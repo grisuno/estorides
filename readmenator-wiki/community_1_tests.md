@@ -1,47 +1,32 @@
-# estorides_core
+# tests
 
-*Community 0 | 123 files | cohesion 1.00*
+*Community 1 | 56 files | cohesion 0.66*
 
 ## Definition
 
-This community groups 123 file(s) rooted at `estorides_core` with dominant language py (cohesion 1.00). Central symbols: `AlertDispatcher`, `AsyncClient`, `AuditEvent`, `AuditLog`, `AuthGate`, `BoundedJobRegistry`, `BufferedEventSink`, `CLUSTER_PALETTE`. Core file: `static/js/estorides.js` (161 symbols). Documented purpose: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estorides_cli.py serve` for the dev server, or -.
+This community groups 56 file(s) rooted at `tests` with dominant language py (cohesion 0.66). Central symbols: `AlertDispatcher`, `AuditEvent`, `AuditLog`, `AuthGate`, `BoundedJobRegistry`, `BufferedEventSink`, `CLUSTER_PALETTE`, `CaseStore`. Core file: `static/js/estorides.js` (165 symbols). Documented purpose: estorides CLI.  Usage: estorides "example.com" estorides "8.8.8.8" --include-paid estorides "user@example.com" --only-sources shodan_internetdb,ipapi_free estor.
 
 ## Files
 
-### `estorides_core` (50 files)
+### `tests` (23 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_audit_log.py` | py | testing | 5 | yes |
+| `tests/test_auth_gate.py` | py | testing | 10 | yes |
+| `tests/test_case_crypto.py` | py | testing | 5 | yes |
+| `tests/test_cli_watch.py` | py | testing | 16 | yes |
+| `tests/test_csp_safe_styles.py` | py | testing | 11 | yes |
+
+### `estorides_core` (21 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `estorides_core/__init__.py` | py | utility | 0 | yes |
-| `estorides_core/active_recon.py` | py | utility | 25 | no |
 | `estorides_core/alerter.py` | py | utility | 15 | yes |
-| `estorides_core/async_client.py` | py | infrastructure | 21 | yes |
-
-### `tests` (49 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_active_recon.py` | py | testing | 24 | yes |
-| `tests/test_async_client.py` | py | testing | 15 | yes |
-| `tests/test_audit_log.py` | py | testing | 5 | yes |
-| `tests/test_auth_gate.py` | py | testing | 10 | yes |
-
-### `tests/properties` (10 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/properties/test_change_detection_properties.py` | py | testing | 8 | yes |
-| `tests/properties/test_csp_safe_styles_properties.py` | py | testing | 3 | yes |
-| `tests/properties/test_hypothesis_engine_properties.py` | py | testing | 9 | yes |
-| `tests/properties/test_observation_models_properties.py` | py | testing | 7 | yes |
-
-### `.` (6 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `app.py` | py | utility | 0 | yes |
-| `estorides_cli.py` | py | utility | 31 | yes |
-| `estorides_web.py` | py | presentation | 91 | yes |
+| `estorides_core/audit.py` | py | infrastructure | 11 | yes |
+| `estorides_core/case_crypto.py` | py | utility | 4 | yes |
+| `estorides_core/cases.py` | py | utility | 21 | yes |
 
 ### `estorides_export` (6 files)
 
@@ -50,12 +35,27 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 | `estorides_export/__init__.py` | py | utility | 0 | yes |
 | `estorides_export/encryption.py` | py | utility | 4 | yes |
 | `estorides_export/misp.py` | py | utility | 3 | yes |
+| `estorides_export/recon_report.py` | py | utility | 11 | no |
+
+### `.` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `estorides_cli.py` | py | utility | 31 | yes |
+| `estorides_web.py` | py | presentation | 94 | yes |
+| `estorides_web_tools.py` | py | presentation | 5 | yes |
 
 ### `static/js` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `static/js/estorides.js` | js | utility | 161 | yes |
+| `static/js/estorides.js` | js | utility | 165 | yes |
+
+### `tests/properties` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/properties/test_csp_safe_styles_properties.py` | py | testing | 3 | yes |
 
 ### `tools` (1 files)
 
@@ -63,7 +63,7 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 |------|----------|-------|---------|-----|
 | `tools/sync_docs.py` | py | utility | 2 | yes |
 
-*... and 103 more files in this community.*
+*... and 36 more files in this community.*
 
 
 ## Key Symbols
@@ -101,20 +101,20 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 329
-- Cross-boundary resolved imports (EXTRACTED): 1
+- Internal resolved imports (EXTRACTED): 128
+- Cross-boundary resolved imports (EXTRACTED): 53
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_llm/manager.py imports estorides_core/config.py.
-- [INFERRED] shares_context community 0 <-> 1 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (estorides_core) and community 1 (estorides_core).
-- [INFERRED] shares_context community 0 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 2 (tests/properties).
-- [INFERRED] shares_context community 0 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 4 (orphans).
-- [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_change_detection_properties.py in 6 hops.
-- [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/properties/test_hypothesis_engine_properties.py in 6 hops.
-- [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/__init__.py reaches tests/test_recon_report.py in 6 hops.
-- [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/intelligence_prompts.py reaches tests/properties/test_change_detection_properties.py in 6 hops.
-- [INFERRED] bridges community 3 <-> 0 (strength 0.4): Inferred cross-community bridge: estorides_llm/intelligence_prompts.py reaches tests/properties/test_hypothesis_engine_properties.py in 6 hops.
+- [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/alerter.py imports estorides_core/ssrf_guard.py.
+- [EXTRACTED] depends_on community 1 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/ids.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_web_tools.py imports estorides_core/tool_install.py.
+- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: wsgi.py imports estorides_web.py.
+- [INFERRED] shares_context community 1 <-> 2 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 2 (estorides_core).
+- [INFERRED] shares_context community 1 <-> 5 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (tests) and community 5 (estorides_core).
+- [INFERRED] shares_context community 1 <-> 7 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 7 (tests/properties).
+- [INFERRED] shares_context community 1 <-> 9 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 9 (orphans).
 
 ## Risks
 
@@ -122,46 +122,46 @@ This community groups 123 file(s) rooted at `estorides_core` with dominant langu
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/alerter.py` via `urllib.request` (0 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
-- [taint medium] `estorides_core/async_client.py` -> `estorides_core/async_client.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/async_client.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [cycle] `estorides_web.py` -> `estorides_web_tools.py` -> `estorides_web.py`
+- [layer strict] `estorides_web.py` (presentation) -> `estorides_core/fusion_store.py` (data_access)
 
 ## Open Questions
 
-- Why do 4 file(s) lack file-level docs (e.g. `estorides_core/active_recon.py`)? What purpose do they serve?
+- Why do 2 file(s) lack file-level docs (e.g. `estorides_export/recon_report.py`)? What purpose do they serve?
 - Can the cycle `estorides_web.py` -> `estorides_web_tools.py` be broken with an interface?
 - Is the dangerous import `urllib.request` in `estorides_core/alerter.py` still required, or can it be isolated?
-- What would break if the most connected file in estorides_core changed?
-- Should estorides_core be split, given cohesion 1.00?
+- What would break if the most connected file in tests changed?
+- Should tests be split, given cohesion 0.66?
 
 ## Sources
 
-- `app.py`
 - `estorides_cli.py`
 - `estorides_core/__init__.py`
-- `estorides_core/active_recon.py`
 - `estorides_core/alerter.py`
-- `estorides_core/async_client.py`
 - `estorides_core/audit.py`
 - `estorides_core/case_crypto.py`
 - `estorides_core/cases.py`
-- `estorides_core/change_detection.py`
-- `estorides_core/config.py`
 - `estorides_core/discoverer.py`
 - `estorides_core/entity_extraction.py`
-- `estorides_core/entity_resolution.py`
-- `estorides_core/entity_store.py`
-- `estorides_core/event_bus.py`
 - `estorides_core/feeds.py`
 - `estorides_core/fusion_analytics.py`
 - `estorides_core/fusion_store.py`
 - `estorides_core/graph_kuzu.py`
-- *... and 103 more*
+- `estorides_core/job_registry.py`
+- `estorides_core/knowledge_graph.py`
+- `estorides_core/monitoring.py`
+- `estorides_core/openapi.py`
+- `estorides_core/pivot_engine.py`
+- `estorides_core/scope.py`
+- `estorides_core/socmint.py`
+- `estorides_core/sqlite_store.py`
+- *... and 36 more*

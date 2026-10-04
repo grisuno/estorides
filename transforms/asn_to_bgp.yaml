@@ -1,0 +1,9 @@
+# First pivot for the asn input type: no Python, just Osiris BGP.
+id: asn_to_bgp
+label: ASN to BGP holder (Osiris)
+tier: information
+description: Route holder and announced prefixes for an ASN via RIPEstat.
+input_types: [asn]
+output_types: [asn, company]
+cost: free
+engine: osiris_bgp

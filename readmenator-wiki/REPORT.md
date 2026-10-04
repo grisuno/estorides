@@ -1,6 +1,6 @@
 # Audit Report
 
-*Project: estorides | 2026-09-29 | offline, deterministic*
+*Project: estorides | 2026-10-04 | offline, deterministic*
 
 ## Confidence Trail
 
@@ -8,15 +8,15 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 | Confidence | Count | Meaning |
 |------------|-------|---------|
-| EXTRACTED | 350 | Resolved import edges parsed from source |
-| EXTRACTED | 1113 | Raw import statements (may include externals) |
+| EXTRACTED | 358 | Resolved import edges parsed from source |
+| EXTRACTED | 1127 | Raw import statements (may include externals) |
 | INFERRED | 5 | Surprising cross-community bridges |
 | AMBIGUOUS | 0 | No uncertain edges are emitted by the static scanner |
 
 ## Coverage
 
-- Files: 156, communities: 5
-- File doc coverage: 141/156
+- Files: 157, communities: 10
+- File doc coverage: 142/157
 - Orphans (no docs at any level): 14
 - Layers detected: 6
 - Security findings: 0
@@ -31,7 +31,7 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 ## Token Benchmark
 
-- Wiki index plus community pages estimate: ~60519 tokens (chars/4).
+- Wiki index plus community pages estimate: ~61104 tokens (chars/4).
 - Full re-read of every source file would cost strictly more on any non-trivial project; this wiki is the cheaper entry point.
 - Generation cost: $0, offline, no network calls.
 

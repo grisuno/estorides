@@ -1,0 +1,9 @@
+# The person type had employer/nationality/sanctions pivots but no full sweep.
+id: person_full
+label: Person to Full cross-resolve
+tier: intelligence
+description: Everything the resolver knows about this person.
+input_types: [person]
+output_types: [company, country, sanction]
+cost: free
+engine: resolver

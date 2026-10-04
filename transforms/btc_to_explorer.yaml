@@ -1,0 +1,27 @@
+# Zero-I/O hint: block explorer page for a BTC address.
+id: btc_to_explorer
+label: BTC address to Explorer
+tier: information
+description: Hint node pointing at the mempool explorer for this address.
+input_types: [btc_address]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "btc_address:{query}"
+    label: "{query}"
+    type: btc_address
+    kind: crypto
+    properties:
+      source: query
+  - id: "url:mempool/{query}"
+    label: "mempool explorer {query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://mempool.space/address/{query}"
+links:
+  - source: "btc_address:{query}"
+    target: "url:mempool/{query}"
+    relation: explored_at

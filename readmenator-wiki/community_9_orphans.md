@@ -1,6 +1,6 @@
 # orphans
 
-*Community 4 | 12 files | cohesion 0.00*
+*Community 9 | 12 files | cohesion 0.00*
 
 ## Definition
 
@@ -63,10 +63,8 @@ This community groups 12 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [INFERRED] shares_context community 0 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 0 (estorides_core) and community 4 (orphans).
-- [INFERRED] shares_context community 1 <-> 4 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (estorides_core) and community 4 (orphans).
-- [INFERRED] shares_context community 2 <-> 4 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 2 (tests/properties) and community 4 (orphans).
-- [INFERRED] shares_context community 3 <-> 4 (strength 0.5): Inferred shared context (language py) with no import path between community 3 (estorides_llm) and community 4 (orphans).
+- [INFERRED] shares_context community 0 <-> 9 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (root) and community 9 (orphans).
+- [INFERRED] shares_context community 1 <-> 9 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 9 (orphans).
 
 ## Risks
 

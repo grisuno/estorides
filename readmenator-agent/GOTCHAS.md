@@ -5,15 +5,15 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `estorides_core/config.py` (score: 84.60)
-- `estorides_web.py` (score: 75.10)
+- `estorides_web.py` (score: 75.40)
 - `estorides_core/orchestrator.py` (score: 55.80)
 - `estorides_cli.py` (score: 33.10)
 - `estorides_core/entity_extraction.py` (score: 30.10)
 - `estorides_core/cases.py` (score: 22.10)
 - `estorides_core/fusion_store.py` (score: 21.80)
 - `estorides_core/tool_runner.py` (score: 21.50)
+- `static/js/estorides.js` (score: 20.50)
 - `estorides_core/web_security.py` (score: 20.20)
-- `estorides_core/discoverer.py` (score: 20.10)
 
 ## Hotspots (complexity + centrality)
 
@@ -38,6 +38,7 @@ Circular dependencies. Refactor to break the cycle.
 
 - `estorides_web.py` (presentation) -> `estorides_core/fusion_store.py` (data_access): presentation must not import data_access
 - `estorides_web.py` (presentation) -> `estorides_core/transforms.py` (data_access): presentation must not import data_access
+- `estorides_web.py` (presentation) -> `estorides_core/transforms.py` (data_access): presentation must not import data_access
 - `tests/properties/test_csp_safe_styles_properties.py` (testing) -> `estorides_core/web_security.py` (presentation): testing must not import presentation
 - `tests/test_auth_gate.py` (testing) -> `estorides_core/web_security.py` (presentation): testing must not import presentation
 - `tests/test_auth_gate.py` (testing) -> `estorides_core/web_security.py` (presentation): testing must not import presentation
@@ -45,4 +46,3 @@ Circular dependencies. Refactor to break the cycle.
 - `tests/test_csp_safe_styles.py` (testing) -> `estorides_core/web_security.py` (presentation): testing must not import presentation
 - `tests/test_encrypted_export.py` (testing) -> `estorides_core/entity_extraction.py` (presentation): testing must not import presentation
 - `tests/test_entity_extraction.py` (testing) -> `estorides_core/entity_extraction.py` (presentation): testing must not import presentation
-- `tests/test_entity_resolution.py` (testing) -> `estorides_core/entity_extraction.py` (presentation): testing must not import presentation

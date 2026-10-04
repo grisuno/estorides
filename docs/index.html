@@ -636,6 +636,43 @@
                 </div>
             </div>
 
+            <!-- 2r: transforms (Maltego-style pivoting) -->
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2r &middot; <code>transforms</code>
+                        <span class="badge badge-info ml-2">closed 2026-10-04</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">8 BDD (S1-S8)</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Maltego-style pivoting: right-clicking a graph node runs
+                        one exact source instead of re-scanning 99.
+                        Rich metadata (<code>input_types/output_types/cost</code>),
+                        14 YAML-defined pivots in <code>transforms/*.yaml</code>
+                        (same ease as <code>sources/</code> — no Python needed:
+                        drop a file with <code>engine: resolver | osiris_bgp |
+                        osiris_leaks | osiris_github | static</code>; 40 total
+                        with built-ins),
+                        SSE streaming (<code>GET /api/transform/stream</code>,
+                        shift+click for live merge) and graph history with
+                        <code>Ctrl+Z</code> undo (50-batch stack, idempotent
+                        re-click via <code>_expansionSeen</code>).
+                        Full catalog with inputs/outputs per pivot lives in
+                        the spec.
+                    </p>
+                    <p>
+                        <a href="../spec/transforms.md">spec</a> &middot;
+                        <a href="../tests/test_transforms.py">tests</a> &middot;
+                        <a href="../estorides_core/transforms.py">source</a> &middot;
+                        <a href="../transforms/">yaml pivots</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

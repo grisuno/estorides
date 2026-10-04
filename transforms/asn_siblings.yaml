@@ -1,0 +1,12 @@
+# Example YAML transform — no Python needed.
+# Drop a file like this in transforms/ and it appears in the graph
+# context menu for its input_types (same ease as sources/*.yaml).
+id: asn_siblings
+label: ASN → Announced + hosted (pivot)
+tier: information
+description: Hosting org and ASN for an IP/ASN without re-scanning 99 sources.
+input_types: [ip, ipv4, ipv6]
+output_types: [asn, company]
+cost: free
+engine: resolver
+relations: [announced_by, hosted_by]

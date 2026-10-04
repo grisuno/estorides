@@ -1,0 +1,27 @@
+# Example static transform — zero I/O pivot template.
+# {query} is plain text substitution, never executed.
+id: abuse_contact_hint
+label: Domain → Abuse-contact hint
+tier: information
+description: Static hint node showing where to ask for the abuse contact.
+input_types: [domain]
+output_types: [email]
+cost: free
+engine: static
+nodes:
+  - id: "domain:{query}"
+    label: "{query}"
+    type: domain
+    kind: domain
+    properties:
+      source: query
+  - id: "hint:abuse-{query}"
+    label: "abuse@{query}"
+    type: email
+    kind: person
+    properties:
+      source: static-hint
+links:
+  - source: "domain:{query}"
+    target: "hint:abuse-{query}"
+    relation: abuse_contact

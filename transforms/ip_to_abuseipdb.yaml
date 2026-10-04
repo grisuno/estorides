@@ -1,0 +1,27 @@
+# Zero-I/O hint: AbuseIPDB reputation page for an IP.
+id: ip_to_abuseipdb
+label: IP to Reputation page
+tier: information
+description: Hint node pointing at the AbuseIPDB check page for this IP.
+input_types: [ip, ipv4, ipv6]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "ip:{query}"
+    label: "{query}"
+    type: ip
+    kind: ip
+    properties:
+      source: query
+  - id: "url:abuseipdb/{query}"
+    label: "abuseipdb check {query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://www.abuseipdb.com/check/{query}"
+links:
+  - source: "ip:{query}"
+    target: "url:abuseipdb/{query}"
+    relation: reputation_at

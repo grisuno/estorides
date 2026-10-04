@@ -1228,6 +1228,39 @@ def create_app() -> Flask:
             return jsonify({"error": "transform-failed"}), 500
         return jsonify(result)
 
+    @app.route("/api/transform/stream", methods=["GET"])
+    @_rate_limit_decorator(event="api_transform_run")
+    @require_auth
+    @_provides(transform_registry, "transforms unavailable")
+    def api_transform_stream() -> Any:
+        """Stream one transform as SSE `node`/`link` events plus `done`.
+
+        Query: ?transform_id=...&type=...&value=... The D3 graph merges
+        events progressively instead of waiting for the full payload.
+        """
+        from estorides_core.transforms import iter_sse_events
+        tid = (request.args.get("transform_id") or "").strip()
+        ent_type = (request.args.get("type") or "").strip()
+        value = (request.args.get("value") or "").strip()
+        if not (tid and ent_type and value):
+            def _err() -> Any:
+                yield "event: error\n"
+                yield f"data: {json.dumps({'error': 'transform_id, type and value required'})}\n\n"
+            return _sse_response(_err())
+
+        def _gen() -> Any:
+            yield "event: hello\n"
+            yield f"data: {json.dumps({'transform': tid})}\n\n"
+            try:
+                for kind, payload in iter_sse_events(tid, ent_type, value):
+                    yield f"event: {kind}\n"
+                    yield f"data: {json.dumps(payload)}\n\n"
+            except Exception:
+                log.exception("transform stream failed: %s/%s", tid, ent_type)
+                yield "event: error\n"
+                yield f"data: {json.dumps({'error': 'transform-failed'})}\n\n"
+        return _sse_response(_gen())
+
     # ----- Osiris-style extra OSINT endpoints (keyless) -----
     try:
         from estorides_core import osiris_sources

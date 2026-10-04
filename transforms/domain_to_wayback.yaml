@@ -1,0 +1,28 @@
+# Zero-I/O hint: Wayback Machine captures for a domain.
+# {query} is plain text substitution, never fetched.
+id: domain_to_wayback
+label: Domain to Wayback captures
+tier: information
+description: Hint node pointing at archived copies of this domain.
+input_types: [domain]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "domain:{query}"
+    label: "{query}"
+    type: domain
+    kind: domain
+    properties:
+      source: query
+  - id: "url:web.archive.org/web/{query}"
+    label: "web.archive.org/web/*/{query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://web.archive.org/web/*/{query}"
+links:
+  - source: "domain:{query}"
+    target: "url:web.archive.org/web/{query}"
+    relation: archived_at

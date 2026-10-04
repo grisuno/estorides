@@ -1009,26 +1009,32 @@
   // and Leaflet map. Idempotent: re-clicking the same node won't
   // duplicate edges. Returns {nodes, links} counts of what was
   // actually added.
+  // Every merge pushes a batch onto window._graphBatches so Ctrl+Z
+  // (window.undoGraph) can pop it and repaint without that batch.
   function mergeExpansionIntoGraph(payload) {
     const nodes = payload.nodes || [];
     const links = payload.links || [];
     // Dedupe by id (so a re-click doesn't pile on duplicates).
     if (!window._expansionSeen) window._expansionSeen = new Set();
+    if (!window._graphBatches) window._graphBatches = [];
     const seen = window._expansionSeen;
-    let newNodes = 0, newLinks = 0;
+    const addedNodes = [], addedLinks = [];
     nodes.forEach((n) => {
-      if (seen.has(n.id)) return;
+      if (!n || seen.has(n.id)) return;
       seen.add(n.id);
-      newNodes++;
+      addedNodes.push(n);
     });
     links.forEach((l) => {
       const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
       if (seen.has('link:' + k)) return;
       seen.add('link:' + k);
-      newLinks++;
+      addedLinks.push(l);
     });
+    const newNodes = addedNodes.length, newLinks = addedLinks.length;
     // Repaint D3 with the new nodes/links.
     if (newNodes || newLinks) {
+      window._graphBatches.push({ nodes: addedNodes, links: addedLinks });
+      if (window._graphBatches.length > 50) window._graphBatches.shift();
       drawGraphWithExtras(nodes, links);
     }
     // For each new node, drop a marker on the map: precise lat/lon when
@@ -1343,7 +1349,12 @@
           item.className = 'ctx-item ctx-transform';
           item.title = t.description || '';
           item.textContent = t.label;
-          item.onclick = () => { hideContextMenu(); runTransform(t.id, type, value); };
+          item.title = (t.description || '') + ' (shift+click: live stream)';
+          item.onclick = (ev) => {
+            hideContextMenu();
+            if (ev && ev.shiftKey) runTransformStream(t.id, type, value);
+            else runTransform(t.id, type, value);
+          };
           menu.appendChild(item);
         });
       })
@@ -1390,11 +1401,109 @@
       const payload = await r.json();
       if (payload.error) { setStatus('transform: ' + payload.error); return; }
       const added = await mergeExpansionIntoGraph(payload);
-      setStatus(`transform ${transformId} → +${added.nodes} nodes, +${added.links} links`);
+      setStatus(`transform ${transformId} → +${added.nodes} nodes, +${added.links} links (Ctrl+Z undo)`);
     } catch (e) {
       setStatus('transform failed: ' + e);
     }
   }
+
+  // Stream a transform over SSE so the graph "explodes" progressively.
+  // Shift+click on a context-menu transform uses this path; plain click
+  // keeps the single-POST path above. Both merge through the same dedupe
+  // (_expansionSeen) and history (_graphBatches) machinery.
+  async function runTransformStream(transformId, type, value) {
+    setStatus(`transform ${transformId} (stream)…`);
+    const url = '/api/transform/stream?transform_id=' + encodeURIComponent(transformId) +
+      '&type=' + encodeURIComponent(type) + '&value=' + encodeURIComponent(value);
+    const buf = { nodes: [], links: [] };
+    let tick = 0;
+    const flush = () => {
+      if (!buf.nodes.length && !buf.links.length) return;
+      mergeExpansionIntoGraph({ nodes: buf.nodes.splice(0), links: buf.links.splice(0) });
+    };
+    try {
+      const r = await fetch(url, { headers: { Accept: 'text/event-stream' } });
+      if (!r.ok || !r.body) { setStatus('transform stream: HTTP ' + r.status); return; }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let text = '', evName = '';
+      for (;;) {
+        const { done, value: chunk } = await reader.read();
+        if (done) break;
+        text += dec.decode(chunk, { stream: true });
+        let idx;
+        while ((idx = text.indexOf('\n\n')) >= 0) {
+          const frame = text.slice(0, idx);
+          text = text.slice(idx + 2);
+          let ev = 'message', data = '';
+          frame.split('\n').forEach((line) => {
+            if (line.startsWith('event:')) ev = line.slice(6).trim();
+            else if (line.startsWith('data:')) data += line.slice(5).trim();
+          });
+          evName = ev;
+          if (ev === 'node') {
+            try { buf.nodes.push(JSON.parse(data)); } catch (_) { /* skip */ }
+          } else if (ev === 'link') {
+            try { buf.links.push(JSON.parse(data)); } catch (_) { /* skip */ }
+          } else if (ev === 'done') {
+            flush();
+            setStatus(`transform ${transformId} (stream) → merged (Ctrl+Z undo)`);
+            return;
+          } else if (ev === 'error') {
+            setStatus('transform stream: ' + data);
+            return;
+          }
+          if (++tick % 10 === 0) {
+            flush();
+            setStatus(`transform ${transformId} (stream)… +${buf.nodes.length}n +${buf.links.length}l`);
+          }
+        }
+      }
+      flush();
+      void evName;
+      setStatus(`transform ${transformId} (stream) → merged (Ctrl+Z undo)`);
+    } catch (e) {
+      setStatus('transform stream failed: ' + e);
+    }
+  }
+  window.runTransformStream = runTransformStream;
+
+  // Undo the last graph expansion (transform / resolve). Rebuilds the
+  // dedupe set from the surviving batches and repaints the base graph
+  // plus those extras — the popped batch vanishes from the canvas.
+  function undoGraph() {
+    const batches = window._graphBatches || [];
+    if (!batches.length) { setStatus('nothing to undo'); return false; }
+    batches.pop();
+    const seen = new Set();
+    const allNodes = [], allLinks = [];
+    batches.forEach((b) => {
+      (b.nodes || []).forEach((n) => {
+        if (seen.has(n.id)) return;
+        seen.add(n.id);
+        allNodes.push(n);
+      });
+      (b.links || []).forEach((l) => {
+        const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
+        if (seen.has('link:' + k)) return;
+        seen.add('link:' + k);
+        allLinks.push(l);
+      });
+    });
+    window._expansionSeen = seen;
+    drawGraphWithExtras(allNodes, allLinks);
+    setStatus(`undo → ${batches.length} expansion(s) left`);
+    return true;
+  }
+  window.undoGraph = undoGraph;
+  document.addEventListener('keydown', (ev) => {
+    const t = ev.target;
+    const typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+    if ((ev.ctrlKey || ev.metaKey) && !ev.shiftKey && (ev.key === 'z' || ev.key === 'Z') && !typing) {
+      ev.preventDefault();
+      undoGraph();
+    }
+  });
 
   // ---- side inspector panel ----
   function selectNode(d) {
@@ -1479,7 +1588,10 @@
           b.className = 'insp-tbtn';
           b.title = t.description || '';
           b.textContent = t.label;
-          b.onclick = () => runTransform(t.id, type, value);
+          b.onclick = (ev) => {
+            if (ev && ev.shiftKey) runTransformStream(t.id, type, value);
+            else runTransform(t.id, type, value);
+          };
           box.appendChild(b);
         });
       })

@@ -531,7 +531,7 @@
   - `_resolve_eth` (method, line 753) `def _resolve_eth(self, addr)`
   - `_resolve_crypto` (method, line 756) `def _resolve_crypto(self, addr, kind)`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ## estorides_core/job_registry.py
 - Layer: utility
@@ -1287,25 +1287,32 @@
 - Doc: estorides_core.transforms ========================= Maltego-style transform registry. A *transform* takes one entity `(t
 - Language: py
 - Symbols:
-  - `Transform` (class, line 41) `class Transform`
-  - `_empty` (method, line 61) `def _empty(root_type, value)`
-  - `_resolver_filtered` (method, line 65) `def _resolver_filtered(ent_type, value, relations)`
-  - `_filter_runner` (method, line 86) `def _filter_runner(relations)`
-  - `_norm` (method, line 95) `def _norm(s)`
-  - `_osiris` (method, line 100) `def _osiris()`
-  - `_run_bgp` (method, line 108) `def _run_bgp(ent_type, value)`
-  - `_run_leaks` (method, line 134) `def _run_leaks(ent_type, value)`
-  - `_run_github` (method, line 159) `def _run_github(ent_type, value)`
-  - `TransformRegistry` (class, line 190) `class TransformRegistry`
-  - `_T` (method, line 230) `def _T(id, label, tier, applies, runner, description)`
-  - `summary` (method, line 51) `def summary(self)`
-  - `run` (method, line 87) `def run(ent_type, value)`
-  - `__init__` (method, line 193) `def __init__(self)`
-  - `register` (method, line 196) `def register(self, t)`
-  - `for_type` (method, line 199) `def for_type(self, ent_type)`
-  - `run` (method, line 209) `def run(self, transform_id, ent_type, value)`
+  - `Transform` (class, line 71) `class Transform`
+  - `_empty` (method, line 96) `def _empty(root_type, value)`
+  - `_resolver_filtered` (method, line 100) `def _resolver_filtered(ent_type, value, relations)`
+  - `_filter_runner` (method, line 121) `def _filter_runner(relations)`
+  - `_norm` (method, line 130) `def _norm(s)`
+  - `_osiris` (method, line 135) `def _osiris()`
+  - `_run_bgp` (method, line 143) `def _run_bgp(ent_type, value)`
+  - `_run_leaks` (method, line 169) `def _run_leaks(ent_type, value)`
+  - `_run_github` (method, line 194) `def _run_github(ent_type, value)`
+  - `TransformRegistry` (class, line 225) `class TransformRegistry`
+  - `_str_list` (method, line 322) `def _str_list(raw)`
+  - `_static_runner` (method, line 332) `def _static_runner(nodes_tpl, links_tpl)`
+  - `_transform_from_yaml` (method, line 362) `def _transform_from_yaml(raw, origin)`
+  - `iter_sse_events` (method, line 406) `def iter_sse_events(transform_id, ent_type, value, runner)`
+  - `_T` (method, line 441) `def _T(id, label, tier, applies, runner, description, output_types, cost)`
+  - `summary` (method, line 83) `def summary(self)`
+  - `run` (method, line 122) `def run(ent_type, value)`
+  - `__init__` (method, line 228) `def __init__(self)`
+  - `register` (method, line 231) `def register(self, t)`
+  - `for_type` (method, line 234) `def for_type(self, ent_type)`
+  - `run` (method, line 246) `def run(self, transform_id, ent_type, value)`
+  - `load_yaml_dir` (method, line 280) `def load_yaml_dir(self, directory)`
+  - `run` (method, line 335) `def run(ent_type, value)`
+  - `sub` (method, line 338) `def sub(s, depth)`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ## estorides_core/transliteration.py
 - Layer: utility

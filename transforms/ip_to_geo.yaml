@@ -1,0 +1,10 @@
+# Narrow geolocation pivot: country only, no ASN/hosting noise.
+id: ip_to_geo
+label: IP to Geolocation
+tier: intelligence
+description: Country where this IP is located, without re-scanning 99 sources.
+input_types: [ip, ipv4, ipv6]
+output_types: [country]
+cost: free
+engine: resolver
+relations: [located_in]

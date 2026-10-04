@@ -1680,127 +1680,127 @@
 - Defined: `estorides_core/intel_resolver.py:90`
 - Doc: Execute a SPARQL SELECT against the Wikidata endpoint.
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _val (function) `def _val(row, key)`
 - Defined: `estorides_core/intel_resolver.py:111`
 - Doc: Pull a string value out of a SPARQL JSON row.
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _norm (method) `def _norm(s)`
 - Defined: `estorides_core/intel_resolver.py:789`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _is_valid_ipv4 (method) `def _is_valid_ipv4(s)`
 - Defined: `estorides_core/intel_resolver.py:793`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _escape_sparql (method) `def _escape_sparql(s)`
 - Defined: `estorides_core/intel_resolver.py:801`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### __init__ (method) `def __init__(self)`
 - Defined: `estorides_core/intel_resolver.py:121`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### get (method) `def get(self, kind, key)`
 - Defined: `estorides_core/intel_resolver.py:127`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### put (method) `def put(self, kind, key, value)`
 - Defined: `estorides_core/intel_resolver.py:140`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### stats (method) `def stats(self)`
 - Defined: `estorides_core/intel_resolver.py:148`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### __init__ (method) `def __init__(self)`
 - Defined: `estorides_core/intel_resolver.py:165`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### resolve (method) `def resolve(self, ent_type, ent_id)`
 - Defined: `estorides_core/intel_resolver.py:174`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _vt_get (method) `def _vt_get(self, path, limit)`
 - Defined: `estorides_core/intel_resolver.py:214`
 - Doc: GET a VirusTotal v3 path, returning parsed JSON or None.
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _vt_add_relationship (method) `def _vt_add_relationship(self, path)`
 - Defined: `estorides_core/intel_resolver.py:245`
 - Doc: Expand one VirusTotal relationship endpoint into nodes/links.
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _vt_flag_malicious (method) `def _vt_flag_malicious(self, path, node, sources)`
 - Defined: `estorides_core/intel_resolver.py:290`
 - Doc: Stamp a node with VirusTotal detection stats (counter-intel signal).
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_ip (method) `def _resolve_ip(self, ip)`
 - Defined: `estorides_core/intel_resolver.py:306`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_domain (method) `def _resolve_domain(self, domain)`
 - Defined: `estorides_core/intel_resolver.py:412`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_file (method) `def _resolve_file(self, file_hash)`
 - Defined: `estorides_core/intel_resolver.py:473`
 - Doc: Resolve a file hash via VirusTotal relationships.
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_company (method) `def _resolve_company(self, name)`
 - Defined: `estorides_core/intel_resolver.py:510`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_person (method) `def _resolve_person(self, name)`
 - Defined: `estorides_core/intel_resolver.py:569`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_country (method) `def _resolve_country(self, name)`
 - Defined: `estorides_core/intel_resolver.py:638`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_cve (method) `def _resolve_cve(self, cve_id)`
 - Defined: `estorides_core/intel_resolver.py:678`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_btc (method) `def _resolve_btc(self, addr)`
 - Defined: `estorides_core/intel_resolver.py:750`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_eth (method) `def _resolve_eth(self, addr)`
 - Defined: `estorides_core/intel_resolver.py:753`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ### _resolve_crypto (method) `def _resolve_crypto(self, addr, kind)`
 - Defined: `estorides_core/intel_resolver.py:756`
 - Depends on: `estorides_core/config.py`, `estorides_core/ontology.py`, `estorides_core/ssrf_guard.py`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`
+- Imported by: `estorides_core/orchestrator.py`, `estorides_core/transforms.py`, `estorides_web.py`, `tests/test_transforms.py`
 
 ## estorides_core/job_registry.py
 
@@ -4012,80 +4012,119 @@
 ## estorides_core/transforms.py
 
 ### _empty (method) `def _empty(root_type, value)`
-- Defined: `estorides_core/transforms.py:61`
+- Defined: `estorides_core/transforms.py:96`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _resolver_filtered (method) `def _resolver_filtered(ent_type, value, relations)`
-- Defined: `estorides_core/transforms.py:65`
+- Defined: `estorides_core/transforms.py:100`
 - Doc: Resolve `(ent_type, value)` and keep only links whose relation is
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _filter_runner (method) `def _filter_runner(relations)`
-- Defined: `estorides_core/transforms.py:86`
+- Defined: `estorides_core/transforms.py:121`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _norm (method) `def _norm(s)`
-- Defined: `estorides_core/transforms.py:95`
+- Defined: `estorides_core/transforms.py:130`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _osiris (method) `def _osiris()`
-- Defined: `estorides_core/transforms.py:100`
+- Defined: `estorides_core/transforms.py:135`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _run_bgp (method) `def _run_bgp(ent_type, value)`
-- Defined: `estorides_core/transforms.py:108`
+- Defined: `estorides_core/transforms.py:143`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _run_leaks (method) `def _run_leaks(ent_type, value)`
-- Defined: `estorides_core/transforms.py:134`
+- Defined: `estorides_core/transforms.py:169`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### _run_github (method) `def _run_github(ent_type, value)`
-- Defined: `estorides_core/transforms.py:159`
+- Defined: `estorides_core/transforms.py:194`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
-### _T (method) `def _T(id, label, tier, applies, runner, description)`
-- Defined: `estorides_core/transforms.py:230`
+### _str_list (method) `def _str_list(raw)`
+- Defined: `estorides_core/transforms.py:322`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### _static_runner (method) `def _static_runner(nodes_tpl, links_tpl)`
+- Defined: `estorides_core/transforms.py:332`
+- Doc: Fixed nodes/links with ``{query}`` substitution (zero I/O).
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### _transform_from_yaml (method) `def _transform_from_yaml(raw, origin)`
+- Defined: `estorides_core/transforms.py:362`
+- Doc: Validate one YAML mapping into a Transform (None = skip).
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### iter_sse_events (method) `def iter_sse_events(transform_id, ent_type, value, runner)`
+- Defined: `estorides_core/transforms.py:406`
+- Doc: Yield ``(kind, payload)`` tuples for the SSE stream endpoint.
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### _T (method) `def _T(id, label, tier, applies, runner, description, output_types, cost)`
+- Defined: `estorides_core/transforms.py:441`
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### summary (method) `def summary(self)`
-- Defined: `estorides_core/transforms.py:51`
+- Defined: `estorides_core/transforms.py:83`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### run (method) `def run(ent_type, value)`
-- Defined: `estorides_core/transforms.py:87`
+- Defined: `estorides_core/transforms.py:122`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### __init__ (method) `def __init__(self)`
-- Defined: `estorides_core/transforms.py:193`
+- Defined: `estorides_core/transforms.py:228`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### register (method) `def register(self, t)`
-- Defined: `estorides_core/transforms.py:196`
+- Defined: `estorides_core/transforms.py:231`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### for_type (method) `def for_type(self, ent_type)`
-- Defined: `estorides_core/transforms.py:199`
+- Defined: `estorides_core/transforms.py:234`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ### run (method) `def run(self, transform_id, ent_type, value)`
-- Defined: `estorides_core/transforms.py:209`
+- Defined: `estorides_core/transforms.py:246`
 - Depends on: `estorides_core/intel_resolver.py`
-- Imported by: `estorides_web.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### load_yaml_dir (method) `def load_yaml_dir(self, directory)`
+- Defined: `estorides_core/transforms.py:280`
+- Doc: Register every transform declared in ``*.yaml`` under `directory`.
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### run (method) `def run(ent_type, value)`
+- Defined: `estorides_core/transforms.py:335`
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
+
+### sub (method) `def sub(s, depth)`
+- Defined: `estorides_core/transforms.py:338`
+- Depends on: `estorides_core/intel_resolver.py`
+- Imported by: `estorides_web.py`, `estorides_web.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`, `tests/test_transforms.py`
 
 ## estorides_core/transliteration.py
 
@@ -4530,12 +4569,12 @@
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### _serve_loop (method) `def _serve_loop()`
-- Defined: `estorides_web.py:1636`
+- Defined: `estorides_web.py:1669`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### _shape_for_ui (method) `def _shape_for_ui(result)`
-- Defined: `estorides_web.py:1649`
+- Defined: `estorides_web.py:1682`
 - Doc: Trim raw responses for the UI and reformat observations.
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
@@ -4848,84 +4887,90 @@
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
+### api_transform_stream (method) `def api_transform_stream()`
+- Defined: `estorides_web.py:1235`
+- Doc: Stream one transform as SSE `node`/`link` events plus `done`.
+- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+- Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
+
 ### api_osiris_bgp (method) `def api_osiris_bgp()`
-- Defined: `estorides_web.py:1241`
+- Defined: `estorides_web.py:1274`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_mac (method) `def api_osiris_mac()`
-- Defined: `estorides_web.py:1255`
+- Defined: `estorides_web.py:1288`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_phone (method) `def api_osiris_phone()`
-- Defined: `estorides_web.py:1269`
+- Defined: `estorides_web.py:1302`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_github (method) `def api_osiris_github()`
-- Defined: `estorides_web.py:1283`
+- Defined: `estorides_web.py:1316`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_leaks (method) `def api_osiris_leaks()`
-- Defined: `estorides_web.py:1297`
+- Defined: `estorides_web.py:1330`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_kev (method) `def api_osiris_kev()`
-- Defined: `estorides_web.py:1311`
+- Defined: `estorides_web.py:1344`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_malware (method) `def api_osiris_malware()`
-- Defined: `estorides_web.py:1320`
+- Defined: `estorides_web.py:1353`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_osiris_threats (method) `def api_osiris_threats()`
-- Defined: `estorides_web.py:1325`
+- Defined: `estorides_web.py:1358`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_discover_start (method) `def api_discover_start()`
-- Defined: `estorides_web.py:1338`
+- Defined: `estorides_web.py:1371`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_discover_jobs (method) `def api_discover_jobs()`
-- Defined: `estorides_web.py:1384`
+- Defined: `estorides_web.py:1417`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_discover_stop (method) `def api_discover_stop()`
-- Defined: `estorides_web.py:1390`
+- Defined: `estorides_web.py:1423`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_discover_stream (method) `def api_discover_stream()`
-- Defined: `estorides_web.py:1402`
+- Defined: `estorides_web.py:1435`
 - Doc: Server-Sent Events for a discoverer job.
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_run_stream_start (method) `def api_run_stream_start()`
-- Defined: `estorides_web.py:1452`
+- Defined: `estorides_web.py:1485`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_run_stream_stop (method) `def api_run_stream_stop()`
-- Defined: `estorides_web.py:1519`
+- Defined: `estorides_web.py:1552`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_run_stream (method) `def api_run_stream()`
-- Defined: `estorides_web.py:1531`
+- Defined: `estorides_web.py:1564`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### api_analyze_stream (method) `def api_analyze_stream()`
-- Defined: `estorides_web.py:1578`
+- Defined: `estorides_web.py:1611`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
@@ -4939,33 +4984,43 @@
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
+### _gen (method) `def _gen()`
+- Defined: `estorides_web.py:1251`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+- Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
+
 ### gen (method) `def gen()`
-- Defined: `estorides_web.py:1415`
+- Defined: `estorides_web.py:1448`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### _drive (method) `def _drive()`
-- Defined: `estorides_web.py:1482`
+- Defined: `estorides_web.py:1515`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### gen (method) `def gen()`
-- Defined: `estorides_web.py:1537`
+- Defined: `estorides_web.py:1570`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### _run (method) `def _run()`
-- Defined: `estorides_web.py:1591`
+- Defined: `estorides_web.py:1624`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### gen (method) `def gen()`
-- Defined: `estorides_web.py:1607`
+- Defined: `estorides_web.py:1640`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ### _watch_runner (method) `def _watch_runner(swatch)`
 - Defined: `estorides_web.py:1032`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+- Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
+
+### _err (method) `def _err()`
+- Defined: `estorides_web.py:1246`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
@@ -5181,363 +5236,373 @@
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### mergeExpansionIntoGraph (function)
-- Defined: `static/js/estorides.js:1012`
+- Defined: `static/js/estorides.js:1014`
 - Doc: Merge a /api/intel/resolve response into the current D3 graph and Leaflet map. Idempotent: re-clicking the same node won
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### drawGraphWithExtras (function)
-- Defined: `static/js/estorides.js:1072`
+- Defined: `static/js/estorides.js:1078`
 - Doc: Re-draws the D3 graph with the original nodes/edges PLUS any extras passed in (from a /api/intel/resolve call). The extr
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### pushLink (function)
-- Defined: `static/js/estorides.js:1096`
+- Defined: `static/js/estorides.js:1102`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### resolverTypeFor (function)
-- Defined: `static/js/estorides.js:1130`
+- Defined: `static/js/estorides.js:1136`
 - Doc: Map a graph node's type/kind onto a resolver/transform entity type.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saveLevelOverrides (function)
-- Defined: `static/js/estorides.js:1146`
+- Defined: `static/js/estorides.js:1152`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### levelOf (function)
-- Defined: `static/js/estorides.js:1150`
+- Defined: `static/js/estorides.js:1156`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### clusterColor (function)
-- Defined: `static/js/estorides.js:1154`
+- Defined: `static/js/estorides.js:1160`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### safeColor (function)
-- Defined: `static/js/estorides.js:1164`
+- Defined: `static/js/estorides.js:1170`
 - Doc: Cluster colors come from remote data (TELEMETRY.cluster_palette and per-cluster `color`). Treat them as hostile: only ac
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### deriveClusters (function)
-- Defined: `static/js/estorides.js:1173`
+- Defined: `static/js/estorides.js:1179`
 - Doc: Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't carried a
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideTooltip (function)
-- Defined: `static/js/estorides.js:1186`
+- Defined: `static/js/estorides.js:1192`
 - Doc: --- floating overlays (tooltip + context menu) ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### purifyHTML (function)
-- Defined: `static/js/estorides.js:1200`
+- Defined: `static/js/estorides.js:1206`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setSanitizedHTML (function)
-- Defined: `static/js/estorides.js:1211`
+- Defined: `static/js/estorides.js:1217`
 - Doc: Append hostile markup: sanitize with DOMPurify, assign once. When the library is missing, fall back to inert plain text 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showTooltipAt (function)
-- Defined: `static/js/estorides.js:1220`
+- Defined: `static/js/estorides.js:1226`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideContextMenu (function)
-- Defined: `static/js/estorides.js:1230`
+- Defined: `static/js/estorides.js:1236`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showBridgeTooltip (function)
-- Defined: `static/js/estorides.js:1235`
+- Defined: `static/js/estorides.js:1241`
 - Doc: Cross-referenced tooltip for an inter-cluster (bridge) link.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showNodeTooltip (function)
-- Defined: `static/js/estorides.js:1264`
+- Defined: `static/js/estorides.js:1270`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showContextMenu (function)
-- Defined: `static/js/estorides.js:1283`
+- Defined: `static/js/estorides.js:1289`
 - Doc: --- context menu: transforms grouped by intel tier ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setNodeLevel (function)
-- Defined: `static/js/estorides.js:1353`
+- Defined: `static/js/estorides.js:1364`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### applyLevelStyles (function)
-- Defined: `static/js/estorides.js:1362`
+- Defined: `static/js/estorides.js:1373`
 - Doc: Re-apply level rings to every rendered node circle.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### focusNode (function)
-- Defined: `static/js/estorides.js:1370`
+- Defined: `static/js/estorides.js:1381`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### runTransform (function)
-- Defined: `static/js/estorides.js:1382`
+- Defined: `static/js/estorides.js:1393`
 - Doc: Run a graph pivot transform and merge the result into the graph+map.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
+### runTransformStream (function)
+- Defined: `static/js/estorides.js:1414`
+- Doc: Stream a transform over SSE so the graph "explodes" progressively. Shift+click on a context-menu transform uses this pat
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### undoGraph (function)
+- Defined: `static/js/estorides.js:1474`
+- Doc: Undo the last graph expansion (transform / resolve). Rebuilds the dedupe set from the surviving batches and repaints the
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
 ### selectNode (function)
-- Defined: `static/js/estorides.js:1400`
+- Defined: `static/js/estorides.js:1509`
 - Doc: --- side inspector panel ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### add (function)
-- Defined: `static/js/estorides.js:1411`
+- Defined: `static/js/estorides.js:1520`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### addText (function)
-- Defined: `static/js/estorides.js:1417`
+- Defined: `static/js/estorides.js:1526`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderGraphCore (function)
-- Defined: `static/js/estorides.js:1491`
+- Defined: `static/js/estorides.js:1603`
 - Doc: --- unified force-graph renderer (clusters + rings + interactions) ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### drawHulls (function)
-- Defined: `static/js/estorides.js:1561`
+- Defined: `static/js/estorides.js:1673`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _redrawGraph (function)
-- Defined: `static/js/estorides.js:1592`
+- Defined: `static/js/estorides.js:1704`
 - Doc: Low-level D3 redraw given a flat nodes/links list (back-compat shim).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setStatusDot (function)
-- Defined: `static/js/estorides.js:1598`
+- Defined: `static/js/estorides.js:1710`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showWorkingIndicator (function)
-- Defined: `static/js/estorides.js:1604`
+- Defined: `static/js/estorides.js:1716`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideWorkingIndicator (function)
-- Defined: `static/js/estorides.js:1609`
+- Defined: `static/js/estorides.js:1721`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### toggleTierSection (function)
-- Defined: `static/js/estorides.js:1614`
+- Defined: `static/js/estorides.js:1726`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderTieredResults (function)
-- Defined: `static/js/estorides.js:1622`
+- Defined: `static/js/estorides.js:1734`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeAttr (function)
-- Defined: `static/js/estorides.js:1688`
+- Defined: `static/js/estorides.js:1800`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### buildMapCoords (function)
-- Defined: `static/js/estorides.js:1724`
+- Defined: `static/js/estorides.js:1836`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### validCoord (function)
-- Defined: `static/js/estorides.js:1820`
-- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
-
-### colorFor (function)
-- Defined: `static/js/estorides.js:1824`
-- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
-
-### renderEntities (function)
-- Defined: `static/js/estorides.js:1843`
-- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
-
-### renderGraphSummary (function)
-- Defined: `static/js/estorides.js:1895`
-- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
-
-### colorForKind (function)
-- Defined: `static/js/estorides.js:1924`
-- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
-
-### renderTimeline (function)
 - Defined: `static/js/estorides.js:1932`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
+### colorFor (function)
+- Defined: `static/js/estorides.js:1936`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### renderEntities (function)
+- Defined: `static/js/estorides.js:1955`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### renderGraphSummary (function)
+- Defined: `static/js/estorides.js:2007`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### colorForKind (function)
+- Defined: `static/js/estorides.js:2036`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### renderTimeline (function)
+- Defined: `static/js/estorides.js:2044`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
 ### fmtTime (function)
-- Defined: `static/js/estorides.js:1982`
+- Defined: `static/js/estorides.js:2094`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### filterTimeline (function)
-- Defined: `static/js/estorides.js:1993`
+- Defined: `static/js/estorides.js:2105`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### drawGraph (function)
-- Defined: `static/js/estorides.js:2042`
+- Defined: `static/js/estorides.js:2154`
 - Doc: --- D3 graph view ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadCases (function)
-- Defined: `static/js/estorides.js:2072`
+- Defined: `static/js/estorides.js:2184`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### openCaseDetail (function)
-- Defined: `static/js/estorides.js:2098`
+- Defined: `static/js/estorides.js:2210`
 - Doc: Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case data) 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### restoreCaseToWorkspace (function)
-- Defined: `static/js/estorides.js:2153`
+- Defined: `static/js/estorides.js:2265`
 - Doc: Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without re-running
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### buildCaseMapCoords (function)
-- Defined: `static/js/estorides.js:2174`
+- Defined: `static/js/estorides.js:2286`
 - Doc: Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid fallb
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderCaseItem (function)
-- Defined: `static/js/estorides.js:2192`
+- Defined: `static/js/estorides.js:2304`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### debounce (function)
-- Defined: `static/js/estorides.js:2218`
+- Defined: `static/js/estorides.js:2330`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeHTML (function)
-- Defined: `static/js/estorides.js:2268`
+- Defined: `static/js/estorides.js:2380`
 - Doc: --- utils ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### truncate (function)
-- Defined: `static/js/estorides.js:2273`
+- Defined: `static/js/estorides.js:2385`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionSave (function)
-- Defined: `static/js/estorides.js:2296`
+- Defined: `static/js/estorides.js:2408`
 - Doc: Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a 
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionDiff (function)
-- Defined: `static/js/estorides.js:2317`
+- Defined: `static/js/estorides.js:2429`
 - Doc: Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the cas
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### renderCaseDiffPanel (function)
-- Defined: `static/js/estorides.js:2337`
+- Defined: `static/js/estorides.js:2449`
 - Doc: Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### caseActionReport (function)
-- Defined: `static/js/estorides.js:2378`
+- Defined: `static/js/estorides.js:2490`
 - Doc: Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI comman
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### showReportModal (function)
-- Defined: `static/js/estorides.js:2414`
+- Defined: `static/js/estorides.js:2526`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sanitizeInput (function)
-- Defined: `static/js/estorides.js:2439`
+- Defined: `static/js/estorides.js:2551`
 - Doc: --- generic modal helpers (replace alert/prompt/confirm) ---- User input collected here is treated as hostile: coerced t
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### openModal (function)
-- Defined: `static/js/estorides.js:2442`
+- Defined: `static/js/estorides.js:2554`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### promptModal (function)
-- Defined: `static/js/estorides.js:2477`
+- Defined: `static/js/estorides.js:2589`
 - Doc: Promise-style text prompt. Resolves with a sanitized string or null.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### confirmModal (function)
-- Defined: `static/js/estorides.js:2501`
+- Defined: `static/js/estorides.js:2613`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadSidebarWidth (function)
-- Defined: `static/js/estorides.js:2593`
+- Defined: `static/js/estorides.js:2705`
 - Doc: Responsive sidebar toggle + resizable divider.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saveSidebarWidth (function)
-- Defined: `static/js/estorides.js:2604`
+- Defined: `static/js/estorides.js:2716`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadSidebarCollapsed (function)
-- Defined: `static/js/estorides.js:2607`
+- Defined: `static/js/estorides.js:2719`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saveSidebarCollapsed (function)
-- Defined: `static/js/estorides.js:2615`
+- Defined: `static/js/estorides.js:2727`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### switchSidebarTab (function)
-- Defined: `static/js/estorides.js:2673`
+- Defined: `static/js/estorides.js:2785`
 - Doc: --- Fusion tab ----
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionTab (function)
-- Defined: `static/js/estorides.js:2686`
+- Defined: `static/js/estorides.js:2798`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionStats (function)
-- Defined: `static/js/estorides.js:2692`
+- Defined: `static/js/estorides.js:2804`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionTopChanged (function)
-- Defined: `static/js/estorides.js:2711`
+- Defined: `static/js/estorides.js:2823`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionSearch (function)
-- Defined: `static/js/estorides.js:2740`
+- Defined: `static/js/estorides.js:2852`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### doSearch (function)
-- Defined: `static/js/estorides.js:2747`
+- Defined: `static/js/estorides.js:2859`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### loadFusionEntityDetail (function)
-- Defined: `static/js/estorides.js:2785`
+- Defined: `static/js/estorides.js:2897`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sseUrl (function)
-- Defined: `static/js/estorides.js:2857`
+- Defined: `static/js/estorides.js:2969`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setStatus (function)
-- Defined: `static/js/estorides.js:2881`
+- Defined: `static/js/estorides.js:2993`
 - Doc: The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one t
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### setDiscoverProgress (function)
-- Defined: `static/js/estorides.js:2888`
+- Defined: `static/js/estorides.js:3000`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### hideDiscoverProgress (function)
-- Defined: `static/js/estorides.js:2900`
+- Defined: `static/js/estorides.js:3012`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### startDiscover (function)
-- Defined: `static/js/estorides.js:2905`
+- Defined: `static/js/estorides.js:3017`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### stopDiscover (function)
-- Defined: `static/js/estorides.js:2979`
+- Defined: `static/js/estorides.js:3091`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### handleDiscoverEvent (function)
-- Defined: `static/js/estorides.js:2996`
+- Defined: `static/js/estorides.js:3108`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### addDiscoverEntityToTab (function)
-- Defined: `static/js/estorides.js:3035`
+- Defined: `static/js/estorides.js:3147`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### escapeHtml (function)
-- Defined: `static/js/estorides.js:3063`
+- Defined: `static/js/estorides.js:3175`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### maybePlotDiscoverEntity (function)
-- Defined: `static/js/estorides.js:3068`
+- Defined: `static/js/estorides.js:3180`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### flushDiscoverEntities (function)
-- Defined: `static/js/estorides.js:3075`
+- Defined: `static/js/estorides.js:3187`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### check (function)
-- Defined: `static/js/estorides.js:3094`
+- Defined: `static/js/estorides.js:3206`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### set (function)
@@ -5595,89 +5660,97 @@
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### k (function)
-- Defined: `static/js/estorides.js:1025`
+- Defined: `static/js/estorides.js:1028`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### CLUSTER_PALETTE (function)
-- Defined: `static/js/estorides.js:1123`
+- Defined: `static/js/estorides.js:1129`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### c (function)
-- Defined: `static/js/estorides.js:1156`
+- Defined: `static/js/estorides.js:1162`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### cid (function)
-- Defined: `static/js/estorides.js:1176`
+- Defined: `static/js/estorides.js:1182`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### labelFor (function)
-- Defined: `static/js/estorides.js:1238`
+- Defined: `static/js/estorides.js:1244`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### c (function)
-- Defined: `static/js/estorides.js:1239`
+- Defined: `static/js/estorides.js:1245`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tr (function)
-- Defined: `static/js/estorides.js:1333`
+- Defined: `static/js/estorides.js:1339`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### flush (function)
+- Defined: `static/js/estorides.js:1420`
+- Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
+
+### k (function)
+- Defined: `static/js/estorides.js:1487`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tr (function)
-- Defined: `static/js/estorides.js:1468`
+- Defined: `static/js/estorides.js:1577`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### obs (function)
-- Defined: `static/js/estorides.js:1936`
+- Defined: `static/js/estorides.js:2048`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### frac (function)
-- Defined: `static/js/estorides.js:1969`
+- Defined: `static/js/estorides.js:2081`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### q (function)
-- Defined: `static/js/estorides.js:2073`
+- Defined: `static/js/estorides.js:2185`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### entities (function)
-- Defined: `static/js/estorides.js:2099`
+- Defined: `static/js/estorides.js:2211`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### obs (function)
-- Defined: `static/js/estorides.js:2100`
+- Defined: `static/js/estorides.js:2212`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### saved (function)
-- Defined: `static/js/estorides.js:2196`
+- Defined: `static/js/estorides.js:2308`
 - Doc: Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### rows (function)
-- Defined: `static/js/estorides.js:2345`
+- Defined: `static/js/estorides.js:2457`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### removed (function)
-- Defined: `static/js/estorides.js:2348`
+- Defined: `static/js/estorides.js:2460`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### actions (function)
-- Defined: `static/js/estorides.js:2448`
+- Defined: `static/js/estorides.js:2560`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### close (function)
-- Defined: `static/js/estorides.js:2462`
+- Defined: `static/js/estorides.js:2574`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### tag (function)
-- Defined: `static/js/estorides.js:2563`
+- Defined: `static/js/estorides.js:2675`
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### _sseAuthToken (function)
-- Defined: `static/js/estorides.js:2853`
+- Defined: `static/js/estorides.js:2965`
 - Doc: Auth token for SSE (EventSource can't set custom headers).
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ### sig (function)
-- Defined: `static/js/estorides.js:3040`
+- Defined: `static/js/estorides.js:3152`
 - Doc: Avoid duplicates with the simple in-memory check.
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
@@ -9884,6 +9957,53 @@
 ### test_injection_error_has_fields (method) `def test_injection_error_has_fields(self)`
 - Defined: `tests/test_tool_runner.py:206`
 - Depends on: `estorides_core/config.py`, `estorides_core/tool_runner.py`, `estorides_core/validation.py`
+
+## tests/test_transforms.py
+
+### _mock_resolver (function) `def _mock_resolver(monkeypatch, nodes, links, root_id)`
+- Defined: `tests/test_transforms.py:10`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s1_ip_to_bgp_happy (function) `def test_s1_ip_to_bgp_happy(monkeypatch)`
+- Defined: `tests/test_transforms.py:20`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s2_empty_osiris_no_raise (function) `def test_s2_empty_osiris_no_raise(monkeypatch)`
+- Defined: `tests/test_transforms.py:35`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s3_unknown_transform_id (function) `def test_s3_unknown_transform_id()`
+- Defined: `tests/test_transforms.py:47`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s4_runner_exception_fail_closed (function) `def test_s4_runner_exception_fail_closed()`
+- Defined: `tests/test_transforms.py:53`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s5_rich_metadata_sorted (function) `def test_s5_rich_metadata_sorted()`
+- Defined: `tests/test_transforms.py:67`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s6_input_limits_and_stream_shape (function) `def test_s6_input_limits_and_stream_shape()`
+- Defined: `tests/test_transforms.py:80`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s7_yaml_transform_no_code (function) `def test_s7_yaml_transform_no_code(monkeypatch, tmp_path)`
+- Defined: `tests/test_transforms.py:96`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### _repo_transforms_dir (function) `def _repo_transforms_dir()`
+- Defined: `tests/test_transforms.py:130`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### test_s8_yaml_catalog_complete_and_substituted (function) `def test_s8_yaml_catalog_complete_and_substituted()`
+- Defined: `tests/test_transforms.py:135`
+- Doc: Every transforms/*.yaml ships full metadata; static pivots run
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
+### resolve (method) `def resolve(self, t, v)`
+- Defined: `tests/test_transforms.py:14`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
 
 ## tests/test_ui_professional.py
 

@@ -1,0 +1,27 @@
+# Zero-I/O hint: Certificate Transparency history for a domain.
+id: domain_to_crtsh
+label: Domain to Certificate history
+tier: intelligence
+description: Hint node pointing at crt.sh certificate search for this domain.
+input_types: [domain]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "domain:{query}"
+    label: "{query}"
+    type: domain
+    kind: domain
+    properties:
+      source: query
+  - id: "url:crt.sh/{query}"
+    label: "crt.sh search {query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://crt.sh/?q=%25.{query}"
+links:
+  - source: "domain:{query}"
+    target: "url:crt.sh/{query}"
+    relation: certified_at

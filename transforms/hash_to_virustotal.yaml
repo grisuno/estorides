@@ -1,0 +1,27 @@
+# Zero-I/O hint: VirusTotal report page for a file hash.
+id: hash_to_virustotal
+label: Hash to VirusTotal report
+tier: intelligence
+description: Hint node pointing at the VirusTotal file report for this hash.
+input_types: [file, hash, md5, sha1, sha256]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "file:{query}"
+    label: "{query}"
+    type: file
+    kind: file
+    properties:
+      source: query
+  - id: "url:virustotal/{query}"
+    label: "virustotal report {query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://www.virustotal.com/gui/file/{query}"
+links:
+  - source: "file:{query}"
+    target: "url:virustotal/{query}"
+    relation: reported_at

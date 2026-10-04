@@ -1645,6 +1645,25 @@
   - `test_injection_error_has_fields` (method, line 206) `def test_injection_error_has_fields(self)`
 - Depends on: `estorides_core/config.py`, `estorides_core/tool_runner.py`, `estorides_core/validation.py`
 
+## tests/test_transforms.py
+- Layer: testing
+- Doc: BDD tests for spec/transforms.md — Maltego-style pivoting.  S1 happy, S2 edge vacío, S3 error id, S4 runner-roto, S5 met
+- Language: py
+- Symbols:
+  - `_mock_resolver` (function, line 10) `def _mock_resolver(monkeypatch, nodes, links, root_id)`
+  - `test_s1_ip_to_bgp_happy` (function, line 20) `def test_s1_ip_to_bgp_happy(monkeypatch)`
+  - `test_s2_empty_osiris_no_raise` (function, line 35) `def test_s2_empty_osiris_no_raise(monkeypatch)`
+  - `test_s3_unknown_transform_id` (function, line 47) `def test_s3_unknown_transform_id()`
+  - `test_s4_runner_exception_fail_closed` (function, line 53) `def test_s4_runner_exception_fail_closed()`
+  - `test_s5_rich_metadata_sorted` (function, line 67) `def test_s5_rich_metadata_sorted()`
+  - `test_s6_input_limits_and_stream_shape` (function, line 80) `def test_s6_input_limits_and_stream_shape()`
+  - `test_s7_yaml_transform_no_code` (function, line 96) `def test_s7_yaml_transform_no_code(monkeypatch, tmp_path)`
+  - `_repo_transforms_dir` (function, line 130) `def _repo_transforms_dir()`
+  - `test_s8_yaml_catalog_complete_and_substituted` (function, line 135) `def test_s8_yaml_catalog_complete_and_substituted()`
+  - `Fake` (class, line 13) `class Fake`
+  - `resolve` (method, line 14) `def resolve(self, t, v)`
+- Depends on: `estorides_core/intel_resolver.py`, `estorides_core/transforms.py`
+
 ## tests/test_ui_professional.py
 - Layer: testing
 - Doc: BDD tests for the ui_professional module (spec/ui_professional.md).  Each scenario maps to a Given-When-From from the sp

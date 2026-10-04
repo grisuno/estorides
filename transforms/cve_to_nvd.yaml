@@ -1,0 +1,27 @@
+# Zero-I/O hint: NVD detail page for a CVE.
+id: cve_to_nvd
+label: CVE to NVD detail
+tier: information
+description: Hint node pointing at the NVD page for this CVE.
+input_types: [cve]
+output_types: [url]
+cost: free
+engine: static
+nodes:
+  - id: "cve:{query}"
+    label: "{query}"
+    type: cve
+    kind: cve
+    properties:
+      source: query
+  - id: "url:nvd/{query}"
+    label: "nvd detail {query}"
+    type: url
+    kind: url
+    properties:
+      source: static-hint
+      url: "https://nvd.nist.gov/vuln/detail/{query}"
+links:
+  - source: "cve:{query}"
+    target: "url:nvd/{query}"
+    relation: detailed_at

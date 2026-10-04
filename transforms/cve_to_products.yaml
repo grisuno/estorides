@@ -1,0 +1,10 @@
+# The built-in covers affected vendors; this one covers affected products.
+id: cve_to_products
+label: CVE to Affected products
+tier: intelligence
+description: Products produced by affected vendors (NVD).
+input_types: [cve]
+output_types: [product]
+cost: free
+engine: resolver
+relations: [produces]

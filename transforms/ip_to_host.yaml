@@ -1,0 +1,10 @@
+# Narrow hosting pivot: owning organisation only.
+id: ip_to_host
+label: IP to Hosting org
+tier: information
+description: Organisation hosting this IP, without re-scanning 99 sources.
+input_types: [ip, ipv4, ipv6]
+output_types: [company]
+cost: free
+engine: resolver
+relations: [hosted_by]

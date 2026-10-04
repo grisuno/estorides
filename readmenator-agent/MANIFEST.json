@@ -1,15 +1,15 @@
 {
   "tool": "readmenator",
-  "generated_at": "2026-09-30T02:20:47Z",
+  "generated_at": "2026-10-04T05:52:31Z",
   "project_root": "/home/grisun0/src_note/py/fucklantir/estorides/estorides",
-  "files": 156,
-  "symbols": 2719,
-  "imports": 14278,
-  "resolved_imports": 350,
+  "files": 157,
+  "symbols": 2745,
+  "imports": 14590,
+  "resolved_imports": 358,
   "security_findings": 0,
   "languages": {
     "sh": 2,
-    "py": 152,
+    "py": 153,
     "js": 2
   },
   "entrypoints": [],

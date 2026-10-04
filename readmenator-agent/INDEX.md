@@ -59,7 +59,7 @@
 | `estorides_core/tech_fingerprint.py` | - | estorides_core | 6 |
 | `estorides_core/tool_install.py` | estorides_core.tool_install =========================== One-click installation f | estorides_core | 27 |
 | `estorides_core/tool_runner.py` | - | estorides_core | 15 |
-| `estorides_core/transforms.py` | estorides_core.transforms ========================= Maltego-style transform regi | estorides_core | 17 |
+| `estorides_core/transforms.py` | estorides_core.transforms ========================= Maltego-style transform regi | estorides_core | 24 |
 | `estorides_core/transliteration.py` | estorides_core.transliteration ============================== Cross-script name  | estorides_core | 4 |
 | `estorides_core/validation.py` | estorides_core.validation ========================= Input validation for free-fo | estorides_core | 6 |
 | `estorides_core/vuln_correlation.py` | - | estorides_core | 11 |
@@ -73,10 +73,10 @@
 | `estorides_llm/__init__.py` | estorides_llm | estorides_llm | 0 |
 | `estorides_llm/intelligence_prompts.py` | estorides_llm.intelligence_prompts ================================== System pro | estorides_llm | 1 |
 | `estorides_llm/manager.py` | estorides_llm.manager ===================== Multi-backend LLM router with plugga | estorides_llm | 22 |
-| `estorides_web.py` | estorides.web ============= Flask app providing: * 2D map     (Leaflet) * knowle | root | 91 |
+| `estorides_web.py` | estorides.web ============= Flask app providing: * 2D map     (Leaflet) * knowle | root | 94 |
 | `estorides_web_tools.py` | estorides_web_tools =================== Tools vertical slice extracted from the  | root | 5 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies.  Idempote | root | 2 |
-| `static/js/estorides.js` | Estorides front-end controller | js | 161 |
+| `static/js/estorides.js` | Estorides front-end controller | js | 165 |
 | `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection.  Hypothesis fuzzi | properties | 8 |
@@ -149,6 +149,7 @@
 | `tests/test_tool_doctor.py` | M4 RED tests: tool doctor. | tests | 4 |
 | `tests/test_tool_install.py` | Tests for estorides_core.tool_install (lazyaddon-style tool installation).  Cove | tests | 28 |
 | `tests/test_tool_runner.py` | ATDD + BDD tests for estorides_core.tool_runner.  Implements the Given-When-Then | tests | 29 |
+| `tests/test_transforms.py` | BDD tests for spec/transforms.md — Maltego-style pivoting.  S1 happy, S2 edge va | tests | 12 |
 | `tests/test_ui_professional.py` | BDD tests for the ui_professional module (spec/ui_professional.md).  Each scenar | tests | 39 |
 | `tests/test_ui_visibility.py` | Regression tests for the `hidden` attribute contract and output escaping.  `esto | tests | 9 |
 | `tests/test_vuln_correlation.py` | ATDD + BDD tests for estorides_core.vuln_correlation.  Implements the Given-When | tests | 17 |

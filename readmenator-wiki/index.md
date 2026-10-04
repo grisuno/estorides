@@ -1,15 +1,15 @@
 # Second Brain
 
-*Last synthesized: 2026-09-29 | 156 files | 5 concept pages | offline, zero tokens*
+*Last synthesized: 2026-10-04 | 157 files | 10 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `config.py`, `estorides_web.py`, `orchestrator.py`. Architecturally it is 6 layers, dominant testing (77 files) across 5 import-based communities. Recorded risk surface: 0 security findings and 1 dependency cycles.
+The codebase centres on `config.py`, `estorides_web.py`, `orchestrator.py`. Architecturally it is 6 layers, dominant testing (78 files) across 10 import-based communities. Recorded risk surface: 0 security findings and 1 dependency cycles.
 
-Surprising tissue lives between estorides_core (community 0), estorides_core (community 1), tests/properties: 1 extracted cross-community imports and 14 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
+Surprising tissue lives between root, tests (community 1), estorides_core (community 2): 9 extracted cross-community imports and 11 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
 Open work clusters around documentation (90% file coverage), 0 security findings, 20 taint paths, and 5 suggested exploration questions in `queries.md`.
 
@@ -17,14 +17,14 @@ Open work clusters around documentation (90% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 156 |
-| Symbols | 2719 |
-| Resolved imports | 350 |
+| Files | 157 |
+| Symbols | 2745 |
+| Resolved imports | 358 |
 | Languages | js, py, sh |
-| Communities | 5 |
-| Doc coverage | 90% (141/156 files) |
+| Communities | 10 |
+| Doc coverage | 90% (142/157 files) |
 | Security findings | 0 |
-| Estimated read cost | ~60969 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~61704 tokens (chars/4, offline so $0) |
 
 ## Reading Order
 
@@ -39,34 +39,39 @@ readmenator query "<question>" --target estorides
 
 ## Concept Wiki
 
-- [estorides_core (community 0) (123 files, cohesion 1.00)](./community_0_estorides_core.md)
-- [estorides_core (community 1) (15 files, cohesion 1.00)](./community_1_estorides_core.md)
-- [tests/properties (3 files, cohesion 1.00)](./community_2_tests_properties.md)
-- [estorides_llm (3 files, cohesion 0.67)](./community_3_estorides_llm.md)
-- [orphans (12 files, cohesion 0.00)](./community_4_orphans.md)
+- [root (3 files, cohesion 0.67)](./community_0_root.md)
+- [tests (community 1) (56 files, cohesion 0.66)](./community_1_tests.md)
+- [estorides_core (community 2) (2 files, cohesion 0.33)](./community_2_estorides_core.md)
+- [estorides_core (community 3) (8 files, cohesion 0.41)](./community_3_estorides_core.md)
+- [estorides_core (community 4) (11 files, cohesion 0.72)](./community_4_estorides_core.md)
+- [estorides_core (community 5) (15 files, cohesion 1.00)](./community_5_estorides_core.md)
+- [estorides_core (community 6) (43 files, cohesion 0.55)](./community_6_estorides_core.md)
+- [tests/properties (3 files, cohesion 1.00)](./community_7_tests_properties.md)
+- [tests (community 8) (4 files, cohesion 0.43)](./community_8_tests.md)
+- [orphans (12 files, cohesion 0.00)](./community_9_orphans.md)
 
 ## God Nodes
 
 | File | Score |
 |------|-------|
 | `estorides_core/config.py` | 84.6 |
-| `estorides_web.py` | 75.1 |
+| `estorides_web.py` | 75.4 |
 | `estorides_core/orchestrator.py` | 55.8 |
 | `estorides_cli.py` | 33.1 |
 | `estorides_core/entity_extraction.py` | 30.1 |
 
 ## Strongest Connections
 
-- 3 -> 0: depends_on (strength 0.9, EXTRACTED)
-- 0 -> 1: shares_context (strength 0.5, INFERRED)
+- 1 -> 6: depends_on (strength 0.9, EXTRACTED)
+- 2 -> 6: depends_on (strength 0.9, EXTRACTED)
+- 1 -> 3: depends_on (strength 0.9, EXTRACTED)
+- 3 -> 6: depends_on (strength 0.9, EXTRACTED)
+- 6 -> 4: depends_on (strength 0.9, EXTRACTED)
+- 1 -> 4: depends_on (strength 0.9, EXTRACTED)
+- 8 -> 6: depends_on (strength 0.9, EXTRACTED)
+- 1 -> 8: depends_on (strength 0.9, EXTRACTED)
+- 0 -> 1: depends_on (strength 0.9, EXTRACTED)
 - 0 -> 2: shares_context (strength 0.5, INFERRED)
-- 0 -> 4: shares_context (strength 0.5, INFERRED)
-- 1 -> 2: shares_context (strength 0.5, INFERRED)
-- 1 -> 3: shares_context (strength 0.5, INFERRED)
-- 1 -> 4: shares_context (strength 0.5, INFERRED)
-- 2 -> 3: shares_context (strength 0.5, INFERRED)
-- 2 -> 4: shares_context (strength 0.5, INFERRED)
-- 3 -> 4: shares_context (strength 0.5, INFERRED)
 
 ## Navigation Tips
 
