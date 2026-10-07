@@ -1,0 +1,8 @@
+name: spiderfoot
+description: Kali/OSINT CLI tool installed via the 'spiderfoot' apt package.
+os: any
+apt: spiderfoot
+git:
+  repo_url: https://github.com/smicallef/spiderfoot.git
+  install_path: spiderfoot
+  install_command: pip install -r requirements.txt

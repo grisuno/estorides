@@ -1,0 +1,8 @@
+name: recon-ng
+description: Kali/OSINT CLI tool installed via the 'recon-ng' apt package.
+os: any
+apt: recon-ng
+git:
+  repo_url: https://github.com/lanmaster53/recon-ng.git
+  install_path: recon-ng
+  install_command: pip install -r REQUIREMENTS

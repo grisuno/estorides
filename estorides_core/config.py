@@ -144,6 +144,7 @@ def _env_tool_allowlist() -> set[str]:
             "sublist3r", "fierce", "dmitry", "urlcrazy",
             "metagoofil",
             "usufy", "mailfy", "phonefy", "searchfy",
+            "spiderfoot", "recon-ng", "h8mail", "eyewitness",
         }
     return {t.strip() for t in raw.split(",") if t.strip()}
 

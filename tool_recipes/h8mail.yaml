@@ -1,0 +1,8 @@
+name: h8mail
+description: Kali/OSINT CLI tool installed via the 'h8mail' apt package.
+os: any
+apt: h8mail
+git:
+  repo_url: https://github.com/khast3x/h8mail.git
+  install_path: h8mail
+  install_command: pip install -r requirements.txt
