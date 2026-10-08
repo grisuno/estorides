@@ -1,6 +1,6 @@
-# tests/properties
+# estorides_core: source_health_monitoring
 
-*Community 7 | 3 files | cohesion 1.00*
+*Community 9 | 3 files | cohesion 1.00*
 
 ## Definition
 
@@ -54,8 +54,7 @@ This community groups 3 file(s) rooted at `tests/properties` with dominant langu
 
 ## Connections
 
-- [INFERRED] shares_context community 0 <-> 7 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (root) and community 7 (tests/properties).
-- [INFERRED] shares_context community 1 <-> 7 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 7 (tests/properties).
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 
@@ -63,8 +62,8 @@ This community groups 3 file(s) rooted at `tests/properties` with dominant langu
 
 ## Open Questions
 
-- What would break if the most connected file in tests/properties changed?
-- Should tests/properties be split, given cohesion 1.00?
+- What would break if the most connected file in estorides_core: source_health_monitoring changed?
+- Should estorides_core: source_health_monitoring be split, given cohesion 1.00?
 
 ## Sources
 

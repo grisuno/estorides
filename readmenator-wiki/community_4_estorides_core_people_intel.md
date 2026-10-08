@@ -1,6 +1,6 @@
-# estorides_core
+# estorides_core: people_intel
 
-*Community 5 | 15 files | cohesion 1.00*
+*Community 4 | 15 files | cohesion 1.00*
 
 ## Definition
 
@@ -10,7 +10,7 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `estorides_core/cloud_asset_discovery.py` | py | infrastructure | 7 | no |
+| `estorides_core/cloud_asset_discovery.py` | py | utility | 7 | no |
 | `estorides_core/code_exposure.py` | py | utility | 10 | no |
 | `estorides_core/pdns_monitor.py` | py | utility | 11 | no |
 | `estorides_core/people_intel.py` | py | utility | 13 | no |
@@ -66,8 +66,7 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 
 ## Connections
 
-- [INFERRED] shares_context community 0 <-> 5 (strength 0.5): Inferred shared context (language py and layer utility) with no import path between community 0 (root) and community 5 (estorides_core).
-- [INFERRED] shares_context community 1 <-> 5 (strength 0.5): Inferred shared context (language py) with no import path between community 1 (tests) and community 5 (estorides_core).
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 
@@ -76,8 +75,8 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 ## Open Questions
 
 - Why do 8 file(s) lack file-level docs (e.g. `estorides_core/cloud_asset_discovery.py`)? What purpose do they serve?
-- What would break if the most connected file in estorides_core changed?
-- Should estorides_core be split, given cohesion 1.00?
+- What would break if the most connected file in estorides_core: people_intel changed?
+- Should estorides_core: people_intel be split, given cohesion 1.00?
 
 ## Sources
 

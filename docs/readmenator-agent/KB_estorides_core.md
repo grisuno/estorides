@@ -1,0 +1,496 @@
+# Subsystem: estorides_core (page 1 of 3)
+Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](KB_estorides_core_p2.md), [KB_estorides_core_p3.md](KB_estorides_core_p3.md)
+
+## estorides_core/__init__.py
+- Doc: estorides_core.__init__
+- Layer: utility
+- Language: py
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_web.py`, `tests/test_central_config.py`, `tests/test_orchestrator_fanout.py`, `tests/test_parsers.py`, `tests/test_retry_policy.py`, `tests/test_security_remediation.py`
+
+## estorides_core/active_recon.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NmapResult` (class, line 13) `class NmapResult`
+  - `NiktoResult` (class, line 32) `class NiktoResult`
+  - `SqlmapResult` (class, line 49) `class SqlmapResult`
+  - `DnsreconResult` (class, line 66) `class DnsreconResult`
+  - `TheHarvesterResult` (class, line 85) `class TheHarvesterResult`
+  - `_parse_nmap_stdout` (method, line 102) `def _parse_nmap_stdout(stdout, tool_name)`
+  - `_parse_nikto_stdout` (method, line 125) `def _parse_nikto_stdout(stdout, tool_name)`
+  - `_parse_sqlmap_stdout` (method, line 144) `def _parse_sqlmap_stdout(stdout, tool_name)`
+  - `_parse_dnsrecon_stdout` (method, line 171) `def _parse_dnsrecon_stdout(stdout, tool_name)`
+  - `_parse_harvester_stdout` (method, line 188) `def _parse_harvester_stdout(stdout, tool_name)`
+  - `run_nmap` (method, line 213) `def run_nmap(target, args)`
+  - `run_nikto` (method, line 243) `def run_nikto(target, args)`
+  - `run_sqlmap` (method, line 269) `def run_sqlmap(target, args)`
+  - `run_dnsrecon` (method, line 295) `def run_dnsrecon(target, args)`
+  - `run_theHarvester` (method, line 325) `def run_theHarvester(target, args)`
+  - `to_dict` (method, line 24) `def to_dict(self)`
+  - `to_entities` (method, line 27) `def to_entities(self)`
+  - `to_dict` (method, line 41) `def to_dict(self)`
+  - `to_entities` (method, line 44) `def to_entities(self)`
+  - `to_dict` (method, line 58) `def to_dict(self)`
+  - `to_entities` (method, line 61) `def to_entities(self)`
+  - `to_dict` (method, line 77) `def to_dict(self)`
+  - `to_entities` (method, line 80) `def to_entities(self)`
+  - `to_dict` (method, line 95) `def to_dict(self)`
+  - `to_entities` (method, line 98) `def to_entities(self)`
+- Depends on: `estorides_core/tool_runner.py`
+- Imported by: `tests/test_active_recon.py`
+
+## estorides_core/alerter.py
+- Doc: estorides_core.alerter
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_check_cooldown` (function, line 42) `def _check_cooldown(channel)`
+  - `_NoRedirectHandler` (class, line 53) `class _NoRedirectHandler(HTTPRedirectHandler)`
+  - `_http_post` (method, line 77) `def _http_post(url, payload)`
+  - `_send_slack` (method, line 111) `def _send_slack(webhook_url, title, body, severity)`
+  - `_send_discord` (method, line 126) `def _send_discord(webhook_url, title, body, severity)`
+  - `_send_telegram` (method, line 141) `def _send_telegram(bot_token, chat_id, title, body, severity)`
+  - `_send_email` (method, line 156) `def _send_email(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_addr, title, body, severity)`
+  - `_send_webhook` (method, line 177) `def _send_webhook(webhook_url, title, body, severity)`
+  - `AlertDispatcher` (class, line 194) `class AlertDispatcher`
+  - `_fmt_time` (method, line 314) `def _fmt_time(ts)`
+  - `redirect_request` (method, line 64) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
+  - `send` (method, line 201) `def send(self, channel, title, body, severity)`
+  - `send_watch_alert` (method, line 260) `def send_watch_alert(self, watch, entity_count, obs_count, new_entities)`
+  - `test` (method, line 280) `def test(self, channel)`
+  - `available_channels` (method, line 290) `def available_channels(self)`
+- Depends on: `estorides_core/ssrf_guard.py`
+- Imported by: `estorides_cli.py`, `estorides_web.py`, `tests/test_monitoring.py`, `tests/test_security_remediation.py`
+
+## estorides_core/async_client.py
+- Doc: estorides_core.async_client
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_is_socks` (function, line 49) `def _is_socks(proxy)`
+  - `_redact_proxy` (function, line 54) `def _redact_proxy(proxy)`
+  - `CircuitBreaker` (class, line 64) `class CircuitBreaker`
+  - `ResponseCache` (class, line 86) `class ResponseCache`
+  - `AsyncClient` (class, line 172) `class AsyncClient`
+  - `sync_fetch` (method, line 400) `def sync_fetch(method, url)`
+  - `allow` (method, line 69) `def allow(self, host)`
+  - `record_success` (method, line 75) `def record_success(self, host)`
+  - `record_failure` (method, line 79) `def record_failure(self, host)`
+  - `__init__` (method, line 95) `def __init__(self, path)`
+  - `_conn` (method, line 109) `def _conn(self)`
+  - `_init_db` (method, line 123) `def _init_db(self)`
+  - `_key` (method, line 136) `def _key(method, url, body)`
+  - `get` (method, line 145) `def get(self, method, url, body)`
+  - `set` (method, line 161) `def set(self, method, url, body, value)`
+  - `__init__` (method, line 175) `def __init__(self)`
+  - `__aenter__` (method, line 206) `def __aenter__(self)`
+  - `_next_http_proxy` (method, line 250) `def _next_http_proxy(self)`
+  - `__aexit__` (method, line 258) `def __aexit__(self)`
+  - `session` (method, line 264) `def session(self)`
+  - `fetch` (method, line 270) `def fetch(self, method, url)`
+- Depends on: `estorides_core/config.py`, `estorides_core/ssrf_guard.py`
+- Imported by: `estorides_core/orchestrator.py`, `tests/test_async_client.py`
+
+## estorides_core/audit.py
+- Doc: estorides_core.audit
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AuditEvent` (class, line 55) `class AuditEvent`
+  - `AuditLog` (class, line 72) `class AuditLog`
+  - `RateLimiter` (class, line 180) `class RateLimiter`
+  - `to_jsonl` (method, line 68) `def to_jsonl(self)`
+  - `__init__` (method, line 90) `def __init__(self, path)`
+  - `record` (method, line 104) `def record(self, event)`
+  - `_maybe_rotate_locked` (method, line 115) `def _maybe_rotate_locked(self)`
+  - `query` (method, line 150) `def query(self, event)`
+  - `__init__` (method, line 201) `def __init__(self)`
+  - `allow` (method, line 214) `def allow(self, key)`
+  - `reset` (method, line 238) `def reset(self, key)`
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_web.py`, `estorides_web_tools.py`, `tests/test_audit_log.py`
+
+## estorides_core/case_crypto.py
+- Doc: estorides_core.case_crypto
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_fernet` (function, line 19) `def _load_fernet()`
+  - `crypto_status` (function, line 36) `def crypto_status()`
+  - `encrypt_text` (function, line 50) `def encrypt_text(plain)`
+  - `decrypt_text` (function, line 65) `def decrypt_text(token)`
+- Imported by: `estorides_core/cases.py`, `tests/test_case_crypto.py`
+
+## estorides_core/cases.py
+- Doc: estorides_core.cases
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CaseStore` (class, line 112) `class CaseStore(SqliteStore)`
+  - `_init_schema` (method, line 136) `def _init_schema(self)`
+  - `fts_available` (method, line 147) `def fts_available(self)`
+  - `search_observations_fts` (method, line 151) `def search_observations_fts(self, query, limit)`
+  - `create_case` (method, line 173) `def create_case(self, query, query_type, notes)`
+  - `add_observation` (method, line 189) `def add_observation(self, case_id, observation)`
+  - `add_entities` (method, line 223) `def add_entities(self, case_id, entities)`
+  - `finalise` (method, line 246) `def finalise(self, case_id, analysis, kg_path, mitre, source_count, obs_count, entity_count, status)`
+  - `delete_case` (method, line 276) `def delete_case(self, case_id)`
+  - `set_notes` (method, line 280) `def set_notes(self, case_id, notes)`
+  - `get_case` (method, line 291) `def get_case(self, case_id)`
+  - `list_observations` (method, line 304) `def list_observations(self, case_id)`
+  - `list_entities` (method, line 327) `def list_entities(self, case_id)`
+  - `diff_entities` (method, line 342) `def diff_entities(self, case_a, case_b)`
+  - `search_cases` (method, line 389) `def search_cases(self, query_substring, limit, query_type)`
+  - `search_by_entity` (method, line 419) `def search_by_entity(self, ent_type, value, limit)`
+  - `stats` (method, line 447) `def stats(self)`
+  - `_row_to_case` (method, line 455) `def _row_to_case(self, row)`
+  - `_safe_json` (method, line 481) `def _safe_json(text)`
+  - `_per_type` (method, line 363) `def _per_type(pairs)`
+  - `_serialise` (method, line 369) `def _serialise(pairs)`
+- Depends on: `estorides_core/case_crypto.py`, `estorides_core/config.py`, `estorides_core/sqlite_store.py`
+- Imported by: `estorides_cli.py`, `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_case_crypto.py`, `tests/test_hardening.py`, `tests/test_obs_fts.py`
+
+## estorides_core/change_detection.py
+- Doc: estorides_core.change_detection
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Edge` (class, line 59) `class Edge`
+  - `SnapshotEntity` (class, line 67) `class SnapshotEntity`
+  - `Snapshot` (class, line 97) `class Snapshot`
+  - `ChangeConfig` (class, line 105) `class ChangeConfig`
+  - `Diff` (class, line 126) `class Diff`
+  - `Change` (class, line 135) `class Change`
+  - `ChangeSummary` (class, line 152) `class ChangeSummary`
+  - `ChangeReport` (class, line 169) `class ChangeReport`
+  - `_truncate_key` (method, line 177) `def _truncate_key(key)`
+  - `_change_id` (method, line 184) `def _change_id(kind, entity_id, diff_signature)`
+  - `_reliability_floor` (method, line 188) `def _reliability_floor(letter)`
+  - `_filter_sources_by_reliability` (method, line 193) `def _filter_sources_by_reliability(sources, min_reliability)`
+  - `_property_diff` (method, line 206) `def _property_diff(before, after)`
+  - `_edge_set` (method, line 225) `def _edge_set(edges)`
+  - `_union_sources` (method, line 229) `def _union_sources(a, b)`
+  - `_make_change` (method, line 241) `def _make_change(kind, entity_id, entity_type, entity_value, sig)`
+  - `_below_min_reliability` (method, line 274) `def _below_min_reliability(source, min_reliability)`
+  - `detect_changes` (method, line 284) `def detect_changes(snapshot_before, snapshot_after)`
+  - `__post_init__` (method, line 85) `def __post_init__(self)`
+  - `__post_init__` (method, line 116) `def __post_init__(self)`
+- Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
+- Imported by: `tests/properties/test_change_detection_properties.py`, `tests/test_change_detection.py`
+
+## estorides_core/cloud_asset_discovery.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudAsset` (class, line 34) `class CloudAsset`
+  - `CloudAssetDiscoveryResult` (class, line 50) `class CloudAssetDiscoveryResult`
+  - `generate_bucket_names` (method, line 65) `def generate_bucket_names(domain)`
+  - `assess_bucket` (method, line 84) `def assess_bucket(url, method)`
+  - `CloudAssetDiscoveryError` (class, line 93) `class CloudAssetDiscoveryError(Exception)`
+  - `to_dict` (method, line 45) `def to_dict(self)`
+  - `to_dict` (method, line 56) `def to_dict(self)`
+- Imported by: `estorides_core/recon_pipeline.py`, `tests/test_cloud_asset_discovery.py`
+
+## estorides_core/code_exposure.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CodeFinding` (class, line 47) `class CodeFinding`
+  - `SeveritySummary` (class, line 62) `class SeveritySummary`
+  - `CodeExposureResult` (class, line 74) `class CodeExposureResult`
+  - `validate_aws_key` (method, line 91) `def validate_aws_key(key)`
+  - `_is_placeholder` (method, line 95) `def _is_placeholder(text)`
+  - `classify_finding` (method, line 99) `def classify_finding(content, source, file_path)`
+  - `analyse_findings` (method, line 189) `def analyse_findings(findings, rate_limited)`
+  - `to_dict` (method, line 57) `def to_dict(self)`
+  - `to_dict` (method, line 69) `def to_dict(self)`
+  - `to_dict` (method, line 81) `def to_dict(self)`
+- Imported by: `estorides_core/recon_pipeline.py`, `tests/test_code_exposure.py`
+
+## estorides_core/config.py
+- Doc: estorides.config
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ensure_data_dirs` (function, line 58) `def ensure_data_dirs()`
+  - `ensure_reports_dir` (function, line 69) `def ensure_reports_dir()`
+  - `_env_tool_allowlist` (function, line 126) `def _env_tool_allowlist()`
+  - `contact_level` (function, line 206) `def contact_level(contact)`
+  - `effective_proxies` (function, line 232) `def effective_proxies(explicit)`
+  - `CacheConfig` (class, line 366) `class CacheConfig`
+  - `PivotPolicyConfig` (class, line 379) `class PivotPolicyConfig`
+  - `PivotConfig` (class, line 404) `class PivotConfig`
+  - `StreamConfig` (class, line 449) `class StreamConfig`
+  - `ReconFusionConfig` (class, line 461) `class ReconFusionConfig`
+  - `SchemaConfig` (class, line 493) `class SchemaConfig`
+  - `WebConfig` (class, line 520) `class WebConfig`
+  - `RetryConfig` (class, line 535) `class RetryConfig`
+  - `_pivot_weight_map` (method, line 550) `def _pivot_weight_map()`
+  - `_csv_frozenset` (method, line 567) `def _csv_frozenset(name, default)`
+  - `retry_delay` (method, line 672) `def retry_delay(attempt)`
+  - `is_active` (method, line 373) `def is_active(self)`
+  - `is_pivotable` (method, line 393) `def is_pivotable(self, entity_type)`
+  - `lead_score` (method, line 397) `def lead_score(self, entity_type, depth, parent_score)`
+  - `clamp_depth` (method, line 427) `def clamp_depth(self, value)`
+  - `clamp_steps` (method, line 431) `def clamp_steps(self, value)`
+  - `clamp_entities` (method, line 435) `def clamp_entities(self, value)`
+  - `clamp_parallel` (method, line 439) `def clamp_parallel(self, value)`
+  - `clamp_deadline` (method, line 443) `def clamp_deadline(self, value)`
+  - `__post_init__` (method, line 482) `def __post_init__(self)`
+  - `delay` (method, line 543) `def delay(self, attempt)`
+- Imported by: `estorides_cli.py`, `estorides_core/__init__.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/observation_models.py`, `estorides_core/ontology.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/osiris_sources.py`, `estorides_core/pivot_engine.py`, `estorides_core/recon_fusion.py`, `estorides_core/search_telemetry.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_install.py`, `estorides_core/tool_runner.py`, `estorides_export/misp.py`, `estorides_export/stix.py`, `estorides_llm/manager.py`, `estorides_web.py`, `tests/test_async_client.py`, `tests/test_config_env.py`, `tests/test_monitoring.py`, `tests/test_opsec_contact.py`, `tests/test_recon_fusion.py`, `tests/test_retry_policy.py`, `tests/test_socmint.py`, `tests/test_structured_extraction.py`, `tests/test_system_app_sources.py`, `tests/test_tool_runner.py`
+
+## estorides_core/discoverer.py
+- Doc: Background subdomain/domain discoverer.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DiscoverJob` (class, line 50) `class DiscoverJob`
+  - `_DiscoverJobSink` (class, line 95) `class _DiscoverJobSink`
+  - `_new_job_id` (method, line 189) `def _new_job_id()`
+  - `create_discover_job` (method, line 194) `def create_discover_job(seed_type, seed_value)`
+  - `start_discover` (method, line 252) `def start_discover(seed_type, seed_value)`
+  - `start_discover_threadsafe` (method, line 285) `def start_discover_threadsafe(loop, seed_type, seed_value)`
+  - `_run_discoverer` (method, line 319) `def _run_discoverer(job)`
+  - `list_jobs` (method, line 349) `def list_jobs(limit)`
+  - `stop` (method, line 78) `def stop(self)`
+  - `should_stop` (method, line 81) `def should_stop(self)`
+  - `push_event` (method, line 84) `def push_event(self, ev)`
+  - `__init__` (method, line 103) `def __init__(self, job)`
+  - `emit` (method, line 106) `def emit(self, event)`
+  - `_on_started` (method, line 113) `def _on_started(self, data)`
+  - `_on_target_start` (method, line 116) `def _on_target_start(self, data)`
+  - `_on_entity` (method, line 126) `def _on_entity(self, data)`
+  - `_on_target_done` (method, line 141) `def _on_target_done(self, data)`
+  - `_on_target_error` (method, line 153) `def _on_target_error(self, data)`
+  - `_on_stopping` (method, line 160) `def _on_stopping(self, data)`
+  - `_on_finished` (method, line 163) `def _on_finished(self, data)`
+  - `_on_fatal` (method, line 174) `def _on_fatal(self, data)`
+- Depends on: `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/graph_kuzu.py`, `estorides_core/job_registry.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`
+- Imported by: `estorides_cli.py`, `estorides_web.py`, `static/js/estorides.js`
+
+## estorides_core/entity_extraction.py
+- Doc: estorides_core.entity_extraction
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `Entity` (class, line 22) `class Entity`
+  - `_looks_like_phone` (method, line 49) `def _looks_like_phone(query)`
+  - `normalize_query` (method, line 57) `def normalize_query(query)`
+  - `detect_query_type` (method, line 100) `def detect_query_type(query)`
+  - `_is_valid_domain` (method, line 127) `def _is_valid_domain(candidate)`
+  - `_context` (method, line 140) `def _context(text, start, end, window)`
+  - `extract_from_text` (method, line 146) `def extract_from_text(text, source)`
+  - `_ip_in_textual_context` (method, line 200) `def _ip_in_textual_context(text, idx)`
+  - `extract_from_json` (method, line 210) `def extract_from_json(payload, source)`
+  - `_clean_scalar` (method, line 278) `def _clean_scalar(value)`
+  - `_looks_like_person` (method, line 288) `def _looks_like_person(value)`
+  - `_looks_like_username` (method, line 299) `def _looks_like_username(value)`
+  - `_classify_keyed_value` (method, line 306) `def _classify_keyed_value(key, value)`
+  - `extract_structured` (method, line 330) `def extract_structured(payload, source)`
+  - `merge` (method, line 382) `def merge()`
+  - `_fuzzy_cluster` (method, line 476) `def _fuzzy_cluster(entities)`
+  - `to_dict` (method, line 34) `def to_dict(self)`
+  - `visit` (method, line 344) `def visit(node, key)`
+  - `find` (method, line 499) `def find(x, parent)`
+  - `union` (method, line 505) `def union(a, b, parent)`
+  - `norm` (method, line 510) `def norm(v)`
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_cli.py`, `estorides_core/entity_resolution.py`, `estorides_core/knowledge_graph.py`, `estorides_core/orchestrator.py`, `estorides_core/tool_runner.py`, `estorides_core/validation.py`, `estorides_web.py`, `tests/test_encrypted_export.py`, `tests/test_entity_extraction.py`, `tests/test_entity_resolution.py`, `tests/test_query_intent.py`, `tests/test_socmint.py`, `tests/test_structured_extraction.py`
+
+## estorides_core/entity_resolution.py
+- Doc: estorides_core.entity_resolution
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `jaro` (function, line 83) `def jaro(s1, s2)`
+  - `jaro_winkler` (function, line 126) `def jaro_winkler(s1, s2, prefix_weight)`
+  - `_soundex` (function, line 146) `def _soundex(token)`
+  - `_normalize_domain` (function, line 178) `def _normalize_domain(value)`
+  - `_normalize_name` (function, line 187) `def _normalize_name(value)`
+  - `normalize_value` (function, line 206) `def normalize_value(etype, value)`
+  - `canonical_id` (function, line 246) `def canonical_id(etype, normalized)`
+  - `blocking_keys` (function, line 257) `def blocking_keys(etype, normalized, value)`
+  - `MatchScore` (class, line 295) `class MatchScore`
+  - `score_pair` (method, line 302) `def score_pair(etype, a_value, b_value, a_norm, b_norm)`
+  - `CanonicalEntity` (class, line 341) `class CanonicalEntity`
+  - `SameAsLink` (class, line 401) `class SameAsLink`
+  - `ResolutionResult` (class, line 419) `class ResolutionResult`
+  - `_UnionFind` (class, line 432) `class _UnionFind`
+  - `_script_of` (method, line 450) `def _script_of(value)`
+  - `EntityResolver` (class, line 454) `class EntityResolver`
+  - `resolve_entities` (method, line 727) `def resolve_entities(entities)`
+  - `to_dict` (method, line 357) `def to_dict(self)`
+  - `to_entity` (method, line 373) `def to_entity(self)`
+  - `to_dict` (method, line 409) `def to_dict(self)`
+  - `to_dict` (method, line 425) `def to_dict(self)`
+  - `__init__` (method, line 435) `def __init__(self, n)`
+  - `find` (method, line 438) `def find(self, x)`
+  - `union` (method, line 444) `def union(self, a, b)`
+  - `__init__` (method, line 469) `def __init__(self)`
+  - `resolve` (method, line 482) `def resolve(self, entities)`
+  - `_build_records` (method, line 498) `def _build_records(self, entities)`
+  - `_exact_merge` (method, line 513) `def _exact_merge(records, uf)`
+  - `_fuzzy_merge` (method, line 525) `def _fuzzy_merge(self, records, uf)`
+  - `_build_links` (method, line 566) `def _build_links(candidates, uf, root_to_cid)`
+  - `_materialise` (method, line 594) `def _materialise(self, records, uf)`
+  - `_representative` (method, line 661) `def _representative(members)`
+  - `_best_internal_match` (method, line 679) `def _best_internal_match(members)`
+  - `_reconcile_with_store` (method, line 705) `def _reconcile_with_store(self, canonicals)`
+  - `rank` (method, line 670) `def rank(rec)`
+- Depends on: `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/ids.py`, `estorides_core/transliteration.py`
+- Imported by: `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/orchestrator.py`, `tests/test_entity_resolution.py`
+
+## estorides_core/entity_store.py
+- Doc: estorides_core.entity_store
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `EntityStore` (class, line 60) `class EntityStore(SqliteStore)`
+  - `open_store` (method, line 155) `def open_store(path)`
+  - `lookup` (method, line 66) `def lookup(self, etype, normalized, aliases)`
+  - `upsert` (method, line 104) `def upsert(self, entity)`
+  - `stats` (method, line 143) `def stats(self)`
+- Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/sqlite_store.py`
+- Imported by: `estorides_core/orchestrator.py`, `tests/test_entity_resolution.py`
+
+## estorides_core/event_bus.py
+- Doc: estorides_core.event_bus
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `EventBus` (class, line 24) `class EventBus`
+  - `get_bus` (method, line 85) `def get_bus()`
+  - `__init__` (method, line 27) `def __init__(self)`
+  - `subscribe` (method, line 31) `def subscribe(self, event, handler)`
+  - `unsubscribe` (method, line 41) `def unsubscribe(self, event, handler)`
+  - `publish` (method, line 50) `def publish(self, event, payload)`
+  - `clear` (method, line 63) `def clear(self, event)`
+  - `subscriber_count` (method, line 71) `def subscriber_count(self, event)`
+  - `_check_event` (method, line 76) `def _check_event(self, event)`
+- Imported by: `estorides_core/orchestrator.py`, `tests/test_event_bus.py`
+
+## estorides_core/feeds.py
+- Doc: estorides_core.feeds
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FeedPoint` (class, line 54) `class FeedPoint`
+  - `Feed` (class, line 74) `class Feed(ABC)`
+  - `EarthquakesFeed` (class, line 148) `class EarthquakesFeed(Feed)`
+  - `FiresFeed` (class, line 190) `class FiresFeed(Feed)`
+  - `NewsFeed` (class, line 251) `class NewsFeed(Feed)`
+  - `list_feeds` (method, line 313) `def list_feeds()`
+  - `get_feed` (method, line 321) `def get_feed(name)`
+  - `fetch_all` (method, line 325) `def fetch_all(bbox, use_cache)`
+  - `to_dict` (method, line 69) `def to_dict(self)`
+  - `__init__` (method, line 82) `def __init__(self)`
+  - `_fetch` (method, line 87) `def _fetch(self)`
+  - `fetch` (method, line 90) `def fetch(self)`
+  - `point` (method, line 135) `def point(self, record)`
+  - `_fetch` (method, line 156) `def _fetch(self)`
+  - `_fetch` (method, line 209) `def _fetch(self)`
+  - `_fetch` (method, line 271) `def _fetch(self)`
+- Depends on: `estorides_core/config.py`, `estorides_core/ssrf_guard.py`
+- Imported by: `estorides_web.py`
+
+## estorides_core/fusion_analytics.py
+- Doc: estorides_core.fusion_analytics
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FusionAnalytics` (class, line 31) `class FusionAnalytics`
+  - `__init__` (method, line 40) `def __init__(self, store)`
+  - `entity_timeline` (method, line 46) `def entity_timeline(self, eid)`
+  - `entity_summary` (method, line 132) `def entity_summary(self, eid)`
+  - `source_stats` (method, line 213) `def source_stats(self, source_name)`
+  - `multi_source_consensus` (method, line 290) `def multi_source_consensus(self, eid, key)`
+  - `corroborated_properties` (method, line 343) `def corroborated_properties(self, eid, min_sources)`
+  - `entity_search` (method, line 374) `def entity_search(self, term, etype)`
+  - `top_changed` (method, line 432) `def top_changed(self, days, limit)`
+  - `source_corroboration_matrix` (method, line 477) `def source_corroboration_matrix(self, limit)`
+  - `_resolve_entity_value` (method, line 509) `def _resolve_entity_value(self, eid)`
+  - `_resolve_entity_type` (method, line 520) `def _resolve_entity_type(self, eid)`
+  - `_intel_level` (method, line 532) `def _intel_level(source_count, sources)`
+  - `_deduplicate_relationships` (method, line 540) `def _deduplicate_relationships(rels)`
+- Imported by: `estorides_web.py`, `tests/test_fusion_analytics.py`
+
+## estorides_core/fusion_store.py
+- Doc: estorides_core.fusion_store
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `entity_id` (function, line 177) `def entity_id(etype, value, normalized)`
+  - `FusionStore` (class, line 190) `class FusionStore(SqliteStore)`
+  - `open_store` (method, line 723) `def open_store(path)`
+  - `_ensure_entity_stub` (method, line 202) `def _ensure_entity_stub(conn, etype, value)`
+  - `register_sources` (method, line 222) `def register_sources(self, sources)`
+  - `add_observation` (method, line 259) `def add_observation(self, observation)`
+  - `fuse_entity` (method, line 300) `def fuse_entity(self, entity)`
+  - `fuse_entities` (method, line 403) `def fuse_entities(self, entities)`
+  - `fuse_properties` (method, line 416) `def fuse_properties(self, eid, parsed, source)`
+  - `fuse_relationship` (method, line 462) `def fuse_relationship(self, src_type, src_value, relation, dst_type, dst_value)`
+  - `fuse_graph` (method, line 532) `def fuse_graph(self, kg)`
+  - `get_entity` (method, line 568) `def get_entity(self, eid)`
+  - `search_entities` (method, line 614) `def search_entities(self, term, etype)`
+  - `corroborated_properties` (method, line 657) `def corroborated_properties(self, eid, min_sources)`
+  - `list_sources` (method, line 674) `def list_sources(self, limit)`
+  - `stats` (method, line 692) `def stats(self)`
+  - `normalize_value` (method, line 73) `def normalize_value(etype, value)`
+  - `_count` (method, line 695) `def _count(table)`
+- Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`, `estorides_core/sqlite_store.py`
+- Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_fusion_analytics.py`, `tests/test_probabilistic_fusion.py`
+
+## estorides_core/graph_kuzu.py
+- Doc: estorides_core.graph_kuzu
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_label_for` (function, line 124) `def _label_for(ent_type)`
+  - `_node_id` (function, line 133) `def _node_id(type_, value)`
+  - `KuzuGraphBackend` (class, line 196) `class KuzuGraphBackend`
+  - `__init__` (method, line 205) `def __init__(self, path)`
+  - `_init_schema` (method, line 233) `def _init_schema(self)`
+  - `upsert_entity` (method, line 245) `def upsert_entity(self, ent_type, value, source)`
+  - `upsert_relationship` (method, line 295) `def upsert_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
+  - `neighbors` (method, line 346) `def neighbors(self, node_id, hops, relation, limit)`
+  - `cypher` (method, line 379) `def cypher(self, query, params)`
+  - `stats` (method, line 406) `def stats(self)`
+  - `close` (method, line 436) `def close(self)`
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`
+
+## estorides_core/hypothesis_engine.py
+- Doc: estorides_core.hypothesis_engine
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EntityRef` (class, line 57) `class EntityRef`
+  - `Evidence` (class, line 65) `class Evidence`
+  - `Hypothesis` (class, line 76) `class Hypothesis`
+  - `_truncate` (method, line 113) `def _truncate(value)`
+  - `_is_mapping` (method, line 123) `def _is_mapping(value)`
+  - `_entity_lookup` (method, line 127) `def _entity_lookup(entities)`
+  - `_hypothesis_id` (method, line 148) `def _hypothesis_id(htype, entity_refs, supporting)`
+  - `_score` (method, line 166) `def _score(supporting, contradicting)`
+  - `_confidence` (method, line 180) `def _confidence(supporting, contradicting)`
+  - `_clip_claim` (method, line 201) `def _clip_claim(template)`
+  - `HypothesisGenerator` (class, line 210) `class HypothesisGenerator(Protocol)`
+  - `_domain_belongsto_actor` (method, line 220) `def _domain_belongsto_actor(observations, entities)`
+  - `_domains_in_obs` (method, line 312) `def _domains_in_obs(obs)`
+  - `_email_aliases_person` (method, line 333) `def _email_aliases_person(observations, entities)`
+  - `_extract_email` (method, line 393) `def _extract_email(parsed)`
+  - `_extract_person_name` (method, line 404) `def _extract_person_name(parsed)`
+  - `_ip_shared_infra` (method, line 415) `def _ip_shared_infra(observations, entities)`
+  - `_extract_ips` (method, line 496) `def _extract_ips(parsed)`
+  - `_looks_like_ipv4` (method, line 511) `def _looks_like_ipv4(s)`
+  - `_asn_shared_infra` (method, line 524) `def _asn_shared_infra(observations, entities)`
+  - `_extract_asn` (method, line 588) `def _extract_asn(parsed)`
+  - `generate_hypotheses` (method, line 613) `def generate_hypotheses(observations, entities, kg)`
+  - `__call__` (method, line 213) `def __call__(self, observations, entities)`
+- Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
+- Imported by: `tests/properties/test_hypothesis_engine_properties.py`, `tests/test_hypothesis_engine.py`
+
+
+Next: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
