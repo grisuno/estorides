@@ -1,10 +1,10 @@
 # orphans
 
-*Community 9 | 12 files | cohesion 0.00*
+*Community 10 | 10 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 12 file(s) rooted at `tests` with dominant language py (cohesion 0.00). Central symbols: `TestAutoDetectType`, `TestBatchResultSerialization`, `TestConfigurableWeights`, `TestCriticalTarget`, `TestCrownJewelDetection`, `TestCsvImport`, `TestEnvBool`, `TestEnvCsv`. Core file: `tests/test_target_management.py` (86 symbols). Documented purpose: Bootstrap a venv and install the runtime + optional test dependencies.  Idempotent: re-running on an existing venv is a no-op for the venv step. Tries the full .
+This community groups 10 file(s) rooted at `tests` with dominant language py (cohesion 0.00). Central symbols: `TestAutoDetectType`, `TestBatchResultSerialization`, `TestConfigurableWeights`, `TestCriticalTarget`, `TestCrownJewelDetection`, `TestCsvImport`, `TestEnvBool`, `TestEnvCsv`. Core file: `tests/test_target_management.py` (86 symbols). Documented purpose: Bootstrap a venv and install the runtime + optional test dependencies.  Idempotent: re-running on an existing venv is a no-op for the venv step. Tries the full .
 
 ## Files
 
@@ -16,8 +16,6 @@ This community groups 12 file(s) rooted at `tests` with dominant language py (co
 | `tests/conftest.py` | py | testing | 0 | yes |
 | `tests/properties/test_target_management_properties.py` | py | testing | 10 | no |
 | `tests/test_envutil.py` | py | testing | 12 | yes |
-| `tests/test_orchestrator_fanout.py` | py | testing | 9 | yes |
-| `tests/test_parsers.py` | py | testing | 9 | yes |
 | `tests/test_target_management.py` | py | testing | 86 | no |
 | `tests/test_target_scoring.py` | py | testing | 18 | yes |
 | `tests/test_ui_visibility.py` | py | testing | 9 | yes |
@@ -63,8 +61,7 @@ This community groups 12 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [INFERRED] shares_context community 0 <-> 9 (strength 0.5): Inferred shared context (language py) with no import path between community 0 (root) and community 9 (orphans).
-- [INFERRED] shares_context community 1 <-> 9 (strength 0.5): Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 9 (orphans).
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 
@@ -84,8 +81,6 @@ This community groups 12 file(s) rooted at `tests` with dominant language py (co
 - `tests/conftest.py`
 - `tests/properties/test_target_management_properties.py`
 - `tests/test_envutil.py`
-- `tests/test_orchestrator_fanout.py`
-- `tests/test_parsers.py`
 - `tests/test_target_management.py`
 - `tests/test_target_scoring.py`
 - `tests/test_ui_visibility.py`
