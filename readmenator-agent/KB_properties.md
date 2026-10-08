@@ -1,8 +1,8 @@
 # Subsystem: properties
 
 ## tests/properties/test_change_detection_properties.py
+- Doc: Property-based invariants for estorides_core.change_detection.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.change_detection.  Hypothesis fuzzing: random snapshots, must always satisf
 - Language: py
 - Symbols:
   - `test_scores_always_bounded` (function, line 69) `def test_scores_always_bounded(before, after)`
@@ -16,8 +16,8 @@
 - Depends on: `estorides_core/change_detection.py`
 
 ## tests/properties/test_csp_safe_styles_properties.py
+- Doc: Property-based fuzz for `csp_safe_styles`.
 - Layer: testing
-- Doc: Property-based fuzz for `csp_safe_styles`.  Defends against a future contributor who: * re-introduces a `style="..."` te
 - Language: py
 - Symbols:
   - `test_js_never_gains_a_style_attribute_in_template_literal` (function, line 58) `def test_js_never_gains_a_style_attribute_in_template_literal(insertion)`
@@ -26,8 +26,8 @@
 - Depends on: `estorides_core/web_security.py`
 
 ## tests/properties/test_hypothesis_engine_properties.py
+- Doc: Property-based invariants for estorides_core.hypothesis_engine.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.hypothesis_engine.  Hypothesis fuzzing: random observations + entities, mus
 - Language: py
 - Symbols:
   - `test_scores_always_bounded` (function, line 54) `def test_scores_always_bounded(observations, entities)`
@@ -42,8 +42,8 @@
 - Depends on: `estorides_core/hypothesis_engine.py`
 
 ## tests/properties/test_observation_models_properties.py
+- Doc: Property-based invariants for estorides_core.observation_models.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.observation_models.  Each ``@given`` run exercises at least 1000 random exa
 - Language: py
 - Symbols:
   - `meta_strategy` (function, line 45) `def meta_strategy(draw)`
@@ -56,16 +56,16 @@
 - Depends on: `estorides_core/observation_models.py`
 
 ## tests/properties/test_parsers_properties.py
+- Doc: Property-based fuzzing for the parser totality contract (doctrine §6).
 - Layer: testing
-- Doc: Property-based fuzzing for the parser totality contract (doctrine §6).  Every registered parser must be total: any JSON-
 - Language: py
 - Symbols:
   - `test_all_parsers_are_total` (function, line 35) `def test_all_parsers_are_total(payload)`
 - Depends on: `estorides_core/parsers.py`
 
 ## tests/properties/test_recon_fusion_properties.py
+- Doc: Property-based fuzzing for recon_fusion module (doctrine section 6).
 - Layer: testing
-- Doc: Property-based fuzzing for recon_fusion module (doctrine section 6).  Verifies invariants hold for arbitrary valid input
 - Language: py
 - Symbols:
   - `TestPropertyScoreBounds` (class, line 48) `class TestPropertyScoreBounds`
@@ -88,8 +88,8 @@
 - Depends on: `estorides_core/recon_fusion.py`
 
 ## tests/properties/test_reliability_scoring_properties.py
+- Doc: Property-based invariants for estorides_core.reliability_scoring.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.reliability_scoring.  Hypothesis replaces libFuzzer/AFL for Python. These t
 - Language: py
 - Symbols:
   - `test_score_always_bounded` (function, line 56) `def test_score_always_bounded(reliability, credibility, corroboration, age, base, half_life)`
@@ -107,8 +107,8 @@
 - Depends on: `estorides_core/reliability_scoring.py`
 
 ## tests/properties/test_search_telemetry_properties.py
+- Doc: Property-based fuzzing for `search_telemetry` (spec S12 + predicate laws).
 - Layer: testing
-- Doc: Property-based fuzzing for `search_telemetry` (spec S12 + predicate laws).  Each property runs >= 1000 random examples (
 - Language: py
 - Symbols:
   - `test_progress_invariants_hold` (function, line 32) `def test_progress_invariants_hold(completed, total, phase_key)`
@@ -120,8 +120,8 @@
 - Depends on: `estorides_core/search_telemetry.py`
 
 ## tests/properties/test_source_health_monitoring_properties.py
+- Doc: Property-based invariants for estorides_core.source_health_monitoring.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.source_health_monitoring.  Hypothesis replaces libFuzzer/AFL for Python. Th
 - Language: py
 - Symbols:
   - `_valid_input` (function, line 21) `def _valid_input(fetch, ok, latency, last_seen, now)`
@@ -134,8 +134,8 @@
 - Depends on: `estorides_core/source_health_monitoring.py`
 
 ## tests/properties/test_system_app_sources_properties.py
+- Doc: Property-based invariants for estorides_core.system_app_sources.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.system_app_sources.  Hypothesis replaces libFuzzer/AFL. >= 1000 random exam
 - Language: py
 - Symbols:
   - `test_tool_parsers_never_raise` (function, line 37) `def test_tool_parsers_never_raise(parser_name, blob)`
@@ -162,8 +162,8 @@
   - `test_p10_batch_import_never_raises` (function, line 116) `def test_p10_batch_import_never_raises(text)`
 
 ## tests/properties/test_tool_runner_properties.py
+- Doc: Property-based invariants for estorides_core.tool_runner.
 - Layer: testing
-- Doc: Property-based invariants for estorides_core.tool_runner.  Hypothesis replaces libFuzzer/AFL for Python. These tests run
 - Language: py
 - Symbols:
   - `test_check_injection_safe_strings_silent` (function, line 35) `def test_check_injection_safe_strings_silent(args)`

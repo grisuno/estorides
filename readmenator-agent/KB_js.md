@@ -1,8 +1,8 @@
 # Subsystem: js
 
 ## static/js/estorides.js
-- Layer: utility
 - Doc: Estorides front-end controller
+- Layer: utility
 - Language: js
 - Symbols:
   - `setVisible` (function, line 12)
@@ -173,8 +173,8 @@
 - Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 
 ## static/js/source_manager.js
-- Layer: utility
 - Doc: Estorides Source Manager — form-based YAML editor
+- Layer: utility
 - Language: js
 - Symbols:
   - `authHeaders` (function, line 7)

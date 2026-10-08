@@ -1,22 +1,23 @@
 # Subsystem: estorides_llm
 
 ## estorides_llm/__init__.py
-- Layer: utility
 - Doc: estorides_llm
+- Layer: utility
 - Language: py
 - Depends on: `estorides_llm/manager.py`
+- Imported by: `estorides_core/orchestrator.py`
 
 ## estorides_llm/intelligence_prompts.py
+- Doc: estorides_llm.intelligence_prompts
 - Layer: utility
-- Doc: estorides_llm.intelligence_prompts ================================== System prompt and context-formatting helpers for t
 - Language: py
 - Symbols:
   - `format_context` (function, line 97) `def format_context(sources)`
 - Imported by: `estorides_llm/manager.py`
 
 ## estorides_llm/manager.py
+- Doc: estorides_llm.manager
 - Layer: utility
-- Doc: estorides_llm.manager ===================== Multi-backend LLM router with pluggable backends.  A `LLMBackend` is a small
 - Language: py
 - Symbols:
   - `LLMBackend` (class, line 60) `class LLMBackend(Protocol)`

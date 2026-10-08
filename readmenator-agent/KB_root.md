@@ -5,14 +5,14 @@
 - Language: sh
 
 ## app.py
+- Doc: Deprecated entry point.
 - Layer: utility
-- Doc: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estoride
 - Language: py
 - Depends on: `wsgi.py`
 
 ## estorides_cli.py
+- Doc: estorides CLI.
 - Layer: utility
-- Doc: estorides CLI.  Usage: estorides "example.com" estorides "8.8.8.8" --include-paid estorides "user@example.com" --only-so
 - Language: py
 - Symbols:
   - `_setup_logging` (function, line 39) `def _setup_logging(verbose)`
@@ -47,11 +47,11 @@
   - `_on_done` (function, line 222) `def _on_done(source_name, ok, status, elapsed_ms)`
   - `_run` (function, line 540) `def _run(watch)`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/fusion_store.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/orchestrator.py`, `estorides_core/scope.py`, `estorides_core/validation.py`, `estorides_export/__init__.py`, `estorides_export/report.py`, `estorides_web.py`
-- Imported by: `tests/test_cli_watch.py`, `tests/test_cli_watch.py`
+- Imported by: `tests/test_cli_watch.py`
 
 ## estorides_web.py
+- Doc: estorides.web
 - Layer: presentation
-- Doc: estorides.web ============= Flask app providing: * 2D map     (Leaflet) * knowledge graph (D3.js force-directed) * timel
 - Language: py
 - Symbols:
   - `_sse_response` (function, line 76) `def _sse_response(gen)`
@@ -149,11 +149,11 @@
   - `_watch_runner` (method, line 1032) `def _watch_runner(swatch)`
   - `_err` (method, line 1246) `def _err()`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
-- Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
+- Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ## estorides_web_tools.py
+- Doc: estorides_web_tools
 - Layer: presentation
-- Doc: estorides_web_tools =================== Tools vertical slice extracted from the ``create_app`` God factory.  Owns the in
 - Language: py
 - Symbols:
   - `api_tools_list` (function, line 49) `def api_tools_list()`
@@ -165,22 +165,22 @@
 - Imported by: `estorides_web.py`
 
 ## install.sh
+- Doc: Bootstrap a venv and install the runtime + optional test dependencies.
 - Layer: utility
-- Doc: Bootstrap a venv and install the runtime + optional test dependencies.  Idempotent: re-running on an existing venv is a 
 - Language: sh
 - Symbols:
   - `install_full` (function, line 51)
   - `install_minimal` (function, line 55)
 
 ## web.py
+- Doc: Deprecated entry point.
 - Layer: utility
-- Doc: Deprecated entry point. Use:  - `python3 estorides_cli.py serve` for the dev server, or - `gunicorn -w 4 wsgi:app` for p
 - Language: py
 - Depends on: `wsgi.py`
 
 ## wsgi.py
+- Doc: estorides.wsgi
 - Layer: utility
-- Doc: estorides.wsgi ==============  WSGI entry point for production deployments.  Run with gunicorn (already pinned in requir
 - Language: py
 - Depends on: `estorides_web.py`
 - Imported by: `app.py`, `web.py`
