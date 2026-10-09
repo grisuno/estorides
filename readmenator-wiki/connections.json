@@ -1,65 +1,65 @@
 [
   {
-    "community_a": 1,
-    "community_b": 6,
+    "community_a": 5,
+    "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 2,
-    "community_b": 6,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/active_recon.py imports estorides_core/tool_runner.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 1,
-    "community_b": 3,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/alerter.py imports estorides_core/ssrf_guard.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 3,
-    "community_b": 6,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/async_client.py imports estorides_core/config.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 6,
-    "community_b": 4,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 1,
-    "community_b": 4,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/ids.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 8,
-    "community_b": 6,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 1,
+    "community_a": 5,
     "community_b": 8,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_web_tools.py imports estorides_core/tool_install.py.",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 5,
+    "community_b": 1,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 5,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 5,
+    "community_b": 0,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/discoverer.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 5,
+    "community_b": 3,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/fusion_store.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 5,
+    "community_b": 7,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
@@ -67,96 +67,96 @@
     "community_a": 0,
     "community_b": 1,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: wsgi.py imports estorides_web.py.",
+    "explanation": "Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/orchestrator.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
+    "community_a": 7,
     "community_b": 2,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 2 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
+    "community_a": 7,
     "community_b": 3,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 0 (root) and community 3 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
-    "community_b": 5,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer utility) with no import path between community 0 (root) and community 5 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 0,
-    "community_b": 6,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 6 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 0,
-    "community_b": 7,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 7 (tests/properties).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 0,
-    "community_b": 8,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 8 (tests).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
-  },
-  {
-    "community_a": 0,
-    "community_b": 9,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 0 (root) and community 9 (orphans).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "community_a": 3,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
     "community_a": 1,
     "community_b": 2,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 2 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
-    "community_a": 1,
-    "community_b": 5,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py) with no import path between community 1 (tests) and community 5 (estorides_core).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "community_a": 8,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 8,
+    "community_b": 7,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
     "community_a": 1,
     "community_b": 7,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 7 (tests/properties).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   },
   {
     "community_a": 1,
-    "community_b": 9,
-    "connection_type": "shares_context",
-    "explanation": "Inferred shared context (language py and layer testing) with no import path between community 1 (tests) and community 9 (orphans).",
-    "strength": 0.5,
-    "confidence": "INFERRED"
+    "community_b": 8,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 3,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/system_app_sources.py imports estorides_core/tool_runner.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 6,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
   }
 ]

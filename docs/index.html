@@ -673,6 +673,40 @@
                 </div>
             </div>
 
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2s &middot; <code>graph_force3d</code>
+                        <span class="badge badge-info ml-2">closed 2026-10-09</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">6 BDD (S1-S6)</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        ReadMenator <code>graph-force.html</code> port: the graph
+                        canvas keeps its 2D view and gains a <b>3D</b> button
+                        (vendored <code>force-graph</code> 2D engine offline +
+                        <code>3d-force-graph</code> from CDN on demand),
+                        node search, kind pills, clickable community legend,
+                        Force/Clusters/Tiers/Tree layouts, Names/Hulls/Flow/
+                        Freeze/Fit, reach 1-3 hops + isolate, HUD, PNG/JSON
+                        export, shortcuts and <code>#node=</code> deep-links.
+                        <code>/api/graph</code> also serves the RAW payload +
+                        settings; <code>estorides_core/graph_force.py</code>
+                        builds a token-budgeted markdown context for the
+                        local-AI layer (no LLM calls). CSP intact
+                        (zero inline styles, DOMPurify tooltips).
+                    </p>
+                    <p>
+                        <a href="../spec/graph_force3d.md">spec</a> &middot;
+                        <a href="../tests/test_graph_force3d.py">tests</a> &middot;
+                        <a href="../estorides_core/graph_force.py">source</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

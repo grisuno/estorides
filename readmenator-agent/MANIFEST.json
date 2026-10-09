@@ -1,24 +1,214 @@
 {
   "tool": "readmenator",
-  "generated_at": "2026-10-04T05:52:31Z",
-  "project_root": "/home/grisun0/src_note/py/fucklantir/estorides/estorides",
-  "files": 157,
-  "symbols": 2745,
-  "imports": 14590,
-  "resolved_imports": 358,
+  "schema_version": 2,
+  "generated_at": "2026-10-09T03:39:00Z",
+  "project_root": ".",
+  "project_name": "estorides",
+  "git_commit": "d4bf14f6d17837bf5885c3bc0d211b1d388870c7",
+  "git_branch": "main",
+  "source_fingerprint": "b8ee28f7875fcd9df437b9d08351ce6d8e51d70c0f9cfe469b1652862f591d41",
+  "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
+  "files": 160,
+  "symbols": 2835,
+  "imports": 1135,
+  "calls": 14087,
+  "inherits": 53,
+  "resolved_imports": 372,
   "security_findings": 0,
   "languages": {
-    "sh": 2,
-    "py": 153,
-    "js": 2
+    "js": 3,
+    "py": 155,
+    "sh": 2
   },
-  "entrypoints": [],
+  "subsystems": {
+    "estorides_core": 60,
+    "estorides_export": 6,
+    "estorides_llm": 3,
+    "js": 3,
+    "properties": 12,
+    "root": 8,
+    "tests": 66,
+    "tools": 2
+  },
+  "entrypoints": [
+    "app.py"
+  ],
   "start_here": "INDEX.md",
+  "read_order": [
+    "readmenator-agent/MEMORY.md  # rules, workflow, done criteria, session log",
+    "readmenator-wiki/index.md  # big picture, communities, god nodes",
+    "readmenator-agent/INDEX.md  # file -> purpose -> used-by count",
+    "readmenator-agent/GOTCHAS.md  # blast radius before editing",
+    "readmenator-agent/KB_<subsystem>.md  # only the subsystem you touch"
+  ],
   "workflow": [
     "ls *.md readmenator-*/  # orient: docs first, ignore build noise",
-    "grep -n '<keyword>' INDEX.md",
+    "grep -n '<keyword>' INDEX*.md SYMBOLS*.md",
+    "readmenator . ask '<question>'  # GraphRAG context (--global for overviews)",
     "cat KB_<subsystem>.md",
-    "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"
+    "grep -n '<file>' ARCHITECTURE*.md API*.md"
+  ],
+  "documents": [
+    {
+      "path": "API.md",
+      "lines": 494,
+      "approx_tokens": 13631
+    },
+    {
+      "path": "API_p2.md",
+      "lines": 420,
+      "approx_tokens": 11404
+    },
+    {
+      "path": "API_p3.md",
+      "lines": 261,
+      "approx_tokens": 4800
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "lines": 432,
+      "approx_tokens": 7688
+    },
+    {
+      "path": "CONCEPTS.md",
+      "lines": 120,
+      "approx_tokens": 5680
+    },
+    {
+      "path": "GOTCHAS.md",
+      "lines": 65,
+      "approx_tokens": 1029
+    },
+    {
+      "path": "INDEX.md",
+      "lines": 164,
+      "approx_tokens": 4035
+    },
+    {
+      "path": "KB_estorides_core.md",
+      "lines": 484,
+      "approx_tokens": 7435
+    },
+    {
+      "path": "KB_estorides_core_p2.md",
+      "lines": 499,
+      "approx_tokens": 7550
+    },
+    {
+      "path": "KB_estorides_core_p3.md",
+      "lines": 434,
+      "approx_tokens": 6419
+    },
+    {
+      "path": "KB_estorides_export.md",
+      "lines": 73,
+      "approx_tokens": 893
+    },
+    {
+      "path": "KB_estorides_llm.md",
+      "lines": 46,
+      "approx_tokens": 613
+    },
+    {
+      "path": "KB_js.md",
+      "lines": 272,
+      "approx_tokens": 2562
+    },
+    {
+      "path": "KB_properties.md",
+      "lines": 172,
+      "approx_tokens": 3156
+    },
+    {
+      "path": "KB_root.md",
+      "lines": 186,
+      "approx_tokens": 2860
+    },
+    {
+      "path": "KB_tests.md",
+      "lines": 497,
+      "approx_tokens": 9130
+    },
+    {
+      "path": "KB_tests_p2.md",
+      "lines": 470,
+      "approx_tokens": 8381
+    },
+    {
+      "path": "KB_tests_p3.md",
+      "lines": 492,
+      "approx_tokens": 10030
+    },
+    {
+      "path": "KB_tests_p4.md",
+      "lines": 358,
+      "approx_tokens": 6366
+    },
+    {
+      "path": "KB_tools.md",
+      "lines": 17,
+      "approx_tokens": 104
+    },
+    {
+      "path": "SECURITY.md",
+      "lines": 3,
+      "approx_tokens": 10
+    },
+    {
+      "path": "SYMBOLS.md",
+      "lines": 500,
+      "approx_tokens": 12279
+    },
+    {
+      "path": "SYMBOLS_p2.md",
+      "lines": 500,
+      "approx_tokens": 12423
+    },
+    {
+      "path": "SYMBOLS_p3.md",
+      "lines": 500,
+      "approx_tokens": 11199
+    },
+    {
+      "path": "SYMBOLS_p4.md",
+      "lines": 500,
+      "approx_tokens": 15129
+    },
+    {
+      "path": "SYMBOLS_p5.md",
+      "lines": 500,
+      "approx_tokens": 15039
+    },
+    {
+      "path": "SYMBOLS_p6.md",
+      "lines": 376,
+      "approx_tokens": 10709
+    },
+    {
+      "path": "recipes/add-function.md",
+      "lines": 9,
+      "approx_tokens": 99
+    },
+    {
+      "path": "recipes/change-impact.md",
+      "lines": 9,
+      "approx_tokens": 109
+    },
+    {
+      "path": "recipes/fix-cycle.md",
+      "lines": 7,
+      "approx_tokens": 120
+    },
+    {
+      "path": "recipes/fix-security.md",
+      "lines": 6,
+      "approx_tokens": 69
+    },
+    {
+      "path": "recipes/reduce-complexity.md",
+      "lines": 9,
+      "approx_tokens": 78
+    }
   ],
   "regenerate": "readmenator . --rebuild"
 }

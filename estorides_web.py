@@ -462,8 +462,21 @@ def create_app() -> Flask:
             for a in sorted(cluster_agg.values(), key=lambda x: x["size"], reverse=True)
             if a["id"] >= 0
         ]
+        # graph_force3d: payload RAW estilo ReadMenator + SETTINGS para la
+        # vista 3D/filtros. Fail-soft: si falla, /api/graph sigue sirviendo
+        # el formato legacy (el frontend 2D no depende de estos campos).
+        force: Any = None
+        settings: Any = None
+        try:
+            from estorides_core.graph_force import build_force_payload, force_settings
+            force = build_force_payload(nodes, edges, clusters)
+            settings = force_settings()
+        except Exception:  # degradado graceful, ver spec/graph_force3d.md
+            force, settings = None, None
         return jsonify({"nodes": nodes, "edges": edges,
                         "clusters": clusters,
+                        "force": force,
+                        "settings": settings,
                         "summary": kg.summary(),
                         "top_entities": kg.top_entities(50)})
 

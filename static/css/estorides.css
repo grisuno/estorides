@@ -399,6 +399,9 @@ body.resizing {
   border-radius: 8px; padding: 8px 10px; font-size: 11px; color: var(--text-1);
   pointer-events: none; max-width: 300px;
 }
+/* graph_force3d: con la toolbar GF visible la leyenda D3 baja para no
+   tapar el buscador (la clase la pone static/js/graph_force.js). */
+#graph-canvas.gf-bar .graph-legend { top: 74px; }
 .graph-legend .legend-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); margin-bottom: 4px; }
 .graph-legend .legend-item { display: flex; align-items: center; gap: 6px; line-height: 1.6; }
 .graph-legend .legend-hint { margin-top: 6px; font-size: 10px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 5px; }
