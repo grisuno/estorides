@@ -60,106 +60,177 @@ Depends on: `estorides_core/discoverer.py`, `estorides_export/report.py`
 - `k` (function) `static/js/estorides.js:1028`
 - `drawGraphWithExtras` (function) `static/js/estorides.js:1078` -- Re-draws the D3 graph with the original nodes/edges PLUS any extras passed in (from a /api/intel/resolve call).
 - `pushLink` (function) `static/js/estorides.js:1102`
-- `CLUSTER_PALETTE` (function) `static/js/estorides.js:1129`
-- `resolverTypeFor` (function) `static/js/estorides.js:1136` -- Map a graph node's type/kind onto a resolver/transform entity type.
-- `saveLevelOverrides` (function) `static/js/estorides.js:1152`
-- `levelOf` (function) `static/js/estorides.js:1156`
-- `clusterColor` (function) `static/js/estorides.js:1160`
-- `c` (function) `static/js/estorides.js:1162`
-- `safeColor` (function) `static/js/estorides.js:1170` -- Cluster colors come from remote data (TELEMETRY.cluster_palette and per-cluster `color`).
-- `deriveClusters` (function) `static/js/estorides.js:1179` -- Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't...
-- `cid` (function) `static/js/estorides.js:1182`
-- `hideTooltip` (function) `static/js/estorides.js:1192` -- --- floating overlays (tooltip + context menu) ----
-- `purifyHTML` (function) `static/js/estorides.js:1206`
-- `setSanitizedHTML` (function) `static/js/estorides.js:1217` -- Append hostile markup: sanitize with DOMPurify, assign once.
-- `showTooltipAt` (function) `static/js/estorides.js:1226`
-- `hideContextMenu` (function) `static/js/estorides.js:1236`
-- `showBridgeTooltip` (function) `static/js/estorides.js:1241` -- Cross-referenced tooltip for an inter-cluster (bridge) link.
-- `labelFor` (function) `static/js/estorides.js:1244`
-- `c` (function) `static/js/estorides.js:1245`
-- `showNodeTooltip` (function) `static/js/estorides.js:1270`
-- `showContextMenu` (function) `static/js/estorides.js:1289` -- --- context menu: transforms grouped by intel tier ----
-- `tr` (function) `static/js/estorides.js:1339`
-- `setNodeLevel` (function) `static/js/estorides.js:1364`
-- `applyLevelStyles` (function) `static/js/estorides.js:1373` -- Re-apply level rings to every rendered node circle.
-- `focusNode` (function) `static/js/estorides.js:1381`
-- `runTransform` (function) `static/js/estorides.js:1393` -- Run a graph pivot transform and merge the result into the graph+map.
-- `runTransformStream` (function) `static/js/estorides.js:1414` -- Stream a transform over SSE so the graph "explodes" progressively.
-- `flush` (function) `static/js/estorides.js:1420`
-- `undoGraph` (function) `static/js/estorides.js:1474` -- Undo the last graph expansion (transform / resolve).
-- `k` (function) `static/js/estorides.js:1487`
-- `selectNode` (function) `static/js/estorides.js:1509` -- --- side inspector panel ----
-- `add` (function) `static/js/estorides.js:1520`
-- `addText` (function) `static/js/estorides.js:1526`
-- `tr` (function) `static/js/estorides.js:1577`
-- `renderGraphCore` (function) `static/js/estorides.js:1603` -- --- unified force-graph renderer (clusters + rings + interactions) ----
-- `drawHulls` (function) `static/js/estorides.js:1673`
-- `setStatusDot` (function) `static/js/estorides.js:1710`
-- `showWorkingIndicator` (function) `static/js/estorides.js:1716`
-- `hideWorkingIndicator` (function) `static/js/estorides.js:1721`
-- `toggleTierSection` (function) `static/js/estorides.js:1726`
-- `renderTieredResults` (function) `static/js/estorides.js:1734`
-- `escapeAttr` (function) `static/js/estorides.js:1800`
-- `buildMapCoords` (function) `static/js/estorides.js:1836`
-- `validCoord` (function) `static/js/estorides.js:1932`
-- `colorFor` (function) `static/js/estorides.js:1936`
-- `renderEntities` (function) `static/js/estorides.js:1955`
-- `renderGraphSummary` (function) `static/js/estorides.js:2007`
-- `colorForKind` (function) `static/js/estorides.js:2036`
-- `renderTimeline` (function) `static/js/estorides.js:2044`
-- `obs` (function) `static/js/estorides.js:2048`
-- `frac` (function) `static/js/estorides.js:2081`
-- `fmtTime` (function) `static/js/estorides.js:2094`
-- `filterTimeline` (function) `static/js/estorides.js:2105`
-- `drawGraph` (function) `static/js/estorides.js:2154` -- --- D3 graph view ----
-- `loadCases` (function) `static/js/estorides.js:2184`
-- `q` (function) `static/js/estorides.js:2185`
-- `openCaseDetail` (function) `static/js/estorides.js:2210` -- Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case...
-- `entities` (function) `static/js/estorides.js:2211`
-- `obs` (function) `static/js/estorides.js:2212`
-- `restoreCaseToWorkspace` (function) `static/js/estorides.js:2265` -- Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without...
-- `buildCaseMapCoords` (function) `static/js/estorides.js:2286` -- Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid...
-- `renderCaseItem` (function) `static/js/estorides.js:2304`
-- `saved` (function) `static/js/estorides.js:2308` -- Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.
-- `debounce` (function) `static/js/estorides.js:2330`
-- `escapeHTML` (function) `static/js/estorides.js:2380` -- --- utils ----
-- `truncate` (function) `static/js/estorides.js:2385`
-- `caseActionSave` (function) `static/js/estorides.js:2408` -- Bookmark a case.
-- `caseActionDiff` (function) `static/js/estorides.js:2429` -- Compare this case to another.
-- `renderCaseDiffPanel` (function) `static/js/estorides.js:2449` -- Render the diff result below the case.
-- `rows` (function) `static/js/estorides.js:2457`
-- `removed` (function) `static/js/estorides.js:2460`
-- `caseActionReport` (function) `static/js/estorides.js:2490` -- Render the Markdown report.
-- `showReportModal` (function) `static/js/estorides.js:2526`
-- `openModal` (function) `static/js/estorides.js:2554`
-- `actions` (function) `static/js/estorides.js:2560`
-- `close` (function) `static/js/estorides.js:2574`
-- `promptModal` (function) `static/js/estorides.js:2589` -- Promise-style text prompt.
-- `confirmModal` (function) `static/js/estorides.js:2613`
-- `tag` (function) `static/js/estorides.js:2675`
-- `loadSidebarWidth` (function) `static/js/estorides.js:2705` -- Responsive sidebar toggle + resizable divider.
-- `saveSidebarWidth` (function) `static/js/estorides.js:2716`
-- `loadSidebarCollapsed` (function) `static/js/estorides.js:2719`
-- `saveSidebarCollapsed` (function) `static/js/estorides.js:2727`
-- `switchSidebarTab` (function) `static/js/estorides.js:2785` -- --- Fusion tab ----
-- `loadFusionTab` (function) `static/js/estorides.js:2798`
-- `loadFusionStats` (function) `static/js/estorides.js:2804`
-- `loadFusionTopChanged` (function) `static/js/estorides.js:2823`
-- `loadFusionSearch` (function) `static/js/estorides.js:2852`
-- `doSearch` (function) `static/js/estorides.js:2859`
-- `loadFusionEntityDetail` (function) `static/js/estorides.js:2897`
-- `setStatus` (function) `static/js/estorides.js:2993` -- The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here.
-- `setDiscoverProgress` (function) `static/js/estorides.js:3000`
-- `hideDiscoverProgress` (function) `static/js/estorides.js:3012`
-- `startDiscover` (function) `static/js/estorides.js:3017`
-- `stopDiscover` (function) `static/js/estorides.js:3091`
-- `handleDiscoverEvent` (function) `static/js/estorides.js:3108`
-- `addDiscoverEntityToTab` (function) `static/js/estorides.js:3147`
-- `sig` (function) `static/js/estorides.js:3152` -- Avoid duplicates with the simple in-memory check.
-- `escapeHtml` (function) `static/js/estorides.js:3175`
-- `maybePlotDiscoverEntity` (function) `static/js/estorides.js:3180`
-- `flushDiscoverEntities` (function) `static/js/estorides.js:3187`
-- `check` (function) `static/js/estorides.js:3206`
+- `CLUSTER_PALETTE` (function) `static/js/estorides.js:1135`
+- `resolverTypeFor` (function) `static/js/estorides.js:1142` -- Map a graph node's type/kind onto a resolver/transform entity type.
+- `saveLevelOverrides` (function) `static/js/estorides.js:1158`
+- `levelOf` (function) `static/js/estorides.js:1162`
+- `clusterColor` (function) `static/js/estorides.js:1166`
+- `c` (function) `static/js/estorides.js:1168`
+- `safeColor` (function) `static/js/estorides.js:1176` -- Cluster colors come from remote data (TELEMETRY.cluster_palette and per-cluster `color`).
+- `deriveClusters` (function) `static/js/estorides.js:1185` -- Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't...
+- `cid` (function) `static/js/estorides.js:1188`
+- `hideTooltip` (function) `static/js/estorides.js:1198` -- --- floating overlays (tooltip + context menu) ----
+- `purifyHTML` (function) `static/js/estorides.js:1212`
+- `setSanitizedHTML` (function) `static/js/estorides.js:1223` -- Append hostile markup: sanitize with DOMPurify, assign once.
+- `showTooltipAt` (function) `static/js/estorides.js:1232`
+- `hideContextMenu` (function) `static/js/estorides.js:1242`
+- `showBridgeTooltip` (function) `static/js/estorides.js:1247` -- Cross-referenced tooltip for an inter-cluster (bridge) link.
+- `labelFor` (function) `static/js/estorides.js:1250`
+- `c` (function) `static/js/estorides.js:1251`
+- `showNodeTooltip` (function) `static/js/estorides.js:1276`
+- `showContextMenu` (function) `static/js/estorides.js:1295` -- --- context menu: transforms grouped by intel tier ----
+- `tr` (function) `static/js/estorides.js:1345`
+- `setNodeLevel` (function) `static/js/estorides.js:1370`
+- `applyLevelStyles` (function) `static/js/estorides.js:1379` -- Re-apply level rings to every rendered node circle.
+- `focusNode` (function) `static/js/estorides.js:1387`
+- `runTransform` (function) `static/js/estorides.js:1399` -- Run a graph pivot transform and merge the result into the graph+map.
+- `runTransformStream` (function) `static/js/estorides.js:1420` -- Stream a transform over SSE so the graph "explodes" progressively.
+- `flush` (function) `static/js/estorides.js:1426`
+- `undoGraph` (function) `static/js/estorides.js:1480` -- Undo the last graph expansion (transform / resolve).
+- `k` (function) `static/js/estorides.js:1493`
+- `selectNode` (function) `static/js/estorides.js:1515` -- --- side inspector panel ----
+- `add` (function) `static/js/estorides.js:1526`
+- `addText` (function) `static/js/estorides.js:1532`
+- `tr` (function) `static/js/estorides.js:1583`
+- `renderGraphCore` (function) `static/js/estorides.js:1619` -- --- unified force-graph renderer (clusters + rings + interactions) ----
+- `drawHulls` (function) `static/js/estorides.js:1689`
+- `setStatusDot` (function) `static/js/estorides.js:1726`
+- `showWorkingIndicator` (function) `static/js/estorides.js:1732`
+- `hideWorkingIndicator` (function) `static/js/estorides.js:1737`
+- `toggleTierSection` (function) `static/js/estorides.js:1742`
+- `renderTieredResults` (function) `static/js/estorides.js:1750`
+- `escapeAttr` (function) `static/js/estorides.js:1816`
+- `buildMapCoords` (function) `static/js/estorides.js:1852`
+- `validCoord` (function) `static/js/estorides.js:1948`
+- `colorFor` (function) `static/js/estorides.js:1952`
+- `renderEntities` (function) `static/js/estorides.js:1971`
+- `renderGraphSummary` (function) `static/js/estorides.js:2023`
+- `colorForKind` (function) `static/js/estorides.js:2052`
+- `renderTimeline` (function) `static/js/estorides.js:2060`
+- `obs` (function) `static/js/estorides.js:2064`
+- `frac` (function) `static/js/estorides.js:2097`
+- `fmtTime` (function) `static/js/estorides.js:2110`
+- `filterTimeline` (function) `static/js/estorides.js:2121`
+- `drawGraph` (function) `static/js/estorides.js:2170` -- --- D3 graph view ----
+- `loadCases` (function) `static/js/estorides.js:2200`
+- `q` (function) `static/js/estorides.js:2201`
+- `openCaseDetail` (function) `static/js/estorides.js:2226` -- Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case...
+- `entities` (function) `static/js/estorides.js:2227`
+- `obs` (function) `static/js/estorides.js:2228`
+- `restoreCaseToWorkspace` (function) `static/js/estorides.js:2281` -- Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without...
+- `buildCaseMapCoords` (function) `static/js/estorides.js:2302` -- Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid...
+- `renderCaseItem` (function) `static/js/estorides.js:2320`
+- `saved` (function) `static/js/estorides.js:2324` -- Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.
+- `debounce` (function) `static/js/estorides.js:2346`
+- `escapeHTML` (function) `static/js/estorides.js:2396` -- --- utils ----
+- `truncate` (function) `static/js/estorides.js:2401`
+- `caseActionSave` (function) `static/js/estorides.js:2424` -- Bookmark a case.
+- `caseActionDiff` (function) `static/js/estorides.js:2445` -- Compare this case to another.
+- `renderCaseDiffPanel` (function) `static/js/estorides.js:2465` -- Render the diff result below the case.
+- `rows` (function) `static/js/estorides.js:2473`
+- `removed` (function) `static/js/estorides.js:2476`
+- `caseActionReport` (function) `static/js/estorides.js:2506` -- Render the Markdown report.
+- `showReportModal` (function) `static/js/estorides.js:2542`
+- `openModal` (function) `static/js/estorides.js:2570`
+- `actions` (function) `static/js/estorides.js:2576`
+- `close` (function) `static/js/estorides.js:2590`
+- `promptModal` (function) `static/js/estorides.js:2605` -- Promise-style text prompt.
+- `confirmModal` (function) `static/js/estorides.js:2629`
+- `tag` (function) `static/js/estorides.js:2691`
+- `loadSidebarWidth` (function) `static/js/estorides.js:2721` -- Responsive sidebar toggle + resizable divider.
+- `saveSidebarWidth` (function) `static/js/estorides.js:2732`
+- `loadSidebarCollapsed` (function) `static/js/estorides.js:2735`
+- `saveSidebarCollapsed` (function) `static/js/estorides.js:2743`
+- `switchSidebarTab` (function) `static/js/estorides.js:2801` -- --- Fusion tab ----
+- `loadFusionTab` (function) `static/js/estorides.js:2814`
+- `loadFusionStats` (function) `static/js/estorides.js:2820`
+- `loadFusionTopChanged` (function) `static/js/estorides.js:2839`
+- `loadFusionSearch` (function) `static/js/estorides.js:2868`
+- `doSearch` (function) `static/js/estorides.js:2875`
+- `loadFusionEntityDetail` (function) `static/js/estorides.js:2913`
+- `setStatus` (function) `static/js/estorides.js:3009` -- The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here.
+- `setDiscoverProgress` (function) `static/js/estorides.js:3016`
+- `hideDiscoverProgress` (function) `static/js/estorides.js:3028`
+- `startDiscover` (function) `static/js/estorides.js:3033`
+- `stopDiscover` (function) `static/js/estorides.js:3107`
+- `handleDiscoverEvent` (function) `static/js/estorides.js:3124`
+- `addDiscoverEntityToTab` (function) `static/js/estorides.js:3163`
+- `sig` (function) `static/js/estorides.js:3168` -- Avoid duplicates with the simple in-memory check.
+- `escapeHtml` (function) `static/js/estorides.js:3191`
+- `maybePlotDiscoverEntity` (function) `static/js/estorides.js:3196`
+- `flushDiscoverEntities` (function) `static/js/estorides.js:3203`
+- `check` (function) `static/js/estorides.js:3222`
+
+## static/js/graph_force.js
+- `short` (function) `static/js/graph_force.js:21`
+- `esc` (function) `static/js/graph_force.js:25`
+- `toast` (function) `static/js/graph_force.js:44`
+- `fail` (function) `static/js/graph_force.js:52`
+- `settings` (function) `static/js/graph_force.js:59`
+- `adaptLocal` (function) `static/js/graph_force.js:66` -- --- adapt /api/graph nodes to RAW force-graph shape (fallback when the server did not send data.force; mirrors...
+- `ordered` (function) `static/js/graph_force.js:80`
+- `cid` (function) `static/js/graph_force.js:88`
+- `fam` (function) `static/js/graph_force.js:89`
+- `currentRaw` (function) `static/js/graph_force.js:121`
+- `rebuildRaw` (function) `static/js/graph_force.js:137`
+- `src` (function) `static/js/graph_force.js:146`
+- `indexRaw` (function) `static/js/graph_force.js:163`
+- `s` (function) `static/js/graph_force.js:173`
+- `t` (function) `static/js/graph_force.js:174`
+- `entities` (function) `static/js/graph_force.js:179`
+- `lkey` (function) `static/js/graph_force.js:193`
+- `colorOf` (function) `static/js/graph_force.js:194`
+- `dimmed` (function) `static/js/graph_force.js:195`
+- `hiddenKind` (function) `static/js/graph_force.js:196`
+- `visiblePayload` (function) `static/js/graph_force.js:201`
+- `s` (function) `static/js/graph_force.js:211`
+- `t` (function) `static/js/graph_force.js:212`
+- `computeHighlight` (function) `static/js/graph_force.js:218`
+- `tip` (function) `static/js/graph_force.js:241`
+- `refreshFamList` (function) `static/js/graph_force.js:258`
+- `famAnchor` (function) `static/js/graph_force.js:263`
+- `a` (function) `static/js/graph_force.js:270`
+- `famOf` (function) `static/js/graph_force.js:273`
+- `clusterForce` (function) `static/js/graph_force.js:278`
+- `force` (function) `static/js/graph_force.js:280`
+- `ringOf` (function) `static/js/graph_force.js:295`
+- `radialForce` (function) `static/js/graph_force.js:303`
+- `force` (function) `static/js/graph_force.js:305`
+- `collideForce` (function) `static/js/graph_force.js:320`
+- `force` (function) `static/js/graph_force.js:322`
+- `m` (function) `static/js/graph_force.js:335`
+- `radius` (function) `static/js/graph_force.js:345`
+- `linkStrengthFn` (function) `static/js/graph_force.js:349`
+- `setEngineButtons` (function) `static/js/graph_force.js:365` -- var base = st.linkStrength; var src = l.source.id || l.source, tgt = l.target.id || l.target; if (l.type ===...
+- `show3DChrome` (function) `static/js/graph_force.js:374`
+- `mount3D` (function) `static/js/graph_force.js:386`
+- `refresh3D` (function) `static/js/graph_force.js:459`
+- `reload3D` (function) `static/js/graph_force.js:465`
+- `resize3D` (function) `static/js/graph_force.js:470`
+- `applyLayout3D` (function) `static/js/graph_force.js:475`
+- `onSelect3D` (function) `static/js/graph_force.js:492`
+- `clearSelection` (function) `static/js/graph_force.js:516`
+- `focusFamily` (function) `static/js/graph_force.js:529`
+- `s` (function) `static/js/graph_force.js:542`
+- `t` (function) `static/js/graph_force.js:543`
+- `markFamilies` (function) `static/js/graph_force.js:554`
+- `hud` (function) `static/js/graph_force.js:560`
+- `stat` (function) `static/js/graph_force.js:564`
+- `renderLegend` (function) `static/js/graph_force.js:590` -- m.textContent = S.layout + (S.engine === '3d' ? ' · 3D' : ''); box.appendChild(m); if (S.hl.length)...
+- `applyFilters` (function) `static/js/graph_force.js:644`
+- `nodes` (function) `static/js/graph_force.js:652`
+- `edges` (function) `static/js/graph_force.js:659`
+- `fn` (function) `static/js/graph_force.js:661`
+- `runSearch` (function) `static/js/graph_force.js:670`
+- `pickHit` (function) `static/js/graph_force.js:736`
+- `to3D` (function) `static/js/graph_force.js:747` -- } box.classList.add('open'); } function pickHit(i) { var x = hits[i]; if (!x) return; var box = $('gf-results'); if...
+- `to2D` (function) `static/js/graph_force.js:756`
+- `readHash` (function) `static/js/graph_force.js:765`
+- `writeHash` (function) `static/js/graph_force.js:780`
+- `syncIsolateBtn` (function) `static/js/graph_force.js:787`
+- `wireToolbar` (function) `static/js/graph_force.js:792`
+- `toggle` (function) `static/js/graph_force.js:817`
+- `tag` (function) `static/js/graph_force.js:892`
 
 ## static/js/source_manager.js
 - `authHeaders` (function) `static/js/source_manager.js:7` -- /* Estorides Source Manager — form-based YAML editor (function () { 'use strict'; /* ─── auth ───

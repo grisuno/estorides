@@ -496,17 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `entries` | method | `estorides_core/ontology.py:134` | `def entries(self)` |
 | `get` | method | `estorides_core/ontology.py:282` | `def get(self, kind, value)` |
 | `is_ready` | method | `estorides_core/ontology.py:131` | `def is_ready(self)` |
-| `lookup` | method | `estorides_core/ontology.py:141` | `def lookup(self, name)` |
-| `lookup_crypto` | method | `estorides_core/ontology.py:151` | `def lookup_crypto(self, address)` |
-| `put` | method | `estorides_core/ontology.py:296` | `def put(self, kind, value, payload)` |
-| `size` | method | `estorides_core/ontology.py:168` | `def size(self)` |
-| `stats` | method | `estorides_core/ontology.py:304` | `def stats(self)` |
-| `to_dict` | method | `estorides_core/ontology.py:79` | `def to_dict(self)` |
-| `build_openapi` | function | `estorides_core/openapi.py:14` | `def build_openapi(app)` |
-| `OpsConfig` | class | `estorides_core/ops_observability.py:28` | `class OpsConfig` |
-| `_clean_label` | method | `estorides_core/ops_observability.py:43` | `def _clean_label(value)` |
-| `format_event` | method | `estorides_core/ops_observability.py:112` | `def format_event(fields, as_json)` |
-| `health_payload` | method | `estorides_core/ops_observability.py:50` | `def health_payload()` |
-| `project_root` | method | `estorides_core/ops_observability.py:130` | `def project_root()` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

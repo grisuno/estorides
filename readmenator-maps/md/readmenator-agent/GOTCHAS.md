@@ -19,7 +19,7 @@ These files have the most connections. Changes here have high blast radius.
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `estorides_core/config.py` -- 41 direct, 50 total dependents
+- `estorides_core/config.py` -- 41 direct, 53 total dependents
 - `estorides_core/entity_extraction.py` -- 13 direct, 46 total dependents
 - `estorides_core/ids.py` -- 6 direct, 36 total dependents
 - `estorides_core/reliability_scoring.py` -- 8 direct, 34 total dependents

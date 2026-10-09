@@ -5,7 +5,7 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `estorides_core/config.py` (score: 84.60, imported by 41 files)
-- `estorides_web.py` (score: 75.40, imported by 7 files)
+- `estorides_web.py` (score: 77.40, imported by 7 files)
 - `estorides_core/orchestrator.py` (score: 57.80, imported by 8 files)
 - `estorides_cli.py` (score: 33.10, imported by 1 files)
 - `estorides_core/entity_extraction.py` (score: 30.10, imported by 13 files)
@@ -19,7 +19,7 @@ These files have the most connections. Changes here have high blast radius.
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `estorides_core/config.py` -- 41 direct, 52 total dependents
+- `estorides_core/config.py` -- 41 direct, 53 total dependents
 - `estorides_core/entity_extraction.py` -- 13 direct, 46 total dependents
 - `estorides_core/ids.py` -- 6 direct, 36 total dependents
 - `estorides_core/reliability_scoring.py` -- 8 direct, 34 total dependents
@@ -42,7 +42,6 @@ Editing these files can break the listed number of dependents. Run their tests a
 - `estorides_core/entity_resolution.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 - `estorides_core/system_app_sources.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 - `estorides_core/config.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
-- `estorides_core/monitoring.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 
 ## Dependency Cycles
 

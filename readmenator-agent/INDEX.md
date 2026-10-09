@@ -24,6 +24,7 @@
 | `estorides_core/feeds.py` | estorides_core.feeds | estorides_core | 16 | 1 |
 | `estorides_core/fusion_analytics.py` | estorides_core.fusion_analytics | estorides_core | 14 | 2 |
 | `estorides_core/fusion_store.py` | estorides_core.fusion_store | estorides_core | 18 | 5 |
+| `estorides_core/graph_force.py` | graph_force3d: payload force-graph estilo ReadMenator + contexto IA. | estorides_core | 12 | 2 |
 | `estorides_core/graph_kuzu.py` | estorides_core.graph_kuzu | estorides_core | 11 | 3 |
 | `estorides_core/hypothesis_engine.py` | estorides_core.hypothesis_engine | estorides_core | 23 | 2 |
 | `estorides_core/ids.py` | estorides_core.ids | estorides_core | 1 | 6 |
@@ -77,6 +78,7 @@
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
 | `static/js/estorides.js` | Estorides front-end controller | js | 165 | 0 |
+| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 69 | 0 |
 | `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 | 0 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection. | properties | 8 | 0 |
@@ -109,6 +111,7 @@
 | `tests/test_envutil.py` | BDD tests for the shared env readers (spec/envutil.md). | tests | 12 | 0 |
 | `tests/test_event_bus.py` | M2a event_bus BDD red. | tests | 6 | 0 |
 | `tests/test_fusion_analytics.py` | ATDD + BDD tests for estorides_core.fusion_analytics. | tests | 36 | 0 |
+| `tests/test_graph_force3d.py` | graph_force3d: port del sistema de grafos ReadMenator + contexto IA. | tests | 9 | 0 |
 | `tests/test_hardening.py` | BDD tests for the v1.3 hardening surface, case diff and report. | tests | 17 | 0 |
 | `tests/test_hypothesis_engine.py` | ATDD + BDD tests for estorides_core.hypothesis_engine. | tests | 35 | 0 |
 | `tests/test_ids.py` | BDD tests for the shared deterministic id helper (spec/ids.md).  - ID1: deterministic and... | tests | 7 | 0 |

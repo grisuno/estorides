@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 25 files in 'estorides_core: estorides_web' related to each other?
+### Q: How are the 27 files in 'estorides_core: estorides_web' related to each other?
 
 - Status: unanswered
 

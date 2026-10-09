@@ -131,6 +131,7 @@
 - `estorides_web.py` -> `estorides_core/feeds.py`
 - `estorides_web.py` -> `estorides_core/fusion_analytics.py`
 - `estorides_web.py` -> `estorides_core/fusion_store.py`
+- `estorides_web.py` -> `estorides_core/graph_force.py`
 - `estorides_web.py` -> `estorides_core/graph_kuzu.py`
 - `estorides_web.py` -> `estorides_core/intel_resolver.py`
 - `estorides_web.py` -> `estorides_core/job_registry.py`
@@ -297,6 +298,7 @@
 - `estorides_core/feeds.py` -> __future__, abc, csv, dataclasses, io, json, logging, os, pathlib, requests, time, typing
 - `estorides_core/fusion_analytics.py` -> __future__, logging, time, typing
 - `estorides_core/fusion_store.py` -> __future__, json, logging, pathlib, sqlite3, time, typing
+- `estorides_core/graph_force.py` -> __future__, math, typing
 - `estorides_core/graph_kuzu.py` -> __future__, json, kuzu, logging, os, pathlib, threading, time, typing
 - `estorides_core/hypothesis_engine.py` -> __future__, collections, collections.abc, dataclasses, logging, typing
 - `estorides_core/ids.py` -> __future__, hashlib
@@ -377,6 +379,7 @@
 - `tests/test_envutil.py` -> __future__, estorides_core.envutil
 - `tests/test_event_bus.py` -> __future__, pytest
 - `tests/test_fusion_analytics.py` -> __future__, collections.abc, pathlib, pytest, time, typing
+- `tests/test_graph_force3d.py` -> __future__, json, re
 - `tests/test_hardening.py` -> __future__, flask, pathlib, pytest, subprocess, sys
 - `tests/test_hypothesis_engine.py` -> __future__, pytest
 - `tests/test_ids.py` -> __future__, hashlib

@@ -453,6 +453,22 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_negative_days_treated_as_one` (method, line 288) `def test_negative_days_treated_as_one(self, store_and_analytics)`
 - Depends on: `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
 
+## tests/test_graph_force3d.py
+- Doc: graph_force3d: port del sistema de grafos ReadMenator + contexto IA.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_nodes` (function, line 22) `def _nodes()`
+  - `_edges` (function, line 36) `def _edges()`
+  - `_clusters` (function, line 45) `def _clusters()`
+  - `test_s1_build_force_payload_shape` (function, line 53) `def test_s1_build_force_payload_shape()`
+  - `test_s2_empty_graph_no_raise` (function, line 79) `def test_s2_empty_graph_no_raise()`
+  - `test_s3_truncation_deterministic_bridge_first` (function, line 90) `def test_s3_truncation_deterministic_bridge_first()`
+  - `test_s4_non_json_safe_raises_typeerror` (function, line 112) `def test_s4_non_json_safe_raises_typeerror()`
+  - `test_s5_ai_context_budget_and_no_markdown_injection` (function, line 130) `def test_s5_ai_context_budget_and_no_markdown_injection()`
+  - `test_s6_family_color_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s6_family_color_deterministic_and_settings_match_readmenator()`
+- Depends on: `estorides_core/graph_force.py`
+
 ## tests/test_hardening.py
 - Doc: BDD tests for the v1.3 hardening surface, case diff and report.
 - Layer: testing

@@ -1,6 +1,29 @@
 # Subsystem: estorides_core (page 3 of 3)
 Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 
+## estorides_core/reliability_scoring.py
+- Doc: estorides_core.reliability_scoring
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SourceReliability` (class, line 37) `class SourceReliability(str, Enum)`
+  - `Credibility` (class, line 48) `class Credibility(int, Enum)`
+  - `SourceType` (class, line 59) `class SourceType(str, Enum)`
+  - `ConfidenceInput` (class, line 243) `class ConfidenceInput`
+  - `ConfidenceResult` (class, line 263) `class ConfidenceResult`
+  - `_corroboration_weight` (method, line 280) `def _corroboration_weight(n)`
+  - `_freshness_weight` (method, line 287) `def _freshness_weight(age_seconds, half_life_days)`
+  - `_validate_score` (method, line 297) `def _validate_score(value, field_name)`
+  - `_clamp01` (method, line 302) `def _clamp01(value)`
+  - `compute_confidence` (method, line 312) `def compute_confidence(inp)`
+  - `merge_confidence` (method, line 350) `def merge_confidence(existing, new_observation)`
+  - `reliability_from_name` (method, line 400) `def reliability_from_name(source_name)`
+  - `source_type_from_name` (method, line 415) `def source_type_from_name(source_name)`
+  - `reliability_weight` (method, line 430) `def reliability_weight(source_name, overrides)`
+  - `reliability_weight_for_letter` (method, line 452) `def reliability_weight_for_letter(letter)`
+  - `__post_init__` (method, line 253) `def __post_init__(self)`
+- Imported by: `estorides_core/change_detection.py`, `estorides_core/fusion_store.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/recon_fusion.py`, `tests/properties/test_reliability_scoring_properties.py`, `tests/test_change_detection.py`, `tests/test_hypothesis_engine.py`, `tests/test_reliability_scoring.py`
+
 ## estorides_core/scope.py
 - Doc: estorides_core.scope
 - Layer: utility

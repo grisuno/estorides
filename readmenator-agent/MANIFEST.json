@@ -1,33 +1,33 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-08T00:33:51Z",
+  "generated_at": "2026-10-09T03:43:45Z",
   "project_root": ".",
-  "project_name": "readmenator_estorides_fo1wx2yt",
-  "git_commit": "d4bf14f6d17837bf5885c3bc0d211b1d388870c7",
+  "project_name": "estorides",
+  "git_commit": "ad70fb5f845a11c0a31fbc185b34e57f22fee8d7",
   "git_branch": "main",
-  "source_fingerprint": "e0d4d6170d9ad53ddff09395c76c67b5595b94460f93dd481e546764e7942721",
+  "source_fingerprint": "b8ee28f7875fcd9df437b9d08351ce6d8e51d70c0f9cfe469b1652862f591d41",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
-  "files": 157,
-  "symbols": 2745,
-  "imports": 1127,
-  "calls": 13410,
+  "files": 160,
+  "symbols": 2835,
+  "imports": 1135,
+  "calls": 14087,
   "inherits": 53,
-  "resolved_imports": 370,
+  "resolved_imports": 372,
   "security_findings": 0,
   "languages": {
-    "js": 2,
-    "py": 153,
+    "js": 3,
+    "py": 155,
     "sh": 2
   },
   "subsystems": {
-    "estorides_core": 59,
+    "estorides_core": 60,
     "estorides_export": 6,
     "estorides_llm": 3,
-    "js": 2,
+    "js": 3,
     "properties": 12,
     "root": 8,
-    "tests": 65,
+    "tests": 66,
     "tools": 2
   },
   "entrypoints": [
@@ -35,6 +35,7 @@
   ],
   "start_here": "INDEX.md",
   "read_order": [
+    "readmenator-agent/MEMORY.md  # rules, workflow, done criteria, session log",
     "readmenator-wiki/index.md  # big picture, communities, god nodes",
     "readmenator-agent/INDEX.md  # file -> purpose -> used-by count",
     "readmenator-agent/GOTCHAS.md  # blast radius before editing",
@@ -43,59 +44,60 @@
   "workflow": [
     "ls *.md readmenator-*/  # orient: docs first, ignore build noise",
     "grep -n '<keyword>' INDEX*.md SYMBOLS*.md",
+    "readmenator . ask '<question>'  # GraphRAG context (--global for overviews)",
     "cat KB_<subsystem>.md",
     "grep -n '<file>' ARCHITECTURE*.md API*.md"
   ],
   "documents": [
     {
       "path": "API.md",
-      "lines": 496,
-      "approx_tokens": 13583
+      "lines": 494,
+      "approx_tokens": 13631
     },
     {
       "path": "API_p2.md",
-      "lines": 410,
-      "approx_tokens": 11183
+      "lines": 420,
+      "approx_tokens": 11404
     },
     {
       "path": "API_p3.md",
-      "lines": 190,
-      "approx_tokens": 3745
+      "lines": 261,
+      "approx_tokens": 4800
     },
     {
       "path": "ARCHITECTURE.md",
-      "lines": 428,
-      "approx_tokens": 7628
+      "lines": 432,
+      "approx_tokens": 7688
     },
     {
       "path": "CONCEPTS.md",
       "lines": 120,
-      "approx_tokens": 5696
+      "approx_tokens": 5680
     },
     {
       "path": "GOTCHAS.md",
       "lines": 65,
-      "approx_tokens": 1030
+      "approx_tokens": 1029
     },
     {
       "path": "INDEX.md",
-      "lines": 161,
-      "approx_tokens": 3947
+      "lines": 164,
+      "approx_tokens": 4035
     },
     {
       "path": "KB_estorides_core.md",
-      "lines": 496,
-      "approx_tokens": 7638
+      "lines": 484,
+      "approx_tokens": 7435
     },
     {
       "path": "KB_estorides_core_p2.md",
-      "lines": 491,
-      "approx_tokens": 7469
+      "lines": 499,
+      "approx_tokens": 7550
     },
     {
       "path": "KB_estorides_core_p3.md",
-      "lines": 411,
-      "approx_tokens": 5994
+      "lines": 434,
+      "approx_tokens": 6419
     },
     {
       "path": "KB_estorides_export.md",
@@ -109,8 +111,8 @@
     },
     {
       "path": "KB_js.md",
-      "lines": 197,
-      "approx_tokens": 1924
+      "lines": 272,
+      "approx_tokens": 2562
     },
     {
       "path": "KB_properties.md",
@@ -120,12 +122,12 @@
     {
       "path": "KB_root.md",
       "lines": 186,
-      "approx_tokens": 2852
+      "approx_tokens": 2860
     },
     {
       "path": "KB_tests.md",
-      "lines": 481,
-      "approx_tokens": 8858
+      "lines": 497,
+      "approx_tokens": 9130
     },
     {
       "path": "KB_tests_p2.md",
@@ -148,6 +150,11 @@
       "approx_tokens": 104
     },
     {
+      "path": "MEMORY.md",
+      "lines": 83,
+      "approx_tokens": 1330
+    },
+    {
       "path": "SECURITY.md",
       "lines": 3,
       "approx_tokens": 10
@@ -155,32 +162,32 @@
     {
       "path": "SYMBOLS.md",
       "lines": 500,
-      "approx_tokens": 12213
+      "approx_tokens": 12279
     },
     {
       "path": "SYMBOLS_p2.md",
       "lines": 500,
-      "approx_tokens": 12466
+      "approx_tokens": 12423
     },
     {
       "path": "SYMBOLS_p3.md",
       "lines": 500,
-      "approx_tokens": 12269
+      "approx_tokens": 11199
     },
     {
       "path": "SYMBOLS_p4.md",
       "lines": 500,
-      "approx_tokens": 14942
+      "approx_tokens": 15129
     },
     {
       "path": "SYMBOLS_p5.md",
       "lines": 500,
-      "approx_tokens": 15190
+      "approx_tokens": 15039
     },
     {
       "path": "SYMBOLS_p6.md",
-      "lines": 286,
-      "approx_tokens": 7987
+      "lines": 376,
+      "approx_tokens": 10709
     },
     {
       "path": "recipes/add-function.md",

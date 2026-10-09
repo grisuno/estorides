@@ -1,6 +1,6 @@
 # Audit Report
 
-*Project: readmenator_estorides_fo1wx2yt | 2026-10-07 | offline, deterministic*
+*Project: estorides | 2026-10-09 | offline, deterministic*
 
 ## Confidence Trail
 
@@ -8,15 +8,15 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 | Confidence | Count | Meaning |
 |------------|-------|---------|
-| EXTRACTED | 370 | Resolved import edges parsed from source |
-| EXTRACTED | 1127 | Raw import statements (may include externals) |
+| EXTRACTED | 372 | Resolved import edges parsed from source |
+| EXTRACTED | 1135 | Raw import statements (may include externals) |
 | INFERRED | 5 | Surprising cross-community bridges |
 | AMBIGUOUS | 0 | No uncertain edges are emitted by the static scanner |
 
 ## Coverage
 
-- Files: 157, communities: 11
-- File doc coverage: 142/157
+- Files: 160, communities: 11
+- File doc coverage: 145/160
 - Orphans (no docs at any level): 14
 - Layers detected: 6
 - Security findings: 0

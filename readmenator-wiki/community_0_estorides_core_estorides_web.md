@@ -1,34 +1,34 @@
 # estorides_core: estorides_web
 
-*Community 0 | 25 files | cohesion 0.48*
+*Community 0 | 27 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 25 file(s) rooted at `tests` with dominant language py (cohesion 0.48). Central symbols: `AuditEvent`, `AuditLog`, `AuthGate`, `BoundedJobRegistry`, `BufferedEventSink`, `DiscoverJob`, `EntityRunner`, `EventSink`. Core file: `estorides_web.py` (94 symbols). Documented purpose: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estorides_cli.py serve` for the dev server, or -.
+This community groups 27 file(s) rooted at `tests` with dominant language py (cohesion 0.49). Central symbols: `AuditEvent`, `AuditLog`, `AuthGate`, `BoundedJobRegistry`, `BufferedEventSink`, `DiscoverJob`, `EntityRunner`, `EventSink`. Core file: `estorides_web.py` (94 symbols). Documented purpose: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estorides_cli.py serve` for the dev server, or -.
 
 ## Files
 
-### `tests` (9 files)
+### `tests` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_audit_log.py` | py | testing | 5 | yes |
 | `tests/test_auth_gate.py` | py | testing | 10 | yes |
 | `tests/test_csp_safe_styles.py` | py | testing | 11 | yes |
+| `tests/test_graph_force3d.py` | py | testing | 9 | yes |
 | `tests/test_job_registry.py` | py | testing | 8 | yes |
 | `tests/test_map_basemap.py` | py | testing | 5 | yes |
-| `tests/test_openapi.py` | py | testing | 1 | yes |
 
-### `estorides_core` (8 files)
+### `estorides_core` (9 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `estorides_core/audit.py` | py | utility | 11 | yes |
 | `estorides_core/discoverer.py` | py | utility | 21 | yes |
+| `estorides_core/graph_force.py` | py | utility | 12 | yes |
 | `estorides_core/graph_kuzu.py` | py | utility | 11 | yes |
 | `estorides_core/job_registry.py` | py | utility | 10 | yes |
 | `estorides_core/openapi.py` | py | utility | 1 | yes |
-| `estorides_core/pivot_engine.py` | py | utility | 25 | yes |
 
 ### `.` (5 files)
 
@@ -53,7 +53,7 @@ This community groups 25 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `tools/sync_docs.py` | py | utility | 2 | yes |
 
-*... and 5 more files in this community.*
+*... and 7 more files in this community.*
 
 
 ## Key Symbols
@@ -91,7 +91,7 @@ This community groups 25 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 39
+- Internal resolved imports (EXTRACTED): 41
 - Cross-boundary resolved imports (EXTRACTED): 41
 
 ## Connections
@@ -122,13 +122,14 @@ This community groups 25 file(s) rooted at `tests` with dominant language py (co
 
 - Can the cycle `estorides_web.py` -> `estorides_web_tools.py` be broken with an interface?
 - What would break if the most connected file in estorides_core: estorides_web changed?
-- Should estorides_core: estorides_web be split, given cohesion 0.48?
+- Should estorides_core: estorides_web be split, given cohesion 0.49?
 
 ## Sources
 
 - `app.py`
 - `estorides_core/audit.py`
 - `estorides_core/discoverer.py`
+- `estorides_core/graph_force.py`
 - `estorides_core/graph_kuzu.py`
 - `estorides_core/job_registry.py`
 - `estorides_core/openapi.py`
@@ -142,8 +143,7 @@ This community groups 25 file(s) rooted at `tests` with dominant language py (co
 - `tests/test_audit_log.py`
 - `tests/test_auth_gate.py`
 - `tests/test_csp_safe_styles.py`
+- `tests/test_graph_force3d.py`
 - `tests/test_job_registry.py`
 - `tests/test_map_basemap.py`
-- `tests/test_openapi.py`
-- `tests/test_search_telemetry.py`
-- *... and 5 more*
+- *... and 7 more*

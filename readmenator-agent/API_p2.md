@@ -1,6 +1,16 @@
 # API (page 2 of 3)
 Previous: [API.md](API.md)
 
+## estorides_core/people_intel.py
+Imported by: `estorides_core/recon_pipeline.py`, `tests/test_people_intel.py`
+- `BreachRecord.to_dict` (method) `estorides_core/people_intel.py:22` `def to_dict(self)`
+- `Employee.to_dict` (method) `estorides_core/people_intel.py:40` `def to_dict(self)`
+- `BreachContext.to_dict` (method) `estorides_core/people_intel.py:62` `def to_dict(self)`
+- `PeopleIntelResult.to_dict` (method) `estorides_core/people_intel.py:75` `def to_dict(self)`
+- `PeopleIntelResult.infer_email_pattern` (method) `estorides_core/people_intel.py:98` `def infer_email_pattern(emails)`
+- `PeopleIntelResult.correlate_breaches` (method) `estorides_core/people_intel.py:153` `def correlate_breaches(employees)`
+- `PeopleIntelResult.analyse_employees` (method) `estorides_core/people_intel.py:176` `def analyse_employees(employees, domain)`
+
 ## estorides_core/pivot_engine.py
 Depends on: `estorides_core/config.py`
 Imported by: `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_structured_extraction.py`
@@ -312,7 +322,7 @@ Imported by: `estorides_llm/__init__.py`
 - `LLMManager.stream` (method) `estorides_llm/manager.py:422` `def stream(self, prompt)` -- Stream an analysis from a specific ollama model.
 
 ## estorides_web.py
-Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 - `deco` (method) `estorides_web.py:88` `def deco(view)`
 - `wrapper` (method) `estorides_web.py:90` `def wrapper()`
@@ -333,66 +343,66 @@ Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.p
 - `_RunStreamJob.api_ollama_status` (method) `estorides_web.py:334` `def api_ollama_status()`
 - `_RunStreamJob.api_run` (method) `estorides_web.py:340` `def api_run()`
 - `_RunStreamJob.api_graph` (method) `estorides_web.py:396` `def api_graph()`
-- `_RunStreamJob.api_feeds` (method) `estorides_web.py:472` `def api_feeds()` -- Return real-time feed points (quakes, fires, news) for the map.
-- `_RunStreamJob.api_export` (method) `estorides_web.py:503` `def api_export(fmt)`
-- `_RunStreamJob.api_cases_list` (method) `estorides_web.py:581` `def api_cases_list()`
-- `_RunStreamJob.api_cases_get` (method) `estorides_web.py:594` `def api_cases_get(case_id)`
-- `_RunStreamJob.api_cases_delete` (method) `estorides_web.py:608` `def api_cases_delete(case_id)`
-- `_RunStreamJob.api_cases_save` (method) `estorides_web.py:616` `def api_cases_save(case_id)` -- Bookmark a case from the UI.
-- `_RunStreamJob.api_cases_diff` (method) `estorides_web.py:639` `def api_cases_diff()` -- Symmetric diff between two cases by entity (type, value).
-- `_RunStreamJob.api_intel_resolve` (method) `estorides_web.py:664` `def api_intel_resolve()` -- Cross-feed entity resolution (Osiris-style /resolve).
-- `_RunStreamJob.api_intel_graph` (method) `estorides_web.py:703` `def api_intel_graph()` -- Cypher query against the Kùzu persistent graph.
-- `_RunStreamJob.api_intel_stats` (method) `estorides_web.py:742` `def api_intel_stats()` -- Stats for both the case store and the Kùzu graph.
-- `_RunStreamJob.api_fusion_stats` (method) `estorides_web.py:763` `def api_fusion_stats()` -- One-glance dashboard of the fused, cross-run fact base.
-- `_RunStreamJob.api_fusion_sources` (method) `estorides_web.py:771` `def api_fusion_sources()` -- The YAML source catalogue with accumulated fetch/ok counters.
-- `_RunStreamJob.api_fusion_entities` (method) `estorides_web.py:780` `def api_fusion_entities()` -- Search fused entities.
-- `_RunStreamJob.api_fusion_entity` (method) `estorides_web.py:801` `def api_fusion_entity(eid)` -- Full fused view of one entity: provenance, properties, edges.
-- `_RunStreamJob.api_fusion_analytics_entity_timeline` (method) `estorides_web.py:819` `def api_fusion_analytics_entity_timeline(eid)`
-- `_RunStreamJob.api_fusion_analytics_entity_summary` (method) `estorides_web.py:829` `def api_fusion_analytics_entity_summary(eid)`
-- `_RunStreamJob.api_fusion_analytics_source_stats` (method) `estorides_web.py:839` `def api_fusion_analytics_source_stats(source_name)`
-- `_RunStreamJob.api_fusion_analytics_consensus` (method) `estorides_web.py:849` `def api_fusion_analytics_consensus(eid)`
-- `_RunStreamJob.api_fusion_analytics_top_changed` (method) `estorides_web.py:859` `def api_fusion_analytics_top_changed()`
-- `_RunStreamJob.admin_sources` (method) `estorides_web.py:869` `def admin_sources()` -- Render the YAML source manager page.
-- `_RunStreamJob.api_sources_yaml_list` (method) `estorides_web.py:886` `def api_sources_yaml_list()` -- Return every YAML source with full configuration.
-- `_RunStreamJob.api_sources_yaml_create` (method) `estorides_web.py:912` `def api_sources_yaml_create()` -- Create a new YAML source.
-- `_RunStreamJob.api_sources_yaml_update` (method) `estorides_web.py:933` `def api_sources_yaml_update(name)` -- Update/replace a YAML source.
-- `_RunStreamJob.api_sources_yaml_delete` (method) `estorides_web.py:952` `def api_sources_yaml_delete(name)` -- Delete a YAML source.
-- `_RunStreamJob.api_fusion_analytics_corroboration_matrix` (method) `estorides_web.py:969` `def api_fusion_analytics_corroboration_matrix()`
-- `_RunStreamJob.api_socmint_resolve` (method) `estorides_web.py:983` `def api_socmint_resolve()` -- Resolve a username across known social media platforms.
-- `_RunStreamJob.api_socmint_platforms` (method) `estorides_web.py:1005` `def api_socmint_platforms()` -- Return the list of all known social media platforms.
-- `_RunStreamJob.api_socmint_discover` (method) `estorides_web.py:1013` `def api_socmint_discover()` -- Extract social media profile URLs from a text blob.
-- `_RunStreamJob.api_watch_list` (method) `estorides_web.py:1056` `def api_watch_list()` -- List all watch targets.
-- `_RunStreamJob.api_watch_create` (method) `estorides_web.py:1065` `def api_watch_create()` -- Create a new watch target.
-- `_RunStreamJob.api_watch_get` (method) `estorides_web.py:1099` `def api_watch_get(watch_id)`
-- `_RunStreamJob.api_watch_delete` (method) `estorides_web.py:1111` `def api_watch_delete(watch_id)`
-- `_RunStreamJob.api_watch_enable` (method) `estorides_web.py:1122` `def api_watch_enable(watch_id)`
-- `_RunStreamJob.api_watch_disable` (method) `estorides_web.py:1135` `def api_watch_disable(watch_id)`
-- `_RunStreamJob.api_watch_history` (method) `estorides_web.py:1147` `def api_watch_history(watch_id)`
-- `_RunStreamJob.api_alerts_channels` (method) `estorides_web.py:1157` `def api_alerts_channels()` -- List configured alert channels and their status.
-- `_RunStreamJob.api_alerts_test` (method) `estorides_web.py:1165` `def api_alerts_test()` -- Send a test alert to a channel.
-- `_RunStreamJob.api_scheduler_status` (method) `estorides_web.py:1181` `def api_scheduler_status()`
-- `_RunStreamJob.api_transforms` (method) `estorides_web.py:1199` `def api_transforms()` -- List the transforms applicable to an entity type.
-- `_RunStreamJob.api_transform_run` (method) `estorides_web.py:1213` `def api_transform_run()` -- Run one transform and return nodes/links for graph merge.
-- `_RunStreamJob.api_transform_stream` (method) `estorides_web.py:1235` `def api_transform_stream()` -- Stream one transform as SSE `node`/`link` events plus `done`.
-- `_RunStreamJob.api_osiris_bgp` (method) `estorides_web.py:1274` `def api_osiris_bgp()`
-- `_RunStreamJob.api_osiris_mac` (method) `estorides_web.py:1288` `def api_osiris_mac()`
-- `_RunStreamJob.api_osiris_phone` (method) `estorides_web.py:1302` `def api_osiris_phone()`
-- `_RunStreamJob.api_osiris_github` (method) `estorides_web.py:1316` `def api_osiris_github()`
-- `_RunStreamJob.api_osiris_leaks` (method) `estorides_web.py:1330` `def api_osiris_leaks()`
-- `_RunStreamJob.api_osiris_kev` (method) `estorides_web.py:1344` `def api_osiris_kev()`
-- `_RunStreamJob.api_osiris_malware` (method) `estorides_web.py:1353` `def api_osiris_malware()`
-- `_RunStreamJob.api_osiris_threats` (method) `estorides_web.py:1358` `def api_osiris_threats()`
-- `_RunStreamJob.api_discover_start` (method) `estorides_web.py:1371` `def api_discover_start()`
-- `_RunStreamJob.api_discover_jobs` (method) `estorides_web.py:1417` `def api_discover_jobs()`
-- `_RunStreamJob.api_discover_stop` (method) `estorides_web.py:1423` `def api_discover_stop()`
-- `_RunStreamJob.api_discover_stream` (method) `estorides_web.py:1435` `def api_discover_stream()` -- Server-Sent Events for a discoverer job.
-- `_RunStreamJob.gen` (method) `estorides_web.py:1448` `def gen()`
-- `_RunStreamJob.api_run_stream_start` (method) `estorides_web.py:1485` `def api_run_stream_start()`
-- `_RunStreamJob.api_run_stream_stop` (method) `estorides_web.py:1552` `def api_run_stream_stop()`
-- `_RunStreamJob.api_run_stream` (method) `estorides_web.py:1564` `def api_run_stream()`
-- `_RunStreamJob.gen` (method) `estorides_web.py:1570` `def gen()`
-- `_RunStreamJob.api_analyze_stream` (method) `estorides_web.py:1611` `def api_analyze_stream()`
-- `_RunStreamJob.gen` (method) `estorides_web.py:1640` `def gen()`
+- `_RunStreamJob.api_feeds` (method) `estorides_web.py:485` `def api_feeds()` -- Return real-time feed points (quakes, fires, news) for the map.
+- `_RunStreamJob.api_export` (method) `estorides_web.py:516` `def api_export(fmt)`
+- `_RunStreamJob.api_cases_list` (method) `estorides_web.py:594` `def api_cases_list()`
+- `_RunStreamJob.api_cases_get` (method) `estorides_web.py:607` `def api_cases_get(case_id)`
+- `_RunStreamJob.api_cases_delete` (method) `estorides_web.py:621` `def api_cases_delete(case_id)`
+- `_RunStreamJob.api_cases_save` (method) `estorides_web.py:629` `def api_cases_save(case_id)` -- Bookmark a case from the UI.
+- `_RunStreamJob.api_cases_diff` (method) `estorides_web.py:652` `def api_cases_diff()` -- Symmetric diff between two cases by entity (type, value).
+- `_RunStreamJob.api_intel_resolve` (method) `estorides_web.py:677` `def api_intel_resolve()` -- Cross-feed entity resolution (Osiris-style /resolve).
+- `_RunStreamJob.api_intel_graph` (method) `estorides_web.py:716` `def api_intel_graph()` -- Cypher query against the Kùzu persistent graph.
+- `_RunStreamJob.api_intel_stats` (method) `estorides_web.py:755` `def api_intel_stats()` -- Stats for both the case store and the Kùzu graph.
+- `_RunStreamJob.api_fusion_stats` (method) `estorides_web.py:776` `def api_fusion_stats()` -- One-glance dashboard of the fused, cross-run fact base.
+- `_RunStreamJob.api_fusion_sources` (method) `estorides_web.py:784` `def api_fusion_sources()` -- The YAML source catalogue with accumulated fetch/ok counters.
+- `_RunStreamJob.api_fusion_entities` (method) `estorides_web.py:793` `def api_fusion_entities()` -- Search fused entities.
+- `_RunStreamJob.api_fusion_entity` (method) `estorides_web.py:814` `def api_fusion_entity(eid)` -- Full fused view of one entity: provenance, properties, edges.
+- `_RunStreamJob.api_fusion_analytics_entity_timeline` (method) `estorides_web.py:832` `def api_fusion_analytics_entity_timeline(eid)`
+- `_RunStreamJob.api_fusion_analytics_entity_summary` (method) `estorides_web.py:842` `def api_fusion_analytics_entity_summary(eid)`
+- `_RunStreamJob.api_fusion_analytics_source_stats` (method) `estorides_web.py:852` `def api_fusion_analytics_source_stats(source_name)`
+- `_RunStreamJob.api_fusion_analytics_consensus` (method) `estorides_web.py:862` `def api_fusion_analytics_consensus(eid)`
+- `_RunStreamJob.api_fusion_analytics_top_changed` (method) `estorides_web.py:872` `def api_fusion_analytics_top_changed()`
+- `_RunStreamJob.admin_sources` (method) `estorides_web.py:882` `def admin_sources()` -- Render the YAML source manager page.
+- `_RunStreamJob.api_sources_yaml_list` (method) `estorides_web.py:899` `def api_sources_yaml_list()` -- Return every YAML source with full configuration.
+- `_RunStreamJob.api_sources_yaml_create` (method) `estorides_web.py:925` `def api_sources_yaml_create()` -- Create a new YAML source.
+- `_RunStreamJob.api_sources_yaml_update` (method) `estorides_web.py:946` `def api_sources_yaml_update(name)` -- Update/replace a YAML source.
+- `_RunStreamJob.api_sources_yaml_delete` (method) `estorides_web.py:965` `def api_sources_yaml_delete(name)` -- Delete a YAML source.
+- `_RunStreamJob.api_fusion_analytics_corroboration_matrix` (method) `estorides_web.py:982` `def api_fusion_analytics_corroboration_matrix()`
+- `_RunStreamJob.api_socmint_resolve` (method) `estorides_web.py:996` `def api_socmint_resolve()` -- Resolve a username across known social media platforms.
+- `_RunStreamJob.api_socmint_platforms` (method) `estorides_web.py:1018` `def api_socmint_platforms()` -- Return the list of all known social media platforms.
+- `_RunStreamJob.api_socmint_discover` (method) `estorides_web.py:1026` `def api_socmint_discover()` -- Extract social media profile URLs from a text blob.
+- `_RunStreamJob.api_watch_list` (method) `estorides_web.py:1069` `def api_watch_list()` -- List all watch targets.
+- `_RunStreamJob.api_watch_create` (method) `estorides_web.py:1078` `def api_watch_create()` -- Create a new watch target.
+- `_RunStreamJob.api_watch_get` (method) `estorides_web.py:1112` `def api_watch_get(watch_id)`
+- `_RunStreamJob.api_watch_delete` (method) `estorides_web.py:1124` `def api_watch_delete(watch_id)`
+- `_RunStreamJob.api_watch_enable` (method) `estorides_web.py:1135` `def api_watch_enable(watch_id)`
+- `_RunStreamJob.api_watch_disable` (method) `estorides_web.py:1148` `def api_watch_disable(watch_id)`
+- `_RunStreamJob.api_watch_history` (method) `estorides_web.py:1160` `def api_watch_history(watch_id)`
+- `_RunStreamJob.api_alerts_channels` (method) `estorides_web.py:1170` `def api_alerts_channels()` -- List configured alert channels and their status.
+- `_RunStreamJob.api_alerts_test` (method) `estorides_web.py:1178` `def api_alerts_test()` -- Send a test alert to a channel.
+- `_RunStreamJob.api_scheduler_status` (method) `estorides_web.py:1194` `def api_scheduler_status()`
+- `_RunStreamJob.api_transforms` (method) `estorides_web.py:1212` `def api_transforms()` -- List the transforms applicable to an entity type.
+- `_RunStreamJob.api_transform_run` (method) `estorides_web.py:1226` `def api_transform_run()` -- Run one transform and return nodes/links for graph merge.
+- `_RunStreamJob.api_transform_stream` (method) `estorides_web.py:1248` `def api_transform_stream()` -- Stream one transform as SSE `node`/`link` events plus `done`.
+- `_RunStreamJob.api_osiris_bgp` (method) `estorides_web.py:1287` `def api_osiris_bgp()`
+- `_RunStreamJob.api_osiris_mac` (method) `estorides_web.py:1301` `def api_osiris_mac()`
+- `_RunStreamJob.api_osiris_phone` (method) `estorides_web.py:1315` `def api_osiris_phone()`
+- `_RunStreamJob.api_osiris_github` (method) `estorides_web.py:1329` `def api_osiris_github()`
+- `_RunStreamJob.api_osiris_leaks` (method) `estorides_web.py:1343` `def api_osiris_leaks()`
+- `_RunStreamJob.api_osiris_kev` (method) `estorides_web.py:1357` `def api_osiris_kev()`
+- `_RunStreamJob.api_osiris_malware` (method) `estorides_web.py:1366` `def api_osiris_malware()`
+- `_RunStreamJob.api_osiris_threats` (method) `estorides_web.py:1371` `def api_osiris_threats()`
+- `_RunStreamJob.api_discover_start` (method) `estorides_web.py:1384` `def api_discover_start()`
+- `_RunStreamJob.api_discover_jobs` (method) `estorides_web.py:1430` `def api_discover_jobs()`
+- `_RunStreamJob.api_discover_stop` (method) `estorides_web.py:1436` `def api_discover_stop()`
+- `_RunStreamJob.api_discover_stream` (method) `estorides_web.py:1448` `def api_discover_stream()` -- Server-Sent Events for a discoverer job.
+- `_RunStreamJob.gen` (method) `estorides_web.py:1461` `def gen()`
+- `_RunStreamJob.api_run_stream_start` (method) `estorides_web.py:1498` `def api_run_stream_start()`
+- `_RunStreamJob.api_run_stream_stop` (method) `estorides_web.py:1565` `def api_run_stream_stop()`
+- `_RunStreamJob.api_run_stream` (method) `estorides_web.py:1577` `def api_run_stream()`
+- `_RunStreamJob.gen` (method) `estorides_web.py:1583` `def gen()`
+- `_RunStreamJob.api_analyze_stream` (method) `estorides_web.py:1624` `def api_analyze_stream()`
+- `_RunStreamJob.gen` (method) `estorides_web.py:1653` `def gen()`
 
 ## estorides_web_tools.py
 Depends on: `estorides_core/audit.py`, `estorides_core/tool_install.py`, `estorides_core/web_security.py`, `estorides_web.py`

@@ -442,6 +442,25 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`, `estorides_core/sqlite_store.py`
 - Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_fusion_analytics.py`, `tests/test_probabilistic_fusion.py`
 
+## estorides_core/graph_force.py
+- Doc: graph_force3d: payload force-graph estilo ReadMenator + contexto IA.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `family_color_from_name` (function, line 48) `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)`
+  - `node_value` (function, line 65) `def node_value(symbols, degree, findings)`
+  - `force_settings` (function, line 70) `def force_settings()`
+  - `_req_str` (function, line 97) `def _req_str(item, key, default, what)`
+  - `_opt_str` (function, line 107) `def _opt_str(item, key, default)`
+  - `_opt_int` (function, line 113) `def _opt_int(item, key, default)`
+  - `_degrees` (function, line 124) `def _degrees(node_ids, edges)`
+  - `_is_bridge` (function, line 150) `def _is_bridge(edge)`
+  - `build_force_payload` (function, line 161) `def build_force_payload(nodes, edges, clusters, max_nodes, max_edges)`
+  - `_md_safe` (function, line 332) `def _md_safe(text, limit)`
+  - `_truncate_lines` (function, line 341) `def _truncate_lines(markdown, budget)`
+  - `build_ai_context` (function, line 353) `def build_ai_context(nodes, edges, clusters, budget_chars)`
+- Imported by: `estorides_web.py`, `tests/test_graph_force3d.py`
+
 ## estorides_core/graph_kuzu.py
 - Doc: estorides_core.graph_kuzu
 - Layer: utility
@@ -460,37 +479,6 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `close` (method, line 436) `def close(self)`
 - Depends on: `estorides_core/config.py`
 - Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`
-
-## estorides_core/hypothesis_engine.py
-- Doc: estorides_core.hypothesis_engine
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EntityRef` (class, line 57) `class EntityRef`
-  - `Evidence` (class, line 65) `class Evidence`
-  - `Hypothesis` (class, line 76) `class Hypothesis`
-  - `_truncate` (method, line 113) `def _truncate(value)`
-  - `_is_mapping` (method, line 123) `def _is_mapping(value)`
-  - `_entity_lookup` (method, line 127) `def _entity_lookup(entities)`
-  - `_hypothesis_id` (method, line 148) `def _hypothesis_id(htype, entity_refs, supporting)`
-  - `_score` (method, line 166) `def _score(supporting, contradicting)`
-  - `_confidence` (method, line 180) `def _confidence(supporting, contradicting)`
-  - `_clip_claim` (method, line 201) `def _clip_claim(template)`
-  - `HypothesisGenerator` (class, line 210) `class HypothesisGenerator(Protocol)`
-  - `_domain_belongsto_actor` (method, line 220) `def _domain_belongsto_actor(observations, entities)`
-  - `_domains_in_obs` (method, line 312) `def _domains_in_obs(obs)`
-  - `_email_aliases_person` (method, line 333) `def _email_aliases_person(observations, entities)`
-  - `_extract_email` (method, line 393) `def _extract_email(parsed)`
-  - `_extract_person_name` (method, line 404) `def _extract_person_name(parsed)`
-  - `_ip_shared_infra` (method, line 415) `def _ip_shared_infra(observations, entities)`
-  - `_extract_ips` (method, line 496) `def _extract_ips(parsed)`
-  - `_looks_like_ipv4` (method, line 511) `def _looks_like_ipv4(s)`
-  - `_asn_shared_infra` (method, line 524) `def _asn_shared_infra(observations, entities)`
-  - `_extract_asn` (method, line 588) `def _extract_asn(parsed)`
-  - `generate_hypotheses` (method, line 613) `def generate_hypotheses(observations, entities, kg)`
-  - `__call__` (method, line 213) `def __call__(self, observations, entities)`
-- Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
-- Imported by: `tests/properties/test_hypothesis_engine_properties.py`, `tests/test_hypothesis_engine.py`
 
 
 Next: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)

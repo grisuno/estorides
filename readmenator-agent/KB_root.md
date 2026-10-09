@@ -140,15 +140,15 @@
   - `api_analyze_stream` (method, line 1624) `def api_analyze_stream()`
   - `wrapper` (method, line 90) `def wrapper()`
   - `wrapper` (method, line 199) `def wrapper()`
-  - `_gen` (method, line 1251) `def _gen()`
-  - `gen` (method, line 1448) `def gen()`
-  - `_drive` (method, line 1515) `def _drive()`
-  - `gen` (method, line 1570) `def gen()`
-  - `_run` (method, line 1624) `def _run()`
-  - `gen` (method, line 1640) `def gen()`
-  - `_watch_runner` (method, line 1032) `def _watch_runner(swatch)`
-  - `_err` (method, line 1246) `def _err()`
-- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+  - `_gen` (method, line 1264) `def _gen()`
+  - `gen` (method, line 1461) `def gen()`
+  - `_drive` (method, line 1528) `def _drive()`
+  - `gen` (method, line 1583) `def gen()`
+  - `_run` (method, line 1637) `def _run()`
+  - `gen` (method, line 1653) `def gen()`
+  - `_watch_runner` (method, line 1045) `def _watch_runner(swatch)`
+  - `_err` (method, line 1259) `def _err()`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ## estorides_web_tools.py

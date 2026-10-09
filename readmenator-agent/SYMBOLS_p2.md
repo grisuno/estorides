@@ -3,6 +3,18 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `lookup` | method | `estorides_core/ontology.py:141` | `def lookup(self, name)` |
+| `lookup_crypto` | method | `estorides_core/ontology.py:151` | `def lookup_crypto(self, address)` |
+| `put` | method | `estorides_core/ontology.py:296` | `def put(self, kind, value, payload)` |
+| `size` | method | `estorides_core/ontology.py:168` | `def size(self)` |
+| `stats` | method | `estorides_core/ontology.py:304` | `def stats(self)` |
+| `to_dict` | method | `estorides_core/ontology.py:79` | `def to_dict(self)` |
+| `build_openapi` | function | `estorides_core/openapi.py:14` | `def build_openapi(app)` |
+| `OpsConfig` | class | `estorides_core/ops_observability.py:28` | `class OpsConfig` |
+| `_clean_label` | method | `estorides_core/ops_observability.py:43` | `def _clean_label(value)` |
+| `format_event` | method | `estorides_core/ops_observability.py:112` | `def format_event(fields, as_json)` |
+| `health_payload` | method | `estorides_core/ops_observability.py:50` | `def health_payload()` |
+| `project_root` | method | `estorides_core/ops_observability.py:130` | `def project_root()` |
 | `ready_payload` | method | `estorides_core/ops_observability.py:55` | `def ready_payload(source_count, sources_dir_ok)` |
 | `record_request` | method | `estorides_core/ops_observability.py:62` | `def record_request(endpoint, status)` |
 | `record_source` | method | `estorides_core/ops_observability.py:72` | `def record_source(source, ok)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `build_https_url` | function | `estorides_core/web_security.py:58` | `def build_https_url(public_host, path, query_string)` |
 | `check` | method | `estorides_core/web_security.py:354` | `def check(self)` |
 | `enabled` | method | `estorides_core/web_security.py:351` | `def enabled(self)` |
-| `install_auth_gate` | method | `estorides_core/web_security.py:421` | `def install_auth_gate(app, gate)` |
-| `install_security` | method | `estorides_core/web_security.py:169` | `def install_security(app, cfg)` |
-| `is_cors_enabled` | method | `estorides_core/web_security.py:128` | `def is_cors_enabled(self)` |
-| `is_origin_allowed` | method | `estorides_core/web_security.py:132` | `def is_origin_allowed(self)` |
-| `issue_session_cookie_kwargs` | method | `estorides_core/web_security.py:371` | `def issue_session_cookie_kwargs(self)` |
-| `load_security_config` | method | `estorides_core/web_security.py:144` | `def load_security_config()` |
-| `make_auth_gate` | method | `estorides_core/web_security.py:321` | `def make_auth_gate()` |
-| `require_auth` | method | `estorides_core/web_security.py:388` | `def require_auth(view)` |
-| `wrapper` | method | `estorides_core/web_security.py:402` | `def wrapper()` |
-| `_have_age` | function | `estorides_export/encryption.py:47` | `def _have_age()` |
-| `encrypt_file` | function | `estorides_export/encryption.py:51` | `def encrypt_file(plaintext_path, recipient_pubkey)` |
-| `export_misp_encrypted` | function | `estorides_export/encryption.py:128` | `def export_misp_encrypted(kg, recipient_pubkey, path)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

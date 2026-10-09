@@ -254,6 +254,14 @@ Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_we
 - `FusionStore.stats` (method) `estorides_core/fusion_store.py:692` `def stats(self)` -- One-glance dashboard of the fused store's size.
 - `FusionStore.open_store` (method) `estorides_core/fusion_store.py:723` `def open_store(path)` -- Open the fusion store, returning None instead of raising on failure.
 
+## estorides_core/graph_force.py
+Imported by: `estorides_web.py`, `tests/test_graph_force3d.py`
+- `family_color_from_name` (function) `estorides_core/graph_force.py:48` `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)` -- Deriva un color HSL estable desde un label (djb2, como ReadMenator).
+- `node_value` (function) `estorides_core/graph_force.py:65` `def node_value(symbols, degree, findings)` -- Escala log2 del tamano de nodo (minimo 1).
+- `force_settings` (function) `estorides_core/graph_force.py:70` `def force_settings()` -- Valores SETTINGS de ReadMenator graph-force.html (fuente unica).
+- `build_force_payload` (function) `estorides_core/graph_force.py:161` `def build_force_payload(nodes, edges, clusters, max_nodes, max_edges)` -- Convierte nodos/edges OSINT (`/api/graph`) al formato RAW force-graph.
+- `build_ai_context` (function) `estorides_core/graph_force.py:353` `def build_ai_context(nodes, edges, clusters, budget_chars)` -- Contexto markdown extractivo con presupuesto para la IA local.
+
 ## estorides_core/graph_kuzu.py
 Depends on: `estorides_core/config.py`
 Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`
@@ -481,16 +489,6 @@ Imported by: `estorides_core/recon_pipeline.py`, `tests/test_pdns_monitor.py`
 - `PDNSResult.classify_subdomain_status` (method) `estorides_core/pdns_monitor.py:72` `def classify_subdomain_status(fqdn, resolved_ips)`
 - `PDNSResult.extract_sans_from_cert` (method) `estorides_core/pdns_monitor.py:76` `def extract_sans_from_cert(cert)`
 - `PDNSResult.analyse_pdns_data` (method) `estorides_core/pdns_monitor.py:80` `def analyse_pdns_data(subdomains, ip_history, new_certs)`
-
-## estorides_core/people_intel.py
-Imported by: `estorides_core/recon_pipeline.py`, `tests/test_people_intel.py`
-- `BreachRecord.to_dict` (method) `estorides_core/people_intel.py:22` `def to_dict(self)`
-- `Employee.to_dict` (method) `estorides_core/people_intel.py:40` `def to_dict(self)`
-- `BreachContext.to_dict` (method) `estorides_core/people_intel.py:62` `def to_dict(self)`
-- `PeopleIntelResult.to_dict` (method) `estorides_core/people_intel.py:75` `def to_dict(self)`
-- `PeopleIntelResult.infer_email_pattern` (method) `estorides_core/people_intel.py:98` `def infer_email_pattern(emails)`
-- `PeopleIntelResult.correlate_breaches` (method) `estorides_core/people_intel.py:153` `def correlate_breaches(employees)`
-- `PeopleIntelResult.analyse_employees` (method) `estorides_core/people_intel.py:176` `def analyse_employees(employees, domain)`
 
 
 Next: [API_p2.md](API_p2.md)

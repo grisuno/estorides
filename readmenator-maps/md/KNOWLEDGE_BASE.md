@@ -461,36 +461,36 @@ Taint analysis traces how dangerous imports propagate through the codebase via t
   Path: alerter.py -> ssrf_guard.py
 - `async_client.py` imports `requests` (0 hop to `async_client.py`) [medium]
   Path: async_client.py
-- `async_client.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: async_client.py -> config.py
 - `async_client.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: async_client.py -> ssrf_guard.py
+- `async_client.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: async_client.py -> config.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: feeds.py -> ssrf_guard.py
+- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: feeds.py -> ssrf_guard.py
+- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: feeds.py -> ssrf_guard.py
+- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: feeds.py -> config.py
 - `intel_resolver.py` imports `requests` (0 hop to `intel_resolver.py`) [medium]
   Path: intel_resolver.py
-- `intel_resolver.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: intel_resolver.py -> config.py
-- `intel_resolver.py` imports `requests` (1 hop to `ontology.py`) [medium]
-  Path: intel_resolver.py -> ontology.py
 - `intel_resolver.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: intel_resolver.py -> ssrf_guard.py
+- `intel_resolver.py` imports `requests` (1 hop to `ontology.py`) [medium]
+  Path: intel_resolver.py -> ontology.py
+- `intel_resolver.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: intel_resolver.py -> config.py
 
 ---
 
@@ -625,7 +625,7 @@ Files sorted by how many other files would be affected if they changed. High-imp
 
 | File | Direct Dependents | Transitive Dependents | Total Impact |
 |------|------------------|----------------------|--------------|
-| `config.py` | 41 | 9 | 50 |
+| `config.py` | 41 | 12 | 53 |
 | `entity_extraction.py` | 13 | 33 | 46 |
 | `ids.py` | 6 | 30 | 36 |
 | `reliability_scoring.py` | 8 | 26 | 34 |
