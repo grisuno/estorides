@@ -1,0 +1,674 @@
+# Estorides — OSINT Platform
+
+## E.S.T.E.R.O.I.D.E.S. (acronym)
+
+- E — Entities (identification of entities, aliases, emails, IPs).
+- S — Signals (capture of digital footprints and metadata).
+- T — Targeted (focused on specific objectives).
+- E — Extraction (automated extraction from web sources).
+- R — Reconnaissance (recon and footprinting).
+- O — Open-source (the nature of the OSINT engine).
+- I — Intelligence (processing and correlation of data).
+- D — Data (massive ingestion of unstructured records).
+- E — Engine (the central engine that orchestrates queries).
+- S — Scraper (automated and persistent collection).
+
+From the creators of LazyOwn Redteam Framework comes a free and open-source 
+intelligence (OSINT) aggregator and correlation engine
+inspired by Palantir, Bellingcat, Maltego, and Citizen Lab workflows.
+A pure open-source re-imagining of the original `fucklantir` /
+`osint_palantir` toolchain, with a much bigger source catalogue, a
+proper knowledge graph, structured parsers, and a multi-backend LLM
+analyst.
+
+No payloads. No active scanning. Just 99+ free public OSINT sources,
+fanned out in parallel, fused into a single intelligence picture.
+
+```
+                       +--------------------------+
+   query "example.com" |  Estorides Orchestrator  |   -> STIX 2.1 bundle
+---------------------> |  - async fanout          |   -> MISP event JSON
+                       |  - 99+ free sources      |   -> GraphML for Gephi
+                       |  - structured parsers    |   -> JSONL for training
+                       |  - entity resolution     |
+                       |  - knowledge graph       |
+                       |  - ontology engine       |   <- OFAC SDN cross-check
+                       |  - MITRE ATT&CK mapper   |   <- technique auto-tagging
+                       |  - SSRF guard            |   <- blocklist at egress
+                       |  - audit log + RL        |   <- per-IP trail
+                       |  - multi-LLM analyst     |   <- BLUF / tactical / system
+                       +--------------------------+
+                                 |
+                                 v
+                          Web UI: map / graph / timeline / results
+```
+
+## Architecture highlights (state-level)
+
+Estorides is structured around small, single-responsibility registries
+so adding a new source, backend, inferer, or feed never requires
+touching the central orchestrator. The five plug-in surfaces are:
+
+| Surface | Decorator | File | Used for |
+| --- | --- | --- | --- |
+| Source parsers | `@register_parser("name")` | `estorides_core/parsers.py` | Translate raw HTTP into structured dicts |
+| LLM backends | `@register("name")` | `estorides_llm/manager.py` | Add an LLM provider (ollama, openai, …) |
+| Relationship inferers | `@register_inferer("source")` | `estorides_core/relationship_inference.py` | Source -> graph edges |
+| Real-time feeds | subclass `Feed` | `estorides_core/feeds.py` | Map layers (quakes, fires, news) |
+| Encrypted exporters | `estorides_export.encryption` | `estorides_export/encryption.py` | STIX/MISP + age encryption |
+
+## What you get that the original does not
+
+| Capability                              | Original    | Estorides |
+| --------------------------------------- | ----------- | --------- |
+| Number of free OSINT sources            | ~20         | **99**    |
+| Intelligence categories                 | 6           | **12**    |
+| HTTP fanout model                       | sequential  | **async** |
+| Retries + backoff + circuit breaker     | basic       | **yes**   |
+| Response cache (SQLite)                 | none        | **yes**   |
+| Per-source parsers                      | none        | **50+**   |
+| Entity extraction (IP, domain, CVE…)    | regex only  | **structured** + dedup |
+| Knowledge graph                         | none        | **NetworkX** + GraphML |
+| STIX 2.1 / MISP export                  | none        | **yes**   |
+| Multi-LLM (Ollama / OpenAI / Anthropic) | Ollama only | **4 backends** + stub |
+| Map (geolocation results)               | PyVista 3D  | **Leaflet 2D** |
+| Force-directed graph view               | none        | **D3.js** |
+| API key handling                        | none        | **per-source env vars** |
+| Paid source support                     | none        | **flag-based opt-in** |
+| OFAC SDN sanctions cross-check          | none        | **ontology engine** |
+| MITRE ATT&CK technique auto-tagging     | none        | **~40 techniques** |
+| SSRF / private-NW egress guard          | none        | **RFC1918 + cloud IMDS blocked** |
+| Audit log (per request, append-only)    | none        | **JSONL with IP+query+latency** |
+| Per-IP rate limit (sliding window)      | none        | **default 30/min, env-tunable** |
+| Encrypted export (age)                  | none        | **opt-in via `?key=age1…`** |
+| Real-time feed layers                   | none        | **earthquakes + fires + news** |
+| Encrypted export (age)                  | none        | **opt-in via `?key=age1…`** |
+
+## What v1.1 adds on top
+
+| Capability                              | v1.0        | v1.1 (this) |
+| --------------------------------------- | ----------- | ----------- |
+| Persistent graph (Cypher queries)       | NetworkX dump | **Kùzu embedded DB**, cross-run joins |
+| Run persistence                         | JSONL append | **SQLite cases** with FK observations/entities |
+| Cross-feed entity resolver              | none       | **Wikidata + OFAC + IP-API + NVD** via `intel_resolver` |
+| Fuzzy entity clustering                 | exact dedup | **`difflib` SequenceMatcher**, 0.85 threshold, aliases surfaced |
+| Extra OSINT endpoints (keyless)         | 99 YAML sources | **+7** (BGP, MAC, phone, GitHub, leaks, CISA KEV, malware C2) |
+| Read-only Cypher endpoint               | none       | **`/api/intel/graph?q=...`** with write-keyword guard |
+| Case history UI                         | none       | **Cases tab** + full-entity inspector |
+
+## What the data→information pipeline adds (v1.4)
+
+The original engine was a **data** collector: a fan-out, parsers, a graph, an
+LLM that summarises. The v1.4 sprint introduces the **information** layer:
+every observation now carries a *grounded* confidence score; the orchestrator
+and downstream consumers (hypothesis engine, change detection, LLM analyst)
+stop using their own ad-hoc heuristics and use this single source of truth.
+
+| Module | Spec | Status | What it does |
+| --- | --- | --- | --- |
+| `reliability_scoring` (2a) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-06-27 | NATO Admiralty (reliability A-F × credibility 1-6) × corroboration × freshness decay. Replaces `+0.1` heuristic and `MAX()` SQL. 45 BDD tests + 9 hypothesis properties. |
+| `source_hierarchy` (1) | [`spec/reliability_scoring.md`](spec/reliability_scoring.md) | closed 2026-07-10 | SourceType enum (PRIMARY/SECONDARY/TERTIARY), SOURCE_TYPE_MAP (42 curated sources), SOURCE_TYPE_WEIGHT. Extends confidence computation with source-type weight. 64 BDD tests + 12 properties. |
+| `source_health_monitoring` (2) | [`spec/source_health_monitoring.md`](spec/source_health_monitoring.md) | closed 2026-07-10 | Source health dashboard: compute_health() with success/latency/freshness weights, tiered stats. 37 BDD + 5 properties. |
+| `entity_resolution` (3) | [`spec/entity_resolution.md`](spec/entity_resolution.md) | closed 2026-07-10 | Proper spec + 48 BDD pytest tests for the existing entity_resolution. Transliteration, Jaro-Winkler, normalisation, canonical ids, cross-script fusion. |
+| `probabilistic_fusion` (4) | [`spec/probabilistic_fusion.md`](spec/probabilistic_fusion.md) | closed 2026-07-10 | Bayesian merge_confidence() replaces MAX() in FusionStore.fuse_entity and fuse_relationship. Source-weighted merging prevents tertiary inflation. 17 BDD tests. |
+| `paged_results` (5) | [`spec/paged_results.md`](spec/paged_results.md) | closed 2026-07-10 | Pagination module with three strategies (page, offset, cursor). PaginationConfig, build_page_params, extract_cursor, count_results. Integrated into orchestrator._execute_source. 31 BDD tests. |
+| `hypothesis_engine` (2b) | [`spec/hypothesis_engine.md`](spec/hypothesis_engine.md) | closed 2026-06-27 | Capa "data → information". 4 generadores tipados (domain-belongsto-actor, email-aliasto-person, ip-shared-infra, asn-shared-infra). Ids deterministas (sha1), audit trail con evidence items. 26 BDD tests + 9 hypothesis properties. |
+| `change_detection` (2c) | [`spec/change_detection.md`](spec/change_detection.md) | closed 2026-06-27 | Capa "temporal": diff entre dos `Snapshot` del mismo target. 8 kinds tipados (`new`/`disappeared`/`property_changed`/`source_added`/`source_removed`/`edge_added`/`edge_removed`/`confidence_shifted`), score reliability-weighted, ids deterministas (sha1), audit trail completo. Puro: sin I/O, sin logging del payload, acotado por `max_changes`. 30 BDD tests (S1-S15) + 8 hypothesis properties (1000 ejemplos c/u). |
+| `observation_models` (2n) | [`spec/observation_models.md`](spec/observation_models.md) | closed 2026-08-23 | Strict Pydantic v2 data contracts (`ObservationMeta`, `Observation`, `ObservedEntity`, `RunResult`) with `strict=True` + `extra="forbid"` and recursive JSON-safe validation. Bounds centralised in `SchemaConfig` (env-tunable). First module closed with **100% mutation coverage (79/79)**. 24 BDD tests + 4 hypothesis properties (1000 examples each). |
+
+The full development doctrine (SDD + TDD + BDD + boy-scout + visual review
++ fuzzing) lives in [`CLAUDE.md`](CLAUDE.md). Every module follows the
+same cycle: spec → red test → green code → refactor → validate → fuzz →
+document.
+
+### v1.1 architecture
+
+```
+                       +--------------------------+
+   query "example.com" |  Estorides Orchestrator  |   -> STIX 2.1 / MISP / GraphML / JSON
+---------------------> |  + async fanout          |
+                       |  + 99 free sources       |
+                       |  + 7 Osiris-style probes |
+                       |  + SSRF guard + audit     |
+                       |  + ontology engine       |
+                       |  + MITRE ATT&CK mapper   |
+                       |  + multi-LLM analyst     |
+                       |  + cross-feed resolver   |   <- Wikidata SPARQL + OFAC + IP-API + NVD
+                       |  + fuzzy entity cluster  |   <- difflib SequenceMatcher
+                       +-----------+--------------+
+                                   |
+                  +----------------+-----------------+--------------------+
+                  v                                  v                    v
+        +------------------+              +------------------+    +------------------+
+        | Kùzu graph DB    |              | SQLite case store|    | In-memory NX     |
+        | (Cypher queries) |              | (FK observations)|    | (per-run working)|
+        | 99 node labels   |              | search by entity |    | per-run edges    |
+        | 9 REL types      |              | search by query  |    |                  |
+        +------------------+              +------------------+    +------------------+
+                  ^                                  ^
+                  +---------/api/intel/resolve-------+
+                  +---------/api/cases/...-----------+
+```
+
+### v1.1 API additions
+
+| Endpoint                                       | Purpose |
+| ---------------------------------------------- | ------- |
+| `GET /api/cases?q=<substr>&type=<qtype>`       | List past runs. Searchable by query substring. |
+| `GET /api/cases/<id>?full=1`                   | Replay a case. `full=1` includes observations + entities. |
+| `DELETE /api/cases/<id>`                       | Drop a case. |
+| `GET /api/intel/resolve?type=<t>&id=<v>`       | Cross-feed resolution. `type` is one of `ip`, `domain`, `company`, `person`, `country`, `cve`, `btc_address`, `eth_address`. |
+| `GET /api/intel/graph?q=<cypher>`              | Read-only Cypher against the Kùzu graph. Mutations (`CREATE`/`MERGE`/`SET`/`DELETE`) are rejected. |
+| `GET /api/intel/stats`                         | One-glance dashboard: case count, Kùzu node/edge counts, resolver cache size. |
+| `GET /api/osiris/bgp?query=<ip\|ASxxxxx>`      | BGP / ASN lookup via `bgpview.io`. |
+| `GET /api/osiris/mac?mac=00:1A:...`            | MAC OUI vendor via `macvendors.co`. |
+| `GET /api/osiris/phone?number=+14155552671`    | Phone geolocation (NANP area code → lat/lng). |
+| `GET /api/osiris/github?user=torvalds`         | GitHub user + 5 most recent repos. |
+| `GET /api/osiris/leaks?email=...`              | XposedOrNot breach analytics (more detail than HIBP). |
+| `GET /api/osiris/cisa-kev?limit=10&days=30`    | CISA Known Exploited Vulnerabilities, recent window. |
+| `GET /api/osiris/malware?limit=200`            | Feodo Tracker + URLhaus active C2, geolocated. |
+
+## Fusion datastore — the cross-run fused fact base
+
+The case store keeps a *per-run silo*: each investigation writes its own
+copy of what it saw, keyed by `case_id`. The same entity seen across fifty
+runs becomes fifty rows, and the relational store cannot answer "everything
+we know about X, from every source, across every case".
+
+The **fusion datastore** (`estorides_core/fusion_store.py`) is the
+data-fusion layer that closes that gap — the relational analogue of the
+Kùzu graph. Every run feeds it, and it accumulates a normalised,
+deduplicated, **source-attributed** fact base across runs:
+
+- **Deterministic identity** — every entity gets `sha1(type:normalized)` as
+  its id, so the same real-world entity computed in two different runs lands
+  on the same row with no coordination. The resolver's `canonical_id` is
+  recorded alongside but never the dedup key.
+- **Provenance survives the merge** — when N feeds corroborate an entity,
+  the record is merged but every contributing source is retained, so
+  `source_count` grounds confidence in how many independent feeds agree
+  (e.g. `1.1.1.1` corroborated by 20 sources).
+- **Property fusion with conflict preserved** — each source's flat facts are
+  attributed to the target entity. Agreement is surfaced
+  (`country=Australia` by 2 sources); disagreement is **kept with its
+  provenance** (`region=New South Wales` vs `region=Queensland`) instead of
+  silently picking one — exactly what an intelligence fusion store must do.
+- **Relationships fused** — analytic edges from the knowledge graph (skip
+  the `observed_by`/`co_occurs` plumbing) accumulate cross-run, with both
+  endpoints always materialised so the graph is navigable from either side.
+
+It mirrors the rest of the persistence layer: WAL SQLite, one serialised
+connection, and **fail-soft** — without a writable data dir a run still
+returns, it just leaves nothing in the fused store. Toggle with
+`ESTORIDES_FUSION_ENABLED=0`; relocate with `ESTORIDES_FUSION_DB=/path`.
+
+### Fusion API + CLI
+
+| Endpoint                                              | Purpose |
+| ---------------------------------------------------- | ------- |
+| `GET /api/fusion/stats`                              | Size of the fused base: entities, multi-source count, observations, properties, relationships, by-type breakdown. |
+| `GET /api/fusion/sources`                            | YAML source catalogue with accumulated fetch/ok counters. |
+| `GET /api/fusion/entities?q=&type=&min_sources=2`    | Search fused entities. `min_sources=N` is the fusion-native "only what ≥N feeds corroborate" filter. |
+| `GET /api/fusion/entity/<id>?min_sources=2`          | Full fused view of one entity: provenance, properties, edges, and the corroborated (multi-source-agreed) properties. |
+
+The fused stats are also folded into `GET /api/intel/stats` under `fusion`.
+
+```bash
+python3 estorides_cli.py run 1.1.1.1            # fan out + fuse into the store
+python3 estorides_cli.py fusion stats           # how big is the fused base
+python3 estorides_cli.py fusion entities --min-sources 2   # only corroborated entities
+python3 estorides_cli.py fusion entity <id>     # full provenance + properties
+python3 estorides_cli.py fusion sources         # per-source fetch history
+```
+
+### v1.1 install
+
+```
+pip install -r requirements.txt
+```
+
+The only new required dep is `kuzu>=0.11`. The orchestrator falls
+back to in-memory NetworkX if Kùzu is not importable, but a persistent
+cross-run graph only happens with Kùzu present.
+
+## Quickstart
+
+### 1. Install (no extra packages needed; the project uses Flask + NetworkX + requests)
+
+```bash
+cd estorides
+python3 -m pip install flask networkx requests pyyaml
+```
+Optional, for a real LLM:
+
+```bash
+# pick one — local is preferred (async, no API cost)
+ollama serve && ollama pull deepseek-r1:1.5b   # fast local default
+ollama pull qwen3.8:27b                        # bigger, higher-quality (slower)
+export OPENAI_API_KEY=sk-...
+export ANTHROPIC_API_KEY=sk-ant-...
+export OPENROUTER_API_KEY=sk-or-...
+```
+
+Estorides auto-detects a fast local ollama model and waits generously for it
+(`LLM_REQUEST_TIMEOUT` default 600s, runs offloaded/async) — no more
+`[Stub LLM — no backends available]` when a local model is present. Force a
+specific model with `ESTORIDES_OLLAMA_MODEL` (e.g. `qwen3.8:27b`).
+
+### 2. CLI
+
+```bash
+# 99 sources, 12 categories
+python3 estorides_cli.py status
+
+# run a query (free sources only)
+python3 estorides_cli.py run 8.8.8.8
+
+# enable sources that need an API key
+python3 estorides_cli.py run user@example.com --include-paid
+
+# only a subset of sources
+python3 estorides_cli.py run example.com \
+    --only-sources crt_sh_certificates,shodan_internetdb,ipapi_free
+
+# export the latest run as STIX 2.1 or MISP
+python3 estorides_cli.py stix --out my_bundle.json
+python3 estorides_cli.py misp --out my_event.json
+```
+
+### 3. Web UI
+
+```bash
+python3 estorides_cli.py serve --port 5050
+# open http://127.0.0.1:5050
+```
+
+<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/fb65013a-6cd0-4486-a5c9-88d31a31ed2d" />
+
+
+<img width="1503" height="979" alt="image" src="https://github.com/user-attachments/assets/039fd29c-4973-4ba5-be44-7b5fe1024ba0" />
+
+
+<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/01ae4738-26ec-49bb-a925-55286e4fb50f" />
+
+UI features:
+
+- 2D map (Leaflet) of every geolocated result
+- D3.js force-directed knowledge graph (drag, zoom, hover)
+- Timeline of source acquisition
+- Source results panel with per-source parsed output
+- Filterable entity list
+- LLM analysis with backend / model badge
+- One-click export: STIX 2.1, MISP, GraphML, JSON
+
+### Graph intelligence (Maltego-style)
+
+The Graph canvas turns observations into an interactive intelligence
+workbench:
+
+- **Clusters** — nodes are grouped into communities (translucent hulls)
+  and coloured by cluster. **Inter-cluster links** are dashed/highlighted;
+  click one to see a **cross-reference tooltip** explaining how two
+  clusters relate (the bridge entities + relation).
+- **Click to enrich** — left-click a node to resolve it (cross-feed +
+  VirusTotal relationships) and merge the new nodes/links into both the
+  graph **and** the map. Each new node is itself clickable, so exploration
+  is recursive.
+- **Intelligence tiers** — every node carries an auto-computed level shown
+  as a coloured ring: `data` → `information` (≥2 corroborating sources) →
+  `intelligence` (cross-cluster / resolved) → `counter-intelligence`
+  (sanction / threat / VirusTotal-malicious). Override any node's level
+  from the right-click menu or the inspector (persists in the browser).
+- **Transforms** — right-click a node (or use the side **inspector**
+  panel) for transforms grouped by tier: data → information →
+  intelligence → counter-intelligence.
+
+### VirusTotal
+
+VirusTotal is integrated both as a source (`vt_ip`, `vt_domain`,
+`vt_file`) and as the relationship engine behind graph expansion
+(resolved domains/IPs, communicating/dropped files, contacted infra).
+It needs a free API key; without it VirusTotal stays inactive and the
+rest of the platform is unaffected:
+
+```bash
+export VT_API_KEY=...   # https://www.virustotal.com/gui/my-apikey
+```
+
+## 99 sources, 12 categories
+
+01. DNS Intelligence       (9)  - Google DoH, Cloudflare DoH, HackerTarget,
+                                 crt.sh, Cert Spotter, RDAP, DNS Dumpster, host search
+02. IP & Infrastructure    (13) - ip-api, ipinfo, ipapi.co, ipwho.is, Shodan InternetDB,
+                                 GreyNoise, ipwhois, Robtex, RDAP, AS lookup,
+                                 AbuseIPDB, MAC OUI, RIPE Stat, BGPView IP/ASN
+03. Web Intelligence       (10) - urlscan, Wayback CDX, Wayback availability,
+                                 HTTP headers, whois, geoip, traceroute, nping,
+                                 Microlink, Google cache
+04. Social Media           (13) - GitHub, Reddit, Mastodon, Keybase,
+                                 HackerNews, Telegram, Pinterest, WordPress,
+                                 Medium, DEV.to
+05. Threat Intelligence    (13) - ThreatFox, URLhaus, payloads, PhishTank,
+                                 OpenPhish, OTX (+passive domain/IP, no key),
+                                 MalwareBazaar, Feodo, SSLBL,
+                                 Emerging Threats, blocklist.de, CISA KEV
+06. Breach Intelligence    (6)  - HIBP breaches, HIBP pastes, Phonebook email,
+                                 Phonebook domain, DeHashed, IntelligenceX
+07. Geolocation            (5)  - Nominatim search + reverse, OpenWeather
+                                 geocoding, TimeZoneDB, Wikidata
+08. Knowledge              (12) - Wikipedia, summary, DuckDuckGo IA, OpenAlex,
+                                 Crossref, arXiv, GitHub advisories, NVD CVE,
+                                 cve.circl, ExploitDB, Reddit subreddit search
+09. Wireless               (5)  - WiGLE, IEEE OUI, OpenSky, MarineTraffic, N2YO
+10. Blockchain             (5)  - blockchain.info (balance + tx), Blockstream,
+                                 Ethplorer, mempool.space
+11. Paste & Leaks          (4)  - psbdmp, GitHub gist search, TGStat, LeakCheck
+12. Visual                 (4)  - ScreenshotMachine, Microlink, TinEye, EXIF
+20. System Tools (Kali)    (19) - local OSINT CLI tools as first-class sources
+                                 (`kind: system_app`): theHarvester, amass,
+                                 dnsrecon, dnsenum, fierce, sublist3r, dmitry,
+                                 urlcrazy, sherlock, maigret, holehe, usufy,
+                                 mailfy, phonefy, searchfy, metagoofil, whatweb,
+                                 wafw00f, phoneinfoga — executed through the
+                                 tool_runner sandbox and fused into the same
+                                 aggregation pipeline as HTTP sources.
+
+Sources are addons: one YAML file per source, organised into category
+subdirectories under `sources/` (lazyaddons-style). The loader recurses, so
+add a new source by dropping `sources/<NN_category>/<name>.yaml` — no central
+registry to edit. Grouped multi-document files still load if present. Point
+`ESTORIDES_SOURCES_DIR` at another tree to use your own addon set. The schema
+is documented at the top of `estorides_core/source_loader.py` and the
+system_app schema in `spec/system_app_sources.md`:
+
+```yaml
+# sources/20_system_tools/kali_sherlock.yaml — a Kali binary as a source
+name: kali_sherlock
+enabled: true
+category: 20. System Tools (Kali)
+kind: system_app          # local binary vs remote HTTP API
+os: linux                 # platform gate; "any" allowed
+contact: none             # none|broker|active — feeds the passive-only guarantee
+parser: sherlock_text
+entity_hints: [username, url]
+applies_to: [username]
+tool:
+  binary: sherlock        # must be in TOOL_ALLOWLIST and on the filesystem
+  args: ["{query}", "--print-found", "--no-color", "--timeout", "30"]
+  output_format: text     # json | text | lines
+  timeout: 300
+```
+
+```
+sources/
+  01_dns/
+    dns_google.yaml
+    crt_sh_certificates.yaml
+  02_ip_infra/
+    shodan_internetdb.yaml
+  ...
+```
+
+`tools/split_sources.py` migrates legacy grouped files into this layout.
+
+## Architecture
+
+```
+sources/                  one YAML per addon, grouped by category dir (126 addons)
+estorides_core/
+    config.py             every tunable (env-overridable)
+    source_loader.py      registry, validation, lookup
+    async_client.py       aiohttp + circuit breaker + SQLite cache
+    parsers.py            50+ structured parsers (ipapi, dns_json, crtsh…)
+    system_app_sources.py Kali CLI tools as sources (tool_runner sandbox + parsers)
+    observation_models.py Strict Pydantic v2 data contracts for observations/entities
+    entity_extraction.py  regex-based entity finder with dedup
+    knowledge_graph.py    NetworkX MultiDiGraph + GraphML export
+    orchestrator.py       glues everything, infers higher-level relations
+estorides_llm/
+    manager.py            multi-backend LLM (Ollama → OpenRouter → Anthropic → OpenAI → stub)
+estorides_export/
+    stix.py               STIX 2.1 bundle export
+    misp.py               MISP event JSON export
+estorides_cli.py          argparse CLI
+estorides_web.py          Flask app
+templates/index.html      UI
+static/{css,js}/estorides.*  UI styles + D3 controller
+```
+
+## Tips for a real run
+
+1. Start with the free-tier sources (default) — that is 80+ endpoints.
+2. Set `ESTORIDES_PARALLEL=16` for faster fanout.
+3. Set `ESTORIDES_TIMEOUT=20` if your network is slow.
+4. Disable paid sources you don't have keys for by setting
+   `ESTORIDES_DISABLE_BACKENDS=openai,anthropic` (or by leaving
+   `--include-paid` off in the CLI).
+5. The SQLite cache lives in `data/estorides_cache.sqlite` —
+   delete it to force fresh fetches.
+6. The LLM stage needs a **generative** model. Ollama auto-selects a fast
+   installed model (prefers `deepseek-r1:1.5b`; override with
+   `ESTORIDES_OLLAMA_MODEL`) and retries with a larger token budget if a
+   reasoning model burns its preamble and returns empty. An embedding-only
+   model (`*:e2b`) still returns no text and falls back to the stub.
+   `ollama pull llama3.1:8b` for a real analysis.
+
+### Missing CLI tools? Install from the GUI
+
+When a `system_app` source fails with `TOOL_NOT_FOUND`, the result card
+shows an **"Install tool"** button. Clicking it installs the binary via a
+lazyaddon-style recipe in `tool_recipes/` (apt primary, git/pip fallback)
+using **graphical `run0`** elevation — no terminal `sudo` password needed.
+Re-run the query afterwards to collect. `GET /api/tools/doctor` reports
+every Kali binary at once: installed/missing, recipe available, and which
+sources depend on it.
+
+### Performance knobs (bounds that keep a run from stalling)
+
+| Env var | Default | What it caps |
+|---|---|---|
+| `ESTORIDES_DEADLINE` via `--deadline` | 30s | hard wall-clock cap for the whole fanout |
+| `ESTORIDES_ENTITY_MAX_SCAN` | 120000 | chars scanned per response (huge crt.sh/wayback dumps) |
+| `ESTORIDES_ENTITY_MAX_PER_TYPE` | 750 | entities kept per type per source |
+| `ESTORIDES_KG_MAX_COOCCUR` | 30 | entities per source in the co-occurrence clique (O(n²) guard) |
+| `ESTORIDES_LLM_REQUEST_TIMEOUT` | 600s | per-call LLM HTTP timeout (local models can take minutes; runs offloaded/async) |
+
+## Passive recon & operator OPSEC (bug-bounty mode)
+
+For attack-surface scoping the two things that matter are: never let the
+target observe a probe attributable to your recon window, and never let a
+queried broker tie the lookups back to your real IP. Estorides enforces
+both at the engine level.
+
+### Contact classification
+
+Every source declares how its traffic reaches the target:
+
+| `contact` | Meaning | In `--passive-only`? |
+| --- | --- | --- |
+| `none` (default) | Only a third-party DB / resolver / CT log is hit; the target sees nothing | kept |
+| `broker` | A third party actively probes the target on your behalf (ping, traceroute, header fetch) | excluded |
+| `active` | The engine connects to the target's own infrastructure directly | excluded |
+
+An unknown/typo class is treated as `active`, so a passive-only run can
+never be silently widened. `--passive-only` is enforced even for an
+explicit `--only-sources` list. Sources that log your lookups also carry
+`logs_queries: true` (surfaced in `status`).
+
+```bash
+# scope a domain without ever touching its infrastructure
+python3 estorides_cli.py discover example.com --passive-only --out-json surface.json
+python3 estorides_cli.py run example.com --passive-only
+```
+
+### Egress anonymisation
+
+Route every outbound request through a proxy so brokers never see your
+real IP. SOCKS (Tor) needs `aiohttp_socks`; HTTP/HTTPS proxies work with
+stock aiohttp and a comma-separated pool rotates per request.
+
+```bash
+python3 estorides_cli.py run example.com --passive-only --tor
+python3 estorides_cli.py run example.com --proxy socks5://127.0.0.1:9050
+export ESTORIDES_HTTP_PROXY_POOL="http://p1:8080,http://p2:8080"
+```
+
+Fail-closed: if a SOCKS proxy is requested without `aiohttp_socks`
+installed, the client refuses to run rather than fall back to a
+deanonymising direct connection. When proxying, the SSRF guard's local
+DNS-resolution leg is skipped (`ESTORIDES_PROXY_REMOTE_DNS=1`, default) so
+your resolver never learns which targets you are investigating — the
+literal-host guard still runs and the exit node resolves the name.
+
+### Scope classification
+
+Turn a discovered surface into in/out-of-scope flat lists you can pipe
+into the active phase. Out-of-scope always wins, so an excluded asset is
+never targeted by accident.
+
+```bash
+python3 estorides_cli.py scope \
+    --assets surface.json \
+    --scope program_scope.txt \
+    --out scope_result.json \
+    --flat-dir ./scope_out
+# -> scope_out/in_scope_hosts.txt, in_scope_ips.txt, unknown.txt
+```
+
+Rules file grammar (one per line, `#` comments; a `## out-of-scope`
+divider separates the two lists):
+
+```
+*.example.com            wildcard host suffix (apex + subdomains)
+api.example.com          exact host
+192.0.2.0/24             CIDR (IPv4 or IPv6)
+re:^staging-[0-9]+\.ex   regex (prefix re:)
+
+## out-of-scope
+blog.example.com
+192.0.2.200/32
+```
+
+## Hard rules
+
+- This is a passive intelligence tool. It does not probe, exploit, or
+  interact with the target beyond what the public sources allow.
+- All API keys stay in environment variables; they are never written
+  to disk.
+- Respect the rate limits of the upstream services. The circuit
+  breaker will back off automatically when a host starts returning
+  errors.
+- Output is for legitimate OSINT, threat intelligence, journalism,
+  academic research, and defensive security work.
+
+## Security & operations
+
+| Concern | Control | Where |
+| --- | --- | --- |
+| Outbound to RFC1918 / loopback / cloud IMDS | SSRF guard runs on every URL before fetch (allowlist override via `ESTORIDES_ALLOWED_HOSTS`) | `estorides_core/ssrf_guard.py` |
+| Web DoS / scraping | Sliding-window per-IP rate limit (default 30/min; tune via `ESTORIDES_RATE_LIMIT`) | `estorides_core/audit.py` |
+| Compliance trail | Append-only JSONL audit log of every API call (timestamp, IP, query, sources, status, latency) at `data/audit.jsonl` | `estorides_core/audit.py` |
+| Adversarial input | `validate_query()` rejects empty, oversize, control-char, bidi-override, and unsupported-type queries; bidi is rejected outright rather than silently stripped | `estorides_core/validation.py` |
+| API key leakage | Keys read from env at call time, never logged, never written to disk | `estorides_core/orchestrator.py` (`_resolve_auth`) |
+| Encrypted report delivery | `age` (https://age-encryption.org) opt-in via `?key=age1…` on the export endpoint; graceful fallback to plaintext when `age` is missing | `estorides_export/encryption.py` |
+| Trusting X-Forwarded-For | Only honoured when `ESTORIDES_TRUST_PROXY=1` is set explicitly | `estorides_web.py` |
+| Target observing a recon probe | Per-source `contact` class; `--passive-only` (or `ESTORIDES_PASSIVE_ONLY=1`) keeps only `none` | `estorides_core/source_loader.py`, `orchestrator._select_sources` |
+| Broker tying lookups to operator IP | Egress proxy/Tor (`--proxy`/`--tor`, `ESTORIDES_HTTP_PROXY[_POOL]`); fail-closed on missing SOCKS lib | `estorides_core/async_client.py` |
+| DNS leak of investigated targets | Local resolution skipped when proxying (`ESTORIDES_PROXY_REMOTE_DNS=1`, default); literal-host guard still runs | `estorides_core/async_client.py` |
+
+## Intelligence features
+
+### Ontology engine — OFAC SDN cross-check
+
+`estorides_core/ontology.py` loads the OpenSanctions OFAC SDN list
+(CC-BY 4.0) once, indexes it by normalised name + alias, and stamps
+every observation with `{sanctioned, hits, fields}`. The LLM analyst
+stage then writes a "SANCTIONED — OFAC SDN match on …" line into the
+brief so sanctions exposure is impossible to miss in the report.
+
+Index characteristics:
+
+- ~7 MB, low-tens-of-thousands of entries
+- 24h lazy refresh
+- Single-flight: concurrent first-loads share one fetch
+- Best-effort disk cache at `data/ontology_sdn.json`
+- Stale-on-error: keeps the previous snapshot if a refresh fails
+
+### MITRE ATT&CK auto-tagging
+
+`estorides_core/mitre_attack.py` maps every observation to the
+ATT&CK techniques it might support, by both source-keyed table
+(40+ techniques across the threat-intel, breach, and web sources)
+and keyword scan (catches malware families: mimikatz, cobalt
+strike, lockbit, …). Aggregated techniques are exposed at the top
+of the orchestrator result as `result.mitre.techniques`.
+
+### Real-time feeds
+
+`estorides_core/feeds.py` ships three keyless feeds that the map
+UI can layer on top of OSINT results:
+
+| Feed | Source | Refresh | Notes |
+| --- | --- | --- | --- |
+| Earthquakes | USGS M2.5+ GeoJSON | 10 min | Always on |
+| Fires | NASA FIRMS VIIRS_NOAA20_NRT CSV | 30 min | Requires `ESTORIDES_FIRMS_KEY` |
+| News | GDELT 2.0 article list | 15 min | Coords unavailable; surfaces at (0,0) |
+
+Endpoint: `GET /api/feeds?bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
+
+### LLM prompt flavours
+
+`estorides_llm/intelligence_prompts.py` ships three prompt styles:
+
+- `system` — the default Palantir-grade analyst with BLUF + confidence-graded findings.
+- `bluf` — single-paragraph BLUF only, for time-critical briefs.
+- `tactical` — adds THREAT PICTURE + COA-1/2/3 + IMMEDIATE ACTION.
+
+Backend priority is configurable: `ESTORIDES_BACKEND_PRIORITY=openai,ollama`
+or via the `LLMManager` constructor.
+
+## Tests
+
+```bash
+# All tests (pytest: BDD + ATDD + property-based fuzzing)
+pytest -q
+
+# Individual suites
+pytest tests/test_security_remediation.py   # SSRF, redirects, exception exposure
+pytest tests/test_parsers.py                # parser totality contract
+pytest tests/properties                     # hypothesis fuzzing (1000 ex/property)
+python3 _multi_test.sh                      # end-to-end: query types through the orchestrator
+```
+
+`pytest` is the single gate (also run by CI with `ruff`, `mypy --strict` and
+`bandit`). The old root-level `_validate.py` runner and its `_test_*.py`
+scripts were ported into `tests/` so every check runs under pytest/CI.
+
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
+
+<!-- readmenator-kb-link -->
+## Knowledge Base
+
+This project has been analyzed by [ReadMenator](https://github.com/grisuno/ReadMenator),
+a zero-token polyglot static analysis tool. Analysis outputs are available:
+
+- **[KNOWLEDGE_BASE.md](./KNOWLEDGE_BASE.md)** -- Full architecture reference with all
+  classes, functions, imports, dependency graphs, UML class diagrams, security
+  audit findings, community analysis, and more.
+- **[readmenator-agent/](./readmenator-agent/)** -- Agent-friendly, grep-optimized index.
+  - `INDEX.md` -- Quick reference: what each file does
+  - `API.md` -- Public function contracts
+  - `GOTCHAS.md` -- Change warnings
+  - `SECURITY.md` -- Findings by severity
+- **[readmenator-wiki/](./readmenator-wiki/)** -- Navigable wiki (start here for the big picture).
+  - `index.md` -- Entry point: overview, reading order, god nodes, connections
+  - `community_*.md` -- One synthesis page per code community
+  - `REPORT.md` -- Honest audit: coverage, confidence, limits
+
+AI agents: Read `readmenator-wiki/index.md` first for the big picture, then `readmenator-agent/INDEX.md` for grep-friendly lookup.
+Developers: Read `KNOWLEDGE_BASE.md` for full architecture reference.
+<!-- /readmenator-kb-link -->
+

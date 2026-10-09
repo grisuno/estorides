@@ -1107,6 +1107,12 @@
       }
       (data.edges || []).forEach((e) => pushLink(e.source, e.target, e.relation, e.inter_cluster));
       (extraLinks || []).forEach((e) => pushLink(e.source, e.target, e.relation));
+      // graph_force3d: publicar el merged como fuente de verdad para que el
+      // motor 3D (y los filtros) vean las expansiones del resolver/transforms.
+      window._graphData = {
+        nodes: mergedNodes, edges: mergedLinks,
+        clusters: data.clusters || deriveClusters(mergedNodes),
+      };
       renderGraphCore(mergedNodes, mergedLinks, data.clusters || deriveClusters(mergedNodes));
     });
   }
@@ -1598,6 +1604,16 @@
       .catch(() => { const box = $('#insp-transforms'); if (box) box.innerHTML = '<div class="insp-empty">unavailable</div>'; });
   }
   window.selectNode = selectNode;
+  // Bridge for the force-graph module (graph_force3d): static/js/graph_force.js
+  // runs in its own IIFE and reuses these renderer-agnostic helpers so the
+  // 3D view keeps expand/transform/inspector behaviour identical to 2D.
+  window.EstoridesGraph = {
+    selectNode, expandNode, showContextMenu, showNodeTooltip,
+    hideTooltip, hideContextMenu, showBridgeTooltip, focusNode,
+    resolverTypeFor, safeColor, clusterColor, colorForKind, levelOf,
+    LEVEL_COLORS, escapeHTML, setVisible, analyseEntity, deriveClusters,
+    redraw2D: function (n, e, c) { renderGraphCore(n, e, c); },
+  };
 
   // ---- unified force-graph renderer (clusters + rings + interactions) ----
   function renderGraphCore(nodes, edges, clusters) {

@@ -259,36 +259,23 @@ escribir algo durante la sesión: `.scratchpad/`.
 | 2026-09-29 | security_remediation (round 5 — CodeQL #47/#48/#49/#52/#38 closer) | spec/security_remediation.md (S25-S26) | tests/test_security_remediation.py (+2), tests/test_tool_install.py (+2) | #47: raw http channels refused outright, only env-backed named channels reach Request. #48/#49/#52: recipe allowlist gate (unknown names return before path build) + separator checks. #38: renderMarkdownInto node-only, 0 innerHTML=renderMarkdown sinks. 68 verdes scoped, ruff/bandit limpios, mypy sin nuevos, node --check OK. |
 
 | 2026-09-30 | security_remediation (round 6 — CodeQL #48/#49/#52/#38 root fix) | spec/security_remediation.md (S27-S28) | tests/test_security_remediation.py (+1), tests/test_tool_install.py (unchanged) | #48/#49/#52: _recipe_table dict-lookup — el Path sale de glob, cero f-string joins con input. #38: sanitizeDoc in-place + parse unico, sanitizeHTML/renderMarkdown string borrados, 0 innerHTML round-trips. 69 verdes scoped, ruff/bandit limpios, mypy pre-existente, node --check OK. |
+| 2026-09-30 | security_remediation (round 7 — CodeQL #38 DOMPurify) | spec/security_remediation.md (S29) | tests/test_security_remediation.py (TestTooltipSinkHardening x4) | Vendored DOMPurify 3.2.4 (static/js/vendor), purifyHTML+setSanitizedHTML via DOMPurify.sanitize, 0 parseFromString/0 innerHTML-reads en codigo propio, fallback textContent fail-closed. 70 verdes scoped, node --check OK, index 200. |
+| 2026-10-04 | `transforms` (Maltego pivot S1-S8 + YAML catalog) | `spec/transforms.md` (new, with full catalog table) | `tests/test_transforms.py` (8 BDD) | Pivoting without re-scan: rich metadata (`input_types/output_types/cost`), 14 YAML pivots in `transforms/` (`resolver/osiris_*/static` engines, fail-soft, 26+14=40), `GET /api/transform/stream` SSE + `iter_sse_events`, frontend `_graphBatches`/`undoGraph`/`Ctrl+Z` + `runTransformStream` (shift+click), validation (`tid` regex, type<=64, value<=512, fail-closed). 8 green, ruff clean, mypy 0 on module (4 pre-existing closed), bandit 0 H/M. Fixed `{query}` substitution in nested static `properties` (S8). Env-pending: properties (1000 ex.) + mutmut. |
+| 2026-10-09 | `graph_force3d` (port ReadMenator graph-force.html + AI context) | `spec/graph_force3d.md` (new) | `tests/test_graph_force3d.py` (6 BDD S1-S6) | Port del sistema de grafos ReadMenator: 2D D3 intacto + botón **3D** (vendor `force-graph.min.js` v1.52.0 offline + `3d-force-graph` CDN on-demand fail-soft), search, pills por kind, leyenda comunidades clicable, layouts Force/Clusters/Tiers/Tree, Names/Hulls/Flow/Freeze/Fit, reach 1-3 + isolate, HUD, PNG/JSON, shortcuts, deep-links `#node=`. `estorides_core/graph_force.py` puro (payload RAW + `force_settings()` + `build_ai_context()` con budget para IA local, sin LLM). `/api/graph` sirve `force`+`settings` fail-soft, sin rutas nuevas. Interacciones preservadas en 3D vía `window.EstoridesGraph`; expansiones publican en `window._graphData`. CSP intacta (cero inline styles, tooltips DOMPurify). Visual review selenium (`.scratchpad/gf_*.png`). Boy-scout: `{{ s.keys }}`→`{{ s['keys'] }}`. 6 verdes, ruff/mypy-strict/bandit limpios; suite 954 + 2 pre-existentes orden-dependientes (idénticos con stash). Seguimiento: `graph_rag_search` (BM25+PPR+map-reduce). |
 
 <!-- readmenator-agent-kb-link -->
 ## Project Knowledge Base (MUST read before coding)
 
-MUST read `readmenator-agent/MANIFEST.json` first for freshness. NEVER `glob src/**` before `grep` in `readmenator-agent/INDEX.md`.
+Generated offline by [ReadMenator](https://github.com/grisuno/ReadMenator) (zero-token static analysis). Humans: `KNOWLEDGE_BASE.md`.
 
-Orient first: `ls *.md readmenator-agent/ readmenator-wiki/` (docs only, ignore build noise). Then follow the workflow below.
+0. Memory: `cat readmenator-agent/MEMORY.md` (business rules, workflow, constraints, style, done criteria, session log). Record new decisions with `readmenator . remember "<note>" --kind decision`.
+1. Freshness: `readmenator . fresh` (exit 1 means stale: run `readmenator . --rebuild`). Without the CLI, compare `git_commit` in `readmenator-agent/MANIFEST.json` with `git log -1`.
+2. Orient: `ls *.md readmenator-agent/ readmenator-wiki/`, then read `readmenator-wiki/index.md` (big picture, communities, god nodes).
+3. Locate: `grep -n '<keyword>' readmenator-agent/INDEX*.md readmenator-agent/SYMBOLS*.md` before any `glob` over sources; for questions use `readmenator . ask "<question>"` (GraphRAG, `--global` for overviews).
+4. Context: `cat readmenator-agent/KB_<subsystem>.md` for the subsystem you touch.
+5. Before editing: `grep -n '<file>' readmenator-agent/GOTCHAS.md readmenator-agent/SECURITY.md` (blast radius, cycles, findings).
 
-Workflow: 1) `grep -n '<keyword>' readmenator-agent/INDEX.md readmenator-agent/SYMBOLS.md` 2) `cat readmenator-agent/KB_<subsystem>.md` 3) check `readmenator-agent/GOTCHAS.md` before editing.
-
-This project contains analysis outputs generated by [ReadMenator](https://github.com/grisuno/ReadMenator), a zero-token polyglot static analysis tool.
-
-**For humans:** Read `KNOWLEDGE_BASE.md` -- full architecture reference.
-
-**For agents:** Read `readmenator-agent/INDEX.md` -- grep-friendly index.
-  - `readmenator-agent/MANIFEST.json` -- freshness + entrypoints (start here)
-  - `readmenator-agent/INDEX.md` -- file -> purpose map
-  - `readmenator-agent/SYMBOLS.md` -- symbol index (grep-friendly)
-  - `readmenator-agent/API.md` -- public functions + contracts
-  - `readmenator-agent/GOTCHAS.md` -- "don't change X because Y breaks"
-  - `readmenator-agent/KB_<subsystem>.md` -- per-subsystem context (grep-friendly)
-  - `readmenator-agent/SECURITY.md` -- findings by severity
-  - `readmenator-agent/recipes/*.md` -- actionable task blocks
-**For agents (big picture first):** Read `readmenator-wiki/index.md` --
-  overview, reading order, god nodes, connections. Then use the files above.
-
-If MANIFEST date/commit is stale vs `git HEAD`, regenerate:
+Also: `API*.md` (public functions, one line each), `ARCHITECTURE*.md` (dependency pairs), `recipes/*.md` (grounded task steps). Large docs are paged as `NAME_p2.md`, so always grep with `NAME*.md`.
 
     pip install readmenator && readmenator . --rebuild
 <!-- /readmenator-agent-kb-link -->
-
-| 2026-09-30 | security_remediation (round 7 — CodeQL #38 DOMPurify) | spec/security_remediation.md (S29) | tests/test_security_remediation.py (TestTooltipSinkHardening x4) | Vendored DOMPurify 3.2.4 (static/js/vendor), purifyHTML+setSanitizedHTML via DOMPurify.sanitize, 0 parseFromString/0 innerHTML-reads en codigo propio, fallback textContent fail-closed. 70 verdes scoped, node --check OK, index 200. |
-| 2026-10-04 | `transforms` (Maltego pivot S1-S8 + YAML catalog) | `spec/transforms.md` (new, with full catalog table) | `tests/test_transforms.py` (8 BDD) | Pivoting without re-scan: rich metadata (`input_types/output_types/cost`), 14 YAML pivots in `transforms/` (`resolver/osiris_*/static` engines, fail-soft, 26+14=40), `GET /api/transform/stream` SSE + `iter_sse_events`, frontend `_graphBatches`/`undoGraph`/`Ctrl+Z` + `runTransformStream` (shift+click), validation (`tid` regex, type<=64, value<=512, fail-closed). 8 green, ruff clean, mypy 0 on module (4 pre-existing closed), bandit 0 H/M. Fixed `{query}` substitution in nested static `properties` (S8). Env-pending: properties (1000 ex.) + mutmut. |

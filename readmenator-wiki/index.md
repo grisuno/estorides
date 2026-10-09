@@ -11,7 +11,7 @@ The codebase centres on `config.py`, `estorides_web.py`, `orchestrator.py`. Arch
 
 Surprising tissue lives between estorides_core: estorides_web, estorides_core: parsers, estorides_core: config: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
-Open work clusters around documentation (90% file coverage), 0 security findings, 20 taint paths, and 5 suggested exploration questions in `queries.md`.
+Open work clusters around documentation (91% file coverage), 0 security findings, 20 taint paths, and 5 suggested exploration questions in `queries.md`.
 
 ## Stats
 
@@ -24,7 +24,7 @@ Open work clusters around documentation (90% file coverage), 0 security findings
 | Communities | 11 |
 | Doc coverage | 90% (142/157 files) |
 | Security findings | 0 |
-| Estimated read cost | ~61704 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~62869 tokens (chars/4, offline so $0) |
 
 ## Reading Order
 

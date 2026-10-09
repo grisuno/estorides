@@ -198,6 +198,7 @@
 - `tests/test_event_bus.py` -> `estorides_core/event_bus.py`
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_analytics.py`
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_store.py`
+- `tests/test_graph_force3d.py` -> `estorides_core/graph_force.py`
 - `tests/test_hardening.py` -> `estorides_core/cases.py`
 - `tests/test_hardening.py` -> `estorides_core/web_security.py`
 - `tests/test_hardening.py` -> `estorides_export/report.py`

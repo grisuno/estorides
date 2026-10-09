@@ -33,6 +33,7 @@ Editing these files can break the listed number of dependents. Run their tests a
 ## Hotspots (complexity + centrality)
 
 - `static/js/estorides.js` -- complexity: 1.0, centrality: 1.0, combined: 1.0
+- `static/js/graph_force.js` -- complexity: 0.4, centrality: 0.3, combined: 0.4
 - `estorides_web.py` -- complexity: 0.6, centrality: 0.1, combined: 0.3
 - `estorides_core/parsers.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `static/js/source_manager.js` -- complexity: 0.1, centrality: 0.1, combined: 0.1

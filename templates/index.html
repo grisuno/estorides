@@ -89,7 +89,7 @@
                             <span class="example-chip">CVE-2021-44228</span>
                             <span class="example-chip">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
                         </div>
-                        <div class="shortcuts">{% for s in telemetry.shortcuts[:4] %}<kbd>{{ s.keys }}</kbd>{% if not loop.last %} · {% endif %}{% endfor %} · press <kbd>?</kbd> for all shortcuts</div>
+                        <div class="shortcuts">{% for s in telemetry.shortcuts[:4] %}<kbd>{{ s['keys'] }}</kbd>{% if not loop.last %} · {% endif %}{% endfor %} · press <kbd>?</kbd> for all shortcuts</div>
                     </div>
                     <div id="results-list" class="results-list"></div>
                 </section>
@@ -206,6 +206,44 @@
             <div class="canvas-body">
                 <div id="map" class="map-canvas active"></div>
                 <div id="graph-canvas" class="graph-canvas">
+                    <div class="gf-toolbar" id="gf-toolbar" hidden>
+                        <div class="gf-searchbox">
+                            <input id="gf-search" type="search" autocomplete="off" placeholder="Find entity, type, community ( / )" aria-label="Find nodes" aria-controls="gf-results" />
+                            <div class="gf-results" id="gf-results" role="listbox"></div>
+                        </div>
+                        <div class="gf-seg" role="group" aria-label="Engine">
+                            <button type="button" data-engine="2d" aria-pressed="true" title="2D view">2D</button>
+                            <button type="button" data-engine="3d" aria-pressed="false" title="3D view (loads the 3D engine from CDN on first use)">3D</button>
+                        </div>
+                        <div class="gf-seg" role="group" aria-label="Layout">
+                            <button type="button" data-layout="force" data-req="3d" aria-pressed="true" title="Force-directed layout ( 1 )">Force</button>
+                            <button type="button" data-layout="cluster" data-req="3d" aria-pressed="false" title="Pull entities toward their community ( 2 )">Clusters</button>
+                            <button type="button" data-layout="radial" data-req="3d" aria-pressed="false" title="Concentric rings by intel tier ( 3 )">Tiers</button>
+                            <button type="button" data-layout="dag" data-req="3d" aria-pressed="false" title="Top-down dependency levels ( 4 )">Tree</button>
+                        </div>
+                        <div class="gf-group">
+                            <button type="button" id="gf-names" data-req="3d" aria-pressed="true" title="Toggle node names ( L )">Names</button>
+                            <button type="button" id="gf-hulls" data-req="3d" aria-pressed="true" title="Toggle community hulls ( H )">Hulls</button>
+                            <button type="button" id="gf-flow" data-req="3d" aria-pressed="true" title="Toggle particles on highlighted edges">Flow</button>
+                            <button type="button" id="gf-freeze" data-req="3d" aria-pressed="false" title="Freeze or resume physics ( Space )">Freeze</button>
+                            <button type="button" id="gf-fit" data-req="3d" title="Fit graph to view ( F )">Fit</button>
+                            <button type="button" id="gf-png" data-req="3d" title="Export PNG snapshot">PNG</button>
+                            <button type="button" id="gf-json" title="Export graph JSON">JSON</button>
+                        </div>
+                        <div class="gf-seg" role="group" aria-label="Reach">
+                            <button type="button" data-depth="1" data-req="3d" aria-pressed="true" title="Highlight 1-hop neighbourhood">1</button>
+                            <button type="button" data-depth="2" data-req="3d" aria-pressed="false" title="Highlight 2-hop neighbourhood">2</button>
+                            <button type="button" data-depth="3" data-req="3d" aria-pressed="false" title="Highlight 3-hop neighbourhood">3</button>
+                        </div>
+                        <div class="gf-group">
+                            <button type="button" id="gf-isolate" data-req="3d" aria-pressed="false" title="Show only the highlighted neighbourhood ( I )">Isolate</button>
+                        </div>
+                    </div>
+                    <div id="gf-stage" hidden></div>
+                    <div class="gf-overlay" id="gf-hud" hidden></div>
+                    <div class="gf-overlay" id="gf-legend" hidden><h3><span>Show</span></h3><div class="gf-pills" id="gf-pills"></div><h3><span>Communities</span><span id="gf-legend-hint">click to focus</span></h3><div id="gf-families"></div></div>
+                    <div class="gf-overlay" id="gf-toast" role="status" hidden></div>
+                    <div id="gf-engine-error" role="alert" hidden></div>
                     <div id="graph-legend" class="graph-legend">
                         <div class="legend-title">Intel tiers</div>
                         <div class="legend-item"><span class="lvl-dot lvl-data"></span>data</div>
@@ -269,7 +307,7 @@
         <div class="kbd-card">
             <h3>Keyboard shortcuts</h3>
             <dl>
-                {% for s in telemetry.shortcuts %}<dt>{{ s.keys }}</dt><dd>{{ s.description }}</dd>
+                {% for s in telemetry.shortcuts %}<dt>{{ s['keys'] }}</dt><dd>{{ s.description }}</dd>
                 {% endfor %}
             </dl>
             <div class="onboarding-actions kbd-actions">
@@ -282,6 +320,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <script src="/static/js/vendor/purify.min.js"></script>
     <script src="/static/js/estorides.js"></script>
+    <script src="/static/js/vendor/force-graph.min.js" defer></script>
+    <script src="/static/js/graph_force.js" defer></script>
 
     <div id="no-model-modal" class="modal-overlay" hidden>
         <div class="modal-card">

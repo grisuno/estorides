@@ -1,6 +1,6 @@
 # Polyglot Codebase Knowledge Graph
 
-> Generated offline by **readmenator**. 157 files, 2745 symbols, 1127 imports. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM, Ruby, Swift, Kotlin, Scala, Lua, Elixir.
+> Generated offline by **readmenator**. 160 files, 2835 symbols, 1135 imports. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM, Ruby, Swift, Kotlin, Scala, Lua, Elixir.
 > No LLMs. No tokens. Pure static analysis. See more [here](https://github.com/grisuno/ReadMenator)
 
 **Start here:** Statistics Dashboard for scope, God Nodes for blast radius, Architecture Reference for per-file API. Agents: prefer `readmenator-agent/INDEX.md` + `SYMBOLS.md`.
@@ -47,10 +47,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Files | 157 |
-| Total Symbols | 2745 |
-| Total Imports | 1127 |
-| Call Edges | 13410 |
+| Total Files | 160 |
+| Total Symbols | 2835 |
+| Total Imports | 1135 |
+| Call Edges | 14087 |
 | Inheritance Edges | 53 |
 | Languages | 3 |
 | Avg Symbols/File | 17.5 |
@@ -61,7 +61,7 @@
 
 | File | Imports | Symbols | Language |
 |------|---------|---------|----------|
-| `estorides_web.py` | 53 | 94 | py |
+| `estorides_web.py` | 54 | 94 | py |
 | `test_security_remediation.py` | 43 | 67 | py |
 | `estorides_cli.py` | 41 | 31 | py |
 | `orchestrator.py` | 32 | 18 | py |
@@ -104,7 +104,7 @@ Auto-detected from path patterns, naming conventions, and imported frameworks.
 - `test_target_management_properties.py` (py, 10 symbols)
 - `test_tool_runner_properties.py` (py, 3 symbols)
 - `test_active_recon.py` (py, 24 symbols)
-- *... and 63 more*
+- *... and 64 more*
 
 ### utility
 
@@ -480,11 +480,100 @@ Files ranked by combined complexity (symbol count) and centrality (connection co
 | `sync_docs.py` | 0.012 | 0.004 | 0.007 | 2 | 7 |
 | `test_csp_safe_styles_properties.py` | 0.018 | 0.004 | 0.010 | 3 | 7 |
 | `case_crypto.py` | 0.024 | 0.005 | 0.013 | 4 | 8 |
-| `estorides.js` | 1.000 | 1.000 | 1.000 | 165 | 1555 |
-| `estorides_web.py` | 0.570 | 0.063 | 0.266 | 94 | 98 |
+| `estorides.js` | 1.000 | 1.000 | 1.000 | 165 | 1559 |
+| `graph_force.js` | 0.418 | 0.309 | 0.353 | 69 | 482 |
+| `estorides_web.py` | 0.570 | 0.064 | 0.266 | 94 | 100 |
 | `test_target_management.py` | 0.521 | 0.003 | 0.210 | 86 | 4 |
 | `test_socmint.py` | 0.436 | 0.011 | 0.181 | 72 | 17 |
-| `test_reliability_scoring.py` | 0.424 | 0.004 | 0.172 | 70 | 6 |
+
+---
+
+## Concept Graph
+
+Semantic second-brain layer: nouns are concept nodes, verbs are edges. Each noun maps atomically to a file set (EXTRACTED); each verb aggregates structural imports, calls, and inherits into consumes, invokes, extends, depends_on, or bridges (INFERRED).
+
+**50 concepts, 100 relations.**
+
+| Concept | Files | Mentions |
+|---------|-------|----------|
+| `estorides` | 115 | 236 |
+| `not` | 66 | 139 |
+| `when` | 66 | 135 |
+| `run` | 65 | 180 |
+| `source` | 64 | 336 |
+| `returns` | 63 | 188 |
+| `list` | 55 | 145 |
+| `single` | 50 | 89 |
+| `bdd` | 50 | 57 |
+| `dict` | 49 | 141 |
+| `one` | 49 | 136 |
+| `empty` | 49 | 109 |
+| `never` | 47 | 109 |
+| `every` | 47 | 97 |
+| `only` | 47 | 87 |
+| `sources` | 46 | 140 |
+| `none` | 45 | 95 |
+| `value` | 43 | 105 |
+| `entity` | 42 | 235 |
+| `return` | 41 | 118 |
+| `given` | 40 | 118 |
+| `same` | 40 | 96 |
+| `each` | 40 | 59 |
+| `module` | 40 | 47 |
+| `name` | 39 | 128 |
+| `type` | 39 | 128 |
+| `result` | 39 | 101 |
+| `error` | 39 | 95 |
+| `can` | 39 | 71 |
+| `all` | 39 | 68 |
+
+### Verb Edges
+
+| Source | Verb | Target | Strength | Evidence |
+|--------|------|--------|----------|----------|
+| `run` | `depends_on` | `estorides` | 1.00 | 10 |
+| `returns` | `depends_on` | `estorides` | 0.95 | 10 |
+| `not` | `depends_on` | `estorides` | 0.92 | 10 |
+| `when` | `depends_on` | `estorides` | 0.92 | 10 |
+| `list` | `depends_on` | `estorides` | 0.83 | 10 |
+| `sources` | `depends_on` | `estorides` | 0.82 | 10 |
+| `estorides` | `depends_on` | `not` | 0.81 | 10 |
+| `estorides` | `depends_on` | `single` | 0.81 | 10 |
+| `estorides` | `depends_on` | `source` | 0.80 | 10 |
+| `one` | `depends_on` | `estorides` | 0.78 | 10 |
+| `only` | `depends_on` | `estorides` | 0.77 | 10 |
+| `source` | `depends_on` | `estorides` | 0.77 | 10 |
+| `estorides` | `depends_on` | `can` | 0.76 | 10 |
+| `entity` | `depends_on` | `estorides` | 0.75 | 10 |
+| `estorides` | `depends_on` | `list` | 0.75 | 10 |
+| `estorides` | `depends_on` | `one` | 0.74 | 10 |
+| `estorides` | `depends_on` | `every` | 0.73 | 10 |
+| `estorides` | `depends_on` | `returns` | 0.73 | 10 |
+| `estorides` | `depends_on` | `entity` | 0.72 | 10 |
+| `none` | `depends_on` | `estorides` | 0.71 | 10 |
+| `estorides` | `depends_on` | `return` | 0.70 | 10 |
+| `estorides` | `depends_on` | `when` | 0.70 | 10 |
+| `run` | `depends_on` | `single` | 0.70 | 10 |
+| `run` | `depends_on` | `not` | 0.69 | 10 |
+| `run` | `depends_on` | `source` | 0.69 | 10 |
+| `type` | `depends_on` | `estorides` | 0.69 | 10 |
+| `estorides` | `depends_on` | `only` | 0.67 | 10 |
+| `estorides` | `depends_on` | `same` | 0.67 | 10 |
+| `every` | `depends_on` | `estorides` | 0.67 | 10 |
+| `estorides` | `depends_on` | `never` | 0.66 | 10 |
+
+### Dialectic Prompts
+
+- Thesis: `all` centralizes 39 files; Antithesis: `every` pulls 47 files with 20 shared (Jaccard 0.30); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `list` pulls 55 files with 24 shared (Jaccard 0.34); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `none` pulls 45 files with 24 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `not` pulls 66 files with 25 shared (Jaccard 0.31); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `only` pulls 47 files with 21 shared (Jaccard 0.32); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `return` pulls 41 files with 19 shared (Jaccard 0.31); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `returns` pulls 63 files with 25 shared (Jaccard 0.32); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `source` pulls 64 files with 25 shared (Jaccard 0.32); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `sources` pulls 46 files with 22 shared (Jaccard 0.35); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 39 files; Antithesis: `value` pulls 43 files with 19 shared (Jaccard 0.30); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
 
 ---
 
@@ -644,8 +733,8 @@ Automatically suggested linting and security rules based on patterns detected in
 
 | Rule ID | Severity | Description | Language | Matches |
 |---------|----------|-------------|----------|---------|
-| `RM001` | info | Large number of functions in py: 2029 total | py | 2029 |
-| `RM002` | info | Large number of functions in js: 179 total | js | 179 |
+| `RM001` | info | Large number of functions in py: 2050 total | py | 2050 |
+| `RM002` | info | Large number of functions in js: 248 total | js | 248 |
 | `RM003` | info | Print statement found (consider logging instead) | python | 111 |
 
 ---
@@ -729,6 +818,8 @@ graph TD
     static_js_estorides_js_setRunProgress["setRunProgress"]
     class static_js_estorides_js_setRunProgress fn;
     static_js_estorides_js --> static_js_estorides_js_setRunProgress
+    static_js_graph_force_js["graph_force.js (js)"]
+    class static_js_graph_force_js mod;
     static_js_source_manager_js["source_manager.js (js)"]
     class static_js_source_manager_js mod;
     end
@@ -967,6 +1058,8 @@ graph TD
     class estorides_core_code_exposure_py mod;
     estorides_core_event_bus_py["event_bus.py (py)"]
     class estorides_core_event_bus_py mod;
+    tests_test_graph_force3d_py["test_graph_force3d.py (py)"]
+    class tests_test_graph_force3d_py mod;
     tests_test_job_registry_py["test_job_registry.py (py)"]
     class tests_test_job_registry_py mod;
     tests_properties_test_observation_models_properties_py["test_observation_models_properties.py (py)"]
@@ -1504,6 +1597,11 @@ graph TD
     estorides_core_fusion_store_py -.->|imports| ext_reliability_scoring
     estorides_core_fusion_store_py -.->|imports| ext_sqlite_store
     estorides_core_fusion_store_py -.->|imports| ext_entity_resolution
+    estorides_core_graph_force_py -.->|imports| ext___future__
+    ext_math["math"]
+    class ext_math ext;
+    estorides_core_graph_force_py -.->|imports| ext_math
+    estorides_core_graph_force_py -.->|imports| ext_typing
     estorides_core_graph_kuzu_py -.->|imports| ext___future__
     estorides_core_graph_kuzu_py -.->|imports| ext_json
     estorides_core_graph_kuzu_py -.->|imports| ext_logging
@@ -1719,8 +1817,6 @@ graph TD
     estorides_core_pivot_engine_py -.->|imports| ext_typing
     estorides_core_pivot_engine_py -.->|imports| ext_config
     estorides_core_recon_fusion_py -.->|imports| ext___future__
-    ext_math["math"]
-    class ext_math ext;
     estorides_core_recon_fusion_py -.->|imports| ext_math
     estorides_core_recon_fusion_py -.->|imports| ext_time
     estorides_core_recon_fusion_py -.->|imports| ext_dataclasses
@@ -2078,6 +2174,9 @@ graph TD
     ext_estorides_core["estorides_core"]
     class ext_estorides_core ext;
     estorides_web_py -.->|imports| ext_estorides_core
+    ext_estorides_core_graph_force["estorides_core.graph_force"]
+    class ext_estorides_core_graph_force ext;
+    estorides_web_py -.->|imports| ext_estorides_core_graph_force
     ext_estorides_core_fusion_analytics["estorides_core.fusion_analytics"]
     class ext_estorides_core_fusion_analytics ext;
     estorides_web_py -.->|imports| ext_estorides_core_fusion_analytics
@@ -2877,6 +2976,9 @@ graph TD
     static_js_estorides_js -.->|imports| ext_pushLink
     static_js_estorides_js -.->|imports| ext_forEach
     static_js_estorides_js -.->|imports| ext_pushLink
+    ext_deriveClusters["deriveClusters"]
+    class ext_deriveClusters ext;
+    static_js_estorides_js -.->|imports| ext_deriveClusters
     ext_renderGraphCore["renderGraphCore"]
     class ext_renderGraphCore ext;
     static_js_estorides_js -.->|imports| ext_renderGraphCore
@@ -2920,8 +3022,6 @@ graph TD
     ext_list["list"]
     class ext_list ext;
     static_js_estorides_js -.->|imports| ext_list
-    ext_deriveClusters["deriveClusters"]
-    class ext_deriveClusters ext;
     static_js_estorides_js -.->|imports| ext_deriveClusters
     static_js_estorides_js -.->|imports| ext_forEach
     static_js_estorides_js -.->|imports| ext_safeColor
@@ -2939,9 +3039,6 @@ graph TD
     ext_sanitizer["sanitizer"]
     class ext_sanitizer ext;
     static_js_estorides_js -.->|imports| ext_sanitizer
-    ext_elements["elements"]
-    class ext_elements ext;
-    static_js_estorides_js -.->|imports| ext_elements
 ```
 
 ---
@@ -3577,7 +3674,7 @@ Machine-readable Code Property Graph (CPG) in JSON-LD format. This block allows 
 
 ## Architecture Reference
 
-### JS (2 files)
+### JS (3 files)
 
 #### `estorides.js`
 **Path:** `static/js/estorides.js`
@@ -3585,8 +3682,8 @@ Machine-readable Code Property Graph (CPG) in JSON-LD format. This block allows 
 
 **Classes:**
 - `to` (line 401) - *Panels are keyed by the `<name>-canvas` class, not by id (the map panel's*
-- `on` (line 1889) - *Geolocated entities (parsed.lat / parsed.lon) AND country codes. Many parsers stash coords on the entity itself (e.g. abuseipdb has a "countryCode" field). The whole point of v1.1 is to*
-- `attribute` (line 2905)
+- `on` (line 1905) - *Geolocated entities (parsed.lat / parsed.lon) AND country codes. Many parsers stash coords on the entity itself (e.g. abuseipdb has a "countryCode" field). The whole point of v1.1 is to*
+- `attribute` (line 2921)
 
 **Functions:**
 - `setVisible` (line 12) - *Show/hide that respects the HTML5 `hidden` attribute. `[hidden]` is enforced with `!important` (see estorides_ui.css), so toggling inline `style.display` alone can never reveal an element that carries the attribute — the attribute must be cleared too.*
@@ -3633,88 +3730,88 @@ Machine-readable Code Property Graph (CPG) in JSON-LD format. This block allows 
 - `mergeExpansionIntoGraph` (line 1014) - *Merge a /api/intel/resolve response into the current D3 graph and Leaflet map. Idempotent: re-clicking the same node won't duplicate edges. Returns {nodes, links} counts of what was actually added. Every merge pushes a batch onto window._graphBatches so Ctrl+Z (window.undoGraph) can pop it and repaint without that batch.*
 - `drawGraphWithExtras` (line 1078) - *Re-draws the D3 graph with the original nodes/edges PLUS any extras passed in (from a /api/intel/resolve call). The extras are translated to the shape the drawGraph() function already understands (id, label, type, color, size).*
 - `pushLink` (line 1102)
-- `resolverTypeFor` (line 1136) - *Map a graph node's type/kind onto a resolver/transform entity type.*
-- `saveLevelOverrides` (line 1152)
-- `levelOf` (line 1156)
-- `clusterColor` (line 1160)
-- `safeColor` (line 1170) - *Cluster colors come from remote data (TELEMETRY.cluster_palette and per-cluster `color`). Treat them as hostile: only accept a CSS-safe hex or rgb() colour, else fall back to a neutral grey. This keeps a tampered value from ever carrying CSS/HTML into the graph overlays.*
-- `deriveClusters` (line 1179) - *Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't carried along).*
-- `hideTooltip` (line 1192) - *--- floating overlays (tooltip + context menu) ----*
-- `purifyHTML` (line 1206)
-- `setSanitizedHTML` (line 1217) - *Append hostile markup: sanitize with DOMPurify, assign once. When the library is missing, fall back to inert plain text (fail-closed).*
-- `showTooltipAt` (line 1226)
-- `hideContextMenu` (line 1236)
-- `showBridgeTooltip` (line 1241) - *Cross-referenced tooltip for an inter-cluster (bridge) link.*
-- `showNodeTooltip` (line 1270)
-- `showContextMenu` (line 1289) - *--- context menu: transforms grouped by intel tier ----*
-- `setNodeLevel` (line 1364)
-- `applyLevelStyles` (line 1373) - *Re-apply level rings to every rendered node circle.*
-- `focusNode` (line 1381)
-- `runTransform` (line 1393) - *Run a graph pivot transform and merge the result into the graph+map.*
-- `runTransformStream` (line 1414) - *Stream a transform over SSE so the graph "explodes" progressively. Shift+click on a context-menu transform uses this path; plain click keeps the single-POST path above. Both merge through the same dedupe (_expansionSeen) and history (_graphBatches) machinery.*
-- `undoGraph` (line 1474) - *Undo the last graph expansion (transform / resolve). Rebuilds the dedupe set from the surviving batches and repaints the base graph plus those extras — the popped batch vanishes from the canvas.*
-- `selectNode` (line 1509) - *--- side inspector panel ----*
-- `add` (line 1520)
-- `addText` (line 1526)
-- `renderGraphCore` (line 1603) - *--- unified force-graph renderer (clusters + rings + interactions) ----*
-- `drawHulls` (line 1673)
-- `_redrawGraph` (line 1704) - *Low-level D3 redraw given a flat nodes/links list (back-compat shim).*
-- `setStatusDot` (line 1710)
-- `showWorkingIndicator` (line 1716)
-- `hideWorkingIndicator` (line 1721)
-- `toggleTierSection` (line 1726)
-- `renderTieredResults` (line 1734)
-- `escapeAttr` (line 1800)
-- `buildMapCoords` (line 1836)
-- `validCoord` (line 1932)
-- `colorFor` (line 1936)
-- `renderEntities` (line 1955)
-- `renderGraphSummary` (line 2007)
-- `colorForKind` (line 2036)
-- `renderTimeline` (line 2044)
-- `fmtTime` (line 2094)
-- `filterTimeline` (line 2105)
-- `drawGraph` (line 2154) - *--- D3 graph view ----*
-- `loadCases` (line 2184)
-- `openCaseDetail` (line 2210) - *Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case data) and "Load in workspace" (restore entities into the tabs).*
-- `restoreCaseToWorkspace` (line 2265) - *Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without re-running collection.*
-- `buildCaseMapCoords` (line 2286) - *Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid fallback as the normal run renderer so a case without explicit lat/lon still drops pins.*
-- `renderCaseItem` (line 2304)
-- `debounce` (line 2330)
-- `escapeHTML` (line 2380) - *--- utils ----*
-- `truncate` (line 2385)
-- `caseActionSave` (line 2408) - *Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a glance.*
-- `caseActionDiff` (line 2429) - *Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the case.*
-- `renderCaseDiffPanel` (line 2449) - *Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).*
-- `caseActionReport` (line 2490) - *Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI command produces a file copy for sharing.*
-- `showReportModal` (line 2526)
-- `_sanitizeInput` (line 2551) - *--- generic modal helpers (replace alert/prompt/confirm) ---- User input collected here is treated as hostile: coerced to a string and stripped of control chars before it goes into any request/HTML.*
-- `openModal` (line 2554)
-- `promptModal` (line 2589) - *Promise-style text prompt. Resolves with a sanitized string or null.*
-- `confirmModal` (line 2613)
-- `loadSidebarWidth` (line 2705) - *Responsive sidebar toggle + resizable divider.*
-- `saveSidebarWidth` (line 2716)
-- `loadSidebarCollapsed` (line 2719)
-- `saveSidebarCollapsed` (line 2727)
-- `switchSidebarTab` (line 2785) - *--- Fusion tab ----*
-- `loadFusionTab` (line 2798)
-- `loadFusionStats` (line 2804)
-- `loadFusionTopChanged` (line 2823)
-- `loadFusionSearch` (line 2852)
-- `doSearch` (line 2859)
-- `loadFusionEntityDetail` (line 2897)
-- `_sseUrl` (line 2969)
-- `setStatus` (line 2993) - *The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one that writes to the*
-- `setDiscoverProgress` (line 3000)
-- `hideDiscoverProgress` (line 3012)
-- `startDiscover` (line 3017)
-- `stopDiscover` (line 3091)
-- `handleDiscoverEvent` (line 3108)
-- `addDiscoverEntityToTab` (line 3147)
-- `escapeHtml` (line 3175)
-- `maybePlotDiscoverEntity` (line 3180)
-- `flushDiscoverEntities` (line 3187)
-- `check` (line 3206)
+- `resolverTypeFor` (line 1142) - *Map a graph node's type/kind onto a resolver/transform entity type.*
+- `saveLevelOverrides` (line 1158)
+- `levelOf` (line 1162)
+- `clusterColor` (line 1166)
+- `safeColor` (line 1176) - *Cluster colors come from remote data (TELEMETRY.cluster_palette and per-cluster `color`). Treat them as hostile: only accept a CSS-safe hex or rgb() colour, else fall back to a neutral grey. This keeps a tampered value from ever carrying CSS/HTML into the graph overlays.*
+- `deriveClusters` (line 1185) - *Build a clusters[] summary from a flat node list (used after a merge when the server-side clusters array isn't carried along).*
+- `hideTooltip` (line 1198) - *--- floating overlays (tooltip + context menu) ----*
+- `purifyHTML` (line 1212)
+- `setSanitizedHTML` (line 1223) - *Append hostile markup: sanitize with DOMPurify, assign once. When the library is missing, fall back to inert plain text (fail-closed).*
+- `showTooltipAt` (line 1232)
+- `hideContextMenu` (line 1242)
+- `showBridgeTooltip` (line 1247) - *Cross-referenced tooltip for an inter-cluster (bridge) link.*
+- `showNodeTooltip` (line 1276)
+- `showContextMenu` (line 1295) - *--- context menu: transforms grouped by intel tier ----*
+- `setNodeLevel` (line 1370)
+- `applyLevelStyles` (line 1379) - *Re-apply level rings to every rendered node circle.*
+- `focusNode` (line 1387)
+- `runTransform` (line 1399) - *Run a graph pivot transform and merge the result into the graph+map.*
+- `runTransformStream` (line 1420) - *Stream a transform over SSE so the graph "explodes" progressively. Shift+click on a context-menu transform uses this path; plain click keeps the single-POST path above. Both merge through the same dedupe (_expansionSeen) and history (_graphBatches) machinery.*
+- `undoGraph` (line 1480) - *Undo the last graph expansion (transform / resolve). Rebuilds the dedupe set from the surviving batches and repaints the base graph plus those extras — the popped batch vanishes from the canvas.*
+- `selectNode` (line 1515) - *--- side inspector panel ----*
+- `add` (line 1526)
+- `addText` (line 1532)
+- `renderGraphCore` (line 1619) - *--- unified force-graph renderer (clusters + rings + interactions) ----*
+- `drawHulls` (line 1689)
+- `_redrawGraph` (line 1720) - *Low-level D3 redraw given a flat nodes/links list (back-compat shim).*
+- `setStatusDot` (line 1726)
+- `showWorkingIndicator` (line 1732)
+- `hideWorkingIndicator` (line 1737)
+- `toggleTierSection` (line 1742)
+- `renderTieredResults` (line 1750)
+- `escapeAttr` (line 1816)
+- `buildMapCoords` (line 1852)
+- `validCoord` (line 1948)
+- `colorFor` (line 1952)
+- `renderEntities` (line 1971)
+- `renderGraphSummary` (line 2023)
+- `colorForKind` (line 2052)
+- `renderTimeline` (line 2060)
+- `fmtTime` (line 2110)
+- `filterTimeline` (line 2121)
+- `drawGraph` (line 2170) - *--- D3 graph view ----*
+- `loadCases` (line 2200)
+- `openCaseDetail` (line 2226) - *Rich case modal: loads the saved DB record (query, entities, observations) and offers Analyse (re-run on the case data) and "Load in workspace" (restore entities into the tabs).*
+- `restoreCaseToWorkspace` (line 2281) - *Restore a case's saved entities into the workspace tabs (entities list, graph summary, map, timeline) without re-running collection.*
+- `buildCaseMapCoords` (line 2302) - *Build map coords from a case's saved entities, reusing the same latitude/longitude resolution and country-centroid fallback as the normal run renderer so a case without explicit lat/lon still drops pins.*
+- `renderCaseItem` (line 2320)
+- `debounce` (line 2346)
+- `escapeHTML` (line 2396) - *--- utils ----*
+- `truncate` (line 2401)
+- `caseActionSave` (line 2424) - *Bookmark a case. The endpoint prefixes the notes column with "[saved]" so the bookmarked case surfaces in the list at a glance.*
+- `caseActionDiff` (line 2445) - *Compare this case to another. The user picks the baseline; the response is rendered inline in a diff panel under the case.*
+- `renderCaseDiffPanel` (line 2465) - *Render the diff result below the case. The panel survives until the user reloads the cases list (or opens another diff).*
+- `caseActionReport` (line 2506) - *Render the Markdown report. We just dump the text into a modal overlay — keeping it in-browser is enough; the CLI command produces a file copy for sharing.*
+- `showReportModal` (line 2542)
+- `_sanitizeInput` (line 2567) - *--- generic modal helpers (replace alert/prompt/confirm) ---- User input collected here is treated as hostile: coerced to a string and stripped of control chars before it goes into any request/HTML.*
+- `openModal` (line 2570)
+- `promptModal` (line 2605) - *Promise-style text prompt. Resolves with a sanitized string or null.*
+- `confirmModal` (line 2629)
+- `loadSidebarWidth` (line 2721) - *Responsive sidebar toggle + resizable divider.*
+- `saveSidebarWidth` (line 2732)
+- `loadSidebarCollapsed` (line 2735)
+- `saveSidebarCollapsed` (line 2743)
+- `switchSidebarTab` (line 2801) - *--- Fusion tab ----*
+- `loadFusionTab` (line 2814)
+- `loadFusionStats` (line 2820)
+- `loadFusionTopChanged` (line 2839)
+- `loadFusionSearch` (line 2868)
+- `doSearch` (line 2875)
+- `loadFusionEntityDetail` (line 2913)
+- `_sseUrl` (line 2985)
+- `setStatus` (line 3009) - *The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here. Provide a global one that writes to the*
+- `setDiscoverProgress` (line 3016)
+- `hideDiscoverProgress` (line 3028)
+- `startDiscover` (line 3033)
+- `stopDiscover` (line 3107)
+- `handleDiscoverEvent` (line 3124)
+- `addDiscoverEntityToTab` (line 3163)
+- `escapeHtml` (line 3191)
+- `maybePlotDiscoverEntity` (line 3196)
+- `flushDiscoverEntities` (line 3203)
+- `check` (line 3222)
 - `set` (line 32) - *Headers may be a Headers instance, an object, or absent.*
 - `TELEMETRY` (line 41)
 - `toolBinary` (line 142)
@@ -3729,28 +3826,103 @@ Machine-readable Code Property Graph (CPG) in JSON-LD format. This block allows 
 - `flush` (line 909)
 - `pump` (line 930)
 - `k` (line 1028)
-- `CLUSTER_PALETTE` (line 1129)
-- `c` (line 1162)
-- `cid` (line 1182)
-- `labelFor` (line 1244)
-- `c` (line 1245)
-- `tr` (line 1339)
-- `flush` (line 1420)
-- `k` (line 1487)
-- `tr` (line 1577)
-- `obs` (line 2048)
-- `frac` (line 2081)
-- `q` (line 2185)
-- `entities` (line 2211)
-- `obs` (line 2212)
-- `saved` (line 2308) - *Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.*
-- `rows` (line 2457)
-- `removed` (line 2460)
-- `actions` (line 2560)
-- `close` (line 2574)
-- `tag` (line 2675)
-- `_sseAuthToken` (line 2965) - *Auth token for SSE (EventSource can't set custom headers).*
-- `sig` (line 3152) - *Avoid duplicates with the simple in-memory check.*
+- `CLUSTER_PALETTE` (line 1135)
+- `c` (line 1168)
+- `cid` (line 1188)
+- `labelFor` (line 1250)
+- `c` (line 1251)
+- `tr` (line 1345)
+- `flush` (line 1426)
+- `k` (line 1493)
+- `tr` (line 1583)
+- `obs` (line 2064)
+- `frac` (line 2097)
+- `q` (line 2201)
+- `entities` (line 2227)
+- `obs` (line 2228)
+- `saved` (line 2324) - *Saved cases get a visible bookmark pill so the operator can scan the list for "things I came back to" at a glance.*
+- `rows` (line 2473)
+- `removed` (line 2476)
+- `actions` (line 2576)
+- `close` (line 2590)
+- `tag` (line 2691)
+- `_sseAuthToken` (line 2981) - *Auth token for SSE (EventSource can't set custom headers).*
+- `sig` (line 3168) - *Avoid duplicates with the simple in-memory check.*
+
+#### `graph_force.js`
+**Path:** `static/js/graph_force.js`
+**File Doc:** *Estorides force-graph module (spec/graph_force3d.md).*
+
+**Functions:**
+- `toast` (line 44)
+- `fail` (line 52)
+- `settings` (line 59)
+- `adaptLocal` (line 66) - *--- adapt /api/graph nodes to RAW force-graph shape (fallback when the server did not send data.force; mirrors graph_force.py) ----*
+- `currentRaw` (line 121)
+- `rebuildRaw` (line 137)
+- `indexRaw` (line 163)
+- `lkey` (line 193)
+- `colorOf` (line 194)
+- `dimmed` (line 195)
+- `hiddenKind` (line 196)
+- `visiblePayload` (line 201)
+- `computeHighlight` (line 218)
+- `tip` (line 241)
+- `refreshFamList` (line 258)
+- `famAnchor` (line 263)
+- `famOf` (line 273)
+- `clusterForce` (line 278)
+- `force` (line 280)
+- `ringOf` (line 295)
+- `radialForce` (line 303)
+- `force` (line 305)
+- `collideForce` (line 320)
+- `force` (line 322)
+- `radius` (line 345)
+- `linkStrengthFn` (line 349)
+- `setEngineButtons` (line 365) - *var base = st.linkStrength; var src = l.source.id || l.source, tgt = l.target.id || l.target; if (l.type === 'layered_as') return S.layout === 'radial' ? 0 : base * 0.15; if (l.type === 'member_of') return S.layout === 'radial' ? base * 0.05 : base * 0.6; if (S.layout === 'cluster') { var a = byId[src], b = byId[tgt]; return a && b && famOf(a) === famOf(b) ? base : base * 0.08; } if (S.layout === 'radial') return base * 0.35; return base; }; } /* ---- 3D mount ----*
+- `show3DChrome` (line 374)
+- `mount3D` (line 386)
+- `refresh3D` (line 459)
+- `reload3D` (line 465)
+- `resize3D` (line 470)
+- `applyLayout3D` (line 475)
+- `onSelect3D` (line 492)
+- `clearSelection` (line 516)
+- `focusFamily` (line 529)
+- `markFamilies` (line 554)
+- `hud` (line 560)
+- `stat` (line 564)
+- `renderLegend` (line 590) - *m.textContent = S.layout + (S.engine === '3d' ? ' · 3D' : ''); box.appendChild(m); if (S.hl.length) box.appendChild(stat(S.hl.length, 'highlighted')); if (S.selected && byId[S.selected]) { var s = document.createElement('span'); s.appendChild(document.createTextNode('focus ')); var b = document.createElement('b'); b.textContent = short(byId[S.selected].label, 24); s.appendChild(b); box.appendChild(s); } } /* ---- legend: kind pills + community families ----*
+- `applyFilters` (line 644)
+- `runSearch` (line 670)
+- `pickHit` (line 736)
+- `to3D` (line 747) - *} box.classList.add('open'); } function pickHit(i) { var x = hits[i]; if (!x) return; var box = $('gf-results'); if (box) box.classList.remove('open'); if (S.engine === '3d') onSelect3D(x.n, null); else if (x.n._src) B.selectNode(x.n._src); else B.selectNode(x.n); } /* ---- engine toggle ----*
+- `to2D` (line 756)
+- `readHash` (line 765)
+- `writeHash` (line 780)
+- `syncIsolateBtn` (line 787)
+- `wireToolbar` (line 792)
+- `toggle` (line 817)
+- `ordered` (line 80)
+- `cid` (line 88)
+- `fam` (line 89)
+- `src` (line 146)
+- `s` (line 173)
+- `t` (line 174)
+- `entities` (line 179)
+- `s` (line 211)
+- `t` (line 212)
+- `a` (line 270)
+- `m` (line 335)
+- `s` (line 542)
+- `t` (line 543)
+- `nodes` (line 652)
+- `edges` (line 659)
+- `fn` (line 661)
+- `tag` (line 892)
+- `short` (line 21)
+- `esc` (line 25)
 
 #### `source_manager.js`
 **Path:** `static/js/source_manager.js`
@@ -3778,7 +3950,7 @@ Machine-readable Code Property Graph (CPG) in JSON-LD format. This block allows 
 - `deleteSource` (line 304) - *toast('Source "' + data.name + '" saved', 'ok'); formStatus.textContent = 'Saved'; formStatus.className = 'form-status ok'; loadSources(); Re-select the saved source selectSource(data.name); }).catch(function (err) { toast('Save failed: ' + err.message, 'err'); formStatus.textContent = 'Error: ' + err.message; formStatus.className = 'form-status err'; }); } /* ─── delete source ───*
 - `newSource` (line 334) - *overlay.remove(); apiFetch('/api/sources/yaml/' + encodeURIComponent(currentName), { method: 'DELETE' }).then(function () { toast('Source "' + currentName + '" deleted', 'ok'); clearEditor(); loadSources(); }).catch(function (err) { toast('Delete failed: ' + err.message, 'err'); }); }); document.getElementById('confirm-cancel').addEventListener('click', function () { overlay.remove(); }); overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); }); } /* ─── new source ───*
 
-### PY (153 files)
+### PY (155 files)
 
 #### `app.py`
 **Path:** `app.py`
@@ -4731,6 +4903,30 @@ feeds independently asserted — the fusion store's confidence signal.*
 - `stats` (line 692) `def stats(self)` - *One-glance dashboard of the fused store's size.*
 - `normalize_value` (line 73) `def normalize_value(etype, value)`
 - `_count` (line 695) `def _count(table)`
+
+#### `graph_force.py`
+**Path:** `estorides_core/graph_force.py`
+**File Doc:** *graph_force3d: payload force-graph estilo ReadMenator + contexto IA.  Porta ``readmenator/_forcegraph.py`` (payload heterogeneo + SETTINGS) y el formato RAW de ``graph-force.html`` al grafo OSINT de Estorides, mas un constructor de contexto markdown con presupuesto de tokens para la capa de IA local (GraphRAG extractivo, sin llamadas a LLM).  Puro y sin I/O: todo input hostil (labels remotos) se valida fail-closed (``TypeError`` ante valores no JSON-safe) o se trunca a limites fijos. El modulo nunca genera HTML: solo dicts JSON-safe.*
+
+**Functions:**
+- `family_color_from_name` (line 48) `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)` - *Deriva un color HSL estable desde un label (djb2, como ReadMenator).*
+- `node_value` (line 65) `def node_value(symbols, degree, findings)` - *Escala log2 del tamano de nodo (minimo 1).*
+- `force_settings` (line 70) `def force_settings()` - *Valores SETTINGS de ReadMenator graph-force.html (fuente unica).*
+- `_req_str` (line 97) `def _req_str(item, key, default, what)` - *Lee un campo string obligatorio; fail-closed ante no-str.*
+- `_opt_str` (line 107) `def _opt_str(item, key, default)` - *Lee un campo de estilo; ante no-str usa el default (no mata el grafo).*
+- `_opt_int` (line 113) `def _opt_int(item, key, default)` - *Lee un campo entero; ante basura usa el default.*
+- `_degrees` (line 124) `def _degrees(node_ids, edges)` - *Grado por nodo + edges validos (ambos extremos conocidos).*
+- `_is_bridge` (line 150) `def _is_bridge(edge)` - *Un edge es puente si lo declara o si une clusters distintos.*
+- `build_force_payload` (line 161) `def build_force_payload(nodes, edges, clusters, max_nodes, max_edges)` - *Convierte nodos/edges OSINT (`/api/graph`) al formato RAW force-graph.
+
+Truncacion determinista: grado desc, puentes inter-cluster primero,
+desempate por `id`. Los edges huerfanos se descartan (conteo en meta).*
+- `_md_safe` (line 332) `def _md_safe(text, limit)` - *Neutraliza un string remoto para embeberlo en markdown extractivo.*
+- `_truncate_lines` (line 341) `def _truncate_lines(markdown, budget)` - *Corte duro por linea completa + marcador (fences nunca se emiten).*
+- `build_ai_context` (line 353) `def build_ai_context(nodes, edges, clusters, budget_chars)` - *Contexto markdown extractivo con presupuesto para la IA local.
+
+Sin llamadas a LLM: entidades top por grado, puentes inter-cluster
+primero, una linea por comunidad. Determinista y acotado.*
 
 #### `graph_kuzu.py`
 **Path:** `estorides_core/graph_kuzu.py`
@@ -6617,8 +6813,8 @@ Catches the rate-limit denial BEFORE doing real work, so a flood
 can't tie up the orchestrator. Audit row written for both allow
 and deny so the trail is complete.*
 - `create_app` (line 234) `def create_app()`
-- `_serve_loop` (line 1669) `def _serve_loop()`
-- `_shape_for_ui` (line 1682) `def _shape_for_ui(result)` - *Trim raw responses for the UI and reformat observations.*
+- `_serve_loop` (line 1682) `def _serve_loop()`
+- `_shape_for_ui` (line 1695) `def _shape_for_ui(result)` - *Trim raw responses for the UI and reformat observations.*
 - `deco` (line 88) `def deco(view)`
 - `__init__` (line 155) `def __init__(self, job_id, query, query_type, case_id)`
 - `stop` (line 164) `def stop(self)`
@@ -6635,16 +6831,16 @@ and deny so the trail is complete.*
 - `api_ollama_status` (line 334) `def api_ollama_status()`
 - `api_run` (line 340) `def api_run()`
 - `api_graph` (line 396) `def api_graph()`
-- `api_feeds` (line 472) `def api_feeds()` - *Return real-time feed points (quakes, fires, news) for the map.
+- `api_feeds` (line 485) `def api_feeds()` - *Return real-time feed points (quakes, fires, news) for the map.
 
 Optional query string:
   bbox=min_lon,min_lat,max_lon,max_lat — drop points outside.
   no_cache=1 — bypass the on-disk cache.*
-- `api_export` (line 503) `def api_export(fmt)`
-- `api_cases_list` (line 581) `def api_cases_list()`
-- `api_cases_get` (line 594) `def api_cases_get(case_id)`
-- `api_cases_delete` (line 608) `def api_cases_delete(case_id)`
-- `api_cases_save` (line 616) `def api_cases_save(case_id)` - *Bookmark a case from the UI.
+- `api_export` (line 516) `def api_export(fmt)`
+- `api_cases_list` (line 594) `def api_cases_list()`
+- `api_cases_get` (line 607) `def api_cases_get(case_id)`
+- `api_cases_delete` (line 621) `def api_cases_delete(case_id)`
+- `api_cases_save` (line 629) `def api_cases_save(case_id)` - *Bookmark a case from the UI.
 
 Sets a `notes` prefix so the case is easy to spot in the cases
 list, then echoes the updated case back. The store is
@@ -6652,110 +6848,110 @@ append-only for observations, but `notes` is a free-text column
 we can overwrite. This is the "I want to come back to this"
 gesture: in v1 the only durable artefact was the case id; in
 v1.3 we want the user to be able to tag their wins.*
-- `api_cases_diff` (line 639) `def api_cases_diff()` - *Symmetric diff between two cases by entity (type, value).
+- `api_cases_diff` (line 652) `def api_cases_diff()` - *Symmetric diff between two cases by entity (type, value).
 
 Query string: ?a=<case_id>&b=<case_id>
 Returns the entities present in B but not in A ("added"), the
 inverse ("removed"), and the per-type breakdown. The UI uses
 this to show "what's new since last run" without a re-query.*
-- `api_intel_resolve` (line 664) `def api_intel_resolve()` - *Cross-feed entity resolution (Osiris-style /resolve).
+- `api_intel_resolve` (line 677) `def api_intel_resolve()` - *Cross-feed entity resolution (Osiris-style /resolve).
 
 Examples:
   GET /api/intel/resolve?type=ip&id=1.1.1.1
   GET /api/intel/resolve?type=person&id=Tim%20Cook
   GET /api/intel/resolve?type=cve&id=CVE-2024-3094*
-- `api_intel_graph` (line 703) `def api_intel_graph()` - *Cypher query against the Kùzu persistent graph.
+- `api_intel_graph` (line 716) `def api_intel_graph()` - *Cypher query against the Kùzu persistent graph.
 
 Examples:
   GET /api/intel/graph?q=MATCH%20(n%3AEnt)%20RETURN%20n.id%20LIMIT%2010*
-- `api_intel_stats` (line 742) `def api_intel_stats()` - *Stats for both the case store and the Kùzu graph.*
-- `api_fusion_stats` (line 763) `def api_fusion_stats()` - *One-glance dashboard of the fused, cross-run fact base.*
-- `api_fusion_sources` (line 771) `def api_fusion_sources()` - *The YAML source catalogue with accumulated fetch/ok counters.*
-- `api_fusion_entities` (line 780) `def api_fusion_entities()` - *Search fused entities.
+- `api_intel_stats` (line 755) `def api_intel_stats()` - *Stats for both the case store and the Kùzu graph.*
+- `api_fusion_stats` (line 776) `def api_fusion_stats()` - *One-glance dashboard of the fused, cross-run fact base.*
+- `api_fusion_sources` (line 784) `def api_fusion_sources()` - *The YAML source catalogue with accumulated fetch/ok counters.*
+- `api_fusion_entities` (line 793) `def api_fusion_entities()` - *Search fused entities.
 
 Example: GET /api/fusion/entities?q=google&type=domain&min_sources=2
 ``min_sources`` is the fusion-native filter: only entities that at
 least N distinct feeds corroborate.*
-- `api_fusion_entity` (line 801) `def api_fusion_entity(eid)` - *Full fused view of one entity: provenance, properties, edges.
+- `api_fusion_entity` (line 814) `def api_fusion_entity(eid)` - *Full fused view of one entity: provenance, properties, edges.
 
 ``min_sources`` (default 2) also returns the corroborated properties:
 attributes that independent feeds agree on.*
-- `api_fusion_analytics_entity_timeline` (line 819) `def api_fusion_analytics_entity_timeline(eid)`
-- `api_fusion_analytics_entity_summary` (line 829) `def api_fusion_analytics_entity_summary(eid)`
-- `api_fusion_analytics_source_stats` (line 839) `def api_fusion_analytics_source_stats(source_name)`
-- `api_fusion_analytics_consensus` (line 849) `def api_fusion_analytics_consensus(eid)`
-- `api_fusion_analytics_top_changed` (line 859) `def api_fusion_analytics_top_changed()`
-- `admin_sources` (line 869) `def admin_sources()` - *Render the YAML source manager page.*
-- `api_sources_yaml_list` (line 886) `def api_sources_yaml_list()` - *Return every YAML source with full configuration.*
-- `api_sources_yaml_create` (line 912) `def api_sources_yaml_create()` - *Create a new YAML source.*
-- `api_sources_yaml_update` (line 933) `def api_sources_yaml_update(name)` - *Update/replace a YAML source.*
-- `api_sources_yaml_delete` (line 952) `def api_sources_yaml_delete(name)` - *Delete a YAML source.*
-- `api_fusion_analytics_corroboration_matrix` (line 969) `def api_fusion_analytics_corroboration_matrix()`
-- `api_socmint_resolve` (line 983) `def api_socmint_resolve()` - *Resolve a username across known social media platforms.
+- `api_fusion_analytics_entity_timeline` (line 832) `def api_fusion_analytics_entity_timeline(eid)`
+- `api_fusion_analytics_entity_summary` (line 842) `def api_fusion_analytics_entity_summary(eid)`
+- `api_fusion_analytics_source_stats` (line 852) `def api_fusion_analytics_source_stats(source_name)`
+- `api_fusion_analytics_consensus` (line 862) `def api_fusion_analytics_consensus(eid)`
+- `api_fusion_analytics_top_changed` (line 872) `def api_fusion_analytics_top_changed()`
+- `admin_sources` (line 882) `def admin_sources()` - *Render the YAML source manager page.*
+- `api_sources_yaml_list` (line 899) `def api_sources_yaml_list()` - *Return every YAML source with full configuration.*
+- `api_sources_yaml_create` (line 925) `def api_sources_yaml_create()` - *Create a new YAML source.*
+- `api_sources_yaml_update` (line 946) `def api_sources_yaml_update(name)` - *Update/replace a YAML source.*
+- `api_sources_yaml_delete` (line 965) `def api_sources_yaml_delete(name)` - *Delete a YAML source.*
+- `api_fusion_analytics_corroboration_matrix` (line 982) `def api_fusion_analytics_corroboration_matrix()`
+- `api_socmint_resolve` (line 996) `def api_socmint_resolve()` - *Resolve a username across known social media platforms.
 
 Example: GET /api/socmint/resolve?username=torvalds
          GET /api/socmint/resolve?username=torvalds&platforms=github,keybase
 
 Returns a SocialMediaProfile with profile URLs for every platform.*
-- `api_socmint_platforms` (line 1005) `def api_socmint_platforms()` - *Return the list of all known social media platforms.*
-- `api_socmint_discover` (line 1013) `def api_socmint_discover()` - *Extract social media profile URLs from a text blob.
+- `api_socmint_platforms` (line 1018) `def api_socmint_platforms()` - *Return the list of all known social media platforms.*
+- `api_socmint_discover` (line 1026) `def api_socmint_discover()` - *Extract social media profile URLs from a text blob.
 
 Body: {"text": "Follow me on Twitter: https://x.com/johndoe"}*
-- `api_watch_list` (line 1056) `def api_watch_list()` - *List all watch targets.*
-- `api_watch_create` (line 1065) `def api_watch_create()` - *Create a new watch target.
+- `api_watch_list` (line 1069) `def api_watch_list()` - *List all watch targets.*
+- `api_watch_create` (line 1078) `def api_watch_create()` - *Create a new watch target.
 
 Body: {"query": "example.com", "type": "domain", "interval": 1440, "channels": ["slack"], "notes": "..."}*
-- `api_watch_get` (line 1099) `def api_watch_get(watch_id)`
-- `api_watch_delete` (line 1111) `def api_watch_delete(watch_id)`
-- `api_watch_enable` (line 1122) `def api_watch_enable(watch_id)`
-- `api_watch_disable` (line 1135) `def api_watch_disable(watch_id)`
-- `api_watch_history` (line 1147) `def api_watch_history(watch_id)`
-- `api_alerts_channels` (line 1157) `def api_alerts_channels()` - *List configured alert channels and their status.*
-- `api_alerts_test` (line 1165) `def api_alerts_test()` - *Send a test alert to a channel.
+- `api_watch_get` (line 1112) `def api_watch_get(watch_id)`
+- `api_watch_delete` (line 1124) `def api_watch_delete(watch_id)`
+- `api_watch_enable` (line 1135) `def api_watch_enable(watch_id)`
+- `api_watch_disable` (line 1148) `def api_watch_disable(watch_id)`
+- `api_watch_history` (line 1160) `def api_watch_history(watch_id)`
+- `api_alerts_channels` (line 1170) `def api_alerts_channels()` - *List configured alert channels and their status.*
+- `api_alerts_test` (line 1178) `def api_alerts_test()` - *Send a test alert to a channel.
 
 Body: {"channel": "slack"}*
-- `api_scheduler_status` (line 1181) `def api_scheduler_status()`
-- `api_transforms` (line 1199) `def api_transforms()` - *List the transforms applicable to an entity type.
+- `api_scheduler_status` (line 1194) `def api_scheduler_status()`
+- `api_transforms` (line 1212) `def api_transforms()` - *List the transforms applicable to an entity type.
 
 Example: GET /api/transforms?type=ip*
-- `api_transform_run` (line 1213) `def api_transform_run()` - *Run one transform and return nodes/links for graph merge.
+- `api_transform_run` (line 1226) `def api_transform_run()` - *Run one transform and return nodes/links for graph merge.
 
 Body: {"transform_id": "...", "type": "ip", "value": "1.2.3.4"}*
-- `api_transform_stream` (line 1235) `def api_transform_stream()` - *Stream one transform as SSE `node`/`link` events plus `done`.
+- `api_transform_stream` (line 1248) `def api_transform_stream()` - *Stream one transform as SSE `node`/`link` events plus `done`.
 
 Query: ?transform_id=...&type=...&value=... The D3 graph merges
 events progressively instead of waiting for the full payload.*
-- `api_osiris_bgp` (line 1274) `def api_osiris_bgp()`
-- `api_osiris_mac` (line 1288) `def api_osiris_mac()`
-- `api_osiris_phone` (line 1302) `def api_osiris_phone()`
-- `api_osiris_github` (line 1316) `def api_osiris_github()`
-- `api_osiris_leaks` (line 1330) `def api_osiris_leaks()`
-- `api_osiris_kev` (line 1344) `def api_osiris_kev()`
-- `api_osiris_malware` (line 1353) `def api_osiris_malware()`
-- `api_osiris_threats` (line 1358) `def api_osiris_threats()`
-- `api_discover_start` (line 1371) `def api_discover_start()`
-- `api_discover_jobs` (line 1417) `def api_discover_jobs()`
-- `api_discover_stop` (line 1423) `def api_discover_stop()`
-- `api_discover_stream` (line 1435) `def api_discover_stream()` - *Server-Sent Events for a discoverer job.
+- `api_osiris_bgp` (line 1287) `def api_osiris_bgp()`
+- `api_osiris_mac` (line 1301) `def api_osiris_mac()`
+- `api_osiris_phone` (line 1315) `def api_osiris_phone()`
+- `api_osiris_github` (line 1329) `def api_osiris_github()`
+- `api_osiris_leaks` (line 1343) `def api_osiris_leaks()`
+- `api_osiris_kev` (line 1357) `def api_osiris_kev()`
+- `api_osiris_malware` (line 1366) `def api_osiris_malware()`
+- `api_osiris_threats` (line 1371) `def api_osiris_threats()`
+- `api_discover_start` (line 1384) `def api_discover_start()`
+- `api_discover_jobs` (line 1430) `def api_discover_jobs()`
+- `api_discover_stop` (line 1436) `def api_discover_stop()`
+- `api_discover_stream` (line 1448) `def api_discover_stream()` - *Server-Sent Events for a discoverer job.
 
 The browser opens `EventSource('/api/discover/stream?job_id=...')`
 and we keep the connection open, pushing one event per
 JSON line as the background worker discovers things. The
 stream closes when the job finishes (status=done|error|stopped).*
-- `api_run_stream_start` (line 1485) `def api_run_stream_start()`
-- `api_run_stream_stop` (line 1552) `def api_run_stream_stop()`
-- `api_run_stream` (line 1564) `def api_run_stream()`
-- `api_analyze_stream` (line 1611) `def api_analyze_stream()`
+- `api_run_stream_start` (line 1498) `def api_run_stream_start()`
+- `api_run_stream_stop` (line 1565) `def api_run_stream_stop()`
+- `api_run_stream` (line 1577) `def api_run_stream()`
+- `api_analyze_stream` (line 1624) `def api_analyze_stream()`
 - `wrapper` (line 90) `def wrapper()`
 - `wrapper` (line 199) `def wrapper()`
-- `_gen` (line 1251) `def _gen()`
-- `gen` (line 1448) `def gen()`
-- `_drive` (line 1515) `def _drive()`
-- `gen` (line 1570) `def gen()`
-- `_run` (line 1624) `def _run()`
-- `gen` (line 1640) `def gen()`
-- `_watch_runner` (line 1032) `def _watch_runner(swatch)`
-- `_err` (line 1246) `def _err()`
+- `_gen` (line 1264) `def _gen()`
+- `gen` (line 1461) `def gen()`
+- `_drive` (line 1528) `def _drive()`
+- `gen` (line 1583) `def gen()`
+- `_run` (line 1637) `def _run()`
+- `gen` (line 1653) `def gen()`
+- `_watch_runner` (line 1045) `def _watch_runner(swatch)`
+- `_err` (line 1259) `def _err()`
 
 #### `estorides_web_tools.py`
 **Path:** `estorides_web_tools.py`
@@ -7467,6 +7663,21 @@ canonical even when it is not the shortest.*
 - `test_all_methods_return_empty` (line 269) `def test_all_methods_return_empty(self)`
 - `test_min_sources_zero_treated_as_one` (line 282) `def test_min_sources_zero_treated_as_one(self, store_and_analytics)`
 - `test_negative_days_treated_as_one` (line 288) `def test_negative_days_treated_as_one(self, store_and_analytics)`
+
+#### `test_graph_force3d.py`
+**Path:** `tests/test_graph_force3d.py`
+**File Doc:** *graph_force3d: port del sistema de grafos ReadMenator + contexto IA.  Escenarios del contrato `spec/graph_force3d.md`: S1 happy path (payload RAW), S2 edge (vacio), S3 error/truncacion determinista con puentes primero, S4 seguridad (no JSON-safe -> TypeError), S5 seguridad (contexto IA acotado y sin inyeccion markdown), S6 settings y colores deterministas.*
+
+**Functions:**
+- `_nodes` (line 22) `def _nodes()`
+- `_edges` (line 36) `def _edges()`
+- `_clusters` (line 45) `def _clusters()`
+- `test_s1_build_force_payload_shape` (line 53) `def test_s1_build_force_payload_shape()` - *S1 — 3 nodos + 2 edges producen entidades, comunidades y tiers.*
+- `test_s2_empty_graph_no_raise` (line 79) `def test_s2_empty_graph_no_raise()` - *S2 — payload vacio y contexto 'empty graph' sin excepciones.*
+- `test_s3_truncation_deterministic_bridge_first` (line 90) `def test_s3_truncation_deterministic_bridge_first()` - *S3 — dos pasadas identicas; el puente sobrevive al corte.*
+- `test_s4_non_json_safe_raises_typeerror` (line 112) `def test_s4_non_json_safe_raises_typeerror()` - *S4 — set/bytes en labels -> TypeError, nunca payload parcial.*
+- `test_s5_ai_context_budget_and_no_markdown_injection` (line 130) `def test_s5_ai_context_budget_and_no_markdown_injection()` - *S5 — budget duro, fences pares, marcador truncated.*
+- `test_s6_family_color_deterministic_and_settings_match_readmenator` (line 149) `def test_s6_family_color_deterministic_and_settings_match_readmenator()` - *S6 — mismo HSL siempre; settings con los 19 valores ReadMenator.*
 
 #### `test_hardening.py`
 **Path:** `tests/test_hardening.py`

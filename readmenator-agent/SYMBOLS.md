@@ -333,6 +333,18 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `register_sources` | method | `estorides_core/fusion_store.py:222` | `def register_sources(self, sources)` |
 | `search_entities` | method | `estorides_core/fusion_store.py:614` | `def search_entities(self, term, etype)` |
 | `stats` | method | `estorides_core/fusion_store.py:692` | `def stats(self)` |
+| `_degrees` | function | `estorides_core/graph_force.py:124` | `def _degrees(node_ids, edges)` |
+| `_is_bridge` | function | `estorides_core/graph_force.py:150` | `def _is_bridge(edge)` |
+| `_md_safe` | function | `estorides_core/graph_force.py:332` | `def _md_safe(text, limit)` |
+| `_opt_int` | function | `estorides_core/graph_force.py:113` | `def _opt_int(item, key, default)` |
+| `_opt_str` | function | `estorides_core/graph_force.py:107` | `def _opt_str(item, key, default)` |
+| `_req_str` | function | `estorides_core/graph_force.py:97` | `def _req_str(item, key, default, what)` |
+| `_truncate_lines` | function | `estorides_core/graph_force.py:341` | `def _truncate_lines(markdown, budget)` |
+| `build_ai_context` | function | `estorides_core/graph_force.py:353` | `def build_ai_context(nodes, edges, clusters, budget_chars)` |
+| `build_force_payload` | function | `estorides_core/graph_force.py:161` | `def build_force_payload(nodes, edges, clusters, max_nodes, max_edges)` |
+| `family_color_from_name` | function | `estorides_core/graph_force.py:48` | `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)` |
+| `force_settings` | function | `estorides_core/graph_force.py:70` | `def force_settings()` |
+| `node_value` | function | `estorides_core/graph_force.py:65` | `def node_value(symbols, degree, findings)` |
 | `KuzuGraphBackend` | class | `estorides_core/graph_kuzu.py:196` | `class KuzuGraphBackend` |
 | `__init__` | method | `estorides_core/graph_kuzu.py:205` | `def __init__(self, path)` |
 | `_init_schema` | method | `estorides_core/graph_kuzu.py:233` | `def _init_schema(self)` |
