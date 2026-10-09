@@ -231,6 +231,28 @@ def _rate_limit_decorator(*, event: str) -> Callable:
     return deco
 
 
+def _graph_rag_block(query: str, budget_tokens: int = 500) -> str:
+    """GraphRAG context for the local-AI prompt (spec/graph_rag_search.md).
+
+    Fail-soft: any problem (no graph yet, bad data) yields "" so the
+    analysis prompt goes out unchanged. CWE-209: detail stays in logs.
+    """
+    try:
+        import networkx as nx
+
+        from estorides_core.graph_rag_search import graph_context_block
+        from estorides_core.knowledge_graph import KnowledgeGraph
+
+        if not GRAPH_PATH.exists():
+            return ""
+        kg = KnowledgeGraph()
+        kg.graph = nx.read_graphml(GRAPH_PATH)
+        return graph_context_block(query, kg.graph, kg.communities(), budget_tokens)
+    except Exception:
+        log.exception("graphrag context failed")
+        return ""
+
+
 def create_app() -> Flask:
     app = Flask(
         __name__,
@@ -1636,8 +1658,14 @@ def create_app() -> Flask:
 
         def _run() -> None:
             try:
+                prompt = f"Produce an intelligence assessment of the target '{q.normalised}'."
+                # graph_rag_search: contexto rankeado por la query para la
+                # IA local. Fail-soft: si no hay grafo, el prompt va intacto.
+                block = _graph_rag_block(f"assess {q.normalised}")
+                if block:
+                    prompt += "\n\n" + block
                 for chunk in orch.llm.stream(
-                    f"Produce an intelligence assessment of the target '{q.normalised}'.",
+                    prompt,
                     context=observations, model=model, request_timeout=timeout,
                 ):
                     q_in.put(chunk)

@@ -1,6 +1,6 @@
 # estorides_core: people_intel
 
-*Community 4 | 15 files | cohesion 1.00*
+*Community 5 | 15 files | cohesion 1.00*
 
 ## Definition
 

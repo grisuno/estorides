@@ -273,6 +273,28 @@ Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `
 - `KuzuGraphBackend.stats` (method) `estorides_core/graph_kuzu.py:406` `def stats(self)` -- Return counts of every node label and edge rel type.
 - `KuzuGraphBackend.close` (method) `estorides_core/graph_kuzu.py:436` `def close(self)`
 
+## estorides_core/graph_rag_search.py
+Imported by: `estorides_web.py`, `tests/test_graph_rag_search.py`
+- `GraphRagConfig.graph_rag_config_from_env` (method) `estorides_core/graph_rag_search.py:75` `def graph_rag_config_from_env()` -- Construye la config desde env; malformada → defaults (nunca raise).
+- `GraphRagConfig.tokenize` (method) `estorides_core/graph_rag_search.py:98` `def tokenize(text, min_len, stopwords)` -- Parte en tokens minusculos; camelCase se divide y se conserva entero.
+- `Bm25Index.__init__` (method) `estorides_core/graph_rag_search.py:115` `def __init__(self, documents, k1, b)`
+- `Bm25Index.scores` (method) `estorides_core/graph_rag_search.py:136` `def scores(self, query)` -- Un score BM25 por documento, en orden de corpus.
+- `Bm25Index.pagerank` (method) `estorides_core/graph_rag_search.py:176` `def pagerank(ids, edges, alpha, max_iter, tolerance)` -- PageRank dirigido y pesado; los scores suman 1 (determinista).
+- `Bm25Index.personalized_pagerank` (method) `estorides_core/graph_rag_search.py:207` `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` -- PPR con teletransporte al seed; seeds ajenos se ignoran.
+- `GraphRagIndex.to_dict` (method) `estorides_core/graph_rag_search.py:324` `def to_dict(self)`
+- `GraphRagIndex.from_dict` (method) `estorides_core/graph_rag_search.py:334` `def from_dict(cls, data)`
+- `GraphRagIndex.rows` (method) `estorides_core/graph_rag_search.py:335` `def rows(name)`
+- `GraphRagIndex.meta` (method) `estorides_core/graph_rag_search.py:341` `def meta()`
+- `GraphRagIndex.build_index` (method) `estorides_core/graph_rag_search.py:382` `def build_index(nodes, edges, clusters, config)` -- Indice extractivo desde nodos/edges estilo `/api/graph` (puro).
+- `GraphRagIndex.where` (method) `estorides_core/graph_rag_search.py:446` `def where(cid)`
+- `GraphRagSearcher.__init__` (method) `estorides_core/graph_rag_search.py:596` `def __init__(self, config, index)`
+- `GraphRagSearcher.choose_mode` (method) `estorides_core/graph_rag_search.py:635` `def choose_mode(self, query)`
+- `GraphRagSearcher.search` (method) `estorides_core/graph_rag_search.py:644` `def search(self, query, mode, budget_tokens)`
+- `GraphRagSearcher.local_search` (method) `estorides_core/graph_rag_search.py:658` `def local_search(self, query, budget_tokens)`
+- `GraphRagSearcher.global_search` (method) `estorides_core/graph_rag_search.py:754` `def global_search(self, query, budget_tokens)`
+- `GraphRagSearcher.ask_context` (method) `estorides_core/graph_rag_search.py:857` `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)` -- One-shot: build + search (el camino que usa la capa IA local).
+- `GraphRagSearcher.graph_context_block` (method) `estorides_core/graph_rag_search.py:886` `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)` -- Bloque markdown para el prompt LLM desde un grafo networkx (duck-typing).
+
 ## estorides_core/hypothesis_engine.py
 Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
 Imported by: `tests/properties/test_hypothesis_engine_properties.py`, `tests/test_hypothesis_engine.py`
@@ -417,78 +439,6 @@ Imported by: `estorides_core/orchestrator.py`, `tests/test_pagination.py`
 - `PaginationConfig.build_page_params` (method) `estorides_core/pagination.py:62` `def build_page_params(cfg, page_num)` -- Build URL params dict for a given page number.
 - `PaginationConfig.extract_cursor` (method) `estorides_core/pagination.py:78` `def extract_cursor(data, cfg)` -- Extract the next-page cursor from a parsed response body.
 - `PaginationConfig.count_results` (method) `estorides_core/pagination.py:99` `def count_results(data, cfg)` -- Count results in a parsed response page.
-
-## estorides_core/parsers.py
-Imported by: `estorides_core/orchestrator.py`, `estorides_core/system_app_sources.py`, `tests/properties/test_parsers_properties.py`, `tests/properties/test_system_app_sources_properties.py`, `tests/test_keyless_sources.py`, `tests/test_socmint.py`
-- `parse_dns_json` (function) `estorides_core/parsers.py:62` `def parse_dns_json(payload)` -- Google/Cloudflare DNS-over-HTTPS response.
-- `parse_crtsh_json` (function) `estorides_core/parsers.py:78` `def parse_crtsh_json(payload)` -- CT log response.
-- `parse_rdap` (function) `estorides_core/parsers.py:96` `def parse_rdap(payload)` -- RDAP (RFC 7483) domain object.
-- `parse_ipapi` (function) `estorides_core/parsers.py:176` `def parse_ipapi(payload)` -- ip-api.com response.
-- `parse_ipinfo` (function) `estorides_core/parsers.py:202` `def parse_ipinfo(payload)`
-- `parse_ipapi_co` (function) `estorides_core/parsers.py:217` `def parse_ipapi_co(payload)`
-- `parse_shodan_internetdb` (function) `estorides_core/parsers.py:227` `def parse_shodan_internetdb(payload)` -- internetdb.shodan.io — IP service summary.
-- `parse_greynoise` (function) `estorides_core/parsers.py:241` `def parse_greynoise(payload)`
-- `parse_ipwhois` (function) `estorides_core/parsers.py:256` `def parse_ipwhois(payload)`
-- `parse_abuseipdb` (function) `estorides_core/parsers.py:274` `def parse_abuseipdb(payload)`
-- `parse_vt_ip` (function) `estorides_core/parsers.py:304` `def parse_vt_ip(payload)` -- VirusTotal v3 — IP address object.
-- `parse_vt_domain` (function) `estorides_core/parsers.py:325` `def parse_vt_domain(payload)` -- VirusTotal v3 — domain object.
-- `parse_vt_file` (function) `estorides_core/parsers.py:352` `def parse_vt_file(payload)` -- VirusTotal v3 — file object.
-- `parse_bgpview` (function) `estorides_core/parsers.py:376` `def parse_bgpview(payload)` -- BGPView IP/ASN response (keyless).
-- `parse_cisa_kev` (function) `estorides_core/parsers.py:408` `def parse_cisa_kev(payload)` -- CISA KEV catalog (keyless).
-- `parse_ripe_stat` (function) `estorides_core/parsers.py:427` `def parse_ripe_stat(payload)`
-- `parse_nominatim` (function) `estorides_core/parsers.py:438` `def parse_nominatim(payload)`
-- `parse_urlscan` (function) `estorides_core/parsers.py:456` `def parse_urlscan(payload)`
-- `parse_wayback_cdx` (function) `estorides_core/parsers.py:478` `def parse_wayback_cdx(payload)` -- CDX returns a list where the first row is the header.
-- `parse_wayback_avail` (function) `estorides_core/parsers.py:493` `def parse_wayback_avail(payload)`
-- `parse_threatfox` (function) `estorides_core/parsers.py:503` `def parse_threatfox(payload)`
-- `parse_urlhaus` (function) `estorides_core/parsers.py:512` `def parse_urlhaus(payload)`
-- `parse_urlhaus_payloads` (function) `estorides_core/parsers.py:521` `def parse_urlhaus_payloads(payload)`
-- `parse_malwarebazaar` (function) `estorides_core/parsers.py:530` `def parse_malwarebazaar(payload)`
-- `parse_otx` (function) `estorides_core/parsers.py:539` `def parse_otx(payload)`
-- `parse_hibp_breach` (function) `estorides_core/parsers.py:564` `def parse_hibp_breach(payload)`
-- `parse_hibp_paste` (function) `estorides_core/parsers.py:582` `def parse_hibp_paste(payload)`
-- `parse_phonebook` (function) `estorides_core/parsers.py:598` `def parse_phonebook(payload)`
-- `parse_wikipedia` (function) `estorides_core/parsers.py:619` `def parse_wikipedia(payload)`
-- `parse_wikidata` (function) `estorides_core/parsers.py:628` `def parse_wikidata(payload)`
-- `parse_openalex` (function) `estorides_core/parsers.py:640` `def parse_openalex(payload)`
-- `parse_crossref` (function) `estorides_core/parsers.py:665` `def parse_crossref(payload)`
-- `parse_arxiv` (function) `estorides_core/parsers.py:685` `def parse_arxiv(payload)` -- arXiv returns Atom XML; we expect callers to have converted to a dict.
-- `parse_nvd_cve` (function) `estorides_core/parsers.py:706` `def parse_nvd_cve(payload)`
-- `parse_github_advisories` (function) `estorides_core/parsers.py:727` `def parse_github_advisories(payload)`
-- `parse_blockchain_btc` (function) `estorides_core/parsers.py:752` `def parse_blockchain_btc(payload)`
-- `parse_blockstream` (function) `estorides_core/parsers.py:769` `def parse_blockstream(payload)`
-- `parse_ethplorer` (function) `estorides_core/parsers.py:785` `def parse_ethplorer(payload)`
-- `parse_microlink` (function) `estorides_core/parsers.py:802` `def parse_microlink(payload)`
-- `parse_github_user` (function) `estorides_core/parsers.py:822` `def parse_github_user(payload)`
-- `parse_github_search` (function) `estorides_core/parsers.py:842` `def parse_github_search(payload)`
-- `parse_reddit` (function) `estorides_core/parsers.py:857` `def parse_reddit(payload)`
-- `parse_mastodon` (function) `estorides_core/parsers.py:887` `def parse_mastodon(payload)`
-- `parse_keybase` (function) `estorides_core/parsers.py:903` `def parse_keybase(payload)`
-- `parse_hackernews` (function) `estorides_core/parsers.py:932` `def parse_hackernews(payload)`
-- `parse_reddit_search` (function) `estorides_core/parsers.py:944` `def parse_reddit_search(payload)`
-- `parse_dev_to` (function) `estorides_core/parsers.py:958` `def parse_dev_to(payload)`
-- `parse_text_lines` (function) `estorides_core/parsers.py:973` `def parse_text_lines(payload)` -- Generic: split raw_text by newlines, drop empties.
-- `parse_raw_text` (function) `estorides_core/parsers.py:984` `def parse_raw_text(payload)`
-- `parse_http_headers` (function) `estorides_core/parsers.py:992` `def parse_http_headers(payload)` -- hackertarget returns text; expect a one-line-per-header response.
-- `parse_whois_text` (function) `estorides_core/parsers.py:1008` `def parse_whois_text(payload)`
-- `parse_twitter_user` (function) `estorides_core/parsers.py:1026` `def parse_twitter_user(payload)` -- Twitter/X API v2 user by username.
-- `parse_youtube_user` (function) `estorides_core/parsers.py:1062` `def parse_youtube_user(payload)` -- YouTube Data API v3 channel by handle.
-- `parse_twitch_user` (function) `estorides_core/parsers.py:1099` `def parse_twitch_user(payload)` -- Twitch Helix API user by login.
-- `parse_discord_discovery` (function) `estorides_core/parsers.py:1132` `def parse_discord_discovery(payload)` -- Discord server discovery via discords.com API.
-- `get_parser` (function) `estorides_core/parsers.py:1251` `def get_parser(name)` -- Return the parser function for `name`, or a passthrough lambda.
-- `register_parser` (function) `estorides_core/parsers.py:1264` `def register_parser(name, description)` -- Decorator: register `func` as a parser under `name`.
-- `deco` (function) `estorides_core/parsers.py:1272` `def deco(func)`
-- `list_parsers` (function) `estorides_core/parsers.py:1280` `def list_parsers()` -- Return (name, description) tuples for every registered parser.
-
-## estorides_core/pdns_monitor.py
-Imported by: `estorides_core/recon_pipeline.py`, `tests/test_pdns_monitor.py`
-- `HistoricalSubdomain.to_dict` (method) `estorides_core/pdns_monitor.py:22` `def to_dict(self)`
-- `IPRecord.to_dict` (method) `estorides_core/pdns_monitor.py:35` `def to_dict(self)`
-- `CertRecord.to_dict` (method) `estorides_core/pdns_monitor.py:50` `def to_dict(self)`
-- `PDNSResult.to_dict` (method) `estorides_core/pdns_monitor.py:62` `def to_dict(self)`
-- `PDNSResult.classify_subdomain_status` (method) `estorides_core/pdns_monitor.py:72` `def classify_subdomain_status(fqdn, resolved_ips)`
-- `PDNSResult.extract_sans_from_cert` (method) `estorides_core/pdns_monitor.py:76` `def extract_sans_from_cert(cert)`
-- `PDNSResult.analyse_pdns_data` (method) `estorides_core/pdns_monitor.py:80` `def analyse_pdns_data(subdomains, ip_history, new_certs)`
 
 
 Next: [API_p2.md](API_p2.md)

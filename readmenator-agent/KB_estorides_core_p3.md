@@ -1,6 +1,63 @@
 # Subsystem: estorides_core (page 3 of 3)
 Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 
+## estorides_core/recon_fusion.py
+- Doc: estorides_core.recon_fusion
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RelevanceTier` (class, line 27) `class RelevanceTier(str, Enum)`
+  - `GroupedEntity` (class, line 46) `class GroupedEntity`
+  - `FusionResult` (class, line 84) `class FusionResult`
+  - `_normalize_value` (method, line 107) `def _normalize_value(etype, value)`
+  - `_canonical_id` (method, line 112) `def _canonical_id(etype, value)`
+  - `_corroboration_factor` (method, line 117) `def _corroboration_factor(source_count)`
+  - `_freshness_factor` (method, line 124) `def _freshness_factor(age_hours, max_hours)`
+  - `_direct_match_query` (method, line 132) `def _direct_match_query(value, query)`
+  - `_extract_key_findings` (method, line 137) `def _extract_key_findings(observations)`
+  - `ReconFusionEngine` (class, line 160) `class ReconFusionEngine`
+  - `ordered` (method, line 40) `def ordered(cls)`
+  - `to_dict` (method, line 64) `def to_dict(self)`
+  - `to_dict` (method, line 95) `def to_dict(self)`
+  - `__init__` (method, line 166) `def __init__(self, config)`
+  - `classify` (method, line 169) `def classify(self, query, query_type, observations, entities)`
+  - `_deduplicate` (method, line 219) `def _deduplicate(self, observations)`
+  - `_group_by_entity` (method, line 237) `def _group_by_entity(self, observations, entities)`
+  - `_classify_groups` (method, line 321) `def _classify_groups(self, groups, query)`
+  - `_assign_tier` (method, line 386) `def _assign_tier(self, source_count, avg_reliability, direct_match)`
+- Depends on: `estorides_core/config.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
+- Imported by: `estorides_core/orchestrator.py`, `tests/properties/test_recon_fusion_properties.py`, `tests/test_recon_fusion.py`, `tests/test_ui_professional.py`
+
+## estorides_core/recon_pipeline.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `run_passive_recon` (function, line 22) `def run_passive_recon(query, headers, html, cookies, employees, code_findings, third_parties, pdns_subdomains...`
+- Depends on: `estorides_core/cloud_asset_discovery.py`, `estorides_core/code_exposure.py`, `estorides_core/pdns_monitor.py`, `estorides_core/people_intel.py`, `estorides_core/supply_chain.py`, `estorides_core/tech_fingerprint.py`, `estorides_core/vuln_correlation.py`
+
+## estorides_core/relationship_inference.py
+- Doc: estorides_core.relationship_inference
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RelationshipInferer` (class, line 36) `class RelationshipInferer(Protocol)`
+  - `register_inferer` (method, line 63) `def register_inferer(source_name)`
+  - `infer_relationship` (method, line 78) `def infer_relationship(observation, query, kg)`
+  - `_infer_dns` (method, line 105) `def _infer_dns(observation, query, kg)`
+  - `_infer_crtsh` (method, line 114) `def _infer_crtsh(observation, query, kg)`
+  - `_infer_shodan` (method, line 122) `def _infer_shodan(observation, query, kg)`
+  - `_infer_greynoise` (method, line 134) `def _infer_greynoise(observation, query, kg)`
+  - `_infer_abuseipdb` (method, line 143) `def _infer_abuseipdb(observation, query, kg)`
+  - `_infer_whois` (method, line 152) `def _infer_whois(observation, query, kg)`
+  - `_infer_urlscan` (method, line 163) `def _infer_urlscan(observation, query, kg)`
+  - `_infer_phonebook` (method, line 175) `def _infer_phonebook(observation, query, kg)`
+  - `_infer_ipapi` (method, line 186) `def _infer_ipapi(observation, query, kg)`
+  - `_infer_otx` (method, line 195) `def _infer_otx(observation, query, kg)`
+  - `_infer_nvd` (method, line 208) `def _infer_nvd(observation, query, kg)`
+  - `__call__` (method, line 51) `def __call__(self, observation, query, kg)`
+  - `deco` (method, line 70) `def deco(func)`
+- Imported by: `estorides_core/orchestrator.py`
+
 ## estorides_core/reliability_scoring.py
 - Doc: estorides_core.reliability_scoring
 - Layer: utility

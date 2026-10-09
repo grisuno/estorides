@@ -61,9 +61,10 @@ This community groups 10 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.
+- [EXTRACTED] depends_on community 2 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.
 - [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_core/system_app_sources.py imports estorides_core/tool_runner.py.
-- [EXTRACTED] depends_on community 6 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 6 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 6 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_runner.py imports estorides_core/entity_extraction.py.
 
 ## Risks
 

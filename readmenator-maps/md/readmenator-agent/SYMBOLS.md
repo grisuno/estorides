@@ -356,6 +356,50 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `stats` | method | `estorides_core/graph_kuzu.py:406` | `def stats(self)` |
 | `upsert_entity` | method | `estorides_core/graph_kuzu.py:245` | `def upsert_entity(self, ent_type, value, source)` |
 | `upsert_relationship` | method | `estorides_core/graph_kuzu.py:295` | `def upsert_relationship(self, src_type, src_value, rel, dst_type, dst_value)` |
+| `Bm25Index` | class | `estorides_core/graph_rag_search.py:112` | `class Bm25Index` |
+| `GraphRagConfig` | class | `estorides_core/graph_rag_search.py:53` | `class GraphRagConfig` |
+| `GraphRagIndex` | class | `estorides_core/graph_rag_search.py:317` | `class GraphRagIndex` |
+| `GraphRagSearcher` | class | `estorides_core/graph_rag_search.py:593` | `class GraphRagSearcher` |
+| `RagCommunity` | class | `estorides_core/graph_rag_search.py:289` | `class RagCommunity` |
+| `RagContext` | class | `estorides_core/graph_rag_search.py:305` | `class RagContext` |
+| `RagEntity` | class | `estorides_core/graph_rag_search.py:260` | `class RagEntity` |
+| `RagRelation` | class | `estorides_core/graph_rag_search.py:271` | `class RagRelation` |
+| `RagTextUnit` | class | `estorides_core/graph_rag_search.py:281` | `class RagTextUnit` |
+| `__init__` | method | `estorides_core/graph_rag_search.py:115` | `def __init__(self, documents, k1, b)` |
+| `__init__` | method | `estorides_core/graph_rag_search.py:596` | `def __init__(self, config, index)` |
+| `_budget_chars` | method | `estorides_core/graph_rag_search.py:652` | `def _budget_chars(self, budget_tokens)` |
+| `_entity_doc` | method | `estorides_core/graph_rag_search.py:624` | `def _entity_doc(self, entity)` |
+| `_md_safe` | method | `estorides_core/graph_rag_search.py:250` | `def _md_safe(text, limit)` |
+| `_opt_int` | method | `estorides_core/graph_rag_search.py:368` | `def _opt_int(item, key, default)` |
+| `_opt_str` | method | `estorides_core/graph_rag_search.py:363` | `def _opt_str(item, key, default)` |
+| `_pack` | method | `estorides_core/graph_rag_search.py:804` | `def _pack(self, header, sections, budget_tokens, shares)` |
+| `_pack_with` | method | `estorides_core/graph_rag_search.py:823` | `def _pack_with(self, header, sections, shares, budget)` |
+| `_rel_weight` | method | `estorides_core/graph_rag_search.py:378` | `def _rel_weight(relation)` |
+| `_report_block` | method | `estorides_core/graph_rag_search.py:794` | `def _report_block(report)` |
+| `_reports` | method | `estorides_core/graph_rag_search.py:491` | `def _reports(nodes, degree, rank, top_mass, weighted, cluster_label, cfg)` |
+| `_req_str` | method | `estorides_core/graph_rag_search.py:354` | `def _req_str(item, key, default, what)` |
+| `_scalar_detail` | method | `estorides_core/graph_rag_search.py:872` | `def _scalar_detail(attrs)` |
+| `_stochastic` | method | `estorides_core/graph_rag_search.py:153` | `def _stochastic(ids, edges)` |
+| `_symmetric_edges` | method | `estorides_core/graph_rag_search.py:628` | `def _symmetric_edges(self)` |
+| `_tok` | method | `estorides_core/graph_rag_search.py:621` | `def _tok(self, text)` |
+| `_unit_block` | method | `estorides_core/graph_rag_search.py:801` | `def _unit_block(unit)` |
+| `ask_context` | method | `estorides_core/graph_rag_search.py:857` | `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)` |
+| `build_index` | method | `estorides_core/graph_rag_search.py:382` | `def build_index(nodes, edges, clusters, config)` |
+| `choose_mode` | method | `estorides_core/graph_rag_search.py:635` | `def choose_mode(self, query)` |
+| `from_dict` | method | `estorides_core/graph_rag_search.py:334` | `def from_dict(cls, data)` |
+| `global_search` | method | `estorides_core/graph_rag_search.py:754` | `def global_search(self, query, budget_tokens)` |
+| `graph_context_block` | method | `estorides_core/graph_rag_search.py:886` | `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)` |
+| `graph_rag_config_from_env` | method | `estorides_core/graph_rag_search.py:75` | `def graph_rag_config_from_env()` |
+| `local_search` | method | `estorides_core/graph_rag_search.py:658` | `def local_search(self, query, budget_tokens)` |
+| `meta` | method | `estorides_core/graph_rag_search.py:341` | `def meta()` |
+| `pagerank` | method | `estorides_core/graph_rag_search.py:176` | `def pagerank(ids, edges, alpha, max_iter, tolerance)` |
+| `personalized_pagerank` | method | `estorides_core/graph_rag_search.py:207` | `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` |
+| `rows` | method | `estorides_core/graph_rag_search.py:335` | `def rows(name)` |
+| `scores` | method | `estorides_core/graph_rag_search.py:136` | `def scores(self, query)` |
+| `search` | method | `estorides_core/graph_rag_search.py:644` | `def search(self, query, mode, budget_tokens)` |
+| `to_dict` | method | `estorides_core/graph_rag_search.py:324` | `def to_dict(self)` |
+| `tokenize` | method | `estorides_core/graph_rag_search.py:98` | `def tokenize(text, min_len, stopwords)` |
+| `where` | method | `estorides_core/graph_rag_search.py:446` | `def where(cid)` |
 | `EntityRef` | class | `estorides_core/hypothesis_engine.py:57` | `class EntityRef` |
 | `Evidence` | class | `estorides_core/hypothesis_engine.py:65` | `class Evidence` |
 | `Hypothesis` | class | `estorides_core/hypothesis_engine.py:76` | `class Hypothesis` |
@@ -452,49 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `get_watch` | method | `estorides_core/monitoring.py:177` | `def get_watch(self, watch_id)` |
 | `has_runner` | method | `estorides_core/monitoring.py:304` | `def has_runner(self)` |
 | `history` | method | `estorides_core/monitoring.py:249` | `def history(self, watch_id, limit)` |
-| `list_watches` | method | `estorides_core/monitoring.py:203` | `def list_watches(self, enabled_only)` |
-| `record_run_complete` | method | `estorides_core/monitoring.py:236` | `def record_run_complete(self, history_id, status, entity_count, obs_count, error, alert_sent)` |
-| `record_run_start` | method | `estorides_core/monitoring.py:226` | `def record_run_start(self, watch_id)` |
-| `running` | method | `estorides_core/monitoring.py:300` | `def running(self)` |
-| `set_alerter` | method | `estorides_core/monitoring.py:329` | `def set_alerter(self, alerter)` |
-| `set_runner` | method | `estorides_core/monitoring.py:325` | `def set_runner(self, runner)` |
-| `start` | method | `estorides_core/monitoring.py:308` | `def start(self)` |
-| `stats` | method | `estorides_core/monitoring.py:266` | `def stats(self)` |
-| `stop` | method | `estorides_core/monitoring.py:319` | `def stop(self)` |
-| `to_dict` | method | `estorides_core/monitoring.py:110` | `def to_dict(self)` |
-| `update_watch` | method | `estorides_core/monitoring.py:186` | `def update_watch(self, watch)` |
-| `Observation` | class | `estorides_core/observation_models.py:109` | `class Observation(_StrictModel)` |
-| `ObservationMeta` | class | `estorides_core/observation_models.py:72` | `class ObservationMeta(_StrictModel)` |
-| `ObservedEntity` | class | `estorides_core/observation_models.py:147` | `class ObservedEntity(_StrictModel)` |
-| `RunResult` | class | `estorides_core/observation_models.py:175` | `class RunResult(_StrictModel)` |
-| `_StrictModel` | class | `estorides_core/observation_models.py:66` | `class _StrictModel(BaseModel)` |
-| `_bound_url` | method | `estorides_core/observation_models.py:87` | `def _bound_url(cls, value)` |
-| `_check_json_safe` | function | `estorides_core/observation_models.py:44` | `def _check_json_safe(value)` |
-| `_json_safe` | method | `estorides_core/observation_models.py:125` | `def _json_safe(cls, value)` |
-| `_json_safe` | method | `estorides_core/observation_models.py:160` | `def _json_safe(cls, value)` |
-| `_upper_method` | method | `estorides_core/observation_models.py:92` | `def _upper_method(cls, value)` |
-| `to_legacy_dict` | method | `estorides_core/observation_models.py:95` | `def to_legacy_dict(self)` |
-| `to_legacy_dict` | method | `estorides_core/observation_models.py:128` | `def to_legacy_dict(self)` |
-| `to_legacy_dict` | method | `estorides_core/observation_models.py:163` | `def to_legacy_dict(self)` |
-| `to_legacy_dict` | method | `estorides_core/observation_models.py:183` | `def to_legacy_dict(self)` |
-| `OntologyEngine` | class | `estorides_core/ontology.py:314` | `class OntologyEngine` |
-| `SanctionEntry` | class | `estorides_core/ontology.py:70` | `class SanctionEntry` |
-| `SanctionsIndex` | class | `estorides_core/ontology.py:96` | `class SanctionsIndex` |
-| `WikidataCache` | class | `estorides_core/ontology.py:268` | `class WikidataCache` |
-| `__init__` | method | `estorides_core/ontology.py:115` | `def __init__(self)` |
-| `__init__` | method | `estorides_core/ontology.py:276` | `def __init__(self)` |
-| `__init__` | method | `estorides_core/ontology.py:317` | `def __init__(self)` |
-| `_candidate_fields` | method | `estorides_core/ontology.py:359` | `def _candidate_fields(source, parsed)` |
-| `_download` | method | `estorides_core/ontology.py:201` | `def _download(self)` |
-| `_index` | method | `estorides_core/ontology.py:255` | `def _index(self, entries)` |
-| `_normalise_name` | method | `estorides_core/ontology.py:84` | `def _normalise_name(s)` |
-| `_parse` | method | `estorides_core/ontology.py:226` | `def _parse(self, text)` |
-| `_persist` | method | `estorides_core/ontology.py:213` | `def _persist(self, text)` |
-| `_refresh` | method | `estorides_core/ontology.py:172` | `def _refresh(self)` |
-| `check_observation` | method | `estorides_core/ontology.py:321` | `def check_observation(self, observation)` |
-| `clear` | method | `estorides_core/ontology.py:308` | `def clear(self)` |
-| `entries` | method | `estorides_core/ontology.py:134` | `def entries(self)` |
-| `get` | method | `estorides_core/ontology.py:282` | `def get(self, kind, value)` |
-| `is_ready` | method | `estorides_core/ontology.py:131` | `def is_ready(self)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

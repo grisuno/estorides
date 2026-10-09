@@ -3,6 +3,50 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_transform_from_yaml` | method | `estorides_core/transforms.py:362` | `def _transform_from_yaml(raw, origin)` |
+| `for_type` | method | `estorides_core/transforms.py:234` | `def for_type(self, ent_type)` |
+| `iter_sse_events` | method | `estorides_core/transforms.py:406` | `def iter_sse_events(transform_id, ent_type, value, runner)` |
+| `load_yaml_dir` | method | `estorides_core/transforms.py:280` | `def load_yaml_dir(self, directory)` |
+| `register` | method | `estorides_core/transforms.py:231` | `def register(self, t)` |
+| `run` | method | `estorides_core/transforms.py:122` | `def run(ent_type, value)` |
+| `run` | method | `estorides_core/transforms.py:246` | `def run(self, transform_id, ent_type, value)` |
+| `run` | method | `estorides_core/transforms.py:335` | `def run(ent_type, value)` |
+| `sub` | method | `estorides_core/transforms.py:338` | `def sub(s, depth)` |
+| `summary` | method | `estorides_core/transforms.py:83` | `def summary(self)` |
+| `_strip_diacritics` | function | `estorides_core/transliteration.py:76` | `def _strip_diacritics(text)` |
+| `consonant_skeleton` | function | `estorides_core/transliteration.py:112` | `def consonant_skeleton(text)` |
+| `is_non_latin` | function | `estorides_core/transliteration.py:139` | `def is_non_latin(text)` |
+| `to_latin` | function | `estorides_core/transliteration.py:87` | `def to_latin(text)` |
+| `Query` | class | `estorides_core/validation.py:63` | `class Query` |
+| `QueryValidationError` | class | `estorides_core/validation.py:55` | `class QueryValidationError(ValueError)` |
+| `__init__` | method | `estorides_core/validation.py:57` | `def __init__(self, reason, message)` |
+| `__str__` | method | `estorides_core/validation.py:69` | `def __str__(self)` |
+| `_strip_and_collapse` | method | `estorides_core/validation.py:73` | `def _strip_and_collapse(text)` |
+| `validate_query` | method | `estorides_core/validation.py:85` | `def validate_query(raw)` |
+| `DefaultCred` | class | `estorides_core/vuln_correlation.py:14` | `class DefaultCred` |
+| `VulnCorrelationResult` | class | `estorides_core/vuln_correlation.py:43` | `class VulnCorrelationResult` |
+| `VulnEntry` | class | `estorides_core/vuln_correlation.py:24` | `class VulnEntry` |
+| `_parsed_version` | method | `estorides_core/vuln_correlation.py:141` | `def _parsed_version(version)` |
+| `_version_in_range` | method | `estorides_core/vuln_correlation.py:153` | `def _version_in_range(version, v_start, v_end)` |
+| `compute_attack_readiness` | method | `estorides_core/vuln_correlation.py:228` | `def compute_attack_readiness(vulnerabilities)` |
+| `correlate_technologies` | method | `estorides_core/vuln_correlation.py:202` | `def correlate_technologies(technologies)` |
+| `lookup_cve_for_tech` | method | `estorides_core/vuln_correlation.py:169` | `def lookup_cve_for_tech(tech_name, version)` |
+| `to_dict` | method | `estorides_core/vuln_correlation.py:19` | `def to_dict(self)` |
+| `to_dict` | method | `estorides_core/vuln_correlation.py:38` | `def to_dict(self)` |
+| `to_dict` | method | `estorides_core/vuln_correlation.py:52` | `def to_dict(self)` |
+| `AuthGate` | class | `estorides_core/web_security.py:341` | `class AuthGate` |
+| `WebSecurityConfig` | class | `estorides_core/web_security.py:87` | `class WebSecurityConfig` |
+| `_cors_preflight` | method | `estorides_core/web_security.py:250` | `def _cors_preflight()` |
+| `_current_gate` | method | `estorides_core/web_security.py:440` | `def _current_gate()` |
+| `_env_str` | method | `estorides_core/web_security.py:137` | `def _env_str(name, default)` |
+| `_extract_bearer_token` | method | `estorides_core/web_security.py:286` | `def _extract_bearer_token()` |
+| `_redirect_to_https` | method | `estorides_core/web_security.py:203` | `def _redirect_to_https()` |
+| `_security_headers` | method | `estorides_core/web_security.py:217` | `def _security_headers(resp)` |
+| `auth_meta_for_index` | method | `estorides_core/web_security.py:362` | `def auth_meta_for_index(self)` |
+| `auto_generated_token` | method | `estorides_core/web_security.py:444` | `def auto_generated_token()` |
+| `build_https_url` | function | `estorides_core/web_security.py:58` | `def build_https_url(public_host, path, query_string)` |
+| `check` | method | `estorides_core/web_security.py:354` | `def check(self)` |
+| `enabled` | method | `estorides_core/web_security.py:351` | `def enabled(self)` |
 | `install_auth_gate` | method | `estorides_core/web_security.py:421` | `def install_auth_gate(app, gate)` |
 | `install_security` | method | `estorides_core/web_security.py:169` | `def install_security(app, cfg)` |
 | `is_cors_enabled` | method | `estorides_core/web_security.py:128` | `def is_cors_enabled(self)` |
@@ -67,91 +111,92 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `__init__` | method | `estorides_web.py:155` | `def __init__(self, job_id, query, query_type, case_id)` |
 | `_arg_int` | function | `estorides_web.py:117` | `def _arg_int(name, default)` |
 | `_client_ip` | function | `estorides_web.py:100` | `def _client_ip()` |
-| `_drive` | method | `estorides_web.py:1528` | `def _drive()` |
-| `_err` | method | `estorides_web.py:1259` | `def _err()` |
-| `_gen` | method | `estorides_web.py:1264` | `def _gen()` |
+| `_drive` | method | `estorides_web.py:1550` | `def _drive()` |
+| `_err` | method | `estorides_web.py:1281` | `def _err()` |
+| `_gen` | method | `estorides_web.py:1286` | `def _gen()` |
+| `_graph_rag_block` | method | `estorides_web.py:234` | `def _graph_rag_block(query, budget_tokens)` |
 | `_new_stream_job_id` | method | `estorides_web.py:185` | `def _new_stream_job_id()` |
 | `_provides` | function | `estorides_web.py:81` | `def _provides(service, message)` |
 | `_rate_limit_decorator` | method | `estorides_web.py:190` | `def _rate_limit_decorator()` |
-| `_run` | method | `estorides_web.py:1637` | `def _run()` |
+| `_run` | method | `estorides_web.py:1659` | `def _run()` |
 | `_send_and_cleanup` | function | `estorides_web.py:133` | `def _send_and_cleanup(p, tmpdir)` |
-| `_serve_loop` | method | `estorides_web.py:1682` | `def _serve_loop()` |
-| `_shape_for_ui` | method | `estorides_web.py:1695` | `def _shape_for_ui(result)` |
+| `_serve_loop` | method | `estorides_web.py:1710` | `def _serve_loop()` |
+| `_shape_for_ui` | method | `estorides_web.py:1723` | `def _shape_for_ui(result)` |
 | `_sse_response` | function | `estorides_web.py:76` | `def _sse_response(gen)` |
-| `_watch_runner` | method | `estorides_web.py:1045` | `def _watch_runner(swatch)` |
-| `admin_sources` | method | `estorides_web.py:882` | `def admin_sources()` |
-| `api_alerts_channels` | method | `estorides_web.py:1170` | `def api_alerts_channels()` |
-| `api_alerts_test` | method | `estorides_web.py:1178` | `def api_alerts_test()` |
-| `api_analyze_stream` | method | `estorides_web.py:1624` | `def api_analyze_stream()` |
-| `api_cases_delete` | method | `estorides_web.py:621` | `def api_cases_delete(case_id)` |
-| `api_cases_diff` | method | `estorides_web.py:652` | `def api_cases_diff()` |
-| `api_cases_get` | method | `estorides_web.py:607` | `def api_cases_get(case_id)` |
-| `api_cases_list` | method | `estorides_web.py:594` | `def api_cases_list()` |
-| `api_cases_save` | method | `estorides_web.py:629` | `def api_cases_save(case_id)` |
-| `api_discover_jobs` | method | `estorides_web.py:1430` | `def api_discover_jobs()` |
-| `api_discover_start` | method | `estorides_web.py:1384` | `def api_discover_start()` |
-| `api_discover_stop` | method | `estorides_web.py:1436` | `def api_discover_stop()` |
-| `api_discover_stream` | method | `estorides_web.py:1448` | `def api_discover_stream()` |
-| `api_export` | method | `estorides_web.py:516` | `def api_export(fmt)` |
-| `api_feeds` | method | `estorides_web.py:485` | `def api_feeds()` |
-| `api_fusion_analytics_consensus` | method | `estorides_web.py:862` | `def api_fusion_analytics_consensus(eid)` |
-| `api_fusion_analytics_corroboration_matrix` | method | `estorides_web.py:982` | `def api_fusion_analytics_corroboration_matrix()` |
-| `api_fusion_analytics_entity_summary` | method | `estorides_web.py:842` | `def api_fusion_analytics_entity_summary(eid)` |
-| `api_fusion_analytics_entity_timeline` | method | `estorides_web.py:832` | `def api_fusion_analytics_entity_timeline(eid)` |
-| `api_fusion_analytics_source_stats` | method | `estorides_web.py:852` | `def api_fusion_analytics_source_stats(source_name)` |
-| `api_fusion_analytics_top_changed` | method | `estorides_web.py:872` | `def api_fusion_analytics_top_changed()` |
-| `api_fusion_entities` | method | `estorides_web.py:793` | `def api_fusion_entities()` |
-| `api_fusion_entity` | method | `estorides_web.py:814` | `def api_fusion_entity(eid)` |
-| `api_fusion_sources` | method | `estorides_web.py:784` | `def api_fusion_sources()` |
-| `api_fusion_stats` | method | `estorides_web.py:776` | `def api_fusion_stats()` |
-| `api_graph` | method | `estorides_web.py:396` | `def api_graph()` |
-| `api_intel_graph` | method | `estorides_web.py:716` | `def api_intel_graph()` |
-| `api_intel_resolve` | method | `estorides_web.py:677` | `def api_intel_resolve()` |
-| `api_intel_stats` | method | `estorides_web.py:755` | `def api_intel_stats()` |
-| `api_ollama_status` | method | `estorides_web.py:334` | `def api_ollama_status()` |
-| `api_osiris_bgp` | method | `estorides_web.py:1287` | `def api_osiris_bgp()` |
-| `api_osiris_github` | method | `estorides_web.py:1329` | `def api_osiris_github()` |
-| `api_osiris_kev` | method | `estorides_web.py:1357` | `def api_osiris_kev()` |
-| `api_osiris_leaks` | method | `estorides_web.py:1343` | `def api_osiris_leaks()` |
-| `api_osiris_mac` | method | `estorides_web.py:1301` | `def api_osiris_mac()` |
-| `api_osiris_malware` | method | `estorides_web.py:1366` | `def api_osiris_malware()` |
-| `api_osiris_phone` | method | `estorides_web.py:1315` | `def api_osiris_phone()` |
-| `api_osiris_threats` | method | `estorides_web.py:1371` | `def api_osiris_threats()` |
-| `api_run` | method | `estorides_web.py:340` | `def api_run()` |
-| `api_run_stream` | method | `estorides_web.py:1577` | `def api_run_stream()` |
-| `api_run_stream_start` | method | `estorides_web.py:1498` | `def api_run_stream_start()` |
-| `api_run_stream_stop` | method | `estorides_web.py:1565` | `def api_run_stream_stop()` |
-| `api_scheduler_status` | method | `estorides_web.py:1194` | `def api_scheduler_status()` |
-| `api_socmint_discover` | method | `estorides_web.py:1026` | `def api_socmint_discover()` |
-| `api_socmint_platforms` | method | `estorides_web.py:1018` | `def api_socmint_platforms()` |
-| `api_socmint_resolve` | method | `estorides_web.py:996` | `def api_socmint_resolve()` |
-| `api_sources_yaml_create` | method | `estorides_web.py:925` | `def api_sources_yaml_create()` |
-| `api_sources_yaml_delete` | method | `estorides_web.py:965` | `def api_sources_yaml_delete(name)` |
-| `api_sources_yaml_list` | method | `estorides_web.py:899` | `def api_sources_yaml_list()` |
-| `api_sources_yaml_update` | method | `estorides_web.py:946` | `def api_sources_yaml_update(name)` |
-| `api_status` | method | `estorides_web.py:328` | `def api_status()` |
-| `api_transform_run` | method | `estorides_web.py:1226` | `def api_transform_run()` |
-| `api_transform_stream` | method | `estorides_web.py:1248` | `def api_transform_stream()` |
-| `api_transforms` | method | `estorides_web.py:1212` | `def api_transforms()` |
-| `api_watch_create` | method | `estorides_web.py:1078` | `def api_watch_create()` |
-| `api_watch_delete` | method | `estorides_web.py:1124` | `def api_watch_delete(watch_id)` |
-| `api_watch_disable` | method | `estorides_web.py:1148` | `def api_watch_disable(watch_id)` |
-| `api_watch_enable` | method | `estorides_web.py:1135` | `def api_watch_enable(watch_id)` |
-| `api_watch_get` | method | `estorides_web.py:1112` | `def api_watch_get(watch_id)` |
-| `api_watch_history` | method | `estorides_web.py:1160` | `def api_watch_history(watch_id)` |
-| `api_watch_list` | method | `estorides_web.py:1069` | `def api_watch_list()` |
-| `create_app` | method | `estorides_web.py:234` | `def create_app()` |
+| `_watch_runner` | method | `estorides_web.py:1067` | `def _watch_runner(swatch)` |
+| `admin_sources` | method | `estorides_web.py:904` | `def admin_sources()` |
+| `api_alerts_channels` | method | `estorides_web.py:1192` | `def api_alerts_channels()` |
+| `api_alerts_test` | method | `estorides_web.py:1200` | `def api_alerts_test()` |
+| `api_analyze_stream` | method | `estorides_web.py:1646` | `def api_analyze_stream()` |
+| `api_cases_delete` | method | `estorides_web.py:643` | `def api_cases_delete(case_id)` |
+| `api_cases_diff` | method | `estorides_web.py:674` | `def api_cases_diff()` |
+| `api_cases_get` | method | `estorides_web.py:629` | `def api_cases_get(case_id)` |
+| `api_cases_list` | method | `estorides_web.py:616` | `def api_cases_list()` |
+| `api_cases_save` | method | `estorides_web.py:651` | `def api_cases_save(case_id)` |
+| `api_discover_jobs` | method | `estorides_web.py:1452` | `def api_discover_jobs()` |
+| `api_discover_start` | method | `estorides_web.py:1406` | `def api_discover_start()` |
+| `api_discover_stop` | method | `estorides_web.py:1458` | `def api_discover_stop()` |
+| `api_discover_stream` | method | `estorides_web.py:1470` | `def api_discover_stream()` |
+| `api_export` | method | `estorides_web.py:538` | `def api_export(fmt)` |
+| `api_feeds` | method | `estorides_web.py:507` | `def api_feeds()` |
+| `api_fusion_analytics_consensus` | method | `estorides_web.py:884` | `def api_fusion_analytics_consensus(eid)` |
+| `api_fusion_analytics_corroboration_matrix` | method | `estorides_web.py:1004` | `def api_fusion_analytics_corroboration_matrix()` |
+| `api_fusion_analytics_entity_summary` | method | `estorides_web.py:864` | `def api_fusion_analytics_entity_summary(eid)` |
+| `api_fusion_analytics_entity_timeline` | method | `estorides_web.py:854` | `def api_fusion_analytics_entity_timeline(eid)` |
+| `api_fusion_analytics_source_stats` | method | `estorides_web.py:874` | `def api_fusion_analytics_source_stats(source_name)` |
+| `api_fusion_analytics_top_changed` | method | `estorides_web.py:894` | `def api_fusion_analytics_top_changed()` |
+| `api_fusion_entities` | method | `estorides_web.py:815` | `def api_fusion_entities()` |
+| `api_fusion_entity` | method | `estorides_web.py:836` | `def api_fusion_entity(eid)` |
+| `api_fusion_sources` | method | `estorides_web.py:806` | `def api_fusion_sources()` |
+| `api_fusion_stats` | method | `estorides_web.py:798` | `def api_fusion_stats()` |
+| `api_graph` | method | `estorides_web.py:418` | `def api_graph()` |
+| `api_intel_graph` | method | `estorides_web.py:738` | `def api_intel_graph()` |
+| `api_intel_resolve` | method | `estorides_web.py:699` | `def api_intel_resolve()` |
+| `api_intel_stats` | method | `estorides_web.py:777` | `def api_intel_stats()` |
+| `api_ollama_status` | method | `estorides_web.py:356` | `def api_ollama_status()` |
+| `api_osiris_bgp` | method | `estorides_web.py:1309` | `def api_osiris_bgp()` |
+| `api_osiris_github` | method | `estorides_web.py:1351` | `def api_osiris_github()` |
+| `api_osiris_kev` | method | `estorides_web.py:1379` | `def api_osiris_kev()` |
+| `api_osiris_leaks` | method | `estorides_web.py:1365` | `def api_osiris_leaks()` |
+| `api_osiris_mac` | method | `estorides_web.py:1323` | `def api_osiris_mac()` |
+| `api_osiris_malware` | method | `estorides_web.py:1388` | `def api_osiris_malware()` |
+| `api_osiris_phone` | method | `estorides_web.py:1337` | `def api_osiris_phone()` |
+| `api_osiris_threats` | method | `estorides_web.py:1393` | `def api_osiris_threats()` |
+| `api_run` | method | `estorides_web.py:362` | `def api_run()` |
+| `api_run_stream` | method | `estorides_web.py:1599` | `def api_run_stream()` |
+| `api_run_stream_start` | method | `estorides_web.py:1520` | `def api_run_stream_start()` |
+| `api_run_stream_stop` | method | `estorides_web.py:1587` | `def api_run_stream_stop()` |
+| `api_scheduler_status` | method | `estorides_web.py:1216` | `def api_scheduler_status()` |
+| `api_socmint_discover` | method | `estorides_web.py:1048` | `def api_socmint_discover()` |
+| `api_socmint_platforms` | method | `estorides_web.py:1040` | `def api_socmint_platforms()` |
+| `api_socmint_resolve` | method | `estorides_web.py:1018` | `def api_socmint_resolve()` |
+| `api_sources_yaml_create` | method | `estorides_web.py:947` | `def api_sources_yaml_create()` |
+| `api_sources_yaml_delete` | method | `estorides_web.py:987` | `def api_sources_yaml_delete(name)` |
+| `api_sources_yaml_list` | method | `estorides_web.py:921` | `def api_sources_yaml_list()` |
+| `api_sources_yaml_update` | method | `estorides_web.py:968` | `def api_sources_yaml_update(name)` |
+| `api_status` | method | `estorides_web.py:350` | `def api_status()` |
+| `api_transform_run` | method | `estorides_web.py:1248` | `def api_transform_run()` |
+| `api_transform_stream` | method | `estorides_web.py:1270` | `def api_transform_stream()` |
+| `api_transforms` | method | `estorides_web.py:1234` | `def api_transforms()` |
+| `api_watch_create` | method | `estorides_web.py:1100` | `def api_watch_create()` |
+| `api_watch_delete` | method | `estorides_web.py:1146` | `def api_watch_delete(watch_id)` |
+| `api_watch_disable` | method | `estorides_web.py:1170` | `def api_watch_disable(watch_id)` |
+| `api_watch_enable` | method | `estorides_web.py:1157` | `def api_watch_enable(watch_id)` |
+| `api_watch_get` | method | `estorides_web.py:1134` | `def api_watch_get(watch_id)` |
+| `api_watch_history` | method | `estorides_web.py:1182` | `def api_watch_history(watch_id)` |
+| `api_watch_list` | method | `estorides_web.py:1091` | `def api_watch_list()` |
+| `create_app` | method | `estorides_web.py:256` | `def create_app()` |
 | `deco` | method | `estorides_web.py:88` | `def deco(view)` |
 | `deco` | method | `estorides_web.py:197` | `def deco(view)` |
 | `done` | method | `estorides_web.py:175` | `def done(self)` |
-| `gen` | method | `estorides_web.py:1461` | `def gen()` |
-| `gen` | method | `estorides_web.py:1583` | `def gen()` |
-| `gen` | method | `estorides_web.py:1653` | `def gen()` |
-| `healthz` | method | `estorides_web.py:270` | `def healthz()` |
-| `index` | method | `estorides_web.py:307` | `def index()` |
-| `metrics` | method | `estorides_web.py:295` | `def metrics()` |
-| `openapi_doc` | method | `estorides_web.py:302` | `def openapi_doc()` |
-| `readyz` | method | `estorides_web.py:281` | `def readyz()` |
+| `gen` | method | `estorides_web.py:1483` | `def gen()` |
+| `gen` | method | `estorides_web.py:1605` | `def gen()` |
+| `gen` | method | `estorides_web.py:1681` | `def gen()` |
+| `healthz` | method | `estorides_web.py:292` | `def healthz()` |
+| `index` | method | `estorides_web.py:329` | `def index()` |
+| `metrics` | method | `estorides_web.py:317` | `def metrics()` |
+| `openapi_doc` | method | `estorides_web.py:324` | `def openapi_doc()` |
+| `readyz` | method | `estorides_web.py:303` | `def readyz()` |
 | `should_stop` | method | `estorides_web.py:167` | `def should_stop(self)` |
 | `status` | method | `estorides_web.py:171` | `def status(self)` |
 | `stop` | method | `estorides_web.py:164` | `def stop(self)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `TestPropertyScoreBounds` | class | `tests/properties/test_recon_fusion_properties.py:48` | `class TestPropertyScoreBounds` |
 | `TestPropertyTierKeysOrder` | class | `tests/properties/test_recon_fusion_properties.py:155` | `class TestPropertyTierKeysOrder` |
 | `TestPropertyTierSumMatches` | class | `tests/properties/test_recon_fusion_properties.py:93` | `class TestPropertyTierSumMatches` |
-| `TestPropertyTotalCounts` | class | `tests/properties/test_recon_fusion_properties.py:68` | `class TestPropertyTotalCounts` |
-| `test_all_scores_in_unit_interval` | method | `tests/properties/test_recon_fusion_properties.py:58` | `def test_all_scores_in_unit_interval(self, query, query_type, observations, entities)` |
-| `test_counts_match_input` | method | `tests/properties/test_recon_fusion_properties.py:78` | `def test_counts_match_input(self, query, query_type, n_obs, n_ents)` |
-| `test_deterministic_output` | method | `tests/properties/test_recon_fusion_properties.py:124` | `def test_deterministic_output(self, query, query_type, observations, entities)` |
-| `test_empty_query_raises` | method | `tests/properties/test_recon_fusion_properties.py:185` | `def test_empty_query_raises(self, query_type, observations, entities)` |
-| `test_entities_none_is_safe` | method | `tests/properties/test_recon_fusion_properties.py:214` | `def test_entities_none_is_safe(self, query, query_type, observations)` |
-| `test_no_duplicate_ids_in_tier` | method | `tests/properties/test_recon_fusion_properties.py:145` | `def test_no_duplicate_ids_in_tier(self, query, query_type, observations, entities)` |
-| `test_none_inputs_safe` | method | `tests/properties/test_recon_fusion_properties.py:201` | `def test_none_inputs_safe(self, query, query_type)` |
-| `test_tier_keys_in_canonical_order` | method | `tests/properties/test_recon_fusion_properties.py:165` | `def test_tier_keys_in_canonical_order(self, query, query_type, observations, entities)` |
-| `test_tier_summary_matches` | method | `tests/properties/test_recon_fusion_properties.py:103` | `def test_tier_summary_matches(self, query, query_type, observations, entities)` |
-| `test_corroboration_is_monotone_in_count` | function | `tests/properties/test_reliability_scoring_properties.py:159` | `def test_corroboration_is_monotone_in_count(n1, n2)` |
-| `test_corroboration_weight_in_unit_interval` | function | `tests/properties/test_reliability_scoring_properties.py:73` | `def test_corroboration_weight_in_unit_interval(n)` |
-| `test_credibility_weight_set_is_curated` | function | `tests/properties/test_reliability_scoring_properties.py:146` | `def test_credibility_weight_set_is_curated()` |
-| `test_freshness_monotone_in_age` | function | `tests/properties/test_reliability_scoring_properties.py:87` | `def test_freshness_monotone_in_age(age1, age2)` |
-| `test_higher_reliability_dominates` | function | `tests/properties/test_reliability_scoring_properties.py:184` | `def test_higher_reliability_dominates(rel1, rel2)` |
-| `test_merge_confidence_bounded` | function | `tests/properties/test_reliability_scoring_properties.py:126` | `def test_merge_confidence_bounded(existing, new_obs, new_rel, new_cred, cor, age)` |
-| `test_reliability_from_name_never_raises` | function | `tests/properties/test_reliability_scoring_properties.py:110` | `def test_reliability_from_name_never_raises(name)` |
-| `test_reliability_weight_set_is_curated` | function | `tests/properties/test_reliability_scoring_properties.py:141` | `def test_reliability_weight_set_is_curated()` |
-| `test_score_always_bounded` | function | `tests/properties/test_reliability_scoring_properties.py:56` | `def test_score_always_bounded(reliability, credibility, corroboration, age, base, half_life)` |
-| `test_source_type_from_name_never_raises` | function | `tests/properties/test_reliability_scoring_properties.py:202` | `def test_source_type_from_name_never_raises(name)` |
-| `test_source_type_weight_always_curated` | function | `tests/properties/test_reliability_scoring_properties.py:219` | `def test_source_type_weight_always_curated(reliability, credibility, source_type, corroboration, age, base, half_life)` |
-| `test_source_type_weight_set_is_curated` | function | `tests/properties/test_reliability_scoring_properties.py:241` | `def test_source_type_weight_set_is_curated()` |
-| `test_brand_predicate_flags_embedded_brand` | function | `tests/properties/test_search_telemetry_properties.py:84` | `def test_brand_predicate_flags_embedded_brand(prefix, suffix)` |
-| `test_brand_predicate_is_total` | function | `tests/properties/test_search_telemetry_properties.py:56` | `def test_brand_predicate_is_total(text)` |
-| `test_emoji_predicate_is_total` | function | `tests/properties/test_search_telemetry_properties.py:65` | `def test_emoji_predicate_is_total(text)` |
-| `test_percent_encoded_emoji_predicate_is_total` | function | `tests/properties/test_search_telemetry_properties.py:74` | `def test_percent_encoded_emoji_predicate_is_total(text)` |
-| `test_progress_invariants_hold` | function | `tests/properties/test_search_telemetry_properties.py:32` | `def test_progress_invariants_hold(completed, total, phase_key)` |
-| `test_progress_rejects_unknown_phase` | function | `tests/properties/test_search_telemetry_properties.py:46` | `def test_progress_rejects_unknown_phase(phase_key)` |
-| `_valid_input` | function | `tests/properties/test_source_health_monitoring_properties.py:21` | `def _valid_input(fetch, ok, latency, last_seen, now)` |
-| `test_dashboard_summary_counts_match` | function | `tests/properties/test_source_health_monitoring_properties.py:112` | `def test_dashboard_summary_counts_match(records)` |
-| `test_health_score_always_bounded` | function | `tests/properties/test_source_health_monitoring_properties.py:49` | `def test_health_score_always_bounded(fetch, ok, latency, last_seen, now)` |
-| `test_status_always_valid_enum` | function | `tests/properties/test_source_health_monitoring_properties.py:63` | `def test_status_always_valid_enum(fetch, ok, latency, last_seen, now)` |
-| `test_success_rate_bounds` | function | `tests/properties/test_source_health_monitoring_properties.py:78` | `def test_success_rate_bounds(fetch, ok, latency, last_seen, now)` |
-| `test_unknown_when_below_min_fetches` | function | `tests/properties/test_source_health_monitoring_properties.py:89` | `def test_unknown_when_below_min_fetches(fetch, config_min)` |
-| `valid_health_inputs` | function | `tests/properties/test_source_health_monitoring_properties.py:97` | `def valid_health_inputs(draw)` |
-| `test_adversarial_query_rejected_at_runner_boundary` | function | `tests/properties/test_system_app_sources_properties.py:124` | `def test_adversarial_query_rejected_at_runner_boundary(prefix, bad, suffix)` |
-| `test_parse_tool_output_never_raises` | function | `tests/properties/test_system_app_sources_properties.py:110` | `def test_parse_tool_output_never_raises(parser_name, data)` |
-| `test_read_capped_respects_limit` | function | `tests/properties/test_system_app_sources_properties.py:83` | `def test_read_capped_respects_limit(blob, cap)` |
-| `test_render_args_safe_inputs_no_metachars` | function | `tests/properties/test_system_app_sources_properties.py:55` | `def test_render_args_safe_inputs_no_metachars(args, query, outdir)` |
-| `test_render_args_substitution_is_verbatim` | function | `tests/properties/test_system_app_sources_properties.py:70` | `def test_render_args_substitution_is_verbatim(query, outdir)` |
-| `test_tool_parsers_never_raise` | function | `tests/properties/test_system_app_sources_properties.py:37` | `def test_tool_parsers_never_raise(parser_name, blob)` |
-| `test_p10_batch_import_never_raises` | function | `tests/properties/test_target_management_properties.py:116` | `def test_p10_batch_import_never_raises(text)` |
-| `test_p1_add_target_never_raises` | function | `tests/properties/test_target_management_properties.py:21` | `def test_p1_add_target_never_raises(etype, value)` |
-| `test_p2_validated_id_is_deterministic` | function | `tests/properties/test_target_management_properties.py:31` | `def test_p2_validated_id_is_deterministic(etype, value)` |
-| `test_p3_make_target_id_stable_under_case` | function | `tests/properties/test_target_management_properties.py:40` | `def test_p3_make_target_id_stable_under_case(etype, value)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -1,6 +1,30 @@
 # Subsystem: tests (page 2 of 4)
 Previous: [KB_tests.md](KB_tests.md)
 
+## tests/test_hardening.py
+- Doc: BDD tests for the v1.3 hardening surface, case diff and report.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_secured_app` (function, line 23) `def _secured_app(cfg)`
+  - `TestSecurityHeaders` (class, line 35) `class TestSecurityHeaders`
+  - `TestCors` (class, line 48) `class TestCors`
+  - `TestDebugKillswitch` (class, line 64) `class TestDebugKillswitch`
+  - `TestCaseDiff` (class, line 72) `class TestCaseDiff`
+  - `TestReport` (class, line 107) `class TestReport`
+  - `TestConsoleScript` (class, line 137) `class TestConsoleScript`
+  - `status` (method, line 29) `def status()`
+  - `test_headers_and_body_cap` (method, line 36) `def test_headers_and_body_cap(self)`
+  - `test_default_off` (method, line 49) `def test_default_off(self)`
+  - `test_allowlist` (method, line 54) `def test_allowlist(self)`
+  - `test_debug_raises` (method, line 65) `def test_debug_raises(self)`
+  - `test_diff_counts` (method, line 73) `def test_diff_counts(self, tmp_path)`
+  - `test_set_notes` (method, line 97) `def test_set_notes(self, tmp_path)`
+  - `test_renders_sections` (method, line 108) `def test_renders_sections(self)`
+  - `test_with_diff` (method, line 122) `def test_with_diff(self)`
+  - `test_help` (method, line 138) `def test_help(self)`
+- Depends on: `estorides_core/cases.py`, `estorides_core/web_security.py`, `estorides_export/report.py`
+
 ## tests/test_hypothesis_engine.py
 - Doc: ATDD + BDD tests for estorides_core.hypothesis_engine.
 - Layer: testing

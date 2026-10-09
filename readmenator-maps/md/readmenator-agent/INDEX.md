@@ -26,6 +26,7 @@
 | `estorides_core/fusion_store.py` | estorides_core.fusion_store | estorides_core | 18 | 5 |
 | `estorides_core/graph_force.py` | graph_force3d: payload force-graph estilo ReadMenator + contexto IA. | estorides_core | 12 | 2 |
 | `estorides_core/graph_kuzu.py` | estorides_core.graph_kuzu | estorides_core | 11 | 3 |
+| `estorides_core/graph_rag_search.py` | graph_rag_search: GraphRAG local/global para la IA local (sin LLM). | estorides_core | 44 | 2 |
 | `estorides_core/hypothesis_engine.py` | estorides_core.hypothesis_engine | estorides_core | 23 | 2 |
 | `estorides_core/ids.py` | estorides_core.ids | estorides_core | 1 | 6 |
 | `estorides_core/intel_resolver.py` | estorides_core.intel_resolver | estorides_core | 26 | 4 |
@@ -74,7 +75,7 @@
 | `estorides_llm/__init__.py` | estorides_llm | estorides_llm | 0 | 1 |
 | `estorides_llm/intelligence_prompts.py` | estorides_llm.intelligence_prompts | estorides_llm | 1 | 1 |
 | `estorides_llm/manager.py` | estorides_llm.manager | estorides_llm | 22 | 1 |
-| `estorides_web.py` | estorides.web | root | 94 | 7 |
+| `estorides_web.py` | estorides.web | root | 95 | 8 |
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
 | `static/js/estorides.js` | Estorides front-end controller | js | 165 | 0 |
@@ -112,6 +113,7 @@
 | `tests/test_event_bus.py` | M2a event_bus BDD red. | tests | 6 | 0 |
 | `tests/test_fusion_analytics.py` | ATDD + BDD tests for estorides_core.fusion_analytics. | tests | 36 | 0 |
 | `tests/test_graph_force3d.py` | graph_force3d: port del sistema de grafos ReadMenator + contexto IA. | tests | 9 | 0 |
+| `tests/test_graph_rag_search.py` | graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6). | tests | 11 | 0 |
 | `tests/test_hardening.py` | BDD tests for the v1.3 hardening surface, case diff and report. | tests | 17 | 0 |
 | `tests/test_hypothesis_engine.py` | ATDD + BDD tests for estorides_core.hypothesis_engine. | tests | 35 | 0 |
 | `tests/test_ids.py` | BDD tests for the shared deterministic id helper (spec/ids.md).  - ID1: deterministic and... | tests | 7 | 0 |

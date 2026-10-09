@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 160 files at commit `ad70fb5f845a`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 162 files at commit `f52ea6560ba9`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: From the creators of LazyOwn Redteam Framework comes a free and open-source (`README.md:16`)
-- Domain vocabulary (term, files): `estorides` (115), `not` (66), `run` (65), `source` (64), `single` (50), `bdd` (50), `one` (49), `sources` (46), `entity` (42), `same` (40), `module` (40), `name` (39), `type` (39), `result` (39), `error` (39)
-- Subsystem `estorides_core: estorides_web`: 27 files, core `estorides_web.py`: estorides.web
-- Subsystem `estorides_core: parsers`: 23 files, core `estorides_core/parsers.py`: estorides_core.parsers
-- Subsystem `estorides_core: config`: 22 files, core `estorides_core/config.py`: estorides.config
-- Subsystem `estorides_core: hypothesis_engine`: 19 files, core `estorides_core/hypothesis_engine.py`: estorides_core.hypothesis_engine
+- Domain vocabulary (term, files): `estorides` (116), `not` (66), `run` (65), `source` (64), `one` (51), `single` (50), `bdd` (50), `sources` (46), `entity` (43), `type` (40), `error` (40), `same` (40), `safe` (40), `module` (40), `name` (39)
+- Subsystem `estorides_core: estorides_web`: 26 files, core `estorides_web.py`: estorides.web
+- Subsystem `estorides_core: parsers`: 26 files, core `estorides_core/parsers.py`: estorides_core.parsers
+- Subsystem `estorides_core: estorides`: 22 files, core `static/js/estorides.js`: Estorides front-end controller
+- Subsystem `estorides_core: config`: 19 files, core `estorides_core/config.py`: estorides.config
+- Subsystem `estorides_core: hypothesis_engine`: 15 files, core `estorides_core/hypothesis_engine.py`: estorides_core.hypothesis_engine
 - Subsystem `estorides_core: people_intel`: 15 files, core `estorides_core/people_intel.py`
-- Subsystem `estorides_core: estorides`: 14 files, core `static/js/estorides.js`: Estorides front-end controller
 - Subsystem `estorides_core: tool_install`: 10 files, core `estorides_core/tool_install.py`: estorides_core.tool_install
-- Subsystem `estorides_core: entity_resolution`: 8 files, core `estorides_core/entity_resolution.py`: estorides_core.entity_resolution
+- Subsystem `estorides_export`: 8 files, core `estorides_core/knowledge_graph.py`: estorides_core.knowledge_graph
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -40,7 +40,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 3; layer violations: 16 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 3; layer violations: 17 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -48,10 +48,10 @@ Declared:
 - none declared in instruction files (add them to AGENTS.md or record them in section 7)
 
 Measured baseline:
-- py: 155 files, 2581 symbols; docstrings on 33% of symbols; functions snake_case (100%); types PascalCase (100%); median file 160 lines, max 1732.
+- py: 157 files, 2637 symbols; docstrings on 33% of symbols; functions snake_case (100%); types PascalCase (100%); median file 160 lines, max 1760.
 - js: 3 files, 252 symbols; docstrings on 25% of symbols; functions camelCase (72%); types PascalCase (0%); median file 941 lines, max 3250.
 - sh: 2 files, 2 symbols; docstrings on 50% of symbols; functions snake_case (100%); median file 100 lines, max 100.
-- Tests: 78 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
+- Tests: 79 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
 
 ## 5. Minimum deliverables
 

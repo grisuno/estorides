@@ -707,6 +707,36 @@
                 </div>
             </div>
 
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2t &middot; <code>graph_rag_search</code>
+                        <span class="badge badge-info ml-2">closed 2026-10-09</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">7 BDD (S1-S7)</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        ReadMenator <code>GraphRagSearcher</code> port: query-ranked
+                        context for the local AI instead of a static dump.
+                        Typed index (entities, relations, text units, community
+                        reports), Okapi BM25, global PageRank + Personalized
+                        PageRank (local search) and report map-reduce (global
+                        search) with auto mode, exact-name top-1 pin and
+                        token-budgeted packing. <code>api_analyze_stream</code>
+                        prepends the block to the LLM prompt (fail-soft, no new
+                        routes). Config via <code>ESTORIDES_GRAPHRAG_*</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/graph_rag_search.md">spec</a> &middot;
+                        <a href="../tests/test_graph_rag_search.py">tests</a> &middot;
+                        <a href="../estorides_core/graph_rag_search.py">source</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

@@ -1,6 +1,57 @@
 # Subsystem: estorides_core (page 2 of 3)
 Previous: [KB_estorides_core.md](KB_estorides_core.md)
 
+## estorides_core/graph_rag_search.py
+- Doc: graph_rag_search: GraphRAG local/global para la IA local (sin LLM).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphRagConfig` (class, line 53) `class GraphRagConfig`
+  - `graph_rag_config_from_env` (method, line 75) `def graph_rag_config_from_env()`
+  - `tokenize` (method, line 98) `def tokenize(text, min_len, stopwords)`
+  - `Bm25Index` (class, line 112) `class Bm25Index`
+  - `_stochastic` (method, line 153) `def _stochastic(ids, edges)`
+  - `pagerank` (method, line 176) `def pagerank(ids, edges, alpha, max_iter, tolerance)`
+  - `personalized_pagerank` (method, line 207) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)`
+  - `_md_safe` (method, line 250) `def _md_safe(text, limit)`
+  - `RagEntity` (class, line 260) `class RagEntity`
+  - `RagRelation` (class, line 271) `class RagRelation`
+  - `RagTextUnit` (class, line 281) `class RagTextUnit`
+  - `RagCommunity` (class, line 289) `class RagCommunity`
+  - `RagContext` (class, line 305) `class RagContext`
+  - `GraphRagIndex` (class, line 317) `class GraphRagIndex`
+  - `_req_str` (method, line 354) `def _req_str(item, key, default, what)`
+  - `_opt_str` (method, line 363) `def _opt_str(item, key, default)`
+  - `_opt_int` (method, line 368) `def _opt_int(item, key, default)`
+  - `_rel_weight` (method, line 378) `def _rel_weight(relation)`
+  - `build_index` (method, line 382) `def build_index(nodes, edges, clusters, config)`
+  - `_reports` (method, line 491) `def _reports(nodes, degree, rank, top_mass, weighted, cluster_label, cfg)`
+  - `GraphRagSearcher` (class, line 593) `class GraphRagSearcher`
+  - `ask_context` (method, line 857) `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)`
+  - `_scalar_detail` (method, line 872) `def _scalar_detail(attrs)`
+  - `graph_context_block` (method, line 886) `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)`
+  - `__init__` (method, line 115) `def __init__(self, documents, k1, b)`
+  - `scores` (method, line 136) `def scores(self, query)`
+  - `to_dict` (method, line 324) `def to_dict(self)`
+  - `from_dict` (method, line 334) `def from_dict(cls, data)`
+  - `where` (method, line 446) `def where(cid)`
+  - `__init__` (method, line 596) `def __init__(self, config, index)`
+  - `_tok` (method, line 621) `def _tok(self, text)`
+  - `_entity_doc` (method, line 624) `def _entity_doc(self, entity)`
+  - `_symmetric_edges` (method, line 628) `def _symmetric_edges(self)`
+  - `choose_mode` (method, line 635) `def choose_mode(self, query)`
+  - `search` (method, line 644) `def search(self, query, mode, budget_tokens)`
+  - `_budget_chars` (method, line 652) `def _budget_chars(self, budget_tokens)`
+  - `local_search` (method, line 658) `def local_search(self, query, budget_tokens)`
+  - `global_search` (method, line 754) `def global_search(self, query, budget_tokens)`
+  - `_report_block` (method, line 794) `def _report_block(report)`
+  - `_unit_block` (method, line 801) `def _unit_block(unit)`
+  - `_pack` (method, line 804) `def _pack(self, header, sections, budget_tokens, shares)`
+  - `_pack_with` (method, line 823) `def _pack_with(self, header, sections, shares, budget)`
+  - `rows` (method, line 335) `def rows(name)`
+  - `meta` (method, line 341) `def meta()`
+- Imported by: `estorides_web.py`, `tests/test_graph_rag_search.py`
+
 ## estorides_core/hypothesis_engine.py
 - Doc: estorides_core.hypothesis_engine
 - Layer: utility
@@ -437,63 +488,6 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `_on_source_result` (method, line 366) `def _on_source_result(observation)`
 - Depends on: `estorides_core/config.py`
 - Imported by: `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_structured_extraction.py`
-
-## estorides_core/recon_fusion.py
-- Doc: estorides_core.recon_fusion
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RelevanceTier` (class, line 27) `class RelevanceTier(str, Enum)`
-  - `GroupedEntity` (class, line 46) `class GroupedEntity`
-  - `FusionResult` (class, line 84) `class FusionResult`
-  - `_normalize_value` (method, line 107) `def _normalize_value(etype, value)`
-  - `_canonical_id` (method, line 112) `def _canonical_id(etype, value)`
-  - `_corroboration_factor` (method, line 117) `def _corroboration_factor(source_count)`
-  - `_freshness_factor` (method, line 124) `def _freshness_factor(age_hours, max_hours)`
-  - `_direct_match_query` (method, line 132) `def _direct_match_query(value, query)`
-  - `_extract_key_findings` (method, line 137) `def _extract_key_findings(observations)`
-  - `ReconFusionEngine` (class, line 160) `class ReconFusionEngine`
-  - `ordered` (method, line 40) `def ordered(cls)`
-  - `to_dict` (method, line 64) `def to_dict(self)`
-  - `to_dict` (method, line 95) `def to_dict(self)`
-  - `__init__` (method, line 166) `def __init__(self, config)`
-  - `classify` (method, line 169) `def classify(self, query, query_type, observations, entities)`
-  - `_deduplicate` (method, line 219) `def _deduplicate(self, observations)`
-  - `_group_by_entity` (method, line 237) `def _group_by_entity(self, observations, entities)`
-  - `_classify_groups` (method, line 321) `def _classify_groups(self, groups, query)`
-  - `_assign_tier` (method, line 386) `def _assign_tier(self, source_count, avg_reliability, direct_match)`
-- Depends on: `estorides_core/config.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
-- Imported by: `estorides_core/orchestrator.py`, `tests/properties/test_recon_fusion_properties.py`, `tests/test_recon_fusion.py`, `tests/test_ui_professional.py`
-
-## estorides_core/recon_pipeline.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `run_passive_recon` (function, line 22) `def run_passive_recon(query, headers, html, cookies, employees, code_findings, third_parties, pdns_subdomains...`
-- Depends on: `estorides_core/cloud_asset_discovery.py`, `estorides_core/code_exposure.py`, `estorides_core/pdns_monitor.py`, `estorides_core/people_intel.py`, `estorides_core/supply_chain.py`, `estorides_core/tech_fingerprint.py`, `estorides_core/vuln_correlation.py`
-
-## estorides_core/relationship_inference.py
-- Doc: estorides_core.relationship_inference
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RelationshipInferer` (class, line 36) `class RelationshipInferer(Protocol)`
-  - `register_inferer` (method, line 63) `def register_inferer(source_name)`
-  - `infer_relationship` (method, line 78) `def infer_relationship(observation, query, kg)`
-  - `_infer_dns` (method, line 105) `def _infer_dns(observation, query, kg)`
-  - `_infer_crtsh` (method, line 114) `def _infer_crtsh(observation, query, kg)`
-  - `_infer_shodan` (method, line 122) `def _infer_shodan(observation, query, kg)`
-  - `_infer_greynoise` (method, line 134) `def _infer_greynoise(observation, query, kg)`
-  - `_infer_abuseipdb` (method, line 143) `def _infer_abuseipdb(observation, query, kg)`
-  - `_infer_whois` (method, line 152) `def _infer_whois(observation, query, kg)`
-  - `_infer_urlscan` (method, line 163) `def _infer_urlscan(observation, query, kg)`
-  - `_infer_phonebook` (method, line 175) `def _infer_phonebook(observation, query, kg)`
-  - `_infer_ipapi` (method, line 186) `def _infer_ipapi(observation, query, kg)`
-  - `_infer_otx` (method, line 195) `def _infer_otx(observation, query, kg)`
-  - `_infer_nvd` (method, line 208) `def _infer_nvd(observation, query, kg)`
-  - `__call__` (method, line 51) `def __call__(self, observation, query, kg)`
-  - `deco` (method, line 70) `def deco(func)`
-- Imported by: `estorides_core/orchestrator.py`
 
 
 Next: [KB_estorides_core_p3.md](KB_estorides_core_p3.md)

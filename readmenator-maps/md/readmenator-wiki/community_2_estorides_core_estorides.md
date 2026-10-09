@@ -1,29 +1,60 @@
 # estorides_core: estorides
 
-*Community 5 | 14 files | cohesion 0.44*
+*Community 2 | 22 files | cohesion 0.47*
 
 ## Definition
 
-This community groups 14 file(s) rooted at `tests` with dominant language py (cohesion 0.44). Central symbols: `CLUSTER_PALETTE`, `CaseStore`, `CidrRule`, `DictMixin`, `ExactHostRule`, `NoPath`, `RegexRule`, `Row`. Core file: `static/js/estorides.js` (165 symbols). Documented purpose: estorides CLI.  Usage: estorides "example.com" estorides "8.8.8.8" --include-paid estorides "user@example.com" --only-sources shodan_internetdb,ipapi_free estor.
+This community groups 22 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.47). Central symbols: `BoundedJobRegistry`, `CLUSTER_PALETTE`, `CaseStore`, `CidrRule`, `DictMixin`, `DiscoverJob`, `ExactHostRule`, `FusionAnalytics`. Core file: `static/js/estorides.js` (165 symbols). Documented purpose: estorides CLI.  Usage: estorides "example.com" estorides "8.8.8.8" --include-paid estorides "user@example.com" --only-sources shodan_internetdb,ipapi_free estor.
 
 ## Files
+
+### `estorides_core` (10 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `estorides_core/case_crypto.py` | py | utility | 4 | yes |
+| `estorides_core/cases.py` | py | utility | 21 | yes |
+| `estorides_core/discoverer.py` | py | utility | 21 | yes |
+| `estorides_core/fusion_analytics.py` | py | utility | 14 | yes |
+| `estorides_core/fusion_store.py` | py | data_access | 18 | yes |
+| `estorides_core/graph_kuzu.py` | py | utility | 11 | yes |
+| `estorides_core/job_registry.py` | py | utility | 10 | yes |
+| `estorides_core/monitoring.py` | py | utility | 26 | yes |
+| `estorides_core/scope.py` | py | utility | 39 | yes |
+
+### `tests` (9 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_case_crypto.py` | py | testing | 5 | yes |
+| `tests/test_cli_watch.py` | py | testing | 16 | yes |
+| `tests/test_fusion_analytics.py` | py | testing | 36 | yes |
+| `tests/test_hardening.py` | py | testing | 17 | yes |
+| `tests/test_job_registry.py` | py | testing | 8 | yes |
+| `tests/test_obs_fts.py` | py | testing | 3 | yes |
+| `tests/test_probabilistic_fusion.py` | py | testing | 27 | yes |
+| `tests/test_scope.py` | py | testing | 15 | yes |
+
+### `.` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `estorides_cli.py` | py | utility | 31 | yes |
-| `estorides_core/case_crypto.py` | py | utility | 4 | yes |
-| `estorides_core/cases.py` | py | utility | 21 | yes |
-| `estorides_core/monitoring.py` | py | utility | 26 | yes |
-| `estorides_core/scope.py` | py | utility | 39 | yes |
-| `estorides_core/sqlite_store.py` | py | data_access | 7 | yes |
+
+### `estorides_export` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `estorides_export/report.py` | py | utility | 6 | yes |
+
+### `static/js` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `static/js/estorides.js` | js | utility | 165 | yes |
-| `tests/test_case_crypto.py` | py | testing | 5 | yes |
-| `tests/test_cli_watch.py` | py | testing | 16 | yes |
-| `tests/test_hardening.py` | py | testing | 17 | yes |
-| `tests/test_obs_fts.py` | py | testing | 3 | yes |
-| `tests/test_scope.py` | py | testing | 15 | yes |
-| `tests/test_sqlite_store.py` | py | testing | 14 | yes |
+
+*... and 2 more files in this community.*
+
 
 ## Key Symbols
 
@@ -60,33 +91,39 @@ This community groups 14 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 31
-- Cross-boundary resolved imports (EXTRACTED): 27
+- Internal resolved imports (EXTRACTED): 43
+- Cross-boundary resolved imports (EXTRACTED): 41
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 5 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
-- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.
-- [EXTRACTED] depends_on community 5 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.
-- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/discoverer.py.
-- [EXTRACTED] depends_on community 5 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/fusion_store.py.
-- [EXTRACTED] depends_on community 5 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 2 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.
+- [EXTRACTED] depends_on community 2 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.
+- [EXTRACTED] depends_on community 2 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_web.py.
+- [EXTRACTED] depends_on community 2 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/ids.py.
 
 ## Risks
 
+- [layer strict] `estorides_web.py` (presentation) -> `estorides_core/fusion_store.py` (data_access)
 - [layer strict] `tests/test_hardening.py` (testing) -> `estorides_core/web_security.py` (presentation)
 
 ## Open Questions
 
 - What would break if the most connected file in estorides_core: estorides changed?
-- Should estorides_core: estorides be split, given cohesion 0.44?
+- Should estorides_core: estorides be split, given cohesion 0.47?
 
 ## Sources
 
 - `estorides_cli.py`
 - `estorides_core/case_crypto.py`
 - `estorides_core/cases.py`
+- `estorides_core/discoverer.py`
+- `estorides_core/fusion_analytics.py`
+- `estorides_core/fusion_store.py`
+- `estorides_core/graph_kuzu.py`
+- `estorides_core/job_registry.py`
 - `estorides_core/monitoring.py`
 - `estorides_core/scope.py`
 - `estorides_core/sqlite_store.py`
@@ -94,7 +131,9 @@ This community groups 14 file(s) rooted at `tests` with dominant language py (co
 - `static/js/estorides.js`
 - `tests/test_case_crypto.py`
 - `tests/test_cli_watch.py`
+- `tests/test_fusion_analytics.py`
 - `tests/test_hardening.py`
+- `tests/test_job_registry.py`
 - `tests/test_obs_fts.py`
-- `tests/test_scope.py`
-- `tests/test_sqlite_store.py`
+- `tests/test_probabilistic_fusion.py`
+- *... and 2 more*

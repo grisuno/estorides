@@ -469,29 +469,23 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_s6_family_color_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s6_family_color_deterministic_and_settings_match_readmenator()`
 - Depends on: `estorides_core/graph_force.py`
 
-## tests/test_hardening.py
-- Doc: BDD tests for the v1.3 hardening surface, case diff and report.
+## tests/test_graph_rag_search.py
+- Doc: graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6).
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_secured_app` (function, line 23) `def _secured_app(cfg)`
-  - `TestSecurityHeaders` (class, line 35) `class TestSecurityHeaders`
-  - `TestCors` (class, line 48) `class TestCors`
-  - `TestDebugKillswitch` (class, line 64) `class TestDebugKillswitch`
-  - `TestCaseDiff` (class, line 72) `class TestCaseDiff`
-  - `TestReport` (class, line 107) `class TestReport`
-  - `TestConsoleScript` (class, line 137) `class TestConsoleScript`
-  - `status` (method, line 29) `def status()`
-  - `test_headers_and_body_cap` (method, line 36) `def test_headers_and_body_cap(self)`
-  - `test_default_off` (method, line 49) `def test_default_off(self)`
-  - `test_allowlist` (method, line 54) `def test_allowlist(self)`
-  - `test_debug_raises` (method, line 65) `def test_debug_raises(self)`
-  - `test_diff_counts` (method, line 73) `def test_diff_counts(self, tmp_path)`
-  - `test_set_notes` (method, line 97) `def test_set_notes(self, tmp_path)`
-  - `test_renders_sections` (method, line 108) `def test_renders_sections(self)`
-  - `test_with_diff` (method, line 122) `def test_with_diff(self)`
-  - `test_help` (method, line 138) `def test_help(self)`
-- Depends on: `estorides_core/cases.py`, `estorides_core/web_security.py`, `estorides_export/report.py`
+  - `_nodes` (function, line 18) `def _nodes()`
+  - `_edges` (function, line 29) `def _edges()`
+  - `_clusters` (function, line 36) `def _clusters()`
+  - `_searcher` (function, line 43) `def _searcher()`
+  - `test_s1_local_match_leads` (function, line 48) `def test_s1_local_match_leads()`
+  - `test_s2_global_hints_map_reduce` (function, line 61) `def test_s2_global_hints_map_reduce()`
+  - `test_s3_empty_graph_no_raise` (function, line 71) `def test_s3_empty_graph_no_raise()`
+  - `test_s4_hostile_fails_closed_and_bounded` (function, line 83) `def test_s4_hostile_fails_closed_and_bounded()`
+  - `test_s5_pagerank_sums_to_one_and_deterministic` (function, line 108) `def test_s5_pagerank_sums_to_one_and_deterministic()`
+  - `test_s6_context_block_from_digraph` (function, line 124) `def test_s6_context_block_from_digraph()`
+  - `test_s7_web_helper_uses_graph_path_fail_soft` (function, line 142) `def test_s7_web_helper_uses_graph_path_fail_soft(tmp_path, monkeypatch)`
+- Depends on: `estorides_core/graph_rag_search.py`, `estorides_web.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

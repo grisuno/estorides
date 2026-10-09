@@ -133,6 +133,7 @@
 - `estorides_web.py` -> `estorides_core/fusion_store.py`
 - `estorides_web.py` -> `estorides_core/graph_force.py`
 - `estorides_web.py` -> `estorides_core/graph_kuzu.py`
+- `estorides_web.py` -> `estorides_core/graph_rag_search.py`
 - `estorides_web.py` -> `estorides_core/intel_resolver.py`
 - `estorides_web.py` -> `estorides_core/job_registry.py`
 - `estorides_web.py` -> `estorides_core/knowledge_graph.py`
@@ -200,6 +201,8 @@
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_analytics.py`
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_store.py`
 - `tests/test_graph_force3d.py` -> `estorides_core/graph_force.py`
+- `tests/test_graph_rag_search.py` -> `estorides_core/graph_rag_search.py`
+- `tests/test_graph_rag_search.py` -> `estorides_web.py`
 - `tests/test_hardening.py` -> `estorides_core/cases.py`
 - `tests/test_hardening.py` -> `estorides_core/web_security.py`
 - `tests/test_hardening.py` -> `estorides_export/report.py`
@@ -300,6 +303,7 @@
 - `estorides_core/fusion_store.py` -> __future__, json, logging, pathlib, sqlite3, time, typing
 - `estorides_core/graph_force.py` -> __future__, math, typing
 - `estorides_core/graph_kuzu.py` -> __future__, json, kuzu, logging, os, pathlib, threading, time, typing
+- `estorides_core/graph_rag_search.py` -> __future__, collections.abc, dataclasses, estorides_core.envutil, math, re, typing
 - `estorides_core/hypothesis_engine.py` -> __future__, collections, collections.abc, dataclasses, logging, typing
 - `estorides_core/ids.py` -> __future__, hashlib
 - `estorides_core/intel_resolver.py` -> __future__, collections, ipaddress, json, logging, os, re, requests, threading, time, typing
@@ -380,6 +384,7 @@
 - `tests/test_event_bus.py` -> __future__, pytest
 - `tests/test_fusion_analytics.py` -> __future__, collections.abc, pathlib, pytest, time, typing
 - `tests/test_graph_force3d.py` -> __future__, json, re
+- `tests/test_graph_rag_search.py` -> __future__, json, networkx, pytest
 - `tests/test_hardening.py` -> __future__, flask, pathlib, pytest, subprocess, sys
 - `tests/test_hypothesis_engine.py` -> __future__, pytest
 - `tests/test_ids.py` -> __future__, hashlib

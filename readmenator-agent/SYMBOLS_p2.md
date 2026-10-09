@@ -3,6 +3,50 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `list_watches` | method | `estorides_core/monitoring.py:203` | `def list_watches(self, enabled_only)` |
+| `record_run_complete` | method | `estorides_core/monitoring.py:236` | `def record_run_complete(self, history_id, status, entity_count, obs_count, error, alert_sent)` |
+| `record_run_start` | method | `estorides_core/monitoring.py:226` | `def record_run_start(self, watch_id)` |
+| `running` | method | `estorides_core/monitoring.py:300` | `def running(self)` |
+| `set_alerter` | method | `estorides_core/monitoring.py:329` | `def set_alerter(self, alerter)` |
+| `set_runner` | method | `estorides_core/monitoring.py:325` | `def set_runner(self, runner)` |
+| `start` | method | `estorides_core/monitoring.py:308` | `def start(self)` |
+| `stats` | method | `estorides_core/monitoring.py:266` | `def stats(self)` |
+| `stop` | method | `estorides_core/monitoring.py:319` | `def stop(self)` |
+| `to_dict` | method | `estorides_core/monitoring.py:110` | `def to_dict(self)` |
+| `update_watch` | method | `estorides_core/monitoring.py:186` | `def update_watch(self, watch)` |
+| `Observation` | class | `estorides_core/observation_models.py:109` | `class Observation(_StrictModel)` |
+| `ObservationMeta` | class | `estorides_core/observation_models.py:72` | `class ObservationMeta(_StrictModel)` |
+| `ObservedEntity` | class | `estorides_core/observation_models.py:147` | `class ObservedEntity(_StrictModel)` |
+| `RunResult` | class | `estorides_core/observation_models.py:175` | `class RunResult(_StrictModel)` |
+| `_StrictModel` | class | `estorides_core/observation_models.py:66` | `class _StrictModel(BaseModel)` |
+| `_bound_url` | method | `estorides_core/observation_models.py:87` | `def _bound_url(cls, value)` |
+| `_check_json_safe` | function | `estorides_core/observation_models.py:44` | `def _check_json_safe(value)` |
+| `_json_safe` | method | `estorides_core/observation_models.py:125` | `def _json_safe(cls, value)` |
+| `_json_safe` | method | `estorides_core/observation_models.py:160` | `def _json_safe(cls, value)` |
+| `_upper_method` | method | `estorides_core/observation_models.py:92` | `def _upper_method(cls, value)` |
+| `to_legacy_dict` | method | `estorides_core/observation_models.py:95` | `def to_legacy_dict(self)` |
+| `to_legacy_dict` | method | `estorides_core/observation_models.py:128` | `def to_legacy_dict(self)` |
+| `to_legacy_dict` | method | `estorides_core/observation_models.py:163` | `def to_legacy_dict(self)` |
+| `to_legacy_dict` | method | `estorides_core/observation_models.py:183` | `def to_legacy_dict(self)` |
+| `OntologyEngine` | class | `estorides_core/ontology.py:314` | `class OntologyEngine` |
+| `SanctionEntry` | class | `estorides_core/ontology.py:70` | `class SanctionEntry` |
+| `SanctionsIndex` | class | `estorides_core/ontology.py:96` | `class SanctionsIndex` |
+| `WikidataCache` | class | `estorides_core/ontology.py:268` | `class WikidataCache` |
+| `__init__` | method | `estorides_core/ontology.py:115` | `def __init__(self)` |
+| `__init__` | method | `estorides_core/ontology.py:276` | `def __init__(self)` |
+| `__init__` | method | `estorides_core/ontology.py:317` | `def __init__(self)` |
+| `_candidate_fields` | method | `estorides_core/ontology.py:359` | `def _candidate_fields(source, parsed)` |
+| `_download` | method | `estorides_core/ontology.py:201` | `def _download(self)` |
+| `_index` | method | `estorides_core/ontology.py:255` | `def _index(self, entries)` |
+| `_normalise_name` | method | `estorides_core/ontology.py:84` | `def _normalise_name(s)` |
+| `_parse` | method | `estorides_core/ontology.py:226` | `def _parse(self, text)` |
+| `_persist` | method | `estorides_core/ontology.py:213` | `def _persist(self, text)` |
+| `_refresh` | method | `estorides_core/ontology.py:172` | `def _refresh(self)` |
+| `check_observation` | method | `estorides_core/ontology.py:321` | `def check_observation(self, observation)` |
+| `clear` | method | `estorides_core/ontology.py:308` | `def clear(self)` |
+| `entries` | method | `estorides_core/ontology.py:134` | `def entries(self)` |
+| `get` | method | `estorides_core/ontology.py:282` | `def get(self, kind, value)` |
+| `is_ready` | method | `estorides_core/ontology.py:131` | `def is_ready(self)` |
 | `lookup` | method | `estorides_core/ontology.py:141` | `def lookup(self, name)` |
 | `lookup_crypto` | method | `estorides_core/ontology.py:151` | `def lookup_crypto(self, address)` |
 | `put` | method | `estorides_core/ontology.py:296` | `def put(self, kind, value, payload)` |
@@ -452,49 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_run_leaks` | method | `estorides_core/transforms.py:169` | `def _run_leaks(ent_type, value)` |
 | `_static_runner` | method | `estorides_core/transforms.py:332` | `def _static_runner(nodes_tpl, links_tpl)` |
 | `_str_list` | method | `estorides_core/transforms.py:322` | `def _str_list(raw)` |
-| `_transform_from_yaml` | method | `estorides_core/transforms.py:362` | `def _transform_from_yaml(raw, origin)` |
-| `for_type` | method | `estorides_core/transforms.py:234` | `def for_type(self, ent_type)` |
-| `iter_sse_events` | method | `estorides_core/transforms.py:406` | `def iter_sse_events(transform_id, ent_type, value, runner)` |
-| `load_yaml_dir` | method | `estorides_core/transforms.py:280` | `def load_yaml_dir(self, directory)` |
-| `register` | method | `estorides_core/transforms.py:231` | `def register(self, t)` |
-| `run` | method | `estorides_core/transforms.py:122` | `def run(ent_type, value)` |
-| `run` | method | `estorides_core/transforms.py:246` | `def run(self, transform_id, ent_type, value)` |
-| `run` | method | `estorides_core/transforms.py:335` | `def run(ent_type, value)` |
-| `sub` | method | `estorides_core/transforms.py:338` | `def sub(s, depth)` |
-| `summary` | method | `estorides_core/transforms.py:83` | `def summary(self)` |
-| `_strip_diacritics` | function | `estorides_core/transliteration.py:76` | `def _strip_diacritics(text)` |
-| `consonant_skeleton` | function | `estorides_core/transliteration.py:112` | `def consonant_skeleton(text)` |
-| `is_non_latin` | function | `estorides_core/transliteration.py:139` | `def is_non_latin(text)` |
-| `to_latin` | function | `estorides_core/transliteration.py:87` | `def to_latin(text)` |
-| `Query` | class | `estorides_core/validation.py:63` | `class Query` |
-| `QueryValidationError` | class | `estorides_core/validation.py:55` | `class QueryValidationError(ValueError)` |
-| `__init__` | method | `estorides_core/validation.py:57` | `def __init__(self, reason, message)` |
-| `__str__` | method | `estorides_core/validation.py:69` | `def __str__(self)` |
-| `_strip_and_collapse` | method | `estorides_core/validation.py:73` | `def _strip_and_collapse(text)` |
-| `validate_query` | method | `estorides_core/validation.py:85` | `def validate_query(raw)` |
-| `DefaultCred` | class | `estorides_core/vuln_correlation.py:14` | `class DefaultCred` |
-| `VulnCorrelationResult` | class | `estorides_core/vuln_correlation.py:43` | `class VulnCorrelationResult` |
-| `VulnEntry` | class | `estorides_core/vuln_correlation.py:24` | `class VulnEntry` |
-| `_parsed_version` | method | `estorides_core/vuln_correlation.py:141` | `def _parsed_version(version)` |
-| `_version_in_range` | method | `estorides_core/vuln_correlation.py:153` | `def _version_in_range(version, v_start, v_end)` |
-| `compute_attack_readiness` | method | `estorides_core/vuln_correlation.py:228` | `def compute_attack_readiness(vulnerabilities)` |
-| `correlate_technologies` | method | `estorides_core/vuln_correlation.py:202` | `def correlate_technologies(technologies)` |
-| `lookup_cve_for_tech` | method | `estorides_core/vuln_correlation.py:169` | `def lookup_cve_for_tech(tech_name, version)` |
-| `to_dict` | method | `estorides_core/vuln_correlation.py:19` | `def to_dict(self)` |
-| `to_dict` | method | `estorides_core/vuln_correlation.py:38` | `def to_dict(self)` |
-| `to_dict` | method | `estorides_core/vuln_correlation.py:52` | `def to_dict(self)` |
-| `AuthGate` | class | `estorides_core/web_security.py:341` | `class AuthGate` |
-| `WebSecurityConfig` | class | `estorides_core/web_security.py:87` | `class WebSecurityConfig` |
-| `_cors_preflight` | method | `estorides_core/web_security.py:250` | `def _cors_preflight()` |
-| `_current_gate` | method | `estorides_core/web_security.py:440` | `def _current_gate()` |
-| `_env_str` | method | `estorides_core/web_security.py:137` | `def _env_str(name, default)` |
-| `_extract_bearer_token` | method | `estorides_core/web_security.py:286` | `def _extract_bearer_token()` |
-| `_redirect_to_https` | method | `estorides_core/web_security.py:203` | `def _redirect_to_https()` |
-| `_security_headers` | method | `estorides_core/web_security.py:217` | `def _security_headers(resp)` |
-| `auth_meta_for_index` | method | `estorides_core/web_security.py:362` | `def auth_meta_for_index(self)` |
-| `auto_generated_token` | method | `estorides_core/web_security.py:444` | `def auto_generated_token()` |
-| `build_https_url` | function | `estorides_core/web_security.py:58` | `def build_https_url(public_host, path, query_string)` |
-| `check` | method | `estorides_core/web_security.py:354` | `def check(self)` |
-| `enabled` | method | `estorides_core/web_security.py:351` | `def enabled(self)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

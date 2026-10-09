@@ -1,10 +1,10 @@
 # estorides_core: parsers
 
-*Community 1 | 23 files | cohesion 0.49*
+*Community 1 | 26 files | cohesion 0.52*
 
 ## Definition
 
-This community groups 23 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.49). Central symbols: `EntityResolver`, `EventBus`, `Fake`, `OntologyEngine`, `Orchestrator`, `PaginationConfig`, `PlatformInfo`, `ProfileMatch`. Core file: `tests/test_socmint.py` (72 symbols). Documented purpose: estorides_core.event_bus.
+This community groups 26 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.52). Central symbols: `AnthropicBackend`, `EntityResolver`, `EventBus`, `Fake`, `LLMBackend`, `LLMManager`, `OllamaBackend`, `OntologyEngine`. Core file: `tests/test_socmint.py` (72 symbols). Documented purpose: estorides_core.event_bus.
 
 ## Files
 
@@ -20,7 +20,6 @@ This community groups 23 file(s) rooted at `estorides_core` with dominant langua
 | `estorides_core/pagination.py` | py | utility | 7 | yes |
 | `estorides_core/parsers.py` | py | utility | 65 | yes |
 | `estorides_core/relationship_inference.py` | py | utility | 16 | yes |
-| `estorides_core/socmint.py` | py | utility | 12 | yes |
 
 ### `tests` (9 files)
 
@@ -33,8 +32,14 @@ This community groups 23 file(s) rooted at `estorides_core` with dominant langua
 | `tests/test_socmint.py` | py | testing | 72 | yes |
 | `tests/test_source_loader.py` | py | testing | 12 | yes |
 | `tests/test_source_routing.py` | py | testing | 6 | yes |
-| `tests/test_system_app_sources.py` | py | testing | 42 | yes |
-| `tests/test_transforms.py` | py | testing | 12 | yes |
+
+### `estorides_llm` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `estorides_llm/__init__.py` | py | utility | 0 | yes |
+| `estorides_llm/intelligence_prompts.py` | py | utility | 1 | yes |
+| `estorides_llm/manager.py` | py | utility | 22 | yes |
 
 ### `tests/properties` (2 files)
 
@@ -43,7 +48,7 @@ This community groups 23 file(s) rooted at `estorides_core` with dominant langua
 | `tests/properties/test_parsers_properties.py` | py | testing | 1 | yes |
 | `tests/properties/test_system_app_sources_properties.py` | py | testing | 6 | yes |
 
-*... and 3 more files in this community.*
+*... and 6 more files in this community.*
 
 
 ## Key Symbols
@@ -81,31 +86,30 @@ This community groups 23 file(s) rooted at `estorides_core` with dominant langua
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 57
+- Internal resolved imports (EXTRACTED): 60
 - Cross-boundary resolved imports (EXTRACTED): 37
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.
-- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/orchestrator.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.
-- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.
+- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 1 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.
 - [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: estorides_core/system_app_sources.py imports estorides_core/tool_runner.py.
 
 ## Risks
 
 - [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/intel_resolver.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/ontology.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/ontology.py` via `requests` (1 hops)
 
 ## Open Questions
 
 - Is the dangerous import `requests` in `estorides_core/intel_resolver.py` still required, or can it be isolated?
 - What would break if the most connected file in estorides_core: parsers changed?
-- Should estorides_core: parsers be split, given cohesion 0.49?
+- Should estorides_core: parsers be split, given cohesion 0.52?
 
 ## Sources
 
@@ -121,12 +125,12 @@ This community groups 23 file(s) rooted at `estorides_core` with dominant langua
 - `estorides_core/source_loader.py`
 - `estorides_core/system_app_sources.py`
 - `estorides_core/transforms.py`
+- `estorides_llm/__init__.py`
+- `estorides_llm/intelligence_prompts.py`
+- `estorides_llm/manager.py`
 - `tests/properties/test_parsers_properties.py`
 - `tests/properties/test_system_app_sources_properties.py`
 - `tests/test_event_bus.py`
 - `tests/test_keyless_sources.py`
 - `tests/test_opsec_contact.py`
-- `tests/test_pagination.py`
-- `tests/test_socmint.py`
-- `tests/test_source_loader.py`
-- *... and 3 more*
+- *... and 6 more*

@@ -1,14 +1,12 @@
 # estorides_core: config
 
-*Community 2 | 22 files | cohesion 0.39*
+*Community 3 | 19 files | cohesion 0.37*
 
 ## Definition
 
-This community groups 22 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.39). Central symbols: `AlertDispatcher`, `AnthropicBackend`, `AsyncClient`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `Feed`, `FeedPoint`. Core file: `tests/test_security_remediation.py` (67 symbols). Documented purpose: estorides_core.__init__.
+This community groups 19 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.37). Central symbols: `AlertDispatcher`, `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityRunner`, `EventSink`. Core file: `tests/test_security_remediation.py` (67 symbols). Documented purpose: estorides_core.__init__.
 
 ## Files
-
-### `estorides_core` (9 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -18,38 +16,19 @@ This community groups 22 file(s) rooted at `estorides_core` with dominant langua
 | `estorides_core/config.py` | py | infrastructure | 26 | yes |
 | `estorides_core/feeds.py` | py | utility | 16 | yes |
 | `estorides_core/observation_models.py` | py | business_logic | 14 | yes |
-| `estorides_core/ops_observability.py` | py | utility | 10 | yes |
 | `estorides_core/osiris_sources.py` | py | utility | 8 | yes |
-
-### `tests` (9 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
+| `estorides_core/pivot_engine.py` | py | utility | 25 | yes |
+| `estorides_core/ssrf_guard.py` | py | utility | 12 | yes |
+| `tests/properties/test_observation_models_properties.py` | py | testing | 7 | yes |
 | `tests/test_async_client.py` | py | testing | 15 | yes |
 | `tests/test_config_env.py` | py | testing | 13 | yes |
 | `tests/test_monitoring.py` | py | testing | 35 | yes |
 | `tests/test_observation_models.py` | py | testing | 28 | yes |
-| `tests/test_ops_observability.py` | py | testing | 6 | yes |
 | `tests/test_orchestrator_fanout.py` | py | testing | 9 | yes |
 | `tests/test_parsers.py` | py | testing | 9 | yes |
 | `tests/test_retry_policy.py` | py | testing | 2 | yes |
-
-### `estorides_llm` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `estorides_llm/__init__.py` | py | utility | 0 | yes |
-| `estorides_llm/intelligence_prompts.py` | py | utility | 1 | yes |
-| `estorides_llm/manager.py` | py | utility | 22 | yes |
-
-### `tests/properties` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/properties/test_observation_models_properties.py` | py | testing | 7 | yes |
-
-*... and 2 more files in this community.*
-
+| `tests/test_security_remediation.py` | py | testing | 67 | no |
+| `tests/test_structured_extraction.py` | py | testing | 8 | yes |
 
 ## Key Symbols
 
@@ -86,18 +65,18 @@ This community groups 22 file(s) rooted at `estorides_core` with dominant langua
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 49
-- Cross-boundary resolved imports (EXTRACTED): 47
+- Internal resolved imports (EXTRACTED): 42
+- Cross-boundary resolved imports (EXTRACTED): 48
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 0 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 6 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 0 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/recon_fusion.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 6 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
 
 ## Risks
 
@@ -122,7 +101,7 @@ This community groups 22 file(s) rooted at `estorides_core` with dominant langua
 - Why do 1 file(s) lack file-level docs (e.g. `tests/test_security_remediation.py`)? What purpose do they serve?
 - Is the dangerous import `urllib.request` in `estorides_core/alerter.py` still required, or can it be isolated?
 - What would break if the most connected file in estorides_core: config changed?
-- Should estorides_core: config be split, given cohesion 0.39?
+- Should estorides_core: config be split, given cohesion 0.37?
 
 ## Sources
 
@@ -132,18 +111,16 @@ This community groups 22 file(s) rooted at `estorides_core` with dominant langua
 - `estorides_core/config.py`
 - `estorides_core/feeds.py`
 - `estorides_core/observation_models.py`
-- `estorides_core/ops_observability.py`
 - `estorides_core/osiris_sources.py`
+- `estorides_core/pivot_engine.py`
 - `estorides_core/ssrf_guard.py`
-- `estorides_llm/__init__.py`
-- `estorides_llm/intelligence_prompts.py`
-- `estorides_llm/manager.py`
 - `tests/properties/test_observation_models_properties.py`
 - `tests/test_async_client.py`
 - `tests/test_config_env.py`
 - `tests/test_monitoring.py`
 - `tests/test_observation_models.py`
-- `tests/test_ops_observability.py`
 - `tests/test_orchestrator_fanout.py`
 - `tests/test_parsers.py`
-- *... and 2 more*
+- `tests/test_retry_policy.py`
+- `tests/test_security_remediation.py`
+- `tests/test_structured_extraction.py`

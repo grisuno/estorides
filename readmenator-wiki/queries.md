@@ -8,7 +8,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does estorides_web.py depend on, and what depends on it? (34 connections)
+### Q: What does estorides_web.py depend on, and what depends on it? (36 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 27 files in 'estorides_core: estorides_web' related to each other?
+### Q: How are the 26 files in 'estorides_core: estorides_web' related to each other?
 
 - Status: unanswered
 

@@ -1,10 +1,10 @@
 # estorides_core: entity_resolution
 
-*Community 7 | 8 files | cohesion 0.36*
+*Community 8 | 7 files | cohesion 0.35*
 
 ## Definition
 
-This community groups 8 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.36). Central symbols: `CanonicalEntity`, `Entity`, `EntityResolver`, `EntityStore`, `MatchScore`, `ResolutionResult`, `SameAsLink`, `TestCanonicalEntityRoundtrip`. Core file: `tests/test_entity_resolution.py` (68 symbols). Documented purpose: estorides_core.entity_extraction.
+This community groups 7 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.35). Central symbols: `CanonicalEntity`, `Entity`, `EntityResolver`, `EntityStore`, `MatchScore`, `ResolutionResult`, `SameAsLink`, `TestCanonicalEntityRoundtrip`. Core file: `tests/test_entity_resolution.py` (68 symbols). Documented purpose: estorides_core.entity_extraction.
 
 ## Files
 
@@ -17,7 +17,6 @@ This community groups 8 file(s) rooted at `estorides_core` with dominant languag
 | `tests/test_entity_extraction.py` | py | testing | 7 | yes |
 | `tests/test_entity_resolution.py` | py | testing | 68 | yes |
 | `tests/test_query_intent.py` | py | testing | 6 | yes |
-| `tests/test_structured_extraction.py` | py | testing | 8 | yes |
 
 ## Key Symbols
 
@@ -54,16 +53,17 @@ This community groups 8 file(s) rooted at `estorides_core` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 10
-- Cross-boundary resolved imports (EXTRACTED): 20
+- Internal resolved imports (EXTRACTED): 9
+- Cross-boundary resolved imports (EXTRACTED): 19
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
-- [EXTRACTED] depends_on community 8 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 2 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
+- [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 6 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_runner.py imports estorides_core/entity_extraction.py.
 
 ## Risks
 
@@ -72,7 +72,7 @@ This community groups 8 file(s) rooted at `estorides_core` with dominant languag
 ## Open Questions
 
 - What would break if the most connected file in estorides_core: entity_resolution changed?
-- Should estorides_core: entity_resolution be split, given cohesion 0.36?
+- Should estorides_core: entity_resolution be split, given cohesion 0.35?
 
 ## Sources
 
@@ -83,4 +83,3 @@ This community groups 8 file(s) rooted at `estorides_core` with dominant languag
 - `tests/test_entity_extraction.py`
 - `tests/test_entity_resolution.py`
 - `tests/test_query_intent.py`
-- `tests/test_structured_extraction.py`

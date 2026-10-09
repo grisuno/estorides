@@ -3,6 +3,62 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestDegradingLowSuccess` | class | `tests/test_source_health_monitoring.py:97` | `class TestDegradingLowSuccess` |
+| `TestDeterminism` | class | `tests/test_source_health_monitoring.py:411` | `class TestDeterminism` |
+| `TestHealthySource` | class | `tests/test_source_health_monitoring.py:29` | `class TestHealthySource` |
+| `TestScoreBounded` | class | `tests/test_source_health_monitoring.py:441` | `class TestScoreBounded` |
+| `TestStaleSource` | class | `tests/test_source_health_monitoring.py:186` | `class TestStaleSource` |
+| `TestStatusAlwaysValid` | class | `tests/test_source_health_monitoring.py:472` | `class TestStatusAlwaysValid` |
+| `TestUnknownSource` | class | `tests/test_source_health_monitoring.py:217` | `class TestUnknownSource` |
+| `TestValidation` | class | `tests/test_source_health_monitoring.py:348` | `class TestValidation` |
+| `_degrading` | method | `tests/test_source_health_monitoring.py:263` | `def _degrading(name)` |
+| `_healthy` | method | `tests/test_source_health_monitoring.py:252` | `def _healthy(name)` |
+| `_stale` | method | `tests/test_source_health_monitoring.py:274` | `def _stale(name)` |
+| `_unknown` | method | `tests/test_source_health_monitoring.py:285` | `def _unknown(name)` |
+| `test_avg_latency_computed` | method | `tests/test_source_health_monitoring.py:56` | `def test_avg_latency_computed(self)` |
+| `test_avg_latency_high` | method | `tests/test_source_health_monitoring.py:156` | `def test_avg_latency_high(self)` |
+| `test_broken_source_scores_low` | method | `tests/test_source_health_monitoring.py:456` | `def test_broken_source_scores_low(self)` |
+| `test_build_dashboard_is_pure` | method | `tests/test_source_health_monitoring.py:428` | `def test_build_dashboard_is_pure(self)` |
+| `test_compute_health_is_pure` | method | `tests/test_source_health_monitoring.py:414` | `def test_compute_health_is_pure(self)` |
+| `test_config_degrading_rate_out_of_range_raises` | method | `tests/test_source_health_monitoring.py:403` | `def test_config_degrading_rate_out_of_range_raises(self)` |
+| `test_config_is_dataclass` | method | `tests/test_source_health_monitoring.py:501` | `def test_config_is_dataclass(self)` |
+| `test_config_min_fetches_less_than_one_raises` | method | `tests/test_source_health_monitoring.py:395` | `def test_config_min_fetches_less_than_one_raises(self)` |
+| `test_config_stale_hours_zero_raises` | method | `tests/test_source_health_monitoring.py:399` | `def test_config_stale_hours_zero_raises(self)` |
+| `test_dashboard_is_dataclass` | method | `tests/test_source_health_monitoring.py:505` | `def test_dashboard_is_dataclass(self)` |
+| `test_dashboard_to_dict` | method | `tests/test_source_health_monitoring.py:523` | `def test_dashboard_to_dict(self)` |
+| `test_degrading_includes_degrading_and_stale` | method | `tests/test_source_health_monitoring.py:306` | `def test_degrading_includes_degrading_and_stale(self)` |
+| `test_degrading_status` | method | `tests/test_source_health_monitoring.py:100` | `def test_degrading_status(self)` |
+| `test_degrading_status_for_latency` | method | `tests/test_source_health_monitoring.py:144` | `def test_degrading_status_for_latency(self)` |
+| `test_empty_name_raises` | method | `tests/test_source_health_monitoring.py:384` | `def test_empty_name_raises(self)` |
+| `test_freshness_hours_computed` | method | `tests/test_source_health_monitoring.py:68` | `def test_freshness_hours_computed(self)` |
+| `test_freshness_hours_exceeds_stale` | method | `tests/test_source_health_monitoring.py:201` | `def test_freshness_hours_exceeds_stale(self)` |
+| `test_health_input_is_dataclass` | method | `tests/test_source_health_monitoring.py:495` | `def test_health_input_is_dataclass(self)` |
+| `test_health_result_is_dataclass` | method | `tests/test_source_health_monitoring.py:498` | `def test_health_result_is_dataclass(self)` |
+| `test_health_score_high_band` | method | `tests/test_source_health_monitoring.py:80` | `def test_health_score_high_band(self)` |
+| `test_health_score_low_band` | method | `tests/test_source_health_monitoring.py:124` | `def test_health_score_low_band(self)` |
+| `test_health_score_penalised` | method | `tests/test_source_health_monitoring.py:168` | `def test_health_score_penalised(self)` |
+| `test_healthy_status` | method | `tests/test_source_health_monitoring.py:32` | `def test_healthy_status(self)` |
+| `test_hot_sources_are_healthy` | method | `tests/test_source_health_monitoring.py:295` | `def test_hot_sources_are_healthy(self)` |
+| `test_negative_fetch_raises` | method | `tests/test_source_health_monitoring.py:362` | `def test_negative_fetch_raises(self)` |
+| `test_negative_latency_raises` | method | `tests/test_source_health_monitoring.py:373` | `def test_negative_latency_raises(self)` |
+| `test_ok_exceeds_fetch_raises` | method | `tests/test_source_health_monitoring.py:351` | `def test_ok_exceeds_fetch_raises(self)` |
+| `test_perfect_source_scores_one` | method | `tests/test_source_health_monitoring.py:444` | `def test_perfect_source_scores_one(self)` |
+| `test_result_to_dict` | method | `tests/test_source_health_monitoring.py:508` | `def test_result_to_dict(self)` |
+| `test_stale_status` | method | `tests/test_source_health_monitoring.py:189` | `def test_stale_status(self)` |
+| `test_status_is_enum` | method | `tests/test_source_health_monitoring.py:475` | `def test_status_is_enum(self)` |
+| `test_success_rate_computed` | method | `tests/test_source_health_monitoring.py:44` | `def test_success_rate_computed(self)` |
+| `test_success_rate_reflects_failures` | method | `tests/test_source_health_monitoring.py:112` | `def test_success_rate_reflects_failures(self)` |
+| `test_summary_counts` | method | `tests/test_source_health_monitoring.py:329` | `def test_summary_counts(self)` |
+| `test_unknown_sources_separate` | method | `tests/test_source_health_monitoring.py:319` | `def test_unknown_sources_separate(self)` |
+| `test_unknown_status` | method | `tests/test_source_health_monitoring.py:220` | `def test_unknown_status(self)` |
+| `test_zero_fetches_is_unknown` | method | `tests/test_source_health_monitoring.py:232` | `def test_zero_fetches_is_unknown(self)` |
+| `TestSL1MultiDocument` | class | `tests/test_source_loader.py:32` | `class TestSL1MultiDocument` |
+| `TestSL2ListDocument` | class | `tests/test_source_loader.py:42` | `class TestSL2ListDocument` |
+| `TestSL3DuplicateName` | class | `tests/test_source_loader.py:55` | `class TestSL3DuplicateName` |
+| `TestSL4UnknownContact` | class | `tests/test_source_loader.py:70` | `class TestSL4UnknownContact` |
+| `TestSL5UndecodableFile` | class | `tests/test_source_loader.py:78` | `class TestSL5UndecodableFile` |
+| `_source` | function | `tests/test_source_loader.py:22` | `def _source(name, category, extra)` |
+| `_write` | function | `tests/test_source_loader.py:17` | `def _write(path, text)` |
 | `test_bad_encoding_does_not_abort_load` | method | `tests/test_source_loader.py:79` | `def test_bad_encoding_does_not_abort_load(self, tmp_path)` |
 | `test_duplicate_overwrites_counts` | method | `tests/test_source_loader.py:56` | `def test_duplicate_overwrites_counts(self, tmp_path)` |
 | `test_list_of_sources_loads` | method | `tests/test_source_loader.py:43` | `def test_list_of_sources_loads(self, tmp_path)` |

@@ -2,56 +2,56 @@
 
 Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 
-- `estorides` | files=115 | mentions=236 | `app.py`, `estorides_cli.py`, `estorides_core/__init__.py`, `estorides_core/active_recon.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`
+- `estorides` | files=116 | mentions=238 | `app.py`, `estorides_cli.py`, `estorides_core/__init__.py`, `estorides_core/active_recon.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`
 - `not` | files=66 | mentions=139 | `app.py`, `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`
 - `when` | files=66 | mentions=135 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`
 - `run` | files=65 | mentions=180 | `estorides_cli.py`, `estorides_core/active_recon.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`
 - `source` | files=64 | mentions=336 | `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/hypothesis_engine.py`
 - `returns` | files=63 | mentions=188 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`
 - `list` | files=55 | mentions=145 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`
+- `one` | files=51 | mentions=138 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/event_bus.py`
+- `dict` | files=50 | mentions=143 | `estorides_cli.py`, `estorides_core/active_recon.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cloud_asset_discovery.py`, `estorides_core/code_exposure.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`
+- `empty` | files=50 | mentions=110 | `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/event_bus.py`, `estorides_core/fusion_analytics.py`, `estorides_core/job_registry.py`, `estorides_core/pagination.py`, `estorides_core/parsers.py`, `estorides_core/recon_fusion.py`, `estorides_core/ssrf_guard.py`
 - `single` | files=50 | mentions=89 | `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`
 - `bdd` | files=50 | mentions=57 | `tests/properties/test_observation_models_properties.py`, `tests/test_active_recon.py`, `tests/test_async_client.py`, `tests/test_case_crypto.py`, `tests/test_change_detection.py`, `tests/test_cli_watch.py`, `tests/test_cloud_asset_discovery.py`, `tests/test_code_exposure.py`, `tests/test_config_env.py`, `tests/test_entity_extraction.py`
-- `dict` | files=49 | mentions=141 | `estorides_cli.py`, `estorides_core/active_recon.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cloud_asset_discovery.py`, `estorides_core/code_exposure.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`
-- `one` | files=49 | mentions=136 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/event_bus.py`
-- `empty` | files=49 | mentions=109 | `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/event_bus.py`, `estorides_core/fusion_analytics.py`, `estorides_core/job_registry.py`, `estorides_core/pagination.py`, `estorides_core/parsers.py`, `estorides_core/recon_fusion.py`, `estorides_core/ssrf_guard.py`
 - `never` | files=47 | mentions=109 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`
 - `every` | files=47 | mentions=97 | `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`
 - `only` | files=47 | mentions=87 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`
 - `sources` | files=46 | mentions=140 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
 - `none` | files=45 | mentions=95 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/case_crypto.py`, `estorides_core/change_detection.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
+- `entity` | files=43 | mentions=237 | `estorides_cli.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
 - `value` | files=43 | mentions=105 | `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/hypothesis_engine.py`
-- `entity` | files=42 | mentions=235 | `estorides_cli.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
 - `return` | files=41 | mentions=118 | `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/case_crypto.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/event_bus.py`, `estorides_core/feeds.py`
+- `type` | files=40 | mentions=129 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`
 - `given` | files=40 | mentions=118 | `estorides_cli.py`, `estorides_core/cases.py`, `estorides_core/entity_resolution.py`, `estorides_core/graph_kuzu.py`, `estorides_core/knowledge_graph.py`, `estorides_core/pagination.py`, `estorides_core/pivot_engine.py`, `estorides_core/relationship_inference.py`, `estorides_core/source_loader.py`, `estorides_core/tool_install.py`
+- `error` | files=40 | mentions=97 | `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cloud_asset_discovery.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_store.py`, `estorides_core/graph_force.py`, `estorides_core/observation_models.py`, `estorides_core/recon_fusion.py`, `estorides_core/relationship_inference.py`
 - `same` | files=40 | mentions=96 | `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`
+- `safe` | files=40 | mentions=62 | `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/graph_rag_search.py`, `estorides_core/mitre_attack.py`
 - `each` | files=40 | mentions=59 | `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/event_bus.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`
 - `module` | files=40 | mentions=47 | `app.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/graph_kuzu.py`, `estorides_core/hypothesis_engine.py`
 - `name` | files=39 | mentions=128 | `estorides_core/change_detection.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/event_bus.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/graph_force.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/intel_resolver.py`, `estorides_core/ontology.py`
-- `type` | files=39 | mentions=128 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`
 - `result` | files=39 | mentions=101 | `estorides_cli.py`, `estorides_core/active_recon.py`, `estorides_core/audit.py`, `estorides_core/cloud_asset_discovery.py`, `estorides_core/code_exposure.py`, `estorides_core/entity_resolution.py`, `estorides_core/intel_resolver.py`, `estorides_core/mitre_attack.py`, `estorides_core/observation_models.py`, `estorides_core/orchestrator.py`
-- `error` | files=39 | mentions=95 | `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cloud_asset_discovery.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_store.py`, `estorides_core/graph_force.py`, `estorides_core/observation_models.py`, `estorides_core/recon_fusion.py`, `estorides_core/relationship_inference.py`
+- `spec` | files=39 | mentions=82 | `estorides_core/parsers.py`, `estorides_core/search_telemetry.py`, `estorides_core/system_app_sources.py`, `estorides_export/stix.py`, `estorides_web.py`, `static/js/graph_force.js`, `tests/properties/test_change_detection_properties.py`, `tests/properties/test_hypothesis_engine_properties.py`, `tests/properties/test_observation_models_properties.py`, `tests/properties/test_search_telemetry_properties.py`
 - `can` | files=39 | mentions=71 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`
 - `all` | files=39 | mentions=68 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/job_registry.py`, `estorides_core/mitre_attack.py`, `estorides_core/ops_observability.py`, `estorides_core/pivot_engine.py`
-- `safe` | files=39 | mentions=60 | `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/mitre_attack.py`, `estorides_core/monitoring.py`
 - `key` | files=38 | mentions=99 | `estorides_core/async_client.py`, `estorides_core/case_crypto.py`, `estorides_core/change_detection.py`, `estorides_core/code_exposure.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`
-- `spec` | files=38 | mentions=81 | `estorides_core/parsers.py`, `estorides_core/search_telemetry.py`, `estorides_core/system_app_sources.py`, `estorides_export/stix.py`, `static/js/graph_force.js`, `tests/properties/test_change_detection_properties.py`, `tests/properties/test_hypothesis_engine_properties.py`, `tests/properties/test_observation_models_properties.py`, `tests/properties/test_search_telemetry_properties.py`, `tests/test_active_recon.py`
 - `default` | files=38 | mentions=73 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/feeds.py`, `estorides_core/graph_force.py`, `estorides_core/monitoring.py`, `estorides_core/orchestrator.py`, `estorides_core/pagination.py`
+- `path` | files=37 | mentions=95 | `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/intel_resolver.py`, `estorides_core/ontology.py`, `estorides_core/pagination.py`, `estorides_core/scope.py`, `estorides_core/source_loader.py`
 - `json` | files=37 | mentions=85 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/graph_force.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`
-- `path` | files=36 | mentions=94 | `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/intel_resolver.py`, `estorides_core/ontology.py`, `estorides_core/pagination.py`, `estorides_core/scope.py`, `estorides_core/source_loader.py`
 - `then` | files=36 | mentions=42 | `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/entity_resolution.py`, `estorides_core/fusion_store.py`, `estorides_core/ontology.py`, `estorides_core/orchestrator.py`, `estorides_core/tool_install.py`, `estorides_core/transforms.py`, `estorides_core/web_security.py`, `estorides_web.py`
 - `per` | files=35 | mentions=72 | `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`
 - `must` | files=35 | mentions=71 | `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/entity_store.py`, `estorides_core/observation_models.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/relationship_inference.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_install.py`, `estorides_core/web_security.py`
 - `without` | files=35 | mentions=55 | `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/event_bus.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`
-- `data` | files=33 | mentions=66 | `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/knowledge_graph.py`, `estorides_core/observation_models.py`
+- `data` | files=34 | mentions=67 | `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/knowledge_graph.py`, `estorides_core/observation_models.py`
+- `any` | files=32 | mentions=58 | `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/observation_models.py`, `estorides_core/ontology.py`
+- `api` | files=31 | mentions=151 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/feeds.py`, `estorides_core/graph_force.py`, `estorides_core/graph_rag_search.py`, `estorides_core/intel_resolver.py`, `estorides_core/openapi.py`
+- `query` | files=31 | mentions=100 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/monitoring.py`, `estorides_core/ontology.py`
 - `entities` | files=31 | mentions=96 | `estorides_cli.py`, `estorides_core/active_recon.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`
 - `input` | files=31 | mentions=71 | `estorides_core/change_detection.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/graph_force.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/reliability_scoring.py`, `estorides_core/source_health_monitoring.py`, `estorides_core/tool_install.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`
 - `raises` | files=31 | mentions=70 | `estorides_core/observation_models.py`, `estorides_core/parsers.py`, `estorides_core/recon_fusion.py`, `estorides_core/relationship_inference.py`, `estorides_core/reliability_scoring.py`, `estorides_core/search_telemetry.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_install.py`, `estorides_core/validation.py`
 - `unknown` | files=31 | mentions=66 | `estorides_core/config.py`, `estorides_core/graph_kuzu.py`, `estorides_core/observation_models.py`, `estorides_core/parsers.py`, `estorides_core/reliability_scoring.py`, `estorides_core/scope.py`, `estorides_core/search_telemetry.py`, `estorides_core/source_health_monitoring.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`
-- `any` | files=31 | mentions=57 | `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/observation_models.py`, `estorides_core/ontology.py`
 - `first` | files=31 | mentions=48 | `estorides_core/alerter.py`, `estorides_core/change_detection.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/ontology.py`, `estorides_core/parsers.py`, `estorides_core/recon_fusion.py`
-- `api` | files=30 | mentions=150 | `estorides_cli.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/feeds.py`, `estorides_core/graph_force.py`, `estorides_core/intel_resolver.py`, `estorides_core/openapi.py`, `estorides_core/orchestrator.py`
-- `query` | files=30 | mentions=99 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/monitoring.py`, `estorides_core/ontology.py`
-- `orchestrator` | files=30 | mentions=57 | `estorides_cli.py`, `estorides_core/cases.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/event_bus.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/intel_resolver.py`
+- `set` | files=30 | mentions=69 | `estorides_cli.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/change_detection.py`, `estorides_core/entity_resolution.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/observation_models.py`
 
 ## Verb Edges
 
@@ -64,47 +64,47 @@ Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges 
 - `estorides` --depends_on--> `not` (strength 0.81)
 - `estorides` --depends_on--> `single` (strength 0.81)
 - `estorides` --depends_on--> `source` (strength 0.80)
-- `one` --depends_on--> `estorides` (strength 0.78)
+- `one` --depends_on--> `estorides` (strength 0.80)
 - `only` --depends_on--> `estorides` (strength 0.77)
 - `source` --depends_on--> `estorides` (strength 0.77)
-- `estorides` --depends_on--> `can` (strength 0.76)
 - `entity` --depends_on--> `estorides` (strength 0.75)
+- `estorides` --depends_on--> `can` (strength 0.75)
 - `estorides` --depends_on--> `list` (strength 0.75)
-- `estorides` --depends_on--> `one` (strength 0.74)
+- `estorides` --depends_on--> `one` (strength 0.75)
 - `estorides` --depends_on--> `every` (strength 0.73)
 - `estorides` --depends_on--> `returns` (strength 0.73)
 - `estorides` --depends_on--> `entity` (strength 0.72)
 - `none` --depends_on--> `estorides` (strength 0.71)
-- `estorides` --depends_on--> `return` (strength 0.70)
+- `type` --depends_on--> `estorides` (strength 0.71)
 - `estorides` --depends_on--> `when` (strength 0.70)
 - `run` --depends_on--> `single` (strength 0.70)
-- `run` --depends_on--> `not` (strength 0.69)
+- `estorides` --depends_on--> `return` (strength 0.69)
 - `run` --depends_on--> `source` (strength 0.69)
-- `type` --depends_on--> `estorides` (strength 0.69)
-- `estorides` --depends_on--> `only` (strength 0.67)
-- `estorides` --depends_on--> `same` (strength 0.67)
+- `run` --depends_on--> `not` (strength 0.68)
 - `every` --depends_on--> `estorides` (strength 0.67)
 - `estorides` --depends_on--> `never` (strength 0.66)
-- `not` --depends_on--> `single` (strength 0.66)
-- `returns` --depends_on--> `not` (strength 0.66)
+- `estorides` --depends_on--> `only` (strength 0.66)
+- `estorides` --depends_on--> `same` (strength 0.66)
+- `query` --depends_on--> `estorides` (strength 0.66)
 - `returns` --depends_on--> `source` (strength 0.66)
-- `run` --depends_on--> `can` (strength 0.66)
-- `run` --depends_on--> `list` (strength 0.66)
-- `when` --depends_on--> `source` (strength 0.66)
+- `not` --depends_on--> `single` (strength 0.65)
 - `not` --depends_on--> `source` (strength 0.65)
-- `orchestrator` --depends_on--> `estorides` (strength 0.65)
-- `query` --depends_on--> `estorides` (strength 0.65)
-- `returns` --depends_on--> `single` (strength 0.65)
+- `returns` --depends_on--> `not` (strength 0.65)
+- `run` --depends_on--> `can` (strength 0.65)
 - `run` --depends_on--> `every` (strength 0.65)
+- `run` --depends_on--> `list` (strength 0.65)
 - `run` --depends_on--> `one` (strength 0.65)
+- `when` --depends_on--> `source` (strength 0.65)
+- `can` --depends_on--> `estorides` (strength 0.64)
+- `returns` --depends_on--> `single` (strength 0.64)
 - `run` --depends_on--> `entity` (strength 0.64)
-- `can` --depends_on--> `estorides` (strength 0.63)
 - `default` --depends_on--> `estorides` (strength 0.63)
-- `returns` --depends_on--> `can` (strength 0.63)
-- `returns` --depends_on--> `return` (strength 0.63)
 - `run` --depends_on--> `returns` (strength 0.63)
 - `when` --depends_on--> `single` (strength 0.63)
-- `estorides` --depends_on--> `type` (strength 0.62)
+- `not` --depends_on--> `can` (strength 0.62)
+- `returns` --depends_on--> `can` (strength 0.62)
+- `returns` --depends_on--> `return` (strength 0.62)
+- `when` --depends_on--> `not` (strength 0.62)
 
 ## Dialectic
 

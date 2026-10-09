@@ -1,6 +1,6 @@
 # estorides_export
 
-*Community 8 | 8 files | cohesion 0.45*
+*Community 7 | 8 files | cohesion 0.45*
 
 ## Definition
 
@@ -55,14 +55,14 @@ This community groups 8 file(s) rooted at `estorides_export` with dominant langu
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 15
-- Cross-boundary resolved imports (EXTRACTED): 12
+- Cross-boundary resolved imports (EXTRACTED): 13
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
-- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 8 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 2 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.
 
 ## Risks
 
