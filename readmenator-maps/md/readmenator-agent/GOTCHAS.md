@@ -12,14 +12,14 @@ These files have the most connections. Changes here have high blast radius.
 - `estorides_core/cases.py` (score: 22.10, imported by 7 files)
 - `estorides_core/fusion_store.py` (score: 21.80, imported by 5 files)
 - `estorides_core/tool_runner.py` (score: 21.50, imported by 8 files)
-- `static/js/estorides.js` (score: 20.50)
+- `static/js/estorides.js` (score: 20.80)
 - `estorides_core/web_security.py` (score: 20.20, imported by 9 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `estorides_core/config.py` -- 41 direct, 50 total dependents
+- `estorides_core/config.py` -- 41 direct, 52 total dependents
 - `estorides_core/entity_extraction.py` -- 13 direct, 47 total dependents
 - `estorides_core/ids.py` -- 6 direct, 37 total dependents
 - `estorides_core/reliability_scoring.py` -- 8 direct, 35 total dependents
@@ -33,7 +33,8 @@ Editing these files can break the listed number of dependents. Run their tests a
 ## Hotspots (complexity + centrality)
 
 - `static/js/estorides.js` -- complexity: 1.0, centrality: 1.0, combined: 1.0
-- `static/js/graph_force.js` -- complexity: 0.4, centrality: 0.3, combined: 0.4
+- `static/js/graph_force.js` -- complexity: 0.6, centrality: 0.5, combined: 0.5
+- `static/js/graph_bundle.js` -- complexity: 0.4, centrality: 0.4, combined: 0.4
 - `estorides_web.py` -- complexity: 0.6, centrality: 0.1, combined: 0.3
 - `estorides_core/parsers.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 - `estorides_core/graph_rag_search.py` -- complexity: 0.3, centrality: 0.0, combined: 0.1
@@ -41,7 +42,6 @@ Editing these files can break the listed number of dependents. Run their tests a
 - `estorides_cli.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 - `estorides_core/scope.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 - `estorides_core/entity_resolution.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
-- `estorides_core/system_app_sources.py` -- complexity: 0.2, centrality: 0.0, combined: 0.1
 
 ## Dependency Cycles
 

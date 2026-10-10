@@ -25,6 +25,19 @@
   - `test_csp_style_src_never_gains_unsafe_inline` (function, line 137) `def test_csp_style_src_never_gains_unsafe_inline(bad)`
 - Depends on: `estorides_core/web_security.py`
 
+## tests/properties/test_graph_bundle_properties.py
+- Doc: Property-based invariants for estorides_core.graph_bundle.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `force_strategy` (function, line 32) `def force_strategy(draw)`
+  - `_assert_consistent` (function, line 82) `def _assert_consistent(out, raw)`
+  - `test_p1_total_and_consistent` (function, line 104) `def test_p1_total_and_consistent(payload)`
+  - `test_p2_deterministic` (function, line 115) `def test_p2_deterministic(payload)`
+  - `test_p3_empty_never_raises` (function, line 131) `def test_p3_empty_never_raises(payloads)`
+  - `test_p4_settings_bounded` (function, line 141) `def test_p4_settings_bounded(data)`
+- Depends on: `estorides_core/graph_bundle.py`
+
 ## tests/properties/test_hypothesis_engine_properties.py
 - Doc: Property-based invariants for estorides_core.hypothesis_engine.
 - Layer: testing

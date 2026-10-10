@@ -49,6 +49,7 @@
 - `estorides_core/fusion_store.py` -> `estorides_core/ids.py`
 - `estorides_core/fusion_store.py` -> `estorides_core/reliability_scoring.py`
 - `estorides_core/fusion_store.py` -> `estorides_core/sqlite_store.py`
+- `estorides_core/graph_bundle.py` -> `estorides_core/graph_force.py`
 - `estorides_core/graph_kuzu.py` -> `estorides_core/config.py`
 - `estorides_core/hypothesis_engine.py` -> `estorides_core/ids.py`
 - `estorides_core/hypothesis_engine.py` -> `estorides_core/reliability_scoring.py`
@@ -158,6 +159,7 @@
 - `static/js/estorides.js` -> `estorides_export/report.py`
 - `tests/properties/test_change_detection_properties.py` -> `estorides_core/change_detection.py`
 - `tests/properties/test_csp_safe_styles_properties.py` -> `estorides_core/web_security.py`
+- `tests/properties/test_graph_bundle_properties.py` -> `estorides_core/graph_bundle.py`
 - `tests/properties/test_hypothesis_engine_properties.py` -> `estorides_core/hypothesis_engine.py`
 - `tests/properties/test_observation_models_properties.py` -> `estorides_core/observation_models.py`
 - `tests/properties/test_parsers_properties.py` -> `estorides_core/parsers.py`
@@ -200,6 +202,9 @@
 - `tests/test_event_bus.py` -> `estorides_core/event_bus.py`
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_analytics.py`
 - `tests/test_fusion_analytics.py` -> `estorides_core/fusion_store.py`
+- `tests/test_graph_bundle.py` -> `estorides_core/__init__.py`
+- `tests/test_graph_bundle.py` -> `estorides_core/graph_bundle.py`
+- `tests/test_graph_bundle.py` -> `estorides_core/graph_force.py`
 - `tests/test_graph_force3d.py` -> `estorides_core/graph_force.py`
 - `tests/test_graph_rag_search.py` -> `estorides_core/graph_rag_search.py`
 - `tests/test_graph_rag_search.py` -> `estorides_web.py`
@@ -281,6 +286,17 @@
 
 ## External Imports
 
+- `.scratchpad/gb_shots.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_bridge.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_click.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.action_chains, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_data.py` -> json, selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_debug.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_dom.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_func.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_raw.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_shots.py` -> json, selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.action_chains, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_step.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_time.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
 - `app.py` -> __future__, warnings
 - `estorides_cli.py` -> __future__, argparse, asyncio, collections.abc, json, logging, networkx, pathlib, sys, time, typing
 - `estorides_core/active_recon.py` -> __future__, dataclasses, logging, typing
@@ -301,6 +317,7 @@
 - `estorides_core/feeds.py` -> __future__, abc, csv, dataclasses, io, json, logging, os, pathlib, requests, time, typing
 - `estorides_core/fusion_analytics.py` -> __future__, logging, time, typing
 - `estorides_core/fusion_store.py` -> __future__, json, logging, pathlib, sqlite3, time, typing
+- `estorides_core/graph_bundle.py` -> __future__, collections.abc, dataclasses, estorides_core.envutil, math, typing
 - `estorides_core/graph_force.py` -> __future__, math, typing
 - `estorides_core/graph_kuzu.py` -> __future__, json, kuzu, logging, os, pathlib, threading, time, typing
 - `estorides_core/graph_rag_search.py` -> __future__, collections.abc, dataclasses, estorides_core.envutil, math, re, typing
@@ -355,6 +372,7 @@
 - `tests/conftest.py` -> __future__, pathlib, sys
 - `tests/properties/test_change_detection_properties.py` -> __future__, hypothesis, pytest, re
 - `tests/properties/test_csp_safe_styles_properties.py` -> __future__, hypothesis, pathlib, re
+- `tests/properties/test_graph_bundle_properties.py` -> __future__, hypothesis, json, math, pytest
 - `tests/properties/test_hypothesis_engine_properties.py` -> __future__, hypothesis, re
 - `tests/properties/test_observation_models_properties.py` -> __future__, hypothesis
 - `tests/properties/test_parsers_properties.py` -> __future__, hypothesis, typing
@@ -383,6 +401,8 @@
 - `tests/test_envutil.py` -> __future__, estorides_core.envutil
 - `tests/test_event_bus.py` -> __future__, pytest
 - `tests/test_fusion_analytics.py` -> __future__, collections.abc, pathlib, pytest, time, typing
+- `tests/test_graph_bundle.py` -> __future__, json, math, pytest
+- `tests/test_graph_bundle_assets.py` -> __future__, pathlib, pytest
 - `tests/test_graph_force3d.py` -> __future__, json, re
 - `tests/test_graph_rag_search.py` -> __future__, json, networkx, pytest
 - `tests/test_hardening.py` -> __future__, flask, pathlib, pytest, subprocess, sys

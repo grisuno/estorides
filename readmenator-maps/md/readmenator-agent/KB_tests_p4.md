@@ -1,6 +1,79 @@
 # Subsystem: tests (page 4 of 4)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
+## tests/test_supply_chain.py
+- Doc: ATDD + BDD tests for estorides_core.supply_chain.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestCDNDetection` (class, line 18) `class TestCDNDetection`
+  - `TestEmailProviderDetection` (class, line 36) `class TestEmailProviderDetection`
+  - `TestNoThirdParties` (class, line 66) `class TestNoThirdParties`
+  - `TestSharedASN` (class, line 74) `class TestSharedASN`
+  - `TestNoOutboundScanning` (class, line 95) `class TestNoOutboundScanning`
+  - `TestSubsidiaryDetection` (class, line 113) `class TestSubsidiaryDetection`
+  - `TestCommonIssuerExcluded` (class, line 133) `class TestCommonIssuerExcluded`
+  - `TestRegistrarDetection` (class, line 148) `class TestRegistrarDetection`
+  - `test_cloudflare_cdn_detected` (method, line 19) `def test_cloudflare_cdn_detected(self)`
+  - `test_google_workspace_mx_detected` (method, line 37) `def test_google_workspace_mx_detected(self)`
+  - `test_microsoft_365_mx_detected` (method, line 51) `def test_microsoft_365_mx_detected(self)`
+  - `test_empty_when_self_hosted` (method, line 67) `def test_empty_when_self_hosted(self)`
+  - `test_asn_sharing_detected` (method, line 75) `def test_asn_sharing_detected(self)`
+  - `test_no_http_to_third_parties` (method, line 96) `def test_no_http_to_third_parties(self)`
+  - `test_subsidiary_relationship` (method, line 114) `def test_subsidiary_relationship(self)`
+  - `test_lets_encrypt_not_flagged` (method, line 134) `def test_lets_encrypt_not_flagged(self)`
+  - `test_godaddy_registrar` (method, line 149) `def test_godaddy_registrar(self)`
+- Depends on: `estorides_core/supply_chain.py`
+
+## tests/test_system_app_sources.py
+- Doc: BDD tests for estorides_core.system_app_sources.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_stub_runner` (function, line 48) `def _stub_runner(exit_code, stdout, stderr, error_code, error_message, on_run)`
+  - `TestS1HappyPath` (class, line 79) `class TestS1HappyPath`
+  - `TestS2MissingBinary` (class, line 119) `class TestS2MissingBinary`
+  - `TestS3Crash` (class, line 151) `class TestS3Crash`
+  - `TestS4Injection` (class, line 171) `class TestS4Injection`
+  - `TestS5JsonFileOutput` (class, line 190) `class TestS5JsonFileOutput`
+  - `TestS6Placeholders` (class, line 254) `class TestS6Placeholders`
+  - `TestS7ContactCeiling` (class, line 272) `class TestS7ContactCeiling`
+  - `TestS8Registry` (class, line 306) `class TestS8Registry`
+  - `TestRunnerErrorPassthrough` (class, line 408) `class TestRunnerErrorPassthrough`
+  - `TestS9LoopResponsiveness` (class, line 433) `class TestS9LoopResponsiveness`
+  - `stub` (method, line 52) `def stub(binary, args)`
+  - `test_execute_renders_query_and_parses_found_lines` (method, line 80) `def test_execute_renders_query_and_parses_found_lines(self)`
+  - `test_execute_returns_source_and_tool_metadata` (method, line 105) `def test_execute_returns_source_and_tool_metadata(self)`
+  - `test_execute_reports_tool_not_found` (method, line 120) `def test_execute_reports_tool_not_found(self, monkeypatch)`
+  - `test_execute_reports_missing_binary_declaration` (method, line 130) `def test_execute_reports_missing_binary_declaration(self)`
+  - `test_execute_rejects_non_allowlisted_binary` (method, line 136) `def test_execute_rejects_non_allowlisted_binary(self, monkeypatch)`
+  - `test_nonzero_exit_keeps_parsed_output` (method, line 152) `def test_nonzero_exit_keeps_parsed_output(self)`
+  - `test_metachar_arg_is_rejected_by_tool_runner` (method, line 172) `def test_metachar_arg_is_rejected_by_tool_runner(self, monkeypatch)`
+  - `test_file_output_is_parsed_and_outdir_cleaned` (method, line 208) `def test_file_output_is_parsed_and_outdir_cleaned(self, monkeypatch)`
+  - `test_stdout_json_is_parsed_when_no_file` (method, line 235) `def test_stdout_json_is_parsed_when_no_file(self, monkeypatch)`
+  - `test_query_and_outdir_substituted` (method, line 255) `def test_query_and_outdir_substituted(self)`
+  - `test_unknown_tokens_survive` (method, line 259) `def test_unknown_tokens_survive(self)`
+  - `test_non_string_arg_raises` (method, line 263) `def test_non_string_arg_raises(self)`
+  - `test_passive_only_drops_touching_tools_even_by_name` (method, line 273) `def test_passive_only_drops_touching_tools_even_by_name(self)`
+  - `_load` (method, line 307) `def _load(self, tmp_path, yaml_text)`
+  - `test_kind_and_output_format_normalise` (method, line 329) `def test_kind_and_output_format_normalise(self, tmp_path)`
+  - `test_kind_derived_from_binary_when_omitted` (method, line 336) `def test_kind_derived_from_binary_when_omitted(self, tmp_path)`
+  - `test_http_source_gets_http_kind_by_default` (method, line 341) `def test_http_source_gets_http_kind_by_default(self, tmp_path)`
+  - `test_bad_output_format_falls_back_to_text` (method, line 352) `def test_bad_output_format_falls_back_to_text(self, tmp_path)`
+  - `test_non_string_args_reset` (method, line 359) `def test_non_string_args_reset(self, tmp_path)`
+  - `test_unknown_kind_derives_from_block` (method, line 366) `def test_unknown_kind_derives_from_block(self, tmp_path)`
+  - `test_summary_exposes_kind` (method, line 371) `def test_summary_exposes_kind(self, tmp_path)`
+  - `test_real_kali_yamls_load_as_system_app` (method, line 376) `def test_real_kali_yamls_load_as_system_app(self)`
+  - `test_write_source_file_roundtrip_keeps_system_app_block` (method, line 395) `def test_write_source_file_roundtrip_keeps_system_app_block(self, tmp_path)`
+  - `test_timeout_error_is_propagated` (method, line 409) `def test_timeout_error_is_propagated(self, monkeypatch)`
+  - `test_binary_branch_runs_in_worker_thread` (method, line 434) `def test_binary_branch_runs_in_worker_thread(self, monkeypatch)`
+  - `on_run` (method, line 83) `def on_run(binary, args)`
+  - `on_run` (method, line 214) `def on_run(binary, args)`
+  - `timeout_runner` (method, line 414) `def timeout_runner(binary, args)`
+  - `slow_execute` (method, line 444) `def slow_execute(source, query)`
+  - `scenario` (method, line 463) `def scenario()`
+- Depends on: `estorides_core/config.py`, `estorides_core/orchestrator.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_runner.py`
+
 ## tests/test_target_management.py
 - Layer: testing
 - Language: py

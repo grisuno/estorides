@@ -40,7 +40,7 @@ fanned out in parallel, fused into a single intelligence picture.
                        +--------------------------+
                                  |
                                  v
-                          Web UI: map / graph / timeline / results
+                           Web UI: map / graph / bundles / timeline / results
 ```
 
 ## Architecture highlights (state-level)

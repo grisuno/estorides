@@ -1,5 +1,38 @@
-# Subsystem: estorides_core (page 3 of 3)
+# Subsystem: estorides_core (page 3 of 4)
 Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
+
+## estorides_core/pivot_engine.py
+- Doc: estorides_core.pivot_engine
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PivotEvent` (class, line 47) `class PivotEvent`
+  - `EventSink` (class, line 59) `class EventSink(Protocol)`
+  - `ListEventSink` (class, line 67) `class ListEventSink`
+  - `BufferedEventSink` (class, line 77) `class BufferedEventSink`
+  - `EntityRunner` (class, line 113) `class EntityRunner(Protocol)`
+  - `PivotBudget` (class, line 139) `class PivotBudget`
+  - `PivotLead` (class, line 172) `class PivotLead`
+  - `PivotResult` (class, line 184) `class PivotResult`
+  - `PivotEngine` (class, line 195) `class PivotEngine`
+  - `emit` (method, line 62) `def emit(self, event)`
+  - `__init__` (method, line 70) `def __init__(self)`
+  - `emit` (method, line 73) `def emit(self, event)`
+  - `__init__` (method, line 87) `def __init__(self, capacity)`
+  - `emit` (method, line 94) `def emit(self, event)`
+  - `run` (method, line 120) `def run(self, query)`
+  - `time_left` (method, line 155) `def time_left(self)`
+  - `exhausted` (method, line 159) `def exhausted(self)`
+  - `__init__` (method, line 198) `def __init__(self, runner, sink)`
+  - `_emit` (method, line 246) `def _emit(self, event_type)`
+  - `_heap_push` (method, line 255) `def _heap_push(heap, counter, lead)`
+  - `run` (method, line 264) `def run(self, seed_type, seed_value)`
+  - `_expand_lead` (method, line 341) `def _expand_lead(self, lead, frontier, budget)`
+  - `_ingest_children` (method, line 411) `def _ingest_children(self, parent, result, frontier, budget)`
+  - `_on_source_done` (method, line 356) `def _on_source_done(name, ok, status, elapsed_ms)`
+  - `_on_source_result` (method, line 366) `def _on_source_result(observation)`
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_structured_extraction.py`
 
 ## estorides_core/recon_fusion.py
 - Doc: estorides_core.recon_fusion
@@ -460,32 +493,5 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `to_dict` (method, line 52) `def to_dict(self)`
 - Imported by: `estorides_core/recon_pipeline.py`, `tests/test_vuln_correlation.py`
 
-## estorides_core/web_security.py
-- Doc: estorides_core.web_security
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `build_https_url` (function, line 58) `def build_https_url(public_host, path, query_string)`
-  - `WebSecurityConfig` (class, line 87) `class WebSecurityConfig`
-  - `_env_str` (method, line 137) `def _env_str(name, default)`
-  - `load_security_config` (method, line 144) `def load_security_config()`
-  - `install_security` (method, line 169) `def install_security(app, cfg)`
-  - `_extract_bearer_token` (method, line 286) `def _extract_bearer_token()`
-  - `make_auth_gate` (method, line 321) `def make_auth_gate()`
-  - `AuthGate` (class, line 341) `class AuthGate`
-  - `require_auth` (method, line 388) `def require_auth(view)`
-  - `install_auth_gate` (method, line 421) `def install_auth_gate(app, gate)`
-  - `_current_gate` (method, line 440) `def _current_gate()`
-  - `auto_generated_token` (method, line 444) `def auto_generated_token()`
-  - `is_cors_enabled` (method, line 128) `def is_cors_enabled(self)`
-  - `is_origin_allowed` (method, line 132) `def is_origin_allowed(self)`
-  - `_security_headers` (method, line 217) `def _security_headers(resp)`
-  - `_cors_preflight` (method, line 250) `def _cors_preflight()`
-  - `enabled` (method, line 351) `def enabled(self)`
-  - `check` (method, line 354) `def check(self)`
-  - `auth_meta_for_index` (method, line 362) `def auth_meta_for_index(self)`
-  - `issue_session_cookie_kwargs` (method, line 371) `def issue_session_cookie_kwargs(self)`
-  - `wrapper` (method, line 402) `def wrapper()`
-  - `_redirect_to_https` (method, line 203) `def _redirect_to_https()`
-- Imported by: `estorides_web.py`, `estorides_web_tools.py`, `tests/properties/test_csp_safe_styles_properties.py`, `tests/test_auth_gate.py`, `tests/test_csp_safe_styles.py`, `tests/test_hardening.py`, `tests/test_map_basemap.py`, `tests/test_security_remediation.py`, `tests/test_web_helpers.py`
 
+Next: [KB_estorides_core_p4.md](KB_estorides_core_p4.md)

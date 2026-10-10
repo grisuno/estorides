@@ -16,11 +16,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 26 files in 'estorides_core: estorides_web' related to each other?
+### Q: How are the 26 files in 'estorides_core: parsers' related to each other?
 
 - Status: unanswered
 
-### Q: Why are test_change_detection_properties.py and test_recon_report.py connected through 7 hops across 3 communities?
+### Q: Why are test_change_detection_properties.py and test_graph_bundle_properties.py connected through 7 hops across 3 communities?
 
 - Status: unanswered
 

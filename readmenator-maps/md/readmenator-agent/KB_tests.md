@@ -453,39 +453,42 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_negative_days_treated_as_one` (method, line 288) `def test_negative_days_treated_as_one(self, store_and_analytics)`
 - Depends on: `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
 
-## tests/test_graph_force3d.py
-- Doc: graph_force3d: port del sistema de grafos ReadMenator + contexto IA.
+## tests/test_graph_bundle.py
+- Doc: graph_bundle: pestana Bundles circular 2D + esferica 3D estilo ReadMenator.
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_nodes` (function, line 22) `def _nodes()`
-  - `_edges` (function, line 36) `def _edges()`
-  - `_clusters` (function, line 45) `def _clusters()`
-  - `test_s1_build_force_payload_shape` (function, line 53) `def test_s1_build_force_payload_shape()`
-  - `test_s2_empty_graph_no_raise` (function, line 79) `def test_s2_empty_graph_no_raise()`
-  - `test_s3_truncation_deterministic_bridge_first` (function, line 90) `def test_s3_truncation_deterministic_bridge_first()`
-  - `test_s4_non_json_safe_raises_typeerror` (function, line 112) `def test_s4_non_json_safe_raises_typeerror()`
-  - `test_s5_ai_context_budget_and_no_markdown_injection` (function, line 130) `def test_s5_ai_context_budget_and_no_markdown_injection()`
-  - `test_s6_family_color_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s6_family_color_deterministic_and_settings_match_readmenator()`
-- Depends on: `estorides_core/graph_force.py`
-
-## tests/test_graph_rag_search.py
-- Doc: graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_nodes` (function, line 18) `def _nodes()`
-  - `_edges` (function, line 29) `def _edges()`
-  - `_clusters` (function, line 36) `def _clusters()`
-  - `_searcher` (function, line 43) `def _searcher()`
-  - `test_s1_local_match_leads` (function, line 48) `def test_s1_local_match_leads()`
-  - `test_s2_global_hints_map_reduce` (function, line 61) `def test_s2_global_hints_map_reduce()`
-  - `test_s3_empty_graph_no_raise` (function, line 71) `def test_s3_empty_graph_no_raise()`
-  - `test_s4_hostile_fails_closed_and_bounded` (function, line 83) `def test_s4_hostile_fails_closed_and_bounded()`
-  - `test_s5_pagerank_sums_to_one_and_deterministic` (function, line 108) `def test_s5_pagerank_sums_to_one_and_deterministic()`
-  - `test_s6_context_block_from_digraph` (function, line 124) `def test_s6_context_block_from_digraph()`
-  - `test_s7_web_helper_uses_graph_path_fail_soft` (function, line 142) `def test_s7_web_helper_uses_graph_path_fail_soft(tmp_path, monkeypatch)`
-- Depends on: `estorides_core/graph_rag_search.py`, `estorides_web.py`
+  - `_force` (function, line 26) `def _force()`
+  - `test_s1_two_communities_circle_and_sphere` (function, line 62) `def test_s1_two_communities_circle_and_sphere()`
+  - `test_s2_empty_and_unassigned` (function, line 83) `def test_s2_empty_and_unassigned()`
+  - `test_s3_scaffolding_dropped_and_bad_node_raises` (function, line 104) `def test_s3_scaffolding_dropped_and_bad_node_raises()`
+  - `test_s4_hostile_labels_truncated_and_bytes_raise` (function, line 124) `def test_s4_hostile_labels_truncated_and_bytes_raise()`
+  - `test_s5_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s5_deterministic_and_settings_match_readmenator()`
+  - `test_s7_circle_curves_endpoints_and_beta` (function, line 169) `def test_s7_circle_curves_endpoints_and_beta()`
+  - `test_s7_sphere_caps_hubs_and_fibonacci` (function, line 205) `def test_s7_sphere_caps_hubs_and_fibonacci()`
+  - `test_s7_helpers_unit` (function, line 228) `def test_s7_helpers_unit()`
+  - `test_s8_settings_full_defaults_and_env` (function, line 253) `def test_s8_settings_full_defaults_and_env(monkeypatch)`
+  - `test_s8_exact_payload_shape` (function, line 288) `def test_s8_exact_payload_shape()`
+  - `test_s8_lenient_fields_and_ignored_nodes` (function, line 308) `def test_s8_lenient_fields_and_ignored_nodes()`
+  - `test_s9_typeerror_messages_asserted` (function, line 351) `def test_s9_typeerror_messages_asserted()`
+  - `test_s9_bare_entity_defaults_and_idless` (function, line 374) `def test_s9_bare_entity_defaults_and_idless()`
+  - `test_s9_family_fallback_color_and_order` (function, line 397) `def test_s9_family_fallback_color_and_order()`
+  - `test_s9_unit_edge_norms` (function, line 418) `def test_s9_unit_edge_norms()`
+  - `test_s9_fibonacci_exact` (function, line 427) `def test_s9_fibonacci_exact()`
+  - `test_s9_sphere_caps_exact_and_defaults` (function, line 443) `def test_s9_sphere_caps_exact_and_defaults()`
+  - `test_s9_default_layout_checksum_and_length` (function, line 457) `def test_s9_default_layout_checksum_and_length()`
+  - `test_s9_all_env_vars_propagate` (function, line 474) `def test_s9_all_env_vars_propagate(monkeypatch)`
+  - `test_s10_full_literal_output` (function, line 507) `def test_s10_full_literal_output()`
+  - `test_s10_empty_label_falls_back_to_id_and_findings` (function, line 539) `def test_s10_empty_label_falls_back_to_id_and_findings()`
+  - `test_s10_odd_community_ids` (function, line 553) `def test_s10_odd_community_ids()`
+  - `test_s10_scaffold_between_entities_dropped` (function, line 580) `def test_s10_scaffold_between_entities_dropped()`
+  - `test_s10_community_colors_survive_bad_id` (function, line 599) `def test_s10_community_colors_survive_bad_id()`
+  - `test_s10_env_divergence_changes_layout` (function, line 623) `def test_s10_env_divergence_changes_layout(monkeypatch)`
+  - `test_s10_bspline_short_branch_exact` (function, line 636) `def test_s10_bspline_short_branch_exact()`
+  - `test_s10_beta_clamp_and_skip_order` (function, line 651) `def test_s10_beta_clamp_and_skip_order()`
+  - `test_s10_empty_layouts_full_and_absolute_leaves` (function, line 668) `def test_s10_empty_layouts_full_and_absolute_leaves()`
+  - `test_s10_three_group_caps_and_tie_and_axis` (function, line 692) `def test_s10_three_group_caps_and_tie_and_axis()`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/graph_bundle.py`, `estorides_core/graph_force.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

@@ -1,5 +1,24 @@
-# Subsystem: estorides_core (page 2 of 3)
+# Subsystem: estorides_core (page 2 of 4)
 Previous: [KB_estorides_core.md](KB_estorides_core.md)
+
+## estorides_core/graph_kuzu.py
+- Doc: estorides_core.graph_kuzu
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_label_for` (function, line 124) `def _label_for(ent_type)`
+  - `_node_id` (function, line 133) `def _node_id(type_, value)`
+  - `KuzuGraphBackend` (class, line 196) `class KuzuGraphBackend`
+  - `__init__` (method, line 205) `def __init__(self, path)`
+  - `_init_schema` (method, line 233) `def _init_schema(self)`
+  - `upsert_entity` (method, line 245) `def upsert_entity(self, ent_type, value, source)`
+  - `upsert_relationship` (method, line 295) `def upsert_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
+  - `neighbors` (method, line 346) `def neighbors(self, node_id, hops, relation, limit)`
+  - `cypher` (method, line 379) `def cypher(self, query, params)`
+  - `stats` (method, line 406) `def stats(self)`
+  - `close` (method, line 436) `def close(self)`
+- Depends on: `estorides_core/config.py`
+- Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`
 
 ## estorides_core/graph_rag_search.py
 - Doc: graph_rag_search: GraphRAG local/global para la IA local (sin LLM).
@@ -455,39 +474,6 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `to_dict` (method, line 62) `def to_dict(self)`
   - `to_dict` (method, line 75) `def to_dict(self)`
 - Imported by: `estorides_core/recon_pipeline.py`, `tests/test_people_intel.py`
-
-## estorides_core/pivot_engine.py
-- Doc: estorides_core.pivot_engine
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PivotEvent` (class, line 47) `class PivotEvent`
-  - `EventSink` (class, line 59) `class EventSink(Protocol)`
-  - `ListEventSink` (class, line 67) `class ListEventSink`
-  - `BufferedEventSink` (class, line 77) `class BufferedEventSink`
-  - `EntityRunner` (class, line 113) `class EntityRunner(Protocol)`
-  - `PivotBudget` (class, line 139) `class PivotBudget`
-  - `PivotLead` (class, line 172) `class PivotLead`
-  - `PivotResult` (class, line 184) `class PivotResult`
-  - `PivotEngine` (class, line 195) `class PivotEngine`
-  - `emit` (method, line 62) `def emit(self, event)`
-  - `__init__` (method, line 70) `def __init__(self)`
-  - `emit` (method, line 73) `def emit(self, event)`
-  - `__init__` (method, line 87) `def __init__(self, capacity)`
-  - `emit` (method, line 94) `def emit(self, event)`
-  - `run` (method, line 120) `def run(self, query)`
-  - `time_left` (method, line 155) `def time_left(self)`
-  - `exhausted` (method, line 159) `def exhausted(self)`
-  - `__init__` (method, line 198) `def __init__(self, runner, sink)`
-  - `_emit` (method, line 246) `def _emit(self, event_type)`
-  - `_heap_push` (method, line 255) `def _heap_push(heap, counter, lead)`
-  - `run` (method, line 264) `def run(self, seed_type, seed_value)`
-  - `_expand_lead` (method, line 341) `def _expand_lead(self, lead, frontier, budget)`
-  - `_ingest_children` (method, line 411) `def _ingest_children(self, parent, result, frontier, budget)`
-  - `_on_source_done` (method, line 356) `def _on_source_done(name, ok, status, elapsed_ms)`
-  - `_on_source_result` (method, line 366) `def _on_source_result(observation)`
-- Depends on: `estorides_core/config.py`
-- Imported by: `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_structured_extraction.py`
 
 
 Next: [KB_estorides_core_p3.md](KB_estorides_core_p3.md)

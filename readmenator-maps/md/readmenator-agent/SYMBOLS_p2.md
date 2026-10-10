@@ -1,8 +1,26 @@
-# Symbols (page 2 of 6)
+# Symbols (page 2 of 7)
 Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `all_techniques_for` | function | `estorides_core/mitre_attack.py:229` | `def all_techniques_for(observations)` |
+| `map_observation` | function | `estorides_core/mitre_attack.py:170` | `def map_observation(observation)` |
+| `map_observations` | function | `estorides_core/mitre_attack.py:213` | `def map_observations(observations)` |
+| `WatchScheduler` | class | `estorides_core/monitoring.py:280` | `class WatchScheduler` |
+| `WatchStore` | class | `estorides_core/monitoring.py:155` | `class WatchStore(SqliteStore)` |
+| `WatchTarget` | class | `estorides_core/monitoring.py:91` | `class WatchTarget` |
+| `__init__` | method | `estorides_core/monitoring.py:287` | `def __init__(self, store, runner, alerter)` |
+| `__post_init__` | method | `estorides_core/monitoring.py:106` | `def __post_init__(self)` |
+| `_execute_watch` | method | `estorides_core/monitoring.py:344` | `def _execute_watch(self, watch)` |
+| `_loop` | method | `estorides_core/monitoring.py:333` | `def _loop(self)` |
+| `create_watch` | method | `estorides_core/monitoring.py:162` | `def create_watch(self, watch)` |
+| `delete_watch` | method | `estorides_core/monitoring.py:199` | `def delete_watch(self, watch_id)` |
+| `due_watches` | method | `estorides_core/monitoring.py:213` | `def due_watches(self, now)` |
+| `from_dict` | method | `estorides_core/monitoring.py:126` | `def from_dict(cls, d)` |
+| `from_row` | method | `estorides_core/monitoring.py:142` | `def from_row(cls, row)` |
+| `get_watch` | method | `estorides_core/monitoring.py:177` | `def get_watch(self, watch_id)` |
+| `has_runner` | method | `estorides_core/monitoring.py:304` | `def has_runner(self)` |
+| `history` | method | `estorides_core/monitoring.py:249` | `def history(self, watch_id, limit)` |
 | `list_watches` | method | `estorides_core/monitoring.py:203` | `def list_watches(self, enabled_only)` |
 | `record_run_complete` | method | `estorides_core/monitoring.py:236` | `def record_run_complete(self, history_id, status, entity_count, obs_count, error, alert_sent)` |
 | `record_run_start` | method | `estorides_core/monitoring.py:226` | `def record_run_start(self, watch_id)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_check_injection` | method | `estorides_core/tool_runner.py:97` | `def _check_injection(args)` |
 | `_parse_entities_generic` | method | `estorides_core/tool_runner.py:121` | `def _parse_entities_generic(stdout, tool_name)` |
 | `_resolve_binary` | method | `estorides_core/tool_runner.py:107` | `def _resolve_binary(tool_name)` |
-| `from_failure` | method | `estorides_core/tool_runner.py:59` | `def from_failure(cls, tool_name, error_code, error_message, duration_s, exit_code, stdout, stderr, parsed_entities)` |
-| `run_tool` | method | `estorides_core/tool_runner.py:156` | `def run_tool(tool_name, args, target, timeout, max_output_bytes, cwd)` |
-| `to_dict` | method | `estorides_core/tool_runner.py:51` | `def to_dict(self)` |
-| `to_dict` | method | `estorides_core/tool_runner.py:93` | `def to_dict(self)` |
-| `Transform` | class | `estorides_core/transforms.py:71` | `class Transform` |
-| `TransformRegistry` | class | `estorides_core/transforms.py:225` | `class TransformRegistry` |
-| `_T` | method | `estorides_core/transforms.py:441` | `def _T(id, label, tier, applies, runner, description, output_types, cost)` |
-| `__init__` | method | `estorides_core/transforms.py:228` | `def __init__(self)` |
-| `_empty` | method | `estorides_core/transforms.py:96` | `def _empty(root_type, value)` |
-| `_filter_runner` | method | `estorides_core/transforms.py:121` | `def _filter_runner(relations)` |
-| `_norm` | method | `estorides_core/transforms.py:130` | `def _norm(s)` |
-| `_osiris` | method | `estorides_core/transforms.py:135` | `def _osiris()` |
-| `_resolver_filtered` | method | `estorides_core/transforms.py:100` | `def _resolver_filtered(ent_type, value, relations)` |
-| `_run_bgp` | method | `estorides_core/transforms.py:143` | `def _run_bgp(ent_type, value)` |
-| `_run_github` | method | `estorides_core/transforms.py:194` | `def _run_github(ent_type, value)` |
-| `_run_leaks` | method | `estorides_core/transforms.py:169` | `def _run_leaks(ent_type, value)` |
-| `_static_runner` | method | `estorides_core/transforms.py:332` | `def _static_runner(nodes_tpl, links_tpl)` |
-| `_str_list` | method | `estorides_core/transforms.py:322` | `def _str_list(raw)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

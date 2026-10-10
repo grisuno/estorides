@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edge Bundles | Edge Bundles</title>
+<style>
+:root{--canvas:#020617;--stage:#030a1c;--mask:#0b1224;--mask2:#111c33;--ink:#f8fafc;--muted:#94a3b8;--faint:#475569;--border:#1e293b;--accent:#22d3ee;--accent2:#f472b6;--warn:#fb7185;--ok:#34d399;--caution:#fbbf24;--glow:rgba(34,211,238,.16);--label-bg:rgba(2,6,23,.80);--label-ink:#e2e8f0;--sphere:rgba(148,163,184,.10)}
+html[data-theme="light"]{--canvas:#f8fafc;--stage:#eef2f7;--mask:#ffffff;--mask2:#f1f5f9;--ink:#0f172a;--muted:#475569;--faint:#94a3b8;--border:#e2e8f0;--accent:#0891b2;--accent2:#db2777;--warn:#e11d48;--ok:#059669;--caution:#b45309;--glow:rgba(8,145,178,.10);--label-bg:rgba(255,255,255,.90);--label-ink:#0f172a;--sphere:rgba(71,85,105,.14)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;display:flex;flex-direction:column}
+a{color:var(--accent)}
+button{font:inherit;font-size:12px;background:var(--mask);border:1px solid var(--border);border-radius:9px;padding:6px 10px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+button:hover,button:focus-visible{border-color:var(--accent);outline:none}
+button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 18%,var(--mask));border-color:var(--accent)}
+kbd{border:1px solid var(--border);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:10.5px;color:var(--muted)}
+[hidden]{display:none!important}
+.topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--mask) 92%,transparent);backdrop-filter:blur(8px);position:relative;z-index:10}
+.brand{display:flex;flex-direction:column;min-width:0;margin-right:6px}
+.brand b{font-size:14px;background:linear-gradient(90deg,var(--ink),var(--accent) 70%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:36ch}
+.brand span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.home{font-size:12px;text-decoration:none;border:1px solid var(--border);border-radius:9px;padding:6px 10px;color:var(--ink)}
+.home:hover{border-color:var(--accent)}
+.searchbox{position:relative;flex:1;min-width:200px;max-width:420px}
+.searchbox input{width:100%;background:var(--canvas);border:1px solid var(--border);border-radius:10px;color:var(--ink);padding:8px 10px;font:inherit;font-size:12px}
+.searchbox input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--glow)}
+.results{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--mask);border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.35);overflow:hidden;display:none;z-index:20}
+.results.open{display:block}
+.result{display:flex;gap:8px;align-items:center;padding:7px 10px;cursor:pointer;border-bottom:1px solid var(--border);width:100%;border-radius:0;border-left:none;border-right:none;border-top:none;text-align:left}
+.result:last-child{border-bottom:none}
+.result:hover,.result:focus-visible{background:var(--mask2)}
+.result i{flex:none;width:9px;height:9px;border-radius:3px}
+.result span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result em{margin-left:auto;font-style:normal;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:50%}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:none}
+.seg button{border:none;border-radius:0;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:none}
+.beta{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:4px 10px}
+.beta input{width:110px;accent-color:var(--accent)}
+.beta b{color:var(--ink);min-width:3ch}
+.app{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 370px;min-height:0}
+#stage{position:relative;background:radial-gradient(900px 600px at 50% 45%,var(--glow),transparent 72%),var(--stage);overflow:hidden;min-height:420px;touch-action:none;cursor:grab}
+#stage.dragging{cursor:grabbing}
+#stage.pointing{cursor:pointer}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block}
+.overlay{position:absolute;z-index:3;background:color-mix(in srgb,var(--mask) 88%,transparent);border:1px solid var(--border);border-radius:12px;backdrop-filter:blur(6px)}
+#hud{left:12px;top:12px;padding:6px 10px;font-size:11px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap;max-width:calc(100% - 24px)}
+#hud b{color:var(--ink)}
+#legend{left:12px;bottom:12px;width:270px;max-height:min(55%,480px);overflow:auto;padding:8px 10px;font-size:11.5px}
+#legend.collapsed{width:auto}
+#legend.collapsed .lg-body{display:none}
+.lg-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lg-top h3{margin:0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lg-top button{padding:1px 8px;font-size:10.5px}
+.key{display:flex;align-items:center;gap:7px;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:3px 5px;border-radius:7px}
+.key:hover,.key[aria-pressed="true"]{border-color:var(--border);background:var(--mask2)}
+.key i{flex:none;width:10px;height:10px;border-radius:3px;box-shadow:0 0 8px currentColor}
+.key span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.key em{margin-left:auto;font-style:normal;color:var(--muted)}
+#tip{position:fixed;z-index:30;pointer-events:none;display:none;max-width:340px;background:var(--mask);color:var(--ink);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:11.5px;line-height:1.55;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+#tip b{font-size:12.5px}
+#tip .m{color:var(--muted)}
+#tip .o{color:var(--accent)}
+#tip .i{color:var(--accent2)}
+#panel{border-left:1px solid var(--border);background:var(--mask);overflow:auto;min-height:0}
+.p-head{padding:16px 18px 12px;border-bottom:1px solid var(--border)}
+.p-head .type{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.p-head .type i{width:10px;height:10px;border-radius:3px}
+.p-head h2{margin:4px 0;font-size:16px;word-break:break-word}
+.p-head .path{color:var(--muted);font-size:11px;word-break:break-all}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.badge{font-size:10.5px;border:1px solid var(--border);border-radius:999px;padding:1px 8px;color:var(--ink);background:transparent}
+button.badge{cursor:pointer}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 18px;border-bottom:1px solid var(--border)}
+.metric{background:var(--mask2);border:1px solid var(--border);border-radius:10px;padding:8px}
+.metric b{display:block;font-size:17px}
+.metric span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.doc{padding:12px 18px;border-bottom:1px solid var(--border);font-size:12.5px;line-height:1.7}
+.actions{display:flex;gap:6px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--border)}
+.actions a{font-size:12px;text-decoration:none;border:1px solid var(--accent);border-radius:9px;padding:6px 10px;color:var(--ink);background:color-mix(in srgb,var(--accent) 12%,var(--mask))}
+.sec{padding:10px 18px 6px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.sec .o{color:var(--accent)}
+.sec .i{color:var(--accent2)}
+.list{padding:0 12px 10px;border-bottom:1px solid var(--border)}
+.nb{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:4px 6px;border-radius:7px}
+.nb:hover,.nb:focus-visible{border-color:var(--border);background:var(--mask2)}
+.nb i{flex:none;width:8px;height:8px;border-radius:2px}
+.nb span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nb em{margin-left:auto;font-style:normal;color:var(--muted);font-size:10.5px;flex:none}
+.more{color:var(--muted);font-size:11px;padding:4px 6px}
+.intro{padding:18px;color:var(--muted);font-size:12px;line-height:1.8;border-bottom:1px solid var(--border)}
+.intro h2{color:var(--ink);font-size:14px;margin:0 0 8px}
+.intro p{margin:0 0 8px}
+.intro b{color:var(--ink)}
+.bar{height:5px;border-radius:999px;background:var(--border);margin:3px 6px 6px;overflow:hidden}
+.bar i{display:block;height:100%}
+@media (max-width:900px){.app{grid-template-columns:1fr;grid-template-rows:minmax(420px,62vh) auto}#panel{border-left:none;border-top:1px solid var(--border)}.beta input{width:80px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><b>Edge Bundles</b><span>Edge bundle explorer</span></div>
+  <a class="home" href="index.html">← Maps gallery</a>
+  <a class="home" href="graph-force.html" title="Open the force-graph explorer (2D and 3D)">Force graph →</a>
+  <div class="searchbox"><input id="q" type="search" placeholder="Find a file  ( / )" autocomplete="off" aria-label="Find a file"><div id="results" class="results" role="listbox"></div></div>
+  <div class="seg" role="group" aria-label="View">
+    <button data-view="2d" title="Circle: files on a ring grouped by community (key 2)">Circle 2D</button>
+    <button data-view="3d" title="Sphere: every community owns a cap of the globe (key 3)">Sphere 3D</button>
+  </div>
+  <div class="seg" role="group" aria-label="Color by">
+    <button data-color="community" title="Color wires and files by community (key C cycles)">Community</button>
+    <button data-color="layer" title="Color by architectural layer">Layer</button>
+    <button data-color="language" title="Color by language">Language</button>
+  </div>
+  <div class="seg" role="group" aria-label="Direction">
+    <button data-dir="both" title="Show imports in both directions">Both</button>
+    <button data-dir="out" title="Only what the focus imports (cyan)">Imports</button>
+    <button data-dir="in" title="Only what imports the focus (pink)">Imported by</button>
+  </div>
+  <label class="beta" title="Bundling strength: 0 draws straight chords, 1 routes every wire fully through the community tree ([ and ] keys)">beta <input id="beta" type="range" min="0" max="1" step="0.01"><b id="betav"></b></label>
+  <button id="cross" aria-pressed="false" title="Hide wires inside a community and keep only the seams between communities (key X)">Crossing only</button>
+  <button id="rotate" aria-pressed="false" title="Auto-rotate the sphere (key R)">Rotate</button>
+  <button id="reset" title="Reset camera and focus (double-click the canvas)">Reset</button>
+  <button id="png" title="Save the current view as PNG">PNG</button>
+  <button id="theme" title="Toggle light and dark theme">Theme</button>
+</header>
+<main class="app">
+  <section id="stage" aria-label="Edge bundle canvas">
+    <canvas id="c"></canvas>
+    <div id="hud" class="overlay"></div>
+    <div id="legend" class="overlay"><div class="lg-top"><h3 id="lgtitle">Communities</h3><button id="lgtoggle" title="Collapse or expand the legend">-</button></div><div id="lgbody" class="lg-body"></div></div>
+  </section>
+  <aside id="panel" aria-live="polite"></aside>
+</main>
+<div id="tip" role="tooltip"></div>
+<script>
+(function(){
+"use strict";
+const DATA={"nodes": [{"id": "file:.scratchpad/gb_shots.py", "f": ".scratchpad/gb_shots.py", "l": "gb_shots.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 3.90624, "p": [0.54797, 0.57865, 0.60406]}, {"id": "file:.scratchpad/gfv2_bridge.py", "f": ".scratchpad/gfv2_bridge.py", "l": "gfv2_bridge.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 3.93884, "p": [0.73502, 0.43258, 0.52212]}, {"id": "file:.scratchpad/gfv2_click.py", "f": ".scratchpad/gfv2_click.py", "l": "gfv2_click.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 3.97144, "p": [0.53278, 0.3427, 0.77376]}, {"id": "file:.scratchpad/gfv2_data.py", "f": ".scratchpad/gfv2_data.py", "l": "gfv2_data.py", "g": 11, "c": "hsl(48, 60%, 64%)", "ly": "data_access", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.00404, "p": [0.65829, 0.66854, 0.34598]}, {"id": "file:.scratchpad/gfv2_debug.py", "f": ".scratchpad/gfv2_debug.py", "l": "gfv2_debug.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.03665, "p": [0.34258, 0.72472, 0.59785]}, {"id": "file:.scratchpad/gfv2_dom.py", "f": ".scratchpad/gfv2_dom.py", "l": "gfv2_dom.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.06925, "p": [0.32894, 0.48876, 0.80803]}, {"id": "file:.scratchpad/gfv2_func.py", "f": ".scratchpad/gfv2_func.py", "l": "gfv2_func.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.10185, "p": [0.44351, 0.81461, 0.37379]}, {"id": "file:.scratchpad/gfv2_raw.py", "f": ".scratchpad/gfv2_raw.py", "l": "gfv2_raw.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.13445, "p": [0.71648, 0.19663, 0.66933]}, {"id": "file:.scratchpad/gfv2_shots.py", "f": ".scratchpad/gfv2_shots.py", "l": "gfv2_shots.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.16706, "p": [0.82233, 0.52247, 0.22537]}, {"id": "file:.scratchpad/gfv2_step.py", "f": ".scratchpad/gfv2_step.py", "l": "gfv2_step.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.19966, "p": [0.88198, 0.28652, 0.37418]}, {"id": "file:.scratchpad/gfv2_time.py", "f": ".scratchpad/gfv2_time.py", "l": "gfv2_time.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.23226, "p": [0.13087, 0.63483, 0.76149]}, {"id": "file:_multi_test.sh", "f": "_multi_test.sh", "l": "_multi_test.sh", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "sh", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.26486, "p": [0.14715, 0.87079, 0.46913]}, {"id": "file:app.py", "f": "app.py", "l": "app.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Deprecated entry point.", "a": -0.37342, "p": [-0.18814, 0.44382, -0.87614]}, {"id": "file:estorides_cli.py", "f": "estorides_cli.py", "l": "estorides_cli.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.003946, "rp": 67, "fd": 0, "d": "estorides CLI.", "a": 1.76791, "p": [-0.40899, -0.87079, 0.27288]}, {"id": "file:estorides_core/__init__.py", "f": "estorides_core/__init__.py", "l": "__init__.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.012037, "rp": 11, "fd": 0, "d": "estorides_core.__init__", "a": 0.22082, "p": [0.62639, -0.67978, -0.3815]}, {"id": "file:estorides_core/active_recon.py", "f": "estorides_core/active_recon.py", "l": "active_recon.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "utility", "lg": "py", "r": 0.004196, "rp": 63, "fd": 0, "d": "", "a": 2.72817, "p": [0.65334, -0.71348, 0.25315]}, {"id": "file:estorides_core/alerter.py", "f": "estorides_core/alerter.py", "l": "alerter.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.005422, "rp": 52, "fd": 0, "d": "estorides_core.alerter", "a": 0.28602, "p": [0.85354, -0.29775, -0.42756]}, {"id": "file:estorides_core/async_client.py", "f": "estorides_core/async_client.py", "l": "async_client.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "infrastructure", "lg": "py", "r": 0.004578, "rp": 60, "fd": 0, "d": "estorides_core.async_client", "a": 0.35123, "p": [0.48074, -0.35393, -0.80226]}, {"id": "file:estorides_core/audit.py", "f": "estorides_core/audit.py", "l": "audit.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.006617, "rp": 32, "fd": 0, "d": "estorides_core.audit", "a": -0.53643, "p": [-0.24823, 0.67978, -0.69014]}, {"id": "file:estorides_core/case_crypto.py", "f": "estorides_core/case_crypto.py", "l": "case_crypto.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.006851, "rp": 28, "fd": 0, "d": "estorides_core.case_crypto", "a": 1.5723, "p": [-0.64192, -0.72472, 0.25043]}, {"id": "file:estorides_core/cases.py", "f": "estorides_core/cases.py", "l": "cases.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.00937, "rp": 16, "fd": 0, "d": "estorides_core.cases", "a": 1.5071, "p": [-0.76322, -0.48876, 0.42262]}, {"id": "file:estorides_core/change_detection.py", "f": "estorides_core/change_detection.py", "l": "change_detection.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.006699, "rp": 29, "fd": 0, "d": "estorides_core.change_detection", "a": 0.94546, "p": [0.82425, 0.32022, -0.46698]}, {"id": "file:estorides_core/cloud_asset_discovery.py", "f": "estorides_core/cloud_asset_discovery.py", "l": "cloud_asset_discovery.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.10133, "p": [0.1865, -0.74719, 0.63791]}, {"id": "file:estorides_core/code_exposure.py", "f": "estorides_core/code_exposure.py", "l": "code_exposure.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.13394, "p": [0.05432, -0.60112, 0.79731]}, {"id": "file:estorides_core/config.py", "f": "estorides_core/config.py", "l": "config.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "infrastructure", "lg": "py", "r": 0.138648, "rp": 1, "fd": 0, "d": "estorides.config", "a": 0.15561, "p": [0.69635, -0.44382, -0.56402]}, {"id": "file:estorides_core/discoverer.py", "f": "estorides_core/discoverer.py", "l": "discoverer.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.005217, "rp": 54, "fd": 0, "d": "Background subdomain/domain discoverer.", "a": 1.70271, "p": [-0.9004, -0.3427, 0.26801]}, {"id": "file:estorides_core/entity_extraction.py", "f": "estorides_core/entity_extraction.py", "l": "entity_extraction.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "business_logic", "lg": "py", "r": 0.02847, "rp": 2, "fd": 0, "d": "estorides_core.entity_extraction", "a": 3.29721, "p": [-0.76463, 0.51124, 0.3924]}, {"id": "file:estorides_core/entity_resolution.py", "f": "estorides_core/entity_resolution.py", "l": "entity_resolution.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "business_logic", "lg": "py", "r": 0.006438, "rp": 34, "fd": 0, "d": "estorides_core.entity_resolution", "a": 3.32981, "p": [-0.72873, 0.6573, 0.19209]}, {"id": "file:estorides_core/entity_store.py", "f": "estorides_core/entity_store.py", "l": "entity_store.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "business_logic", "lg": "py", "r": 0.003952, "rp": 66, "fd": 0, "d": "estorides_core.entity_store", "a": 3.39501, "p": [-0.54269, 0.60112, 0.58663]}, {"id": "file:estorides_core/event_bus.py", "f": "estorides_core/event_bus.py", "l": "event_bus.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "infrastructure", "lg": "py", "r": 0.005829, "rp": 42, "fd": 0, "d": "estorides_core.event_bus", "a": -1.29368, "p": [-0.78165, -0.52247, -0.34065]}, {"id": "file:estorides_core/feeds.py", "f": "estorides_core/feeds.py", "l": "feeds.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.003393, "rp": 68, "fd": 0, "d": "estorides_core.feeds", "a": 0.38383, "p": [0.40739, -0.82584, -0.38989]}, {"id": "file:estorides_core/fusion_analytics.py", "f": "estorides_core/fusion_analytics.py", "l": "fusion_analytics.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.004644, "rp": 58, "fd": 0, "d": "estorides_core.fusion_analytics", "a": 1.01067, "p": [0.84536, 0.46629, -0.26063]}, {"id": "file:estorides_core/fusion_store.py", "f": "estorides_core/fusion_store.py", "l": "fusion_store.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "data_access", "lg": "py", "r": 0.008035, "rp": 21, "fd": 0, "d": "estorides_core.fusion_store", "a": 0.91286, "p": [0.64629, 0.70225, -0.2986]}, {"id": "file:estorides_core/graph_bundle.py", "f": "estorides_core/graph_bundle.py", "l": "graph_bundle.py", "g": 9, "c": "hsl(340, 57%, 59%)", "ly": "utility", "lg": "py", "r": 0.007117, "rp": 26, "fd": 0, "d": "graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator.", "a": 3.59802, "p": [-0.31464, 0.83708, 0.44755]}, {"id": "file:estorides_core/graph_force.py", "f": "estorides_core/graph_force.py", "l": "graph_force.py", "g": 9, "c": "hsl(340, 57%, 59%)", "ly": "utility", "lg": "py", "r": 0.012446, "rp": 10, "fd": 0, "d": "graph_force3d: payload force-graph estilo ReadMenator + contexto IA.", "a": 3.56542, "p": [-0.09739, 0.92697, 0.36228]}, {"id": "file:estorides_core/graph_kuzu.py", "f": "estorides_core/graph_kuzu.py", "l": "graph_kuzu.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.004856, "rp": 57, "fd": 0, "d": "estorides_core.graph_kuzu", "a": 1.73531, "p": [-0.80573, -0.57865, 0.12636]}, {"id": "file:estorides_core/graph_rag_search.py", "f": "estorides_core/graph_rag_search.py", "l": "graph_rag_search.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.004644, "rp": 58, "fd": 0, "d": "graph_rag_search: GraphRAG local/global para la IA local (sin LLM).", "a": -0.47123, "p": [-0.39617, 0.29775, -0.86856]}, {"id": "file:estorides_core/hypothesis_engine.py", "f": "estorides_core/hypothesis_engine.py", "l": "hypothesis_engine.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.006699, "rp": 29, "fd": 0, "d": "estorides_core.hypothesis_engine", "a": 0.97806, "p": [0.43263, 0.79213, -0.43053]}, {"id": "file:estorides_core/ids.py", "f": "estorides_core/ids.py", "l": "ids.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.014698, "rp": 8, "fd": 0, "d": "estorides_core.ids", "a": 0.84766, "p": [0.59115, 0.41011, -0.69451]}, {"id": "file:estorides_core/intel_resolver.py", "f": "estorides_core/intel_resolver.py", "l": "intel_resolver.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.009221, "rp": 18, "fd": 0, "d": "estorides_core.intel_resolver", "a": -1.48929, "p": [-0.31574, -0.70225, -0.63809]}, {"id": "file:estorides_core/job_registry.py", "f": "estorides_core/job_registry.py", "l": "job_registry.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.006529, "rp": 33, "fd": 0, "d": "estorides_core.job_registry", "a": 1.6049, "p": [-0.4009, -0.54494, 0.73642]}, {"id": "file:estorides_core/knowledge_graph.py", "f": "estorides_core/knowledge_graph.py", "l": "knowledge_graph.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.010079, "rp": 15, "fd": 0, "d": "estorides_core.knowledge_graph", "a": 2.99639, "p": [-0.60118, 0.2191, 0.76849]}, {"id": "file:estorides_core/mitre_attack.py", "f": "estorides_core/mitre_attack.py", "l": "mitre_attack.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.003326, "rp": 71, "fd": 0, "d": "estorides_core.mitre_attack", "a": -1.16327, "p": [-0.48695, -0.08427, -0.86935]}, {"id": "file:estorides_core/monitoring.py", "f": "estorides_core/monitoring.py", "l": "monitoring.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.008107, "rp": 20, "fd": 0, "d": "estorides_core.monitoring", "a": 1.5397, "p": [-0.60116, -0.39888, 0.69246]}, {"id": "file:estorides_core/observation_models.py", "f": "estorides_core/observation_models.py", "l": "observation_models.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "business_logic", "lg": "py", "r": 0.007951, "rp": 23, "fd": 0, "d": "estorides_core.observation_models", "a": 0.25342, "p": [0.79986, -0.53371, -0.27454]}, {"id": "file:estorides_core/ontology.py", "f": "estorides_core/ontology.py", "l": "ontology.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.005939, "rp": 39, "fd": 0, "d": "estorides_core.ontology", "a": -1.35888, "p": [-0.33125, -0.84831, -0.41308]}, {"id": "file:estorides_core/openapi.py", "f": "estorides_core/openapi.py", "l": "openapi.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.003393, "rp": 68, "fd": 0, "d": "estorides_core.openapi", "a": -0.43862, "p": [-0.66753, 0.71348, -0.21296]}, {"id": "file:estorides_core/ops_observability.py", "f": "estorides_core/ops_observability.py", "l": "ops_observability.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.005896, "rp": 40, "fd": 0, "d": "estorides_core.ops_observability", "a": -0.50383, "p": [-0.79397, 0.47753, -0.37628]}, {"id": "file:estorides_core/orchestrator.py", "f": "estorides_core/orchestrator.py", "l": "orchestrator.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.010322, "rp": 13, "fd": 0, "d": "estorides_core.orchestrator", "a": -1.5545, "p": [-0.57242, -0.61236, -0.5453]}, {"id": "file:estorides_core/osiris_sources.py", "f": "estorides_core/osiris_sources.py", "l": "osiris_sources.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "estorides_core.osiris_sources", "a": 0.41643, "p": [0.29887, -0.73596, -0.60749]}, {"id": "file:estorides_core/pagination.py", "f": "estorides_core/pagination.py", "l": "pagination.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.006211, "rp": 36, "fd": 0, "d": "estorides_core.pagination", "a": -1.42409, "p": [-0.55742, -0.75843, -0.33774]}, {"id": "file:estorides_core/parsers.py", "f": "estorides_core/parsers.py", "l": "parsers.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.010148, "rp": 14, "fd": 0, "d": "estorides_core.parsers", "a": -1.52189, "p": [-0.49456, -0.46629, -0.73347]}, {"id": "file:estorides_core/pdns_monitor.py", "f": "estorides_core/pdns_monitor.py", "l": "pdns_monitor.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.16654, "p": [0.34901, -0.51124, 0.78538]}, {"id": "file:estorides_core/people_intel.py", "f": "estorides_core/people_intel.py", "l": "people_intel.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.19914, "p": [0.44678, -0.6573, 0.60691]}, {"id": "file:estorides_core/pivot_engine.py", "f": "estorides_core/pivot_engine.py", "l": "pivot_engine.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.004861, "rp": 56, "fd": 0, "d": "estorides_core.pivot_engine", "a": 0.31862, "p": [0.67122, -0.20787, -0.71152]}, {"id": "file:estorides_core/recon_fusion.py", "f": "estorides_core/recon_fusion.py", "l": "recon_fusion.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.008332, "rp": 19, "fd": 0, "d": "estorides_core.recon_fusion", "a": 0.88026, "p": [0.41281, 0.64607, -0.64202]}, {"id": "file:estorides_core/recon_pipeline.py", "f": "estorides_core/recon_pipeline.py", "l": "recon_pipeline.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 2.32955, "p": [0.44776, -0.80337, 0.39257]}, {"id": "file:estorides_core/relationship_inference.py", "f": "estorides_core/relationship_inference.py", "l": "relationship_inference.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.003326, "rp": 71, "fd": 0, "d": "estorides_core.relationship_inference", "a": -1.13067, "p": [-0.02434, -0.41011, -0.91171]}, {"id": "file:estorides_core/reliability_scoring.py", "f": "estorides_core/reliability_scoring.py", "l": "reliability_scoring.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "utility", "lg": "py", "r": 0.020234, "rp": 4, "fd": 0, "d": "estorides_core.reliability_scoring", "a": 0.81505, "p": [0.66199, 0.55618, -0.50243]}, {"id": "file:estorides_core/scope.py", "f": "estorides_core/scope.py", "l": "scope.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.005572, "rp": 51, "fd": 0, "d": "estorides_core.scope", "a": 1.67011, "p": [-0.36916, -0.7809, 0.5039]}, {"id": "file:estorides_core/search_telemetry.py", "f": "estorides_core/search_telemetry.py", "l": "search_telemetry.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.010485, "rp": 12, "fd": 0, "d": "estorides.search_telemetry.", "a": -0.60163, "p": [-0.40906, 0.76966, -0.49019]}, {"id": "file:estorides_core/socmint.py", "f": "estorides_core/socmint.py", "l": "socmint.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.004466, "rp": 61, "fd": 0, "d": "estorides_core.socmint", "a": -1.19587, "p": [-0.72964, -0.66854, -0.1438]}, {"id": "file:estorides_core/source_health_monitoring.py", "f": "estorides_core/source_health_monitoring.py", "l": "source_health_monitoring.py", "g": 10, "c": "hsl(84, 58%, 61%)", "ly": "utility", "lg": "py", "r": 0.007951, "rp": 23, "fd": 0, "d": "estorides_core.source_health_monitoring", "a": 3.76843, "p": [-0.27906, 0.69101, 0.6668]}, {"id": "file:estorides_core/source_loader.py", "f": "estorides_core/source_loader.py", "l": "source_loader.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.007981, "rp": 22, "fd": 0, "d": "estorides_core.source_loader", "a": -1.45669, "p": [-0.75002, -0.3764, -0.54387]}, {"id": "file:estorides_core/sqlite_store.py", "f": "estorides_core/sqlite_store.py", "l": "sqlite_store.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "data_access", "lg": "py", "r": 0.014034, "rp": 9, "fd": 0, "d": "estorides_core.sqlite_store", "a": 1.4745, "p": [-0.5798, -0.63483, 0.5107]}, {"id": "file:estorides_core/ssrf_guard.py", "f": "estorides_core/ssrf_guard.py", "l": "ssrf_guard.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "utility", "lg": "py", "r": 0.017066, "rp": 6, "fd": 0, "d": "estorides_core.ssrf_guard", "a": 0.18822, "p": [0.50372, -0.58989, -0.63111]}, {"id": "file:estorides_core/supply_chain.py", "f": "estorides_core/supply_chain.py", "l": "supply_chain.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.23174, "p": [-0.03593, -0.83708, 0.5459]}, {"id": "file:estorides_core/system_app_sources.py", "f": "estorides_core/system_app_sources.py", "l": "system_app_sources.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.005877, "rp": 41, "fd": 0, "d": "estorides_core.system_app_sources", "a": -1.32628, "p": [-0.64676, -0.23034, -0.72708]}, {"id": "file:estorides_core/tech_fingerprint.py", "f": "estorides_core/tech_fingerprint.py", "l": "tech_fingerprint.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.26435, "p": [0.21585, -0.89326, 0.39433]}, {"id": "file:estorides_core/tool_install.py", "f": "estorides_core/tool_install.py", "l": "tool_install.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "utility", "lg": "py", "r": 0.009298, "rp": 17, "fd": 0, "d": "estorides_core.tool_install", "a": 2.66297, "p": [0.84859, -0.33146, 0.41235]}, {"id": "file:estorides_core/tool_runner.py", "f": "estorides_core/tool_runner.py", "l": "tool_runner.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "utility", "lg": "py", "r": 0.017234, "rp": 5, "fd": 0, "d": "", "a": 2.63037, "p": [0.85428, -0.47753, 0.20536]}, {"id": "file:estorides_core/transforms.py", "f": "estorides_core/transforms.py", "l": "transforms.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.005987, "rp": 38, "fd": 0, "d": "estorides_core.transforms", "a": -1.39148, "p": [-0.20005, -0.55618, -0.80663]}, {"id": "file:estorides_core/transliteration.py", "f": "estorides_core/transliteration.py", "l": "transliteration.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "utility", "lg": "py", "r": 0.004939, "rp": 55, "fd": 0, "d": "estorides_core.transliteration", "a": 3.36241, "p": [-0.54555, 0.74719, 0.37958]}, {"id": "file:estorides_core/validation.py", "f": "estorides_core/validation.py", "l": "validation.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "utility", "lg": "py", "r": 0.004352, "rp": 62, "fd": 0, "d": "estorides_core.validation", "a": 2.69557, "p": [0.68602, -0.56742, 0.45543]}, {"id": "file:estorides_core/vuln_correlation.py", "f": "estorides_core/vuln_correlation.py", "l": "vuln_correlation.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "utility", "lg": "py", "r": 0.005805, "rp": 43, "fd": 0, "d": "", "a": 2.29695, "p": [0.18656, -0.36517, 0.91206]}, {"id": "file:estorides_core/web_security.py", "f": "estorides_core/web_security.py", "l": "web_security.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "presentation", "lg": "py", "r": 0.01557, "rp": 7, "fd": 0, "d": "estorides_core.web_security", "a": -0.63424, "p": [-0.61807, 0.6236, -0.47867]}, {"id": "file:estorides_export/__init__.py", "f": "estorides_export/__init__.py", "l": "__init__.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.006961, "rp": 27, "fd": 0, "d": "estorides_export", "a": 3.02899, "p": [-0.71558, -0.01685, 0.69833]}, {"id": "file:estorides_export/encryption.py", "f": "estorides_export/encryption.py", "l": "encryption.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.006078, "rp": 37, "fd": 0, "d": "estorides_export.encryption", "a": 3.09419, "p": [-0.43151, 0.07303, 0.89915]}, {"id": "file:estorides_export/misp.py", "f": "estorides_export/misp.py", "l": "misp.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.004128, "rp": 64, "fd": 0, "d": "estorides_export.misp", "a": 3.1268, "p": [-0.29348, 0.30899, 0.90465]}, {"id": "file:estorides_export/recon_report.py", "f": "estorides_export/recon_report.py", "l": "recon_report.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.006631, "rp": 31, "fd": 0, "d": "", "a": 3.06159, "p": [-0.84183, 0.12921, 0.52404]}, {"id": "file:estorides_export/report.py", "f": "estorides_export/report.py", "l": "report.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "py", "r": 0.006338, "rp": 35, "fd": 0, "d": "estorides_export.report", "a": 1.63751, "p": [-0.77635, -0.25281, 0.57737]}, {"id": "file:estorides_export/stix.py", "f": "estorides_export/stix.py", "l": "stix.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "utility", "lg": "py", "r": 0.004128, "rp": 64, "fd": 0, "d": "estorides_export.stix", "a": 3.1594, "p": [-0.9062, 0.27528, 0.32096]}, {"id": "file:estorides_llm/__init__.py", "f": "estorides_llm/__init__.py", "l": "__init__.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.003326, "rp": 71, "fd": 0, "d": "estorides_llm", "a": -1.09806, "p": [-0.87188, -0.14045, -0.46915]}, {"id": "file:estorides_llm/intelligence_prompts.py", "f": "estorides_llm/intelligence_prompts.py", "l": "intelligence_prompts.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.005398, "rp": 53, "fd": 0, "d": "estorides_llm.intelligence_prompts", "a": -1.22847, "p": [-0.06661, -0.79213, -0.6067]}, {"id": "file:estorides_llm/manager.py", "f": "estorides_llm/manager.py", "l": "manager.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "utility", "lg": "py", "r": 0.005772, "rp": 50, "fd": 0, "d": "estorides_llm.manager", "a": -1.26108, "p": [-0.34861, -0.32022, -0.88087]}, {"id": "file:estorides_web.py", "f": "estorides_web.py", "l": "estorides_web.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "presentation", "lg": "py", "r": 0.020561, "rp": 3, "fd": 0, "d": "estorides.web", "a": -0.66684, "p": [-0.45041, 0.53371, -0.71574]}, {"id": "file:estorides_web_tools.py", "f": "estorides_web_tools.py", "l": "estorides_web_tools.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "presentation", "lg": "py", "r": 0.003393, "rp": 68, "fd": 0, "d": "estorides_web_tools", "a": -0.40602, "p": [-0.44217, 0.85955, -0.25624]}, {"id": "file:install.sh", "f": "install.sh", "l": "install.sh", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "sh", "r": 0.002945, "rp": 74, "fd": 0, "d": "Bootstrap a venv and install the runtime + optional test dependencies.", "a": 4.29746, "p": [0.64594, 0.75843, 0.08691]}, {"id": "file:static/js/estorides.js", "f": "static/js/estorides.js", "l": "estorides.js", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "utility", "lg": "js", "r": 0.002945, "rp": 74, "fd": 0, "d": "Estorides front-end controller", "a": 1.80052, "p": [-0.20124, -0.69101, 0.69427]}, {"id": "file:static/js/graph_bundle.js", "f": "static/js/graph_bundle.js", "l": "graph_bundle.js", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "js", "r": 0.002945, "rp": 74, "fd": 0, "d": "Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling.", "a": 4.33007, "p": [0.44964, 0.10674, 0.88681]}, {"id": "file:static/js/graph_force.js", "f": "static/js/graph_force.js", "l": "graph_force.js", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "js", "r": 0.002945, "rp": 74, "fd": 0, "d": "Estorides force-graph module (spec/graph_force3d.md).", "a": 4.36267, "p": [0.24204, 0.25281, 0.93675]}, {"id": "file:static/js/source_manager.js", "f": "static/js/source_manager.js", "l": "source_manager.js", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "js", "r": 0.002945, "rp": 74, "fd": 0, "d": "Estorides Source Manager — form-based YAML editor", "a": 4.39527, "p": [0.85918, 0.05056, 0.50917]}, {"id": "file:tests/conftest.py", "f": "tests/conftest.py", "l": "conftest.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Pytest configuration and shared fixtures for the estorides test suite.", "a": 4.42787, "p": [0.40061, 0.90449, 0.1463]}, {"id": "file:tests/properties/test_change_detection_properties.py", "f": "tests/properties/test_change_detection_properties.py", "l": "test_change_detection_properties.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.change_detection.", "a": 1.04327, "p": [0.73256, 0.17416, -0.65805]}, {"id": "file:tests/properties/test_csp_safe_styles_properties.py", "f": "tests/properties/test_csp_safe_styles_properties.py", "l": "test_csp_safe_styles_properties.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based fuzz for `csp_safe_styles`.", "a": -0.34082, "p": [-0.81365, 0.24157, -0.5288]}, {"id": "file:tests/properties/test_graph_bundle_properties.py", "f": "tests/properties/test_graph_bundle_properties.py", "l": "test_graph_bundle_properties.py", "g": 9, "c": "hsl(340, 57%, 59%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.graph_bundle.", "a": 3.63063, "p": [-0.13481, 0.98315, 0.12349]}, {"id": "file:tests/properties/test_hypothesis_engine_properties.py", "f": "tests/properties/test_hypothesis_engine_properties.py", "l": "test_hypothesis_engine_properties.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.hypothesis_engine.", "a": 1.07587, "p": [0.30104, 0.5, -0.81202]}, {"id": "file:tests/properties/test_observation_models_properties.py", "f": "tests/properties/test_observation_models_properties.py", "l": "test_observation_models_properties.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.observation_models.", "a": 0.44903, "p": [0.62612, -0.76966, -0.12489]}, {"id": "file:tests/properties/test_parsers_properties.py", "f": "tests/properties/test_parsers_properties.py", "l": "test_parsers_properties.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based fuzzing for the parser totality contract (doctrine §6).", "a": -1.06546, "p": [-0.4037, -0.90449, -0.13753]}, {"id": "file:tests/properties/test_recon_fusion_properties.py", "f": "tests/properties/test_recon_fusion_properties.py", "l": "test_recon_fusion_properties.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based fuzzing for recon_fusion module (doctrine section 6).", "a": 1.10847, "p": [0.45288, 0.26404, -0.85158]}, {"id": "file:tests/properties/test_reliability_scoring_properties.py", "f": "tests/properties/test_reliability_scoring_properties.py", "l": "test_reliability_scoring_properties.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.reliability_scoring.", "a": 1.14108, "p": [0.78788, 0.61236, -0.06527]}, {"id": "file:tests/properties/test_search_telemetry_properties.py", "f": "tests/properties/test_search_telemetry_properties.py", "l": "test_search_telemetry_properties.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based fuzzing for `search_telemetry` (spec S12 + predicate laws).", "a": -0.30822, "p": [-0.59372, 0.15169, -0.79025]}, {"id": "file:tests/properties/test_source_health_monitoring_properties.py", "f": "tests/properties/test_source_health_monitoring_properties.py", "l": "test_source_health_monitoring_properties.py", "g": 10, "c": "hsl(84, 58%, 61%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.source_health_monitoring.", "a": 3.80103, "p": [-0.15007, 0.54494, 0.82493]}, {"id": "file:tests/properties/test_system_app_sources_properties.py", "f": "tests/properties/test_system_app_sources_properties.py", "l": "test_system_app_sources_properties.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.system_app_sources.", "a": -1.03286, "p": [0.08155, -0.64607, -0.75891]}, {"id": "file:tests/properties/test_target_management_properties.py", "f": "tests/properties/test_target_management_properties.py", "l": "test_target_management_properties.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.46047, "p": [0.6327, -0.03933, 0.7734]}, {"id": "file:tests/properties/test_tool_runner_properties.py", "f": "tests/properties/test_tool_runner_properties.py", "l": "test_tool_runner_properties.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Property-based invariants for estorides_core.tool_runner.", "a": 2.76078, "p": [0.7816, -0.6236, 0.01525]}, {"id": "file:tests/test_active_recon.py", "f": "tests/test_active_recon.py", "l": "test_active_recon.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.active_recon.", "a": 2.79338, "p": [0.96532, -0.24157, 0.09897]}, {"id": "file:tests/test_async_client.py", "f": "tests/test_async_client.py", "l": "test_async_client.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for egress anonymisation wiring (`estorides_core.async_client`).", "a": 0.48163, "p": [0.27526, -0.5, -0.82112]}, {"id": "file:tests/test_audit_log.py", "f": "tests/test_audit_log.py", "l": "test_audit_log.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "AuditLog rotation: file size cap, in-place .N rotation (issue #48).", "a": -0.27561, "p": [-0.07247, 0.82584, -0.55922]}, {"id": "file:tests/test_auth_gate.py", "f": "tests/test_auth_gate.py", "l": "test_auth_gate.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Auth gate: bearer-token protection for sensitive /api/* routes.", "a": -0.24301, "p": [-0.18519, 0.91573, -0.35657]}, {"id": "file:tests/test_case_crypto.py", "f": "tests/test_case_crypto.py", "l": "test_case_crypto.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M4 case_crypto BDD red.", "a": 1.83312, "p": [-0.54168, -0.16292, 0.82464]}, {"id": "file:tests/test_central_config.py", "f": "tests/test_central_config.py", "l": "test_central_config.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M6 RED tests: central config for orchestrator + tool_install.", "a": 2.82598, "p": [0.63023, -0.42135, 0.65213]}, {"id": "file:tests/test_change_detection.py", "f": "tests/test_change_detection.py", "l": "test_change_detection.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.change_detection.", "a": 1.17368, "p": [0.1486, 0.73596, -0.66052]}, {"id": "file:tests/test_cli_watch.py", "f": "tests/test_cli_watch.py", "l": "test_cli_watch.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD / regression tests for the `estorides watch add` CLI path.", "a": 1.86572, "p": [-0.90663, -0.10674, 0.4082]}, {"id": "file:tests/test_cloud_asset_discovery.py", "f": "tests/test_cloud_asset_discovery.py", "l": "test_cloud_asset_discovery.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.cloud_asset_discovery.", "a": 2.36215, "p": [-0.13164, -0.45506, 0.88068]}, {"id": "file:tests/test_code_exposure.py", "f": "tests/test_code_exposure.py", "l": "test_code_exposure.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.code_exposure.", "a": 2.39475, "p": [0.50406, -0.27528, 0.81862]}, {"id": "file:tests/test_config_env.py", "f": "tests/test_config_env.py", "l": "test_config_env.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD / regression tests for fault-tolerant configuration parsing.", "a": 0.51424, "p": [0.82481, -0.0618, -0.56202]}, {"id": "file:tests/test_csp_safe_styles.py", "f": "tests/test_csp_safe_styles.py", "l": "test_csp_safe_styles.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "CSP-safe styles: regression tests for the inline-style bug introduced by the CSP tightening in commit 45c3af5.", "a": -0.21041, "p": [0.00394, 0.58989, -0.80748]}, {"id": "file:tests/test_encrypted_export.py", "f": "tests/test_encrypted_export.py", "l": "test_encrypted_export.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Encrypted export: plaintext must be removed after encryption.", "a": 3.192, "p": [-0.97797, 0.03933, 0.20502]}, {"id": "file:tests/test_entity_extraction.py", "f": "tests/test_entity_extraction.py", "l": "test_entity_extraction.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD / regression tests for entity extraction and fuzzy merge.  - EE1: `types=[]` extracts nothing (and `types=None` extracts everything) - EE2: fuzzy merge picks the most-observed spelling as canonical", "a": 3.42761, "p": [-0.89994, 0.42135, 0.11216]}, {"id": "file:tests/test_entity_resolution.py", "f": "tests/test_entity_resolution.py", "l": "test_entity_resolution.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for estorides_core.entity_resolution.", "a": 3.46022, "p": [-0.71766, 0.36517, 0.59297]}, {"id": "file:tests/test_envutil.py", "f": "tests/test_envutil.py", "l": "test_envutil.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the shared env readers (spec/envutil.md).", "a": 4.49308, "p": [0.03342, 0.39888, 0.9164]}, {"id": "file:tests/test_event_bus.py", "f": "tests/test_event_bus.py", "l": "test_event_bus.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M2a event_bus BDD red.", "a": -1.00026, "p": [-0.11076, -0.9382, -0.32789]}, {"id": "file:tests/test_fusion_analytics.py", "f": "tests/test_fusion_analytics.py", "l": "test_fusion_analytics.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.fusion_analytics.", "a": 1.20628, "p": [0.51714, 0.84831, -0.11369]}, {"id": "file:tests/test_graph_bundle.py", "f": "tests/test_graph_bundle.py", "l": "test_graph_bundle.py", "g": 9, "c": "hsl(340, 57%, 59%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "graph_bundle: pestana Bundles circular 2D + esferica 3D estilo ReadMenator.", "a": 3.66323, "p": [-0.41553, 0.89326, 0.17153]}, {"id": "file:tests/test_graph_bundle_assets.py", "f": "tests/test_graph_bundle_assets.py", "l": "test_graph_bundle_assets.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "graph_bundle S6: assets frontend (fuera del sandbox mutmut).", "a": 4.52568, "p": [0.92525, 0.3764, 0.04731]}, {"id": "file:tests/test_graph_force3d.py", "f": "tests/test_graph_force3d.py", "l": "test_graph_force3d.py", "g": 9, "c": "hsl(340, 57%, 59%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "graph_force3d: port del sistema de grafos ReadMenator + contexto IA.", "a": 3.69583, "p": [-0.02885, 0.7809, 0.62399]}, {"id": "file:tests/test_graph_rag_search.py", "f": "tests/test_graph_rag_search.py", "l": "test_graph_rag_search.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6).", "a": -0.17781, "p": [-0.81992, 0.56742, -0.07599]}, {"id": "file:tests/test_hardening.py", "f": "tests/test_hardening.py", "l": "test_hardening.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the v1.3 hardening surface, case diff and report.", "a": 1.89832, "p": [-0.33929, -0.30899, 0.88849]}, {"id": "file:tests/test_hypothesis_engine.py", "f": "tests/test_hypothesis_engine.py", "l": "test_hypothesis_engine.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.hypothesis_engine.", "a": 1.23888, "p": [0.19972, 0.88202, -0.42679]}, {"id": "file:tests/test_ids.py", "f": "tests/test_ids.py", "l": "test_ids.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the shared deterministic id helper (spec/ids.md).  - ID1: deterministic and content-addressed - ID2: length is honoured - ID3: different payloads do not collide in the 16-char space (smoke)", "a": 1.27148, "p": [0.92472, 0.08427, -0.37119]}, {"id": "file:tests/test_job_registry.py", "f": "tests/test_job_registry.py", "l": "test_job_registry.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BoundedJobRegistry: size cap + TTL eviction (issues #14, #20, #50).", "a": 1.93093, "p": [-0.57988, -0.81461, 0.01265]}, {"id": "file:tests/test_keyless_sources.py", "f": "tests/test_keyless_sources.py", "l": "test_keyless_sources.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M3 RED tests: keyless BGPView + CISA KEV sources and total parsers.", "a": -0.96766, "p": [-0.92149, -0.28652, -0.26223]}, {"id": "file:tests/test_map_basemap.py", "f": "tests/test_map_basemap.py", "l": "test_map_basemap.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for spec/map_basemap.md (CARTO basemap, no direct OSM tiles).", "a": -0.1452, "p": [-0.91944, 0.33146, -0.21156]}, {"id": "file:tests/test_monitoring.py", "f": "tests/test_monitoring.py", "l": "test_monitoring.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for Monitoring & Advanced Recon modules.", "a": 0.54684, "p": [0.9158, -0.38764, -0.10507]}, {"id": "file:tests/test_obs_fts.py", "f": "tests/test_obs_fts.py", "l": "test_obs_fts.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Obs FTS BDD.", "a": 1.96353, "p": [-0.97787, -0.19663, 0.07142]}, {"id": "file:tests/test_observation_models.py", "f": "tests/test_observation_models.py", "l": "test_observation_models.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "estorides_core.observation_models — BDD/TDD contract tests.", "a": 0.57944, "p": [0.95819, -0.15169, -0.2426]}, {"id": "file:tests/test_openapi.py", "f": "tests/test_openapi.py", "l": "test_openapi.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "OpenAPI BDD.", "a": -0.1126, "p": [-0.28941, 0.0618, -0.95521]}, {"id": "file:tests/test_ops_observability.py", "f": "tests/test_ops_observability.py", "l": "test_ops_observability.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M1 ops_observability — BDD red.", "a": -0.08, "p": [-0.30915, 0.94944, -0.05469]}, {"id": "file:tests/test_opsec_contact.py", "f": "tests/test_opsec_contact.py", "l": "test_opsec_contact.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for operator-OPSEC contact classification + passive-only filter.", "a": -0.93505, "p": [-0.75831, 0.00562, -0.65187]}, {"id": "file:tests/test_orchestrator_fanout.py", "f": "tests/test_orchestrator_fanout.py", "l": "test_orchestrator_fanout.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M0 RED tests: fanout normalisation + callback parity + no duplicated methods.", "a": 0.61204, "p": [0.36796, -0.91573, -0.16137]}, {"id": "file:tests/test_pagination.py", "f": "tests/test_pagination.py", "l": "test_pagination.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for estorides_core.pagination.", "a": -0.90245, "p": [-0.15731, -0.17416, -0.97207]}, {"id": "file:tests/test_parsers.py", "f": "tests/test_parsers.py", "l": "test_parsers.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD / regression tests for the remote-JSON parser layer.", "a": 0.64465, "p": [0.39228, -0.11798, -0.91225]}, {"id": "file:tests/test_pdns_monitor.py", "f": "tests/test_pdns_monitor.py", "l": "test_pdns_monitor.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.pdns_monitor.", "a": 2.42736, "p": [-0.15155, -0.92697, 0.34317]}, {"id": "file:tests/test_people_intel.py", "f": "tests/test_people_intel.py", "l": "test_people_intel.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.people_intel.", "a": 2.45996, "p": [-0.01428, -0.2191, 0.9756]}, {"id": "file:tests/test_probabilistic_fusion.py", "f": "tests/test_probabilistic_fusion.py", "l": "test_probabilistic_fusion.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD + property tests for probabilistic fusion.", "a": 1.30409, "p": [0.58285, 0.02809, -0.81209]}, {"id": "file:tests/test_query_intent.py", "f": "tests/test_query_intent.py", "l": "test_query_intent.py", "g": 8, "c": "hsl(41, 60%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M1 RED tests: query intent v2.", "a": 3.49282, "p": [-0.59497, 0.80337, 0.0246]}, {"id": "file:tests/test_recon_fusion.py", "f": "tests/test_recon_fusion.py", "l": "test_recon_fusion.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the recon_fusion module (Modulo 2g).", "a": 1.33669, "p": [0.95984, 0.23034, -0.16014]}, {"id": "file:tests/test_recon_report.py", "f": "tests/test_recon_report.py", "l": "test_recon_report.py", "g": 7, "c": "hsl(232, 66%, 65%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_export.recon_report.", "a": 3.2246, "p": [-0.09584, 0.16292, 0.98197]}, {"id": "file:tests/test_reliability_scoring.py", "f": "tests/test_reliability_scoring.py", "l": "test_reliability_scoring.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.reliability_scoring.", "a": 1.36929, "p": [0.29201, 0.9382, -0.18575]}, {"id": "file:tests/test_retry_policy.py", "f": "tests/test_retry_policy.py", "l": "test_retry_policy.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Retry policy BDD.", "a": 0.67725, "p": [0.18188, -0.26404, -0.94721]}, {"id": "file:tests/test_scope.py", "f": "tests/test_scope.py", "l": "test_scope.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the bug-bounty scope classifier (`estorides_core.scope`).", "a": 1.99613, "p": [-0.26984, -0.96067, 0.06552]}, {"id": "file:tests/test_search_telemetry.py", "f": "tests/test_search_telemetry.py", "l": "test_search_telemetry.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD/ATDD suite for the `search_telemetry` module (spec/search_telemetry.md).", "a": -0.0474, "p": [-0.07601, 0.20787, -0.9752]}, {"id": "file:tests/test_security_remediation.py", "f": "tests/test_security_remediation.py", "l": "test_security_remediation.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "TestSsrfLogSanitisation: BDD S1, S2: ssrf_guard._resolve log messages must not contain the hostname or exception detail.", "a": 0.70985, "p": [0.13113, -0.97191, -0.19544]}, {"id": "file:tests/test_socmint.py", "f": "tests/test_socmint.py", "l": "test_socmint.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for SOCMINT sources and SocialMediaInferer.", "a": -0.86985, "p": [-0.89993, -0.43258, -0.05482]}, {"id": "file:tests/test_source_health_monitoring.py", "f": "tests/test_source_health_monitoring.py", "l": "test_source_health_monitoring.py", "g": 10, "c": "hsl(84, 58%, 61%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for estorides_core.source_health_monitoring.", "a": 3.83364, "p": [-0.45024, 0.45506, 0.76825]}, {"id": "file:tests/test_source_loader.py", "f": "tests/test_source_loader.py", "l": "test_source_loader.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD / regression tests for SourceRegistry loading.  - SL1: a multi-document YAML file loads every document - SL2: a document holding a list of sources loads every entry - SL3: a duplicate name overwrites cleanly and category counts stay consistent - SL4: an unknown `contact`...", "a": -0.83725, "p": [0.11237, -0.88202, -0.45761]}, {"id": "file:tests/test_source_routing.py", "f": "tests/test_source_routing.py", "l": "test_source_routing.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M2 RED tests: alias routing + phone/mac YAML backfill.", "a": -0.80465, "p": [-0.08241, -0.99438, -0.06643]}, {"id": "file:tests/test_sqlite_store.py", "f": "tests/test_sqlite_store.py", "l": "test_sqlite_store.py", "g": 4, "c": "hsl(315, 59%, 66%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the shared SQLite store base (spec/sqlite_store.md).  - SS1: schema applied, default path honoured - SS2: `_tx` commits - SS3: `_tx` rolls back and re-raises - SS4: `close` is idempotent - SS5: DictMixin maps a dataclass to a dict", "a": 2.02873, "p": [-0.22838, -0.07303, 0.97083]}, {"id": "file:tests/test_structured_extraction.py", "f": "tests/test_structured_extraction.py", "l": "test_structured_extraction.py", "g": 2, "c": "hsl(215, 62%, 67%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for structured human-selector extraction + pivot leaf surfacing.", "a": 0.74245, "p": [0.99949, -0.00562, -0.03157]}, {"id": "file:tests/test_supply_chain.py", "f": "tests/test_supply_chain.py", "l": "test_supply_chain.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.supply_chain.", "a": 2.49256, "p": [0.27501, -0.94944, 0.15146]}, {"id": "file:tests/test_system_app_sources.py", "f": "tests/test_system_app_sources.py", "l": "test_system_app_sources.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for estorides_core.system_app_sources.", "a": -0.77204, "p": [-0.98846, -0.05056, -0.14283]}, {"id": "file:tests/test_target_management.py", "f": "tests/test_target_management.py", "l": "test_target_management.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "", "a": 4.55828, "p": [0.16895, 0.96067, 0.22037]}, {"id": "file:tests/test_target_scoring.py", "f": "tests/test_target_scoring.py", "l": "test_target_scoring.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.target_scoring.", "a": 4.59088, "p": [0.97322, 0.14045, 0.18196]}, {"id": "file:tests/test_tech_fingerprint.py", "f": "tests/test_tech_fingerprint.py", "l": "test_tech_fingerprint.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.tech_fingerprint.", "a": 2.52516, "p": [0.02744, -0.98315, 0.18075]}, {"id": "file:tests/test_tool_doctor.py", "f": "tests/test_tool_doctor.py", "l": "test_tool_doctor.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M4 RED tests: tool doctor.", "a": 2.85858, "p": [0.94534, -0.09551, 0.31178]}, {"id": "file:tests/test_tool_install.py", "f": "tests/test_tool_install.py", "l": "test_tool_install.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Tests for estorides_core.tool_install (lazyaddon-style tool installation).", "a": 2.89118, "p": [0.77101, -0.18539, 0.60924]}, {"id": "file:tests/test_tool_runner.py", "f": "tests/test_tool_runner.py", "l": "test_tool_runner.py", "g": 6, "c": "hsl(117, 58%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.tool_runner.", "a": 2.92379, "p": [0.50506, -0.85955, 0.07802]}, {"id": "file:tests/test_transforms.py", "f": "tests/test_transforms.py", "l": "test_transforms.py", "g": 0, "c": "hsl(145, 56%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for spec/transforms.md — Maltego-style pivoting.", "a": -0.73944, "p": [0.05591, -0.02809, -0.99804]}, {"id": "file:tests/test_ui_professional.py", "f": "tests/test_ui_professional.py", "l": "test_ui_professional.py", "g": 3, "c": "hsl(174, 65%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the ui_professional module (spec/ui_professional.md).", "a": 1.40189, "p": [0.26714, 0.11798, -0.95641]}, {"id": "file:tests/test_ui_visibility.py", "f": "tests/test_ui_visibility.py", "l": "test_ui_visibility.py", "g": 11, "c": "hsl(19, 66%, 60%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Regression tests for the `hidden` attribute contract and output escaping.", "a": 4.62349, "p": [0.11881, 0.01685, 0.99277]}, {"id": "file:tests/test_vuln_correlation.py", "f": "tests/test_vuln_correlation.py", "l": "test_vuln_correlation.py", "g": 5, "c": "hsl(329, 56%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "ATDD + BDD tests for estorides_core.vuln_correlation.", "a": 2.55776, "p": [0.3265, -0.12921, 0.93633]}, {"id": "file:tests/test_web_helpers.py", "f": "tests/test_web_helpers.py", "l": "test_web_helpers.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "BDD tests for the web-layer decorators/helpers extracted from `create_app`.  - WH1: `_provides` returns 503 when the service is missing - WH2: `_provides` is transparent when the service is present - WH3: `_provides` runs after `require_auth` (auth ordering preserved) - WH4...", "a": -0.0148, "p": [-0.93165, 0.09551, -0.35058]}, {"id": "file:tests/test_web_tools_blueprint.py", "f": "tests/test_web_tools_blueprint.py", "l": "test_web_tools_blueprint.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "testing", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "M5 RED tests: tools blueprint slice.", "a": 0.01781, "p": [0.02058, 0.97191, -0.23445]}, {"id": "file:tools/split_sources.py", "f": "tools/split_sources.py", "l": "split_sources.py", "g": 11, "c": "hsl(177, 57%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Split legacy grouped source files into one addon per file.", "a": 4.65609, "p": [0.10585, 0.99438, 0.0]}, {"id": "file:tools/sync_docs.py", "f": "tools/sync_docs.py", "l": "sync_docs.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "tools.sync_docs", "a": 0.05041, "p": [0.12924, 0.35393, -0.9263]}, {"id": "file:web.py", "f": "web.py", "l": "web.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.002945, "rp": 74, "fd": 0, "d": "Deprecated entry point.", "a": 0.08301, "p": [-0.98262, 0.18539, -0.00959]}, {"id": "file:wsgi.py", "f": "wsgi.py", "l": "wsgi.py", "g": 1, "c": "hsl(160, 64%, 62%)", "ly": "utility", "lg": "py", "r": 0.007951, "rp": 23, "fd": 0, "d": "estorides.wsgi", "a": -0.56903, "p": [-0.64703, 0.38764, -0.65657]}], "groups": [{"k": "community:0", "l": "estorides_core: parsers", "c": "hsl(145, 56%, 60%)", "n": 26, "a0": -1.5708, "a1": -0.72314, "h2": [0.22619, -0.50134], "h3": [-0.28205, -0.3214, -0.34591], "u": [-0.51281, -0.58437, -0.62892]}, {"k": "community:1", "l": "estorides_core: estorides_web", "c": "hsl(160, 64%, 62%)", "n": 24, "a0": -0.68314, "a1": 0.09931, "h2": [0.52673, -0.15828], "h3": [-0.28737, 0.32861, -0.33456], "u": [-0.52249, 0.59748, -0.60829]}, {"k": "community:2", "l": "estorides_core: config", "c": "hsl(215, 62%, 67%)", "n": 19, "a0": 0.13931, "a1": 0.75875, "h2": [0.49548, 0.23875], "h3": [0.3632, -0.29075, -0.29335], "u": [0.66036, -0.52863, -0.53336]}, {"k": "community:3", "l": "estorides_core: hypothesis_engine", "c": "hsl(174, 65%, 62%)", "n": 19, "a0": 0.79875, "a1": 1.41819, "h2": [0.24532, 0.49226], "h3": [0.34388, 0.30254, -0.3045], "u": [0.62523, 0.55007, -0.55363]}, {"k": "community:4", "l": "estorides_core: estorides", "c": "hsl(315, 59%, 66%)", "n": 18, "a0": 1.45819, "a1": 2.04503, "h2": [-0.09891, 0.54103], "h3": [-0.3548, -0.30792, 0.28602], "u": [-0.64508, -0.55985, 0.52003]}, {"k": "community:5", "l": "estorides_core: people_intel", "c": "hsl(329, 56%, 62%)", "n": 15, "a0": 2.08503, "a1": 2.57407, "h2": [-0.37841, 0.39913], "h3": [0.10943, -0.38103, 0.38124], "u": [0.19896, -0.69278, 0.69316]}, {"k": "community:6", "l": "estorides_core: tool_install", "c": "hsl(117, 58%, 62%)", "n": 10, "a0": 2.61407, "a1": 2.94009, "h2": [-0.51386, 0.19607], "h3": [0.44711, -0.26431, 0.18092], "u": [0.81293, -0.48056, 0.32894]}, {"k": "community:7", "l": "estorides_export", "c": "hsl(232, 66%, 65%)", "n": 8, "a0": 2.98009, "a1": 3.2409, "h2": [-0.54973, 0.0171], "h3": [-0.36678, 0.08982, 0.39988], "u": [-0.66687, 0.1633, 0.72706]}, {"k": "community:8", "l": "estorides_core: entity_resolution", "c": "hsl(41, 60%, 67%)", "n": 7, "a0": 3.2809, "a1": 3.50912, "h2": [-0.53243, -0.13789], "h3": [-0.39285, 0.33652, 0.18687], "u": [-0.71428, 0.61186, 0.33976]}, {"k": "community:9", "l": "estorides_core: graph_bundle", "c": "hsl(340, 57%, 59%)", "n": 5, "a0": 3.54912, "a1": 3.71213, "h2": [-0.48553, -0.25837], "h3": [-0.11241, 0.50142, 0.19607], "u": [-0.20439, 0.91167, 0.35648]}, {"k": "community:10", "l": "estorides_core: source_health_monitoring", "c": "hsl(84, 58%, 61%)", "n": 3, "a0": 3.75213, "a1": 3.84994, "h2": [-0.43468, -0.33697], "h3": [-0.1636, 0.31459, 0.42044], "u": [-0.29745, 0.57198, 0.76444]}, {"k": "unassigned", "l": "unassigned", "c": "#4f8ef7", "n": 24, "a0": 3.88994, "a1": 4.67239, "h2": [-0.22989, -0.49965], "h3": [0.31727, 0.30761, 0.32744], "u": [0.57685, 0.5593, 0.59534]}], "edges": [[12, 177], [13, 16], [13, 20], [13, 24], [13, 25], [13, 26], [13, 32], [13, 41], [13, 43], [13, 48], [13, 59], [13, 73], [13, 76], [13, 80], [13, 85], [14, 24], [15, 70], [16, 65], [17, 24], [17, 65], [18, 24], [20, 19], [20, 24], [20, 64], [21, 38], [21, 58], [25, 20], [25, 24], [25, 35], [25, 40], [25, 48], [25, 54], [26, 24], [27, 24], [27, 26], [27, 38], [27, 72], [28, 24], [28, 27], [28, 64], [30, 24], [30, 65], [32, 24], [32, 27], [32, 38], [32, 58], [32, 64], [33, 34], [35, 24], [37, 38], [37, 58], [39, 24], [39, 45], [39, 65], [41, 24], [41, 26], [43, 24], [43, 64], [44, 24], [45, 24], [45, 65], [47, 24], [48, 17], [48, 20], [48, 24], [48, 26], [48, 27], [48, 28], [48, 29], [48, 32], [48, 35], [48, 39], [48, 41], [48, 42], [48, 45], [48, 50], [48, 51], [48, 55], [48, 57], [48, 63], [48, 67], [48, 82], [49, 24], [49, 65], [54, 24], [55, 24], [55, 38], [55, 58], [56, 22], [56, 23], [56, 52], [56, 53], [56, 66], [56, 68], [56, 74], [60, 24], [63, 24], [67, 24], [67, 51], [67, 70], [69, 24], [69, 70], [70, 24], [70, 26], [71, 39], [73, 26], [76, 77], [76, 78], [76, 79], [76, 80], [76, 81], [77, 41], [77, 76], [78, 24], [78, 41], [81, 24], [81, 41], [82, 84], [84, 24], [84, 83], [85, 14], [85, 16], [85, 18], [85, 20], [85, 24], [85, 25], [85, 26], [85, 30], [85, 31], [85, 32], [85, 34], [85, 35], [85, 36], [85, 39], [85, 40], [85, 41], [85, 43], [85, 46], [85, 47], [85, 48], [85, 54], [85, 60], [85, 61], [85, 71], [85, 73], [85, 75], [85, 76], [85, 77], [85, 86], [86, 18], [86, 69], [86, 75], [86, 85], [88, 25], [88, 80], [93, 21], [94, 75], [95, 33], [96, 37], [97, 44], [98, 51], [99, 55], [100, 58], [101, 60], [102, 62], [103, 51], [103, 67], [103, 70], [105, 70], [106, 15], [106, 70], [107, 17], [107, 24], [108, 18], [109, 75], [110, 19], [110, 20], [111, 14], [111, 48], [111, 69], [112, 21], [112, 58], [113, 13], [113, 43], [114, 22], [115, 23], [116, 24], [117, 60], [117, 75], [118, 26], [118, 41], [118, 77], [119, 26], [120, 26], [120, 27], [120, 28], [120, 72], [122, 29], [123, 31], [123, 32], [124, 14], [124, 33], [124, 34], [126, 34], [127, 36], [127, 85], [128, 20], [128, 75], [128, 80], [129, 37], [129, 58], [130, 38], [131, 40], [132, 48], [132, 51], [133, 75], [134, 16], [134, 24], [134, 43], [134, 63], [135, 20], [136, 44], [137, 85], [138, 47], [139, 24], [139, 48], [139, 63], [140, 14], [141, 50], [142, 14], [143, 52], [144, 53], [145, 32], [146, 26], [147, 24], [147, 55], [148, 79], [149, 58], [150, 14], [150, 24], [151, 59], [152, 60], [153, 14], [153, 16], [153, 65], [153, 75], [154, 24], [154, 26], [154, 51], [154, 61], [154, 63], [155, 62], [156, 63], [157, 48], [158, 64], [159, 24], [159, 26], [159, 54], [160, 66], [161, 24], [161, 48], [161, 63], [161, 67], [161, 70], [164, 68], [165, 69], [166, 69], [167, 24], [167, 70], [167, 73], [168, 39], [168, 71], [169, 55], [169, 60], [171, 74], [172, 75], [172, 85], [173, 85], [175, 85], [176, 177], [177, 85]]};
+const CFG={"mode": "2d", "beta": 0.85, "samples": 20, "edgeAlpha": 0.3, "dimAlpha": 0.035, "labelAllMax": 140, "labelTopN": 24, "labelMax": 26, "nodeMin": 2.0, "nodeMax": 7.0, "hitPx": 9.0, "rotateSpeed": 0.12, "perspective": 3.0, "depthFade": 0.7, "particles": 3, "revealMs": 1400, "flowTopN": 8, "listMax": 40, "searchResults": 8, "tipDocChars": 200, "dragPx": 4.0, "flyMs": 700, "explorerHref": "graph-force.html", "unassignedKey": "unassigned", "groupColors": {"layer": {"utility": "#94a3b8", "data_access": "#a78bfa", "testing": "#fb923c", "infrastructure": "#fbbf24", "business_logic": "#34d399", "presentation": "#22d3ee"}, "language": {"py": "hsl(46, 64%, 67%)", "sh": "hsl(128, 64%, 67%)", "js": "hsl(202, 63%, 67%)"}}};
+const NODES=DATA.nodes||[],GROUPS=DATA.groups||[],EDGES=DATA.edges||[];
+const $=id=>document.getElementById(id);
+const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canvas=$("c"),ctx=canvas.getContext("2d"),stage=$("stage");
+const S={view:CFG.mode==="3d"?"3d":"2d",beta:CFG.beta,color:"community",dir:"both",cross:false,rotate:!reduce,focus:-1,group:-1,key:null,hover:-1,hoverGroup:-1,yaw:0.7,pitch:-0.32,zoom:1,panX:0,panY:0,reveal:reduce?1:0,revealStart:0,w:0,h:0,dpr:1};
+const OUT=NODES.map(()=>[]),INN=NODES.map(()=>[]);
+EDGES.forEach((e,k)=>{OUT[e[0]].push(k);INN[e[1]].push(k);});
+const byId={};NODES.forEach((n,i)=>{byId[n.id]=i;});
+const groupByKey={};GROUPS.forEach((g,i)=>{groupByKey[g.k]=i;});
+const maxRank=Math.max(1e-9,...NODES.map(n=>n.r||0));
+const byRank=NODES.map((n,i)=>i).sort((a,b)=>(NODES[b].r-NODES[a].r)||(NODES[a].f<NODES[b].f?-1:1));
+const topSet=new Set(byRank.slice(0,CFG.labelTopN));
+let C2=[],C3=[],INK=null,proj=null,labelMargin=40;
+const INSIDE=EDGES.filter(e=>NODES[e[0]].g===NODES[e[1]].g).length;
+
+function mk(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!=null)el.textContent=String(text);return el;}
+function clip(text,max){text=String(text||"");return text.length>max?text.slice(0,Math.max(1,max-1))+"…":text;}
+function base(path){const s=String(path||"");const i=s.lastIndexOf("/");return i>=0?s.slice(i+1):s;}
+function ink(){if(!INK){const cs=getComputedStyle(document.documentElement);const v=k=>cs.getPropertyValue(k).trim();INK={accent:v("--accent"),accent2:v("--accent2"),ink:v("--ink"),muted:v("--muted"),faint:v("--faint"),labelBg:v("--label-bg"),labelInk:v("--label-ink"),sphere:v("--sphere"),stage:v("--stage"),light:document.documentElement.getAttribute("data-theme")==="light"};}return INK;}
+function colorOf(i){const n=NODES[i];if(S.color==="layer")return (CFG.groupColors.layer||{})[n.ly]||n.c;if(S.color==="language")return (CFG.groupColors.language||{})[n.lg]||n.c;return n.c;}
+function keyOf(i){const n=NODES[i];return S.color==="layer"?n.ly:S.color==="language"?n.lg:String(n.g);}
+
+function bspline(ctrl,samples,dims){
+  const out=[];
+  if(ctrl.length<3){const a=ctrl[0],b=ctrl[ctrl.length-1];for(let k=0;k<=samples;k++)for(let d=0;d<dims;d++)out.push(a[d]+(b[d]-a[d])*k/samples);return out;}
+  const pts=[ctrl[0],ctrl[0]].concat(ctrl,[ctrl[ctrl.length-1],ctrl[ctrl.length-1]]);
+  const segs=pts.length-3,per=Math.max(2,Math.floor(samples/Math.max(1,segs)));
+  for(let s=0;s<segs;s++){
+    const p0=pts[s],p1=pts[s+1],p2=pts[s+2],p3=pts[s+3];
+    const last=s===segs-1?1:0;
+    for(let k=0;k<per+last;k++){
+      const t=k/per,t2=t*t,t3=t2*t;
+      const b0=(1-t)*(1-t)*(1-t)/6,b1=(3*t3-6*t2+4)/6,b2=(-3*t3+3*t2+3*t+1)/6,b3=t3/6;
+      for(let d=0;d<dims;d++)out.push(b0*p0[d]+b1*p1[d]+b2*p2[d]+b3*p3[d]);
+    }
+  }
+  return out;
+}
+function curve(la,lb,ga,gb,hub,root,dims){
+  let ctrl;
+  if(ga===gb){const h=hub(ga);const inner=[];for(let d=0;d<dims;d++)inner.push((h[d]+la[d]+lb[d])/3);ctrl=[la,inner,lb];}
+  else ctrl=[la,hub(ga),root,hub(gb),lb];
+  const m=ctrl.length-1,beta=Math.max(0,Math.min(1,S.beta));
+  const st=ctrl.map((p,j)=>{const q=[];for(let d=0;d<dims;d++)q.push(beta*p[d]+(1-beta)*(la[d]+j/m*(lb[d]-la[d])));return q;});
+  return new Float32Array(bspline(st,CFG.samples,dims));
+}
+function buildCurves(){
+  C2=EDGES.map(e=>{const a=NODES[e[0]],b=NODES[e[1]];return curve([Math.cos(a.a),Math.sin(a.a)],[Math.cos(b.a),Math.sin(b.a)],a.g,b.g,g=>GROUPS[g].h2,[0,0],2);});
+  C3=EDGES.map(e=>{const a=NODES[e[0]],b=NODES[e[1]];return curve(a.p,b.p,a.g,b.g,g=>GROUPS[g].h3,[0,0,0],3);});
+}
+
+function resize(){
+  const r=stage.getBoundingClientRect();S.dpr=window.devicePixelRatio||1;S.w=Math.max(1,r.width);S.h=Math.max(1,r.height);
+  canvas.width=Math.round(S.w*S.dpr);canvas.height=Math.round(S.h*S.dpr);
+  ctx.font="11px ui-monospace,Menlo,Consolas,monospace";
+  const showAll=NODES.length<=CFG.labelAllMax;
+  let widest=0;if(showAll)NODES.forEach(n=>{widest=Math.max(widest,ctx.measureText(clip(n.l,CFG.labelMax)).width);});
+  labelMargin=showAll?Math.min(widest+34,Math.min(S.w,S.h)*0.26):46;
+  draw();
+}
+function radius(){const fit=S.view==="2d"?1:Math.max(0.2,(CFG.perspective-1)/CFG.perspective);return Math.max(40,(Math.min(S.w,S.h)/2-(S.view==="2d"?labelMargin:28))*fit)*S.zoom;}
+function center(){return [S.w/2+S.panX,S.h/2+S.panY];}
+function makeProjector(){
+  const [cx,cy]=center(),R=radius();
+  if(S.view==="2d")return (x,y)=>[cx+x*R,cy+y*R,0,1];
+  const cyw=Math.cos(S.yaw),syw=Math.sin(S.yaw),cp=Math.cos(S.pitch),sp=Math.sin(S.pitch),f=CFG.perspective;
+  return (x,y,z)=>{const x1=x*cyw+z*syw,z1=-x*syw+z*cyw,y2=y*cp-z1*sp,z2=y*sp+z1*cp,s=f/(f+z2);return [cx+x1*R*s,cy+y2*R*s,z2,s];};
+}
+function depthAlpha(z){return S.view==="3d"?1-CFG.depthFade*(z+1)/2:1;}
+
+function focusState(){
+  const f=S.focus>=0?S.focus:S.hover;
+  if(f>=0)return {node:f};
+  const g=S.group>=0?S.group:S.hoverGroup;
+  if(g>=0)return {group:g};
+  if(S.key!=null)return {key:S.key};
+  return null;
+}
+function edgeState(k,fs){
+  const e=EDGES[k],a=NODES[e[0]],b=NODES[e[1]];
+  if(S.cross&&a.g===b.g)return 0;
+  if(!fs)return 2;
+  if(fs.node!=null){if(e[0]===fs.node&&S.dir!=="in")return 3;if(e[1]===fs.node&&S.dir!=="out")return 4;return 1;}
+  if(fs.group!=null){const sa=a.g===fs.group,sb=b.g===fs.group;if(sa&&sb)return S.dir==="both"?5:1;if(sa&&S.dir!=="in")return 3;if(sb&&S.dir!=="out")return 4;return 1;}
+  const ka=keyOf(e[0])===fs.key,kb=keyOf(e[1])===fs.key;
+  if((ka&&S.dir!=="in")||(kb&&S.dir!=="out"))return 5;
+  return 1;
+}
+function nodeLit(i,fs){
+  if(!fs)return true;
+  if(fs.node!=null){if(i===fs.node)return true;return OUT[fs.node].some(k=>EDGES[k][1]===i)||INN[fs.node].some(k=>EDGES[k][0]===i);}
+  if(fs.group!=null)return NODES[i].g===fs.group;
+  return keyOf(i)===fs.key;
+}
+
+function strokeCurve(pts,dims,prefix){
+  const n=pts.length/dims,stop=Math.max(2,Math.ceil(n*prefix));
+  let p=proj(pts[0],pts[1],dims===3?pts[2]:0);ctx.moveTo(p[0],p[1]);let zs=p[2];
+  for(let j=1;j<stop;j++){p=proj(pts[j*dims],pts[j*dims+1],dims===3?pts[j*dims+2]:0);ctx.lineTo(p[0],p[1]);zs+=p[2];}
+  return zs/stop;
+}
+function pointOn(pts,dims,t){
+  const n=pts.length/dims,f=t*(n-1),j=Math.min(n-2,Math.floor(f)),u=f-j;
+  const g=d=>pts[j*dims+d]+(pts[(j+1)*dims+d]-pts[j*dims+d])*u;
+  return proj(g(0),g(1),dims===3?g(2):0);
+}
+function draw(now){
+  if(!S.w)return;
+  const K=ink(),fs=focusState(),dims=S.view==="3d"?3:2,curves=dims===3?C3:C2;
+  proj=makeProjector();
+  ctx.setTransform(S.dpr,0,0,S.dpr,0,0);
+  ctx.clearRect(0,0,S.w,S.h);
+  const [cx,cy]=center(),R=radius();
+  if(dims===3){
+    ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fillStyle=K.sphere;ctx.globalAlpha=0.35;ctx.fill();ctx.globalAlpha=1;
+    ctx.strokeStyle=K.sphere;ctx.lineWidth=1;
+    for(let lat=-60;lat<=60;lat+=30){ctx.beginPath();for(let s=0;s<=48;s++){const t=s/48*Math.PI*2,c=Math.cos(lat*Math.PI/180),p=proj(c*Math.cos(t),Math.sin(lat*Math.PI/180),c*Math.sin(t));if(s)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);}ctx.stroke();}
+  }
+  const prefix=S.reveal,order=[];
+  for(let k=0;k<EDGES.length;k++){const st=edgeState(k,fs);if(st)order.push([k,st]);}
+  const blend=!K.light;
+  ctx.lineCap="round";
+  const dimA=CFG.dimAlpha,baseA=CFG.edgeAlpha;
+  if(blend)ctx.globalCompositeOperation="lighter";
+  for(const [k,st] of order){
+    if(st>2)continue;
+    ctx.beginPath();const z=strokeCurve(curves[k],dims,prefix);
+    const a=(st===1?dimA:baseA*(fs?1:Math.min(1,0.55+60/Math.max(60,EDGES.length))))*depthAlpha(z);
+    ctx.strokeStyle=colorOf(EDGES[k][0]);ctx.globalAlpha=Math.max(0.01,a);ctx.lineWidth=1;ctx.stroke();
+  }
+  const lit=order.filter(o=>o[1]>2);
+  for(const [k,st] of lit){
+    ctx.beginPath();const z=strokeCurve(curves[k],dims,prefix);
+    ctx.strokeStyle=st===3?K.accent:st===4?K.accent2:colorOf(EDGES[k][0]);
+    ctx.globalAlpha=Math.min(1,0.85*depthAlpha(z)+0.15);ctx.lineWidth=st===5?1.3:1.8;ctx.stroke();
+  }
+  if(fs&&!reduce&&CFG.particles>0&&S.reveal>=1){
+    const t0=(now||0)/1000;ctx.fillStyle=K.light?K.ink:"#ffffff";
+    lit.slice(0,400).forEach(([k],idx)=>{for(let p=0;p<CFG.particles;p++){const t=((t0*0.35)+p/CFG.particles+((k*0.6180339)%1))%1;const q=pointOn(curves[k],dims,t);ctx.globalAlpha=0.85*depthAlpha(q[2]);ctx.beginPath();ctx.arc(q[0],q[1],1.8,0,Math.PI*2);ctx.fill();}});
+  }
+  ctx.globalCompositeOperation="source-over";ctx.globalAlpha=1;
+  drawGroups(K,fs,cx,cy,R);
+  drawNodes(K,fs);
+  drawLabels(K,fs,cx,cy,R);
+  drawHud(order.length);
+}
+function drawGroups(K,fs,cx,cy,R){
+  if(S.view==="2d"){
+    GROUPS.forEach((g,i)=>{
+      const lit=!fs||(fs.group===i)||(fs.node!=null&&NODES[fs.node].g===i)||fs.key!=null;
+      ctx.beginPath();ctx.arc(cx,cy,R+7,g.a0,g.a1);ctx.strokeStyle=g.c;ctx.globalAlpha=lit?0.95:0.3;ctx.lineWidth=(S.hoverGroup===i||S.group===i)?7:4;ctx.stroke();
+    });
+    ctx.globalAlpha=1;
+    if(NODES.length>CFG.labelAllMax){
+      ctx.font="600 11px ui-monospace,Menlo,Consolas,monospace";
+      GROUPS.forEach((g,i)=>{if(g.n<2&&S.group!==i)return;const mid=(g.a0+g.a1)/2,x=cx+(R+20)*Math.cos(mid),y=cy+(R+20)*Math.sin(mid);ctx.textAlign=Math.cos(mid)>=0?"left":"right";ctx.textBaseline="middle";ctx.fillStyle=g.c;ctx.globalAlpha=(!fs||fs.group===i)?0.95:0.4;ctx.fillText(clip(g.l,22)+" ("+g.n+")",x,y);});
+      ctx.globalAlpha=1;
+    }
+    return;
+  }
+  ctx.font="600 11px ui-monospace,Menlo,Consolas,monospace";ctx.textAlign="center";ctx.textBaseline="middle";
+  PLACED=[];
+  GROUPS.forEach((g,i)=>{
+    const p=proj(g.u[0]*1.08,g.u[1]*1.08,g.u[2]*1.08);if(p[2]>0.25)return;
+    if(g.n<2&&S.group!==i)return;
+    const lit=!fs||fs.group===i;
+    const text=clip(g.l,22),w=ctx.measureText(text).width+12;
+    const box=[p[0]-w/2,p[1]-9,p[0]+w/2,p[1]+9];
+    if(PLACED.some(b=>!(box[2]<b[0]||b[2]<box[0]||box[3]<b[1]||b[3]<box[1])))return;
+    PLACED.push(box);
+    ctx.globalAlpha=(lit?0.95:0.35)*depthAlpha(p[2]);
+    ctx.fillStyle=K.labelBg;ctx.fillRect(p[0]-w/2,p[1]-9,w,18);
+    ctx.strokeStyle=g.c;ctx.lineWidth=1;ctx.strokeRect(p[0]-w/2,p[1]-9,w,18);
+    ctx.fillStyle=g.c;ctx.fillText(text,p[0],p[1]);
+  });
+  ctx.globalAlpha=1;
+}
+function nodeRadius(i){return (CFG.nodeMin+(CFG.nodeMax-CFG.nodeMin)*Math.sqrt((NODES[i].r||0)/maxRank))*(S.view==="3d"?1:Math.min(1.6,Math.sqrt(S.zoom)));}
+function screenNodes(){
+  return NODES.map((n,i)=>{const p=S.view==="3d"?proj(n.p[0],n.p[1],n.p[2]):proj(Math.cos(n.a),Math.sin(n.a),0);return {i,x:p[0],y:p[1],z:p[2],s:p[3],r:nodeRadius(i)*(S.view==="3d"?p[3]:1)};});
+}
+let SCREEN=[],PLACED=[];
+function drawNodes(K,fs){
+  SCREEN=screenNodes();
+  const order=SCREEN.slice().sort((a,b)=>b.z-a.z);
+  for(const q of order){
+    const lit=nodeLit(q.i,fs);
+    ctx.globalAlpha=(lit?1:0.22)*depthAlpha(q.z);
+    ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,Math.PI*2);ctx.fillStyle=colorOf(q.i);ctx.fill();
+    if(q.i===S.focus||q.i===S.hover){ctx.lineWidth=2;ctx.strokeStyle=K.ink;ctx.stroke();}
+  }
+  ctx.globalAlpha=1;
+}
+function labelSet(fs){
+  const set=new Set();
+  if(NODES.length<=CFG.labelAllMax&&S.view==="2d"){NODES.forEach((n,i)=>set.add(i));return set;}
+  topSet.forEach(i=>set.add(i));
+  if(fs&&fs.node!=null){set.add(fs.node);OUT[fs.node].forEach(k=>set.add(EDGES[k][1]));INN[fs.node].forEach(k=>set.add(EDGES[k][0]));}
+  if(S.hover>=0)set.add(S.hover);
+  return set;
+}
+function drawLabels(K,fs,cx,cy,R){
+  const set=labelSet(fs);
+  ctx.font="11px ui-monospace,Menlo,Consolas,monospace";ctx.textBaseline="middle";
+  if(S.view==="2d"){
+    set.forEach(i=>{
+      const n=NODES[i],a=n.a,flip=Math.cos(a)<0,lit=nodeLit(i,fs);
+      ctx.save();ctx.translate(cx+(R+16)*Math.cos(a),cy+(R+16)*Math.sin(a));ctx.rotate(flip?a+Math.PI:a);
+      ctx.textAlign=flip?"right":"left";ctx.globalAlpha=lit?(i===S.focus||i===S.hover?1:0.85):0.25;
+      ctx.fillStyle=(i===S.focus||i===S.hover)?K.ink:(lit&&fs?colorOf(i):K.labelInk);
+      ctx.fillText(clip(n.l,CFG.labelMax),0,0);ctx.restore();
+    });
+    ctx.globalAlpha=1;return;
+  }
+  const placed=PLACED.slice(),items=[];
+  set.forEach(i=>{const q=SCREEN[i];if(q.z>0.35&&i!==S.focus&&i!==S.hover)return;items.push(q);});
+  items.sort((a,b)=>((b.i===S.focus)-(a.i===S.focus))||(NODES[b.i].r-NODES[a.i].r));
+  for(const q of items){
+    const text=clip(NODES[q.i].l,CFG.labelMax),w=ctx.measureText(text).width+10,x=q.x+q.r+4,y=q.y;
+    const box=[x,y-8,x+w,y+8];
+    if(placed.some(b=>!(box[2]<b[0]||b[2]<box[0]||box[3]<b[1]||b[3]<box[1])))continue;
+    placed.push(box);
+    const lit=nodeLit(q.i,fs);
+    ctx.globalAlpha=(lit?0.95:0.35)*depthAlpha(q.z);
+    ctx.fillStyle=K.labelBg;ctx.fillRect(box[0],box[1],w,16);
+    ctx.fillStyle=(q.i===S.focus||q.i===S.hover)?K.ink:K.labelInk;ctx.textAlign="left";ctx.fillText(text,x+5,y);
+  }
+  ctx.globalAlpha=1;
+}
+function drawHud(visible){
+  const hud=$("hud");hud.textContent="";
+  const inside=INSIDE;
+  const add=(label,value)=>{const s=mk("span");s.append(mk("b",null,value)," "+label);hud.append(s);};
+  add("files",NODES.length);add("imports",EDGES.length);add("communities",GROUPS.filter(g=>g.k!==CFG.unassignedKey).length);
+  add("inside",inside);add("crossing",EDGES.length-inside);
+  if(visible!==EDGES.length)add("shown",visible);
+  hud.append(mk("span",null,S.view==="3d"?"drag rotates, wheel zooms":"drag pans, wheel zooms, click a file or arc"));
+}
+
+function hitNode(x,y){
+  let best=-1,bd=Infinity;
+  for(const q of SCREEN){const d=Math.hypot(q.x-x,q.y-y)-q.r;const lim=Math.max(CFG.hitPx,q.r);if(d<lim){const score=d+(S.view==="3d"?q.z*20:0);if(score<bd){bd=score;best=q.i;}}}
+  if(best<0&&S.view==="2d"){
+    const [cx,cy]=center(),R=radius(),r=Math.hypot(x-cx,y-cy);
+    if(r>R&&r<R+labelMargin){let ang=Math.atan2(y-cy,x-cx);let bestA=Infinity;NODES.forEach((n,i)=>{let d=Math.abs(Math.atan2(Math.sin(ang-n.a),Math.cos(ang-n.a)));if(d<bestA){bestA=d;best=i;}});const step=Math.PI*2/Math.max(1,NODES.length);if(bestA>Math.max(step,0.02)||r<R+12)best=-1;}
+  }
+  return best;
+}
+function hitGroup(x,y){
+  if(S.view==="2d"){
+    const [cx,cy]=center(),R=radius(),r=Math.hypot(x-cx,y-cy);
+    if(r<R+2||r>R+13)return -1;
+    let ang=Math.atan2(y-cy,x-cx);if(ang<-Math.PI/2)ang+=Math.PI*2;
+    return GROUPS.findIndex(g=>ang>=g.a0&&ang<=g.a1);
+  }
+  let best=-1,bd=24;
+  GROUPS.forEach((g,i)=>{const p=proj(g.u[0]*1.08,g.u[1]*1.08,g.u[2]*1.08);if(p[2]>0.25)return;const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=i;}});
+  return best;
+}
+
+function tipFor(x,y,i,g){
+  const tip=$("tip");tip.textContent="";
+  if(i<0&&g<0){tip.style.display="none";return;}
+  if(i>=0){
+    const n=NODES[i];
+    tip.append(mk("b",null,n.l),mk("br"),mk("span","m",n.f),mk("br"));
+    tip.append(mk("span","m",GROUPS[n.g].l+"  |  "+n.ly+"  |  "+n.lg),mk("br"));
+    tip.append(mk("span","o",OUT[i].length+" imports"),"  ",mk("span","i",INN[i].length+" imported by"));
+    if(n.d){tip.append(mk("br"),mk("span",null,clip(n.d,CFG.tipDocChars)));}
+  }else{
+    const gr=GROUPS[g];tip.append(mk("b",null,gr.l),mk("br"),mk("span","m",gr.n+" files"));
+    const f=flowsOf(g);tip.append(mk("br"),mk("span","o",f.outTotal+" out"),"  ",mk("span","i",f.inTotal+" in"),"  ",mk("span","m",f.inside+" inside"));
+  }
+  tip.style.display="block";
+  const r=tip.getBoundingClientRect();
+  tip.style.left=Math.min(window.innerWidth-r.width-8,x+14)+"px";tip.style.top=Math.min(window.innerHeight-r.height-8,y+14)+"px";
+}
+function flowsOf(g){
+  const out={},inn={};let inside=0,outTotal=0,inTotal=0;
+  EDGES.forEach(e=>{const a=NODES[e[0]].g,b=NODES[e[1]].g;if(a===g&&b===g)inside++;else if(a===g){out[b]=(out[b]||0)+1;outTotal++;}else if(b===g){inn[a]=(inn[a]||0)+1;inTotal++;}});
+  const rank=o=>Object.keys(o).map(k=>[+k,o[k]]).sort((x,y)=>(y[1]-x[1])||(x[0]-y[0]));
+  return {out:rank(out),inn:rank(inn),inside,outTotal,inTotal};
+}
+
+function explorerLink(id,view3d){
+  if(!CFG.explorerHref)return null;
+  const a=mk("a",null,view3d?"Open in Force Graph 3D":"Open in Force Graph");
+  a.href=CFG.explorerHref+"#node="+encodeURIComponent(id)+(view3d?"&view=3d":"");
+  a.title="Jump to this file in the force-graph explorer";
+  return a;
+}
+function nodeButton(i,extra){
+  const b=mk("button","nb");const dot=mk("i");dot.style.background=colorOf(i);
+  b.append(dot,mk("span",null,NODES[i].l),mk("em",null,extra!=null?extra:GROUPS[NODES[i].g].l));
+  b.title=NODES[i].f;b.addEventListener("click",()=>focusNode(i));return b;
+}
+function groupButton(g,count){
+  const b=mk("button","nb");const dot=mk("i");dot.style.background=GROUPS[g].c;
+  b.append(dot,mk("span",null,GROUPS[g].l),mk("em",null,String(count)));
+  b.addEventListener("click",()=>focusGroup(g));return b;
+}
+function listInto(panel,title,cls,items,render){
+  const sec=mk("div","sec");sec.append(mk("span",cls,title),mk("span",null,String(items.length)));panel.append(sec);
+  const list=mk("div","list");
+  items.slice(0,CFG.listMax).forEach(it=>list.append(render(it)));
+  if(items.length>CFG.listMax)list.append(mk("div","more","+"+(items.length-CFG.listMax)+" more"));
+  if(!items.length)list.append(mk("div","more","none"));
+  panel.append(list);
+}
+function renderPanel(){
+  const panel=$("panel");panel.textContent="";
+  if(S.focus>=0){
+    const i=S.focus,n=NODES[i];
+    const head=mk("div","p-head");const type=mk("div","type");const dot=mk("i");dot.style.background=colorOf(i);type.append(dot,"file");
+    head.append(type,mk("h2",null,n.l),mk("div","path",n.f));
+    const badges=mk("div","badges");const gb=mk("button","badge",GROUPS[n.g].l);gb.title="Focus this community";gb.addEventListener("click",()=>focusGroup(n.g));
+    badges.append(gb,mk("span","badge",n.ly),mk("span","badge",n.lg));if(n.fd)badges.append(mk("span","badge",n.fd+" findings"));
+    head.append(badges);panel.append(head);
+    const m=mk("div","metrics");[["#"+n.rp,"pagerank"],[OUT[i].length,"imports"],[INN[i].length,"used by"]].forEach(([v,l])=>{const c=mk("div","metric");c.append(mk("b",null,v),mk("span",null,l));m.append(c);});panel.append(m);
+    if(n.d)panel.append(mk("div","doc",n.d));
+    const act=mk("div","actions");const l1=explorerLink(n.id,false),l2=explorerLink(n.id,true);if(l1)act.append(l1);if(l2)act.append(l2);if(act.childNodes.length)panel.append(act);
+    const outs=OUT[i].map(k=>EDGES[k][1]).sort((a,b)=>NODES[b].r-NODES[a].r);
+    const ins=INN[i].map(k=>EDGES[k][0]).sort((a,b)=>NODES[b].r-NODES[a].r);
+    listInto(panel,"Imports","o",outs,j=>nodeButton(j));
+    listInto(panel,"Imported by","i",ins,j=>nodeButton(j));
+    return;
+  }
+  if(S.group>=0){
+    const g=S.group,gr=GROUPS[g],f=flowsOf(g);
+    const head=mk("div","p-head");const type=mk("div","type");const dot=mk("i");dot.style.background=gr.c;type.append(dot,"community");
+    head.append(type,mk("h2",null,gr.l),mk("div","path",gr.n+" files"));panel.append(head);
+    const total=f.inside+f.outTotal+f.inTotal;
+    const m=mk("div","metrics");[[f.inside,"inside"],[f.outTotal,"out"],[f.inTotal,"in"]].forEach(([v,l])=>{const c=mk("div","metric");c.append(mk("b",null,v),mk("span",null,l));m.append(c);});panel.append(m);
+    panel.append(mk("div","doc","Cohesion "+(total?Math.round(100*f.inside/total):0)+"%: share of this community's wires that stay inside it. Cyan wires leave it, pink wires arrive."));
+    listInto(panel,"Imports from","o",f.out.slice(0,CFG.flowTopN),([h,c])=>groupButton(h,c));
+    listInto(panel,"Imported by","i",f.inn.slice(0,CFG.flowTopN),([h,c])=>groupButton(h,c));
+    const members=NODES.map((n,i)=>i).filter(i=>NODES[i].g===g).sort((a,b)=>NODES[b].r-NODES[a].r);
+    listInto(panel,"Files by pagerank",null,members,j=>nodeButton(j,"#"+NODES[j].rp));
+    return;
+  }
+  const intro=mk("div","intro");
+  intro.append(mk("h2",null,"Hierarchical edge bundling"));
+  intro.append(mk("p",null,"Every file sits on the rim, grouped into its community arc. Every resolved import is drawn as a curve routed through the community tree: wires that leave a community travel together, so thick bundles are the real seams between subsystems."));
+  intro.append(mk("p",null,"Hover a file to light its wires: cyan is what it imports, pink is what imports it. Click to pin it, click an arc or a legend row to focus a community. Beta 0 draws straight chords; 1 bundles fully. The sphere puts every community on its own cap of a globe."));
+  panel.append(intro);
+  const flows={};EDGES.forEach(e=>{const a=NODES[e[0]].g,b=NODES[e[1]].g;if(a!==b){const k=a+">"+b;flows[k]=(flows[k]||0)+1;}});
+  const top=Object.keys(flows).map(k=>[k,flows[k]]).sort((x,y)=>(y[1]-x[1])||(x[0]<y[0]?-1:1)).slice(0,CFG.flowTopN);
+  const sec=mk("div","sec");sec.append(mk("span",null,"Thickest seams"),mk("span",null,String(top.length)));panel.append(sec);
+  const list=mk("div","list");const peak=top.length?top[0][1]:1;
+  top.forEach(([k,c])=>{const [a,b]=k.split(">").map(Number);const btn=mk("button","nb");const dot=mk("i");dot.style.background=GROUPS[a].c;btn.append(dot,mk("span",null,clip(GROUPS[a].l,16)+" → "+clip(GROUPS[b].l,16)),mk("em",null,String(c)));btn.addEventListener("click",()=>focusGroup(a));list.append(btn);const bar=mk("div","bar");const fill=mk("i");fill.style.width=(100*c/peak)+"%";fill.style.background=GROUPS[a].c;bar.append(fill);list.append(bar);});
+  if(!top.length)list.append(mk("div","more","no imports cross communities"));
+  panel.append(list);
+}
+function renderLegend(){
+  const body=$("lgbody");body.textContent="";
+  const titles={community:"Communities",layer:"Layers",language:"Languages"};$("lgtitle").textContent=titles[S.color];
+  if(S.color==="community"){GROUPS.forEach((g,i)=>{const b=mk("button","key");const dot=mk("i");dot.style.background=g.c;dot.style.color=g.c;b.append(dot,mk("span",null,g.l),mk("em",null,String(g.n)));b.setAttribute("aria-pressed",String(S.group===i));b.addEventListener("click",()=>focusGroup(S.group===i?-1:i));body.append(b);});return;}
+  const counts={};NODES.forEach((n,i)=>{const k=keyOf(i);counts[k]=(counts[k]||0)+1;});
+  const palette=CFG.groupColors[S.color]||{};
+  Object.keys(counts).sort((a,b)=>(counts[b]-counts[a])||(a<b?-1:1)).forEach(k=>{const b=mk("button","key");const dot=mk("i");dot.style.background=palette[k]||ink().muted;dot.style.color=palette[k]||ink().muted;b.append(dot,mk("span",null,k),mk("em",null,String(counts[k])));b.setAttribute("aria-pressed",String(S.key===k));b.addEventListener("click",()=>{S.key=S.key===k?null:k;S.focus=-1;S.group=-1;sync();});body.append(b);});
+}
+
+function focusNode(i){S.focus=i;S.group=-1;S.key=null;if(S.view==="3d"&&i>=0)aimAt(NODES[i].p);sync();}
+function focusGroup(g){S.group=g;S.focus=-1;S.key=null;if(S.view==="3d"&&g>=0)aimAt(GROUPS[g].u);sync();}
+let aim=null;
+function facing(p){return {yaw:Math.PI-Math.atan2(p[0],p[2]),pitch:Math.max(-1.2,Math.min(1.2,-Math.asin(Math.max(-1,Math.min(1,p[1])))))};}
+function aimAt(p){const f=facing(p);S.rotate=false;if(reduce){S.yaw=f.yaw;S.pitch=f.pitch;return;}aim={yaw:f.yaw,pitch:f.pitch,t0:performance.now(),y0:S.yaw,p0:S.pitch};}
+function setView(v){S.view=v==="3d"?"3d":"2d";S.panX=S.panY=0;S.zoom=1;resize();sync();}
+function setColor(c){if(!["community","layer","language"].includes(c))return;S.color=c;S.key=null;sync();}
+function setDir(d){if(!["both","out","in"].includes(d))return;S.dir=d;sync();}
+function setBeta(b){S.beta=Math.max(0,Math.min(1,+b||0));$("beta").value=String(S.beta);$("betav").textContent=S.beta.toFixed(2);buildCurves();sync();}
+function sync(){
+  document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.view===S.view)));
+  document.querySelectorAll("[data-color]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.color===S.color)));
+  document.querySelectorAll("[data-dir]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.dir===S.dir)));
+  $("cross").setAttribute("aria-pressed",String(S.cross));$("rotate").setAttribute("aria-pressed",String(S.rotate));$("rotate").hidden=S.view!=="3d";
+  $("betav").textContent=S.beta.toFixed(2);
+  renderPanel();renderLegend();writeHash();draw(performance.now());
+}
+function writeHash(){
+  const p=new URLSearchParams();
+  if(S.view==="3d")p.set("view","3d");
+  if(S.focus>=0)p.set("node",NODES[S.focus].id);
+  if(S.group>=0)p.set("group",GROUPS[S.group].k);
+  if(Math.abs(S.beta-CFG.beta)>1e-9)p.set("beta",S.beta.toFixed(2));
+  if(S.color!=="community")p.set("color",S.color);
+  if(S.dir!=="both")p.set("dir",S.dir);
+  if(S.cross)p.set("cross","1");
+  try{history.replaceState(null,"","#"+p.toString());}catch(e){}
+}
+function readHash(){
+  let p;try{p=new URLSearchParams((location.hash||"").slice(1));}catch(e){return;}
+  if(p.get("view")==="3d"||p.get("view")==="2d")S.view=p.get("view");
+  const b=parseFloat(p.get("beta"));if(!isNaN(b))S.beta=Math.max(0,Math.min(1,b));
+  const c=p.get("color");if(["community","layer","language"].includes(c))S.color=c;
+  const d=p.get("dir");if(["both","out","in"].includes(d))S.dir=d;
+  S.cross=p.get("cross")==="1";
+  const n=p.get("node");if(n!=null&&byId[n]!=null)S.focus=byId[n];
+  const g=p.get("group");if(g!=null&&groupByKey[g]!=null&&S.focus<0)S.group=groupByKey[g];
+}
+
+let drag=null,last=performance.now();
+stage.addEventListener("pointerdown",ev=>{if(ev.target!==canvas)return;drag={x:ev.clientX,y:ev.clientY,moved:false,yaw:S.yaw,pitch:S.pitch,px:S.panX,py:S.panY};stage.setPointerCapture(ev.pointerId);});
+stage.addEventListener("pointermove",ev=>{
+  const r=stage.getBoundingClientRect(),x=ev.clientX-r.left,y=ev.clientY-r.top;
+  if(drag){
+    const dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)>CFG.dragPx){drag.moved=true;stage.classList.add("dragging");aim=null;}
+    if(drag.moved){if(S.view==="3d"){S.yaw=drag.yaw+dx*0.008;S.pitch=Math.max(-1.4,Math.min(1.4,drag.pitch+dy*0.008));}else{S.panX=drag.px+dx;S.panY=drag.py+dy;}$("tip").style.display="none";draw(performance.now());return;}
+  }
+  const i=hitNode(x,y),g=i<0?hitGroup(x,y):-1;
+  if(i!==S.hover||g!==S.hoverGroup){S.hover=i;S.hoverGroup=g;draw(performance.now());}
+  stage.classList.toggle("pointing",i>=0||g>=0);
+  tipFor(ev.clientX,ev.clientY,i,g);
+});
+stage.addEventListener("pointerup",ev=>{
+  const was=drag;drag=null;stage.classList.remove("dragging");
+  if(was&&!was.moved){const r=stage.getBoundingClientRect(),x=ev.clientX-r.left,y=ev.clientY-r.top;const i=hitNode(x,y);if(i>=0){focusNode(i);return;}const g=hitGroup(x,y);if(g>=0){focusGroup(g);return;}if(S.focus>=0||S.group>=0||S.key!=null){S.focus=-1;S.group=-1;S.key=null;sync();}}
+});
+stage.addEventListener("pointerleave",()=>{S.hover=-1;S.hoverGroup=-1;$("tip").style.display="none";draw(performance.now());});
+stage.addEventListener("wheel",ev=>{ev.preventDefault();S.zoom=Math.max(0.4,Math.min(6,S.zoom*Math.exp(-ev.deltaY*0.0015)));draw(performance.now());},{passive:false});
+stage.addEventListener("dblclick",()=>{S.zoom=1;S.panX=S.panY=0;S.yaw=0.7;S.pitch=-0.32;S.focus=-1;S.group=-1;S.key=null;sync();});
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
+document.querySelectorAll("[data-color]").forEach(b=>b.addEventListener("click",()=>setColor(b.dataset.color)));
+document.querySelectorAll("[data-dir]").forEach(b=>b.addEventListener("click",()=>setDir(b.dataset.dir)));
+$("beta").addEventListener("input",ev=>setBeta(ev.target.value));
+$("cross").addEventListener("click",()=>{S.cross=!S.cross;sync();});
+$("rotate").addEventListener("click",()=>{S.rotate=!S.rotate;aim=null;sync();});
+$("reset").addEventListener("click",()=>{S.zoom=1;S.panX=S.panY=0;S.yaw=0.7;S.pitch=-0.32;S.focus=-1;S.group=-1;S.key=null;S.cross=false;S.dir="both";setBeta(CFG.beta);});
+$("png").addEventListener("click",()=>{try{const a=document.createElement("a");a.download="graph-bundle-"+S.view+".png";a.href=canvas.toDataURL("image/png");a.click();}catch(e){}});
+$("theme").addEventListener("click",()=>{const root=document.documentElement,next=root.getAttribute("data-theme")==="light"?"dark":"light";root.setAttribute("data-theme",next);INK=null;try{localStorage.setItem("readmenator-theme",next);}catch(e){}renderLegend();draw(performance.now());});
+$("lgtoggle").addEventListener("click",()=>{const l=$("legend");l.classList.toggle("collapsed");$("lgtoggle").textContent=l.classList.contains("collapsed")?"+":"-";});
+const q=$("q"),results=$("results");
+function search(text){
+  results.textContent="";const t=text.trim().toLowerCase();if(!t){results.classList.remove("open");return [];}
+  const hits=NODES.map((n,i)=>i).filter(i=>NODES[i].f.toLowerCase().includes(t)).sort((a,b)=>((NODES[b].l.toLowerCase().startsWith(t))-(NODES[a].l.toLowerCase().startsWith(t)))||(NODES[b].r-NODES[a].r)).slice(0,CFG.searchResults);
+  hits.forEach(i=>{const b=mk("button","result");const dot=mk("i");dot.style.background=colorOf(i);b.append(dot,mk("span",null,NODES[i].l),mk("em",null,NODES[i].f));b.addEventListener("click",()=>{focusNode(i);results.classList.remove("open");q.blur();});results.append(b);});
+  results.classList.toggle("open",hits.length>0);return hits;
+}
+q.addEventListener("input",()=>search(q.value));
+q.addEventListener("keydown",ev=>{if(ev.key==="Enter"){const h=search(q.value);if(h.length){focusNode(h[0]);results.classList.remove("open");q.blur();}}else if(ev.key==="Escape"){q.value="";search("");q.blur();}});
+document.addEventListener("keydown",ev=>{
+  if(ev.target===q||ev.ctrlKey||ev.metaKey||ev.altKey)return;
+  const k=ev.key;
+  if(k==="/"){ev.preventDefault();q.focus();}
+  else if(k==="Escape"){S.focus=-1;S.group=-1;S.key=null;sync();}
+  else if(k==="2")setView("2d");else if(k==="3")setView("3d");
+  else if(k==="r"&&S.view==="3d"){S.rotate=!S.rotate;aim=null;sync();}
+  else if(k==="c"){const modes=["community","layer","language"];setColor(modes[(modes.indexOf(S.color)+1)%modes.length]);}
+  else if(k==="x"){S.cross=!S.cross;sync();}
+  else if(k==="["||k==="]")setBeta(S.beta+(k==="]"?0.05:-0.05));
+});
+function frame(now){
+  const dt=Math.min(0.1,(now-last)/1000);last=now;let busy=false;
+  if(S.reveal<1){if(!S.revealStart)S.revealStart=now;S.reveal=Math.min(1,(now-S.revealStart)/Math.max(1,CFG.revealMs));busy=true;}
+  if(S.view==="3d"&&aim){const u=Math.min(1,(now-aim.t0)/Math.max(1,CFG.flyMs)),e=u<0.5?2*u*u:1-Math.pow(-2*u+2,2)/2;let dy=Math.atan2(Math.sin(aim.yaw-aim.y0),Math.cos(aim.yaw-aim.y0));S.yaw=aim.y0+dy*e;S.pitch=aim.p0+(aim.pitch-aim.p0)*e;if(u>=1)aim=null;busy=true;}
+  else if(S.view==="3d"&&S.rotate&&!drag){S.yaw+=dt*CFG.rotateSpeed*Math.PI*2/6;busy=true;}
+  if(!reduce&&CFG.particles>0&&focusState())busy=true;
+  if(busy)draw(now);
+  requestAnimationFrame(frame);
+}
+try{const saved=localStorage.getItem("readmenator-theme");if(saved==="light"||saved==="dark")document.documentElement.setAttribute("data-theme",saved);}catch(e){}
+readHash();
+if(S.view==="3d"){const p=S.focus>=0?NODES[S.focus].p:S.group>=0?GROUPS[S.group].u:null;if(p){const f=facing(p);S.yaw=f.yaw;S.pitch=f.pitch;S.rotate=false;}}
+$("beta").value=String(S.beta);
+buildCurves();
+if(typeof ResizeObserver!=="undefined")new ResizeObserver(()=>resize()).observe(stage);
+window.addEventListener("resize",resize);
+resize();sync();
+setTimeout(()=>{if(S.reveal<1){S.reveal=1;draw(performance.now());}},CFG.revealMs+250);
+window.ReadmenatorBundles=Object.freeze({state:S,focusNode,focusGroup,setView,setBeta,setColor,setDir});
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

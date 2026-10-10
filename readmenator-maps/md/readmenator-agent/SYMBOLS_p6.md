@@ -1,8 +1,168 @@
-# Symbols (page 6 of 6)
+# Symbols (page 6 of 7)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_valid_kwargs` | function | `tests/test_search_telemetry.py:163` | `def _valid_kwargs()` |
+| `test_default_telemetry_is_a_shared_instance` | function | `tests/test_search_telemetry.py:247` | `def test_default_telemetry_is_a_shared_instance()` |
+| `test_s10_brand_collision_rejected` | function | `tests/test_search_telemetry.py:212` | `def test_s10_brand_collision_rejected()` |
+| `test_s10_duplicate_phase_rejected` | function | `tests/test_search_telemetry.py:192` | `def test_s10_duplicate_phase_rejected()` |
+| `test_s10_emoji_in_catalog_rejected` | function | `tests/test_search_telemetry.py:205` | `def test_s10_emoji_in_catalog_rejected()` |
+| `test_s10_empty_brand_rejected` | function | `tests/test_search_telemetry.py:178` | `def test_s10_empty_brand_rejected()` |
+| `test_s10_missing_sentinel_phase_rejected` | function | `tests/test_search_telemetry.py:219` | `def test_s10_missing_sentinel_phase_rejected()` |
+| `test_s10_no_tips_rejected` | function | `tests/test_search_telemetry.py:185` | `def test_s10_no_tips_rejected()` |
+| `test_s11_template_renders_from_catalog` | function | `tests/test_search_telemetry.py:233` | `def test_s11_template_renders_from_catalog()` |
+| `test_s1_determinate_progress_midsearch` | function | `tests/test_search_telemetry.py:52` | `def test_s1_determinate_progress_midsearch()` |
+| `test_s2_indeterminate_progress` | function | `tests/test_search_telemetry.py:67` | `def test_s2_indeterminate_progress()` |
+| `test_s3_completion_stops_spinner` | function | `tests/test_search_telemetry.py:79` | `def test_s3_completion_stops_spinner()` |
+| `test_s4_out_of_range_is_clamped` | function | `tests/test_search_telemetry.py:90` | `def test_s4_out_of_range_is_clamped()` |
+| `test_s5_unknown_phase_rejected` | function | `tests/test_search_telemetry.py:103` | `def test_s5_unknown_phase_rejected()` |
+| `test_s6_catalog_is_brand_and_emoji_clean` | function | `tests/test_search_telemetry.py:114` | `def test_s6_catalog_is_brand_and_emoji_clean()` |
+| `test_s7_rendered_template_has_no_third_party_brand` | function | `tests/test_search_telemetry.py:132` | `def test_s7_rendered_template_has_no_third_party_brand()` |
+| `test_s8_rendered_chrome_has_no_emoji` | function | `tests/test_search_telemetry.py:141` | `def test_s8_rendered_chrome_has_no_emoji()` |
+| `test_s9_brand_predicate_boundaries` | function | `tests/test_search_telemetry.py:153` | `def test_s9_brand_predicate_boundaries()` |
+| `TestAlerterNoRedirect` | class | `tests/test_security_remediation.py:538` | `class TestAlerterNoRedirect` |
+| `TestAlerterSsrf` | class | `tests/test_security_remediation.py:498` | `class TestAlerterSsrf` |
+| `TestCiWorkflowPermissions` | class | `tests/test_security_remediation.py:306` | `class TestCiWorkflowPermissions` |
+| `TestHttpsRedirectSafety` | class | `tests/test_security_remediation.py:260` | `class TestHttpsRedirectSafety` |
+| `TestInfoExposureEncryption` | class | `tests/test_security_remediation.py:75` | `class TestInfoExposureEncryption` |
+| `TestInfoExposureSourceOps` | class | `tests/test_security_remediation.py:176` | `class TestInfoExposureSourceOps` |
+| `TestJavaScriptDomSafety` | class | `tests/test_security_remediation.py:431` | `class TestJavaScriptDomSafety` |
+| `TestOsirisExceptionSafety` | class | `tests/test_security_remediation.py:336` | `class TestOsirisExceptionSafety` |
+| `TestSsrfLogSanitisation` | class | `tests/test_security_remediation.py:25` | `class TestSsrfLogSanitisation` |
+| `TestTooltipSinkHardening` | class | `tests/test_security_remediation.py:592` | `class TestTooltipSinkHardening` |
+| `TestWebSecurityRedirect` | class | `tests/test_security_remediation.py:399` | `class TestWebSecurityRedirect` |
+| `_Fake302` | class | `tests/test_security_remediation.py:555` | `class _Fake302` |
+| `_FakeOpener` | class | `tests/test_security_remediation.py:564` | `class _FakeOpener` |
+| `__enter__` | method | `tests/test_security_remediation.py:558` | `def __enter__(self)` |
+| `__exit__` | method | `tests/test_security_remediation.py:561` | `def __exit__(self)` |
+| `_fake_build_opener` | method | `tests/test_security_remediation.py:571` | `def _fake_build_opener()` |
+| `_make_export_route` | method | `tests/test_security_remediation.py:86` | `def _make_export_route(self, app, raise_val, error_msg, status)` |
+| `_make_export_route_fixed` | method | `tests/test_security_remediation.py:118` | `def _make_export_route_fixed(self, app, raise_val, error_msg, status)` |
+| `_make_osiris_route_fixed` | method | `tests/test_security_remediation.py:347` | `def _make_osiris_route_fixed(self, app, route_path)` |
+| `api_create` | method | `tests/test_security_remediation.py:212` | `def api_create()` |
+| `api_delete` | method | `tests/test_security_remediation.py:191` | `def api_delete(name)` |
+| `api_export_fixed` | method | `tests/test_security_remediation.py:130` | `def api_export_fixed()` |
+| `api_export_test` | method | `tests/test_security_remediation.py:97` | `def api_export_test()` |
+| `api_update` | method | `tests/test_security_remediation.py:236` | `def api_update(name)` |
+| `app` | method | `tests/test_security_remediation.py:79` | `def app(self)` |
+| `app` | method | `tests/test_security_remediation.py:180` | `def app(self)` |
+| `app` | method | `tests/test_security_remediation.py:264` | `def app(self)` |
+| `app` | method | `tests/test_security_remediation.py:340` | `def app(self)` |
+| `fetch_bgp` | method | `tests/test_security_remediation.py:354` | `def fetch_bgp(q)` |
+| `fetch_github_user` | method | `tests/test_security_remediation.py:363` | `def fetch_github_user(u)` |
+| `fetch_leaks` | method | `tests/test_security_remediation.py:366` | `def fetch_leaks(e)` |
+| `fetch_mac` | method | `tests/test_security_remediation.py:357` | `def fetch_mac(mac)` |
+| `fetch_phone` | method | `tests/test_security_remediation.py:360` | `def fetch_phone(n)` |
+| `open` | method | `tests/test_security_remediation.py:565` | `def open(self, req, timeout)` |
+| `osiris_endpoint` | method | `tests/test_security_remediation.py:376` | `def osiris_endpoint()` |
+| `test_ci_yml_has_permissions` | method | `tests/test_security_remediation.py:309` | `def test_ci_yml_has_permissions(self)` |
+| `test_ci_yml_permissions_is_read_all` | method | `tests/test_security_remediation.py:325` | `def test_ci_yml_permissions_is_read_all(self)` |
+| `test_dns_failure_log_contains_host_length_not_host` | method | `tests/test_security_remediation.py:55` | `def test_dns_failure_log_contains_host_length_not_host(self, caplog)` |
+| `test_dns_failure_log_omits_hostname` | method | `tests/test_security_remediation.py:29` | `def test_dns_failure_log_omits_hostname(self, caplog)` |
+| `test_dns_failure_log_omits_ip_in_hostname` | method | `tests/test_security_remediation.py:43` | `def test_dns_failure_log_omits_ip_in_hostname(self, caplog)` |
+| `test_encryption_runtimeerror_fixed_no_detail` | method | `tests/test_security_remediation.py:167` | `def test_encryption_runtimeerror_fixed_no_detail(self, app)` |
+| `test_encryption_valueerror_fixed_no_detail` | method | `tests/test_security_remediation.py:159` | `def test_encryption_valueerror_fixed_no_detail(self, app)` |
+| `test_encryption_valueerror_leaks_detail` | method | `tests/test_security_remediation.py:151` | `def test_encryption_valueerror_leaks_detail(self, app)` |
+| `test_http_post_does_not_follow_redirect` | method | `tests/test_security_remediation.py:547` | `def test_http_post_does_not_follow_redirect(self)` |
+| `test_innerhtml_not_used_with_template_literals` | method | `tests/test_security_remediation.py:439` | `def test_innerhtml_not_used_with_template_literals(self)` |
+| `test_js_file_exists` | method | `tests/test_security_remediation.py:436` | `def test_js_file_exists(self)` |
+| `test_no_html_string_round_trip` | method | `tests/test_security_remediation.py:636` | `def test_no_html_string_round_trip(self)` |
+| `test_no_innerhtml_markdown_sink` | method | `tests/test_security_remediation.py:630` | `def test_no_innerhtml_markdown_sink(self)` |
+| `test_no_insert_adjacent_html_in_tooltip` | method | `tests/test_security_remediation.py:601` | `def test_no_insert_adjacent_html_in_tooltip(self)` |
+| `test_osiris_exception_returns_generic` | method | `tests/test_security_remediation.py:386` | `def test_osiris_exception_returns_generic(self, app)` |
+| `test_raw_channel_url_refused_even_for_safe_host` | method | `tests/test_security_remediation.py:523` | `def test_raw_channel_url_refused_even_for_safe_host(self)` |
+| `test_redirect_handler_refuses` | method | `tests/test_security_remediation.py:542` | `def test_redirect_handler_refuses(self)` |
+| `test_redirect_implementation_uses_public_host` | method | `tests/test_security_remediation.py:402` | `def test_redirect_implementation_uses_public_host(self)` |
+| `test_redirect_scheme_is_https` | method | `tests/test_security_remediation.py:285` | `def test_redirect_scheme_is_https(self, app)` |
+| `test_redirect_uses_public_host_not_request_host` | method | `tests/test_security_remediation.py:271` | `def test_redirect_uses_public_host_not_request_host(self, app)` |
+| `test_refuses_disallowed_scheme` | method | `tests/test_security_remediation.py:512` | `def test_refuses_disallowed_scheme(self)` |
+| `test_refuses_link_local_metadata` | method | `tests/test_security_remediation.py:503` | `def test_refuses_link_local_metadata(self)` |
+| `test_refuses_loopback` | method | `tests/test_security_remediation.py:508` | `def test_refuses_loopback(self)` |
+| `test_sanitizer_blocks_dangerous_schemes_and_style` | method | `tests/test_security_remediation.py:618` | `def test_sanitizer_blocks_dangerous_schemes_and_style(self)` |
+| `test_selectnode_inspector_safe` | method | `tests/test_security_remediation.py:474` | `def test_selectnode_inspector_safe(self)` |
+| `test_showtooltipat_safe` | method | `tests/test_security_remediation.py:459` | `def test_showtooltipat_safe(self)` |
+| `test_source_create_valueerror_fixed` | method | `tests/test_security_remediation.py:208` | `def test_source_create_valueerror_fixed(self, app)` |
+| `test_source_delete_keyerror_fixed` | method | `tests/test_security_remediation.py:187` | `def test_source_delete_keyerror_fixed(self, app)` |
+| `test_source_has_no_url_replace` | method | `tests/test_security_remediation.py:418` | `def test_source_has_no_url_replace(self)` |
+| `test_source_update_valueerror_fixed` | method | `tests/test_security_remediation.py:232` | `def test_source_update_valueerror_fixed(self, app)` |
+| `test_user_channel_url_cannot_reach_internal_host` | method | `tests/test_security_remediation.py:516` | `def test_user_channel_url_cannot_reach_internal_host(self)` |
+| `test_vendored_dompurify_wired_with_fallback` | method | `tests/test_security_remediation.py:643` | `def test_vendored_dompurify_wired_with_fallback(self)` |
+| `TestInfererPlatformList` | class | `tests/test_socmint.py:574` | `class TestInfererPlatformList` |
+| `TestInfererResolveSpecificPlatforms` | class | `tests/test_socmint.py:593` | `class TestInfererResolveSpecificPlatforms` |
+| `TestParserTotalness` | class | `tests/test_socmint.py:622` | `class TestParserTotalness` |
+| `TestS10YouTubeMalformed` | class | `tests/test_socmint.py:442` | `class TestS10YouTubeMalformed` |
+| `TestS11TwitchErrors` | class | `tests/test_socmint.py:479` | `class TestS11TwitchErrors` |
+| `TestS12EntityExtraction` | class | `tests/test_socmint.py:507` | `class TestS12EntityExtraction` |
+| `TestS1YouTubeHappyPath` | class | `tests/test_socmint.py:144` | `class TestS1YouTubeHappyPath` |
+| `TestS2YouTubeNotFound` | class | `tests/test_socmint.py:174` | `class TestS2YouTubeNotFound` |
+| `TestS3YouTubeRequiresKey` | class | `tests/test_socmint.py:193` | `class TestS3YouTubeRequiresKey` |
+| `TestS4TwitchHappyPath` | class | `tests/test_socmint.py:222` | `class TestS4TwitchHappyPath` |
+| `TestS5TwitchNotFound` | class | `tests/test_socmint.py:250` | `class TestS5TwitchNotFound` |
+| `TestS6TwitterHappyPath` | class | `tests/test_socmint.py:279` | `class TestS6TwitterHappyPath` |
+| `TestS7DiscordHappyPath` | class | `tests/test_socmint.py:319` | `class TestS7DiscordHappyPath` |
+| `TestS8InfererCrossPlatform` | class | `tests/test_socmint.py:358` | `class TestS8InfererCrossPlatform` |
+| `TestS9InfererUnknown` | class | `tests/test_socmint.py:406` | `class TestS9InfererUnknown` |
+| `discord_response` | function | `tests/test_socmint.py:117` | `def discord_response()` |
+| `test_401_error` | method | `tests/test_socmint.py:482` | `def test_401_error(self)` |
+| `test_always_has_profile_count` | method | `tests/test_socmint.py:419` | `def test_always_has_profile_count(self)` |
+| `test_discover_empty_text` | method | `tests/test_socmint.py:558` | `def test_discover_empty_text(self)` |
+| `test_discover_no_urls` | method | `tests/test_socmint.py:563` | `def test_discover_no_urls(self)` |
+| `test_empty_data_returns_not_found` | method | `tests/test_socmint.py:253` | `def test_empty_data_returns_not_found(self)` |
+| `test_empty_items_returns_not_found` | method | `tests/test_socmint.py:177` | `def test_empty_items_returns_not_found(self)` |
+| `test_empty_response` | method | `tests/test_socmint.py:341` | `def test_empty_response(self)` |
+| `test_empty_username` | method | `tests/test_socmint.py:409` | `def test_empty_username(self)` |
+| `test_error_response_returns_api_error` | method | `tests/test_socmint.py:258` | `def test_error_response_returns_api_error(self)` |
+| `test_list_input` | method | `tests/test_socmint.py:450` | `def test_list_input(self)` |
+| `test_list_input` | method | `tests/test_socmint.py:496` | `def test_list_input(self)` |
+| `test_missing_data_returns_not_found` | method | `tests/test_socmint.py:268` | `def test_missing_data_returns_not_found(self)` |
+| `test_missing_items_returns_not_found` | method | `tests/test_socmint.py:182` | `def test_missing_items_returns_not_found(self)` |
+| `test_missing_statistics` | method | `tests/test_socmint.py:460` | `def test_missing_statistics(self)` |
+| `test_none_input` | method | `tests/test_socmint.py:445` | `def test_none_input(self)` |
+| `test_none_input` | method | `tests/test_socmint.py:491` | `def test_none_input(self)` |
+| `test_none_response` | method | `tests/test_socmint.py:347` | `def test_none_response(self)` |
+| `test_none_username` | method | `tests/test_socmint.py:414` | `def test_none_username(self)` |
+| `test_not_found_with_errors` | method | `tests/test_socmint.py:306` | `def test_not_found_with_errors(self)` |
+| `test_parser_handles_int` | method | `tests/test_socmint.py:645` | `def test_parser_handles_int(self, parser_fn)` |
+| `test_parser_handles_none` | method | `tests/test_socmint.py:631` | `def test_parser_handles_none(self, parser_fn)` |
+| `test_parser_handles_string` | method | `tests/test_socmint.py:659` | `def test_parser_handles_string(self, parser_fn)` |
+| `test_parser_registered` | method | `tests/test_socmint.py:209` | `def test_parser_registered(self)` |
+| `test_parser_returns_channel_id` | method | `tests/test_socmint.py:147` | `def test_parser_returns_channel_id(self, youtube_response)` |
+| `test_parser_returns_display_name` | method | `tests/test_socmint.py:231` | `def test_parser_returns_display_name(self, twitch_response)` |
+| `test_parser_returns_followers_count` | method | `tests/test_socmint.py:288` | `def test_parser_returns_followers_count(self, twitter_response)` |
+| `test_parser_returns_member_counts` | method | `tests/test_socmint.py:334` | `def test_parser_returns_member_counts(self, discord_response)` |
+| `test_parser_returns_metadata` | method | `tests/test_socmint.py:160` | `def test_parser_returns_metadata(self, youtube_response)` |
+| `test_parser_returns_metadata` | method | `tests/test_socmint.py:237` | `def test_parser_returns_metadata(self, twitch_response)` |
+| `test_parser_returns_metadata` | method | `tests/test_socmint.py:299` | `def test_parser_returns_metadata(self, twitter_response)` |
+| `test_parser_returns_server_list` | method | `tests/test_socmint.py:322` | `def test_parser_returns_server_list(self, discord_response)` |
+| `test_parser_returns_server_names` | method | `tests/test_socmint.py:328` | `def test_parser_returns_server_names(self, discord_response)` |
+| `test_parser_returns_subscriber_count` | method | `tests/test_socmint.py:153` | `def test_parser_returns_subscriber_count(self, youtube_response)` |
+| `test_parser_returns_user_id` | method | `tests/test_socmint.py:225` | `def test_parser_returns_user_id(self, twitch_response)` |
+| `test_parser_returns_username` | method | `tests/test_socmint.py:282` | `def test_parser_returns_username(self, twitter_response)` |
+| `test_parser_returns_verified_flag` | method | `tests/test_socmint.py:294` | `def test_parser_returns_verified_flag(self, twitter_response)` |
+| `test_platform_list_has_required_fields` | method | `tests/test_socmint.py:583` | `def test_platform_list_has_required_fields(self)` |
+| `test_platform_list_returns_all` | method | `tests/test_socmint.py:577` | `def test_platform_list_returns_all(self)` |
+| `test_platform_urls_are_valid` | method | `tests/test_socmint.py:427` | `def test_platform_urls_are_valid(self)` |
+| `test_resolve_has_high_confidence_for_populated_username` | method | `tests/test_socmint.py:379` | `def test_resolve_has_high_confidence_for_populated_username(self)` |
+| `test_resolve_has_profile_urls` | method | `tests/test_socmint.py:393` | `def test_resolve_has_profile_urls(self)` |
+| `test_resolve_includes_github` | method | `tests/test_socmint.py:373` | `def test_resolve_includes_github(self)` |
+| `test_resolve_includes_keybase` | method | `tests/test_socmint.py:367` | `def test_resolve_includes_keybase(self)` |
+| `test_resolve_linked_platforms_contains_keybase_note` | method | `tests/test_socmint.py:386` | `def test_resolve_linked_platforms_contains_keybase_note(self)` |
+| `test_resolve_multiple_platforms` | method | `tests/test_socmint.py:602` | `def test_resolve_multiple_platforms(self)` |
+| `test_resolve_single_platform` | method | `tests/test_socmint.py:596` | `def test_resolve_single_platform(self)` |
+| `test_resolve_torvalds` | method | `tests/test_socmint.py:361` | `def test_resolve_torvalds(self)` |
+| `test_resolve_validates_twitter_requires_key` | method | `tests/test_socmint.py:609` | `def test_resolve_validates_twitter_requires_key(self)` |
+| `test_social_media_urls_in_text` | method | `tests/test_socmint.py:548` | `def test_social_media_urls_in_text(self)` |
+| `test_string_input` | method | `tests/test_socmint.py:455` | `def test_string_input(self)` |
+| `test_twitter_profile_extracts_person_and_username` | method | `tests/test_socmint.py:528` | `def test_twitter_profile_extracts_person_and_username(self)` |
+| `test_yaml_source_has_requires_key` | method | `tests/test_socmint.py:196` | `def test_yaml_source_has_requires_key(self)` |
+| `test_youtube_profile_extracts_person` | method | `tests/test_socmint.py:510` | `def test_youtube_profile_extracts_person(self)` |
+| `twitch_response` | function | `tests/test_socmint.py:73` | `def twitch_response()` |
+| `twitter_response` | function | `tests/test_socmint.py:92` | `def twitter_response()` |
+| `youtube_response` | function | `tests/test_socmint.py:40` | `def youtube_response()` |
+| `TestDashboard` | class | `tests/test_source_health_monitoring.py:248` | `class TestDashboard` |
+| `TestDataclassContract` | class | `tests/test_source_health_monitoring.py:492` | `class TestDataclassContract` |
+| `TestDegradingHighLatency` | class | `tests/test_source_health_monitoring.py:141` | `class TestDegradingHighLatency` |
 | `TestDegradingLowSuccess` | class | `tests/test_source_health_monitoring.py:97` | `class TestDegradingLowSuccess` |
 | `TestDeterminism` | class | `tests/test_source_health_monitoring.py:411` | `class TestDeterminism` |
 | `TestHealthySource` | class | `tests/test_source_health_monitoring.py:29` | `class TestHealthySource` |
@@ -336,97 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_mock_resolver` | function | `tests/test_transforms.py:10` | `def _mock_resolver(monkeypatch, nodes, links, root_id)` |
 | `_repo_transforms_dir` | function | `tests/test_transforms.py:130` | `def _repo_transforms_dir()` |
 | `resolve` | method | `tests/test_transforms.py:14` | `def resolve(self, t, v)` |
-| `test_s1_ip_to_bgp_happy` | function | `tests/test_transforms.py:20` | `def test_s1_ip_to_bgp_happy(monkeypatch)` |
-| `test_s2_empty_osiris_no_raise` | function | `tests/test_transforms.py:35` | `def test_s2_empty_osiris_no_raise(monkeypatch)` |
-| `test_s3_unknown_transform_id` | function | `tests/test_transforms.py:47` | `def test_s3_unknown_transform_id()` |
-| `test_s4_runner_exception_fail_closed` | function | `tests/test_transforms.py:53` | `def test_s4_runner_exception_fail_closed()` |
-| `test_s5_rich_metadata_sorted` | function | `tests/test_transforms.py:67` | `def test_s5_rich_metadata_sorted()` |
-| `test_s6_input_limits_and_stream_shape` | function | `tests/test_transforms.py:80` | `def test_s6_input_limits_and_stream_shape()` |
-| `test_s7_yaml_transform_no_code` | function | `tests/test_transforms.py:96` | `def test_s7_yaml_transform_no_code(monkeypatch, tmp_path)` |
-| `test_s8_yaml_catalog_complete_and_substituted` | function | `tests/test_transforms.py:135` | `def test_s8_yaml_catalog_complete_and_substituted()` |
-| `TestIntegrationTierPipeline` | class | `tests/test_ui_professional.py:262` | `class TestIntegrationTierPipeline` |
-| `TestS10XSSSafe` | class | `tests/test_ui_professional.py:244` | `class TestS10XSSSafe` |
-| `TestS1LoadingAnimation` | class | `tests/test_ui_professional.py:64` | `class TestS1LoadingAnimation` |
-| `TestS2CriticalExpanded` | class | `tests/test_ui_professional.py:93` | `class TestS2CriticalExpanded` |
-| `TestS3NoiseCollapsed` | class | `tests/test_ui_professional.py:119` | `class TestS3NoiseCollapsed` |
-| `TestS4ToggleExpandCollapse` | class | `tests/test_ui_professional.py:143` | `class TestS4ToggleExpandCollapse` |
-| `TestS5FallbackFlatView` | class | `tests/test_ui_professional.py:157` | `class TestS5FallbackFlatView` |
-| `TestS6LoadingTimeout` | class | `tests/test_ui_professional.py:175` | `class TestS6LoadingTimeout` |
-| `TestS7HoverEffect` | class | `tests/test_ui_professional.py:184` | `class TestS7HoverEffect` |
-| `TestS8FadeInTransition` | class | `tests/test_ui_professional.py:197` | `class TestS8FadeInTransition` |
-| `TestS9SecurityCSP` | class | `tests/test_ui_professional.py:211` | `class TestS9SecurityCSP` |
-| `_render_index` | function | `tests/test_ui_professional.py:27` | `def _render_index()` |
-| `_simulate_tiered_data` | function | `tests/test_ui_professional.py:39` | `def _simulate_tiered_data()` |
-| `test_aria_attributes_in_js` | method | `tests/test_ui_professional.py:144` | `def test_aria_attributes_in_js(self)` |
-| `test_critical_css_classes_exist` | method | `tests/test_ui_professional.py:105` | `def test_critical_css_classes_exist(self)` |
-| `test_critical_tier_data` | method | `tests/test_ui_professional.py:96` | `def test_critical_tier_data(self)` |
-| `test_escape_html_function_exists` | method | `tests/test_ui_professional.py:245` | `def test_escape_html_function_exists(self)` |
-| `test_escape_html_properly_defined` | method | `tests/test_ui_professional.py:249` | `def test_escape_html_properly_defined(self)` |
-| `test_every_group_has_required_fields` | method | `tests/test_ui_professional.py:268` | `def test_every_group_has_required_fields(self)` |
-| `test_fade_in_css_exists` | method | `tests/test_ui_professional.py:198` | `def test_fade_in_css_exists(self)` |
-| `test_js_fallback_logic` | method | `tests/test_ui_professional.py:158` | `def test_js_fallback_logic(self)` |
-| `test_js_show_working_indicator_exists` | method | `tests/test_ui_professional.py:83` | `def test_js_show_working_indicator_exists(self)` |
-| `test_js_toggle_function_exists` | method | `tests/test_ui_professional.py:134` | `def test_js_toggle_function_exists(self)` |
-| `test_loading_css_defined` | method | `tests/test_ui_professional.py:74` | `def test_loading_css_defined(self)` |
-| `test_loading_elements_exist` | method | `tests/test_ui_professional.py:67` | `def test_loading_elements_exist(self)` |
-| `test_no_inline_style_in_template` | method | `tests/test_ui_professional.py:222` | `def test_no_inline_style_in_template(self)` |
-| `test_no_inline_style_in_tier_badge` | method | `tests/test_ui_professional.py:212` | `def test_no_inline_style_in_tier_badge(self)` |
-| `test_no_onclick_attributes` | method | `tests/test_ui_professional.py:233` | `def test_no_onclick_attributes(self)` |
-| `test_noise_css_classes_exist` | method | `tests/test_ui_professional.py:127` | `def test_noise_css_classes_exist(self)` |
-| `test_noise_tier_data` | method | `tests/test_ui_professional.py:120` | `def test_noise_tier_data(self)` |
-| `test_results_use_fade_in` | method | `tests/test_ui_professional.py:203` | `def test_results_use_fade_in(self)` |
-| `test_scores_are_normalised` | method | `tests/test_ui_professional.py:280` | `def test_scores_are_normalised(self)` |
-| `test_show_toast_exists` | method | `tests/test_ui_professional.py:176` | `def test_show_toast_exists(self)` |
-| `test_tier_group_hover_css` | method | `tests/test_ui_professional.py:185` | `def test_tier_group_hover_css(self)` |
-| `test_tier_label_uses_text_content` | method | `tests/test_ui_professional.py:254` | `def test_tier_label_uses_text_content(self)` |
-| `test_tier_summary_accuracy` | method | `tests/test_ui_professional.py:263` | `def test_tier_summary_accuracy(self)` |
-| `test_tiers_missing_returns_empty` | method | `tests/test_ui_professional.py:163` | `def test_tiers_missing_returns_empty(self)` |
-| `test_toggle_uses_role_button` | method | `tests/test_ui_professional.py:149` | `def test_toggle_uses_role_button(self)` |
-| `test_transition_on_tier_group` | method | `tests/test_ui_professional.py:189` | `def test_transition_on_tier_group(self)` |
-| `TestHiddenContract` | class | `tests/test_ui_visibility.py:25` | `class TestHiddenContract` |
-| `TestOutputEscaping` | class | `tests/test_ui_visibility.py:54` | `class TestOutputEscaping` |
-| `_js` | function | `tests/test_ui_visibility.py:21` | `def _js()` |
-| `test_css_enforces_hidden` | method | `tests/test_ui_visibility.py:26` | `def test_css_enforces_hidden(self)` |
-| `test_entity_list_escapes_type_and_source` | method | `tests/test_ui_visibility.py:55` | `def test_entity_list_escapes_type_and_source(self)` |
-| `test_fusion_detail_escapes_intel_level_and_lists` | method | `tests/test_ui_visibility.py:60` | `def test_fusion_detail_escapes_intel_level_and_lists(self)` |
-| `test_no_inline_display_reveal_of_hidden_overlays` | method | `tests/test_ui_visibility.py:34` | `def test_no_inline_display_reveal_of_hidden_overlays(self)` |
-| `test_setvisible_clears_hidden_attribute` | method | `tests/test_ui_visibility.py:29` | `def test_setvisible_clears_hidden_attribute(self)` |
-| `test_tooltip_and_menu_use_setvisible` | method | `tests/test_ui_visibility.py:47` | `def test_tooltip_and_menu_use_setvisible(self)` |
-| `TestAttackReadiness` | class | `tests/test_vuln_correlation.py:81` | `class TestAttackReadiness` |
-| `TestCriticalPrioritised` | class | `tests/test_vuln_correlation.py:62` | `class TestCriticalPrioritised` |
-| `TestDefaultCredentials` | class | `tests/test_vuln_correlation.py:50` | `class TestDefaultCredentials` |
-| `TestLocalCveLookup` | class | `tests/test_vuln_correlation.py:94` | `class TestLocalCveLookup` |
-| `TestMetasploitAvailable` | class | `tests/test_vuln_correlation.py:31` | `class TestMetasploitAvailable` |
-| `TestNginxCveMatch` | class | `tests/test_vuln_correlation.py:21` | `class TestNginxCveMatch` |
-| `TestNoVersionMatch` | class | `tests/test_vuln_correlation.py:71` | `class TestNoVersionMatch` |
-| `TestUnknownTechnology` | class | `tests/test_vuln_correlation.py:41` | `class TestUnknownTechnology` |
-| `_make_tech` | function | `tests/test_vuln_correlation.py:16` | `def _make_tech(name, version)` |
-| `test_apache_struts_has_metasploit` | method | `tests/test_vuln_correlation.py:32` | `def test_apache_struts_has_metasploit(self)` |
-| `test_exploit_available_increases_score` | method | `tests/test_vuln_correlation.py:82` | `def test_exploit_available_increases_score(self)` |
-| `test_jenkins_has_default_admin` | method | `tests/test_vuln_correlation.py:51` | `def test_jenkins_has_default_admin(self)` |
-| `test_known_tech_in_local_table` | method | `tests/test_vuln_correlation.py:95` | `def test_known_tech_in_local_table(self)` |
-| `test_most_critical_is_highest_cvss` | method | `tests/test_vuln_correlation.py:63` | `def test_most_critical_is_highest_cvss(self)` |
-| `test_no_version_reduces_confidence` | method | `tests/test_vuln_correlation.py:72` | `def test_no_version_reduces_confidence(self)` |
-| `test_returns_cves_for_nginx` | method | `tests/test_vuln_correlation.py:22` | `def test_returns_cves_for_nginx(self)` |
-| `test_unknown_tech_returns_empty` | method | `tests/test_vuln_correlation.py:42` | `def test_unknown_tech_returns_empty(self)` |
-| `TestWH1Missing` | class | `tests/test_web_helpers.py:24` | `class TestWH1Missing` |
-| `TestWH2Present` | class | `tests/test_web_helpers.py:39` | `class TestWH2Present` |
-| `TestWH3Ordering` | class | `tests/test_web_helpers.py:54` | `class TestWH3Ordering` |
-| `TestWH4Sse` | class | `tests/test_web_helpers.py:72` | `class TestWH4Sse` |
-| `_app` | function | `tests/test_web_helpers.py:17` | `def _app()` |
-| `stream` | method | `tests/test_web_helpers.py:77` | `def stream()` |
-| `test_guard_runs_after_auth` | method | `tests/test_web_helpers.py:55` | `def test_guard_runs_after_auth(self)` |
-| `test_missing_service_edges_503` | method | `tests/test_web_helpers.py:25` | `def test_missing_service_edges_503(self)` |
-| `test_present_service_passes` | method | `tests/test_web_helpers.py:40` | `def test_present_service_passes(self)` |
-| `test_sse_headers` | method | `tests/test_web_helpers.py:73` | `def test_sse_headers(self)` |
-| `view` | method | `tests/test_web_helpers.py:31` | `def view()` |
-| `view` | method | `tests/test_web_helpers.py:46` | `def view()` |
-| `view` | method | `tests/test_web_helpers.py:63` | `def view()` |
-| `test_blueprint_registered` | function | `tests/test_web_tools_blueprint.py:16` | `def test_blueprint_registered()` |
-| `test_install_route_rejects_bad_binary` | function | `tests/test_web_tools_blueprint.py:34` | `def test_install_route_rejects_bad_binary()` |
-| `test_tools_rules_present` | function | `tests/test_web_tools_blueprint.py:5` | `def test_tools_rules_present()` |
-| `test_unknown_tool_install_reaches_view` | function | `tests/test_web_tools_blueprint.py:23` | `def test_unknown_tool_install_reaches_view()` |
-| `main` | function | `tools/split_sources.py:19` | `def main()` |
-| `collect` | function | `tools/sync_docs.py:20` | `def collect()` |
-| `main` | function | `tools/sync_docs.py:36` | `def main(argv)` |
 
+Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

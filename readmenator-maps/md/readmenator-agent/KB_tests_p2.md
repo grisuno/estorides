@@ -1,6 +1,47 @@
 # Subsystem: tests (page 2 of 4)
 Previous: [KB_tests.md](KB_tests.md)
 
+## tests/test_graph_bundle_assets.py
+- Doc: graph_bundle S6: assets frontend (fuera del sandbox mutmut).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s6_frontend_assets_exist_and_are_csp_clean` (function, line 19) `def test_s6_frontend_assets_exist_and_are_csp_clean()`
+
+## tests/test_graph_force3d.py
+- Doc: graph_force3d: port del sistema de grafos ReadMenator + contexto IA.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_nodes` (function, line 22) `def _nodes()`
+  - `_edges` (function, line 36) `def _edges()`
+  - `_clusters` (function, line 45) `def _clusters()`
+  - `test_s1_build_force_payload_shape` (function, line 53) `def test_s1_build_force_payload_shape()`
+  - `test_s2_empty_graph_no_raise` (function, line 79) `def test_s2_empty_graph_no_raise()`
+  - `test_s3_truncation_deterministic_bridge_first` (function, line 90) `def test_s3_truncation_deterministic_bridge_first()`
+  - `test_s4_non_json_safe_raises_typeerror` (function, line 112) `def test_s4_non_json_safe_raises_typeerror()`
+  - `test_s5_ai_context_budget_and_no_markdown_injection` (function, line 130) `def test_s5_ai_context_budget_and_no_markdown_injection()`
+  - `test_s6_family_color_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s6_family_color_deterministic_and_settings_match_readmenator()`
+- Depends on: `estorides_core/graph_force.py`
+
+## tests/test_graph_rag_search.py
+- Doc: graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_nodes` (function, line 18) `def _nodes()`
+  - `_edges` (function, line 29) `def _edges()`
+  - `_clusters` (function, line 36) `def _clusters()`
+  - `_searcher` (function, line 43) `def _searcher()`
+  - `test_s1_local_match_leads` (function, line 48) `def test_s1_local_match_leads()`
+  - `test_s2_global_hints_map_reduce` (function, line 61) `def test_s2_global_hints_map_reduce()`
+  - `test_s3_empty_graph_no_raise` (function, line 71) `def test_s3_empty_graph_no_raise()`
+  - `test_s4_hostile_fails_closed_and_bounded` (function, line 83) `def test_s4_hostile_fails_closed_and_bounded()`
+  - `test_s5_pagerank_sums_to_one_and_deterministic` (function, line 108) `def test_s5_pagerank_sums_to_one_and_deterministic()`
+  - `test_s6_context_block_from_digraph` (function, line 124) `def test_s6_context_block_from_digraph()`
+  - `test_s7_web_helper_uses_graph_path_fail_soft` (function, line 142) `def test_s7_web_helper_uses_graph_path_fail_soft(tmp_path, monkeypatch)`
+- Depends on: `estorides_core/graph_rag_search.py`, `estorides_web.py`
+
 ## tests/test_hardening.py
 - Doc: BDD tests for the v1.3 hardening surface, case diff and report.
 - Layer: testing
@@ -423,72 +464,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_btc_uppercase_bech32` (function, line 27) `def test_btc_uppercase_bech32()`
   - `test_backward_compat` (function, line 31) `def test_backward_compat()`
 - Depends on: `estorides_core/entity_extraction.py`
-
-## tests/test_recon_fusion.py
-- Doc: BDD tests for the recon_fusion module (Modulo 2g).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_observation` (function, line 14) `def _observation(source, category, parser, status, parsed)`
-  - `_entity` (function, line 31) `def _entity(etype, value, confidence, sources)`
-  - `TestS1CriticalCorroborated` (class, line 46) `class TestS1CriticalCorroborated`
-  - `TestS2TwoReliableSources` (class, line 65) `class TestS2TwoReliableSources`
-  - `TestS3SingleHighReliability` (class, line 82) `class TestS3SingleHighReliability`
-  - `TestS4SingleLowReliability` (class, line 102) `class TestS4SingleLowReliability`
-  - `TestS5EmptyInput` (class, line 117) `class TestS5EmptyInput`
-  - `TestS6DirectMatchBoost` (class, line 130) `class TestS6DirectMatchBoost`
-  - `TestS7EmptyQuery` (class, line 147) `class TestS7EmptyQuery`
-  - `TestS8BadConfig` (class, line 157) `class TestS8BadConfig`
-  - `TestS9NoneObservations` (class, line 173) `class TestS9NoneObservations`
-  - `TestS10EntityWithoutType` (class, line 183) `class TestS10EntityWithoutType`
-  - `TestS11Dedup` (class, line 195) `class TestS11Dedup`
-  - `TestS12Ordering` (class, line 212) `class TestS12Ordering`
-  - `TestIntegrationMultiEntity` (class, line 227) `class TestIntegrationMultiEntity`
-  - `TestFusionResultDataclass` (class, line 252) `class TestFusionResultDataclass`
-  - `TestRelevanceTierEnum` (class, line 267) `class TestRelevanceTierEnum`
-  - `test_critical_with_5_sources` (method, line 49) `def test_critical_with_5_sources(self)`
-  - `test_two_reliable_sources_critical` (method, line 68) `def test_two_reliable_sources_critical(self)`
-  - `test_single_a_source_is_medium` (method, line 85) `def test_single_a_source_is_medium(self)`
-  - `test_single_f_source_is_noise` (method, line 105) `def test_single_f_source_is_noise(self)`
-  - `test_empty_observations_and_entities` (method, line 120) `def test_empty_observations_and_entities(self)`
-  - `test_direct_match_boosts_score` (method, line 133) `def test_direct_match_boosts_score(self)`
-  - `test_empty_query_raises` (method, line 150) `def test_empty_query_raises(self)`
-  - `test_bad_thresholds_raise` (method, line 160) `def test_bad_thresholds_raise(self)`
-  - `test_none_observations_safe` (method, line 176) `def test_none_observations_safe(self)`
-  - `test_entity_without_type_ignored` (method, line 186) `def test_entity_without_type_ignored(self)`
-  - `test_identical_observations_deduped` (method, line 198) `def test_identical_observations_deduped(self)`
-  - `test_tier_ordered_by_score` (method, line 215) `def test_tier_ordered_by_score(self)`
-  - `test_mixed_entities_across_tiers` (method, line 230) `def test_mixed_entities_across_tiers(self)`
-  - `test_fusion_result_serialisable` (method, line 255) `def test_fusion_result_serialisable(self)`
-  - `test_enum_members` (method, line 270) `def test_enum_members(self)`
-  - `test_enum_order_list` (method, line 277) `def test_enum_order_list(self)`
-- Depends on: `estorides_core/config.py`, `estorides_core/recon_fusion.py`
-
-## tests/test_recon_report.py
-- Doc: ATDD + BDD tests for estorides_export.recon_report.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_meta` (function, line 18) `def _make_meta()`
-  - `TestFullReport` (class, line 28) `class TestFullReport`
-  - `TestExecutiveSummaryFindings` (class, line 42) `class TestExecutiveSummaryFindings`
-  - `TestMinimalReport` (class, line 57) `class TestMinimalReport`
-  - `TestTlpClassification` (class, line 72) `class TestTlpClassification`
-  - `TestRecommendationsOrdered` (class, line 98) `class TestRecommendationsOrdered`
-  - `TestCredentialsRedacted` (class, line 106) `class TestCredentialsRedacted`
-  - `TestSubdomainTree` (class, line 119) `class TestSubdomainTree`
-  - `TestSingleFindingReport` (class, line 133) `class TestSingleFindingReport`
-  - `test_contains_all_sections` (method, line 29) `def test_contains_all_sections(self)`
-  - `test_mentions_critical_findings` (method, line 43) `def test_mentions_critical_findings(self)`
-  - `test_minimal_report_with_no_findings` (method, line 58) `def test_minimal_report_with_no_findings(self)`
-  - `test_tlp_amber_in_header` (method, line 73) `def test_tlp_amber_in_header(self)`
-  - `test_classification_propagates_to_exec_summary` (method, line 81) `def test_classification_propagates_to_exec_summary(self)`
-  - `test_critical_first` (method, line 99) `def test_critical_first(self)`
-  - `test_aws_key_redacted` (method, line 107) `def test_aws_key_redacted(self)`
-  - `test_password_redacted` (method, line 112) `def test_password_redacted(self)`
-  - `test_ascii_tree_generated` (method, line 120) `def test_ascii_tree_generated(self)`
-  - `test_single_finding_prominent` (method, line 134) `def test_single_finding_prominent(self)`
-- Depends on: `estorides_export/recon_report.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

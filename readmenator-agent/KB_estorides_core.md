@@ -1,12 +1,12 @@
-# Subsystem: estorides_core (page 1 of 3)
-Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](KB_estorides_core_p2.md), [KB_estorides_core_p3.md](KB_estorides_core_p3.md)
+# Subsystem: estorides_core (page 1 of 4)
+Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](KB_estorides_core_p2.md), [KB_estorides_core_p3.md](KB_estorides_core_p3.md), [KB_estorides_core_p4.md](KB_estorides_core_p4.md)
 
 ## estorides_core/__init__.py
 - Doc: estorides_core.__init__
 - Layer: utility
 - Language: py
 - Depends on: `estorides_core/config.py`
-- Imported by: `estorides_web.py`, `tests/test_central_config.py`, `tests/test_orchestrator_fanout.py`, `tests/test_parsers.py`, `tests/test_retry_policy.py`, `tests/test_security_remediation.py`
+- Imported by: `estorides_web.py`, `tests/test_central_config.py`, `tests/test_graph_bundle.py`, `tests/test_orchestrator_fanout.py`, `tests/test_parsers.py`, `tests/test_retry_policy.py`, `tests/test_security_remediation.py`
 
 ## estorides_core/active_recon.py
 - Layer: utility
@@ -442,6 +442,32 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`, `estorides_core/sqlite_store.py`
 - Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_fusion_analytics.py`, `tests/test_probabilistic_fusion.py`
 
+## estorides_core/graph_bundle.py
+- Doc: graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BundleLayout` (class, line 37) `class BundleLayout`
+  - `SphereBundleLayout` (class, line 49) `class SphereBundleLayout`
+  - `_req_str` (method, line 59) `def _req_str(item, key, default, what)`
+  - `_opt_str` (method, line 68) `def _opt_str(item, key, default)`
+  - `_opt_float` (method, line 73) `def _opt_float(item, key, default)`
+  - `_opt_int` (method, line 84) `def _opt_int(item, key, default)`
+  - `_opt_community` (method, line 94) `def _opt_community(value)`
+  - `_bspline` (method, line 102) `def _bspline(control, samples)`
+  - `_bundle_curves` (method, line 135) `def _bundle_curves(leaves, member_group, hub, root, edges, beta, samples)`
+  - `hierarchical_edge_bundling` (method, line 171) `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)`
+  - `fibonacci_sphere` (method, line 215) `def fibonacci_sphere(count)`
+  - `_unit` (method, line 231) `def _unit(v)`
+  - `_split_caps` (method, line 238) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `spherical_edge_bundling` (method, line 267) `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)`
+  - `_round2` (method, line 316) `def _round2(pt)`
+  - `_round3` (method, line 320) `def _round3(pt)`
+  - `bundle_settings` (method, line 324) `def bundle_settings()`
+  - `build_bundle_payload` (method, line 359) `def build_bundle_payload(force_payload)`
+- Depends on: `estorides_core/graph_force.py`
+- Imported by: `tests/properties/test_graph_bundle_properties.py`, `tests/test_graph_bundle.py`
+
 ## estorides_core/graph_force.py
 - Doc: graph_force3d: payload force-graph estilo ReadMenator + contexto IA.
 - Layer: utility
@@ -459,26 +485,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `_md_safe` (function, line 332) `def _md_safe(text, limit)`
   - `_truncate_lines` (function, line 341) `def _truncate_lines(markdown, budget)`
   - `build_ai_context` (function, line 353) `def build_ai_context(nodes, edges, clusters, budget_chars)`
-- Imported by: `estorides_web.py`, `tests/test_graph_force3d.py`
-
-## estorides_core/graph_kuzu.py
-- Doc: estorides_core.graph_kuzu
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_label_for` (function, line 124) `def _label_for(ent_type)`
-  - `_node_id` (function, line 133) `def _node_id(type_, value)`
-  - `KuzuGraphBackend` (class, line 196) `class KuzuGraphBackend`
-  - `__init__` (method, line 205) `def __init__(self, path)`
-  - `_init_schema` (method, line 233) `def _init_schema(self)`
-  - `upsert_entity` (method, line 245) `def upsert_entity(self, ent_type, value, source)`
-  - `upsert_relationship` (method, line 295) `def upsert_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
-  - `neighbors` (method, line 346) `def neighbors(self, node_id, hops, relation, limit)`
-  - `cypher` (method, line 379) `def cypher(self, query, params)`
-  - `stats` (method, line 406) `def stats(self)`
-  - `close` (method, line 436) `def close(self)`
-- Depends on: `estorides_core/config.py`
-- Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`
+- Imported by: `estorides_core/graph_bundle.py`, `estorides_web.py`, `tests/test_graph_bundle.py`, `tests/test_graph_force3d.py`
 
 
 Next: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)

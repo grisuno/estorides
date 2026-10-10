@@ -1,8 +1,26 @@
-# Symbols (page 3 of 6)
+# Symbols (page 3 of 7)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `from_failure` | method | `estorides_core/tool_runner.py:59` | `def from_failure(cls, tool_name, error_code, error_message, duration_s, exit_code, stdout, stderr, parsed_entities)` |
+| `run_tool` | method | `estorides_core/tool_runner.py:156` | `def run_tool(tool_name, args, target, timeout, max_output_bytes, cwd)` |
+| `to_dict` | method | `estorides_core/tool_runner.py:51` | `def to_dict(self)` |
+| `to_dict` | method | `estorides_core/tool_runner.py:93` | `def to_dict(self)` |
+| `Transform` | class | `estorides_core/transforms.py:71` | `class Transform` |
+| `TransformRegistry` | class | `estorides_core/transforms.py:225` | `class TransformRegistry` |
+| `_T` | method | `estorides_core/transforms.py:441` | `def _T(id, label, tier, applies, runner, description, output_types, cost)` |
+| `__init__` | method | `estorides_core/transforms.py:228` | `def __init__(self)` |
+| `_empty` | method | `estorides_core/transforms.py:96` | `def _empty(root_type, value)` |
+| `_filter_runner` | method | `estorides_core/transforms.py:121` | `def _filter_runner(relations)` |
+| `_norm` | method | `estorides_core/transforms.py:130` | `def _norm(s)` |
+| `_osiris` | method | `estorides_core/transforms.py:135` | `def _osiris()` |
+| `_resolver_filtered` | method | `estorides_core/transforms.py:100` | `def _resolver_filtered(ent_type, value, relations)` |
+| `_run_bgp` | method | `estorides_core/transforms.py:143` | `def _run_bgp(ent_type, value)` |
+| `_run_github` | method | `estorides_core/transforms.py:194` | `def _run_github(ent_type, value)` |
+| `_run_leaks` | method | `estorides_core/transforms.py:169` | `def _run_leaks(ent_type, value)` |
+| `_static_runner` | method | `estorides_core/transforms.py:332` | `def _static_runner(nodes_tpl, links_tpl)` |
+| `_str_list` | method | `estorides_core/transforms.py:322` | `def _str_list(raw)` |
 | `_transform_from_yaml` | method | `estorides_core/transforms.py:362` | `def _transform_from_yaml(raw, origin)` |
 | `for_type` | method | `estorides_core/transforms.py:234` | `def for_type(self, ent_type)` |
 | `iter_sse_events` | method | `estorides_core/transforms.py:406` | `def iter_sse_events(transform_id, ent_type, value, runner)` |
@@ -111,87 +129,87 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `__init__` | method | `estorides_web.py:155` | `def __init__(self, job_id, query, query_type, case_id)` |
 | `_arg_int` | function | `estorides_web.py:117` | `def _arg_int(name, default)` |
 | `_client_ip` | function | `estorides_web.py:100` | `def _client_ip()` |
-| `_drive` | method | `estorides_web.py:1550` | `def _drive()` |
-| `_err` | method | `estorides_web.py:1281` | `def _err()` |
-| `_gen` | method | `estorides_web.py:1286` | `def _gen()` |
+| `_drive` | method | `estorides_web.py:1564` | `def _drive()` |
+| `_err` | method | `estorides_web.py:1295` | `def _err()` |
+| `_gen` | method | `estorides_web.py:1300` | `def _gen()` |
 | `_graph_rag_block` | method | `estorides_web.py:234` | `def _graph_rag_block(query, budget_tokens)` |
 | `_new_stream_job_id` | method | `estorides_web.py:185` | `def _new_stream_job_id()` |
 | `_provides` | function | `estorides_web.py:81` | `def _provides(service, message)` |
 | `_rate_limit_decorator` | method | `estorides_web.py:190` | `def _rate_limit_decorator()` |
-| `_run` | method | `estorides_web.py:1659` | `def _run()` |
+| `_run` | method | `estorides_web.py:1673` | `def _run()` |
 | `_send_and_cleanup` | function | `estorides_web.py:133` | `def _send_and_cleanup(p, tmpdir)` |
-| `_serve_loop` | method | `estorides_web.py:1710` | `def _serve_loop()` |
-| `_shape_for_ui` | method | `estorides_web.py:1723` | `def _shape_for_ui(result)` |
+| `_serve_loop` | method | `estorides_web.py:1724` | `def _serve_loop()` |
+| `_shape_for_ui` | method | `estorides_web.py:1737` | `def _shape_for_ui(result)` |
 | `_sse_response` | function | `estorides_web.py:76` | `def _sse_response(gen)` |
-| `_watch_runner` | method | `estorides_web.py:1067` | `def _watch_runner(swatch)` |
-| `admin_sources` | method | `estorides_web.py:904` | `def admin_sources()` |
-| `api_alerts_channels` | method | `estorides_web.py:1192` | `def api_alerts_channels()` |
-| `api_alerts_test` | method | `estorides_web.py:1200` | `def api_alerts_test()` |
-| `api_analyze_stream` | method | `estorides_web.py:1646` | `def api_analyze_stream()` |
-| `api_cases_delete` | method | `estorides_web.py:643` | `def api_cases_delete(case_id)` |
-| `api_cases_diff` | method | `estorides_web.py:674` | `def api_cases_diff()` |
-| `api_cases_get` | method | `estorides_web.py:629` | `def api_cases_get(case_id)` |
-| `api_cases_list` | method | `estorides_web.py:616` | `def api_cases_list()` |
-| `api_cases_save` | method | `estorides_web.py:651` | `def api_cases_save(case_id)` |
-| `api_discover_jobs` | method | `estorides_web.py:1452` | `def api_discover_jobs()` |
-| `api_discover_start` | method | `estorides_web.py:1406` | `def api_discover_start()` |
-| `api_discover_stop` | method | `estorides_web.py:1458` | `def api_discover_stop()` |
-| `api_discover_stream` | method | `estorides_web.py:1470` | `def api_discover_stream()` |
-| `api_export` | method | `estorides_web.py:538` | `def api_export(fmt)` |
-| `api_feeds` | method | `estorides_web.py:507` | `def api_feeds()` |
-| `api_fusion_analytics_consensus` | method | `estorides_web.py:884` | `def api_fusion_analytics_consensus(eid)` |
-| `api_fusion_analytics_corroboration_matrix` | method | `estorides_web.py:1004` | `def api_fusion_analytics_corroboration_matrix()` |
-| `api_fusion_analytics_entity_summary` | method | `estorides_web.py:864` | `def api_fusion_analytics_entity_summary(eid)` |
-| `api_fusion_analytics_entity_timeline` | method | `estorides_web.py:854` | `def api_fusion_analytics_entity_timeline(eid)` |
-| `api_fusion_analytics_source_stats` | method | `estorides_web.py:874` | `def api_fusion_analytics_source_stats(source_name)` |
-| `api_fusion_analytics_top_changed` | method | `estorides_web.py:894` | `def api_fusion_analytics_top_changed()` |
-| `api_fusion_entities` | method | `estorides_web.py:815` | `def api_fusion_entities()` |
-| `api_fusion_entity` | method | `estorides_web.py:836` | `def api_fusion_entity(eid)` |
-| `api_fusion_sources` | method | `estorides_web.py:806` | `def api_fusion_sources()` |
-| `api_fusion_stats` | method | `estorides_web.py:798` | `def api_fusion_stats()` |
+| `_watch_runner` | method | `estorides_web.py:1081` | `def _watch_runner(swatch)` |
+| `admin_sources` | method | `estorides_web.py:918` | `def admin_sources()` |
+| `api_alerts_channels` | method | `estorides_web.py:1206` | `def api_alerts_channels()` |
+| `api_alerts_test` | method | `estorides_web.py:1214` | `def api_alerts_test()` |
+| `api_analyze_stream` | method | `estorides_web.py:1660` | `def api_analyze_stream()` |
+| `api_cases_delete` | method | `estorides_web.py:657` | `def api_cases_delete(case_id)` |
+| `api_cases_diff` | method | `estorides_web.py:688` | `def api_cases_diff()` |
+| `api_cases_get` | method | `estorides_web.py:643` | `def api_cases_get(case_id)` |
+| `api_cases_list` | method | `estorides_web.py:630` | `def api_cases_list()` |
+| `api_cases_save` | method | `estorides_web.py:665` | `def api_cases_save(case_id)` |
+| `api_discover_jobs` | method | `estorides_web.py:1466` | `def api_discover_jobs()` |
+| `api_discover_start` | method | `estorides_web.py:1420` | `def api_discover_start()` |
+| `api_discover_stop` | method | `estorides_web.py:1472` | `def api_discover_stop()` |
+| `api_discover_stream` | method | `estorides_web.py:1484` | `def api_discover_stream()` |
+| `api_export` | method | `estorides_web.py:552` | `def api_export(fmt)` |
+| `api_feeds` | method | `estorides_web.py:521` | `def api_feeds()` |
+| `api_fusion_analytics_consensus` | method | `estorides_web.py:898` | `def api_fusion_analytics_consensus(eid)` |
+| `api_fusion_analytics_corroboration_matrix` | method | `estorides_web.py:1018` | `def api_fusion_analytics_corroboration_matrix()` |
+| `api_fusion_analytics_entity_summary` | method | `estorides_web.py:878` | `def api_fusion_analytics_entity_summary(eid)` |
+| `api_fusion_analytics_entity_timeline` | method | `estorides_web.py:868` | `def api_fusion_analytics_entity_timeline(eid)` |
+| `api_fusion_analytics_source_stats` | method | `estorides_web.py:888` | `def api_fusion_analytics_source_stats(source_name)` |
+| `api_fusion_analytics_top_changed` | method | `estorides_web.py:908` | `def api_fusion_analytics_top_changed()` |
+| `api_fusion_entities` | method | `estorides_web.py:829` | `def api_fusion_entities()` |
+| `api_fusion_entity` | method | `estorides_web.py:850` | `def api_fusion_entity(eid)` |
+| `api_fusion_sources` | method | `estorides_web.py:820` | `def api_fusion_sources()` |
+| `api_fusion_stats` | method | `estorides_web.py:812` | `def api_fusion_stats()` |
 | `api_graph` | method | `estorides_web.py:418` | `def api_graph()` |
-| `api_intel_graph` | method | `estorides_web.py:738` | `def api_intel_graph()` |
-| `api_intel_resolve` | method | `estorides_web.py:699` | `def api_intel_resolve()` |
-| `api_intel_stats` | method | `estorides_web.py:777` | `def api_intel_stats()` |
+| `api_intel_graph` | method | `estorides_web.py:752` | `def api_intel_graph()` |
+| `api_intel_resolve` | method | `estorides_web.py:713` | `def api_intel_resolve()` |
+| `api_intel_stats` | method | `estorides_web.py:791` | `def api_intel_stats()` |
 | `api_ollama_status` | method | `estorides_web.py:356` | `def api_ollama_status()` |
-| `api_osiris_bgp` | method | `estorides_web.py:1309` | `def api_osiris_bgp()` |
-| `api_osiris_github` | method | `estorides_web.py:1351` | `def api_osiris_github()` |
-| `api_osiris_kev` | method | `estorides_web.py:1379` | `def api_osiris_kev()` |
-| `api_osiris_leaks` | method | `estorides_web.py:1365` | `def api_osiris_leaks()` |
-| `api_osiris_mac` | method | `estorides_web.py:1323` | `def api_osiris_mac()` |
-| `api_osiris_malware` | method | `estorides_web.py:1388` | `def api_osiris_malware()` |
-| `api_osiris_phone` | method | `estorides_web.py:1337` | `def api_osiris_phone()` |
-| `api_osiris_threats` | method | `estorides_web.py:1393` | `def api_osiris_threats()` |
+| `api_osiris_bgp` | method | `estorides_web.py:1323` | `def api_osiris_bgp()` |
+| `api_osiris_github` | method | `estorides_web.py:1365` | `def api_osiris_github()` |
+| `api_osiris_kev` | method | `estorides_web.py:1393` | `def api_osiris_kev()` |
+| `api_osiris_leaks` | method | `estorides_web.py:1379` | `def api_osiris_leaks()` |
+| `api_osiris_mac` | method | `estorides_web.py:1337` | `def api_osiris_mac()` |
+| `api_osiris_malware` | method | `estorides_web.py:1402` | `def api_osiris_malware()` |
+| `api_osiris_phone` | method | `estorides_web.py:1351` | `def api_osiris_phone()` |
+| `api_osiris_threats` | method | `estorides_web.py:1407` | `def api_osiris_threats()` |
 | `api_run` | method | `estorides_web.py:362` | `def api_run()` |
-| `api_run_stream` | method | `estorides_web.py:1599` | `def api_run_stream()` |
-| `api_run_stream_start` | method | `estorides_web.py:1520` | `def api_run_stream_start()` |
-| `api_run_stream_stop` | method | `estorides_web.py:1587` | `def api_run_stream_stop()` |
-| `api_scheduler_status` | method | `estorides_web.py:1216` | `def api_scheduler_status()` |
-| `api_socmint_discover` | method | `estorides_web.py:1048` | `def api_socmint_discover()` |
-| `api_socmint_platforms` | method | `estorides_web.py:1040` | `def api_socmint_platforms()` |
-| `api_socmint_resolve` | method | `estorides_web.py:1018` | `def api_socmint_resolve()` |
-| `api_sources_yaml_create` | method | `estorides_web.py:947` | `def api_sources_yaml_create()` |
-| `api_sources_yaml_delete` | method | `estorides_web.py:987` | `def api_sources_yaml_delete(name)` |
-| `api_sources_yaml_list` | method | `estorides_web.py:921` | `def api_sources_yaml_list()` |
-| `api_sources_yaml_update` | method | `estorides_web.py:968` | `def api_sources_yaml_update(name)` |
+| `api_run_stream` | method | `estorides_web.py:1613` | `def api_run_stream()` |
+| `api_run_stream_start` | method | `estorides_web.py:1534` | `def api_run_stream_start()` |
+| `api_run_stream_stop` | method | `estorides_web.py:1601` | `def api_run_stream_stop()` |
+| `api_scheduler_status` | method | `estorides_web.py:1230` | `def api_scheduler_status()` |
+| `api_socmint_discover` | method | `estorides_web.py:1062` | `def api_socmint_discover()` |
+| `api_socmint_platforms` | method | `estorides_web.py:1054` | `def api_socmint_platforms()` |
+| `api_socmint_resolve` | method | `estorides_web.py:1032` | `def api_socmint_resolve()` |
+| `api_sources_yaml_create` | method | `estorides_web.py:961` | `def api_sources_yaml_create()` |
+| `api_sources_yaml_delete` | method | `estorides_web.py:1001` | `def api_sources_yaml_delete(name)` |
+| `api_sources_yaml_list` | method | `estorides_web.py:935` | `def api_sources_yaml_list()` |
+| `api_sources_yaml_update` | method | `estorides_web.py:982` | `def api_sources_yaml_update(name)` |
 | `api_status` | method | `estorides_web.py:350` | `def api_status()` |
-| `api_transform_run` | method | `estorides_web.py:1248` | `def api_transform_run()` |
-| `api_transform_stream` | method | `estorides_web.py:1270` | `def api_transform_stream()` |
-| `api_transforms` | method | `estorides_web.py:1234` | `def api_transforms()` |
-| `api_watch_create` | method | `estorides_web.py:1100` | `def api_watch_create()` |
-| `api_watch_delete` | method | `estorides_web.py:1146` | `def api_watch_delete(watch_id)` |
-| `api_watch_disable` | method | `estorides_web.py:1170` | `def api_watch_disable(watch_id)` |
-| `api_watch_enable` | method | `estorides_web.py:1157` | `def api_watch_enable(watch_id)` |
-| `api_watch_get` | method | `estorides_web.py:1134` | `def api_watch_get(watch_id)` |
-| `api_watch_history` | method | `estorides_web.py:1182` | `def api_watch_history(watch_id)` |
-| `api_watch_list` | method | `estorides_web.py:1091` | `def api_watch_list()` |
+| `api_transform_run` | method | `estorides_web.py:1262` | `def api_transform_run()` |
+| `api_transform_stream` | method | `estorides_web.py:1284` | `def api_transform_stream()` |
+| `api_transforms` | method | `estorides_web.py:1248` | `def api_transforms()` |
+| `api_watch_create` | method | `estorides_web.py:1114` | `def api_watch_create()` |
+| `api_watch_delete` | method | `estorides_web.py:1160` | `def api_watch_delete(watch_id)` |
+| `api_watch_disable` | method | `estorides_web.py:1184` | `def api_watch_disable(watch_id)` |
+| `api_watch_enable` | method | `estorides_web.py:1171` | `def api_watch_enable(watch_id)` |
+| `api_watch_get` | method | `estorides_web.py:1148` | `def api_watch_get(watch_id)` |
+| `api_watch_history` | method | `estorides_web.py:1196` | `def api_watch_history(watch_id)` |
+| `api_watch_list` | method | `estorides_web.py:1105` | `def api_watch_list()` |
 | `create_app` | method | `estorides_web.py:256` | `def create_app()` |
 | `deco` | method | `estorides_web.py:88` | `def deco(view)` |
 | `deco` | method | `estorides_web.py:197` | `def deco(view)` |
 | `done` | method | `estorides_web.py:175` | `def done(self)` |
-| `gen` | method | `estorides_web.py:1483` | `def gen()` |
-| `gen` | method | `estorides_web.py:1605` | `def gen()` |
-| `gen` | method | `estorides_web.py:1681` | `def gen()` |
+| `gen` | method | `estorides_web.py:1497` | `def gen()` |
+| `gen` | method | `estorides_web.py:1619` | `def gen()` |
+| `gen` | method | `estorides_web.py:1695` | `def gen()` |
 | `healthz` | method | `estorides_web.py:292` | `def healthz()` |
 | `index` | method | `estorides_web.py:329` | `def index()` |
 | `metrics` | method | `estorides_web.py:317` | `def metrics()` |
@@ -209,292 +227,274 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `api_tools_list` | function | `estorides_web_tools.py:49` | `def api_tools_list()` |
 | `install_full` | function | `install.sh:51` | `` |
 | `install_minimal` | function | `install.sh:55` | `` |
-| `CLUSTER_PALETTE` | function | `static/js/estorides.js:1135` | `` |
+| `CLUSTER_PALETTE` | function | `static/js/estorides.js:1146` | `` |
 | `TELEMETRY` | function | `static/js/estorides.js:41` | `` |
 | `_installErrMsg` | function | `static/js/estorides.js:243` | `` |
-| `_redrawGraph` | function | `static/js/estorides.js:1720` | `` |
-| `_sanitizeInput` | function | `static/js/estorides.js:2567` | `` |
-| `_sseAuthToken` | function | `static/js/estorides.js:2981` | `` |
-| `_sseUrl` | function | `static/js/estorides.js:2985` | `` |
-| `actions` | function | `static/js/estorides.js:2576` | `` |
-| `add` | function | `static/js/estorides.js:1526` | `` |
-| `addDiscoverEntityToTab` | function | `static/js/estorides.js:3163` | `` |
-| `addText` | function | `static/js/estorides.js:1532` | `` |
+| `_redrawGraph` | function | `static/js/estorides.js:1751` | `` |
+| `_sanitizeInput` | function | `static/js/estorides.js:2598` | `` |
+| `_sseAuthToken` | function | `static/js/estorides.js:3012` | `` |
+| `_sseUrl` | function | `static/js/estorides.js:3016` | `` |
+| `actions` | function | `static/js/estorides.js:2607` | `` |
+| `add` | function | `static/js/estorides.js:1539` | `` |
+| `addDiscoverEntityToTab` | function | `static/js/estorides.js:3194` | `` |
+| `addText` | function | `static/js/estorides.js:1545` | `` |
 | `analyseEntity` | function | `static/js/estorides.js:951` | `` |
 | `appendStreamEntity` | function | `static/js/estorides.js:676` | `` |
 | `appendStreamObservation` | function | `static/js/estorides.js:654` | `` |
-| `applyLevelStyles` | function | `static/js/estorides.js:1379` | `` |
+| `applyLevelStyles` | function | `static/js/estorides.js:1390` | `` |
 | `applyResultFilters` | function | `static/js/estorides.js:259` | `` |
-| `attribute` | class | `static/js/estorides.js:2921` | `` |
+| `attribute` | class | `static/js/estorides.js:2952` | `` |
+| `barH` | function | `static/js/estorides.js:1402` | `` |
+| `barH` | function | `static/js/estorides.js:1651` | `` |
 | `bindResultFilters` | function | `static/js/estorides.js:280` | `` |
 | `boxQ` | function | `static/js/estorides.js:880` | `` |
-| `buildCaseMapCoords` | function | `static/js/estorides.js:2302` | `` |
-| `buildMapCoords` | function | `static/js/estorides.js:1852` | `` |
+| `buildCaseMapCoords` | function | `static/js/estorides.js:2333` | `` |
+| `buildMapCoords` | function | `static/js/estorides.js:1883` | `` |
 | `buildResultCard` | function | `static/js/estorides.js:138` | `` |
-| `c` | function | `static/js/estorides.js:1168` | `` |
-| `c` | function | `static/js/estorides.js:1251` | `` |
-| `caseActionDiff` | function | `static/js/estorides.js:2445` | `` |
-| `caseActionReport` | function | `static/js/estorides.js:2506` | `` |
-| `caseActionSave` | function | `static/js/estorides.js:2424` | `` |
+| `c` | function | `static/js/estorides.js:1179` | `` |
+| `c` | function | `static/js/estorides.js:1262` | `` |
+| `caseActionDiff` | function | `static/js/estorides.js:2476` | `` |
+| `caseActionReport` | function | `static/js/estorides.js:2537` | `` |
+| `caseActionSave` | function | `static/js/estorides.js:2455` | `` |
 | `cat` | function | `static/js/estorides.js:261` | `` |
-| `check` | function | `static/js/estorides.js:3222` | `` |
-| `cid` | function | `static/js/estorides.js:1188` | `` |
+| `check` | function | `static/js/estorides.js:3253` | `` |
+| `cid` | function | `static/js/estorides.js:1199` | `` |
 | `clearAll` | function | `static/js/estorides.js:705` | `` |
 | `clearMap` | function | `static/js/estorides.js:336` | `` |
-| `close` | function | `static/js/estorides.js:2590` | `` |
-| `clusterColor` | function | `static/js/estorides.js:1166` | `` |
-| `colorFor` | function | `static/js/estorides.js:1952` | `` |
-| `colorForKind` | function | `static/js/estorides.js:2052` | `` |
-| `confirmModal` | function | `static/js/estorides.js:2629` | `` |
-| `debounce` | function | `static/js/estorides.js:2346` | `` |
-| `deriveClusters` | function | `static/js/estorides.js:1185` | `` |
+| `close` | function | `static/js/estorides.js:2621` | `` |
+| `clusterColor` | function | `static/js/estorides.js:1177` | `` |
+| `colorFor` | function | `static/js/estorides.js:1983` | `` |
+| `colorForKind` | function | `static/js/estorides.js:2083` | `` |
+| `confirmModal` | function | `static/js/estorides.js:2660` | `` |
+| `debounce` | function | `static/js/estorides.js:2377` | `` |
+| `deriveClusters` | function | `static/js/estorides.js:1196` | `` |
 | `detectQueryTypeLocal` | function | `static/js/estorides.js:55` | `` |
-| `doSearch` | function | `static/js/estorides.js:2875` | `` |
-| `drawGraph` | function | `static/js/estorides.js:2170` | `` |
+| `doSearch` | function | `static/js/estorides.js:2906` | `` |
+| `drawGraph` | function | `static/js/estorides.js:2201` | `` |
 | `drawGraphWithExtras` | function | `static/js/estorides.js:1078` | `` |
-| `drawHulls` | function | `static/js/estorides.js:1689` | `` |
-| `entities` | function | `static/js/estorides.js:2227` | `` |
-| `escapeAttr` | function | `static/js/estorides.js:1816` | `` |
-| `escapeHTML` | function | `static/js/estorides.js:2396` | `` |
-| `escapeHtml` | function | `static/js/estorides.js:3191` | `` |
+| `drawHulls` | function | `static/js/estorides.js:1720` | `` |
+| `entities` | function | `static/js/estorides.js:2258` | `` |
+| `escapeAttr` | function | `static/js/estorides.js:1847` | `` |
+| `escapeHTML` | function | `static/js/estorides.js:2427` | `` |
+| `escapeHtml` | function | `static/js/estorides.js:3222` | `` |
 | `expandNode` | function | `static/js/estorides.js:984` | `` |
-| `filterTimeline` | function | `static/js/estorides.js:2121` | `` |
+| `filterTimeline` | function | `static/js/estorides.js:2152` | `` |
 | `flush` | function | `static/js/estorides.js:909` | `` |
-| `flush` | function | `static/js/estorides.js:1426` | `` |
-| `flushDiscoverEntities` | function | `static/js/estorides.js:3203` | `` |
-| `fmtTime` | function | `static/js/estorides.js:2110` | `` |
+| `flush` | function | `static/js/estorides.js:1439` | `` |
+| `flushDiscoverEntities` | function | `static/js/estorides.js:3234` | `` |
+| `fmtTime` | function | `static/js/estorides.js:2141` | `` |
 | `focusGraphNodeByValue` | function | `static/js/estorides.js:301` | `` |
-| `focusNode` | function | `static/js/estorides.js:1387` | `` |
-| `frac` | function | `static/js/estorides.js:2097` | `` |
-| `handleDiscoverEvent` | function | `static/js/estorides.js:3124` | `` |
+| `focusNode` | function | `static/js/estorides.js:1398` | `` |
+| `frac` | function | `static/js/estorides.js:2128` | `` |
+| `handleDiscoverEvent` | function | `static/js/estorides.js:3155` | `` |
 | `handleRunStreamEvent` | function | `static/js/estorides.js:616` | `` |
-| `hideContextMenu` | function | `static/js/estorides.js:1242` | `` |
-| `hideDiscoverProgress` | function | `static/js/estorides.js:3028` | `` |
-| `hideTooltip` | function | `static/js/estorides.js:1198` | `` |
-| `hideWorkingIndicator` | function | `static/js/estorides.js:1737` | `` |
+| `hideContextMenu` | function | `static/js/estorides.js:1253` | `` |
+| `hideDiscoverProgress` | function | `static/js/estorides.js:3059` | `` |
+| `hideTooltip` | function | `static/js/estorides.js:1209` | `` |
+| `hideWorkingIndicator` | function | `static/js/estorides.js:1768` | `` |
+| `is3DActive` | function | `static/js/estorides.js:1125` | `` |
 | `k` | function | `static/js/estorides.js:1028` | `` |
-| `k` | function | `static/js/estorides.js:1493` | `` |
-| `labelFor` | function | `static/js/estorides.js:1250` | `` |
-| `levelOf` | function | `static/js/estorides.js:1162` | `` |
+| `k` | function | `static/js/estorides.js:1506` | `` |
+| `labelFor` | function | `static/js/estorides.js:1261` | `` |
+| `levelOf` | function | `static/js/estorides.js:1173` | `` |
 | `loadAnalysisModels` | function | `static/js/estorides.js:787` | `` |
-| `loadCases` | function | `static/js/estorides.js:2200` | `` |
-| `loadFusionEntityDetail` | function | `static/js/estorides.js:2913` | `` |
-| `loadFusionSearch` | function | `static/js/estorides.js:2868` | `` |
-| `loadFusionStats` | function | `static/js/estorides.js:2820` | `` |
-| `loadFusionTab` | function | `static/js/estorides.js:2814` | `` |
-| `loadFusionTopChanged` | function | `static/js/estorides.js:2839` | `` |
-| `loadSidebarCollapsed` | function | `static/js/estorides.js:2735` | `` |
-| `loadSidebarWidth` | function | `static/js/estorides.js:2721` | `` |
+| `loadCases` | function | `static/js/estorides.js:2231` | `` |
+| `loadFusionEntityDetail` | function | `static/js/estorides.js:2944` | `` |
+| `loadFusionSearch` | function | `static/js/estorides.js:2899` | `` |
+| `loadFusionStats` | function | `static/js/estorides.js:2851` | `` |
+| `loadFusionTab` | function | `static/js/estorides.js:2845` | `` |
+| `loadFusionTopChanged` | function | `static/js/estorides.js:2870` | `` |
+| `loadSidebarCollapsed` | function | `static/js/estorides.js:2766` | `` |
+| `loadSidebarWidth` | function | `static/js/estorides.js:2752` | `` |
 | `makeModelPill` | function | `static/js/estorides.js:806` | `` |
-| `maybePlotDiscoverEntity` | function | `static/js/estorides.js:3196` | `` |
+| `maybePlotDiscoverEntity` | function | `static/js/estorides.js:3227` | `` |
 | `mergeExpansionIntoGraph` | function | `static/js/estorides.js:1014` | `` |
-| `obs` | function | `static/js/estorides.js:2064` | `` |
-| `obs` | function | `static/js/estorides.js:2228` | `` |
-| `on` | class | `static/js/estorides.js:1905` | `` |
-| `openCaseDetail` | function | `static/js/estorides.js:2226` | `` |
-| `openModal` | function | `static/js/estorides.js:2570` | `` |
+| `obs` | function | `static/js/estorides.js:2095` | `` |
+| `obs` | function | `static/js/estorides.js:2259` | `` |
+| `on` | class | `static/js/estorides.js:1936` | `` |
+| `openCaseDetail` | function | `static/js/estorides.js:2257` | `` |
+| `openModal` | function | `static/js/estorides.js:2601` | `` |
 | `out` | function | `static/js/estorides.js:246` | `` |
 | `plotPoints` | function | `static/js/estorides.js:341` | `` |
 | `pollToolInstall` | function | `static/js/estorides.js:220` | `` |
 | `populateCategoryFilter` | function | `static/js/estorides.js:253` | `` |
-| `promptModal` | function | `static/js/estorides.js:2605` | `` |
+| `promptModal` | function | `static/js/estorides.js:2636` | `` |
 | `pump` | function | `static/js/estorides.js:930` | `` |
-| `purifyHTML` | function | `static/js/estorides.js:1212` | `` |
+| `purifyHTML` | function | `static/js/estorides.js:1223` | `` |
 | `pushLink` | function | `static/js/estorides.js:1102` | `` |
-| `q` | function | `static/js/estorides.js:2201` | `` |
+| `q` | function | `static/js/estorides.js:2232` | `` |
 | `reanalyze` | function | `static/js/estorides.js:861` | `` |
-| `removed` | function | `static/js/estorides.js:2476` | `` |
+| `removed` | function | `static/js/estorides.js:2507` | `` |
 | `renderAnalysis` | function | `static/js/estorides.js:819` | `` |
 | `renderAnalysisModels` | function | `static/js/estorides.js:794` | `` |
-| `renderCaseDiffPanel` | function | `static/js/estorides.js:2465` | `` |
-| `renderCaseItem` | function | `static/js/estorides.js:2320` | `` |
-| `renderEntities` | function | `static/js/estorides.js:1971` | `` |
-| `renderGraphCore` | function | `static/js/estorides.js:1619` | `` |
-| `renderGraphSummary` | function | `static/js/estorides.js:2023` | `` |
+| `renderCaseDiffPanel` | function | `static/js/estorides.js:2496` | `` |
+| `renderCaseItem` | function | `static/js/estorides.js:2351` | `` |
+| `renderEntities` | function | `static/js/estorides.js:2002` | `` |
+| `renderGraphCore` | function | `static/js/estorides.js:1632` | `` |
+| `renderGraphSummary` | function | `static/js/estorides.js:2054` | `` |
 | `renderMarkdownInto` | function | `static/js/estorides.js:834` | `` |
 | `renderResult` | function | `static/js/estorides.js:739` | `` |
-| `renderTieredResults` | function | `static/js/estorides.js:1750` | `` |
-| `renderTimeline` | function | `static/js/estorides.js:2060` | `` |
+| `renderTieredResults` | function | `static/js/estorides.js:1781` | `` |
+| `renderTimeline` | function | `static/js/estorides.js:2091` | `` |
 | `replotStreamData` | function | `static/js/estorides.js:443` | `` |
 | `requestToolInstall` | function | `static/js/estorides.js:197` | `` |
-| `resolverTypeFor` | function | `static/js/estorides.js:1142` | `` |
-| `restoreCaseToWorkspace` | function | `static/js/estorides.js:2281` | `` |
-| `rows` | function | `static/js/estorides.js:2473` | `` |
+| `resolverTypeFor` | function | `static/js/estorides.js:1153` | `` |
+| `restoreCaseToWorkspace` | function | `static/js/estorides.js:2312` | `` |
+| `rows` | function | `static/js/estorides.js:2504` | `` |
 | `runQuery` | function | `static/js/estorides.js:470` | `` |
 | `runQueryBlocking` | function | `static/js/estorides.js:540` | `` |
-| `runTransform` | function | `static/js/estorides.js:1399` | `` |
-| `runTransformStream` | function | `static/js/estorides.js:1420` | `` |
-| `safeColor` | function | `static/js/estorides.js:1176` | `` |
-| `saveLevelOverrides` | function | `static/js/estorides.js:1158` | `` |
-| `saveSidebarCollapsed` | function | `static/js/estorides.js:2743` | `` |
-| `saveSidebarWidth` | function | `static/js/estorides.js:2732` | `` |
-| `saved` | function | `static/js/estorides.js:2324` | `` |
+| `runTransform` | function | `static/js/estorides.js:1412` | `` |
+| `runTransformStream` | function | `static/js/estorides.js:1433` | `` |
+| `safeColor` | function | `static/js/estorides.js:1187` | `` |
+| `saveLevelOverrides` | function | `static/js/estorides.js:1169` | `` |
+| `saveSidebarCollapsed` | function | `static/js/estorides.js:2774` | `` |
+| `saveSidebarWidth` | function | `static/js/estorides.js:2763` | `` |
+| `saved` | function | `static/js/estorides.js:2355` | `` |
 | `scheduleRender` | function | `static/js/estorides.js:904` | `` |
 | `searchEntity` | function | `static/js/estorides.js:573` | `` |
-| `selectNode` | function | `static/js/estorides.js:1515` | `` |
+| `selectNode` | function | `static/js/estorides.js:1528` | `` |
 | `set` | function | `static/js/estorides.js:32` | `` |
-| `setDiscoverProgress` | function | `static/js/estorides.js:3016` | `` |
-| `setNodeLevel` | function | `static/js/estorides.js:1370` | `` |
+| `setDiscoverProgress` | function | `static/js/estorides.js:3047` | `` |
+| `setNodeLevel` | function | `static/js/estorides.js:1381` | `` |
 | `setRunProgress` | function | `static/js/estorides.js:86` | `` |
-| `setSanitizedHTML` | function | `static/js/estorides.js:1223` | `` |
+| `setSanitizedHTML` | function | `static/js/estorides.js:1234` | `` |
 | `setStatus` | function | `static/js/estorides.js:733` | `` |
-| `setStatus` | function | `static/js/estorides.js:3009` | `` |
-| `setStatusDot` | function | `static/js/estorides.js:1726` | `` |
+| `setStatus` | function | `static/js/estorides.js:3040` | `` |
+| `setStatusDot` | function | `static/js/estorides.js:1757` | `` |
 | `setThinkingVisible` | function | `static/js/estorides.js:849` | `` |
 | `setVisible` | function | `static/js/estorides.js:12` | `` |
-| `showBridgeTooltip` | function | `static/js/estorides.js:1247` | `` |
-| `showContextMenu` | function | `static/js/estorides.js:1295` | `` |
+| `showBridgeTooltip` | function | `static/js/estorides.js:1258` | `` |
+| `showContextMenu` | function | `static/js/estorides.js:1306` | `` |
 | `showEmptyState` | function | `static/js/estorides.js:107` | `` |
 | `showFriendlyError` | function | `static/js/estorides.js:288` | `` |
-| `showNodeTooltip` | function | `static/js/estorides.js:1276` | `` |
-| `showReportModal` | function | `static/js/estorides.js:2542` | `` |
+| `showNodeTooltip` | function | `static/js/estorides.js:1287` | `` |
+| `showReportModal` | function | `static/js/estorides.js:2573` | `` |
 | `showToast` | function | `static/js/estorides.js:66` | `` |
-| `showTooltipAt` | function | `static/js/estorides.js:1232` | `` |
-| `showWorkingIndicator` | function | `static/js/estorides.js:1732` | `` |
+| `showTooltipAt` | function | `static/js/estorides.js:1243` | `` |
+| `showWorkingIndicator` | function | `static/js/estorides.js:1763` | `` |
 | `sig` | function | `static/js/estorides.js:678` | `` |
-| `sig` | function | `static/js/estorides.js:3168` | `` |
-| `startDiscover` | function | `static/js/estorides.js:3033` | `` |
+| `sig` | function | `static/js/estorides.js:3199` | `` |
+| `startDiscover` | function | `static/js/estorides.js:3064` | `` |
 | `status` | function | `static/js/estorides.js:148` | `` |
 | `status` | function | `static/js/estorides.js:262` | `` |
-| `stopDiscover` | function | `static/js/estorides.js:3107` | `` |
+| `stopDiscover` | function | `static/js/estorides.js:3138` | `` |
 | `stopRunStream` | function | `static/js/estorides.js:455` | `` |
 | `summariseObservation` | function | `static/js/estorides.js:113` | `` |
 | `switchCanvasTab` | function | `static/js/estorides.js:314` | `` |
 | `switchSidebarTab` | function | `static/js/estorides.js:310` | `` |
-| `switchSidebarTab` | function | `static/js/estorides.js:2801` | `` |
-| `tag` | function | `static/js/estorides.js:2691` | `` |
+| `switchSidebarTab` | function | `static/js/estorides.js:2832` | `` |
+| `tag` | function | `static/js/estorides.js:2722` | `` |
 | `text` | function | `static/js/estorides.js:260` | `` |
 | `to` | class | `static/js/estorides.js:401` | `` |
 | `toggleThinking` | function | `static/js/estorides.js:856` | `` |
-| `toggleTierSection` | function | `static/js/estorides.js:1742` | `` |
+| `toggleTierSection` | function | `static/js/estorides.js:1773` | `` |
 | `toolBinary` | function | `static/js/estorides.js:142` | `` |
-| `tr` | function | `static/js/estorides.js:1345` | `` |
-| `tr` | function | `static/js/estorides.js:1583` | `` |
-| `truncate` | function | `static/js/estorides.js:2401` | `` |
-| `undoGraph` | function | `static/js/estorides.js:1480` | `` |
+| `tr` | function | `static/js/estorides.js:1356` | `` |
+| `tr` | function | `static/js/estorides.js:1596` | `` |
+| `truncate` | function | `static/js/estorides.js:2432` | `` |
+| `undoGraph` | function | `static/js/estorides.js:1493` | `` |
 | `updateQueryChip` | function | `static/js/estorides.js:76` | `` |
-| `validCoord` | function | `static/js/estorides.js:1948` | `` |
-| `a` | function | `static/js/graph_force.js:270` | `` |
-| `adaptLocal` | function | `static/js/graph_force.js:66` | `` |
-| `applyFilters` | function | `static/js/graph_force.js:644` | `` |
-| `applyLayout3D` | function | `static/js/graph_force.js:475` | `` |
-| `cid` | function | `static/js/graph_force.js:88` | `` |
-| `clearSelection` | function | `static/js/graph_force.js:516` | `` |
-| `clusterForce` | function | `static/js/graph_force.js:278` | `` |
-| `collideForce` | function | `static/js/graph_force.js:320` | `` |
-| `colorOf` | function | `static/js/graph_force.js:194` | `` |
-| `computeHighlight` | function | `static/js/graph_force.js:218` | `` |
-| `currentRaw` | function | `static/js/graph_force.js:121` | `` |
-| `dimmed` | function | `static/js/graph_force.js:195` | `` |
-| `edges` | function | `static/js/graph_force.js:659` | `` |
-| `entities` | function | `static/js/graph_force.js:179` | `` |
+| `validCoord` | function | `static/js/estorides.js:1979` | `` |
+| `add` | function | `static/js/graph_bundle.js:411` | `` |
+| `aimAt` | function | `static/js/graph_bundle.js:661` | `` |
+| `bspline` | function | `static/js/graph_bundle.js:99` | `` |
+| `buildCurves` | function | `static/js/graph_bundle.js:137` | `` |
+| `center` | function | `static/js/graph_bundle.js:164` | `` |
+| `clip` | function | `static/js/graph_bundle.js:66` | `` |
+| `colorOf` | function | `static/js/graph_bundle.js:88` | `` |
+| `curve` | function | `static/js/graph_bundle.js:120` | `` |
+| `depthAlpha` | function | `static/js/graph_bundle.js:175` | `` |
+| `djb2KindColor` | function | `static/js/graph_bundle.js:32` | `` |
+| `draw` | function | `static/js/graph_bundle.js:231` | `` |
+| `drawGroups` | function | `static/js/graph_bundle.js:291` | `` |
+| `drawHud` | function | `static/js/graph_bundle.js:405` | `` |
+| `drawLabels` | function | `static/js/graph_bundle.js:367` | `` |
+| `drawNodes` | function | `static/js/graph_bundle.js:343` | `` |
+| `edgeState` | function | `static/js/graph_bundle.js:185` | `` |
+| `facing` | function | `static/js/graph_bundle.js:655` | `` |
+| `flowsOf` | function | `static/js/graph_bundle.js:483` | `` |
+| `focusGroup` | function | `static/js/graph_bundle.js:650` | `` |
+| `focusNode` | function | `static/js/graph_bundle.js:645` | `` |
+| `focusState` | function | `static/js/graph_bundle.js:177` | `` |
+| `frame` | function | `static/js/graph_bundle.js:786` | `` |
+| `g` | function | `static/js/graph_bundle.js:229` | `` |
+| `groupButton` | function | `static/js/graph_bundle.js:512` | `` |
+| `hitGroup` | function | `static/js/graph_bundle.js:443` | `` |
+| `hitNode` | function | `static/js/graph_bundle.js:420` | `` |
+| `ingest` | function | `static/js/graph_bundle.js:726` | `` |
+| `init` | function | `static/js/graph_bundle.js:812` | `` |
+| `ink` | function | `static/js/graph_bundle.js:74` | `` |
+| `inspectInGraph` | function | `static/js/graph_bundle.js:497` | `` |
+| `keyOf` | function | `static/js/graph_bundle.js:94` | `` |
+| `labelSet` | function | `static/js/graph_bundle.js:355` | `` |
+| `listInto` | function | `static/js/graph_bundle.js:519` | `` |
+| `makeProjector` | function | `static/js/graph_bundle.js:165` | `` |
+| `mid` | function | `static/js/graph_bundle.js:306` | `` |
+| `mk` | function | `static/js/graph_bundle.js:60` | `` |
+| `nodeButton` | function | `static/js/graph_bundle.js:504` | `` |
+| `nodeLit` | function | `static/js/graph_bundle.js:205` | `` |
+| `nodeRadius` | function | `static/js/graph_bundle.js:333` | `` |
+| `pointOn` | function | `static/js/graph_bundle.js:226` | `` |
+| `radius` | function | `static/js/graph_bundle.js:160` | `` |
+| `rank` | function | `static/js/graph_bundle.js:492` | `` |
+| `readHash` | function | `static/js/graph_bundle.js:709` | `` |
+| `refresh` | function | `static/js/graph_bundle.js:762` | `` |
+| `renderLegend` | function | `static/js/graph_bundle.js:613` | `` |
+| `renderPanel` | function | `static/js/graph_bundle.js:529` | `` |
+| `resize` | function | `static/js/graph_bundle.js:148` | `` |
+| `screenNodes` | function | `static/js/graph_bundle.js:337` | `` |
+| `search` | function | `static/js/graph_bundle.js:913` | `` |
+| `setBeta` | function | `static/js/graph_bundle.js:679` | `` |
+| `setColor` | function | `static/js/graph_bundle.js:671` | `` |
+| `setDir` | function | `static/js/graph_bundle.js:675` | `` |
+| `setView` | function | `static/js/graph_bundle.js:667` | `` |
+| `strokeCurve` | function | `static/js/graph_bundle.js:216` | `` |
+| `sync` | function | `static/js/graph_bundle.js:687` | `` |
+| `t0` | function | `static/js/graph_bundle.js:275` | `` |
+| `tabActive` | function | `static/js/graph_bundle.js:70` | `` |
+| `tag` | function | `static/js/graph_bundle.js:958` | `` |
+| `tipFor` | function | `static/js/graph_bundle.js:461` | `` |
+| `tt` | function | `static/js/graph_bundle.js:279` | `` |
+| `v` | function | `static/js/graph_bundle.js:78` | `` |
+| `writeHash` | function | `static/js/graph_bundle.js:697` | `` |
+| `a` | function | `static/js/graph_force.js:327` | `` |
+| `adaptLocal` | function | `static/js/graph_force.js:79` | `` |
+| `applyFilters` | function | `static/js/graph_force.js:1241` | `` |
+| `applyLayout3D` | function | `static/js/graph_force.js:961` | `` |
+| `bindStagePointer` | function | `static/js/graph_force.js:887` | `` |
+| `cid` | function | `static/js/graph_force.js:104` | `` |
+| `clearSelection` | function | `static/js/graph_force.js:1112` | `` |
+| `clusterForce` | function | `static/js/graph_force.js:335` | `` |
+| `col` | function | `static/js/graph_force.js:788` | `` |
+| `collideForce` | function | `static/js/graph_force.js:377` | `` |
+| `colorOf` | function | `static/js/graph_force.js:219` | `` |
+| `computeHighlight` | function | `static/js/graph_force.js:275` | `` |
+| `convexHullPts` | function | `static/js/graph_force.js:561` | `` |
+| `copyDeepLink` | function | `static/js/graph_force.js:1020` | `` |
+| `cross` | function | `static/js/graph_force.js:564` | `` |
+| `currentRaw` | function | `static/js/graph_force.js:137` | `` |
+| `dimmed` | function | `static/js/graph_force.js:220` | `` |
+| `done` | function | `static/js/graph_force.js:1022` | `` |
+| `drawGlyph3D` | function | `static/js/graph_force.js:651` | `` |
+| `drawLabel3D` | function | `static/js/graph_force.js:703` | `` |
+| `edges` | function | `static/js/graph_force.js:1256` | `` |
+| `entities` | function | `static/js/graph_force.js:205` | `` |
 | `esc` | function | `static/js/graph_force.js:25` | `` |
-| `fail` | function | `static/js/graph_force.js:52` | `` |
-| `fam` | function | `static/js/graph_force.js:89` | `` |
-| `famAnchor` | function | `static/js/graph_force.js:263` | `` |
-| `famOf` | function | `static/js/graph_force.js:273` | `` |
-| `fn` | function | `static/js/graph_force.js:661` | `` |
-| `focusFamily` | function | `static/js/graph_force.js:529` | `` |
-| `force` | function | `static/js/graph_force.js:280` | `` |
-| `force` | function | `static/js/graph_force.js:305` | `` |
-| `force` | function | `static/js/graph_force.js:322` | `` |
-| `hiddenKind` | function | `static/js/graph_force.js:196` | `` |
-| `hud` | function | `static/js/graph_force.js:560` | `` |
-| `indexRaw` | function | `static/js/graph_force.js:163` | `` |
-| `linkStrengthFn` | function | `static/js/graph_force.js:349` | `` |
-| `lkey` | function | `static/js/graph_force.js:193` | `` |
-| `m` | function | `static/js/graph_force.js:335` | `` |
-| `markFamilies` | function | `static/js/graph_force.js:554` | `` |
-| `mount3D` | function | `static/js/graph_force.js:386` | `` |
-| `nodes` | function | `static/js/graph_force.js:652` | `` |
-| `onSelect3D` | function | `static/js/graph_force.js:492` | `` |
-| `ordered` | function | `static/js/graph_force.js:80` | `` |
-| `pickHit` | function | `static/js/graph_force.js:736` | `` |
-| `radialForce` | function | `static/js/graph_force.js:303` | `` |
-| `radius` | function | `static/js/graph_force.js:345` | `` |
-| `readHash` | function | `static/js/graph_force.js:765` | `` |
-| `rebuildRaw` | function | `static/js/graph_force.js:137` | `` |
-| `refresh3D` | function | `static/js/graph_force.js:459` | `` |
-| `refreshFamList` | function | `static/js/graph_force.js:258` | `` |
-| `reload3D` | function | `static/js/graph_force.js:465` | `` |
-| `renderLegend` | function | `static/js/graph_force.js:590` | `` |
-| `resize3D` | function | `static/js/graph_force.js:470` | `` |
-| `ringOf` | function | `static/js/graph_force.js:295` | `` |
-| `runSearch` | function | `static/js/graph_force.js:670` | `` |
-| `s` | function | `static/js/graph_force.js:173` | `` |
-| `s` | function | `static/js/graph_force.js:211` | `` |
-| `s` | function | `static/js/graph_force.js:542` | `` |
-| `setEngineButtons` | function | `static/js/graph_force.js:365` | `` |
-| `settings` | function | `static/js/graph_force.js:59` | `` |
-| `short` | function | `static/js/graph_force.js:21` | `` |
-| `show3DChrome` | function | `static/js/graph_force.js:374` | `` |
-| `src` | function | `static/js/graph_force.js:146` | `` |
-| `stat` | function | `static/js/graph_force.js:564` | `` |
-| `syncIsolateBtn` | function | `static/js/graph_force.js:787` | `` |
-| `t` | function | `static/js/graph_force.js:174` | `` |
-| `t` | function | `static/js/graph_force.js:212` | `` |
-| `t` | function | `static/js/graph_force.js:543` | `` |
-| `tag` | function | `static/js/graph_force.js:892` | `` |
-| `tip` | function | `static/js/graph_force.js:241` | `` |
-| `to2D` | function | `static/js/graph_force.js:756` | `` |
-| `to3D` | function | `static/js/graph_force.js:747` | `` |
-| `toast` | function | `static/js/graph_force.js:44` | `` |
-| `toggle` | function | `static/js/graph_force.js:817` | `` |
-| `visiblePayload` | function | `static/js/graph_force.js:201` | `` |
-| `wireToolbar` | function | `static/js/graph_force.js:792` | `` |
-| `writeHash` | function | `static/js/graph_force.js:780` | `` |
-| `apiFetch` | function | `static/js/source_manager.js:15` | `` |
-| `authHeaders` | function | `static/js/source_manager.js:7` | `` |
-| `clearEditor` | function | `static/js/source_manager.js:251` | `` |
-| `deleteSource` | function | `static/js/source_manager.js:304` | `` |
-| `escAttr` | function | `static/js/source_manager.js:224` | `` |
-| `escHtml` | function | `static/js/source_manager.js:223` | `` |
-| `from` | class | `static/js/source_manager.js:255` | `` |
-| `getCheckedTags` | function | `static/js/source_manager.js:67` | `` |
-| `loadSources` | function | `static/js/source_manager.js:236` | `` |
-| `newSource` | function | `static/js/source_manager.js:334` | `` |
-| `readForm` | function | `static/js/source_manager.js:84` | `` |
-| `renderList` | function | `static/js/source_manager.js:193` | `` |
-| `saveSource` | function | `static/js/source_manager.js:273` | `` |
-| `selectSource` | function | `static/js/source_manager.js:261` | `` |
-| `setCheckedTags` | function | `static/js/source_manager.js:74` | `` |
-| `toast` | function | `static/js/source_manager.js:227` | `` |
-| `updateYamlPreview` | function | `static/js/source_manager.js:183` | `` |
-| `writeForm` | function | `static/js/source_manager.js:120` | `` |
-| `test_after_none_returns_empty` | function | `tests/properties/test_change_detection_properties.py:113` | `def test_after_none_returns_empty(before)` |
-| `test_before_vs_no_after_empty` | function | `tests/properties/test_change_detection_properties.py:121` | `def test_before_vs_no_after_empty(entities)` |
-| `test_first_run_reports_all_as_new` | function | `tests/properties/test_change_detection_properties.py:105` | `def test_first_run_reports_all_as_new(after)` |
-| `test_id_is_16_char_hex` | function | `tests/properties/test_change_detection_properties.py:86` | `def test_id_is_16_char_hex(before, after)` |
-| `test_idempotent` | function | `tests/properties/test_change_detection_properties.py:95` | `def test_idempotent(before, after)` |
-| `test_max_changes_respected` | function | `tests/properties/test_change_detection_properties.py:77` | `def test_max_changes_respected(before, after)` |
-| `test_scores_always_bounded` | function | `tests/properties/test_change_detection_properties.py:69` | `def test_scores_always_bounded(before, after)` |
-| `test_summary_consistency` | function | `tests/properties/test_change_detection_properties.py:132` | `def test_summary_consistency(before, after)` |
-| `test_csp_style_src_never_gains_unsafe_inline` | function | `tests/properties/test_csp_safe_styles_properties.py:137` | `def test_csp_style_src_never_gains_unsafe_inline(bad)` |
-| `test_js_never_gains_a_style_attribute_in_template_literal` | function | `tests/properties/test_csp_safe_styles_properties.py:58` | `def test_js_never_gains_a_style_attribute_in_template_literal(insertion)` |
-| `test_template_never_gains_a_style_attribute` | function | `tests/properties/test_csp_safe_styles_properties.py:105` | `def test_template_never_gains_a_style_attribute(insertion)` |
-| `test_claim_length_under_cap` | function | `tests/properties/test_hypothesis_engine_properties.py:66` | `def test_claim_length_under_cap(observations, entities)` |
-| `test_hostile_observation_does_not_crash` | function | `tests/properties/test_hypothesis_engine_properties.py:147` | `def test_hostile_observation_does_not_crash(observations, entities)` |
-| `test_id_is_deterministic_hex` | function | `tests/properties/test_hypothesis_engine_properties.py:99` | `def test_id_is_deterministic_hex(observations, entities)` |
-| `test_idempotent` | function | `tests/properties/test_hypothesis_engine_properties.py:112` | `def test_idempotent(observations, entities)` |
-| `test_max_hypotheses_caps_output` | function | `tests/properties/test_hypothesis_engine_properties.py:123` | `def test_max_hypotheses_caps_output(observations, entities)` |
-| `test_min_score_filters` | function | `tests/properties/test_hypothesis_engine_properties.py:134` | `def test_min_score_filters(observations, entities)` |
-| `test_reasoning_length_under_cap` | function | `tests/properties/test_hypothesis_engine_properties.py:77` | `def test_reasoning_length_under_cap(observations, entities)` |
-| `test_scores_always_bounded` | function | `tests/properties/test_hypothesis_engine_properties.py:54` | `def test_scores_always_bounded(observations, entities)` |
-| `test_sources_sorted_unique` | function | `tests/properties/test_hypothesis_engine_properties.py:88` | `def test_sources_sorted_unique(observations, entities)` |
-| `entity_strategy` | function | `tests/properties/test_observation_models_properties.py:76` | `def entity_strategy(draw)` |
-| `meta_strategy` | function | `tests/properties/test_observation_models_properties.py:45` | `def meta_strategy(draw)` |
-| `obs_strategy` | function | `tests/properties/test_observation_models_properties.py:60` | `def obs_strategy(draw)` |
-| `test_entity_round_trip_and_bounds` | function | `tests/properties/test_observation_models_properties.py:115` | `def test_entity_round_trip_and_bounds(payload)` |
-| `test_meta_never_echoes_unbounded_url` | function | `tests/properties/test_observation_models_properties.py:128` | `def test_meta_never_echoes_unbounded_url(metas)` |
-| `test_observation_bounded_fields` | function | `tests/properties/test_observation_models_properties.py:103` | `def test_observation_bounded_fields(payload)` |
-| `test_observation_round_trip_stability` | function | `tests/properties/test_observation_models_properties.py:90` | `def test_observation_round_trip_stability(payload)` |
-| `test_all_parsers_are_total` | function | `tests/properties/test_parsers_properties.py:35` | `def test_all_parsers_are_total(payload)` |
-| `TestPropertyDeterminism` | class | `tests/properties/test_recon_fusion_properties.py:114` | `class TestPropertyDeterminism` |
-| `TestPropertyEmptyQueryRejected` | class | `tests/properties/test_recon_fusion_properties.py:176` | `class TestPropertyEmptyQueryRejected` |
-| `TestPropertyNoDuplicates` | class | `tests/properties/test_recon_fusion_properties.py:135` | `class TestPropertyNoDuplicates` |
-| `TestPropertySafeWithBadInputs` | class | `tests/properties/test_recon_fusion_properties.py:196` | `class TestPropertySafeWithBadInputs` |
-| `TestPropertyScoreBounds` | class | `tests/properties/test_recon_fusion_properties.py:48` | `class TestPropertyScoreBounds` |
-| `TestPropertyTierKeysOrder` | class | `tests/properties/test_recon_fusion_properties.py:155` | `class TestPropertyTierKeysOrder` |
-| `TestPropertyTierSumMatches` | class | `tests/properties/test_recon_fusion_properties.py:93` | `class TestPropertyTierSumMatches` |
+| `expandSelected` | function | `static/js/graph_force.js:999` | `` |
+| `fail` | function | `static/js/graph_force.js:65` | `` |
+| `fam` | function | `static/js/graph_force.js:105` | `` |
+| `famAnchor` | function | `static/js/graph_force.js:320` | `` |
+| `famOf` | function | `static/js/graph_force.js:330` | `` |
+| `fn` | function | `static/js/graph_force.js:1267` | `` |
+| `focusFamily` | function | `static/js/graph_force.js:1125` | `` |
+| `focusSelected` | function | `static/js/graph_force.js:1009` | `` |
+| `force` | function | `static/js/graph_force.js:337` | `` |
+| `force` | function | `static/js/graph_force.js:362` | `` |
+| `force` | function | `static/js/graph_force.js:379` | `` |
+| `glyphPath` | function | `static/js/graph_force.js:619` | `` |
+| `hiddenKind` | function | `static/js/graph_force.js:221` | `` |
+| `hitEdge3D` | function | `static/js/graph_force.js:861` | `` |
+| `hitNode3D` | function | `static/js/graph_force.js:845` | `` |
+| `hoverAt3D` | function | `static/js/graph_force.js:876` | `` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

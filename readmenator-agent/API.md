@@ -254,8 +254,17 @@ Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_we
 - `FusionStore.stats` (method) `estorides_core/fusion_store.py:692` `def stats(self)` -- One-glance dashboard of the fused store's size.
 - `FusionStore.open_store` (method) `estorides_core/fusion_store.py:723` `def open_store(path)` -- Open the fusion store, returning None instead of raising on failure.
 
+## estorides_core/graph_bundle.py
+Depends on: `estorides_core/graph_force.py`
+Imported by: `tests/properties/test_graph_bundle_properties.py`, `tests/test_graph_bundle.py`
+- `SphereBundleLayout.hierarchical_edge_bundling` (method) `estorides_core/graph_bundle.py:171` `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)` -- Hojas en un circulo por grupo; aristas por la jerarquia (Holten 2006).
+- `SphereBundleLayout.fibonacci_sphere` (method) `estorides_core/graph_bundle.py:215` `def fibonacci_sphere(count)` -- Vectores unitarios casi uniformes en espiral de angulo dorado.
+- `SphereBundleLayout.spherical_edge_bundling` (method) `estorides_core/graph_bundle.py:267` `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)` -- Hojas en caps esfericos por comunidad; aristas por la jerarquia.
+- `SphereBundleLayout.bundle_settings` (method) `estorides_core/graph_bundle.py:324` `def bundle_settings()` -- Defaults de la pagina bundle (fuente unica para el JS).
+- `SphereBundleLayout.build_bundle_payload` (method) `estorides_core/graph_bundle.py:359` `def build_bundle_payload(force_payload)` -- Deriva el payload bundle desde un payload force RAW.
+
 ## estorides_core/graph_force.py
-Imported by: `estorides_web.py`, `tests/test_graph_force3d.py`
+Imported by: `estorides_core/graph_bundle.py`, `estorides_web.py`, `tests/test_graph_bundle.py`, `tests/test_graph_force3d.py`
 - `family_color_from_name` (function) `estorides_core/graph_force.py:48` `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)` -- Deriva un color HSL estable desde un label (djb2, como ReadMenator).
 - `node_value` (function) `estorides_core/graph_force.py:65` `def node_value(symbols, degree, findings)` -- Escala log2 del tamano de nodo (minimo 1).
 - `force_settings` (function) `estorides_core/graph_force.py:70` `def force_settings()` -- Valores SETTINGS de ReadMenator graph-force.html (fuente unica).

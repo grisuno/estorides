@@ -2,10 +2,21 @@
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `.scratchpad/gb_shots.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_bridge.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_click.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_data.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_debug.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_dom.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_func.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_raw.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_shots.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_step.py` | - | .scratchpad | 0 | 0 |
+| `.scratchpad/gfv2_time.py` | - | .scratchpad | 0 | 0 |
 | `_multi_test.sh` | - | root | 0 | 0 |
 | `app.py` | Deprecated entry point. | root | 0 | 0 |
 | `estorides_cli.py` | estorides CLI. | root | 31 | 1 |
-| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 6 |
+| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 7 |
 | `estorides_core/active_recon.py` | - | estorides_core | 25 | 1 |
 | `estorides_core/alerter.py` | estorides_core.alerter | estorides_core | 15 | 4 |
 | `estorides_core/async_client.py` | estorides_core.async_client | estorides_core | 21 | 2 |
@@ -24,7 +35,8 @@
 | `estorides_core/feeds.py` | estorides_core.feeds | estorides_core | 16 | 1 |
 | `estorides_core/fusion_analytics.py` | estorides_core.fusion_analytics | estorides_core | 14 | 2 |
 | `estorides_core/fusion_store.py` | estorides_core.fusion_store | estorides_core | 18 | 5 |
-| `estorides_core/graph_force.py` | graph_force3d: payload force-graph estilo ReadMenator + contexto IA. | estorides_core | 12 | 2 |
+| `estorides_core/graph_bundle.py` | graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator. | estorides_core | 18 | 2 |
+| `estorides_core/graph_force.py` | graph_force3d: payload force-graph estilo ReadMenator + contexto IA. | estorides_core | 12 | 4 |
 | `estorides_core/graph_kuzu.py` | estorides_core.graph_kuzu | estorides_core | 11 | 3 |
 | `estorides_core/graph_rag_search.py` | graph_rag_search: GraphRAG local/global para la IA local (sin LLM). | estorides_core | 44 | 2 |
 | `estorides_core/hypothesis_engine.py` | estorides_core.hypothesis_engine | estorides_core | 23 | 2 |
@@ -78,12 +90,14 @@
 | `estorides_web.py` | estorides.web | root | 95 | 8 |
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
-| `static/js/estorides.js` | Estorides front-end controller | js | 165 | 0 |
-| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 69 | 0 |
+| `static/js/estorides.js` | Estorides front-end controller | js | 168 | 0 |
+| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 62 | 0 |
+| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 109 | 0 |
 | `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 | 0 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection. | properties | 8 | 0 |
 | `tests/properties/test_csp_safe_styles_properties.py` | Property-based fuzz for `csp_safe_styles`. | properties | 3 | 0 |
+| `tests/properties/test_graph_bundle_properties.py` | Property-based invariants for estorides_core.graph_bundle. | properties | 6 | 0 |
 | `tests/properties/test_hypothesis_engine_properties.py` | Property-based invariants for estorides_core.hypothesis_engine. | properties | 9 | 0 |
 | `tests/properties/test_observation_models_properties.py` | Property-based invariants for estorides_core.observation_models. | properties | 7 | 0 |
 | `tests/properties/test_parsers_properties.py` | Property-based fuzzing for the parser totality contract (doctrine §6). | properties | 1 | 0 |
@@ -112,6 +126,8 @@
 | `tests/test_envutil.py` | BDD tests for the shared env readers (spec/envutil.md). | tests | 12 | 0 |
 | `tests/test_event_bus.py` | M2a event_bus BDD red. | tests | 6 | 0 |
 | `tests/test_fusion_analytics.py` | ATDD + BDD tests for estorides_core.fusion_analytics. | tests | 36 | 0 |
+| `tests/test_graph_bundle.py` | graph_bundle: pestana Bundles circular 2D + esferica 3D estilo ReadMenator. | tests | 30 | 0 |
+| `tests/test_graph_bundle_assets.py` | graph_bundle S6: assets frontend (fuera del sandbox mutmut). | tests | 1 | 0 |
 | `tests/test_graph_force3d.py` | graph_force3d: port del sistema de grafos ReadMenator + contexto IA. | tests | 9 | 0 |
 | `tests/test_graph_rag_search.py` | graph_rag_search: BM25 + PageRank/PPR + map-reduce global (contrato S1-S6). | tests | 11 | 0 |
 | `tests/test_hardening.py` | BDD tests for the v1.3 hardening surface, case diff and report. | tests | 17 | 0 |
