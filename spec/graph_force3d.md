@@ -214,3 +214,62 @@ When: se colorea y se leen settings
 Then: mismo HSL las dos veces, formato `hsl(<0-360>, <55-67>%,
   <58-68>%)`; settings contiene las 19 claves con los valores
   ReadMenator (`charge==-300`, `linkDistance==120`, `particles==4`…).
+
+## Amendment 2026-10-10 — exclusive render, pointer alignment, matte 3D, exploration actions
+
+Inspired by the CAIRN Explorer (`Cisco-Talos/Cognitive-Artifact-Intelligence-Research-Network`,
+`cairn/explorer_ui.py`): separate 2D/3D ownership of one canvas, type-colour
+palette on a dark radial field, family pills, detail panel on click,
+bridge-edge inspection, physics reheat.
+
+### S7 — exclusive render (no 2D/3D overlap)
+Given: the 3D engine owns `#graph-canvas` (`GF.state.engine === '3d'`)
+When: a resolver expansion or transform merges new nodes
+  (`drawGraphWithExtras` in `estorides.js`)
+Then: only `window._graphData` is updated; `renderGraphCore` is NOT called
+  (the `graph_force.js` sync loop reloads the 3D scene). Any D3 SVG
+  repainted while 3D is active carries the `gf-hide` class. Leaving 3D
+  (`to2D`) hides `#gf-stage` and pauses the WebGL loop
+  (`pauseAnimation`); entering 3D hides every direct-child D3 `svg` and
+  resumes the loop. Exactly one engine paints at any time.
+
+### S8 — pointer alignment in 2D and 3D
+Given: the GF toolbar occupies the top of `#graph-canvas`
+When: either engine sizes its viewport
+Then: the 2D SVG is sized to `container - toolbarHeight` and flows below
+  the toolbar (no overflow offset); the 3D renderer is sized from the
+  `#gf-stage` box, never from the full canvas. `#graph-canvas.gf-bar`
+  is a flex column (`toolbar / stage-or-svg`), so no magic `top: 64px`
+  offset exists. Node picking matches the marker under the cursor.
+
+### S9 — matte data-point styling (not atoms, not planets)
+Given: the 3D scene renders entities, communities and tiers
+When: the operator looks at the 3D view
+Then: nodes are small faceted matte markers (`nodeRelSize 3`,
+  `nodeResolution 10`, `nodeOpacity 0.95`) on a dark radial field
+  (`ellipse at 60% 40%, #111420 to #030a1c`, same as CAIRN `#graph-wrap`);
+  links are thin (`0.5`, opacity `0.5`); flow particles appear only on
+  highlighted edges. No glow sprites, no large translucent orbs.
+
+### S10 — node actions (select-only click)
+Given: a node is visible in 3D
+When: single click / double click / Alt+click / right-click / Enter / F / C
+Then: single click selects + inspects only (never mutates the graph);
+  double click (second click < 350 ms), Enter key, or the Expand button
+  pivots through the resolver; Alt+click or right-click opens the
+  transforms context menu; F centers and zooms on the selection; C copies
+  a deep link (`#node=<id>&layout=`); hover highlights the 1-hop
+  neighbourhood only when nothing is selected. Tooltip reads
+  "click to inspect, double-click to expand".
+
+### S11 — edge actions + exploration toolbar
+Given: edges are visible in 3D
+When: the operator clicks an edge or uses the toolbar
+Then: clicking a bridge edge opens the cross-reference tooltip;
+  clicking a plain edge reports `source --relation--> target`; hovering an
+  edge shows a pointer cursor. Toolbar (all English, no emojis): Reheat
+  (restart physics, key R), Bridges (bridge-edges-only filter, key B,
+  works in 2D and 3D, shown in the HUD), Expand (Enter), Focus (F),
+  Link (copy deep link, key C). Existing controls keep working
+  (search, layouts, Names, Hulls, Flow, Freeze, Fit, PNG, JSON, reach
+  1-3, Isolate with key I).

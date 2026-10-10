@@ -227,6 +227,11 @@
                             <button type="button" id="gf-flow" data-req="3d" aria-pressed="true" title="Toggle particles on highlighted edges">Flow</button>
                             <button type="button" id="gf-freeze" data-req="3d" aria-pressed="false" title="Freeze or resume physics ( Space )">Freeze</button>
                             <button type="button" id="gf-fit" data-req="3d" title="Fit graph to view ( F )">Fit</button>
+                            <button type="button" id="gf-reheat" data-req="3d" title="Restart the physics simulation ( R )">Reheat</button>
+                            <button type="button" id="gf-expand" data-req="3d" title="Expand the selected node through the resolver ( Enter )">Expand</button>
+                            <button type="button" id="gf-focus" data-req="3d" title="Center and zoom on the selected node ( F when a node is selected )">Focus</button>
+                            <button type="button" id="gf-bridges" aria-pressed="false" title="Show bridge edges only ( B )">Bridges</button>
+                            <button type="button" id="gf-link" title="Copy a deep link to the current selection ( C )">Link</button>
                             <button type="button" id="gf-png" data-req="3d" title="Export PNG snapshot">PNG</button>
                             <button type="button" id="gf-json" title="Export graph JSON">JSON</button>
                         </div>
@@ -250,7 +255,7 @@
                         <div class="legend-item"><span class="lvl-dot lvl-information"></span>information</div>
                         <div class="legend-item"><span class="lvl-dot lvl-intelligence"></span>intelligence</div>
                         <div class="legend-item"><span class="lvl-dot lvl-counter_intelligence"></span>counter-intel</div>
-                        <div class="legend-hint">left-click: expand · right-click: transforms · click a dashed link: cross-ref</div>
+                        <div class="legend-hint">2D click: inspect and expand · 3D click: inspect, double-click: expand · right-click: transforms · click a dashed link: cross-ref</div>
                     </div>
                     <div id="graph-tooltip" class="graph-tooltip" hidden></div>
                     <div id="graph-context-menu" class="graph-context-menu" hidden></div>

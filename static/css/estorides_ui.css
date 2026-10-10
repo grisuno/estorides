@@ -1012,8 +1012,16 @@ button.primary:not(:disabled):hover {
 .gf-seg button { border: none; border-radius: 0; border-right: 1px solid var(--gf-border); }
 .gf-seg button:last-child { border-right: none; }
 .gf-group { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
-#gf-stage { position: absolute; inset: 0; top: 64px; }
+#graph-canvas.gf-bar.active { display: flex; flex-direction: column; }
+#graph-canvas.gf-bar .gf-toolbar { flex: none; }
+#gf-stage {
+  position: relative; flex: 1 1 auto; min-height: 0;
+  background: radial-gradient(ellipse at 60% 40%, #111420 0%, #030a1c 70%);
+  overflow: hidden;
+}
 #gf-stage canvas { display: block; }
+#graph-canvas.gf-bar > svg { flex: 1 1 auto; min-height: 0; width: 100%; }
+#graph-canvas.gf-bar > svg.gf-hide { display: none; }
 .gf-hide { display: none !important; }
 /* La toolbar GF ocupa ~2 filas: el stage/HUD/toast 3D y la leyenda D3
    (modo 2D) se desplazan para no quedar debajo de los botones. */

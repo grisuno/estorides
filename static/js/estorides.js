@@ -1107,14 +1107,25 @@
       }
       (data.edges || []).forEach((e) => pushLink(e.source, e.target, e.relation, e.inter_cluster));
       (extraLinks || []).forEach((e) => pushLink(e.source, e.target, e.relation));
-      // graph_force3d: publicar el merged como fuente de verdad para que el
-      // motor 3D (y los filtros) vean las expansiones del resolver/transforms.
+      // graph_force3d: publish the merged set as the source of truth so the
+      // 3D engine (and the filters) see resolver/transform expansions.
       window._graphData = {
         nodes: mergedNodes, edges: mergedLinks,
         clusters: data.clusters || deriveClusters(mergedNodes),
       };
+      // Exclusive render: while the 3D engine owns the canvas, updating
+      // window._graphData is enough (graph_force.js sync loop reloads the
+      // 3D scene). Repainting the D3 SVG here would stack it on top of 3D.
+      if (is3DActive()) return;
       renderGraphCore(mergedNodes, mergedLinks, data.clusters || deriveClusters(mergedNodes));
     });
+  }
+
+  // True while the force-graph module owns the canvas in 3D mode.
+  function is3DActive() {
+    try {
+      return !!(window.GF && window.GF.state && window.GF.state.engine === '3d');
+    } catch (e) { return false; }
   }
 
   // =====================================================================
@@ -1387,7 +1398,9 @@
   function focusNode(d) {
     if (!window._d3svg || d.x == null) return;
     const container = $('#graph-canvas');
-    const W = container.clientWidth, H = container.clientHeight;
+    const bar = $('#gf-toolbar');
+    const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
+    const W = container.clientWidth, H = Math.max(50, container.clientHeight - barH);
     const t = d3.zoomIdentity.translate(W / 2 - d.x * 1.4, H / 2 - d.y * 1.4).scale(1.4);
     window._d3svg.transition().duration(400).call(d3.zoom().on('zoom', (e) => {
       window._d3svg.select('g').attr('transform', e.transform);
@@ -1621,8 +1634,16 @@
     hideContextMenu();
     hideTooltip();
     const container = $('#graph-canvas');
-    const W = container.clientWidth, H = container.clientHeight;
+    // The GF toolbar sits in normal flow above the drawing area. Size the
+    // SVG for the free space below it so node positions and pointer events
+    // share the same coordinate frame (no selection offset).
+    const bar = $('#gf-toolbar');
+    const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
+    const W = container.clientWidth, H = Math.max(50, container.clientHeight - barH);
     const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
+    // Exclusive render, second half: a repaint requested while 3D owns the
+    // canvas stays hidden until the user switches back to 2D.
+    if (is3DActive()) svg.classed('gf-hide', true);
     window._d3svg = svg;
     const g = svg.append('g');
     svg.call(d3.zoom().scaleExtent([0.15, 5]).on('zoom', (e) => g.attr('transform', e.transform)));

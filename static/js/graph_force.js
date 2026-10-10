@@ -36,9 +36,17 @@
 
   var S = {
     engine: '2d', layout: 'force', depth: 1, labels: true, hulls: true,
-    flow: true, frozen: false, isolate: false, hidden: {}, selected: null,
+    flow: true, frozen: false, isolate: false, bridgesOnly: false, hidden: {}, selected: null,
     hover: null, hl: [], hlLinks: {}, famFocus: null, history: [],
     hits: {}, raw: null, settings: DEFAULT_SETTINGS, g3: null, mounting3d: false,
+    lastClick: { id: null, time: 0 },
+  };
+
+  // Matte data-point look (CAIRN-like): small faceted markers on a dark
+  // radial field. Shared by mount and restyle so 2D/3D stay consistent.
+  var POINT_STYLE = {
+    nodeRelSize: 3, nodeResolution: 10, nodeOpacity: 0.95,
+    linkWidth: 0.5, linkOpacity: 0.5, linkHighlightWidth: 2,
   };
 
   function toast(msg) {
@@ -205,13 +213,45 @@
       if (S.isolate && S.hl.length && S.hl.indexOf(n.id) < 0) return;
       keep[n.id] = true;
     });
-    return {
-      nodes: (S.raw.nodes || []).filter(function (n) { return keep[n.id]; }),
-      links: (S.raw.links || []).filter(function (e) {
+    var links = (S.raw.links || []).filter(function (e) {
+      var s = (e.source && e.source.id) || e.source;
+      var t = (e.target && e.target.id) || e.target;
+      if (!keep[s] || !keep[t]) return false;
+      if (S.bridgesOnly && !e.inter && e.type !== 'member_of' && e.type !== 'layered_as') return false;
+      return true;
+    });
+    if (S.bridgesOnly) {
+      // Bridges-only view: keep bridge edges plus the membership scaffolding
+      // (community/tier) of endpoints that survive, so bridges stay anchored.
+      var bridgeLinks = links.filter(function (e) { return !!e.inter; });
+      var end = {};
+      bridgeLinks.forEach(function (e) {
         var s = (e.source && e.source.id) || e.source;
         var t = (e.target && e.target.id) || e.target;
-        return keep[s] && keep[t];
-      }),
+        end[s] = true;
+        end[t] = true;
+      });
+      links = links.filter(function (e) {
+        if (e.inter) return true;
+        var s = (e.source && e.source.id) || e.source;
+        var t = (e.target && e.target.id) || e.target;
+        return !!end[s] && !!end[t];
+      });
+      var keep2 = {};
+      links.forEach(function (e) {
+        var s = (e.source && e.source.id) || e.source;
+        var t = (e.target && e.target.id) || e.target;
+        if (keep[s]) keep2[s] = true;
+        if (keep[t]) keep2[t] = true;
+      });
+      return {
+        nodes: (S.raw.nodes || []).filter(function (n) { return keep2[n.id]; }),
+        links: links,
+      };
+    }
+    return {
+      nodes: (S.raw.nodes || []).filter(function (n) { return keep[n.id]; }),
+      links: links,
     };
   }
 
@@ -250,7 +290,7 @@
     } else {
       h += '<div>' + (inE[n.id] || []).length + ' incoming</div>';
     }
-    return h + '<div class="m">click to inspect + expand</div></div>';
+    return h + '<div class="m">click to inspect, double-click to expand</div></div>';
   }
 
   /* ---- layout forces (same math as ReadMenator, tier rings for OSINT) ---- */
@@ -371,16 +411,29 @@
     req3d.forEach(function (b) { b.disabled = S.engine !== '3d'; });
   }
 
+  // Exclusive render: exactly one engine owns the pixels. Entering 3D
+  // hides every D3 SVG layer; leaving 3D hides the stage and pauses the
+  // 3D loop so a hidden WebGL canvas can never stack over 2D or steal
+  // pointer events.
   function show3DChrome(show) {
     var canvas = $('graph-canvas');
     if (canvas) canvas.classList.toggle('gf-on', show);
     ['gf-stage', 'gf-hud', 'gf-legend'].forEach(function (id) {
       B.setVisible($(id), show, id === 'gf-stage' ? 'block' : undefined);
     });
-    var svg = canvas ? canvas.querySelector(':scope > svg') : null;
-    if (svg) svg.classList.toggle('gf-hide', show);
+    if (canvas) {
+      var svgs = canvas.querySelectorAll(':scope > svg');
+      svgs.forEach(function (svg) { svg.classList.toggle('gf-hide', show); });
+    }
     var legend = $('graph-legend');
     if (legend) B.setVisible(legend, !show);
+    if (S.g3) {
+      try {
+        if (show) { if (S.g3.resumeAnimation) S.g3.resumeAnimation(); }
+        else { if (S.g3.pauseAnimation) S.g3.pauseAnimation(); }
+      } catch (e) { /* engine quirk: visibility still toggled */ }
+    }
+    if (show) resize3D();
   }
 
   function mount3D() {
@@ -406,7 +459,7 @@
         .graphData(data)
         .nodeId('id')
         .nodeVal('val')
-        .nodeRelSize(st.nodeRelSize || 4)
+        .nodeRelSize(POINT_STYLE.nodeRelSize)
         .nodeLabel(tip)
         .nodeColor(function (n) { return dimmed(n.id) ? st.dimNode : colorOf(n); })
         .linkColor(function (l) {
@@ -416,7 +469,7 @@
         })
         .linkWidth(function (l) {
           var k = lkey({ source: l.source.id || l.source, target: l.target.id || l.target, type: l.type });
-          return S.hlLinks[k] ? 2 : 0.4;
+          return S.hlLinks[k] ? POINT_STYLE.linkHighlightWidth : POINT_STYLE.linkWidth;
         })
         .linkDirectionalParticles(function (l) {
           if (!S.flow) return 0;
@@ -426,6 +479,10 @@
         .onNodeClick(function (n, ev) { onSelect3D(n, ev); })
         .onNodeRightClick(function (n, ev) {
           B.showContextMenu({ clientX: ev.clientX, clientY: ev.clientY, preventDefault: function () {} }, n._src || n);
+        })
+        .onLinkClick(function (l, ev) { onEdge3D(l, ev); })
+        .onLinkHover(function (l) {
+          el.style.cursor = l ? 'pointer' : '';
         })
         .onNodeHover(function (n) {
           el.style.cursor = n ? 'pointer' : '';
@@ -439,6 +496,14 @@
         .onBackgroundClick(function () { clearSelection(); })
         .backgroundColor('rgba(0,0,0,0)')
         .showNavInfo(false);
+      // Matte data points instead of glossy orbs: low-segment markers read
+      // as a field of records, not atoms or planets. Guarded: older
+      // vendored builds may lack these setters.
+      try {
+        if (g.nodeResolution) g.nodeResolution(POINT_STYLE.nodeResolution);
+        if (g.nodeOpacity) g.nodeOpacity(POINT_STYLE.nodeOpacity);
+        if (g.linkOpacity) g.linkOpacity(POINT_STYLE.linkOpacity);
+      } catch (e) { /* optional styling only */ }
       g.d3Force('charge').strength(st.charge);
       g.d3Force('link').distance(st.linkDistance).strength(linkStrengthFn(st));
       g.d3Force('cluster', clusterForce(st));
@@ -469,8 +534,14 @@
   }
   function resize3D() {
     if (!S.g3) return;
+    // Size from the stage box, not the full canvas: the toolbar above the
+    // stage would otherwise shift the raycaster frame and every click would
+    // land offset from the marker under the cursor.
+    var stage = $('gf-stage');
     var host = $('graph-canvas');
-    if (host) S.g3.width(host.clientWidth).height(host.clientHeight);
+    var w = stage && stage.clientWidth ? stage.clientWidth : (host ? host.clientWidth : 0);
+    var h = stage && stage.clientHeight ? stage.clientHeight : (host ? host.clientHeight : 0);
+    if (w > 0 && h > 0) S.g3.width(w).height(h);
   }
   function applyLayout3D() {
     var g = S.g3;
@@ -489,8 +560,15 @@
     hud();
   }
 
+  // Click selects and inspects only. A second click on the same node
+  // within 350 ms (double click), the Enter key, or the Expand action
+  // pivots through the resolver. Single click never mutates the graph, so
+  // inspecting in 3D can no longer repaint a D3 layer on top of the scene.
   function onSelect3D(n, ev) {
     var src = n._src || n;
+    var now = Date.now();
+    var isDouble = S.lastClick.id === n.id && (now - S.lastClick.time) < 350;
+    S.lastClick = { id: n.id, time: now };
     if (S.selected && S.selected !== n.id) S.history.push(S.selected);
     S.selected = n.id;
     S.famFocus = null;
@@ -501,16 +579,83 @@
     hud();
     writeHash();
     B.selectNode(src);
-    var rt = B.resolverTypeFor(src);
-    if (rt && src.label) {
-      var B2 = B;
-      setTimeout(function () {
-        try { B2.expandNode(rt, src.label || src.id); } catch (e) { /* resolver offline */ }
-      }, 60);
-    }
-    if (ev && ev.altKey) {
+    if (isDouble) expandSelected();
+    else if (ev && ev.altKey) {
       B.showContextMenu({ clientX: ev.clientX, clientY: ev.clientY, preventDefault: function () {} }, src);
     }
+  }
+
+  function expandSelected() {
+    var n = S.selected && byId[S.selected];
+    if (!n) { toast('Select a node first, then Expand.'); return; }
+    var src = n._src || n;
+    var rt = B.resolverTypeFor(src);
+    if (!rt) { toast('No resolver pivot for this node type.'); return; }
+    try { B.expandNode(rt, src.label || src.id); }
+    catch (e) { toast('Resolver is offline.'); }
+  }
+
+  function focusSelected() {
+    if (!S.g3) return;
+    var n = S.selected && byId[S.selected];
+    if (!n) { toast('Select a node first, then Focus.'); return; }
+    var st = settings();
+    try {
+      S.g3.centerAt(n.x, n.y, 700);
+      S.g3.zoom(st.flyZoom || 3.0, 700);
+    } catch (e) { /* engine quirk: selection stays */ }
+  }
+
+  function copyDeepLink() {
+    var link = String(location.href);
+    function done() { toast('Deep link copied.'); }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(done, function () { toast(link); });
+      } else { toast(link); }
+    } catch (e) { toast(link); }
+  }
+
+  function reheat() {
+    if (!S.g3) return;
+    try {
+      if (S.g3.d3ReheatSimulation) S.g3.d3ReheatSimulation();
+      toast('Physics reheated.');
+    } catch (e) { /* engine quirk */ }
+  }
+
+  function toggleBridges(btn) {
+    S.bridgesOnly = !S.bridgesOnly;
+    if (btn) btn.setAttribute('aria-pressed', String(S.bridgesOnly));
+    if (S.engine === '3d') reload3D();
+    else applyFilters();
+    toast(S.bridgesOnly ? 'Showing bridge edges only.' : 'Showing all edges.');
+  }
+
+  // Edge inspection in 3D: bridge edges open the cross-reference tooltip,
+  // plain edges report their relation. Hover only changes the cursor.
+  function onEdge3D(l, ev) {
+    if (!l) return;
+    var s = byId[l.source.id || l.source];
+    var t = byId[l.target.id || l.target];
+    var rel = l.type || 'related';
+    if (s && t && l.inter !== false) {
+      var gd = window._graphData || {};
+      var sameCluster = s.community != null && s.community === t.community;
+      if (!sameCluster && (l.inter || s.community !== t.community)) {
+        try {
+          B.showBridgeTooltip(
+            { clientX: ev ? ev.clientX : 0, clientY: ev ? ev.clientY : 0 },
+            { source: s._src || s, target: t._src || t, relation: rel },
+            gd.clusters || []
+          );
+          return;
+        } catch (e) { /* fall through to toast */ }
+      }
+    }
+    var a = s ? (s.label || s.id) : String(l.source.id || l.source);
+    var b = t ? (t.label || t.id) : String(l.target.id || l.target);
+    toast(a + ' --' + rel + '--> ' + b);
   }
 
   function clearSelection() {
@@ -573,7 +718,8 @@
     box.appendChild(stat(d.nodes.length, 'nodes'));
     box.appendChild(stat(d.links.length, 'edges'));
     var m = document.createElement('span');
-    m.textContent = S.layout + (S.engine === '3d' ? ' · 3D' : '');
+    m.textContent = S.layout + (S.engine === '3d' ? ' · 3D' : '') +
+      (S.bridgesOnly ? ' · bridges' : '');
     box.appendChild(m);
     if (S.hl.length) box.appendChild(stat(S.hl.length, 'highlighted'));
     if (S.selected && byId[S.selected]) {
@@ -656,7 +802,14 @@
       });
       var keep = {};
       nodes.forEach(function (n) { keep[n.id] = true; });
-      var edges = (gd.edges || []).filter(function (e) { return keep[e.source] && keep[e.target]; });
+      var edges = (gd.edges || []).filter(function (e) {
+        if (!keep[e.source] || !keep[e.target]) return false;
+        // Bridges-only view: bridge edges plus the community/tier
+        // scaffolding, plain same-cluster edges hidden.
+        if (S.bridgesOnly && !e.inter_cluster &&
+          e.relation !== 'member_of' && e.relation !== 'layered_as') return false;
+        return true;
+      });
       try {
         var fn = (window.EstoridesGraph || {}).redraw2D;
         if (typeof fn === 'function') fn(nodes, edges, B.deriveClusters(nodes));
@@ -839,6 +992,16 @@
     if (fit) fit.addEventListener('click', function () {
       if (S.g3 && S.g3.zoomToFit) S.g3.zoomToFit(700, 48);
     });
+    var reheatBtn = $('gf-reheat');
+    if (reheatBtn) reheatBtn.addEventListener('click', reheat);
+    var bridgesBtn = $('gf-bridges');
+    if (bridgesBtn) bridgesBtn.addEventListener('click', function () { toggleBridges(bridgesBtn); });
+    var expandBtn = $('gf-expand');
+    if (expandBtn) expandBtn.addEventListener('click', expandSelected);
+    var focusBtn = $('gf-focus');
+    if (focusBtn) focusBtn.addEventListener('click', focusSelected);
+    var linkBtn = $('gf-link');
+    if (linkBtn) linkBtn.addEventListener('click', copyDeepLink);
     var png = $('gf-png');
     if (png) png.addEventListener('click', function () {
       var canvas = document.querySelector('#gf-stage canvas');
@@ -895,6 +1058,9 @@
       if (tab && !tab.classList.contains('active')) return;
       if (e.key === '/') { e.preventDefault(); var s = $('gf-search'); if (s) s.focus(); }
       else if (e.key === 'Escape') { clearSelection(); B.hideTooltip(); }
+      else if (e.key === 'Enter') {
+        if (S.selected && S.engine === '3d') { e.preventDefault(); expandSelected(); }
+      }
       else if (e.key === 'Backspace') {
         e.preventDefault();
         var prev = S.history.pop();
@@ -902,7 +1068,16 @@
       }
       else if (e.key === 'l' || e.key === 'L') { var b = $('gf-names'); if (b && !b.disabled) b.click(); }
       else if (e.key === 'h' || e.key === 'H') { var h = $('gf-hulls'); if (h && !h.disabled) h.click(); }
-      else if (e.key === 'f' || e.key === 'F') { var f = $('gf-fit'); if (f && !f.disabled) f.click(); }
+      else if (e.key === 'f' || e.key === 'F') {
+        if (S.engine === '3d' && S.selected) { e.preventDefault(); focusSelected(); return; }
+        var f = $('gf-fit'); if (f && !f.disabled) f.click();
+      }
+      else if (e.key === 'r' || e.key === 'R') { if (S.engine === '3d') reheat(); }
+      else if (e.key === 'b' || e.key === 'B') {
+        var bb = $('gf-bridges'); if (bb && !bb.disabled) bb.click();
+      }
+      else if (e.key === 'e' || e.key === 'E') { if (S.engine === '3d' && S.selected) expandSelected(); }
+      else if (e.key === 'c' || e.key === 'C') { if (S.selected) copyDeepLink(); }
       else if (e.key === ' ') { e.preventDefault(); var z = $('gf-freeze'); if (z && !z.disabled) z.click(); }
       else if (e.key === 'i' || e.key === 'I') { var o = $('gf-isolate'); if (o && !o.disabled) o.click(); }
       else if (['1', '2', '3', '4'].indexOf(e.key) >= 0) {
@@ -936,6 +1111,9 @@
   setEngineButtons();
   window.GF = {
     to3D: to3D, to2D: to2D, state: S,
+    is3D: function () { return S.engine === '3d'; },
+    expandSelected: expandSelected, focusSelected: focusSelected,
+    reheat: reheat, toggleBridges: toggleBridges, copyDeepLink: copyDeepLink,
     context: function () { return { nodes: (S.raw || {}).nodes, edges: (S.raw || {}).links }; },
   };
 })();
