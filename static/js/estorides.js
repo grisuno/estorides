@@ -395,7 +395,7 @@
   $$('.canvas-tab').forEach((t) => {
     t.addEventListener('click', () => {
       $$('.canvas-tab').forEach((x) => x.classList.remove('active'));
-      $$('.map-canvas, .graph-canvas, .timeline-canvas').forEach((x) => x.classList.remove('active'));
+      $$('.map-canvas, .graph-canvas, .bundles-canvas, .timeline-canvas').forEach((x) => x.classList.remove('active'));
       t.classList.add('active');
       // Panels are keyed by the `<name>-canvas` class, not by id (the map panel's
       // id is "map", not "map-canvas"), so select by class to stay consistent.

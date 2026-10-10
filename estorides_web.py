@@ -495,10 +495,24 @@ def create_app() -> Flask:
             settings = force_settings()
         except Exception:  # degradado graceful, ver spec/graph_force3d.md
             force, settings = None, None
+        # graph_bundle: payload circle+esfera estilo ReadMenator para la
+        # pestana Bundles. Fail-soft: si falla, /api/graph sigue sirviendo
+        # el formato legacy + force (la pestana muestra vacio).
+        bundle: Any = None
+        bundle_settings: Any = None
+        try:
+            from estorides_core import graph_bundle as _gb
+            if force is not None:
+                bundle = _gb.build_bundle_payload(force)
+                bundle_settings = _gb.bundle_settings()
+        except Exception:  # degradado graceful, ver spec/graph_bundle.md
+            bundle, bundle_settings = None, None
         return jsonify({"nodes": nodes, "edges": edges,
                         "clusters": clusters,
                         "force": force,
                         "settings": settings,
+                        "bundle": bundle,
+                        "bundle_settings": bundle_settings,
                         "summary": kg.summary(),
                         "top_entities": kg.top_entities(50)})
 

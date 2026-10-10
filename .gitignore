@@ -75,6 +75,9 @@ data/estorides_entities.sqlite-wal
 data/estorides_fusion.sqlite
 data/estorides_fusion.sqlite-shm
 data/estorides_fusion.sqlite-wal
+data/estorides_monitor.sqlite
+data/estorides_monitor.sqlite-shm
+data/estorides_monitor.sqlite-wal
 data/estorides_dataset.jsonl
 data/estorides_graph.graphml
 data/estorides_graph.kuzu

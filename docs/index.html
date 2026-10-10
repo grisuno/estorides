@@ -737,6 +737,42 @@
                 </div>
             </div>
 
+            <div class="card mb-3 border-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>2u &middot; <code>graph_bundle</code>
+                        <span class="badge badge-info ml-2">closed 2026-10-10</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">spec</span>
+                        <span class="badge badge-test">S1–S10 · 29 tests + 4 properties</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        ReadMenator <code>graph-bundle.html</code> port: a new
+                        <b>Bundles</b> canvas view next to Map/Graph/Timeline with
+                        <b>Circle 2D</b> + <b>Sphere 3D</b> hierarchical edge
+                        bundling (Holten 2006, Fibonacci community caps,
+                        live <code>beta</code> slider, search, Cluster/Level/
+                        Kind colours, Both/Out/In direction, crossing-only
+                        filter, rotate, PNG export, <code>#bundle=</code>
+                        deep-links). Pure offline canvas (zero CDN, zero
+                        WebGL). <code>/api/graph</code> also serves
+                        <code>bundle</code> + <code>bundle_settings</code>
+                        (fail-soft, no new routes); config via
+                        <code>ESTORIDES_BUNDLE_*</code>. CSP intact
+                        (zero inline styles, textContent-only DOM).
+                        Mutation: 1190/1229 killed, 39 equivalents justified
+                        in the spec.
+                    </p>
+                    <p>
+                        <a href="../spec/graph_bundle.md">spec</a> &middot;
+                        <a href="../tests/test_graph_bundle.py">tests</a> &middot;
+                        <a href="../estorides_core/graph_bundle.py">source</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

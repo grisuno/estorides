@@ -364,12 +364,13 @@ body.resizing {
 .canvas-tab:hover { color: var(--text-0); }
 .canvas-tab.active { color: var(--accent-2); border-bottom-color: var(--accent-2); }
 .canvas-body { flex: 1; position: relative; background: #050810; }
-.map-canvas, .graph-canvas, .timeline-canvas {
+.map-canvas, .graph-canvas, .bundles-canvas, .timeline-canvas {
   position: absolute;
   inset: 0;
   display: none;
 }
-.map-canvas.active, .graph-canvas.active, .timeline-canvas.active { display: block; }
+.map-canvas.active, .graph-canvas.active, .bundles-canvas.active, .timeline-canvas.active { display: block; }
+.bundles-canvas.active { overflow-y: auto; }
 
 /* leaflet overrides */
 .leaflet-container { background: #050810 !important; }

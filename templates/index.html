@@ -201,6 +201,7 @@
             <div class="canvas-tabs">
                 <button class="canvas-tab active" data-canvas="map">Map</button>
                 <button class="canvas-tab" data-canvas="graph">Graph</button>
+                <button class="canvas-tab" data-canvas="bundles">Bundles</button>
                 <button class="canvas-tab" data-canvas="timeline">Timeline</button>
             </div>
             <div class="canvas-body">
@@ -268,6 +269,43 @@
                         <div id="inspector-body" class="inspector-body"></div>
                     </aside>
                 </div>
+                <div id="bundles-canvas" class="bundles-canvas">
+                    <div class="gb-toolbar" id="gb-toolbar">
+                        <div class="gb-searchbox">
+                            <input id="gb-q" type="search" autocomplete="off" placeholder="Find an entity ( / )" aria-label="Find entities" />
+                            <div class="gb-results" id="gb-results" role="listbox"></div>
+                        </div>
+                        <div class="gb-seg" role="group" aria-label="View">
+                            <button type="button" data-view="2d" aria-pressed="true" title="Circle: entities on a ring grouped by cluster (key 2)">Circle 2D</button>
+                            <button type="button" data-view="3d" aria-pressed="false" title="Sphere: every cluster owns a cap of the globe (key 3)">Sphere 3D</button>
+                        </div>
+                        <div class="gb-seg" role="group" aria-label="Color by">
+                            <button type="button" data-color="community" aria-pressed="true" title="Color by cluster (key C cycles)">Cluster</button>
+                            <button type="button" data-color="layer" aria-pressed="false" title="Color by intel level">Level</button>
+                            <button type="button" data-color="kind" aria-pressed="false" title="Color by entity kind">Kind</button>
+                        </div>
+                        <div class="gb-seg" role="group" aria-label="Direction">
+                            <button type="button" data-dir="both" aria-pressed="true" title="Relations in both directions">Both</button>
+                            <button type="button" data-dir="out" aria-pressed="false" title="Only what the focus points to (cyan)">Out</button>
+                            <button type="button" data-dir="in" aria-pressed="false" title="Only what points to the focus (pink)">In</button>
+                        </div>
+                        <label class="gb-beta" title="Bundling strength: 0 draws straight chords, 1 routes every wire fully through the cluster tree ([ and ] keys)">beta <input id="gb-beta" type="range" min="0" max="1" step="0.01" value="0.85" /><b id="gb-betav">0.85</b></label>
+                        <button type="button" id="gb-cross" aria-pressed="false" title="Hide wires inside a cluster, keep only seams between clusters (key X)">Crossing only</button>
+                        <button type="button" id="gb-rotate" aria-pressed="false" title="Auto-rotate the sphere (key R)">Rotate</button>
+                        <button type="button" id="gb-reset" title="Reset camera and focus (double-click the canvas)">Reset</button>
+                        <button type="button" id="gb-png" title="Save the current view as PNG">PNG</button>
+                    </div>
+                    <div class="gb-app">
+                        <section id="gb-stage" class="gb-stage" aria-label="Bundle canvas" tabindex="0">
+                            <canvas id="gb-c"></canvas>
+                            <div id="gb-hud" class="gb-overlay gb-hud"></div>
+                            <div id="gb-legend" class="gb-overlay gb-legend"><div class="gb-lg-top"><h3 id="gb-lgtitle">Clusters</h3><button type="button" id="gb-lgtoggle" title="Collapse or expand the legend">-</button></div><div id="gb-lgbody" class="gb-lg-body"></div></div>
+                        </section>
+                        <aside id="gb-panel" class="gb-panel" aria-live="polite"></aside>
+                    </div>
+                    <div id="gb-tip" class="gb-tip" role="tooltip"></div>
+                    <div id="gb-empty" class="gb-empty" hidden>No bundle data yet — run a query first, then open this view.</div>
+                </div>
                 <div id="timeline" class="timeline-canvas">
                     <div class="timeline-controls" id="timeline-controls" hidden>
                         <input type="range" id="timeline-slider" class="timeline-slider" min="0" max="100" value="100" step="1">
@@ -327,6 +365,7 @@
     <script src="/static/js/vendor/purify.min.js"></script>
     <script src="/static/js/estorides.js"></script>
     <script src="/static/js/vendor/force-graph.min.js" defer></script>
+    <script src="/static/js/graph_bundle.js" defer></script>
     <script src="/static/js/graph_force.js" defer></script>
 
     <div id="no-model-modal" class="modal-overlay" hidden>
