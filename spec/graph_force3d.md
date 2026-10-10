@@ -273,3 +273,48 @@ Then: clicking a bridge edge opens the cross-reference tooltip;
   Link (copy deep link, key C). Existing controls keep working
   (search, layouts, Names, Hulls, Flow, Freeze, Fit, PNG, JSON, reach
   1-3, Isolate with key I).
+
+## Amendment 2026-10-10 (round 2) — full ReadMenator 3D port: overlay glyphs, custom picking, Orbit
+
+Source: `ReadMenator/readmenator-maps/graph-force.html` + `readmenator/
+_forcegraph.py` + `readmenator/_forcegraph_page.py` (keys: engine renders
+links + physics only; every node marker is a flat canvas glyph projected
+from the WebGL camera; all picking is custom hit-testing against live
+projections; orbit auto-rotate; theme tokens; glow; hulls).
+
+### S12 — overlay glyphs, zero spheres
+Given: the 3D engine is mounted
+When: any frame renders
+Then: native node spheres stay hidden (`nodeVisibility(false)`); a
+  `canvas#gf-overlay3d` (absolute, pointer-events none, above the WebGL
+  canvas) paints every marker: entity = rounded rect with doc lines and
+  intel-tier ring, community = hexagon, tier = diamond, other = triangle;
+  selection/search rings with glow (`shadowBlur 18`); labels as pills for
+  top-N by rank plus selected/hovered/matched; depth fade alpha and
+  far-to-near sorting from the live camera; community hulls (convex hull,
+  inflated, smoothed, dashed, labelled `name · count`). The stage uses the
+  ReadMenator dual radial gradient (`#gf-stage.is3d`). No spheres, orbs,
+  atoms or planets anywhere. PNG export composites WebGL + overlay so the
+  file matches the screen.
+
+### S13 — custom picking matches the drawing
+Given: the pointer is over the 3D stage
+When: hover / click / double click / right click / drag
+Then: the engine ignores the pointer (`enablePointerInteraction(false)`);
+  `hitNode3D` (nearest glyph within `r+4`, min 8 px) and `hitEdge3D`
+  (point-segment under 6 px) run against the last painted projections, so
+  selection always lands on the visible marker. Drag beyond 6 px rotates
+  without selecting. Double click expands, right click opens transforms,
+  background click clears. Toolbar Orbit button + key O toggles
+  `autoRotate` (speed 0.6). Reduced-motion clients get `cooldownTicks 60`
+  and no camera flights.
+
+### S14 — edge-shape normalization (2D and 3D)
+Given: `/api/graph` emits edges with embedded node objects as endpoints
+When: either engine consumes edges (`renderGraphCore`, `adaptLocal`,
+  `applyFilters`)
+Then: endpoints are reduced to id strings before simulation, degree
+  counting, keep-sets and payload building. Relation edges (`co_occurs`,
+  `observed_by`, …) render in both engines; the Bridges filter keeps the
+  server `inter_cluster` flag plus community/tier scaffolding of surviving
+  endpoints.

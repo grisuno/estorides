@@ -36,10 +36,9 @@
 
   var S = {
     engine: '2d', layout: 'force', depth: 1, labels: true, hulls: true,
-    flow: true, frozen: false, isolate: false, bridgesOnly: false, hidden: {}, selected: null,
+    flow: true, frozen: false, isolate: false, bridgesOnly: false, orbit: false, hidden: {}, selected: null,
     hover: null, hl: [], hlLinks: {}, famFocus: null, history: [],
     hits: {}, raw: null, settings: DEFAULT_SETTINGS, g3: null, mounting3d: false,
-    lastClick: { id: null, time: 0 },
   };
 
   // Matte data-point look (CAIRN-like): small faceted markers on a dark
@@ -48,6 +47,12 @@
     nodeRelSize: 3, nodeResolution: 10, nodeOpacity: 0.95,
     linkWidth: 0.5, linkOpacity: 0.5, linkHighlightWidth: 2,
   };
+  // Glyph scale per node type on the 3D overlay (ReadMenator shapes).
+  var GLYPH_SCALE = { community: 1.2, tier: 1.3 };
+  function reducedMotion() {
+    try { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    catch (e) { return false; }
+  }
 
   function toast(msg) {
     var b = $('gf-toast');
@@ -76,10 +81,13 @@
     (nodes || []).forEach(function (n) { degree[n.id] = 0; });
     var valid = [];
     (edges || []).forEach(function (e) {
-      if (!e || degree[e.source] == null || degree[e.target] == null) return;
-      valid.push(e);
-      degree[e.source] += 1;
-      degree[e.target] += 1;
+      // /api/graph emits embedded node objects as endpoints; reduce to ids.
+      var s = e && ((e.source && e.source.id) || e.source);
+      var t = e && ((e.target && e.target.id) || e.target);
+      if (!e || s == null || t == null || degree[s] == null || degree[t] == null) return;
+      valid.push({ source: s, target: t, relation: e.relation, inter_cluster: e.inter_cluster });
+      degree[s] += 1;
+      degree[t] += 1;
     });
     var byCluster = {};
     (clusters || []).forEach(function (c) { byCluster[c.id] = c; });
@@ -183,9 +191,18 @@
       if (!byId[s] || !byId[t]) return;
       outE[s].push({ source: s, target: t, type: e.type, inter: !!e.inter });
       inE[t].push({ source: s, target: t, type: e.type, inter: !!e.inter });
+      // Bridge derivation: the server payload carries no inter flag, so an
+      // OSINT edge joining two known distinct communities is a bridge.
+      if (!e.inter && e.type !== 'member_of' && e.type !== 'layered_as') {
+        var a = byId[s], b = byId[t];
+        if (a && b && a.community != null && b.community != null && a.community !== b.community) {
+          e.inter = true;
+          outE[s][outE[s].length - 1].inter = true;
+          inE[t][inE[t].length - 1].inter = true;
+        }
+      }
     });
-    var entities = (S.raw.nodes || []).filter(function (n) { return n.type === 'entity'; });
-    entities.forEach(function (n) {
+    var entities = (S.raw.nodes || []).filter(function (n) { return n.type === 'entity'; });    entities.forEach(function (n) {
       var f = n.family || n.kind || 'unknown';
       if (!famColor[f]) famColor[f] = n.color || '#888';
       (famMembers[f] = famMembers[f] || []).push(n.id);
@@ -418,6 +435,8 @@
   function show3DChrome(show) {
     var canvas = $('graph-canvas');
     if (canvas) canvas.classList.toggle('gf-on', show);
+    var stage = $('gf-stage');
+    if (stage) stage.classList.toggle('is3d', show);
     ['gf-stage', 'gf-hud', 'gf-legend'].forEach(function (id) {
       B.setVisible($(id), show, id === 'gf-stage' ? 'block' : undefined);
     });
@@ -450,17 +469,24 @@
     }
     var el = $('gf-stage');
     if (!el) return;
-    el.textContent = '';
+    // The engine wipes its container on init (innerHTML=""), so the 2D
+    // glyph overlay is (re)attached AFTER construction. The engine owns
+    // links and physics, the overlay owns every node marker (flat shapes,
+    // never spheres).
+    var ov = $('gf-overlay3d');
+    if (ov) ov.remove();
     var st = settings();
     refreshFamList();
     var data = visiblePayload();
     try {
-      var g = ForceGraph3D()(el)
+      var g = ForceGraph3D({ controlType: 'orbit' })(el)
         .graphData(data)
         .nodeId('id')
         .nodeVal('val')
-        .nodeRelSize(POINT_STYLE.nodeRelSize)
+        .nodeRelSize(4)
+        .nodeVisibility(false)
         .nodeLabel(tip)
+        .enablePointerInteraction(false)
         .nodeColor(function (n) { return dimmed(n.id) ? st.dimNode : colorOf(n); })
         .linkColor(function (l) {
           var k = lkey({ source: l.source.id || l.source, target: l.target.id || l.target, type: l.type });
@@ -476,49 +502,438 @@
           var k = lkey({ source: l.source.id || l.source, target: l.target.id || l.target, type: l.type });
           return S.hlLinks[k] ? (st.particles || 4) : 0;
         })
-        .onNodeClick(function (n, ev) { onSelect3D(n, ev); })
-        .onNodeRightClick(function (n, ev) {
-          B.showContextMenu({ clientX: ev.clientX, clientY: ev.clientY, preventDefault: function () {} }, n._src || n);
-        })
-        .onLinkClick(function (l, ev) { onEdge3D(l, ev); })
-        .onLinkHover(function (l) {
-          el.style.cursor = l ? 'pointer' : '';
-        })
-        .onNodeHover(function (n) {
-          el.style.cursor = n ? 'pointer' : '';
-          S.hover = n ? n.id : null;
-          if (!S.selected && !S.famFocus) {
-            if (n) computeHighlight(n.id, 1);
-            else { S.hl = []; S.hlLinks = {}; }
-            refresh3D();
-          }
-        })
-        .onBackgroundClick(function () { clearSelection(); })
         .backgroundColor('rgba(0,0,0,0)')
         .showNavInfo(false);
-      // Matte data points instead of glossy orbs: low-segment markers read
-      // as a field of records, not atoms or planets. Guarded: older
-      // vendored builds may lack these setters.
+      if (reducedMotion()) {
+        try { g.cooldownTicks(60); } catch (e) { /* optional only */ }
+      }
       try {
-        if (g.nodeResolution) g.nodeResolution(POINT_STYLE.nodeResolution);
-        if (g.nodeOpacity) g.nodeOpacity(POINT_STYLE.nodeOpacity);
-        if (g.linkOpacity) g.linkOpacity(POINT_STYLE.linkOpacity);
-      } catch (e) { /* optional styling only */ }
+        if (g.controls) g.controls().autoRotate = S.orbit;
+        if (g.controls && S.orbit) g.controls().autoRotateSpeed = 0.6;
+      } catch (e) { /* optional only */ }
       g.d3Force('charge').strength(st.charge);
       g.d3Force('link').distance(st.linkDistance).strength(linkStrengthFn(st));
       g.d3Force('cluster', clusterForce(st));
       g.d3Force('radial', radialForce(st));
       g.d3Force('collide', collideForce(st));
       S.g3 = g;
+      el.appendChild(ov = document.createElement('canvas'));
+      ov.id = 'gf-overlay3d';
       applyLayout3D();
       resize3D();
+      startOverlayLoop();
       hud();
       setTimeout(function () {
-        try { if (S.g3 && S.engine === '3d') S.g3.zoomToFit(0, 60); } catch (e) { /* noop */ }
+        try { if (S.g3 && S.engine === '3d') S.g3.zoomToFit(reducedMotion() ? 0 : 1200, 60); } catch (e) { /* noop */ }
       }, 1200);
     } catch (err) {
+      // Leave no half-built engine behind: a failed WebGL context still
+      // inserts its nav hint and canvas, which would stack over the 2D view.
+      try {
+        el.querySelectorAll('canvas:not(#gf-overlay3d), .graph-nav-info').forEach(function (x) { x.remove(); });
+      } catch (e2) { /* cleanup only */ }
+      S.g3 = null;
       fail('Graph engine failed to start: ' + (err && err.message || err));
     }
+  }
+
+  /* ---- 3D overlay: flat canvas glyphs projected from the WebGL camera.
+     ReadMenator system: the engine renders links + physics, native node
+     spheres stay hidden (nodeVisibility false) and every marker is a 2D
+     glyph (rounded rect / hexagon / diamond / triangle) with depth fade,
+     selection glow, labels and community hulls. No atoms, no planets. ---- */
+  var overlayRunning = false;
+  function startOverlayLoop() {
+    if (overlayRunning) return;
+    overlayRunning = true;
+    requestAnimationFrame(overlayTick);
+  }
+  function overlayTick() {
+    if (S.engine !== '3d' || !S.g3) {
+      overlayRunning = false;
+      var dead = $('gf-overlay3d');
+      if (dead) { var dctx = dead.getContext('2d'); if (dctx) dctx.clearRect(0, 0, dead.width, dead.height); }
+      return;
+    }
+    try { paintOverlay3D(); } catch (e) { /* overlay never breaks the scene */ }
+    requestAnimationFrame(overlayTick);
+  }
+  function convexHullPts(pts) {
+    var p = pts.slice().sort(function (a, b) { return (a.x - b.x) || (a.y - b.y); });
+    if (p.length < 3) return p;
+    function cross(o, a, b) { return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x); }
+    var lower = [];
+    p.forEach(function (q) {
+      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
+      lower.push(q);
+    });
+    var upper = [];
+    for (var i = p.length - 1; i >= 0; i--) {
+      var q2 = p[i];
+      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], q2) <= 0) upper.pop();
+      upper.push(q2);
+    }
+    lower.pop();
+    upper.pop();
+    return lower.concat(upper);
+  }
+  function inflateHull(hull, pad) {
+    if (!hull.length) return hull;
+    var cx = 0, cy = 0;
+    hull.forEach(function (q) { cx += q.x; cy += q.y; });
+    cx /= hull.length;
+    cy /= hull.length;
+    return hull.map(function (q) {
+      var dx = q.x - cx, dy = q.y - cy;
+      var d = Math.hypot(dx, dy) || 1;
+      return { x: q.x + (dx / d) * pad, y: q.y + (dy / d) * pad };
+    });
+  }
+  function traceSmooth(ctx, hull) {
+    if (!hull.length) return;
+    if (hull.length < 3) {
+      ctx.moveTo(hull[0].x, hull[0].y);
+      for (var i = 1; i < hull.length; i++) ctx.lineTo(hull[i].x, hull[i].y);
+      ctx.closePath();
+      return;
+    }
+    var mid = function (a, b) { return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; };
+    var m0 = mid(hull[hull.length - 1], hull[0]);
+    ctx.moveTo(m0.x, m0.y);
+    for (var j = 0; j < hull.length; j++) {
+      var cur = hull[j], nxt = hull[(j + 1) % hull.length];
+      var m = mid(cur, nxt);
+      ctx.quadraticCurveTo(cur.x, cur.y, m.x, m.y);
+    }
+    ctx.closePath();
+  }
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+  function glyphPath(ctx, n, x, y, r) {
+    var i, a;
+    ctx.beginPath();
+    if (n.type === 'community') {
+      for (i = 0; i < 6; i++) {
+        a = (Math.PI / 3) * i + Math.PI / 6;
+        var px = x + r * 1.2 * Math.cos(a), py = y + r * 1.2 * Math.sin(a);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+    } else if (n.type === 'tier') {
+      var s = r * 1.3;
+      ctx.moveTo(x, y - s);
+      ctx.lineTo(x + s, y);
+      ctx.lineTo(x, y + s);
+      ctx.lineTo(x - s, y);
+      ctx.closePath();
+    } else if (n.type !== 'entity') {
+      ctx.moveTo(x, y - r * 1.2);
+      ctx.lineTo(x + r * 1.1, y + r * 0.8);
+      ctx.lineTo(x - r * 1.1, y + r * 0.8);
+      ctx.closePath();
+    } else {
+      var q = r * 0.9;
+      rr(ctx, x - q, y - q, 2 * q, 2 * q, r * 0.34);
+    }
+  }
+  function tierColorOf(n) {
+    var lv = n.type === 'tier' ? n.label : n.layer;
+    return TIER_COLORS[lv] || '#888';
+  }
+  function drawGlyph3D(ctx, n, x, y, r, alpha) {
+    var col = colorOf(n);
+    var isSel = S.selected === n.id;
+    var isHov = S.hover === n.id;
+    var isHit = !!(S.hits && S.hits[n.id]);
+    var faded = dimmed(n.id);
+    ctx.save();
+    ctx.globalAlpha = alpha * (faded ? 0.55 : 1);
+    if ((isSel || isHov) && !faded) { ctx.shadowColor = col; ctx.shadowBlur = 18; }
+    glyphPath(ctx, n, x, y, r);
+    if (n.type === 'entity') {
+      ctx.fillStyle = faded ? 'rgba(80,85,110,.4)' : col;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 1.1;
+      ctx.strokeStyle = '#020617';
+      ctx.stroke();
+      if (r >= 9) {
+        ctx.fillStyle = 'rgba(2,6,23,.5)';
+        var bw = r, bh = Math.max(1, r * 0.12);
+        ctx.fillRect(x - bw / 2, y - r * 0.36, bw, bh);
+        ctx.fillRect(x - bw / 2, y - r * 0.06, bw, bh);
+        ctx.fillRect(x - bw / 2, y + r * 0.24, bw, bh);
+      }
+      ctx.beginPath();
+      ctx.arc(x, y, r + 2.5, 0, Math.PI * 2);
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = tierColorOf(n);
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = '#030a1c';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = faded ? 'rgba(80,85,110,.4)' : col;
+      ctx.stroke();
+      glyphPath(ctx, n, x, y, r * 0.42);
+      ctx.fillStyle = faded ? 'rgba(80,85,110,.4)' : col;
+      ctx.fill();
+    }
+    ctx.restore();
+    if (isSel || isHov || isHit) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(x, y, r + (isHit && !isSel ? 3 : 4.5), 0, Math.PI * 2);
+      ctx.lineWidth = isHit && !isSel ? 1.3 : 1.6;
+      ctx.strokeStyle = '#22d3ee';
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  function drawLabel3D(ctx, n, x, y, r, alpha) {
+    var text = short(n.label || n.id, 28);
+    var fs = n.type === 'entity' ? 11 : 12;
+    ctx.save();
+    ctx.globalAlpha = Math.max(alpha, 0.7);
+    ctx.font = (n.type === 'entity' ? '500 ' : '700 ') + fs + 'px ui-monospace, Menlo, monospace';
+    var w = ctx.measureText(text).width;
+    var bx = x - w / 2 - 4, by = y + r + 4, bh = fs + 8;
+    rr(ctx, bx, by, w + 8, bh, 4);
+    ctx.fillStyle = 'rgba(2,6,23,.8)';
+    ctx.fill();
+    if (S.selected === n.id) {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#22d3ee';
+      ctx.stroke();
+    }
+    ctx.fillStyle = n.type === 'entity' ? '#e2e8f0' : colorOf(n);
+    ctx.textBaseline = 'top';
+    ctx.fillText(text, bx + 4, by + 4);
+    ctx.restore();
+  }
+  function paintOverlay3D() {
+    var g = S.g3;
+    var cv = $('gf-overlay3d');
+    var stage = $('gf-stage');
+    if (!g || !cv || !stage) return;
+    var W = stage.clientWidth, H = stage.clientHeight;
+    if (!W || !H) return;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) {
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+    }
+    var ctx = cv.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var data = g.graphData();
+    if (!data || !data.nodes) return;
+    var cam = null;
+    try { cam = g.camera(); } catch (e) { cam = null; }
+    var f = 800, hasDepth = false, cx = 0, cy = 0, cz = 0;
+    if (cam && cam.position && cam.fov) {
+      f = (H / 2) / Math.tan(((cam.fov || 60) * Math.PI) / 360);
+      cx = cam.position.x || 0;
+      cy = cam.position.y || 0;
+      cz = cam.position.z || 0;
+      hasDepth = true;
+    }
+    var st = settings();
+    var items = [];
+    var dmin = Infinity, dmax = -Infinity;
+    data.nodes.forEach(function (n) {
+      if (n.x == null || n.y == null) return;
+      var s = null;
+      try { s = g.graph2ScreenCoords(n.x, n.y, n.z || 0); } catch (e) { s = null; }
+      if (!s) return;
+      var dist = hasDepth ? Math.hypot(n.x - cx, (n.y || 0) - cy, (n.z || 0) - cz) || 1 : 1;
+      if (s.x < -80 || s.x > W + 80 || s.y < -40 || s.y > H + 40) return;
+      if (dist < dmin) dmin = dist;
+      if (dist > dmax) dmax = dist;
+      items.push({ n: n, sx: s.x, sy: s.y, dist: dist });
+    });
+    if (!items.length) return;
+    var span = Math.max(1, dmax - dmin);
+    items.forEach(function (it) {
+      var base = Math.sqrt(Math.max(0, it.n.val || 1)) * 4;
+      base *= GLYPH_SCALE[it.n.type] || 1;
+      it.r = hasDepth ? Math.max(2.5, (base * f) / it.dist) : base;
+      it.a = hasDepth ? 1 - ((it.dist - dmin) / span) * 0.7 : 1;
+    });
+    items.sort(function (a, b) { return b.dist - a.dist; });
+    S.proj = items;
+    if (S.hulls && S.layout !== 'dag') {
+      var groups = {};
+      items.forEach(function (it) {
+        if (it.n.type !== 'entity') return;
+        var k = it.n.family || it.n.kind || 'unknown';
+        (groups[k] = groups[k] || []).push(it);
+      });
+      Object.keys(groups).forEach(function (k) {
+        var members = groups[k];
+        if (members.length < 3) return;
+        var hull = inflateHull(convexHullPts(members.map(function (m) { return { x: m.sx, y: m.sy }; })), 18);
+        if (hull.length < 3) return;
+        var col = (members[0] && colorOf(members[0].n)) || '#888';
+        var fadedFam = !!S.famFocus && S.famFocus !== k;
+        ctx.save();
+        ctx.globalAlpha = (fadedFam ? 0.3 : 1) * 0.07;
+        ctx.fillStyle = col;
+        traceSmooth(ctx, hull);
+        ctx.fill();
+        ctx.globalAlpha = (fadedFam ? 0.3 : 1) * 0.5;
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 1.4;
+        ctx.setLineDash([6, 4]);
+        traceSmooth(ctx, hull);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        if (S.labels) {
+          var top = hull.reduce(function (a, b) { return a.y < b.y ? a : b; });
+          ctx.globalAlpha = fadedFam ? 0.35 : 0.95;
+          ctx.font = '700 12px ui-monospace, Menlo, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = col;
+          ctx.fillText(short(k, 32) + '  ·  ' + members.length, top.x, top.y - 8);
+          ctx.textAlign = 'left';
+        }
+        ctx.restore();
+      });
+    }
+    items.forEach(function (it) { drawGlyph3D(ctx, it.n, it.sx, it.sy, it.r, it.a); });
+    if (S.labels) {
+      var topN = (st.labelTopN || 30);
+      var ranked = items.filter(function (it) { return it.n.type === 'entity'; })
+        .sort(function (a, b) { return (b.n.rank || 0) - (a.n.rank || 0); })
+        .slice(0, topN);
+      var want = {};
+      ranked.forEach(function (it) { want[it.n.id] = it; });
+      items.forEach(function (it) {
+        if (it.n.type !== 'entity' && (labelSet[it.n.id] || S.selected === it.n.id)) want[it.n.id] = it;
+        if (S.selected === it.n.id || S.hover === it.n.id) want[it.n.id] = it;
+        if (S.hits && S.hits[it.n.id]) want[it.n.id] = it;
+      });
+      Object.keys(want).forEach(function (id) {
+        var it = want[id];
+        if (it.r >= 9 || S.selected === id) drawLabel3D(ctx, it.n, it.sx, it.sy, it.r, it.a);
+      });
+    }
+  }
+
+  /* ---- 3D pointer: the engine ignores the pointer entirely
+     (enablePointerInteraction false); every pick is hit-tested against the
+     live overlay projections, so selection always matches the drawn glyph.
+     Bound once to #gf-stage, which survives engine remounts. ---- */
+  var stageBound = false, downPos = null, hoverQueued = false, hoverXY = null;
+  function stageLocal(ev) {
+    var stage = $('gf-stage');
+    if (!stage) return null;
+    var r = stage.getBoundingClientRect();
+    return { x: ev.clientX - r.left, y: ev.clientY - r.top };
+  }
+  function hitNode3D(x, y) {
+    var best = null, bestD = Infinity;
+    (S.proj || []).forEach(function (it) {
+      var pad = Math.max(it.r + 4, 8);
+      var d = Math.hypot(x - it.sx, y - it.sy);
+      if (d <= pad && d < bestD) { bestD = d; best = it.n; }
+    });
+    return best;
+  }
+  function segDist(x, y, ax, ay, bx, by) {
+    var dx = bx - ax, dy = by - ay;
+    var len2 = dx * dx + dy * dy;
+    var t = len2 ? ((x - ax) * dx + (y - ay) * dy) / len2 : 0;
+    t = Math.max(0, Math.min(1, t));
+    return Math.hypot(x - (ax + t * dx), y - (ay + t * dy));
+  }
+  function hitEdge3D(x, y) {
+    if (!S.g3 || !S.proj) return null;
+    var pos = {};
+    S.proj.forEach(function (it) { pos[it.n.id] = it; });
+    var best = null, bestD = 6;
+    var links = [];
+    try { links = S.g3.graphData().links || []; } catch (e) { links = []; }
+    links.forEach(function (l) {
+      var s = pos[l.source.id || l.source], t = pos[l.target.id || l.target];
+      if (!s || !t) return;
+      var d = segDist(x, y, s.sx, s.sy, t.sx, t.sy);
+      if (d < bestD) { bestD = d; best = l; }
+    });
+    return best;
+  }
+  function hoverAt3D(x, y) {
+    var el = $('gf-stage');
+    var n = hitNode3D(x, y);
+    if (el) el.style.cursor = (n || hitEdge3D(x, y)) ? 'pointer' : '';
+    S.hover = n ? n.id : null;
+    if (!S.selected && !S.famFocus) {
+      if (n) computeHighlight(n.id, 1);
+      else { S.hl = []; S.hlLinks = {}; }
+      refresh3D();
+    }
+  }
+  function bindStagePointer() {
+    if (stageBound) return;
+    var stage = $('gf-stage');
+    if (!stage) return;
+    stageBound = true;
+    stage.addEventListener('pointerdown', function (ev) {
+      downPos = { x: ev.clientX, y: ev.clientY };
+    });
+    stage.addEventListener('click', function (ev) {
+      if (S.engine !== '3d') return;
+      if (downPos && Math.hypot(ev.clientX - downPos.x, ev.clientY - downPos.y) > 6) return;
+      var p = stageLocal(ev);
+      if (!p) return;
+      var n = hitNode3D(p.x, p.y);
+      if (n) {
+        onSelect3D(n, ev);
+        return;
+      }
+      var l = hitEdge3D(p.x, p.y);
+      if (l) { onEdge3D(l, ev); return; }
+      clearSelection();
+    });
+    stage.addEventListener('dblclick', function (ev) {
+      if (S.engine !== '3d') return;
+      if (S.selected) { ev.preventDefault(); expandSelected(); }
+    });
+    stage.addEventListener('contextmenu', function (ev) {
+      if (S.engine !== '3d') return;
+      var p = stageLocal(ev);
+      if (!p) return;
+      var n = hitNode3D(p.x, p.y);
+      if (n) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        B.showContextMenu(ev, n._src || n);
+      }
+    });
+    stage.addEventListener('pointermove', function (ev) {
+      if (S.engine !== '3d') return;
+      var p = stageLocal(ev);
+      if (!p) return;
+      hoverXY = p;
+      if (!hoverQueued) {
+        hoverQueued = true;
+        requestAnimationFrame(function () {
+          hoverQueued = false;
+          if (S.engine === '3d' && hoverXY) hoverAt3D(hoverXY.x, hoverXY.y);
+        });
+      }
+    });
   }
 
   function refresh3D() {
@@ -560,15 +975,12 @@
     hud();
   }
 
-  // Click selects and inspects only. A second click on the same node
-  // within 350 ms (double click), the Enter key, or the Expand action
-  // pivots through the resolver. Single click never mutates the graph, so
-  // inspecting in 3D can no longer repaint a D3 layer on top of the scene.
+  // Click selects and inspects only. Double click, the Enter key or the
+  // Expand button pivots through the resolver. Single click never mutates
+  // the graph, so inspecting in 3D can no longer repaint a D3 layer on top
+  // of the scene.
   function onSelect3D(n, ev) {
     var src = n._src || n;
-    var now = Date.now();
-    var isDouble = S.lastClick.id === n.id && (now - S.lastClick.time) < 350;
-    S.lastClick = { id: n.id, time: now };
     if (S.selected && S.selected !== n.id) S.history.push(S.selected);
     S.selected = n.id;
     S.famFocus = null;
@@ -579,8 +991,7 @@
     hud();
     writeHash();
     B.selectNode(src);
-    if (isDouble) expandSelected();
-    else if (ev && ev.altKey) {
+    if (ev && ev.altKey) {
       B.showContextMenu({ clientX: ev.clientX, clientY: ev.clientY, preventDefault: function () {} }, src);
     }
   }
@@ -630,6 +1041,46 @@
     if (S.engine === '3d') reload3D();
     else applyFilters();
     toast(S.bridgesOnly ? 'Showing bridge edges only.' : 'Showing all edges.');
+  }
+
+  // PNG export composites the WebGL link field with the glyph overlay,
+  // so the snapshot matches the screen (native node spheres stay hidden).
+  function snapshot3D() {
+    var stage = $('gf-stage');
+    if (!stage) { toast('Nothing to snapshot yet.'); return; }
+    var all = stage.querySelectorAll('canvas');
+    var webgl = null, ov = null;
+    all.forEach(function (c) {
+      if (c.id === 'gf-overlay3d') ov = c;
+      else if (!webgl) webgl = c;
+    });
+    if (!webgl) { toast('Nothing to snapshot yet.'); return; }
+    try {
+      var out = document.createElement('canvas');
+      out.width = webgl.width;
+      out.height = webgl.height;
+      var octx = out.getContext('2d');
+      octx.fillStyle = '#030a1c';
+      octx.fillRect(0, 0, out.width, out.height);
+      octx.drawImage(webgl, 0, 0);
+      if (ov) octx.drawImage(ov, 0, 0, out.width, out.height);
+      var a = document.createElement('a');
+      a.href = out.toDataURL('image/png');
+      a.download = 'estorides-3d.png';
+      a.click();
+    } catch (e) { toast('Snapshot failed.'); }
+  }
+
+  function toggleOrbit(btn) {
+    S.orbit = !S.orbit;
+    if (btn) btn.setAttribute('aria-pressed', String(S.orbit));
+    if (S.g3) {
+      try {
+        S.g3.controls().autoRotate = S.orbit;
+        if (S.orbit) S.g3.controls().autoRotateSpeed = 0.6;
+      } catch (e) { /* engine quirk */ }
+    }
+    toast(S.orbit ? 'Orbit on: slow auto-rotate.' : 'Orbit off.');
   }
 
   // Edge inspection in 3D: bridge edges open the cross-reference tooltip,
@@ -803,7 +1254,9 @@
       var keep = {};
       nodes.forEach(function (n) { keep[n.id] = true; });
       var edges = (gd.edges || []).filter(function (e) {
-        if (!keep[e.source] || !keep[e.target]) return false;
+        var s = (e.source && e.source.id) || e.source;
+        var t = (e.target && e.target.id) || e.target;
+        if (!keep[s] || !keep[t]) return false;
         // Bridges-only view: bridge edges plus the community/tier
         // scaffolding, plain same-cluster edges hidden.
         if (S.bridgesOnly && !e.inter_cluster &&
@@ -994,6 +1447,8 @@
     });
     var reheatBtn = $('gf-reheat');
     if (reheatBtn) reheatBtn.addEventListener('click', reheat);
+    var orbitBtn = $('gf-orbit');
+    if (orbitBtn) orbitBtn.addEventListener('click', function () { toggleOrbit(orbitBtn); });
     var bridgesBtn = $('gf-bridges');
     if (bridgesBtn) bridgesBtn.addEventListener('click', function () { toggleBridges(bridgesBtn); });
     var expandBtn = $('gf-expand');
@@ -1004,6 +1459,7 @@
     if (linkBtn) linkBtn.addEventListener('click', copyDeepLink);
     var png = $('gf-png');
     if (png) png.addEventListener('click', function () {
+      if (S.engine === '3d') { snapshot3D(); return; }
       var canvas = document.querySelector('#gf-stage canvas');
       if (!canvas) { toast('Nothing to snapshot yet.'); return; }
       var a = document.createElement('a');
@@ -1073,6 +1529,9 @@
         var f = $('gf-fit'); if (f && !f.disabled) f.click();
       }
       else if (e.key === 'r' || e.key === 'R') { if (S.engine === '3d') reheat(); }
+      else if (e.key === 'o' || e.key === 'O') {
+        if (S.engine === '3d') { var ob = $('gf-orbit'); if (ob && !ob.disabled) ob.click(); }
+      }
       else if (e.key === 'b' || e.key === 'B') {
         var bb = $('gf-bridges'); if (bb && !bb.disabled) bb.click();
       }
@@ -1108,12 +1567,14 @@
   }, 600);
 
   wireToolbar();
+  bindStagePointer();
   setEngineButtons();
   window.GF = {
     to3D: to3D, to2D: to2D, state: S,
     is3D: function () { return S.engine === '3d'; },
     expandSelected: expandSelected, focusSelected: focusSelected,
-    reheat: reheat, toggleBridges: toggleBridges, copyDeepLink: copyDeepLink,
+    reheat: reheat, toggleBridges: toggleBridges, toggleOrbit: toggleOrbit,
+    copyDeepLink: copyDeepLink,
     context: function () { return { nodes: (S.raw || {}).nodes, edges: (S.raw || {}).links }; },
   };
 })();

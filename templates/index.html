@@ -226,6 +226,7 @@
                             <button type="button" id="gf-hulls" data-req="3d" aria-pressed="true" title="Toggle community hulls ( H )">Hulls</button>
                             <button type="button" id="gf-flow" data-req="3d" aria-pressed="true" title="Toggle particles on highlighted edges">Flow</button>
                             <button type="button" id="gf-freeze" data-req="3d" aria-pressed="false" title="Freeze or resume physics ( Space )">Freeze</button>
+                            <button type="button" id="gf-orbit" data-req="3d" aria-pressed="false" title="Slow auto-rotate around the scene ( O )">Orbit</button>
                             <button type="button" id="gf-fit" data-req="3d" title="Fit graph to view ( F )">Fit</button>
                             <button type="button" id="gf-reheat" data-req="3d" title="Restart the physics simulation ( R )">Reheat</button>
                             <button type="button" id="gf-expand" data-req="3d" title="Expand the selected node through the resolver ( Enter )">Expand</button>
@@ -244,7 +245,7 @@
                             <button type="button" id="gf-isolate" data-req="3d" aria-pressed="false" title="Show only the highlighted neighbourhood ( I )">Isolate</button>
                         </div>
                     </div>
-                    <div id="gf-stage" hidden></div>
+                    <div id="gf-stage" hidden><canvas id="gf-overlay3d"></canvas></div>
                     <div class="gf-overlay" id="gf-hud" hidden></div>
                     <div class="gf-overlay" id="gf-legend" hidden><h3><span>Show</span></h3><div class="gf-pills" id="gf-pills"></div><h3><span>Communities</span><span id="gf-legend-hint">click to focus</span></h3><div id="gf-families"></div></div>
                     <div class="gf-overlay" id="gf-toast" role="status" hidden></div>

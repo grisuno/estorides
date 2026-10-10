@@ -1633,6 +1633,16 @@
     if (window._d3svg) window._d3svg.remove();
     hideContextMenu();
     hideTooltip();
+    // /api/graph emits edges with embedded node objects as endpoints; the
+    // simulation needs plain id strings so links resolve to live nodes.
+    edges = (edges || []).map(function (e) {
+      if (!e) return null;
+      return {
+        source: (e.source && e.source.id) || e.source,
+        target: (e.target && e.target.id) || e.target,
+        relation: e.relation, inter_cluster: e.inter_cluster,
+      };
+    }).filter(function (e) { return e && e.source != null && e.target != null; });
     const container = $('#graph-canvas');
     // The GF toolbar sits in normal flow above the drawing area. Size the
     // SVG for the free space below it so node positions and pointer events
