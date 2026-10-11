@@ -30,6 +30,7 @@ dependencies = [
     "aiohttp>=3.10.11,<4.0",
     "gunicorn>=22.0,<27.0",
     "pydantic>=2.0,<3.0",
+    "defusedxml>=0.7,<1.0",
 ]
 
 [project.optional-dependencies]

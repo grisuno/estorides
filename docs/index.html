@@ -773,6 +773,41 @@
                 </div>
             </div>
 
+            <!-- lan_shodan slice 1: policy/scope/inventory/web/bundle -->
+            <div class="card mb-3 border-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>lan &middot; <code>lan_policy / lan_scope / lan_inventory / lan_web / lan_bundle</code>
+                        <span class="badge badge-success ml-2">closed 2026-10-11</span>
+                    </span>
+                    <span>
+                        <span class="badge badge-spec">5 specs</span>
+                        <span class="badge badge-test">41 BDD</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Passive-first LAN device inventory. Triple-gate
+                        authorization (consent modal plus Active LAN scan
+                        checkbox plus server policy), private CIDR
+                        auto-detection, ARP and DHCP parsers with MAC-keyed
+                        merge, machine-readable output directory
+                        (<code>inventory</code>, <code>graph</code>,
+                        <code>lazyown</code>, <code>stix</code>) feeding the
+                        2D graph, 3D graph, sphere view, and the LazyOwn
+                        intel and attack graphs. Source authoring skill at
+                        <code>.claude/skills/estorides-source-author/</code>.
+                    </p>
+                    <p>
+                        <a href="../spec/lan_policy.md">lan_policy</a> &middot;
+                        <a href="../spec/lan_scope.md">lan_scope</a> &middot;
+                        <a href="../spec/lan_inventory.md">lan_inventory</a> &middot;
+                        <a href="../spec/lan_web.md">lan_web</a> &middot;
+                        <a href="../spec/lan_bundle.md">lan_bundle</a> &middot;
+                        <a href="../tests/test_lan_policy.py">tests</a>
+                    </p>
+                </div>
+            </div>
+
         <!-- =========================================================== DOCTRINE -->
         <section id="doctrine" class="mb-5">
             <h2 class="mb-4">Doctrine (inviolable)</h2>

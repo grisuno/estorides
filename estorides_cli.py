@@ -341,6 +341,12 @@ def cmd_graph_export(args: argparse.Namespace) -> int:
     elif args.format == "json":
         p = Path("estorides_graph.json")
         p.write_text(json.dumps(kg.export_json(), indent=2, ensure_ascii=False), encoding="utf-8")
+    elif args.format == "lazyown":
+        import time as _time
+        p = Path("estorides_lazyown.json")
+        payload = kg.export_lazyown()
+        payload["exported_at"] = _time.time()
+        p.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
     else:
         print(f"Unknown format {args.format}")
         return 2
@@ -752,7 +758,7 @@ def build_parser() -> argparse.ArgumentParser:
     sc.set_defaults(func=cmd_scope)
 
     g = sub.add_parser("graph", help="export knowledge graph")
-    g.add_argument("--export", dest="format", choices=["graphml", "json"], default="graphml")
+    g.add_argument("--export", dest="format", choices=["graphml", "json", "lazyown"], default="graphml")
     g.set_defaults(func=cmd_graph_export)
 
     s = sub.add_parser("stix", help="export STIX 2.1 bundle")

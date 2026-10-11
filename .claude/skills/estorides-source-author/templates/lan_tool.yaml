@@ -1,0 +1,24 @@
+name: kali_lan_example
+enabled: true
+category: 20. System Tools (Kali)
+description: LAN discovery tool. Passive readers stay contact none, anything touching the wire is active.
+os: linux
+kind: system_app
+requires_key: false
+contact: active
+logs_queries: true
+parser: raw_text
+entity_hints:
+  - ipv4
+  - mac
+applies_to:
+  - ipv4
+  - cidr
+  - mac
+tool:
+  binary: nmap
+  args:
+    - '-sn'
+    - '{query}'
+  output_format: text
+  timeout: 300

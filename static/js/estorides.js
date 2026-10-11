@@ -16,6 +16,79 @@
     else if (display) el.style.display = display;
   }
 
+  // ---- LAN consent gate: blocking modal plus active-scan checkbox ----
+  // Local network runs require explicit permission. The modal blocks with
+  // Yes/No, the checkbox governs every active tool, and both travel with
+  // every run request body for server-side enforcement in lan_web.guard.
+  let _lanConsent = false;
+  function isLanQueryLocal(q) {
+    const t = (q || '').trim();
+    if (!t) return false;
+    if (t.indexOf('/') !== -1 && /^[0-9a-fA-F.:]+\/\d{1,3}$/.test(t)) return true;
+    if (/^10\./.test(t) || /^192\.168\./.test(t) || /^172\.(1[6-9]|2\d|3[01])\./.test(t)) return true;
+    if (/^fd[0-9a-fA-F]{2}:/.test(t) || /^fe80:/i.test(t)) return true;
+    if (/^lan$/i.test(t) || /^local network$/i.test(t)) return true;
+    return false;
+  }
+  function lanRunFields(q) {
+    const active = !!($('#lan-allow-active') && $('#lan-allow-active').checked);
+    if (!isLanQueryLocal(q)) return {};
+    // requested_contact carries the checkbox intent: the backend triple
+    // gate turns it into active only when consent, checkbox, and server
+    // policy all agree. Without it the checkbox would govern nothing.
+    return {
+      lan_consent: _lanConsent,
+      allow_active: active,
+      scope_cidr: q,
+      requested_contact: active ? 'active' : 'none',
+    };
+  }
+  function ensureLanConsent(q) {
+    if (!isLanQueryLocal(q)) return Promise.resolve(true);
+    if (_lanConsent) return Promise.resolve(true);
+    const modal = $('#lan-consent-modal');
+    if (!modal) return Promise.resolve(false);
+    const active = !!($('#lan-allow-active') && $('#lan-allow-active').checked);
+    const modeEl = $('#lan-consent-mode');
+    if (modeEl) {
+      modeEl.textContent = active
+        ? 'Active scanning: ON (passive readers first, active tools only where permitted).'
+        : 'Active scanning: OFF (passive readers only).';
+    }
+    const scopeEl = $('#lan-consent-scope');
+    if (scopeEl) {
+      const safe = (typeof purifyHTML === 'function')
+        ? purifyHTML('Scope: ' + q)
+        : null;
+      if (safe !== null) setSanitizedHTML(scopeEl, safe);
+      else scopeEl.textContent = 'Scope: ' + q;
+    }
+    setVisible(modal, true, 'flex');
+    return new Promise((resolve) => {
+      const yes = $('#lan-consent-yes');
+      const no = $('#lan-consent-no');
+      const done = (val) => {
+        _lanConsent = val === true;
+        setVisible(modal, false);
+        if (yes) yes.removeEventListener('click', onYes);
+        if (no) no.removeEventListener('click', onNo);
+        resolve(_lanConsent);
+      };
+      const onYes = () => done(true);
+      const onNo = () => done(false);
+      if (yes) yes.addEventListener('click', onYes);
+      if (no) no.addEventListener('click', onNo);
+    });
+  }
+
+  // Shared with the standalone Discover/ LAN runners further below,
+  // which live outside this IIFE.
+  window.EstoridesLan = {
+    isLanQueryLocal,
+    lanRunFields,
+    ensureLanConsent,
+  };
+
   // ---- auth: attach the bearer token to every /api/* call when present ----
   // The token is rendered into <meta name="estorides-auth-token"> in index.html
   // when ESTORIDES_AUTH_TOKEN is set in the operator's environment. When the
@@ -408,6 +481,8 @@
 
   // ---- run query ----
   $('#run-btn').addEventListener('click', runQuery);
+  const _lanScanBtn = $('#lan-scan-btn');
+  if (_lanScanBtn) _lanScanBtn.addEventListener('click', startLanScan);
   $('#query').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') runQuery();
   });
@@ -467,9 +542,155 @@
     _runJobId = null;
   }
 
+  // Dedicated LAN entry point: resolves the scope (query box when it
+  // looks like LAN, otherwise the auto-detected private network), asks
+  // permission through the blocking modal, then runs a real local
+  // inventory scan. The checkbox only widens the ceiling to active;
+  // without it the scan still runs passive. Results render below and
+  // the graph views refresh from the fed knowledge graph.
+  function renderLanResults(data) {
+    showEmptyState(false);
+    const mode = data.active_used ? 'passive+active' : 'passive';
+    $('#results-meta').textContent =
+      data.device_count + ' device(s) · ' + (data.scope_cidr || '') + ' · ' + mode;
+    const list = $('#results-list');
+    list.innerHTML = '';
+    (data.devices || []).forEach((dev) => {
+      const div = document.createElement('div');
+      div.className = 'result-card';
+      const head = document.createElement('div');
+      head.className = 'card-head';
+      const title = document.createElement('div');
+      title.className = 'src';
+      title.textContent = dev.mac || ((dev.ips && dev.ips[0]) || dev.device_id);
+      head.appendChild(title);
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = (dev.ips || []).length + ' ip(s)';
+      head.appendChild(badge);
+      div.appendChild(head);
+      const body = document.createElement('div');
+      body.className = 'card-body';
+      const lines = [];
+      if (dev.ips && dev.ips.length) lines.push('IPs: ' + dev.ips.join(', '));
+      if (dev.hostnames && dev.hostnames.length) lines.push('Names: ' + dev.hostnames.join(', '));
+      if (dev.sources && dev.sources.length) lines.push('Seen by: ' + dev.sources.join(', '));
+      const ul = document.createElement('ul');
+      lines.forEach((line) => {
+        const li = document.createElement('li');
+        li.textContent = line;
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+      div.appendChild(body);
+      list.appendChild(div);
+    });
+    if (!data.device_count) {
+      const empty = document.createElement('div');
+      empty.className = 'result-card';
+      empty.textContent = 'No devices found in ' + (data.scope_cidr || 'scope') +
+        '. Devices appear here as soon as the OS neighbor table or DHCP leases know them.';
+      list.appendChild(empty);
+    }
+    const bundleNames = data.bundle ? Object.keys(data.bundle) : [];
+    if (bundleNames.length) {
+      const files = document.createElement('div');
+      files.className = 'result-card';
+      const head = document.createElement('div');
+      head.className = 'card-head';
+      const title = document.createElement('div');
+      title.className = 'src';
+      title.textContent = 'Output bundle (machine-readable)';
+      head.appendChild(title);
+      files.appendChild(head);
+      const body = document.createElement('div');
+      body.className = 'card-body';
+      const ul = document.createElement('ul');
+      bundleNames.forEach((fmt) => {
+        const li = document.createElement('li');
+        li.textContent = fmt + ': ' + data.bundle[fmt];
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+      files.appendChild(body);
+      list.appendChild(files);
+    }
+  }
+
+  async function startLanScan() {
+    let scope = ($('#query').value || '').trim();
+    if (!isLanQueryLocal(scope)) {
+      try {
+        const r = await fetch('/api/lan/scope');
+        const data = await r.json();
+        scope = (data && data.scope) || '';
+      } catch (_) {
+        scope = '';
+      }
+      if (!scope) {
+        setStatus('no private LAN detected');
+        showFriendlyError(
+          'No private local network detected. Type a scope such as 192.168.1.0/24 first.',
+          startLanScan,
+        );
+        return;
+      }
+      $('#query').value = scope;
+    }
+    const ok = await ensureLanConsent(scope);
+    if (!ok) {
+      setStatus('LAN scan cancelled: permission required');
+      showToast('error', 'LAN scan blocked', 'Explicit permission is required.');
+      return;
+    }
+    const active = !!($('#lan-allow-active') && $('#lan-allow-active').checked);
+    setStatus('scanning LAN ' + scope + '…');
+    showWorkingIndicator();
+    try {
+      const r = await fetch('/api/lan/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scope_cidr: scope,
+          lan_consent: true,
+          allow_active: active,
+          requested_contact: active ? 'active' : 'none',
+        }),
+      });
+      const data = await r.json();
+      if (!r.ok || data.refused || data.error) {
+        const msg = (data && data.message) || (data && data.error) || ('HTTP ' + r.status);
+        setStatus('error: ' + msg);
+        setStatusDot('error');
+        showFriendlyError(msg, startLanScan);
+        return;
+      }
+      renderLanResults(data);
+      if (data.notice) showToast('warning', 'Active unavailable', data.notice, 6000);
+      else showToast('ok', 'LAN scan complete', data.message);
+      setStatus(data.message);
+      setStatusDot('done');
+      try {
+        await drawGraph();
+      } catch (_) { /* graph refresh is best effort */ }
+    } catch (e) {
+      setStatusDot('error');
+      setStatus('error: ' + e.message);
+      showFriendlyError('Network error: ' + e.message, startLanScan);
+    } finally {
+      hideWorkingIndicator();
+    }
+  }
+
   async function runQuery() {
     const q = $('#query').value.trim();
     if (!q) return;
+    const ok = await ensureLanConsent(q);
+    if (!ok) {
+      setStatus('LAN scan cancelled: permission required');
+      showToast('error', 'LAN scan blocked', 'Explicit permission is required.');
+      return;
+    }
     updateQueryChip(detectQueryTypeLocal(q));
     showEmptyState(false);
     setRunProgress(0, window._totalSources || 0);
@@ -497,9 +718,21 @@
       const r = await fetch('/api/run/stream/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: q }),
+        body: JSON.stringify(Object.assign({ query: q }, lanRunFields(q))),
       });
       start = await r.json();
+      // A LAN policy denial is final: falling back to the blocking run
+      // would just fail the same gate and hide the real message.
+      if (start && typeof start.error === 'string' && start.error.indexOf('lan-') === 0) {
+        const msg = start.message || start.error;
+        setStatus('error: ' + msg);
+        setStatusDot('error');
+        showFriendlyError(msg, runQuery);
+        $('#run-btn').disabled = false;
+        setRunProgress(0, 0);
+        hideWorkingIndicator();
+        return;
+      }
       if (!r.ok || start.error) throw new Error(start.error || ('HTTP ' + r.status));
     } catch (e) {
       // Streaming layer unavailable — fall back to the blocking run so
@@ -543,12 +776,13 @@
       const r = await fetch('/api/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: q }),
+        body: JSON.stringify(Object.assign({ query: q }, lanRunFields(q))),
       });
       const data = await r.json();
       if (data.error) {
-        setStatus('error: ' + data.error);
-        showFriendlyError('Run failed: ' + data.error, () => runQueryBlocking(q));
+        const msg = data.message || data.error;
+        setStatus('error: ' + msg);
+        showFriendlyError('Run failed: ' + msg, () => runQueryBlocking(q));
         hideWorkingIndicator();
         return;
       }
@@ -572,6 +806,14 @@
   // clearing existing data — appends and merges into current state.
   async function searchEntity(entityType, query) {
     if (!query) return;
+    const consentOk = await ensureLanConsent(query.trim());
+    if (!consentOk) {
+      setStatus('LAN scan cancelled: permission required');
+      showToast('error', 'LAN scan blocked', 'Explicit permission is required.');
+      $('#run-btn').disabled = false;
+      hideWorkingIndicator();
+      return;
+    }
     stopRunStream();
     showWorkingIndicator();
     setStatus('searching ' + query);
@@ -581,7 +823,7 @@
       var r = await fetch('/api/run/stream/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: q, max_depth: 0, max_steps: 30 }),
+        body: JSON.stringify(Object.assign({ query: q, max_depth: 0, max_steps: 30 }, lanRunFields(q))),
       });
       var start = await r.json();
       if (!r.ok || start.error) throw new Error(start.error || 'HTTP ' + r.status);
@@ -3062,9 +3304,19 @@ function hideDiscoverProgress() {
   if (el) el.hidden = true;
 }
 
-function startDiscover() {
+async function startDiscover() {
   const q = document.getElementById('query').value.trim();
   if (!q) return;
+  // LAN seeds go through the same blocking consent gate as Run.
+  const lan = window.EstoridesLan || null;
+  if (lan && lan.isLanQueryLocal(q)) {
+    const ok = await lan.ensureLanConsent(q);
+    if (!ok) {
+      setStatus('LAN scan cancelled: permission required');
+      showToast('error', 'LAN scan blocked', 'Explicit permission is required.');
+      return;
+    }
+  }
   // Cancel any prior stream first.
   stopDiscover();
   document.getElementById('discover-btn').disabled = true;
@@ -3074,7 +3326,7 @@ function startDiscover() {
   fetch('/api/discover/start', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+    body: JSON.stringify(Object.assign({
       value: q,
       type: 'auto',
       max_depth: 2,
@@ -3082,7 +3334,7 @@ function startDiscover() {
       max_entities: 1000,
       deadline_s: 20,
       parallel: 4,
-    }),
+    }, (window.EstoridesLan ? window.EstoridesLan.lanRunFields(q) : {}))),
   })
     .then((r) => r.json())
     .then((j) => {

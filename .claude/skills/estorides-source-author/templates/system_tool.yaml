@@ -1,0 +1,21 @@
+name: kali_example
+enabled: true
+category: 20. System Tools (Kali)
+description: Binary plus flags and what the output contains.
+os: linux
+kind: system_app
+requires_key: false
+contact: active
+logs_queries: true
+parser: raw_text
+entity_hints:
+  - domain
+  - ipv4
+applies_to:
+  - domain
+tool:
+  binary: example-tool
+  args:
+    - '{query}'
+  output_format: text
+  timeout: 300

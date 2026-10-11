@@ -46,6 +46,8 @@ from estorides_core.entity_extraction import detect_query_type
 from estorides_core.feeds import fetch_all, list_feeds
 from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
+from estorides_core.lan_web import guard as lan_guard
+from estorides_core.lan_web import is_lan_request as is_lan_run
 from estorides_core.openapi import build_openapi
 from estorides_core.ops_observability import OPS, health_payload, ready_payload, render_metrics
 from estorides_core.orchestrator import Orchestrator, pending_system_app_tasks
@@ -361,6 +363,14 @@ def create_app() -> Flask:
     @require_auth
     def api_run() -> Any:
         body = request.get_json(silent=True) or {}
+        # LAN consent gate: local network runs require explicit
+        # ownership or written permission plus the active-scan triple
+        # gate. Denials return before any orchestrator work.
+        if is_lan_run(body, str(body.get("query") or "")):
+            verdict = lan_guard(body)
+            if not verdict.permitted:
+                resp_body, status = verdict.to_response()
+                return jsonify(resp_body), status
         # Validate query through the central guard. A failure here
         # surfaces a 400 with the rejection reason — no orchestrator work.
         q = validate_query(str(body.get("query") or ""))
@@ -411,6 +421,52 @@ def create_app() -> Flask:
             query_type=q.type,
         )
         return jsonify(shaped)
+
+    @app.route("/api/lan/scope")
+    @_rate_limit_decorator(event="api_lan_scope")
+    @require_auth
+    def api_lan_scope() -> Any:
+        from estorides_core import lan_scope as _lan_scope
+        from estorides_core.lan_web import scope_payload as _scope_payload
+        return jsonify(_scope_payload(_lan_scope.read_local_interfaces()))
+
+    @app.route("/api/lan/scan", methods=["POST"])
+    @_rate_limit_decorator(event="api_lan_scan")
+    @require_auth
+    def api_lan_scan() -> Any:
+        from estorides_core import lan_runner as _lan_runner
+        from estorides_core.entity_extraction import Entity as _Entity
+        body = request.get_json(silent=True) or {}
+        t0 = time.monotonic()
+        result = _lan_runner.scan(
+            scope_cidr=body.get("scope_cidr") or body.get("query") or None,
+            consent=body.get("lan_consent", False),
+            allow_active=body.get("allow_active", False),
+        )
+        if result.refused:
+            code = "lan-consent-required" if result.block_reason == "consent_required" else "lan-scope-invalid"
+            status = 403 if result.block_reason == "consent_required" else 400
+            return jsonify({"error": code, "message": result.message}), status
+        # Feed devices into the knowledge graph so the 2D, 3D, and
+        # sphere views show them. Graph failures never fail the scan.
+        try:
+            for item in result.entities:
+                orch.kg.add_entity(_Entity(
+                    type=str(item.get("type", "unknown")),
+                    value=str(item.get("value", "")),
+                    source=str(item.get("source", "lan")),
+                ))
+            orch.kg.export_graphml(GRAPH_PATH)
+        except Exception:
+            log.exception("lan scan graph feed failed")
+        audit_log.query(
+            "api_lan_scan", remote_ip=_client_ip(), method=request.method,
+            path=request.path, query=result.scope_cidr or "",
+            sources=1, observations=result.device_count,
+            status="ok", runtime_ms=(time.monotonic() - t0) * 1000.0,
+            query_type="lan",
+        )
+        return jsonify(result.to_dict())
 
     @app.route("/api/graph")
     @_rate_limit_decorator(event="api_graph")
@@ -1420,6 +1476,13 @@ def create_app() -> Flask:
     def api_discover_start() -> Any:
         body = request.get_json(silent=True) or {}
         seed_value = (body.get("value") or request.args.get("value") or "").strip()
+        # Same LAN consent gate as /api/run: a LAN seed without
+        # permission is refused before any job exists.
+        if is_lan_run(body, seed_value):
+            verdict = lan_guard(body)
+            if not verdict.permitted:
+                resp_body, status = verdict.to_response()
+                return jsonify(resp_body), status
         seed_type = (body.get("type") or request.args.get("type") or "domain").strip()
         if not seed_value:
             return jsonify({"error": "value is required"}), 400
@@ -1533,6 +1596,11 @@ def create_app() -> Flask:
     @require_auth
     def api_run_stream_start() -> Any:
         body = request.get_json(silent=True) or {}
+        if is_lan_run(body, str(body.get("query") or "")):
+            verdict = lan_guard(body)
+            if not verdict.permitted:
+                resp_body, status = verdict.to_response()
+                return jsonify(resp_body), status
         q = validate_query(str(body.get("query") or ""))
         try:
             max_depth = PIVOT.clamp_depth(body.get("max_depth", PIVOT.max_depth))

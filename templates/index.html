@@ -32,7 +32,9 @@
             <input id="query" type="text" placeholder="domain, IP, email, person, BTC address, CVE..." autocomplete="off" />
             <button id="run-btn" class="primary">Run</button>
             <button id="discover-btn" class="primary" title="Background fanout: subdomains + sibling domains. Discovers the full attack surface interactively.">Discover</button>
+            <button id="lan-scan-btn" class="primary" title="Passive-first local network discovery: asks for permission, then inventories every device on your LAN. Uses the query box scope when it looks like LAN, otherwise the auto-detected private network.">Scan LAN</button>
             <button id="clear-btn" class="ghost">Clear</button>
+            <label class="lan-active-check" title="Allow active LAN scanning (nmap, arp-scan, nbtscan). Passive sources stay default. Requires explicit network permission."><input id="lan-allow-active" type="checkbox" /> Active LAN scan</label>
         </div>
         <div class="status">
             <span id="query-chip" class="query-chip hidden">type</span>
@@ -367,6 +369,25 @@
     <script src="/static/js/vendor/force-graph.min.js" defer></script>
     <script src="/static/js/graph_bundle.js" defer></script>
     <script src="/static/js/graph_force.js" defer></script>
+
+    <div id="lan-consent-modal" class="modal-overlay" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="lan-consent-title">
+            <div class="modal-header">
+                <span class="modal-icon">&#9888;</span>
+                <h2 id="lan-consent-title">Local network scan authorization</h2>
+            </div>
+            <div class="modal-body">
+                <p>Local network scanning may only run on networks you own or where you hold explicit written permission from the network owner. Unauthorized scanning may violate local law and acceptable use policies.</p>
+                <p>Confirm ownership or permission before continuing. Passive readers run first. Active tools run only when the Active LAN scan checkbox is enabled and the server policy allows it.</p>
+                <span class="modal-status" id="lan-consent-mode"></span>
+                <span class="modal-status" id="lan-consent-scope"></span>
+            </div>
+            <div class="modal-footer">
+                <button class="ghost" id="lan-consent-no">No, cancel</button>
+                <button class="primary" id="lan-consent-yes">Yes, I have permission</button>
+            </div>
+        </div>
+    </div>
 
     <div id="no-model-modal" class="modal-overlay" hidden>
         <div class="modal-card">

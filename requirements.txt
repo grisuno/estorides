@@ -30,3 +30,7 @@ gunicorn>=22.0,<27.0       # closes CVE-2024-1135 (request smuggling)
 # Strict schema validation for observation/entity contracts
 # (estorides_core/observation_models.py). Pure Python, no external services.
 pydantic>=2.0,<3.0
+
+# Safe XML parsing for nmap -oX output (estorides_core/lan_inventory.py).
+# defusedxml caps entity expansion and blocks external entities.
+defusedxml>=0.7,<1.0

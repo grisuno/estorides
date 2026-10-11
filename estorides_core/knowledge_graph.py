@@ -193,6 +193,52 @@ class KnowledgeGraph:
             ],
         }
 
+    # LazyOwn intel vocabulary shared with the LazyOwn red-team framework
+    # (modules/estorides_fusion.py). Entities map to host/domain/finding
+    # plus generic intel/url/email/asn/mac buckets; edges resolve to
+    # (kind, value) endpoints so nodes fuse on matching values.
+    LAZYOWN_TYPE_MAP: Dict[str, str] = {
+        "ipv4": "host", "ipv6": "host",
+        "domain": "domain",
+        "cve": "finding", "ghsa": "finding",
+        "url": "url", "email": "email", "asn": "asn", "mac": "mac",
+    }
+
+    def export_lazyown(self) -> Dict[str, Any]:
+        """Emit the graph in LazyOwn intel vocabulary (JSON-serializable)."""
+        nodes = []
+        for node_id, data in self.graph.nodes(data=True):
+            etype = str(data.get("type", "unknown"))
+            value = str(data.get("value", node_id))
+            attrs = {key: val for key, val in data.items()
+                     if isinstance(val, (str, int, float, bool))
+                     and key not in ("sources",)}
+            nodes.append({
+                "kind": self.LAZYOWN_TYPE_MAP.get(etype, "intel"),
+                "etype": etype,
+                "value": value,
+                "label": value,
+                "sources": sorted(data.get("sources", []) or []),
+                "attrs": attrs,
+            })
+        by_id = {node_id: (str(data.get("type", "unknown")),
+                           str(data.get("value", node_id)))
+                 for node_id, data in self.graph.nodes(data=True)}
+        edges = []
+        for src, dst, attrs in self.graph.edges(data=True):
+            s_type, s_value = by_id.get(src, ("unknown", str(src)))
+            d_type, d_value = by_id.get(dst, ("unknown", str(dst)))
+            evidence = attrs.get("evidence") or attrs.get("context") or ""
+            edges.append({
+                "source_kind": self.LAZYOWN_TYPE_MAP.get(s_type, "intel"),
+                "source_value": s_value,
+                "target_kind": self.LAZYOWN_TYPE_MAP.get(d_type, "intel"),
+                "target_value": d_value,
+                "type": str(attrs.get("relation", "related")),
+                "evidence": f"estorides:{evidence}"[:200] if evidence else "estorides",
+            })
+        return {"source": "estorides", "nodes": nodes, "edges": edges}
+
     # ------------------------------------------------------------- analytics
     def summary(self) -> Dict[str, Any]:
         g = self.graph

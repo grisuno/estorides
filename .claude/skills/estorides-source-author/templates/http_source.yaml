@@ -1,0 +1,20 @@
+name: example_http_source
+enabled: true
+category: 01. DNS Intelligence
+description: One line on what this origin returns and why it matters.
+os: any
+requires_key: false
+contact: none
+logs_queries: false
+parser: raw_text
+entity_hints:
+  - domain
+applies_to:
+  - domain
+tool:
+  method: GET
+  url: https://api.example.com/v1/lookup
+  headers:
+    User-Agent: Estorides/1.0
+  params:
+    q: '{query}'

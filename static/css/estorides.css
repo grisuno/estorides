@@ -95,6 +95,8 @@ input, select, textarea { font-family: inherit; color: var(--text-0); }
 .search .primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .search .ghost { background: transparent; color: var(--text-1); border: 1px solid var(--line-2); }
 .search .ghost:hover { color: var(--text-0); border-color: var(--accent); }
+.lan-active-check { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-1); white-space: nowrap; cursor: help; }
+.lan-active-check input { accent-color: var(--accent); }
 
 .status { display: flex; gap: 8px; }
 .badge {
