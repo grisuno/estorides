@@ -12,7 +12,7 @@
 **Total Files Parsed:** 191 | **Total Symbols Extracted:** 3183 | **Total Imports:** 1301
  | **Resolved Imports:** 412
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:f9cb8e3 | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:15822d7 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -504,10 +504,10 @@ Taint analysis traces how dangerous imports propagate through the codebase via t
   Path: intel_resolver.py
 - `intel_resolver.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
   Path: intel_resolver.py -> ssrf_guard.py
-- `intel_resolver.py` imports `requests` (1 hop to `ontology.py`) [medium]
-  Path: intel_resolver.py -> ontology.py
 - `intel_resolver.py` imports `requests` (1 hop to `config.py`) [medium]
   Path: intel_resolver.py -> config.py
+- `intel_resolver.py` imports `requests` (1 hop to `ontology.py`) [medium]
+  Path: intel_resolver.py -> ontology.py
 
 ---
 
@@ -642,7 +642,7 @@ Files sorted by how many other files would be affected if they changed. High-imp
 
 | File | Direct Dependents | Transitive Dependents | Total Impact |
 |------|------------------|----------------------|--------------|
-| `config.py` | 43 | 9 | 52 |
+| `config.py` | 43 | 12 | 55 |
 | `entity_extraction.py` | 13 | 36 | 49 |
 | `ids.py` | 6 | 31 | 37 |
 | `reliability_scoring.py` | 8 | 27 | 35 |
