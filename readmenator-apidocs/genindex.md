@@ -1,0 +1,2331 @@
+# General Index
+
+[Back to index](index.md)
+
+[A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W](#w)
+
+<a id="a"></a>
+
+## A
+
+- [`A`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-a) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`a`](modules/static.js.graph_force.js.md#a) function in `static/js/graph_force.js`
+- [`accessible`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-accessible) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`accessible_count`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult-accessible_count) attribute of `CloudAssetDiscoveryResult` in `estorides_core.cloud_asset_discovery`
+- [`actions`](modules/static.js.estorides.js.md#actions) function in `static/js/estorides.js`
+- [`active`](modules/estorides_core.search_telemetry.py.md#progressview-active) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`active`](modules/estorides_core.search_telemetry.py.md#searchphase-active) attribute of `SearchPhase` in `estorides_core.search_telemetry`
+- [`active_permitted`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-active_permitted) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`ACTIVE_TOOLS`](modules/estorides_core.lan_inventory.py.md#active_tools) constant in `estorides_core.lan_inventory`
+- [`active_used`](modules/estorides_core.lan_runner.py.md#lanscanresult-active_used) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`adaptLocal`](modules/static.js.graph_force.js.md#adaptlocal) function in `static/js/graph_force.js`
+- [`add`](modules/static.js.estorides.js.md#add) function in `static/js/estorides.js`
+- [`add`](modules/static.js.graph_bundle.js.md#add) function in `static/js/graph_bundle.js`
+- [`add`](modules/static.js.graph_bundle.js.md#add) method in `static/js/graph_bundle.js`
+- [`add_entities`](modules/estorides_core.cases.py.md#casestore-add_entities) method of `CaseStore` in `estorides_core.cases`
+- [`add_entity`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-add_entity) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`add_observation`](modules/estorides_core.cases.py.md#casestore-add_observation) method of `CaseStore` in `estorides_core.cases`
+- [`add_observation`](modules/estorides_core.fusion_store.py.md#fusionstore-add_observation) method of `FusionStore` in `estorides_core.fusion_store`
+- [`add_observation`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-add_observation) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`add_relationship`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-add_relationship) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`addDiscoverEntityToTab`](modules/static.js.estorides.js.md#adddiscoverentitytotab) function in `static/js/estorides.js`
+- [`added`](modules/estorides_core.change_detection.py.md#diff-added) attribute of `Diff` in `estorides_core.change_detection`
+- [`addText`](modules/static.js.estorides.js.md#addtext) function in `static/js/estorides.js`
+- [`affected_tech`](modules/estorides_core.vuln_correlation.py.md#vulnentry-affected_tech) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`affected_version`](modules/estorides_core.vuln_correlation.py.md#vulnentry-affected_version) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`after`](modules/estorides_core.change_detection.py.md#change-after) attribute of `Change` in `estorides_core.change_detection`
+- [`aimAt`](modules/static.js.graph_bundle.js.md#aimat) function in `static/js/graph_bundle.js`
+- [`AlertDispatcher`](modules/estorides_core.alerter.py.md#alertdispatcher) class in `estorides_core.alerter`
+- [`aliases`](modules/estorides_core.entity_resolution.py.md#canonicalentity-aliases) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`aliases`](modules/estorides_core.ontology.py.md#sanctionentry-aliases) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`all`](modules/estorides_core.source_loader.py.md#sourceregistry-all) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`all_techniques_for`](modules/estorides_core.mitre_attack.py.md#all_techniques_for) function in `estorides_core.mitre_attack`
+- [`allow`](modules/estorides_core.async_client.py.md#circuitbreaker-allow) method of `CircuitBreaker` in `estorides_core.async_client`
+- [`allow`](modules/estorides_core.audit.py.md#ratelimiter-allow) method of `RateLimiter` in `estorides_core.audit`
+- [`allow_active`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest-allow_active) attribute of `LanPolicyRequest` in `estorides_core.lan_policy`
+- [`allow_credentials`](modules/estorides_core.web_security.py.md#websecurityconfig-allow_credentials) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`allow_headers`](modules/estorides_core.web_security.py.md#websecurityconfig-allow_headers) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`allow_methods`](modules/estorides_core.web_security.py.md#websecurityconfig-allow_methods) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`allow_origins`](modules/estorides_core.web_security.py.md#websecurityconfig-allow_origins) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`allowed`](modules/estorides_core.ssrf_guard.py.md#guardresult-allowed) attribute of `GuardResult` in `estorides_core.ssrf_guard`
+- [`allowed`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-allowed) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`alpha`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-alpha) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`analyse_employees`](modules/estorides_core.people_intel.py.md#analyse_employees) function in `estorides_core.people_intel`
+- [`analyse_findings`](modules/estorides_core.code_exposure.py.md#analyse_findings) function in `estorides_core.code_exposure`
+- [`analyse_pdns_data`](modules/estorides_core.pdns_monitor.py.md#analyse_pdns_data) function in `estorides_core.pdns_monitor`
+- [`analyse_third_parties`](modules/estorides_core.supply_chain.py.md#analyse_third_parties) function in `estorides_core.supply_chain`
+- [`analyseEntity`](modules/static.js.estorides.js.md#analyseentity) function in `static/js/estorides.js`
+- [`angles`](modules/estorides_core.graph_bundle.py.md#bundlelayout-angles) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`ANTHROPIC_URL`](modules/estorides_core.config.py.md#anthropic_url) constant in `estorides_core.config`
+- [`AnthropicBackend`](modules/estorides_llm.manager.py.md#anthropicbackend) class in `estorides_llm.manager`
+- [`api_tool_install`](modules/estorides_web_tools.py.md#api_tool_install) function in `estorides_web_tools`
+- [`api_tool_install_status`](modules/estorides_web_tools.py.md#api_tool_install_status) function in `estorides_web_tools`
+- [`api_tools_doctor`](modules/estorides_web_tools.py.md#api_tools_doctor) function in `estorides_web_tools`
+- [`api_tools_list`](modules/estorides_web_tools.py.md#api_tools_list) function in `estorides_web_tools`
+- [`apiFetch`](modules/static.js.source_manager.js.md#apifetch) function in `static/js/source_manager.js`
+- [`app_version`](modules/estorides_core.ops_observability.py.md#opsconfig-app_version) attribute of `OpsConfig` in `estorides_core.ops_observability`
+- [`appendStreamEntity`](modules/static.js.estorides.js.md#appendstreamentity) function in `static/js/estorides.js`
+- [`appendStreamObservation`](modules/static.js.estorides.js.md#appendstreamobservation) function in `static/js/estorides.js`
+- [`applies`](modules/estorides_core.transforms.py.md#transform-applies) attribute of `Transform` in `estorides_core.transforms`
+- [`applyFilters`](modules/static.js.graph_force.js.md#applyfilters) function in `static/js/graph_force.js`
+- [`applyLayout3D`](modules/static.js.graph_force.js.md#applylayout3d) function in `static/js/graph_force.js`
+- [`applyLevelStyles`](modules/static.js.estorides.js.md#applylevelstyles) function in `static/js/estorides.js`
+- [`applyResultFilters`](modules/static.js.estorides.js.md#applyresultfilters) function in `static/js/estorides.js`
+- [`approx_tokens`](modules/estorides_core.graph_rag_search.py.md#ragcontext-approx_tokens) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`apt`](modules/estorides_core.tool_install.py.md#installrecipe-apt) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`aria_busy`](modules/estorides_core.search_telemetry.py.md#progressview-aria_busy) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`aria_valuemax`](modules/estorides_core.search_telemetry.py.md#progressview-aria_valuemax) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`aria_valuenow`](modules/estorides_core.search_telemetry.py.md#progressview-aria_valuenow) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`aria_valuetext`](modules/estorides_core.search_telemetry.py.md#progressview-aria_valuetext) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`ARP_READER_TIMEOUT_S`](modules/estorides_core.lan_runner.py.md#arp_reader_timeout_s) constant in `estorides_core.lan_runner`
+- [`ARPSCAN_TIMEOUT_S`](modules/estorides_core.lan_runner.py.md#arpscan_timeout_s) constant in `estorides_core.lan_runner`
+- [`ARPSCAN_TOOL`](modules/estorides_core.lan_runner.py.md#arpscan_tool) constant in `estorides_core.lan_runner`
+- [`ask_context`](modules/estorides_core.graph_rag_search.py.md#ask_context) function in `estorides_core.graph_rag_search`
+- [`asn`](modules/estorides_core.pdns_monitor.py.md#iprecord-asn) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`asn`](modules/estorides_core.supply_chain.py.md#sharedinfra-asn) attribute of `SharedInfra` in `estorides_core.supply_chain`
+- [`asn_description`](modules/estorides_core.pdns_monitor.py.md#iprecord-asn_description) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`assert_safe`](modules/estorides_core.ssrf_guard.py.md#assert_safe) function in `estorides_core.ssrf_guard`
+- [`assess_bucket`](modules/estorides_core.cloud_asset_discovery.py.md#assess_bucket) function in `estorides_core.cloud_asset_discovery`
+- [`assets`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult-assets) attribute of `CloudAssetDiscoveryResult` in `estorides_core.cloud_asset_discovery`
+- [`AsyncClient`](modules/estorides_core.async_client.py.md#asyncclient) class in `estorides_core.async_client`
+- [`attack_readiness_score`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-attack_readiness_score) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`attempts`](modules/estorides_core.observation_models.py.md#observationmeta-attempts) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`attempts`](modules/estorides_core.config.py.md#retryconfig-attempts) attribute of `RetryConfig` in `estorides_core.config`
+- [`attribute`](modules/static.js.estorides.js.md#attribute) class in `static/js/estorides.js`
+- [`attributes`](modules/estorides_core.entity_resolution.py.md#canonicalentity-attributes) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`attributes`](modules/estorides_core.entity_extraction.py.md#entity-attributes) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`attributes`](modules/estorides_core.observation_models.py.md#observedentity-attributes) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`AUDIT_PATH`](modules/estorides_core.audit.py.md#audit_path) constant in `estorides_core.audit`
+- [`AuditEvent`](modules/estorides_core.audit.py.md#auditevent) class in `estorides_core.audit`
+- [`AuditLog`](modules/estorides_core.audit.py.md#auditlog) class in `estorides_core.audit`
+- [`AUTH_COOKIE`](modules/estorides_core.web_security.py.md#auth_cookie) constant in `estorides_core.web_security`
+- [`AUTH_HEADER`](modules/estorides_core.web_security.py.md#auth_header) constant in `estorides_core.web_security`
+- [`AUTH_HEADER_ALT`](modules/estorides_core.web_security.py.md#auth_header_alt) constant in `estorides_core.web_security`
+- [`AUTH_META`](modules/estorides_core.web_security.py.md#auth_meta) constant in `estorides_core.web_security`
+- [`auth_meta_for_index`](modules/estorides_core.web_security.py.md#authgate-auth_meta_for_index) method of `AuthGate` in `estorides_core.web_security`
+- [`AuthGate`](modules/estorides_core.web_security.py.md#authgate) class in `estorides_core.web_security`
+- [`authHeaders`](modules/static.js.source_manager.js.md#authheaders) function in `static/js/source_manager.js`
+- [`AUTO_GENERATED_TOKEN`](modules/estorides_core.web_security.py.md#auto_generated_token) constant in `estorides_core.web_security`
+- [`auto_generated_token`](modules/estorides_core.web_security.py.md#auto_generated_token) function in `estorides_core.web_security`
+- [`available`](modules/estorides_core.tool_install.py.md#toolstatus-available) attribute of `ToolStatus` in `estorides_core.tool_install`
+- [`available_channels`](modules/estorides_core.alerter.py.md#alertdispatcher-available_channels) method of `AlertDispatcher` in `estorides_core.alerter`
+- [`avatar_url`](modules/estorides_core.socmint.py.md#socialmediaprofile-avatar_url) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`avg_health_score`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-avg_health_score) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`avg_latency_ms`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-avg_latency_ms) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`AWS_KEY_RE`](modules/estorides_core.code_exposure.py.md#aws_key_re) constant in `estorides_core.code_exposure`
+
+<a id="b"></a>
+
+## B
+
+- [`B`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-b) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`BACKENDS`](modules/estorides_llm.manager.py.md#backends) constant in `estorides_llm.manager`
+- [`barH`](modules/static.js.estorides.js.md#barh) function in `static/js/estorides.js`
+- [`barH`](modules/static.js.estorides.js.md#barh) function in `static/js/estorides.js`
+- [`base_confidence`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-base_confidence) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`base_s`](modules/estorides_core.config.py.md#retryconfig-base_s) attribute of `RetryConfig` in `estorides_core.config`
+- [`base_url`](modules/estorides_llm.manager.py.md#openaibackend-base_url) attribute of `OpenAIBackend` in `estorides_llm.manager`
+- [`base_url`](modules/estorides_llm.manager.py.md#openrouterbackend-base_url) attribute of `OpenRouterBackend` in `estorides_llm.manager`
+- [`before`](modules/estorides_core.change_detection.py.md#change-before) attribute of `Change` in `estorides_core.change_detection`
+- [`bindResultFilters`](modules/static.js.estorides.js.md#bindresultfilters) function in `static/js/estorides.js`
+- [`bindStagePointer`](modules/static.js.graph_force.js.md#bindstagepointer) function in `static/js/graph_force.js`
+- [`bio`](modules/estorides_core.socmint.py.md#socialmediaprofile-bio) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`block_reason`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-block_reason) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`block_reason`](modules/estorides_core.lan_runner.py.md#lanscanresult-block_reason) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`blocking_keys`](modules/estorides_core.entity_resolution.py.md#blocking_keys) function in `estorides_core.entity_resolution`
+- [`BLUF_PROMPT`](modules/estorides_llm.intelligence_prompts.py.md#bluf_prompt) constant in `estorides_llm.intelligence_prompts`
+- [`bm25_b`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-bm25_b) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`bm25_k1`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-bm25_k1) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`Bm25Index`](modules/estorides_core.graph_rag_search.py.md#bm25index) class in `estorides_core.graph_rag_search`
+- [`body`](modules/estorides_core.search_telemetry.py.md#splashtip-body) attribute of `SplashTip` in `estorides_core.search_telemetry`
+- [`BoundedJobRegistry`](modules/estorides_core.job_registry.py.md#boundedjobregistry) class in `estorides_core.job_registry`
+- [`boxQ`](modules/static.js.estorides.js.md#boxq) function in `static/js/estorides.js`
+- [`brand`](modules/estorides_core.search_telemetry.py.md#telemetryconfig-brand) attribute of `TelemetryConfig` in `estorides_core.search_telemetry`
+- [`breach_name`](modules/estorides_core.people_intel.py.md#breachrecord-breach_name) attribute of `BreachRecord` in `estorides_core.people_intel`
+- [`BreachContext`](modules/estorides_core.people_intel.py.md#breachcontext) class in `estorides_core.people_intel`
+- [`breaches`](modules/estorides_core.people_intel.py.md#employee-breaches) attribute of `Employee` in `estorides_core.people_intel`
+- [`breaches`](modules/estorides_core.people_intel.py.md#peopleintelresult-breaches) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`BreachRecord`](modules/estorides_core.people_intel.py.md#breachrecord) class in `estorides_core.people_intel`
+- [`breadth_per_step`](modules/estorides_core.config.py.md#pivotconfig-breadth_per_step) attribute of `PivotConfig` in `estorides_core.config`
+- [`bspline`](modules/static.js.graph_bundle.js.md#bspline) function in `static/js/graph_bundle.js`
+- [`BufferedEventSink`](modules/estorides_core.pivot_engine.py.md#bufferedeventsink) class in `estorides_core.pivot_engine`
+- [`build_ai_context`](modules/estorides_core.graph_force.py.md#build_ai_context) function in `estorides_core.graph_force`
+- [`build_bundle`](modules/estorides_core.lan_bundle.py.md#build_bundle) function in `estorides_core.lan_bundle`
+- [`build_bundle_payload`](modules/estorides_core.graph_bundle.py.md#build_bundle_payload) function in `estorides_core.graph_bundle`
+- [`build_dashboard`](modules/estorides_core.source_health_monitoring.py.md#build_dashboard) function in `estorides_core.source_health_monitoring`
+- [`build_executive_summary`](modules/estorides_export.recon_report.py.md#build_executive_summary) function in `estorides_export.recon_report`
+- [`build_force_payload`](modules/estorides_core.graph_force.py.md#build_force_payload) function in `estorides_core.graph_force`
+- [`build_https_url`](modules/estorides_core.web_security.py.md#build_https_url) function in `estorides_core.web_security`
+- [`build_index`](modules/estorides_core.graph_rag_search.py.md#build_index) function in `estorides_core.graph_rag_search`
+- [`build_openapi`](modules/estorides_core.openapi.py.md#build_openapi) function in `estorides_core.openapi`
+- [`build_page_params`](modules/estorides_core.pagination.py.md#build_page_params) function in `estorides_core.pagination`
+- [`build_parser`](modules/estorides_cli.py.md#build_parser) function in `estorides_cli`
+- [`build_report`](modules/estorides_core.scope.py.md#build_report) function in `estorides_core.scope`
+- [`build_subdomain_tree`](modules/estorides_export.recon_report.py.md#build_subdomain_tree) function in `estorides_export.recon_report`
+- [`buildCaseMapCoords`](modules/static.js.estorides.js.md#buildcasemapcoords) function in `static/js/estorides.js`
+- [`buildCurves`](modules/static.js.graph_bundle.js.md#buildcurves) function in `static/js/graph_bundle.js`
+- [`buildMapCoords`](modules/static.js.estorides.js.md#buildmapcoords) function in `static/js/estorides.js`
+- [`buildResultCard`](modules/static.js.estorides.js.md#buildresultcard) function in `static/js/estorides.js`
+- [`bundle`](modules/estorides_core.lan_runner.py.md#lanscanresult-bundle) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`bundle_errors`](modules/estorides_core.lan_runner.py.md#lanscanresult-bundle_errors) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`bundle_from_graph`](modules/estorides_export.stix.py.md#bundle_from_graph) function in `estorides_export.stix`
+- [`bundle_settings`](modules/estorides_core.graph_bundle.py.md#bundle_settings) function in `estorides_core.graph_bundle`
+- [`BundleLayout`](modules/estorides_core.graph_bundle.py.md#bundlelayout) class in `estorides_core.graph_bundle`
+- [`by_category`](modules/estorides_core.source_loader.py.md#sourceregistry-by_category) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`by_kind`](modules/estorides_core.change_detection.py.md#changesummary-by_kind) attribute of `ChangeSummary` in `estorides_core.change_detection`
+
+<a id="c"></a>
+
+## C
+
+- [`C`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-c) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`c`](modules/static.js.estorides.js.md#c) function in `static/js/estorides.js`
+- [`c`](modules/static.js.estorides.js.md#c) function in `static/js/estorides.js`
+- [`CACHE_DIR`](modules/estorides_core.osiris_sources.py.md#cache_dir) constant in `estorides_core.osiris_sources`
+- [`cache_filename`](modules/estorides_core.feeds.py.md#feed-cache_filename) attribute of `Feed` in `estorides_core.feeds`
+- [`CACHE_MAX`](modules/estorides_core.intel_resolver.py.md#cache_max) constant in `estorides_core.intel_resolver`
+- [`CACHE_PATH`](modules/estorides_core.config.py.md#cache_path) constant in `estorides_core.config`
+- [`CACHE_TTL`](modules/estorides_core.intel_resolver.py.md#cache_ttl) constant in `estorides_core.intel_resolver`
+- [`CacheConfig`](modules/estorides_core.config.py.md#cacheconfig) class in `estorides_core.config`
+- [`cached`](modules/estorides_core.observation_models.py.md#observationmeta-cached) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`__call__`](modules/estorides_llm.manager.py.md#anthropicbackend-__call__) method of `AnthropicBackend` in `estorides_llm.manager`
+- [`__call__`](modules/estorides_llm.manager.py.md#llmbackend-__call__) method of `LLMBackend` in `estorides_llm.manager`
+- [`__call__`](modules/estorides_llm.manager.py.md#ollamabackend-__call__) method of `OllamaBackend` in `estorides_llm.manager`
+- [`__call__`](modules/estorides_core.relationship_inference.py.md#relationshipinferer-__call__) method of `RelationshipInferer` in `estorides_core.relationship_inference`
+- [`CANNOT_BE_JUDGED`](modules/estorides_core.reliability_scoring.py.md#credibility-cannot_be_judged) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`canonical_id`](modules/estorides_core.entity_resolution.py.md#canonicalentity-canonical_id) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`canonical_id`](modules/estorides_core.recon_fusion.py.md#groupedentity-canonical_id) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`canonical_id`](modules/estorides_core.entity_resolution.py.md#canonical_id) function in `estorides_core.entity_resolution`
+- [`CanonicalEntity`](modules/estorides_core.entity_resolution.py.md#canonicalentity) class in `estorides_core.entity_resolution`
+- [`cap_s`](modules/estorides_core.config.py.md#retryconfig-cap_s) attribute of `RetryConfig` in `estorides_core.config`
+- [`case_id`](modules/estorides_core.discoverer.py.md#discoverjob-case_id) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`caseActionDiff`](modules/static.js.estorides.js.md#caseactiondiff) function in `static/js/estorides.js`
+- [`caseActionReport`](modules/static.js.estorides.js.md#caseactionreport) function in `static/js/estorides.js`
+- [`caseActionSave`](modules/static.js.estorides.js.md#caseactionsave) function in `static/js/estorides.js`
+- [`cases_default_limit`](modules/estorides_core.config.py.md#webconfig-cases_default_limit) attribute of `WebConfig` in `estorides_core.config`
+- [`CaseStore`](modules/estorides_core.cases.py.md#casestore) class in `estorides_core.cases`
+- [`cat`](modules/static.js.estorides.js.md#cat) function in `static/js/estorides.js`
+- [`categories`](modules/estorides_core.source_loader.py.md#sourceregistry-categories) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`category`](modules/estorides_core.observation_models.py.md#observation-category) attribute of `Observation` in `estorides_core.observation_models`
+- [`category`](modules/estorides_core.socmint.py.md#platforminfo-category) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`category`](modules/estorides_core.tech_fingerprint.py.md#tech-category) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`CATEGORY_PALETTE`](modules/estorides_core.config.py.md#category_palette) constant in `estorides_core.config`
+- [`CDN_HEADERS`](modules/estorides_core.tech_fingerprint.py.md#cdn_headers) constant in `estorides_core.tech_fingerprint`
+- [`CDN_PATTERNS`](modules/estorides_core.supply_chain.py.md#cdn_patterns) constant in `estorides_core.supply_chain`
+- [`center`](modules/estorides_core.graph_bundle.py.md#bundlelayout-center) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`center`](modules/static.js.graph_bundle.js.md#center) function in `static/js/graph_bundle.js`
+- [`CertRecord`](modules/estorides_core.pdns_monitor.py.md#certrecord) class in `estorides_core.pdns_monitor`
+- [`Change`](modules/estorides_core.change_detection.py.md#change) class in `estorides_core.change_detection`
+- [`CHANGE_KINDS`](modules/estorides_core.change_detection.py.md#change_kinds) constant in `estorides_core.change_detection`
+- [`ChangeConfig`](modules/estorides_core.change_detection.py.md#changeconfig) class in `estorides_core.change_detection`
+- [`changed`](modules/estorides_core.change_detection.py.md#diff-changed) attribute of `Diff` in `estorides_core.change_detection`
+- [`ChangeReport`](modules/estorides_core.change_detection.py.md#changereport) class in `estorides_core.change_detection`
+- [`changes`](modules/estorides_core.change_detection.py.md#changereport-changes) attribute of `ChangeReport` in `estorides_core.change_detection`
+- [`ChangeSummary`](modules/estorides_core.change_detection.py.md#changesummary) class in `estorides_core.change_detection`
+- [`channels`](modules/estorides_core.monitoring.py.md#watchtarget-channels) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`chars_per_token`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-chars_per_token) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`check`](modules/estorides_core.web_security.py.md#authgate-check) method of `AuthGate` in `estorides_core.web_security`
+- [`check`](modules/static.js.estorides.js.md#check) function in `static/js/estorides.js`
+- [`check_observation`](modules/estorides_core.ontology.py.md#ontologyengine-check_observation) method of `OntologyEngine` in `estorides_core.ontology`
+- [`check_url`](modules/estorides_core.ssrf_guard.py.md#check_url) function in `estorides_core.ssrf_guard`
+- [`children`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-children) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`choose_mode`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-choose_mode) method of `GraphRagSearcher` in `estorides_core.graph_rag_search`
+- [`cid`](modules/static.js.estorides.js.md#cid) function in `static/js/estorides.js`
+- [`cid`](modules/static.js.graph_force.js.md#cid) function in `static/js/graph_force.js`
+- [`CidrRule`](modules/estorides_core.scope.py.md#cidrrule) class in `estorides_core.scope`
+- [`CIRCUIT_COOLDOWN_S`](modules/estorides_core.config.py.md#circuit_cooldown_s) constant in `estorides_core.config`
+- [`CIRCUIT_FAIL_THRESHOLD`](modules/estorides_core.config.py.md#circuit_fail_threshold) constant in `estorides_core.config`
+- [`CircuitBreaker`](modules/estorides_core.async_client.py.md#circuitbreaker) class in `estorides_core.async_client`
+- [`claim`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-claim) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`clamp_deadline`](modules/estorides_core.config.py.md#pivotconfig-clamp_deadline) method of `PivotConfig` in `estorides_core.config`
+- [`clamp_depth`](modules/estorides_core.config.py.md#pivotconfig-clamp_depth) method of `PivotConfig` in `estorides_core.config`
+- [`clamp_entities`](modules/estorides_core.config.py.md#pivotconfig-clamp_entities) method of `PivotConfig` in `estorides_core.config`
+- [`clamp_parallel`](modules/estorides_core.config.py.md#pivotconfig-clamp_parallel) method of `PivotConfig` in `estorides_core.config`
+- [`clamp_steps`](modules/estorides_core.config.py.md#pivotconfig-clamp_steps) method of `PivotConfig` in `estorides_core.config`
+- [`classification`](modules/estorides_export.recon_report.py.md#reportmetadata-classification) attribute of `ReportMetadata` in `estorides_export.recon_report`
+- [`classify`](modules/estorides_core.recon_fusion.py.md#reconfusionengine-classify) method of `ReconFusionEngine` in `estorides_core.recon_fusion`
+- [`classify`](modules/estorides_core.scope.py.md#scopematcher-classify) method of `ScopeMatcher` in `estorides_core.scope`
+- [`classify_finding`](modules/estorides_core.code_exposure.py.md#classify_finding) function in `estorides_core.code_exposure`
+- [`classify_subdomain_status`](modules/estorides_core.pdns_monitor.py.md#classify_subdomain_status) function in `estorides_core.pdns_monitor`
+- [`clear`](modules/estorides_core.event_bus.py.md#eventbus-clear) method of `EventBus` in `estorides_core.event_bus`
+- [`clear`](modules/estorides_core.ontology.py.md#wikidatacache-clear) method of `WikidataCache` in `estorides_core.ontology`
+- [`clearAll`](modules/static.js.estorides.js.md#clearall) function in `static/js/estorides.js`
+- [`clearEditor`](modules/static.js.source_manager.js.md#cleareditor) function in `static/js/source_manager.js`
+- [`clearMap`](modules/static.js.estorides.js.md#clearmap) function in `static/js/estorides.js`
+- [`clearSelection`](modules/static.js.graph_force.js.md#clearselection) function in `static/js/graph_force.js`
+- [`clip`](modules/static.js.graph_bundle.js.md#clip) function in `static/js/graph_bundle.js`
+- [`close`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-close) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`close`](modules/estorides_core.sqlite_store.py.md#sqlitestore-close) method of `SqliteStore` in `estorides_core.sqlite_store`
+- [`close`](modules/static.js.estorides.js.md#close) function in `static/js/estorides.js`
+- [`CLOUD_ENDPOINTS`](modules/estorides_core.cloud_asset_discovery.py.md#cloud_endpoints) constant in `estorides_core.cloud_asset_discovery`
+- [`CloudAsset`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset) class in `estorides_core.cloud_asset_discovery`
+- [`CloudAssetDiscoveryError`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryerror) exception in `estorides_core.cloud_asset_discovery`
+- [`CloudAssetDiscoveryResult`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult) class in `estorides_core.cloud_asset_discovery`
+- [`cluster`](modules/estorides_core.graph_rag_search.py.md#ragentity-cluster) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`CLUSTER_PALETTE`](modules/estorides_core.config.py.md#cluster_palette) constant in `estorides_core.config`
+- [`CLUSTER_PALETTE`](modules/static.js.estorides.js.md#cluster_palette) function in `static/js/estorides.js`
+- [`clusterColor`](modules/static.js.estorides.js.md#clustercolor) function in `static/js/estorides.js`
+- [`clusterForce`](modules/static.js.graph_force.js.md#clusterforce) function in `static/js/graph_force.js`
+- [`cmd_alerts_channels`](modules/estorides_cli.py.md#cmd_alerts_channels) function in `estorides_cli`
+- [`cmd_alerts_test`](modules/estorides_cli.py.md#cmd_alerts_test) function in `estorides_cli`
+- [`cmd_diff`](modules/estorides_cli.py.md#cmd_diff) function in `estorides_cli`
+- [`cmd_discover`](modules/estorides_cli.py.md#cmd_discover) function in `estorides_cli`
+- [`cmd_export_misp`](modules/estorides_cli.py.md#cmd_export_misp) function in `estorides_cli`
+- [`cmd_export_stix`](modules/estorides_cli.py.md#cmd_export_stix) function in `estorides_cli`
+- [`cmd_fusion`](modules/estorides_cli.py.md#cmd_fusion) function in `estorides_cli`
+- [`cmd_graph_export`](modules/estorides_cli.py.md#cmd_graph_export) function in `estorides_cli`
+- [`cmd_report`](modules/estorides_cli.py.md#cmd_report) function in `estorides_cli`
+- [`cmd_run`](modules/estorides_cli.py.md#cmd_run) function in `estorides_cli`
+- [`cmd_scheduler_start`](modules/estorides_cli.py.md#cmd_scheduler_start) function in `estorides_cli`
+- [`cmd_scheduler_status`](modules/estorides_cli.py.md#cmd_scheduler_status) function in `estorides_cli`
+- [`cmd_scheduler_stop`](modules/estorides_cli.py.md#cmd_scheduler_stop) function in `estorides_cli`
+- [`cmd_scope`](modules/estorides_cli.py.md#cmd_scope) function in `estorides_cli`
+- [`cmd_serve`](modules/estorides_cli.py.md#cmd_serve) function in `estorides_cli`
+- [`cmd_status`](modules/estorides_cli.py.md#cmd_status) function in `estorides_cli`
+- [`cmd_watch_add`](modules/estorides_cli.py.md#cmd_watch_add) function in `estorides_cli`
+- [`cmd_watch_disable`](modules/estorides_cli.py.md#cmd_watch_disable) function in `estorides_cli`
+- [`cmd_watch_enable`](modules/estorides_cli.py.md#cmd_watch_enable) function in `estorides_cli`
+- [`cmd_watch_history`](modules/estorides_cli.py.md#cmd_watch_history) function in `estorides_cli`
+- [`cmd_watch_list`](modules/estorides_cli.py.md#cmd_watch_list) function in `estorides_cli`
+- [`cmd_watch_remove`](modules/estorides_cli.py.md#cmd_watch_remove) function in `estorides_cli`
+- [`CMS_META_REGEX`](modules/estorides_core.tech_fingerprint.py.md#cms_meta_regex) constant in `estorides_core.tech_fingerprint`
+- [`CO_OCCUR_EDGE`](modules/estorides_core.knowledge_graph.py.md#co_occur_edge) constant in `estorides_core.knowledge_graph`
+- [`CodeExposureResult`](modules/estorides_core.code_exposure.py.md#codeexposureresult) class in `estorides_core.code_exposure`
+- [`CodeFinding`](modules/estorides_core.code_exposure.py.md#codefinding) class in `estorides_core.code_exposure`
+- [`col`](modules/static.js.graph_force.js.md#col) function in `static/js/graph_force.js`
+- [`collect`](modules/tools.sync_docs.py.md#collect) function in `tools.sync_docs`
+- [`collideForce`](modules/static.js.graph_force.js.md#collideforce) function in `static/js/graph_force.js`
+- [`colorFor`](modules/static.js.estorides.js.md#colorfor) function in `static/js/estorides.js`
+- [`colorForKind`](modules/static.js.estorides.js.md#colorforkind) function in `static/js/estorides.js`
+- [`colorOf`](modules/static.js.graph_bundle.js.md#colorof) function in `static/js/graph_bundle.js`
+- [`colorOf`](modules/static.js.graph_force.js.md#colorof) function in `static/js/graph_force.js`
+- [`COMMON_BUCKET_PREFIXES`](modules/estorides_core.cloud_asset_discovery.py.md#common_bucket_prefixes) constant in `estorides_core.cloud_asset_discovery`
+- [`communities`](modules/estorides_core.graph_rag_search.py.md#graphragindex-communities) attribute of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`communities`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-communities) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`community_id`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-community_id) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`completed`](modules/estorides_core.search_telemetry.py.md#progressview-completed) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`compute_attack_readiness`](modules/estorides_core.vuln_correlation.py.md#compute_attack_readiness) function in `estorides_core.vuln_correlation`
+- [`compute_confidence`](modules/estorides_core.reliability_scoring.py.md#compute_confidence) function in `estorides_core.reliability_scoring`
+- [`compute_health`](modules/estorides_core.source_health_monitoring.py.md#compute_health) function in `estorides_core.source_health_monitoring`
+- [`computed_at`](modules/estorides_core.change_detection.py.md#changesummary-computed_at) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`computed_at`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-computed_at) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`computeHighlight`](modules/static.js.graph_force.js.md#computehighlight) function in `static/js/graph_force.js`
+- [`confidence`](modules/estorides_core.entity_resolution.py.md#canonicalentity-confidence) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`confidence`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-confidence) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`confidence`](modules/estorides_core.active_recon.py.md#dnsreconresult-confidence) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`confidence`](modules/estorides_core.entity_extraction.py.md#entity-confidence) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`confidence`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-confidence) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`confidence`](modules/estorides_core.active_recon.py.md#niktoresult-confidence) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`confidence`](modules/estorides_core.active_recon.py.md#nmapresult-confidence) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`confidence`](modules/estorides_core.observation_models.py.md#observedentity-confidence) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`confidence`](modules/estorides_core.socmint.py.md#profilematch-confidence) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`confidence`](modules/estorides_core.graph_rag_search.py.md#ragrelation-confidence) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`confidence`](modules/estorides_core.supply_chain.py.md#relationship-confidence) attribute of `Relationship` in `estorides_core.supply_chain`
+- [`confidence`](modules/estorides_core.supply_chain.py.md#sharedinfra-confidence) attribute of `SharedInfra` in `estorides_core.supply_chain`
+- [`confidence`](modules/estorides_core.change_detection.py.md#snapshotentity-confidence) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`confidence`](modules/estorides_core.active_recon.py.md#sqlmapresult-confidence) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`confidence`](modules/estorides_core.tech_fingerprint.py.md#tech-confidence) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`confidence`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult-confidence) attribute of `TechFingerprintResult` in `estorides_core.tech_fingerprint`
+- [`confidence`](modules/estorides_core.active_recon.py.md#theharvesterresult-confidence) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`confidence`](modules/estorides_core.supply_chain.py.md#thirdparty-confidence) attribute of `ThirdParty` in `estorides_core.supply_chain`
+- [`confidence`](modules/estorides_core.tool_runner.py.md#toolresult-confidence) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`confidence`](modules/estorides_core.vuln_correlation.py.md#vulnentry-confidence) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`ConfidenceInput`](modules/estorides_core.reliability_scoring.py.md#confidenceinput) class in `estorides_core.reliability_scoring`
+- [`ConfidenceResult`](modules/estorides_core.reliability_scoring.py.md#confidenceresult) class in `estorides_core.reliability_scoring`
+- [`CONFIG_FILE_PATTERNS`](modules/estorides_core.code_exposure.py.md#config_file_patterns) constant in `estorides_core.code_exposure`
+- [`CONFIRMED`](modules/estorides_core.reliability_scoring.py.md#credibility-confirmed) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`confirmModal`](modules/static.js.estorides.js.md#confirmmodal) function in `static/js/estorides.js`
+- [`consent`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest-consent) attribute of `LanPolicyRequest` in `estorides_core.lan_policy`
+- [`CONSENT_NOTICE`](modules/estorides_core.lan_policy.py.md#consent_notice) constant in `estorides_core.lan_policy`
+- [`consonant_skeleton`](modules/estorides_core.transliteration.py.md#consonant_skeleton) function in `estorides_core.transliteration`
+- [`CONTACT_ACTIVE`](modules/estorides_core.config.py.md#contact_active) constant in `estorides_core.config`
+- [`CONTACT_BROKER`](modules/estorides_core.config.py.md#contact_broker) constant in `estorides_core.config`
+- [`contact_for_tool`](modules/estorides_core.lan_inventory.py.md#contact_for_tool) function in `estorides_core.lan_inventory`
+- [`contact_level`](modules/estorides_core.config.py.md#contact_level) function in `estorides_core.config`
+- [`CONTACT_LEVELS`](modules/estorides_core.config.py.md#contact_levels) constant in `estorides_core.config`
+- [`CONTACT_NONE`](modules/estorides_core.config.py.md#contact_none) constant in `estorides_core.config`
+- [`content`](modules/estorides_export.recon_report.py.md#reportsection-content) attribute of `ReportSection` in `estorides_export.recon_report`
+- [`content_type`](modules/estorides_core.observation_models.py.md#observationmeta-content_type) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`context`](modules/estorides_core.entity_extraction.py.md#entity-context) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`context`](modules/estorides_core.observation_models.py.md#observedentity-context) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`context`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-context) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`context_budget_tokens`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-context_budget_tokens) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`CONTEXT_LABEL_CHARS`](modules/estorides_core.graph_force.py.md#context_label_chars) constant in `estorides_core.graph_force`
+- [`CONTEXT_LABEL_CHARS`](modules/estorides_core.graph_rag_search.py.md#context_label_chars) constant in `estorides_core.graph_rag_search`
+- [`contradicting`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-contradicting) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`convexHullPts`](modules/static.js.graph_force.js.md#convexhullpts) function in `static/js/graph_force.js`
+- [`COORD_DIGITS`](modules/estorides_core.graph_bundle.py.md#coord_digits) constant in `estorides_core.graph_bundle`
+- [`copyDeepLink`](modules/static.js.graph_force.js.md#copydeeplink) function in `static/js/graph_force.js`
+- [`correlate_breaches`](modules/estorides_core.people_intel.py.md#correlate_breaches) function in `estorides_core.people_intel`
+- [`correlate_technologies`](modules/estorides_core.vuln_correlation.py.md#correlate_technologies) function in `estorides_core.vuln_correlation`
+- [`corroborated_properties`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-corroborated_properties) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`corroborated_properties`](modules/estorides_core.fusion_store.py.md#fusionstore-corroborated_properties) method of `FusionStore` in `estorides_core.fusion_store`
+- [`corroboration_count`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-corroboration_count) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`corroboration_count`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-corroboration_count) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`corroboration_weight`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-corroboration_weight) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`cost`](modules/estorides_core.transforms.py.md#transform-cost) attribute of `Transform` in `estorides_core.transforms`
+- [`count_results`](modules/estorides_core.pagination.py.md#count_results) function in `estorides_core.pagination`
+- [`countries`](modules/estorides_core.ontology.py.md#sanctionentry-countries) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`COUNTRY_CENTROIDS`](modules/estorides_core.osiris_sources.py.md#country_centroids) constant in `estorides_core.osiris_sources`
+- [`create_app`](modules/estorides_web.py.md#create_app) function in `estorides_web`
+- [`create_case`](modules/estorides_core.cases.py.md#casestore-create_case) method of `CaseStore` in `estorides_core.cases`
+- [`create_discover_job`](modules/estorides_core.discoverer.py.md#create_discover_job) function in `estorides_core.discoverer`
+- [`create_watch`](modules/estorides_core.monitoring.py.md#watchstore-create_watch) method of `WatchStore` in `estorides_core.monitoring`
+- [`created_at`](modules/estorides_core.monitoring.py.md#watchtarget-created_at) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`CRED_PATTERNS`](modules/estorides_core.code_exposure.py.md#cred_patterns) constant in `estorides_core.code_exposure`
+- [`credibility`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-credibility) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`credibility`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-credibility) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`Credibility`](modules/estorides_core.reliability_scoring.py.md#credibility) enum in `estorides_core.reliability_scoring`
+- [`CREDIBILITY_WEIGHT`](modules/estorides_core.reliability_scoring.py.md#credibility_weight) constant in `estorides_core.reliability_scoring`
+- [`credibility_weight`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-credibility_weight) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`CRITICAL`](modules/estorides_core.recon_fusion.py.md#relevancetier-critical) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`critical`](modules/estorides_core.code_exposure.py.md#severitysummary-critical) attribute of `SeveritySummary` in `estorides_core.code_exposure`
+- [`critical_count`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-critical_count) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`critical_min_sources`](modules/estorides_core.config.py.md#reconfusionconfig-critical_min_sources) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`cross`](modules/static.js.graph_force.js.md#cross) function in `static/js/graph_force.js`
+- [`cross_platform_confidence`](modules/estorides_core.socmint.py.md#socialmediaprofile-cross_platform_confidence) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`crypto_status`](modules/estorides_core.case_crypto.py.md#crypto_status) function in `estorides_core.case_crypto`
+- [`csp_policy`](modules/estorides_core.web_security.py.md#websecurityconfig-csp_policy) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`currentRaw`](modules/static.js.graph_force.js.md#currentraw) function in `static/js/graph_force.js`
+- [`cursor_param`](modules/estorides_core.pagination.py.md#paginationconfig-cursor_param) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`cursor_path`](modules/estorides_core.pagination.py.md#paginationconfig-cursor_path) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`curve`](modules/static.js.graph_bundle.js.md#curve) function in `static/js/graph_bundle.js`
+- [`curves`](modules/estorides_core.graph_bundle.py.md#bundlelayout-curves) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`curves`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout-curves) attribute of `SphereBundleLayout` in `estorides_core.graph_bundle`
+- [`cve_candidates`](modules/estorides_core.tech_fingerprint.py.md#tech-cve_candidates) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`cve_id`](modules/estorides_core.vuln_correlation.py.md#vulnentry-cve_id) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`cvss_score`](modules/estorides_core.vuln_correlation.py.md#vulnentry-cvss_score) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`cypher`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-cypher) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+
+<a id="d"></a>
+
+## D
+
+- [`D`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-d) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`DashboardSummary`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary) class in `estorides_core.source_health_monitoring`
+- [`data`](modules/estorides_core.pivot_engine.py.md#pivotevent-data) attribute of `PivotEvent` in `estorides_core.pivot_engine`
+- [`data_classes`](modules/estorides_core.people_intel.py.md#breachrecord-data_classes) attribute of `BreachRecord` in `estorides_core.people_intel`
+- [`DATA_DIR`](modules/estorides_core.config.py.md#data_dir) constant in `estorides_core.config`
+- [`DATASET_PATH`](modules/estorides_core.config.py.md#dataset_path) constant in `estorides_core.config`
+- [`date`](modules/estorides_export.recon_report.py.md#reportmetadata-date) attribute of `ReportMetadata` in `estorides_export.recon_report`
+- [`DB_PATH`](modules/estorides_core.cases.py.md#db_path) constant in `estorides_core.cases`
+- [`deadline_cap_seconds`](modules/estorides_core.config.py.md#pivotconfig-deadline_cap_seconds) attribute of `PivotConfig` in `estorides_core.config`
+- [`deadline_s`](modules/estorides_core.discoverer.py.md#discoverjob-deadline_s) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`deadline_seconds`](modules/estorides_core.pivot_engine.py.md#pivotbudget-deadline_seconds) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`deadline_seconds`](modules/estorides_core.config.py.md#pivotconfig-deadline_seconds) attribute of `PivotConfig` in `estorides_core.config`
+- [`debounce`](modules/static.js.estorides.js.md#debounce) function in `static/js/estorides.js`
+- [`decrypt_text`](modules/estorides_core.case_crypto.py.md#decrypt_text) function in `estorides_core.case_crypto`
+- [`DEFAULT_BUDGET_CHARS`](modules/estorides_core.graph_force.py.md#default_budget_chars) constant in `estorides_core.graph_force`
+- [`DEFAULT_CONTACT`](modules/estorides_core.config.py.md#default_contact) constant in `estorides_core.config`
+- [`default_credentials`](modules/estorides_core.vuln_correlation.py.md#vulnentry-default_credentials) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`DEFAULT_CREDIBILITY`](modules/estorides_core.reliability_scoring.py.md#default_credibility) constant in `estorides_core.reliability_scoring`
+- [`DEFAULT_CREDS`](modules/estorides_core.vuln_correlation.py.md#default_creds) constant in `estorides_core.vuln_correlation`
+- [`default_deadline_seconds`](modules/estorides_core.config.py.md#webconfig-default_deadline_seconds) attribute of `WebConfig` in `estorides_core.config`
+- [`DEFAULT_EDGE_COLOR`](modules/estorides_core.graph_force.py.md#default_edge_color) constant in `estorides_core.graph_force`
+- [`DEFAULT_HALF_LIFE_DAYS`](modules/estorides_core.reliability_scoring.py.md#default_half_life_days) constant in `estorides_core.reliability_scoring`
+- [`DEFAULT_HEALTH_CONFIG`](modules/estorides_core.source_health_monitoring.py.md#default_health_config) constant in `estorides_core.source_health_monitoring`
+- [`DEFAULT_MAX_DEPTH`](modules/estorides_core.discoverer.py.md#default_max_depth) constant in `estorides_core.discoverer`
+- [`DEFAULT_MAX_ENTITIES`](modules/estorides_core.discoverer.py.md#default_max_entities) constant in `estorides_core.discoverer`
+- [`DEFAULT_MAX_PAGES`](modules/estorides_core.pagination.py.md#default_max_pages) constant in `estorides_core.pagination`
+- [`DEFAULT_MAX_STEPS`](modules/estorides_core.discoverer.py.md#default_max_steps) constant in `estorides_core.discoverer`
+- [`DEFAULT_NODE_COLOR`](modules/estorides_core.graph_force.py.md#default_node_color) constant in `estorides_core.graph_force`
+- [`default_output_dir`](modules/estorides_core.lan_bundle.py.md#default_output_dir) function in `estorides_core.lan_bundle`
+- [`default_parallel`](modules/estorides_core.config.py.md#webconfig-default_parallel) attribute of `WebConfig` in `estorides_core.config`
+- [`DEFAULT_PRIORITY`](modules/estorides_llm.manager.py.md#default_priority) constant in `estorides_llm.manager`
+- [`DEFAULT_REL_WEIGHT`](modules/estorides_core.graph_rag_search.py.md#default_rel_weight) constant in `estorides_core.graph_rag_search`
+- [`DEFAULT_RELIABILITY`](modules/estorides_core.reliability_scoring.py.md#default_reliability) constant in `estorides_core.reliability_scoring`
+- [`default_scope`](modules/estorides_core.lan_scope.py.md#default_scope) function in `estorides_core.lan_scope`
+- [`DEFAULT_SOURCE_TYPE`](modules/estorides_core.reliability_scoring.py.md#default_source_type) constant in `estorides_core.reliability_scoring`
+- [`DEFAULT_TELEMETRY`](modules/estorides_core.search_telemetry.py.md#default_telemetry) constant in `estorides_core.search_telemetry`
+- [`default_timeout_seconds`](modules/estorides_core.config.py.md#webconfig-default_timeout_seconds) attribute of `WebConfig` in `estorides_core.config`
+- [`DEFAULT_TTL_S`](modules/estorides_core.feeds.py.md#default_ttl_s) constant in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#earthquakesfeed-default_ttl_s) attribute of `EarthquakesFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#feed-default_ttl_s) attribute of `Feed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#firesfeed-default_ttl_s) attribute of `FiresFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#newsfeed-default_ttl_s) attribute of `NewsFeed` in `estorides_core.feeds`
+- [`DEFAULT_UNASSIGNED_COLOR`](modules/estorides_core.graph_bundle.py.md#default_unassigned_color) constant in `estorides_core.graph_bundle`
+- [`default_weight`](modules/estorides_core.config.py.md#pivotpolicyconfig-default_weight) attribute of `PivotPolicyConfig` in `estorides_core.config`
+- [`DefaultCred`](modules/estorides_core.vuln_correlation.py.md#defaultcred) class in `estorides_core.vuln_correlation`
+- [`DEGRADING`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus-degrading) attribute of `SourceHealthStatus` in `estorides_core.source_health_monitoring`
+- [`degrading_count`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-degrading_count) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`degrading_latency_ms`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-degrading_latency_ms) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`degrading_sources`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard-degrading_sources) attribute of `HealthDashboard` in `estorides_core.source_health_monitoring`
+- [`degrading_success_rate`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-degrading_success_rate) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`degree`](modules/estorides_core.graph_rag_search.py.md#ragentity-degree) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`delay`](modules/estorides_core.config.py.md#retryconfig-delay) method of `RetryConfig` in `estorides_core.config`
+- [`delete_case`](modules/estorides_core.cases.py.md#casestore-delete_case) method of `CaseStore` in `estorides_core.cases`
+- [`delete_source_file`](modules/estorides_core.source_loader.py.md#sourceregistry-delete_source_file) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`delete_watch`](modules/estorides_core.monitoring.py.md#watchstore-delete_watch) method of `WatchStore` in `estorides_core.monitoring`
+- [`deleteSource`](modules/static.js.source_manager.js.md#deletesource) function in `static/js/source_manager.js`
+- [`depth`](modules/estorides_core.pivot_engine.py.md#pivotlead-depth) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`depth_decay`](modules/estorides_core.config.py.md#pivotpolicyconfig-depth_decay) attribute of `PivotPolicyConfig` in `estorides_core.config`
+- [`depthAlpha`](modules/static.js.graph_bundle.js.md#depthalpha) function in `static/js/graph_bundle.js`
+- [`deriveClusters`](modules/static.js.estorides.js.md#deriveclusters) function in `static/js/estorides.js`
+- [`describe`](modules/estorides_core.scope.py.md#cidrrule-describe) method of `CidrRule` in `estorides_core.scope`
+- [`describe`](modules/estorides_core.scope.py.md#exacthostrule-describe) method of `ExactHostRule` in `estorides_core.scope`
+- [`describe`](modules/estorides_core.scope.py.md#regexrule-describe) method of `RegexRule` in `estorides_core.scope`
+- [`describe`](modules/estorides_core.scope.py.md#scoperule-describe) method of `ScopeRule` in `estorides_core.scope`
+- [`describe`](modules/estorides_core.scope.py.md#wildcardrule-describe) method of `WildcardRule` in `estorides_core.scope`
+- [`description`](modules/estorides_core.feeds.py.md#earthquakesfeed-description) attribute of `EarthquakesFeed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.feeds.py.md#feed-description) attribute of `Feed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.feeds.py.md#firesfeed-description) attribute of `FiresFeed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.tool_install.py.md#installrecipe-description) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`description`](modules/estorides_core.search_telemetry.py.md#keyboardshortcut-description) attribute of `KeyboardShortcut` in `estorides_core.search_telemetry`
+- [`description`](modules/estorides_core.feeds.py.md#newsfeed-description) attribute of `NewsFeed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.observation_models.py.md#observation-description) attribute of `Observation` in `estorides_core.observation_models`
+- [`description`](modules/estorides_core.graph_rag_search.py.md#ragentity-description) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`description`](modules/estorides_core.graph_rag_search.py.md#ragrelation-description) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`description`](modules/estorides_core.supply_chain.py.md#sharedinfra-description) attribute of `SharedInfra` in `estorides_core.supply_chain`
+- [`description`](modules/estorides_core.transforms.py.md#transform-description) attribute of `Transform` in `estorides_core.transforms`
+- [`description`](modules/estorides_core.vuln_correlation.py.md#vulnentry-description) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`detect_cdn`](modules/estorides_core.supply_chain.py.md#detect_cdn) function in `estorides_core.supply_chain`
+- [`detect_changes`](modules/estorides_core.change_detection.py.md#detect_changes) function in `estorides_core.change_detection`
+- [`detect_mx_provider`](modules/estorides_core.supply_chain.py.md#detect_mx_provider) function in `estorides_core.supply_chain`
+- [`detect_ns_provider`](modules/estorides_core.supply_chain.py.md#detect_ns_provider) function in `estorides_core.supply_chain`
+- [`detect_query_type`](modules/estorides_core.entity_extraction.py.md#detect_query_type) function in `estorides_core.entity_extraction`
+- [`detect_shared_infrastructure`](modules/estorides_core.supply_chain.py.md#detect_shared_infrastructure) function in `estorides_core.supply_chain`
+- [`detected_at`](modules/estorides_core.change_detection.py.md#change-detected_at) attribute of `Change` in `estorides_core.change_detection`
+- [`detectQueryTypeLocal`](modules/static.js.estorides.js.md#detectquerytypelocal) function in `static/js/estorides.js`
+- [`DETERMINISTIC_TYPES`](modules/estorides_core.entity_resolution.py.md#deterministic_types) constant in `estorides_core.entity_resolution`
+- [`device_count`](modules/estorides_core.lan_bundle.py.md#lanbundleresult-device_count) attribute of `LanBundleResult` in `estorides_core.lan_bundle`
+- [`device_count`](modules/estorides_core.lan_runner.py.md#lanscanresult-device_count) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`device_id`](modules/estorides_core.lan_inventory.py.md#landevice-device_id) attribute of `LanDevice` in `estorides_core.lan_inventory`
+- [`device_to_entities`](modules/estorides_core.lan_inventory.py.md#device_to_entities) function in `estorides_core.lan_inventory`
+- [`devices`](modules/estorides_core.lan_runner.py.md#lanscanresult-devices) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`DHCP_LEASE_PATHS`](modules/estorides_core.lan_runner.py.md#dhcp_lease_paths) constant in `estorides_core.lan_runner`
+- [`DictMixin`](modules/estorides_core.sqlite_store.py.md#dictmixin) class in `estorides_core.sqlite_store`
+- [`diff`](modules/estorides_core.change_detection.py.md#change-diff) attribute of `Change` in `estorides_core.change_detection`
+- [`Diff`](modules/estorides_core.change_detection.py.md#diff) class in `estorides_core.change_detection`
+- [`diff_entities`](modules/estorides_core.cases.py.md#casestore-diff_entities) method of `CaseStore` in `estorides_core.cases`
+- [`dimmed`](modules/static.js.graph_force.js.md#dimmed) function in `static/js/graph_force.js`
+- [`direct_match`](modules/estorides_core.recon_fusion.py.md#groupedentity-direct_match) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`direct_match_boost`](modules/estorides_core.config.py.md#reconfusionconfig-direct_match_boost) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`DISALLOWED_BRANDS`](modules/estorides_core.search_telemetry.py.md#disallowed_brands) constant in `estorides_core.search_telemetry`
+- [`disallowed_brands_in`](modules/estorides_core.search_telemetry.py.md#disallowed_brands_in) function in `estorides_core.search_telemetry`
+- [`disappear_grace_days`](modules/estorides_core.change_detection.py.md#changeconfig-disappear_grace_days) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`discover_from_text`](modules/estorides_core.socmint.py.md#socialmediainferer-discover_from_text) method of `SocialMediaInferer` in `estorides_core.socmint`
+- [`DISCOVER_JOBS`](modules/estorides_core.discoverer.py.md#discover_jobs) constant in `estorides_core.discoverer`
+- [`DiscoverJob`](modules/estorides_core.discoverer.py.md#discoverjob) class in `estorides_core.discoverer`
+- [`display_name`](modules/estorides_core.socmint.py.md#platforminfo-display_name) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`display_name`](modules/estorides_core.socmint.py.md#profilematch-display_name) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`display_name`](modules/estorides_core.socmint.py.md#socialmediaprofile-display_name) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`djb2KindColor`](modules/static.js.graph_bundle.js.md#djb2kindcolor) function in `static/js/graph_bundle.js`
+- [`dns_names`](modules/estorides_core.pdns_monitor.py.md#certrecord-dns_names) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`DnsreconResult`](modules/estorides_core.active_recon.py.md#dnsreconresult) class in `estorides_core.active_recon`
+- [`doctor`](modules/estorides_core.tool_install.py.md#doctor) function in `estorides_core.tool_install`
+- [`domain`](modules/estorides_core.supply_chain.py.md#thirdparty-domain) attribute of `ThirdParty` in `estorides_core.supply_chain`
+- [`DOMAIN_BLACKLIST`](modules/estorides_core.config.py.md#domain_blacklist) constant in `estorides_core.config`
+- [`DOMAIN_RE`](modules/estorides_core.people_intel.py.md#domain_re) constant in `estorides_core.people_intel`
+- [`done`](modules/static.js.estorides.js.md#done) function in `static/js/estorides.js`
+- [`done`](modules/static.js.graph_force.js.md#done) function in `static/js/graph_force.js`
+- [`doSearch`](modules/static.js.estorides.js.md#dosearch) function in `static/js/estorides.js`
+- [`DOUBTFUL`](modules/estorides_core.reliability_scoring.py.md#credibility-doubtful) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`draw`](modules/static.js.graph_bundle.js.md#draw) function in `static/js/graph_bundle.js`
+- [`drawGlyph3D`](modules/static.js.graph_force.js.md#drawglyph3d) function in `static/js/graph_force.js`
+- [`drawGraph`](modules/static.js.estorides.js.md#drawgraph) function in `static/js/estorides.js`
+- [`drawGraphWithExtras`](modules/static.js.estorides.js.md#drawgraphwithextras) function in `static/js/estorides.js`
+- [`drawGroups`](modules/static.js.graph_bundle.js.md#drawgroups) function in `static/js/graph_bundle.js`
+- [`drawHud`](modules/static.js.graph_bundle.js.md#drawhud) function in `static/js/graph_bundle.js`
+- [`drawHulls`](modules/static.js.estorides.js.md#drawhulls) function in `static/js/estorides.js`
+- [`drawLabel3D`](modules/static.js.graph_force.js.md#drawlabel3d) function in `static/js/graph_force.js`
+- [`drawLabels`](modules/static.js.graph_bundle.js.md#drawlabels) function in `static/js/graph_bundle.js`
+- [`drawNodes`](modules/static.js.graph_bundle.js.md#drawnodes) function in `static/js/graph_bundle.js`
+- [`dst`](modules/estorides_core.change_detection.py.md#edge-dst) attribute of `Edge` in `estorides_core.change_detection`
+- [`due_watches`](modules/estorides_core.monitoring.py.md#watchstore-due_watches) method of `WatchStore` in `estorides_core.monitoring`
+- [`duration_s`](modules/estorides_core.tool_install.py.md#installresult-duration_s) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`duration_s`](modules/estorides_core.system_app_sources.py.md#systemappresult-duration_s) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`duration_s`](modules/estorides_core.tool_runner.py.md#toolerrorresult-duration_s) attribute of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`duration_s`](modules/estorides_core.tool_runner.py.md#toolresult-duration_s) attribute of `ToolResult` in `estorides_core.tool_runner`
+
+<a id="e"></a>
+
+## E
+
+- [`E`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-e) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`EarthquakesFeed`](modules/estorides_core.feeds.py.md#earthquakesfeed) class in `estorides_core.feeds`
+- [`Edge`](modules/estorides_core.change_detection.py.md#edge) class in `estorides_core.change_detection`
+- [`EDGE_COLORS`](modules/estorides_core.graph_force.py.md#edge_colors) constant in `estorides_core.graph_force`
+- [`edges`](modules/estorides_core.change_detection.py.md#snapshotentity-edges) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`edges`](modules/static.js.graph_force.js.md#edges) function in `static/js/graph_force.js`
+- [`edgeState`](modules/static.js.graph_bundle.js.md#edgestate) function in `static/js/graph_bundle.js`
+- [`effective_proxies`](modules/estorides_core.config.py.md#effective_proxies) function in `estorides_core.config`
+- [`ego_subgraph`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-ego_subgraph) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`email`](modules/estorides_core.people_intel.py.md#breachcontext-email) attribute of `BreachContext` in `estorides_core.people_intel`
+- [`email`](modules/estorides_core.people_intel.py.md#breachrecord-email) attribute of `BreachRecord` in `estorides_core.people_intel`
+- [`email`](modules/estorides_core.socmint.py.md#socialmediaprofile-email) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`email_pattern`](modules/estorides_core.people_intel.py.md#peopleintelresult-email_pattern) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`email_pattern_confidence`](modules/estorides_core.people_intel.py.md#peopleintelresult-email_pattern_confidence) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`EMAIL_RE`](modules/estorides_core.people_intel.py.md#email_re) constant in `estorides_core.people_intel`
+- [`emails`](modules/estorides_core.people_intel.py.md#employee-emails) attribute of `Employee` in `estorides_core.people_intel`
+- [`emails`](modules/estorides_core.active_recon.py.md#theharvesterresult-emails) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`emit`](modules/estorides_core.pivot_engine.py.md#bufferedeventsink-emit) method of `BufferedEventSink` in `estorides_core.pivot_engine`
+- [`emit`](modules/estorides_core.pivot_engine.py.md#eventsink-emit) method of `EventSink` in `estorides_core.pivot_engine`
+- [`emit`](modules/estorides_core.pivot_engine.py.md#listeventsink-emit) method of `ListEventSink` in `estorides_core.pivot_engine`
+- [`emoji_in`](modules/estorides_core.search_telemetry.py.md#emoji_in) function in `estorides_core.search_telemetry`
+- [`Employee`](modules/estorides_core.people_intel.py.md#employee) class in `estorides_core.people_intel`
+- [`employees`](modules/estorides_core.people_intel.py.md#peopleintelresult-employees) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`enabled`](modules/estorides_core.web_security.py.md#authgate-enabled) property of `AuthGate` in `estorides_core.web_security`
+- [`enabled`](modules/estorides_core.config.py.md#cacheconfig-enabled) attribute of `CacheConfig` in `estorides_core.config`
+- [`enabled`](modules/estorides_core.pagination.py.md#paginationconfig-enabled) property of `PaginationConfig` in `estorides_core.pagination`
+- [`enabled`](modules/estorides_core.monitoring.py.md#watchtarget-enabled) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`encrypt_file`](modules/estorides_export.encryption.py.md#encrypt_file) function in `estorides_export.encryption`
+- [`encrypt_text`](modules/estorides_core.case_crypto.py.md#encrypt_text) function in `estorides_core.case_crypto`
+- [`engagement`](modules/estorides_export.recon_report.py.md#reportmetadata-engagement) attribute of `ReportMetadata` in `estorides_export.recon_report`
+- [`ensure_data_dirs`](modules/estorides_core.config.py.md#ensure_data_dirs) function in `estorides_core.config`
+- [`ensure_reports_dir`](modules/estorides_core.config.py.md#ensure_reports_dir) function in `estorides_core.config`
+- [`ensureLanConsent`](modules/static.js.estorides.js.md#ensurelanconsent) function in `static/js/estorides.js`
+- [`entities`](modules/estorides_core.active_recon.py.md#dnsreconresult-entities) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`entities`](modules/estorides_core.graph_rag_search.py.md#graphragindex-entities) attribute of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`entities`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-entities) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`entities`](modules/estorides_core.lan_runner.py.md#lanscanresult-entities) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`entities`](modules/estorides_core.active_recon.py.md#niktoresult-entities) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`entities`](modules/estorides_core.active_recon.py.md#nmapresult-entities) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`entities`](modules/estorides_core.graph_rag_search.py.md#ragcontext-entities) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`entities`](modules/estorides_core.entity_resolution.py.md#resolutionresult-entities) attribute of `ResolutionResult` in `estorides_core.entity_resolution`
+- [`entities`](modules/estorides_core.observation_models.py.md#runresult-entities) attribute of `RunResult` in `estorides_core.observation_models`
+- [`entities`](modules/estorides_core.change_detection.py.md#snapshot-entities) attribute of `Snapshot` in `estorides_core.change_detection`
+- [`entities`](modules/estorides_core.active_recon.py.md#sqlmapresult-entities) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`entities`](modules/estorides_core.active_recon.py.md#theharvesterresult-entities) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`entities`](modules/static.js.estorides.js.md#entities) function in `static/js/estorides.js`
+- [`entities`](modules/static.js.graph_force.js.md#entities) function in `static/js/graph_force.js`
+- [`entities_added`](modules/estorides_core.change_detection.py.md#changesummary-entities_added) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`entities_compared`](modules/estorides_core.change_detection.py.md#changesummary-entities_compared) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`entities_removed`](modules/estorides_core.change_detection.py.md#changesummary-entities_removed) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`entities_seen`](modules/estorides_core.discoverer.py.md#discoverjob-entities_seen) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`entities_seen`](modules/estorides_core.pivot_engine.py.md#pivotbudget-entities_seen) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`entities_seen`](modules/estorides_core.pivot_engine.py.md#pivotresult-entities_seen) attribute of `PivotResult` in `estorides_core.pivot_engine`
+- [`Entity`](modules/estorides_core.entity_extraction.py.md#entity) class in `estorides_core.entity_extraction`
+- [`entity_id`](modules/estorides_core.change_detection.py.md#change-entity_id) attribute of `Change` in `estorides_core.change_detection`
+- [`entity_id`](modules/estorides_core.graph_rag_search.py.md#ragentity-entity_id) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`entity_id`](modules/estorides_core.graph_rag_search.py.md#ragtextunit-entity_id) attribute of `RagTextUnit` in `estorides_core.graph_rag_search`
+- [`entity_id`](modules/estorides_core.fusion_store.py.md#entity_id) function in `estorides_core.fusion_store`
+- [`ENTITY_MAX_PER_TYPE`](modules/estorides_core.config.py.md#entity_max_per_type) constant in `estorides_core.config`
+- [`ENTITY_MAX_SCAN_CHARS`](modules/estorides_core.config.py.md#entity_max_scan_chars) constant in `estorides_core.config`
+- [`ENTITY_REGEX`](modules/estorides_core.config.py.md#entity_regex) constant in `estorides_core.config`
+- [`entity_search`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-entity_search) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`ENTITY_STORE_PATH`](modules/estorides_core.config.py.md#entity_store_path) constant in `estorides_core.config`
+- [`entity_summary`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-entity_summary) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`entity_timeline`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-entity_timeline) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`ENTITY_TO_STIX`](modules/estorides_export.stix.py.md#entity_to_stix) constant in `estorides_export.stix`
+- [`entity_type`](modules/estorides_core.change_detection.py.md#change-entity_type) attribute of `Change` in `estorides_core.change_detection`
+- [`entity_type`](modules/estorides_core.pivot_engine.py.md#pivotlead-entity_type) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`entity_value`](modules/estorides_core.change_detection.py.md#change-entity_value) attribute of `Change` in `estorides_core.change_detection`
+- [`EntityRef`](modules/estorides_core.hypothesis_engine.py.md#entityref) class in `estorides_core.hypothesis_engine`
+- [`EntityResolver`](modules/estorides_core.entity_resolution.py.md#entityresolver) class in `estorides_core.entity_resolution`
+- [`EntityResolver`](modules/estorides_core.intel_resolver.py.md#entityresolver) class in `estorides_core.intel_resolver`
+- [`EntityRunner`](modules/estorides_core.pivot_engine.py.md#entityrunner) protocol in `estorides_core.pivot_engine`
+- [`EntityStore`](modules/estorides_core.entity_store.py.md#entitystore) class in `estorides_core.entity_store`
+- [`entries`](modules/estorides_core.ontology.py.md#sanctionsindex-entries) method of `SanctionsIndex` in `estorides_core.ontology`
+- [`env_key`](modules/estorides_llm.manager.py.md#openaibackend-env_key) attribute of `OpenAIBackend` in `estorides_llm.manager`
+- [`env_key`](modules/estorides_llm.manager.py.md#openrouterbackend-env_key) attribute of `OpenRouterBackend` in `estorides_llm.manager`
+- [`ER_ENABLED`](modules/estorides_core.config.py.md#er_enabled) constant in `estorides_core.config`
+- [`ER_LINK_THRESHOLD`](modules/estorides_core.config.py.md#er_link_threshold) constant in `estorides_core.config`
+- [`ER_MAX_BUCKET`](modules/estorides_core.config.py.md#er_max_bucket) constant in `estorides_core.config`
+- [`ER_MERGE_THRESHOLD`](modules/estorides_core.config.py.md#er_merge_threshold) constant in `estorides_core.config`
+- [`ER_PERSIST`](modules/estorides_core.config.py.md#er_persist) constant in `estorides_core.config`
+- [`error`](modules/estorides_core.discoverer.py.md#discoverjob-error) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`error`](modules/estorides_core.active_recon.py.md#dnsreconresult-error) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`error`](modules/estorides_core.tool_install.py.md#installresult-error) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`error`](modules/estorides_core.lan_web.py.md#lanwebverdict-error) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`error`](modules/estorides_core.active_recon.py.md#niktoresult-error) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`error`](modules/estorides_core.active_recon.py.md#nmapresult-error) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`error`](modules/estorides_core.observation_models.py.md#observationmeta-error) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`error`](modules/estorides_core.pivot_engine.py.md#pivotresult-error) attribute of `PivotResult` in `estorides_core.pivot_engine`
+- [`error`](modules/estorides_core.observation_models.py.md#runresult-error) attribute of `RunResult` in `estorides_core.observation_models`
+- [`error`](modules/estorides_core.active_recon.py.md#sqlmapresult-error) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`error`](modules/estorides_core.active_recon.py.md#theharvesterresult-error) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`error_code`](modules/estorides_core.system_app_sources.py.md#systemappresult-error_code) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`error_code`](modules/estorides_core.tool_runner.py.md#toolerrorresult-error_code) attribute of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`error_code`](modules/estorides_core.tool_runner.py.md#toolresult-error_code) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`error_message`](modules/estorides_core.system_app_sources.py.md#systemappresult-error_message) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`error_message`](modules/estorides_core.tool_runner.py.md#toolresult-error_message) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`errors`](modules/estorides_core.lan_bundle.py.md#lanbundleresult-errors) attribute of `LanBundleResult` in `estorides_core.lan_bundle`
+- [`esc`](modules/static.js.graph_force.js.md#esc) function in `static/js/graph_force.js`
+- [`escapeAttr`](modules/static.js.estorides.js.md#escapeattr) function in `static/js/estorides.js`
+- [`escapeHTML`](modules/static.js.estorides.js.md#escapehtml) function in `static/js/estorides.js`
+- [`escapeHtml`](modules/static.js.estorides.js.md#escapehtml) function in `static/js/estorides.js`
+- [`escAttr`](modules/static.js.source_manager.js.md#escattr) function in `static/js/source_manager.js`
+- [`escHtml`](modules/static.js.source_manager.js.md#eschtml) function in `static/js/source_manager.js`
+- [`evaluate`](modules/estorides_core.lan_policy.py.md#evaluate) function in `estorides_core.lan_policy`
+- [`event`](modules/estorides_core.audit.py.md#auditevent-event) attribute of `AuditEvent` in `estorides_core.audit`
+- [`event_from_graph`](modules/estorides_export.misp.py.md#event_from_graph) function in `estorides_export.misp`
+- [`EventBus`](modules/estorides_core.event_bus.py.md#eventbus) class in `estorides_core.event_bus`
+- [`events`](modules/estorides_core.discoverer.py.md#discoverjob-events) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`EventSink`](modules/estorides_core.pivot_engine.py.md#eventsink) protocol in `estorides_core.pivot_engine`
+- [`evict_expired`](modules/estorides_core.job_registry.py.md#boundedjobregistry-evict_expired) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`Evidence`](modules/estorides_core.hypothesis_engine.py.md#evidence) class in `estorides_core.hypothesis_engine`
+- [`evidence`](modules/estorides_core.supply_chain.py.md#thirdparty-evidence) attribute of `ThirdParty` in `estorides_core.supply_chain`
+- [`exact_dedup_keys`](modules/estorides_core.config.py.md#reconfusionconfig-exact_dedup_keys) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`ExactHostRule`](modules/estorides_core.scope.py.md#exacthostrule) class in `estorides_core.scope`
+- [`execute`](modules/estorides_core.system_app_sources.py.md#execute) function in `estorides_core.system_app_sources`
+- [`exhausted`](modules/estorides_core.pivot_engine.py.md#pivotbudget-exhausted) method of `PivotBudget` in `estorides_core.pivot_engine`
+- [`exit_code`](modules/estorides_core.active_recon.py.md#dnsreconresult-exit_code) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`exit_code`](modules/estorides_core.active_recon.py.md#niktoresult-exit_code) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`exit_code`](modules/estorides_core.active_recon.py.md#nmapresult-exit_code) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`exit_code`](modules/estorides_core.active_recon.py.md#sqlmapresult-exit_code) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`exit_code`](modules/estorides_core.system_app_sources.py.md#systemappresult-exit_code) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`exit_code`](modules/estorides_core.active_recon.py.md#theharvesterresult-exit_code) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`exit_code`](modules/estorides_core.tool_runner.py.md#toolerrorresult-exit_code) attribute of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`exit_code`](modules/estorides_core.tool_runner.py.md#toolresult-exit_code) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`expandNode`](modules/static.js.estorides.js.md#expandnode) function in `static/js/estorides.js`
+- [`expandSelected`](modules/static.js.graph_force.js.md#expandselected) function in `static/js/graph_force.js`
+- [`exploit_available`](modules/estorides_core.vuln_correlation.py.md#vulnentry-exploit_available) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`exploit_available_count`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-exploit_available_count) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`exploit_db_id`](modules/estorides_core.vuln_correlation.py.md#vulnentry-exploit_db_id) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`exploit_type`](modules/estorides_core.vuln_correlation.py.md#vulnentry-exploit_type) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`export`](modules/estorides_export.misp.py.md#export) function in `estorides_export.misp`
+- [`export`](modules/estorides_export.stix.py.md#export) function in `estorides_export.stix`
+- [`export_graphml`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-export_graphml) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`export_json`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-export_json) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`export_lazyown`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-export_lazyown) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`export_misp_encrypted`](modules/estorides_export.encryption.py.md#export_misp_encrypted) function in `estorides_export.encryption`
+- [`export_stix_encrypted`](modules/estorides_export.encryption.py.md#export_stix_encrypted) function in `estorides_export.encryption`
+- [`extra`](modules/estorides_core.audit.py.md#auditevent-extra) attribute of `AuditEvent` in `estorides_core.audit`
+- [`extra`](modules/estorides_core.feeds.py.md#feedpoint-extra) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`extract_cursor`](modules/estorides_core.pagination.py.md#extract_cursor) function in `estorides_core.pagination`
+- [`extract_from_json`](modules/estorides_core.entity_extraction.py.md#extract_from_json) function in `estorides_core.entity_extraction`
+- [`extract_from_text`](modules/estorides_core.entity_extraction.py.md#extract_from_text) function in `estorides_core.entity_extraction`
+- [`extract_sans_from_cert`](modules/estorides_core.pdns_monitor.py.md#extract_sans_from_cert) function in `estorides_core.pdns_monitor`
+- [`extract_structured`](modules/estorides_core.entity_extraction.py.md#extract_structured) function in `estorides_core.entity_extraction`
+
+<a id="f"></a>
+
+## F
+
+- [`F`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-f) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`facing`](modules/static.js.graph_bundle.js.md#facing) function in `static/js/graph_bundle.js`
+- [`factor`](modules/estorides_core.config.py.md#retryconfig-factor) attribute of `RetryConfig` in `estorides_core.config`
+- [`fail`](modules/static.js.graph_force.js.md#fail) function in `static/js/graph_force.js`
+- [`failures`](modules/estorides_core.async_client.py.md#circuitbreaker-failures) attribute of `CircuitBreaker` in `estorides_core.async_client`
+- [`fam`](modules/static.js.graph_force.js.md#fam) function in `static/js/graph_force.js`
+- [`famAnchor`](modules/static.js.graph_force.js.md#famanchor) function in `static/js/graph_force.js`
+- [`family_color_from_name`](modules/estorides_core.graph_force.py.md#family_color_from_name) function in `estorides_core.graph_force`
+- [`famOf`](modules/static.js.graph_force.js.md#famof) function in `static/js/graph_force.js`
+- [`Feed`](modules/estorides_core.feeds.py.md#feed) class in `estorides_core.feeds`
+- [`FEED_CACHE_DIR`](modules/estorides_core.feeds.py.md#feed_cache_dir) constant in `estorides_core.feeds`
+- [`FeedPoint`](modules/estorides_core.feeds.py.md#feedpoint) class in `estorides_core.feeds`
+- [`FEEDS`](modules/estorides_core.feeds.py.md#feeds) constant in `estorides_core.feeds`
+- [`fetch`](modules/estorides_core.async_client.py.md#asyncclient-fetch) method of `AsyncClient` in `estorides_core.async_client`
+- [`fetch`](modules/estorides_core.feeds.py.md#feed-fetch) method of `Feed` in `estorides_core.feeds`
+- [`fetch`](modules/static.js.estorides.js.md#fetch) method in `static/js/estorides.js`
+- [`fetch_all`](modules/estorides_core.feeds.py.md#fetch_all) function in `estorides_core.feeds`
+- [`fetch_bgp`](modules/estorides_core.osiris_sources.py.md#fetch_bgp) function in `estorides_core.osiris_sources`
+- [`fetch_cisa_kev`](modules/estorides_core.osiris_sources.py.md#fetch_cisa_kev) function in `estorides_core.osiris_sources`
+- [`fetch_count`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-fetch_count) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`fetch_count`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-fetch_count) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`fetch_github_user`](modules/estorides_core.osiris_sources.py.md#fetch_github_user) function in `estorides_core.osiris_sources`
+- [`fetch_leaks`](modules/estorides_core.osiris_sources.py.md#fetch_leaks) function in `estorides_core.osiris_sources`
+- [`fetch_mac`](modules/estorides_core.osiris_sources.py.md#fetch_mac) function in `estorides_core.osiris_sources`
+- [`fetch_malware_c2`](modules/estorides_core.osiris_sources.py.md#fetch_malware_c2) function in `estorides_core.osiris_sources`
+- [`fetch_phone`](modules/estorides_core.osiris_sources.py.md#fetch_phone) function in `estorides_core.osiris_sources`
+- [`fibonacci_sphere`](modules/estorides_core.graph_bundle.py.md#fibonacci_sphere) function in `estorides_core.graph_bundle`
+- [`field`](modules/estorides_core.hypothesis_engine.py.md#evidence-field) attribute of `Evidence` in `estorides_core.hypothesis_engine`
+- [`file_path`](modules/estorides_core.code_exposure.py.md#codefinding-file_path) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`files`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-files) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`filter`](modules/estorides_core.source_loader.py.md#sourceregistry-filter) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`filterTimeline`](modules/static.js.estorides.js.md#filtertimeline) function in `static/js/estorides.js`
+- [`finalise`](modules/estorides_core.cases.py.md#casestore-finalise) method of `CaseStore` in `estorides_core.cases`
+- [`findings`](modules/estorides_core.code_exposure.py.md#codeexposureresult-findings) attribute of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`findings`](modules/estorides_core.active_recon.py.md#niktoresult-findings) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`findings`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-findings) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`fingerprint`](modules/estorides_core.tech_fingerprint.py.md#fingerprint) function in `estorides_core.tech_fingerprint`
+- [`FiresFeed`](modules/estorides_core.feeds.py.md#firesfeed) class in `estorides_core.feeds`
+- [`FIRMS_URL`](modules/estorides_core.feeds.py.md#firesfeed-firms_url) attribute of `FiresFeed` in `estorides_core.feeds`
+- [`first_seen`](modules/estorides_core.recon_fusion.py.md#groupedentity-first_seen) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`first_seen`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-first_seen) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`first_seen`](modules/estorides_core.pdns_monitor.py.md#iprecord-first_seen) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`first_seen`](modules/estorides_core.change_detection.py.md#snapshotentity-first_seen) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`first_seen_in`](modules/estorides_core.tech_fingerprint.py.md#tech-first_seen_in) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`FLASK_DEBUG`](modules/estorides_core.config.py.md#flask_debug) constant in `estorides_core.config`
+- [`FLASK_HOST`](modules/estorides_core.config.py.md#flask_host) constant in `estorides_core.config`
+- [`FLASK_PORT`](modules/estorides_core.config.py.md#flask_port) constant in `estorides_core.config`
+- [`flowsOf`](modules/static.js.graph_bundle.js.md#flowsof) function in `static/js/graph_bundle.js`
+- [`flush`](modules/static.js.estorides.js.md#flush) function in `static/js/estorides.js`
+- [`flush`](modules/static.js.estorides.js.md#flush) function in `static/js/estorides.js`
+- [`flushDiscoverEntities`](modules/static.js.estorides.js.md#flushdiscoverentities) function in `static/js/estorides.js`
+- [`fmtTime`](modules/static.js.estorides.js.md#fmttime) function in `static/js/estorides.js`
+- [`fn`](modules/static.js.graph_force.js.md#fn) function in `static/js/graph_force.js`
+- [`focusFamily`](modules/static.js.graph_force.js.md#focusfamily) function in `static/js/graph_force.js`
+- [`focusGraphNodeByValue`](modules/static.js.estorides.js.md#focusgraphnodebyvalue) function in `static/js/estorides.js`
+- [`focusGroup`](modules/static.js.graph_bundle.js.md#focusgroup) function in `static/js/graph_bundle.js`
+- [`focusNode`](modules/static.js.estorides.js.md#focusnode) function in `static/js/estorides.js`
+- [`focusNode`](modules/static.js.graph_bundle.js.md#focusnode) function in `static/js/graph_bundle.js`
+- [`focusSelected`](modules/static.js.graph_force.js.md#focusselected) function in `static/js/graph_force.js`
+- [`focusState`](modules/static.js.graph_bundle.js.md#focusstate) function in `static/js/graph_bundle.js`
+- [`for_type`](modules/estorides_core.transforms.py.md#transformregistry-for_type) method of `TransformRegistry` in `estorides_core.transforms`
+- [`force`](modules/static.js.graph_force.js.md#force) function in `static/js/graph_force.js`
+- [`force`](modules/static.js.graph_force.js.md#force) function in `static/js/graph_force.js`
+- [`force`](modules/static.js.graph_force.js.md#force) function in `static/js/graph_force.js`
+- [`force_https`](modules/estorides_core.web_security.py.md#websecurityconfig-force_https) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`force_settings`](modules/estorides_core.graph_force.py.md#force_settings) function in `estorides_core.graph_force`
+- [`format_context`](modules/estorides_llm.intelligence_prompts.py.md#format_context) function in `estorides_llm.intelligence_prompts`
+- [`format_event`](modules/estorides_core.ops_observability.py.md#format_event) function in `estorides_core.ops_observability`
+- [`fqdn`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-fqdn) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`frac`](modules/static.js.estorides.js.md#frac) function in `static/js/estorides.js`
+- [`frame`](modules/static.js.graph_bundle.js.md#frame) function in `static/js/graph_bundle.js`
+- [`freshness_hours`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-freshness_hours) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`freshness_max_hours`](modules/estorides_core.config.py.md#reconfusionconfig-freshness_max_hours) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`freshness_weight`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-freshness_weight) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`from`](modules/static.js.source_manager.js.md#from) class in `static/js/source_manager.js`
+- [`from_dict`](modules/estorides_core.graph_rag_search.py.md#graphragindex-from_dict) classmethod of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`from_dict`](modules/estorides_core.pagination.py.md#paginationconfig-from_dict) staticmethod of `PaginationConfig` in `estorides_core.pagination`
+- [`from_dict`](modules/estorides_core.monitoring.py.md#watchtarget-from_dict) classmethod of `WatchTarget` in `estorides_core.monitoring`
+- [`from_failure`](modules/estorides_core.tool_runner.py.md#toolresult-from_failure) classmethod of `ToolResult` in `estorides_core.tool_runner`
+- [`from_row`](modules/estorides_core.monitoring.py.md#watchtarget-from_row) classmethod of `WatchTarget` in `estorides_core.monitoring`
+- [`fts_available`](modules/estorides_core.cases.py.md#casestore-fts_available) method of `CaseStore` in `estorides_core.cases`
+- [`fuse_entities`](modules/estorides_core.fusion_store.py.md#fusionstore-fuse_entities) method of `FusionStore` in `estorides_core.fusion_store`
+- [`fuse_entity`](modules/estorides_core.fusion_store.py.md#fusionstore-fuse_entity) method of `FusionStore` in `estorides_core.fusion_store`
+- [`fuse_graph`](modules/estorides_core.fusion_store.py.md#fusionstore-fuse_graph) method of `FusionStore` in `estorides_core.fusion_store`
+- [`fuse_properties`](modules/estorides_core.fusion_store.py.md#fusionstore-fuse_properties) method of `FusionStore` in `estorides_core.fusion_store`
+- [`fuse_relationship`](modules/estorides_core.fusion_store.py.md#fusionstore-fuse_relationship) method of `FusionStore` in `estorides_core.fusion_store`
+- [`FUSION_DB_PATH`](modules/estorides_core.config.py.md#fusion_db_path) constant in `estorides_core.config`
+- [`FUSION_ENABLED`](modules/estorides_core.config.py.md#fusion_enabled) constant in `estorides_core.config`
+- [`FusionAnalytics`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics) class in `estorides_core.fusion_analytics`
+- [`FusionResult`](modules/estorides_core.recon_fusion.py.md#fusionresult) class in `estorides_core.recon_fusion`
+- [`FusionStore`](modules/estorides_core.fusion_store.py.md#fusionstore) class in `estorides_core.fusion_store`
+- [`FUZZY_THRESHOLD`](modules/estorides_core.entity_extraction.py.md#fuzzy_threshold) constant in `estorides_core.entity_extraction`
+- [`FUZZY_TYPES`](modules/estorides_core.entity_resolution.py.md#fuzzy_types) constant in `estorides_core.entity_resolution`
+
+<a id="g"></a>
+
+## G
+
+- [`g`](modules/static.js.graph_bundle.js.md#g) function in `static/js/graph_bundle.js`
+- [`GCP_KEY_RE`](modules/estorides_core.code_exposure.py.md#gcp_key_re) constant in `estorides_core.code_exposure`
+- [`GDELT_URL`](modules/estorides_core.feeds.py.md#newsfeed-gdelt_url) attribute of `NewsFeed` in `estorides_core.feeds`
+- [`generate`](modules/estorides_llm.manager.py.md#llmmanager-generate) method of `LLMManager` in `estorides_llm.manager`
+- [`generate_bucket_names`](modules/estorides_core.cloud_asset_discovery.py.md#generate_bucket_names) function in `estorides_core.cloud_asset_discovery`
+- [`generate_hypotheses`](modules/estorides_core.hypothesis_engine.py.md#generate_hypotheses) function in `estorides_core.hypothesis_engine`
+- [`generate_report`](modules/estorides_export.recon_report.py.md#generate_report) function in `estorides_export.recon_report`
+- [`generated_at`](modules/estorides_core.recon_fusion.py.md#fusionresult-generated_at) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`generated_at`](modules/estorides_export.recon_report.py.md#reportresult-generated_at) attribute of `ReportResult` in `estorides_export.recon_report`
+- [`get`](modules/estorides_core.job_registry.py.md#boundedjobregistry-get) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`get`](modules/estorides_core.async_client.py.md#responsecache-get) method of `ResponseCache` in `estorides_core.async_client`
+- [`get`](modules/estorides_core.source_loader.py.md#sourceregistry-get) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`get`](modules/estorides_core.ontology.py.md#wikidatacache-get) method of `WikidataCache` in `estorides_core.ontology`
+- [`get_bus`](modules/estorides_core.event_bus.py.md#get_bus) function in `estorides_core.event_bus`
+- [`get_case`](modules/estorides_core.cases.py.md#casestore-get_case) method of `CaseStore` in `estorides_core.cases`
+- [`get_entity`](modules/estorides_core.fusion_store.py.md#fusionstore-get_entity) method of `FusionStore` in `estorides_core.fusion_store`
+- [`get_feed`](modules/estorides_core.feeds.py.md#get_feed) function in `estorides_core.feeds`
+- [`get_ollama_status`](modules/estorides_llm.manager.py.md#llmmanager-get_ollama_status) method of `LLMManager` in `estorides_llm.manager`
+- [`get_parser`](modules/estorides_core.parsers.py.md#get_parser) function in `estorides_core.parsers`
+- [`get_status`](modules/estorides_llm.manager.py.md#ollamabackend-get_status) staticmethod of `OllamaBackend` in `estorides_llm.manager`
+- [`get_watch`](modules/estorides_core.monitoring.py.md#watchstore-get_watch) method of `WatchStore` in `estorides_core.monitoring`
+- [`getCheckedTags`](modules/static.js.source_manager.js.md#getcheckedtags) function in `static/js/source_manager.js`
+- [`github`](modules/estorides_core.people_intel.py.md#employee-github) attribute of `Employee` in `estorides_core.people_intel`
+- [`GITHUB_TOKEN_RE`](modules/estorides_core.code_exposure.py.md#github_token_re) constant in `estorides_core.code_exposure`
+- [`GLOBAL_HINTS`](modules/estorides_core.graph_rag_search.py.md#global_hints) constant in `estorides_core.graph_rag_search`
+- [`global_search`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-global_search) method of `GraphRagSearcher` in `estorides_core.graph_rag_search`
+- [`global_top_reports`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-global_top_reports) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`glyphPath`](modules/static.js.graph_force.js.md#glyphpath) function in `static/js/graph_force.js`
+- [`graph_context_block`](modules/estorides_core.graph_rag_search.py.md#graph_context_block) function in `estorides_core.graph_rag_search`
+- [`graph_node_base_size`](modules/estorides_core.config.py.md#webconfig-graph_node_base_size) attribute of `WebConfig` in `estorides_core.config`
+- [`graph_node_max_bonus`](modules/estorides_core.config.py.md#webconfig-graph_node_max_bonus) attribute of `WebConfig` in `estorides_core.config`
+- [`GRAPH_PATH`](modules/estorides_core.config.py.md#graph_path) constant in `estorides_core.config`
+- [`graph_rag_config_from_env`](modules/estorides_core.graph_rag_search.py.md#graph_rag_config_from_env) function in `estorides_core.graph_rag_search`
+- [`graph_render_edge_limit`](modules/estorides_core.config.py.md#webconfig-graph_render_edge_limit) attribute of `WebConfig` in `estorides_core.config`
+- [`graph_render_node_limit`](modules/estorides_core.config.py.md#webconfig-graph_render_node_limit) attribute of `WebConfig` in `estorides_core.config`
+- [`GraphRagConfig`](modules/estorides_core.graph_rag_search.py.md#graphragconfig) class in `estorides_core.graph_rag_search`
+- [`GraphRagIndex`](modules/estorides_core.graph_rag_search.py.md#graphragindex) class in `estorides_core.graph_rag_search`
+- [`GraphRagSearcher`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher) class in `estorides_core.graph_rag_search`
+- [`groupButton`](modules/static.js.graph_bundle.js.md#groupbutton) function in `static/js/graph_bundle.js`
+- [`GroupedEntity`](modules/estorides_core.recon_fusion.py.md#groupedentity) class in `estorides_core.recon_fusion`
+- [`groups`](modules/estorides_core.graph_bundle.py.md#bundlelayout-groups) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`groups`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout-groups) attribute of `SphereBundleLayout` in `estorides_core.graph_bundle`
+- [`guard`](modules/estorides_core.lan_web.py.md#guard) function in `estorides_core.lan_web`
+- [`GuardResult`](modules/estorides_core.ssrf_guard.py.md#guardresult) class in `estorides_core.ssrf_guard`
+
+<a id="h"></a>
+
+## H
+
+- [`handleDiscoverEvent`](modules/static.js.estorides.js.md#handlediscoverevent) function in `static/js/estorides.js`
+- [`handleRunStreamEvent`](modules/static.js.estorides.js.md#handlerunstreamevent) function in `static/js/estorides.js`
+- [`has_apt`](modules/estorides_core.tool_install.py.md#installrecipe-has_apt) method of `InstallRecipe` in `estorides_core.tool_install`
+- [`has_git`](modules/estorides_core.tool_install.py.md#installrecipe-has_git) method of `InstallRecipe` in `estorides_core.tool_install`
+- [`has_runner`](modules/estorides_core.monitoring.py.md#watchscheduler-has_runner) property of `WatchScheduler` in `estorides_core.monitoring`
+- [`HEADER_PATTERNS`](modules/estorides_core.tech_fingerprint.py.md#header_patterns) constant in `estorides_core.tech_fingerprint`
+- [`health_payload`](modules/estorides_core.ops_observability.py.md#health_payload) function in `estorides_core.ops_observability`
+- [`health_score`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-health_score) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`HealthDashboard`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard) class in `estorides_core.source_health_monitoring`
+- [`HEALTHY`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus-healthy) attribute of `SourceHealthStatus` in `estorides_core.source_health_monitoring`
+- [`healthy_count`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-healthy_count) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`healthy_latency_ms`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-healthy_latency_ms) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`healthy_success_rate`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-healthy_success_rate) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`heartbeat_idle_ticks`](modules/estorides_core.config.py.md#streamconfig-heartbeat_idle_ticks) attribute of `StreamConfig` in `estorides_core.config`
+- [`hiddenKind`](modules/static.js.graph_force.js.md#hiddenkind) function in `static/js/graph_force.js`
+- [`hideContextMenu`](modules/static.js.estorides.js.md#hidecontextmenu) function in `static/js/estorides.js`
+- [`hideDiscoverProgress`](modules/static.js.estorides.js.md#hidediscoverprogress) function in `static/js/estorides.js`
+- [`hideTooltip`](modules/static.js.estorides.js.md#hidetooltip) function in `static/js/estorides.js`
+- [`hideWorkingIndicator`](modules/static.js.estorides.js.md#hideworkingindicator) function in `static/js/estorides.js`
+- [`hierarchical_edge_bundling`](modules/estorides_core.graph_bundle.py.md#hierarchical_edge_bundling) function in `estorides_core.graph_bundle`
+- [`HIGH`](modules/estorides_core.recon_fusion.py.md#relevancetier-high) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`high`](modules/estorides_core.code_exposure.py.md#severitysummary-high) attribute of `SeveritySummary` in `estorides_core.code_exposure`
+- [`high_count`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-high_count) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`high_min_reliability`](modules/estorides_core.config.py.md#reconfusionconfig-high_min_reliability) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`high_min_sources`](modules/estorides_core.config.py.md#reconfusionconfig-high_min_sources) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`HistoricalSubdomain`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain) class in `estorides_core.pdns_monitor`
+- [`history`](modules/estorides_core.monitoring.py.md#watchstore-history) method of `WatchStore` in `estorides_core.monitoring`
+- [`hitEdge3D`](modules/static.js.graph_force.js.md#hitedge3d) function in `static/js/graph_force.js`
+- [`hitGroup`](modules/static.js.graph_bundle.js.md#hitgroup) function in `static/js/graph_bundle.js`
+- [`hitNode`](modules/static.js.graph_bundle.js.md#hitnode) function in `static/js/graph_bundle.js`
+- [`hitNode3D`](modules/static.js.graph_force.js.md#hitnode3d) function in `static/js/graph_force.js`
+- [`host`](modules/estorides_core.scope.py.md#exacthostrule-host) attribute of `ExactHostRule` in `estorides_core.scope`
+- [`host`](modules/estorides_core.ssrf_guard.py.md#guardresult-host) attribute of `GuardResult` in `estorides_core.ssrf_guard`
+- [`host`](modules/estorides_core.observation_models.py.md#observationmeta-host) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`hostnames`](modules/estorides_core.lan_inventory.py.md#landevice-hostnames) attribute of `LanDevice` in `estorides_core.lan_inventory`
+- [`hosts`](modules/estorides_core.active_recon.py.md#nmapresult-hosts) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`hosts`](modules/estorides_core.scope.py.md#scopereport-hosts) property of `ScopeReport` in `estorides_core.scope`
+- [`hosts`](modules/estorides_core.active_recon.py.md#theharvesterresult-hosts) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`hot_min_entities`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-hot_min_entities) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`hot_sources`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard-hot_sources) attribute of `HealthDashboard` in `estorides_core.source_health_monitoring`
+- [`hoverAt3D`](modules/static.js.graph_force.js.md#hoverat3d) function in `static/js/graph_force.js`
+- [`hsts_enabled`](modules/estorides_core.web_security.py.md#websecurityconfig-hsts_enabled) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`hsts_max_age_seconds`](modules/estorides_core.web_security.py.md#websecurityconfig-hsts_max_age_seconds) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`HTML_JS_PATTERNS`](modules/estorides_core.tech_fingerprint.py.md#html_js_patterns) constant in `estorides_core.tech_fingerprint`
+- [`HTML_META_PATTERNS`](modules/estorides_core.tech_fingerprint.py.md#html_meta_patterns) constant in `estorides_core.tech_fingerprint`
+- [`HTTP_BACKOFF_BASE`](modules/estorides_core.config.py.md#http_backoff_base) constant in `estorides_core.config`
+- [`HTTP_BACKOFF_FACTOR`](modules/estorides_core.config.py.md#http_backoff_factor) constant in `estorides_core.config`
+- [`HTTP_CACHE`](modules/estorides_core.config.py.md#http_cache) constant in `estorides_core.config`
+- [`HTTP_CACHE_TTL_S`](modules/estorides_core.config.py.md#http_cache_ttl_s) constant in `estorides_core.config`
+- [`HTTP_MAX_PARALLEL`](modules/estorides_core.config.py.md#http_max_parallel) constant in `estorides_core.config`
+- [`HTTP_MAX_RETRIES`](modules/estorides_core.config.py.md#http_max_retries) constant in `estorides_core.config`
+- [`HTTP_PROXY`](modules/estorides_core.config.py.md#http_proxy) constant in `estorides_core.config`
+- [`HTTP_PROXY_POOL`](modules/estorides_core.config.py.md#http_proxy_pool) constant in `estorides_core.config`
+- [`HTTP_TIMEOUT`](modules/estorides_core.config.py.md#http_timeout) constant in `estorides_core.config`
+- [`hubs`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout-hubs) attribute of `SphereBundleLayout` in `estorides_core.graph_bundle`
+- [`hud`](modules/static.js.graph_force.js.md#hud) function in `static/js/graph_force.js`
+- [`Hypothesis`](modules/estorides_core.hypothesis_engine.py.md#hypothesis) class in `estorides_core.hypothesis_engine`
+- [`HYPOTHESIS_TYPES`](modules/estorides_core.hypothesis_engine.py.md#hypothesis_types) constant in `estorides_core.hypothesis_engine`
+
+<a id="i"></a>
+
+## I
+
+- [`icon`](modules/estorides_core.socmint.py.md#platforminfo-icon) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`id`](modules/estorides_core.change_detection.py.md#change-id) attribute of `Change` in `estorides_core.change_detection`
+- [`id`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-id) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`id`](modules/estorides_core.ontology.py.md#sanctionentry-id) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`id`](modules/estorides_core.change_detection.py.md#snapshotentity-id) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`id`](modules/estorides_core.transforms.py.md#transform-id) attribute of `Transform` in `estorides_core.transforms`
+- [`id`](modules/estorides_core.monitoring.py.md#watchtarget-id) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`IDENTITY_REF`](modules/estorides_export.stix.py.md#identity_ref) constant in `estorides_export.stix`
+- [`IMPROBABLE`](modules/estorides_core.reliability_scoring.py.md#credibility-improbable) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`in_rules`](modules/estorides_core.scope.py.md#scopematcher-in_rules) property of `ScopeMatcher` in `estorides_core.scope`
+- [`IN_SCOPE`](modules/estorides_core.scope.py.md#in_scope) constant in `estorides_core.scope`
+- [`in_scope`](modules/estorides_core.scope.py.md#scopereport-in_scope) attribute of `ScopeReport` in `estorides_core.scope`
+- [`include_disappeared`](modules/estorides_core.change_detection.py.md#changeconfig-include_disappeared) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`include_property_changes`](modules/estorides_core.change_detection.py.md#changeconfig-include_property_changes) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`include_source_added`](modules/estorides_core.change_detection.py.md#changeconfig-include_source_added) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`indeterminate`](modules/estorides_core.search_telemetry.py.md#progressview-indeterminate) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`indexRaw`](modules/static.js.graph_force.js.md#indexraw) function in `static/js/graph_force.js`
+- [`infer_email_pattern`](modules/estorides_core.people_intel.py.md#infer_email_pattern) function in `estorides_core.people_intel`
+- [`infer_relationship`](modules/estorides_core.relationship_inference.py.md#infer_relationship) function in `estorides_core.relationship_inference`
+- [`INFERERS`](modules/estorides_core.relationship_inference.py.md#inferers) constant in `estorides_core.relationship_inference`
+- [`inflateHull`](modules/static.js.graph_force.js.md#inflatehull) function in `static/js/graph_force.js`
+- [`info`](modules/estorides_core.code_exposure.py.md#severitysummary-info) attribute of `SeveritySummary` in `estorides_core.code_exposure`
+- [`ingest`](modules/static.js.graph_bundle.js.md#ingest) function in `static/js/graph_bundle.js`
+- [`init`](modules/static.js.graph_bundle.js.md#init) function in `static/js/graph_bundle.js`
+- [`__init__`](modules/estorides_core.async_client.py.md#asyncclient-__init__) constructor of `AsyncClient` in `estorides_core.async_client`
+- [`__init__`](modules/estorides_core.audit.py.md#auditlog-__init__) constructor of `AuditLog` in `estorides_core.audit`
+- [`__init__`](modules/estorides_core.graph_rag_search.py.md#bm25index-__init__) constructor of `Bm25Index` in `estorides_core.graph_rag_search`
+- [`__init__`](modules/estorides_core.job_registry.py.md#boundedjobregistry-__init__) constructor of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`__init__`](modules/estorides_core.pivot_engine.py.md#bufferedeventsink-__init__) constructor of `BufferedEventSink` in `estorides_core.pivot_engine`
+- [`__init__`](modules/estorides_core.entity_resolution.py.md#entityresolver-__init__) constructor of `EntityResolver` in `estorides_core.entity_resolution`
+- [`__init__`](modules/estorides_core.intel_resolver.py.md#entityresolver-__init__) constructor of `EntityResolver` in `estorides_core.intel_resolver`
+- [`__init__`](modules/estorides_core.event_bus.py.md#eventbus-__init__) constructor of `EventBus` in `estorides_core.event_bus`
+- [`__init__`](modules/estorides_core.feeds.py.md#feed-__init__) constructor of `Feed` in `estorides_core.feeds`
+- [`__init__`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-__init__) constructor of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`__init__`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-__init__) constructor of `GraphRagSearcher` in `estorides_core.graph_rag_search`
+- [`__init__`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-__init__) constructor of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`__init__`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-__init__) constructor of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`__init__`](modules/estorides_llm.manager.py.md#llmmanager-__init__) constructor of `LLMManager` in `estorides_llm.manager`
+- [`__init__`](modules/estorides_core.pivot_engine.py.md#listeventsink-__init__) constructor of `ListEventSink` in `estorides_core.pivot_engine`
+- [`__init__`](modules/estorides_core.ontology.py.md#ontologyengine-__init__) constructor of `OntologyEngine` in `estorides_core.ontology`
+- [`__init__`](modules/estorides_core.orchestrator.py.md#orchestrator-__init__) constructor of `Orchestrator` in `estorides_core.orchestrator`
+- [`__init__`](modules/estorides_core.pivot_engine.py.md#pivotengine-__init__) constructor of `PivotEngine` in `estorides_core.pivot_engine`
+- [`__init__`](modules/estorides_core.validation.py.md#queryvalidationerror-__init__) constructor of `QueryValidationError` in `estorides_core.validation`
+- [`__init__`](modules/estorides_core.audit.py.md#ratelimiter-__init__) constructor of `RateLimiter` in `estorides_core.audit`
+- [`__init__`](modules/estorides_core.recon_fusion.py.md#reconfusionengine-__init__) constructor of `ReconFusionEngine` in `estorides_core.recon_fusion`
+- [`__init__`](modules/estorides_core.async_client.py.md#responsecache-__init__) constructor of `ResponseCache` in `estorides_core.async_client`
+- [`__init__`](modules/estorides_core.ontology.py.md#sanctionsindex-__init__) constructor of `SanctionsIndex` in `estorides_core.ontology`
+- [`__init__`](modules/estorides_core.scope.py.md#scopematcher-__init__) constructor of `ScopeMatcher` in `estorides_core.scope`
+- [`__init__`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-__init__) constructor of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`__init__`](modules/estorides_core.socmint.py.md#socialmediainferer-__init__) constructor of `SocialMediaInferer` in `estorides_core.socmint`
+- [`__init__`](modules/estorides_core.source_loader.py.md#source-__init__) constructor of `Source` in `estorides_core.source_loader`
+- [`__init__`](modules/estorides_core.source_loader.py.md#sourceregistry-__init__) constructor of `SourceRegistry` in `estorides_core.source_loader`
+- [`__init__`](modules/estorides_core.sqlite_store.py.md#sqlitestore-__init__) constructor of `SqliteStore` in `estorides_core.sqlite_store`
+- [`__init__`](modules/estorides_core.transforms.py.md#transformregistry-__init__) constructor of `TransformRegistry` in `estorides_core.transforms`
+- [`__init__`](modules/estorides_core.monitoring.py.md#watchscheduler-__init__) constructor of `WatchScheduler` in `estorides_core.monitoring`
+- [`__init__`](modules/estorides_core.ontology.py.md#wikidatacache-__init__) constructor of `WikidataCache` in `estorides_core.ontology`
+- [`ink`](modules/static.js.graph_bundle.js.md#ink) function in `static/js/graph_bundle.js`
+- [`inspectInGraph`](modules/static.js.graph_bundle.js.md#inspectingraph) function in `static/js/graph_bundle.js`
+- [`install_auth_gate`](modules/estorides_core.web_security.py.md#install_auth_gate) function in `estorides_core.web_security`
+- [`install_command`](modules/estorides_core.tool_install.py.md#installrecipe-install_command) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`install_full`](modules/install.sh.md#install_full) function in `install.sh`
+- [`install_minimal`](modules/install.sh.md#install_minimal) function in `install.sh`
+- [`install_path`](modules/estorides_core.tool_install.py.md#installrecipe-install_path) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`install_security`](modules/estorides_core.web_security.py.md#install_security) function in `estorides_core.web_security`
+- [`install_tool`](modules/estorides_core.tool_install.py.md#install_tool) function in `estorides_core.tool_install`
+- [`installable`](modules/estorides_core.tool_install.py.md#toolstatus-installable) attribute of `ToolStatus` in `estorides_core.tool_install`
+- [`InstallRecipe`](modules/estorides_core.tool_install.py.md#installrecipe) class in `estorides_core.tool_install`
+- [`InstallResult`](modules/estorides_core.tool_install.py.md#installresult) class in `estorides_core.tool_install`
+- [`intel_level`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-intel_level) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`INTEL_LEVELS`](modules/estorides_core.knowledge_graph.py.md#intel_levels) constant in `estorides_core.knowledge_graph`
+- [`intel_neighbor_hops`](modules/estorides_core.config.py.md#webconfig-intel_neighbor_hops) attribute of `WebConfig` in `estorides_core.config`
+- [`INTERNAL_URL_RE`](modules/estorides_core.code_exposure.py.md#internal_url_re) constant in `estorides_core.code_exposure`
+- [`interval_minutes`](modules/estorides_core.monitoring.py.md#watchtarget-interval_minutes) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`InvalidTelemetryConfigError`](modules/estorides_core.search_telemetry.py.md#invalidtelemetryconfigerror) exception in `estorides_core.search_telemetry`
+- [`ip`](modules/estorides_core.pdns_monitor.py.md#iprecord-ip) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`IP_API_URL`](modules/estorides_core.intel_resolver.py.md#ip_api_url) constant in `estorides_core.intel_resolver`
+- [`ip_history`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-ip_history) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`IPRecord`](modules/estorides_core.pdns_monitor.py.md#iprecord) class in `estorides_core.pdns_monitor`
+- [`ips`](modules/estorides_core.lan_inventory.py.md#landevice-ips) attribute of `LanDevice` in `estorides_core.lan_inventory`
+- [`ips`](modules/estorides_core.scope.py.md#scopereport-ips) property of `ScopeReport` in `estorides_core.scope`
+- [`is3DActive`](modules/static.js.estorides.js.md#is3dactive) function in `static/js/estorides.js`
+- [`is_active`](modules/estorides_core.config.py.md#cacheconfig-is_active) property of `CacheConfig` in `estorides_core.config`
+- [`is_active`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-is_active) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`is_cors_enabled`](modules/estorides_core.web_security.py.md#websecurityconfig-is_cors_enabled) property of `WebSecurityConfig` in `estorides_core.web_security`
+- [`is_ip`](modules/estorides_core.scope.py.md#is_ip) function in `estorides_core.scope`
+- [`is_lan_request`](modules/estorides_core.lan_web.py.md#is_lan_request) function in `estorides_core.lan_web`
+- [`is_non_latin`](modules/estorides_core.transliteration.py.md#is_non_latin) function in `estorides_core.transliteration`
+- [`is_origin_allowed`](modules/estorides_core.web_security.py.md#websecurityconfig-is_origin_allowed) property of `WebSecurityConfig` in `estorides_core.web_security`
+- [`is_pivotable`](modules/estorides_core.config.py.md#pivotpolicyconfig-is_pivotable) method of `PivotPolicyConfig` in `estorides_core.config`
+- [`is_ready`](modules/estorides_core.ontology.py.md#sanctionsindex-is_ready) method of `SanctionsIndex` in `estorides_core.ontology`
+- [`is_system_app`](modules/estorides_core.system_app_sources.py.md#is_system_app) function in `estorides_core.system_app_sources`
+- [`is_valid_binary`](modules/estorides_core.tool_install.py.md#is_valid_binary) function in `estorides_core.tool_install`
+- [`is_valid_recipe_name`](modules/estorides_core.tool_install.py.md#is_valid_recipe_name) function in `estorides_core.tool_install`
+- [`is_wildcard`](modules/estorides_core.pdns_monitor.py.md#certrecord-is_wildcard) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`isLanQueryLocal`](modules/static.js.estorides.js.md#islanquerylocal) function in `static/js/estorides.js`
+- [`issue_session_cookie_kwargs`](modules/estorides_core.web_security.py.md#authgate-issue_session_cookie_kwargs) method of `AuthGate` in `estorides_core.web_security`
+- [`issuer`](modules/estorides_core.pdns_monitor.py.md#certrecord-issuer) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`iter_sse_events`](modules/estorides_core.transforms.py.md#iter_sse_events) function in `estorides_core.transforms`
+
+<a id="j"></a>
+
+## J
+
+- [`jaro`](modules/estorides_core.entity_resolution.py.md#jaro) function in `estorides_core.entity_resolution`
+- [`jaro_winkler`](modules/estorides_core.entity_resolution.py.md#jaro_winkler) function in `estorides_core.entity_resolution`
+- [`job_id`](modules/estorides_core.discoverer.py.md#discoverjob-job_id) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`job_registry_max_size`](modules/estorides_core.config.py.md#streamconfig-job_registry_max_size) attribute of `StreamConfig` in `estorides_core.config`
+- [`job_registry_ttl_seconds`](modules/estorides_core.config.py.md#streamconfig-job_registry_ttl_seconds) attribute of `StreamConfig` in `estorides_core.config`
+- [`JWT_RE`](modules/estorides_core.code_exposure.py.md#jwt_re) constant in `estorides_core.code_exposure`
+
+<a id="k"></a>
+
+## K
+
+- [`k`](modules/static.js.estorides.js.md#k) function in `static/js/estorides.js`
+- [`k`](modules/static.js.estorides.js.md#k) function in `static/js/estorides.js`
+- [`key`](modules/estorides_core.search_telemetry.py.md#searchphase-key) attribute of `SearchPhase` in `estorides_core.search_telemetry`
+- [`key_entities`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-key_entities) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`key_findings`](modules/estorides_core.recon_fusion.py.md#groupedentity-key_findings) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`key_relations`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-key_relations) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`KeyboardShortcut`](modules/estorides_core.search_telemetry.py.md#keyboardshortcut) class in `estorides_core.search_telemetry`
+- [`keyOf`](modules/static.js.graph_bundle.js.md#keyof) function in `static/js/graph_bundle.js`
+- [`keys`](modules/estorides_core.job_registry.py.md#boundedjobregistry-keys) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`keys`](modules/estorides_core.search_telemetry.py.md#keyboardshortcut-keys) attribute of `KeyboardShortcut` in `estorides_core.search_telemetry`
+- [`KG_MAX_COOCCUR_ENTITIES`](modules/estorides_core.config.py.md#kg_max_cooccur_entities) constant in `estorides_core.config`
+- [`kind`](modules/estorides_core.change_detection.py.md#change-kind) attribute of `Change` in `estorides_core.change_detection`
+- [`kind`](modules/estorides_core.feeds.py.md#feedpoint-kind) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`kind`](modules/estorides_core.graph_rag_search.py.md#ragentity-kind) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`KIND_HTTP_API`](modules/estorides_core.system_app_sources.py.md#kind_http_api) constant in `estorides_core.system_app_sources`
+- [`KIND_SYSTEM_APP`](modules/estorides_core.system_app_sources.py.md#kind_system_app) constant in `estorides_core.system_app_sources`
+- [`KnowledgeGraph`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph) class in `estorides_core.knowledge_graph`
+- [`KUZU_PATH`](modules/estorides_core.graph_kuzu.py.md#kuzu_path) constant in `estorides_core.graph_kuzu`
+- [`KuzuGraphBackend`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend) class in `estorides_core.graph_kuzu`
+
+<a id="l"></a>
+
+## L
+
+- [`label`](modules/estorides_core.feeds.py.md#feedpoint-label) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`label`](modules/estorides_core.search_telemetry.py.md#progressview-label) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`label`](modules/estorides_core.search_telemetry.py.md#searchphase-label) attribute of `SearchPhase` in `estorides_core.search_telemetry`
+- [`label`](modules/estorides_core.transforms.py.md#transform-label) attribute of `Transform` in `estorides_core.transforms`
+- [`labelFor`](modules/static.js.estorides.js.md#labelfor) function in `static/js/estorides.js`
+- [`labelSet`](modules/static.js.graph_bundle.js.md#labelset) function in `static/js/graph_bundle.js`
+- [`LAN_ALLOW_ACTIVE_ENV`](modules/estorides_core.lan_policy.py.md#lan_allow_active_env) constant in `estorides_core.lan_policy`
+- [`LanBundleResult`](modules/estorides_core.lan_bundle.py.md#lanbundleresult) class in `estorides_core.lan_bundle`
+- [`LanDevice`](modules/estorides_core.lan_inventory.py.md#landevice) class in `estorides_core.lan_inventory`
+- [`LanPolicyDecision`](modules/estorides_core.lan_policy.py.md#lanpolicydecision) class in `estorides_core.lan_policy`
+- [`LanPolicyRequest`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest) class in `estorides_core.lan_policy`
+- [`lanRunFields`](modules/static.js.estorides.js.md#lanrunfields) function in `static/js/estorides.js`
+- [`LanScanResult`](modules/estorides_core.lan_runner.py.md#lanscanresult) class in `estorides_core.lan_runner`
+- [`LanWebVerdict`](modules/estorides_core.lan_web.py.md#lanwebverdict) class in `estorides_core.lan_web`
+- [`last_run_at`](modules/estorides_core.monitoring.py.md#watchtarget-last_run_at) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`last_seen`](modules/estorides_core.recon_fusion.py.md#groupedentity-last_seen) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`last_seen`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-last_seen) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`last_seen`](modules/estorides_core.pdns_monitor.py.md#iprecord-last_seen) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`last_seen`](modules/estorides_core.change_detection.py.md#snapshotentity-last_seen) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`last_seen`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-last_seen) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`last_status`](modules/estorides_core.monitoring.py.md#watchtarget-last_status) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`last_updated`](modules/estorides_core.socmint.py.md#socialmediaprofile-last_updated) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`lat`](modules/estorides_core.feeds.py.md#feedpoint-lat) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`latency_sum_ms`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-latency_sum_ms) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`LAZYOWN_TYPE_MAP`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-lazyown_type_map) attribute of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`lead_score`](modules/estorides_core.config.py.md#pivotpolicyconfig-lead_score) method of `PivotPolicyConfig` in `estorides_core.config`
+- [`LEASE_READ_CAP_BYTES`](modules/estorides_core.lan_runner.py.md#lease_read_cap_bytes) constant in `estorides_core.lan_runner`
+- [`leaves`](modules/estorides_core.graph_bundle.py.md#bundlelayout-leaves) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`leaves`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout-leaves) attribute of `SphereBundleLayout` in `estorides_core.graph_bundle`
+- [`left`](modules/estorides_core.entity_resolution.py.md#sameaslink-left) attribute of `SameAsLink` in `estorides_core.entity_resolution`
+- [`level`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-level) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`level`](modules/estorides_export.recon_report.py.md#reportsection-level) attribute of `ReportSection` in `estorides_export.recon_report`
+- [`levelOf`](modules/static.js.estorides.js.md#levelof) function in `static/js/estorides.js`
+- [`limit_param`](modules/estorides_core.pagination.py.md#paginationconfig-limit_param) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`linked_platforms`](modules/estorides_core.socmint.py.md#socialmediaprofile-linked_platforms) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`linkedin`](modules/estorides_core.people_intel.py.md#employee-linkedin) attribute of `Employee` in `estorides_core.people_intel`
+- [`links`](modules/static.js.graph_force.js.md#links) function in `static/js/graph_force.js`
+- [`linkStrengthFn`](modules/static.js.graph_force.js.md#linkstrengthfn) function in `static/js/graph_force.js`
+- [`list_entities`](modules/estorides_core.cases.py.md#casestore-list_entities) method of `CaseStore` in `estorides_core.cases`
+- [`list_feeds`](modules/estorides_core.feeds.py.md#list_feeds) function in `estorides_core.feeds`
+- [`list_jobs`](modules/estorides_core.discoverer.py.md#list_jobs) function in `estorides_core.discoverer`
+- [`list_observations`](modules/estorides_core.cases.py.md#casestore-list_observations) method of `CaseStore` in `estorides_core.cases`
+- [`list_parsers`](modules/estorides_core.parsers.py.md#list_parsers) function in `estorides_core.parsers`
+- [`list_recipes`](modules/estorides_core.tool_install.py.md#list_recipes) function in `estorides_core.tool_install`
+- [`list_sources`](modules/estorides_core.fusion_store.py.md#fusionstore-list_sources) method of `FusionStore` in `estorides_core.fusion_store`
+- [`list_watches`](modules/estorides_core.monitoring.py.md#watchstore-list_watches) method of `WatchStore` in `estorides_core.monitoring`
+- [`ListEventSink`](modules/estorides_core.pivot_engine.py.md#listeventsink) class in `estorides_core.pivot_engine`
+- [`listing_count`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult-listing_count) attribute of `CloudAssetDiscoveryResult` in `estorides_core.cloud_asset_discovery`
+- [`listing_enabled`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-listing_enabled) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`listInto`](modules/static.js.graph_bundle.js.md#listinto) function in `static/js/graph_bundle.js`
+- [`listInto`](modules/static.js.graph_bundle.js.md#listinto) method in `static/js/graph_bundle.js`
+- [`listInto`](modules/static.js.graph_bundle.js.md#listinto) method in `static/js/graph_bundle.js`
+- [`listInto`](modules/static.js.graph_bundle.js.md#listinto) method in `static/js/graph_bundle.js`
+- [`lkey`](modules/static.js.graph_force.js.md#lkey) function in `static/js/graph_force.js`
+- [`LLM_BACKSTOP_S`](modules/estorides_core.config.py.md#llm_backstop_s) constant in `estorides_core.config`
+- [`LLM_MAX_TOKENS`](modules/estorides_core.config.py.md#llm_max_tokens) constant in `estorides_core.config`
+- [`LLM_MODELS`](modules/estorides_core.config.py.md#llm_models) constant in `estorides_core.config`
+- [`LLM_REQUEST_TIMEOUT`](modules/estorides_core.config.py.md#llm_request_timeout) constant in `estorides_core.config`
+- [`LLM_TEMPERATURE`](modules/estorides_core.config.py.md#llm_temperature) constant in `estorides_core.config`
+- [`LLMBackend`](modules/estorides_llm.manager.py.md#llmbackend) protocol in `estorides_llm.manager`
+- [`LLMManager`](modules/estorides_llm.manager.py.md#llmmanager) class in `estorides_llm.manager`
+- [`load`](modules/estorides_core.source_loader.py.md#sourceregistry-load) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`load_assets`](modules/estorides_core.scope.py.md#load_assets) function in `estorides_core.scope`
+- [`load_recipe`](modules/estorides_core.tool_install.py.md#load_recipe) function in `estorides_core.tool_install`
+- [`load_rules_file`](modules/estorides_core.scope.py.md#load_rules_file) function in `estorides_core.scope`
+- [`load_security_config`](modules/estorides_core.web_security.py.md#load_security_config) function in `estorides_core.web_security`
+- [`load_yaml_dir`](modules/estorides_core.transforms.py.md#transformregistry-load_yaml_dir) method of `TransformRegistry` in `estorides_core.transforms`
+- [`loadAnalysisModels`](modules/static.js.estorides.js.md#loadanalysismodels) function in `static/js/estorides.js`
+- [`loadCases`](modules/static.js.estorides.js.md#loadcases) function in `static/js/estorides.js`
+- [`loadFusionEntityDetail`](modules/static.js.estorides.js.md#loadfusionentitydetail) function in `static/js/estorides.js`
+- [`loadFusionSearch`](modules/static.js.estorides.js.md#loadfusionsearch) function in `static/js/estorides.js`
+- [`loadFusionStats`](modules/static.js.estorides.js.md#loadfusionstats) function in `static/js/estorides.js`
+- [`loadFusionTab`](modules/static.js.estorides.js.md#loadfusiontab) function in `static/js/estorides.js`
+- [`loadFusionTopChanged`](modules/static.js.estorides.js.md#loadfusiontopchanged) function in `static/js/estorides.js`
+- [`loadSidebarCollapsed`](modules/static.js.estorides.js.md#loadsidebarcollapsed) function in `static/js/estorides.js`
+- [`loadSidebarWidth`](modules/static.js.estorides.js.md#loadsidebarwidth) function in `static/js/estorides.js`
+- [`loadSources`](modules/static.js.source_manager.js.md#loadsources) function in `static/js/source_manager.js`
+- [`local_search`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-local_search) method of `GraphRagSearcher` in `estorides_core.graph_rag_search`
+- [`local_top_entities`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-local_top_entities) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`local_top_relations`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-local_top_relations) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`local_top_reports`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-local_top_reports) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`local_top_units`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-local_top_units) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`location`](modules/estorides_core.graph_rag_search.py.md#ragtextunit-location) attribute of `RagTextUnit` in `estorides_core.graph_rag_search`
+- [`location`](modules/estorides_core.socmint.py.md#socialmediaprofile-location) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`lon`](modules/estorides_core.feeds.py.md#feedpoint-lon) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`lookup`](modules/estorides_core.entity_store.py.md#entitystore-lookup) method of `EntityStore` in `estorides_core.entity_store`
+- [`lookup`](modules/estorides_core.ontology.py.md#sanctionsindex-lookup) method of `SanctionsIndex` in `estorides_core.ontology`
+- [`lookup_crypto`](modules/estorides_core.ontology.py.md#sanctionsindex-lookup_crypto) method of `SanctionsIndex` in `estorides_core.ontology`
+- [`lookup_cve_for_tech`](modules/estorides_core.vuln_correlation.py.md#lookup_cve_for_tech) function in `estorides_core.vuln_correlation`
+- [`LOW`](modules/estorides_core.recon_fusion.py.md#relevancetier-low) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`low`](modules/estorides_core.code_exposure.py.md#severitysummary-low) attribute of `SeveritySummary` in `estorides_core.code_exposure`
+
+<a id="m"></a>
+
+## M
+
+- [`m`](modules/static.js.graph_force.js.md#m) function in `static/js/graph_force.js`
+- [`mac`](modules/estorides_core.lan_inventory.py.md#landevice-mac) attribute of `LanDevice` in `estorides_core.lan_inventory`
+- [`main`](modules/estorides_cli.py.md#main) function in `estorides_cli`
+- [`main`](modules/estorides_core.tool_install.py.md#main) function in `estorides_core.tool_install`
+- [`main`](modules/tools.split_sources.py.md#main) function in `tools.split_sources`
+- [`main`](modules/tools.sync_docs.py.md#main) function in `tools.sync_docs`
+- [`make_auth_gate`](modules/estorides_core.web_security.py.md#make_auth_gate) function in `estorides_core.web_security`
+- [`makeModelPill`](modules/static.js.estorides.js.md#makemodelpill) function in `static/js/estorides.js`
+- [`makeProjector`](modules/static.js.graph_bundle.js.md#makeprojector) function in `static/js/graph_bundle.js`
+- [`map_observation`](modules/estorides_core.mitre_attack.py.md#map_observation) function in `estorides_core.mitre_attack`
+- [`map_observations`](modules/estorides_core.mitre_attack.py.md#map_observations) function in `estorides_core.mitre_attack`
+- [`markdown`](modules/estorides_core.graph_rag_search.py.md#ragcontext-markdown) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`markdown`](modules/estorides_export.recon_report.py.md#reportresult-markdown) attribute of `ReportResult` in `estorides_export.recon_report`
+- [`markFamilies`](modules/static.js.graph_force.js.md#markfamilies) function in `static/js/graph_force.js`
+- [`match_method`](modules/estorides_core.entity_resolution.py.md#canonicalentity-match_method) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`match_score`](modules/estorides_core.entity_resolution.py.md#canonicalentity-match_score) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`matched_pattern`](modules/estorides_core.code_exposure.py.md#codefinding-matched_pattern) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`matches`](modules/estorides_core.scope.py.md#cidrrule-matches) method of `CidrRule` in `estorides_core.scope`
+- [`matches`](modules/estorides_core.scope.py.md#exacthostrule-matches) method of `ExactHostRule` in `estorides_core.scope`
+- [`matches`](modules/estorides_core.scope.py.md#regexrule-matches) method of `RegexRule` in `estorides_core.scope`
+- [`matches`](modules/estorides_core.scope.py.md#scoperule-matches) method of `ScopeRule` in `estorides_core.scope`
+- [`matches`](modules/estorides_core.scope.py.md#wildcardrule-matches) method of `WildcardRule` in `estorides_core.scope`
+- [`MatchScore`](modules/estorides_core.entity_resolution.py.md#matchscore) class in `estorides_core.entity_resolution`
+- [`MAX_BUDGET_CHARS`](modules/estorides_core.graph_force.py.md#max_budget_chars) constant in `estorides_core.graph_force`
+- [`MAX_BUDGET_CHARS`](modules/estorides_core.graph_rag_search.py.md#max_budget_chars) constant in `estorides_core.graph_rag_search`
+- [`max_changes`](modules/estorides_core.change_detection.py.md#changeconfig-max_changes) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`max_confidence`](modules/estorides_core.recon_fusion.py.md#groupedentity-max_confidence) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`max_contact`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-max_contact) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`max_contact`](modules/estorides_core.lan_web.py.md#lanwebverdict-max_contact) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`max_contact_for`](modules/estorides_core.lan_policy.py.md#max_contact_for) function in `estorides_core.lan_policy`
+- [`max_content_length_bytes`](modules/estorides_core.web_security.py.md#websecurityconfig-max_content_length_bytes) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`max_depth`](modules/estorides_core.discoverer.py.md#discoverjob-max_depth) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`max_depth`](modules/estorides_core.pivot_engine.py.md#pivotbudget-max_depth) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`max_depth`](modules/estorides_core.config.py.md#pivotconfig-max_depth) attribute of `PivotConfig` in `estorides_core.config`
+- [`max_depth_cap`](modules/estorides_core.config.py.md#pivotconfig-max_depth_cap) attribute of `PivotConfig` in `estorides_core.config`
+- [`MAX_DETAIL_CHARS`](modules/estorides_core.graph_rag_search.py.md#max_detail_chars) constant in `estorides_core.graph_rag_search`
+- [`MAX_EDGES`](modules/estorides_core.graph_force.py.md#max_edges) constant in `estorides_core.graph_force`
+- [`max_entities`](modules/estorides_core.discoverer.py.md#discoverjob-max_entities) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`max_entities`](modules/estorides_core.pivot_engine.py.md#pivotbudget-max_entities) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`max_entities`](modules/estorides_core.config.py.md#pivotconfig-max_entities) attribute of `PivotConfig` in `estorides_core.config`
+- [`max_entities_cap`](modules/estorides_core.config.py.md#pivotconfig-max_entities_cap) attribute of `PivotConfig` in `estorides_core.config`
+- [`MAX_HEADER_BYTES`](modules/estorides_core.tech_fingerprint.py.md#max_header_bytes) constant in `estorides_core.tech_fingerprint`
+- [`MAX_HTML_BYTES`](modules/estorides_core.tech_fingerprint.py.md#max_html_bytes) constant in `estorides_core.tech_fingerprint`
+- [`MAX_ID_LEN`](modules/estorides_core.transforms.py.md#max_id_len) constant in `estorides_core.transforms`
+- [`max_iter`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-max_iter) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`MAX_LABEL_CHARS`](modules/estorides_core.graph_bundle.py.md#max_label_chars) constant in `estorides_core.graph_bundle`
+- [`MAX_LABEL_CHARS`](modules/estorides_core.graph_force.py.md#max_label_chars) constant in `estorides_core.graph_force`
+- [`MAX_LABEL_CHARS`](modules/estorides_core.graph_rag_search.py.md#max_label_chars) constant in `estorides_core.graph_rag_search`
+- [`max_label_len`](modules/estorides_core.ops_observability.py.md#opsconfig-max_label_len) attribute of `OpsConfig` in `estorides_core.ops_observability`
+- [`MAX_NODES`](modules/estorides_core.graph_force.py.md#max_nodes) constant in `estorides_core.graph_force`
+- [`max_pages`](modules/estorides_core.pagination.py.md#paginationconfig-max_pages) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`MAX_REQS_PER_SEC`](modules/estorides_core.cloud_asset_discovery.py.md#max_reqs_per_sec) constant in `estorides_core.cloud_asset_discovery`
+- [`MAX_SNIPPET_CHARS`](modules/estorides_core.code_exposure.py.md#max_snippet_chars) constant in `estorides_core.code_exposure`
+- [`MAX_STATIC_LINKS`](modules/estorides_core.transforms.py.md#max_static_links) constant in `estorides_core.transforms`
+- [`MAX_STATIC_NODES`](modules/estorides_core.transforms.py.md#max_static_nodes) constant in `estorides_core.transforms`
+- [`max_steps`](modules/estorides_core.discoverer.py.md#discoverjob-max_steps) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`max_steps`](modules/estorides_core.pivot_engine.py.md#pivotbudget-max_steps) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`max_steps`](modules/estorides_core.config.py.md#pivotconfig-max_steps) attribute of `PivotConfig` in `estorides_core.config`
+- [`max_steps_cap`](modules/estorides_core.config.py.md#pivotconfig-max_steps_cap) attribute of `PivotConfig` in `estorides_core.config`
+- [`MAX_STR_LEN`](modules/estorides_core.observation_models.py.md#max_str_len) constant in `estorides_core.observation_models`
+- [`max_str_len`](modules/estorides_core.config.py.md#schemaconfig-max_str_len) attribute of `SchemaConfig` in `estorides_core.config`
+- [`MAX_TYPE_LEN`](modules/estorides_core.transforms.py.md#max_type_len) constant in `estorides_core.transforms`
+- [`MAX_URL_LEN`](modules/estorides_core.observation_models.py.md#max_url_len) constant in `estorides_core.observation_models`
+- [`max_url_len`](modules/estorides_core.config.py.md#schemaconfig-max_url_len) attribute of `SchemaConfig` in `estorides_core.config`
+- [`MAX_VALUE_LEN`](modules/estorides_core.observation_models.py.md#max_value_len) constant in `estorides_core.observation_models`
+- [`MAX_VALUE_LEN`](modules/estorides_core.transforms.py.md#max_value_len) constant in `estorides_core.transforms`
+- [`max_value_len`](modules/estorides_core.config.py.md#schemaconfig-max_value_len) attribute of `SchemaConfig` in `estorides_core.config`
+- [`maybePlotDiscoverEntity`](modules/static.js.estorides.js.md#maybeplotdiscoverentity) function in `static/js/estorides.js`
+- [`MEDIUM`](modules/estorides_core.recon_fusion.py.md#relevancetier-medium) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`medium`](modules/estorides_core.code_exposure.py.md#severitysummary-medium) attribute of `SeveritySummary` in `estorides_core.code_exposure`
+- [`medium_min_reliability`](modules/estorides_core.config.py.md#reconfusionconfig-medium_min_reliability) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`member_count`](modules/estorides_core.entity_resolution.py.md#canonicalentity-member_count) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`member_ids`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-member_ids) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`merge`](modules/estorides_core.entity_extraction.py.md#merge) function in `estorides_core.entity_extraction`
+- [`merge_confidence`](modules/estorides_core.reliability_scoring.py.md#merge_confidence) function in `estorides_core.reliability_scoring`
+- [`merge_devices`](modules/estorides_core.lan_inventory.py.md#merge_devices) function in `estorides_core.lan_inventory`
+- [`MERGE_ELIGIBLE_TYPES`](modules/estorides_core.entity_resolution.py.md#merge_eligible_types) constant in `estorides_core.entity_resolution`
+- [`mergeExpansionIntoGraph`](modules/static.js.estorides.js.md#mergeexpansionintograph) function in `static/js/estorides.js`
+- [`message`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-message) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`message`](modules/estorides_core.lan_runner.py.md#lanscanresult-message) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`message`](modules/estorides_core.lan_web.py.md#lanwebverdict-message) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`message`](modules/estorides_core.tool_runner.py.md#toolerrorresult-message) attribute of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`meta`](modules/estorides_core.graph_rag_search.py.md#graphragindex-meta) attribute of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`meta`](modules/estorides_core.observation_models.py.md#observation-meta) attribute of `Observation` in `estorides_core.observation_models`
+- [`META_TECH_MAP`](modules/estorides_core.tech_fingerprint.py.md#meta_tech_map) constant in `estorides_core.tech_fingerprint`
+- [`metadata`](modules/estorides_core.socmint.py.md#profilematch-metadata) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`metasploit_module`](modules/estorides_core.vuln_correlation.py.md#vulnentry-metasploit_module) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`method`](modules/estorides_core.audit.py.md#auditevent-method) attribute of `AuditEvent` in `estorides_core.audit`
+- [`method`](modules/estorides_core.tool_install.py.md#installresult-method) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`method`](modules/estorides_core.entity_resolution.py.md#matchscore-method) attribute of `MatchScore` in `estorides_core.entity_resolution`
+- [`method`](modules/estorides_core.observation_models.py.md#observationmeta-method) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`method`](modules/estorides_core.entity_resolution.py.md#sameaslink-method) attribute of `SameAsLink` in `estorides_core.entity_resolution`
+- [`metrics_content_type`](modules/estorides_core.ops_observability.py.md#opsconfig-metrics_content_type) attribute of `OpsConfig` in `estorides_core.ops_observability`
+- [`mid`](modules/static.js.graph_bundle.js.md#mid) function in `static/js/graph_bundle.js`
+- [`mid`](modules/static.js.graph_force.js.md#mid) function in `static/js/graph_force.js`
+- [`min_change_score`](modules/estorides_core.change_detection.py.md#changeconfig-min_change_score) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`min_fetches`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-min_fetches) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`min_reliability`](modules/estorides_core.change_detection.py.md#changeconfig-min_reliability) attribute of `ChangeConfig` in `estorides_core.change_detection`
+- [`min_token_len`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-min_token_len) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`MISP_EVENT_PATH`](modules/estorides_core.config.py.md#misp_event_path) constant in `estorides_core.config`
+- [`mitre`](modules/estorides_core.observation_models.py.md#observation-mitre) attribute of `Observation` in `estorides_core.observation_models`
+- [`mk`](modules/static.js.graph_bundle.js.md#mk) function in `static/js/graph_bundle.js`
+- [`mode`](modules/estorides_core.graph_rag_search.py.md#ragcontext-mode) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`MONITOR_DB`](modules/estorides_core.monitoring.py.md#monitor_db) constant in `estorides_core.monitoring`
+- [`MONITOR_POLL_INTERVAL_S`](modules/estorides_core.pdns_monitor.py.md#monitor_poll_interval_s) constant in `estorides_core.pdns_monitor`
+- [`most_critical`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-most_critical) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`mount3D`](modules/static.js.graph_force.js.md#mount3d) function in `static/js/graph_force.js`
+- [`msg`](modules/static.js.estorides.js.md#msg) function in `static/js/estorides.js`
+- [`multi_source_consensus`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-multi_source_consensus) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`MX_PROVIDER_MAP`](modules/estorides_core.supply_chain.py.md#mx_provider_map) constant in `estorides_core.supply_chain`
+- [`mx_records`](modules/estorides_core.active_recon.py.md#dnsreconresult-mx_records) attribute of `DnsreconResult` in `estorides_core.active_recon`
+
+<a id="n"></a>
+
+## N
+
+- [`name`](modules/estorides_llm.manager.py.md#anthropicbackend-name) attribute of `AnthropicBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_core.feeds.py.md#earthquakesfeed-name) attribute of `EarthquakesFeed` in `estorides_core.feeds`
+- [`name`](modules/estorides_core.people_intel.py.md#employee-name) attribute of `Employee` in `estorides_core.people_intel`
+- [`name`](modules/estorides_core.feeds.py.md#feed-name) attribute of `Feed` in `estorides_core.feeds`
+- [`name`](modules/estorides_core.feeds.py.md#firesfeed-name) attribute of `FiresFeed` in `estorides_core.feeds`
+- [`name`](modules/estorides_core.tool_install.py.md#installrecipe-name) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`name`](modules/estorides_llm.manager.py.md#llmbackend-name) attribute of `LLMBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_core.feeds.py.md#newsfeed-name) attribute of `NewsFeed` in `estorides_core.feeds`
+- [`name`](modules/estorides_llm.manager.py.md#ollamabackend-name) attribute of `OllamaBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_llm.manager.py.md#openaibackend-name) attribute of `OpenAIBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_llm.manager.py.md#openrouterbackend-name) attribute of `OpenRouterBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_core.socmint.py.md#platforminfo-name) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`name`](modules/estorides_core.graph_rag_search.py.md#ragentity-name) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`name`](modules/estorides_core.ontology.py.md#sanctionentry-name) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`name`](modules/estorides_core.tech_fingerprint.py.md#tech-name) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`name`](modules/estorides_core.supply_chain.py.md#thirdparty-name) attribute of `ThirdParty` in `estorides_core.supply_chain`
+- [`name`](modules/estorides_core.tool_install.py.md#toolstatus-name) attribute of `ToolStatus` in `estorides_core.tool_install`
+- [`names`](modules/estorides_core.source_loader.py.md#sourceregistry-names) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`needs_page_size`](modules/estorides_core.pagination.py.md#paginationconfig-needs_page_size) property of `PaginationConfig` in `estorides_core.pagination`
+- [`neighbors`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-neighbors) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`neighbours`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-neighbours) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`network`](modules/estorides_core.scope.py.md#cidrrule-network) attribute of `CidrRule` in `estorides_core.scope`
+- [`new_certs`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-new_certs) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`NewsFeed`](modules/estorides_core.feeds.py.md#newsfeed) class in `estorides_core.feeds`
+- [`newSource`](modules/static.js.source_manager.js.md#newsource) function in `static/js/source_manager.js`
+- [`next_run_at`](modules/estorides_core.monitoring.py.md#watchtarget-next_run_at) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`NiktoResult`](modules/estorides_core.active_recon.py.md#niktoresult) class in `estorides_core.active_recon`
+- [`NMAP_TIMEOUT_S`](modules/estorides_core.lan_runner.py.md#nmap_timeout_s) constant in `estorides_core.lan_runner`
+- [`NMAP_TOOL`](modules/estorides_core.lan_runner.py.md#nmap_tool) constant in `estorides_core.lan_runner`
+- [`NMAP_XML_MAX_BYTES`](modules/estorides_core.lan_inventory.py.md#nmap_xml_max_bytes) constant in `estorides_core.lan_inventory`
+- [`NmapResult`](modules/estorides_core.active_recon.py.md#nmapresult) class in `estorides_core.active_recon`
+- [`node_count`](modules/estorides_core.lan_bundle.py.md#lanbundleresult-node_count) attribute of `LanBundleResult` in `estorides_core.lan_bundle`
+- [`NODE_KIND`](modules/estorides_core.knowledge_graph.py.md#node_kind) constant in `estorides_core.knowledge_graph`
+- [`node_value`](modules/estorides_core.graph_force.py.md#node_value) function in `estorides_core.graph_force`
+- [`nodeButton`](modules/static.js.graph_bundle.js.md#nodebutton) function in `static/js/graph_bundle.js`
+- [`nodeLit`](modules/static.js.graph_bundle.js.md#nodelit) function in `static/js/graph_bundle.js`
+- [`nodeRadius`](modules/static.js.graph_bundle.js.md#noderadius) function in `static/js/graph_bundle.js`
+- [`nodes`](modules/static.js.graph_force.js.md#nodes) function in `static/js/graph_force.js`
+- [`NOISE`](modules/estorides_core.recon_fusion.py.md#relevancetier-noise) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`noise_max_reliability`](modules/estorides_core.config.py.md#reconfusionconfig-noise_max_reliability) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`normalise_asset`](modules/estorides_core.scope.py.md#normalise_asset) function in `estorides_core.scope`
+- [`normalised`](modules/estorides_core.validation.py.md#query-normalised) attribute of `Query` in `estorides_core.validation`
+- [`normalize_mac`](modules/estorides_core.lan_inventory.py.md#normalize_mac) function in `estorides_core.lan_inventory`
+- [`normalize_query`](modules/estorides_core.entity_extraction.py.md#normalize_query) function in `estorides_core.entity_extraction`
+- [`normalize_value`](modules/estorides_core.entity_resolution.py.md#normalize_value) function in `estorides_core.entity_resolution`
+- [`normalized`](modules/estorides_core.entity_resolution.py.md#canonicalentity-normalized) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`normalized`](modules/estorides_core.recon_fusion.py.md#groupedentity-normalized) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`not_after`](modules/estorides_core.pdns_monitor.py.md#certrecord-not_after) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`not_before`](modules/estorides_core.pdns_monitor.py.md#certrecord-not_before) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`notes`](modules/estorides_core.monitoring.py.md#watchtarget-notes) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`notice`](modules/estorides_core.lan_runner.py.md#lanscanresult-notice) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`notice`](modules/estorides_core.lan_web.py.md#lanwebverdict-notice) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`now`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-now) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`NS_PROVIDER_MAP`](modules/estorides_core.supply_chain.py.md#ns_provider_map) constant in `estorides_core.supply_chain`
+- [`ns_records`](modules/estorides_core.active_recon.py.md#dnsreconresult-ns_records) attribute of `DnsreconResult` in `estorides_core.active_recon`
+
+<a id="o"></a>
+
+## O
+
+- [`obs`](modules/static.js.estorides.js.md#obs) function in `static/js/estorides.js`
+- [`obs`](modules/static.js.estorides.js.md#obs) function in `static/js/estorides.js`
+- [`Observation`](modules/estorides_core.observation_models.py.md#observation) class in `estorides_core.observation_models`
+- [`observation_age_seconds`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-observation_age_seconds) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`observation_age_seconds`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-observation_age_seconds) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`ObservationMeta`](modules/estorides_core.observation_models.py.md#observationmeta) class in `estorides_core.observation_models`
+- [`observations`](modules/estorides_core.audit.py.md#auditevent-observations) attribute of `AuditEvent` in `estorides_core.audit`
+- [`observations`](modules/estorides_core.observation_models.py.md#runresult-observations) attribute of `RunResult` in `estorides_core.observation_models`
+- [`observed_at`](modules/estorides_core.observation_models.py.md#observation-observed_at) attribute of `Observation` in `estorides_core.observation_models`
+- [`ObservedEntity`](modules/estorides_core.observation_models.py.md#observedentity) class in `estorides_core.observation_models`
+- [`offset_param`](modules/estorides_core.pagination.py.md#paginationconfig-offset_param) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`ok_count`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-ok_count) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`OLLAMA_URL`](modules/estorides_core.config.py.md#ollama_url) constant in `estorides_core.config`
+- [`OllamaBackend`](modules/estorides_llm.manager.py.md#ollamabackend) class in `estorides_llm.manager`
+- [`on`](modules/static.js.estorides.js.md#on) class in `static/js/estorides.js`
+- [`onEdge3D`](modules/static.js.graph_force.js.md#onedge3d) function in `static/js/graph_force.js`
+- [`onNo`](modules/static.js.estorides.js.md#onno) function in `static/js/estorides.js`
+- [`onSelect3D`](modules/static.js.graph_force.js.md#onselect3d) function in `static/js/graph_force.js`
+- [`ontology`](modules/estorides_core.observation_models.py.md#observation-ontology) attribute of `Observation` in `estorides_core.observation_models`
+- [`OntologyEngine`](modules/estorides_core.ontology.py.md#ontologyengine) class in `estorides_core.ontology`
+- [`onYes`](modules/static.js.estorides.js.md#onyes) function in `static/js/estorides.js`
+- [`open_ports`](modules/estorides_core.active_recon.py.md#nmapresult-open_ports) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`open_store`](modules/estorides_core.entity_store.py.md#open_store) function in `estorides_core.entity_store`
+- [`open_store`](modules/estorides_core.fusion_store.py.md#open_store) function in `estorides_core.fusion_store`
+- [`open_until`](modules/estorides_core.async_client.py.md#circuitbreaker-open_until) attribute of `CircuitBreaker` in `estorides_core.async_client`
+- [`OPENAI_URL`](modules/estorides_core.config.py.md#openai_url) constant in `estorides_core.config`
+- [`OpenAIBackend`](modules/estorides_llm.manager.py.md#openaibackend) class in `estorides_llm.manager`
+- [`openCaseDetail`](modules/static.js.estorides.js.md#opencasedetail) function in `static/js/estorides.js`
+- [`openModal`](modules/static.js.estorides.js.md#openmodal) function in `static/js/estorides.js`
+- [`OPENROUTER_URL`](modules/estorides_core.config.py.md#openrouter_url) constant in `estorides_core.config`
+- [`OpenRouterBackend`](modules/estorides_llm.manager.py.md#openrouterbackend) class in `estorides_llm.manager`
+- [`operator`](modules/estorides_export.recon_report.py.md#reportmetadata-operator) attribute of `ReportMetadata` in `estorides_export.recon_report`
+- [`OPS`](modules/estorides_core.ops_observability.py.md#ops) constant in `estorides_core.ops_observability`
+- [`OpsConfig`](modules/estorides_core.ops_observability.py.md#opsconfig) class in `estorides_core.ops_observability`
+- [`Orchestrator`](modules/estorides_core.orchestrator.py.md#orchestrator) class in `estorides_core.orchestrator`
+- [`ordered`](modules/estorides_core.recon_fusion.py.md#relevancetier-ordered) classmethod of `RelevanceTier` in `estorides_core.recon_fusion`
+- [`ordered`](modules/static.js.graph_force.js.md#ordered) function in `static/js/graph_force.js`
+- [`other_domains`](modules/estorides_core.supply_chain.py.md#sharedinfra-other_domains) attribute of `SharedInfra` in `estorides_core.supply_chain`
+- [`out`](modules/static.js.estorides.js.md#out) function in `static/js/estorides.js`
+- [`OUT_OF_SCOPE`](modules/estorides_core.scope.py.md#out_of_scope) constant in `estorides_core.scope`
+- [`out_of_scope`](modules/estorides_core.scope.py.md#scopereport-out_of_scope) attribute of `ScopeReport` in `estorides_core.scope`
+- [`OUT_OF_SCOPE_DIVIDER`](modules/estorides_core.scope.py.md#out_of_scope_divider) constant in `estorides_core.scope`
+- [`out_rules`](modules/estorides_core.scope.py.md#scopematcher-out_rules) property of `ScopeMatcher` in `estorides_core.scope`
+- [`output`](modules/estorides_core.tool_install.py.md#installresult-output) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`output_types`](modules/estorides_core.transforms.py.md#transform-output_types) attribute of `Transform` in `estorides_core.transforms`
+- [`overlayTick`](modules/static.js.graph_force.js.md#overlaytick) function in `static/js/graph_force.js`
+
+<a id="p"></a>
+
+## P
+
+- [`page_size`](modules/estorides_core.pagination.py.md#paginationconfig-page_size) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`pagerank`](modules/estorides_core.graph_rag_search.py.md#pagerank) function in `estorides_core.graph_rag_search`
+- [`PaginationConfig`](modules/estorides_core.pagination.py.md#paginationconfig) class in `estorides_core.pagination`
+- [`paintOverlay3D`](modules/static.js.graph_force.js.md#paintoverlay3d) function in `static/js/graph_force.js`
+- [`parallel`](modules/estorides_core.discoverer.py.md#discoverjob-parallel) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`parallel`](modules/estorides_core.config.py.md#pivotconfig-parallel) attribute of `PivotConfig` in `estorides_core.config`
+- [`parallel_cap`](modules/estorides_core.config.py.md#pivotconfig-parallel_cap) attribute of `PivotConfig` in `estorides_core.config`
+- [`param`](modules/estorides_core.pagination.py.md#paginationconfig-param) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`parent`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-parent) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`parent_type`](modules/estorides_core.pivot_engine.py.md#pivotlead-parent_type) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`parent_value`](modules/estorides_core.pivot_engine.py.md#pivotlead-parent_value) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`parse_abuseipdb`](modules/estorides_core.parsers.py.md#parse_abuseipdb) function in `estorides_core.parsers`
+- [`parse_active_output`](modules/estorides_core.lan_inventory.py.md#parse_active_output) function in `estorides_core.lan_inventory`
+- [`parse_amass_json`](modules/estorides_core.system_app_sources.py.md#parse_amass_json) function in `estorides_core.system_app_sources`
+- [`parse_arp_table`](modules/estorides_core.lan_inventory.py.md#parse_arp_table) function in `estorides_core.lan_inventory`
+- [`parse_arxiv`](modules/estorides_core.parsers.py.md#parse_arxiv) function in `estorides_core.parsers`
+- [`parse_bgpview`](modules/estorides_core.parsers.py.md#parse_bgpview) function in `estorides_core.parsers`
+- [`parse_blockchain_btc`](modules/estorides_core.parsers.py.md#parse_blockchain_btc) function in `estorides_core.parsers`
+- [`parse_blockstream`](modules/estorides_core.parsers.py.md#parse_blockstream) function in `estorides_core.parsers`
+- [`parse_cisa_kev`](modules/estorides_core.parsers.py.md#parse_cisa_kev) function in `estorides_core.parsers`
+- [`parse_crossref`](modules/estorides_core.parsers.py.md#parse_crossref) function in `estorides_core.parsers`
+- [`parse_crtsh_json`](modules/estorides_core.parsers.py.md#parse_crtsh_json) function in `estorides_core.parsers`
+- [`parse_dev_to`](modules/estorides_core.parsers.py.md#parse_dev_to) function in `estorides_core.parsers`
+- [`parse_dhcp_leases`](modules/estorides_core.lan_inventory.py.md#parse_dhcp_leases) function in `estorides_core.lan_inventory`
+- [`parse_discord_discovery`](modules/estorides_core.parsers.py.md#parse_discord_discovery) function in `estorides_core.parsers`
+- [`parse_dmitry_text`](modules/estorides_core.system_app_sources.py.md#parse_dmitry_text) function in `estorides_core.system_app_sources`
+- [`parse_dns_json`](modules/estorides_core.parsers.py.md#parse_dns_json) function in `estorides_core.parsers`
+- [`parse_dnsenum_text`](modules/estorides_core.system_app_sources.py.md#parse_dnsenum_text) function in `estorides_core.system_app_sources`
+- [`parse_dnsrecon_text`](modules/estorides_core.system_app_sources.py.md#parse_dnsrecon_text) function in `estorides_core.system_app_sources`
+- [`parse_ethplorer`](modules/estorides_core.parsers.py.md#parse_ethplorer) function in `estorides_core.parsers`
+- [`parse_fierce_text`](modules/estorides_core.system_app_sources.py.md#parse_fierce_text) function in `estorides_core.system_app_sources`
+- [`parse_github_advisories`](modules/estorides_core.parsers.py.md#parse_github_advisories) function in `estorides_core.parsers`
+- [`parse_github_search`](modules/estorides_core.parsers.py.md#parse_github_search) function in `estorides_core.parsers`
+- [`parse_github_user`](modules/estorides_core.parsers.py.md#parse_github_user) function in `estorides_core.parsers`
+- [`parse_greynoise`](modules/estorides_core.parsers.py.md#parse_greynoise) function in `estorides_core.parsers`
+- [`parse_hackernews`](modules/estorides_core.parsers.py.md#parse_hackernews) function in `estorides_core.parsers`
+- [`parse_hibp_breach`](modules/estorides_core.parsers.py.md#parse_hibp_breach) function in `estorides_core.parsers`
+- [`parse_hibp_paste`](modules/estorides_core.parsers.py.md#parse_hibp_paste) function in `estorides_core.parsers`
+- [`parse_holehe_text`](modules/estorides_core.system_app_sources.py.md#parse_holehe_text) function in `estorides_core.system_app_sources`
+- [`parse_http_headers`](modules/estorides_core.parsers.py.md#parse_http_headers) function in `estorides_core.parsers`
+- [`parse_interface_addr`](modules/estorides_core.lan_scope.py.md#parse_interface_addr) function in `estorides_core.lan_scope`
+- [`parse_ip_addr_output`](modules/estorides_core.lan_scope.py.md#parse_ip_addr_output) function in `estorides_core.lan_scope`
+- [`parse_ipapi`](modules/estorides_core.parsers.py.md#parse_ipapi) function in `estorides_core.parsers`
+- [`parse_ipapi_co`](modules/estorides_core.parsers.py.md#parse_ipapi_co) function in `estorides_core.parsers`
+- [`parse_ipinfo`](modules/estorides_core.parsers.py.md#parse_ipinfo) function in `estorides_core.parsers`
+- [`parse_ipwhois`](modules/estorides_core.parsers.py.md#parse_ipwhois) function in `estorides_core.parsers`
+- [`parse_keybase`](modules/estorides_core.parsers.py.md#parse_keybase) function in `estorides_core.parsers`
+- [`parse_maigret_json`](modules/estorides_core.system_app_sources.py.md#parse_maigret_json) function in `estorides_core.system_app_sources`
+- [`parse_mailfy_text`](modules/estorides_core.system_app_sources.py.md#parse_mailfy_text) function in `estorides_core.system_app_sources`
+- [`parse_malwarebazaar`](modules/estorides_core.parsers.py.md#parse_malwarebazaar) function in `estorides_core.parsers`
+- [`parse_mastodon`](modules/estorides_core.parsers.py.md#parse_mastodon) function in `estorides_core.parsers`
+- [`parse_metagoofil_text`](modules/estorides_core.system_app_sources.py.md#parse_metagoofil_text) function in `estorides_core.system_app_sources`
+- [`parse_microlink`](modules/estorides_core.parsers.py.md#parse_microlink) function in `estorides_core.parsers`
+- [`parse_nmap_grepable`](modules/estorides_core.lan_inventory.py.md#parse_nmap_grepable) function in `estorides_core.lan_inventory`
+- [`parse_nmap_xml`](modules/estorides_core.lan_inventory.py.md#parse_nmap_xml) function in `estorides_core.lan_inventory`
+- [`parse_nominatim`](modules/estorides_core.parsers.py.md#parse_nominatim) function in `estorides_core.parsers`
+- [`parse_nvd_cve`](modules/estorides_core.parsers.py.md#parse_nvd_cve) function in `estorides_core.parsers`
+- [`parse_openalex`](modules/estorides_core.parsers.py.md#parse_openalex) function in `estorides_core.parsers`
+- [`parse_otx`](modules/estorides_core.parsers.py.md#parse_otx) function in `estorides_core.parsers`
+- [`parse_phonebook`](modules/estorides_core.parsers.py.md#parse_phonebook) function in `estorides_core.parsers`
+- [`parse_phonefy_text`](modules/estorides_core.system_app_sources.py.md#parse_phonefy_text) function in `estorides_core.system_app_sources`
+- [`parse_phoneinfoga_json`](modules/estorides_core.system_app_sources.py.md#parse_phoneinfoga_json) function in `estorides_core.system_app_sources`
+- [`parse_raw_text`](modules/estorides_core.parsers.py.md#parse_raw_text) function in `estorides_core.parsers`
+- [`parse_rdap`](modules/estorides_core.parsers.py.md#parse_rdap) function in `estorides_core.parsers`
+- [`parse_reddit`](modules/estorides_core.parsers.py.md#parse_reddit) function in `estorides_core.parsers`
+- [`parse_reddit_search`](modules/estorides_core.parsers.py.md#parse_reddit_search) function in `estorides_core.parsers`
+- [`parse_ripe_stat`](modules/estorides_core.parsers.py.md#parse_ripe_stat) function in `estorides_core.parsers`
+- [`parse_rule`](modules/estorides_core.scope.py.md#parse_rule) function in `estorides_core.scope`
+- [`parse_rules`](modules/estorides_core.scope.py.md#parse_rules) function in `estorides_core.scope`
+- [`parse_searchfy_text`](modules/estorides_core.system_app_sources.py.md#parse_searchfy_text) function in `estorides_core.system_app_sources`
+- [`parse_sherlock_text`](modules/estorides_core.system_app_sources.py.md#parse_sherlock_text) function in `estorides_core.system_app_sources`
+- [`parse_shodan_internetdb`](modules/estorides_core.parsers.py.md#parse_shodan_internetdb) function in `estorides_core.parsers`
+- [`parse_sublist3r_lines`](modules/estorides_core.system_app_sources.py.md#parse_sublist3r_lines) function in `estorides_core.system_app_sources`
+- [`parse_text_lines`](modules/estorides_core.parsers.py.md#parse_text_lines) function in `estorides_core.parsers`
+- [`parse_theharvester_text`](modules/estorides_core.system_app_sources.py.md#parse_theharvester_text) function in `estorides_core.system_app_sources`
+- [`parse_threatfox`](modules/estorides_core.parsers.py.md#parse_threatfox) function in `estorides_core.parsers`
+- [`parse_tool_output`](modules/estorides_core.system_app_sources.py.md#parse_tool_output) function in `estorides_core.system_app_sources`
+- [`parse_twitch_user`](modules/estorides_core.parsers.py.md#parse_twitch_user) function in `estorides_core.parsers`
+- [`parse_twitter_user`](modules/estorides_core.parsers.py.md#parse_twitter_user) function in `estorides_core.parsers`
+- [`parse_urlcrazy_text`](modules/estorides_core.system_app_sources.py.md#parse_urlcrazy_text) function in `estorides_core.system_app_sources`
+- [`parse_urlhaus`](modules/estorides_core.parsers.py.md#parse_urlhaus) function in `estorides_core.parsers`
+- [`parse_urlhaus_payloads`](modules/estorides_core.parsers.py.md#parse_urlhaus_payloads) function in `estorides_core.parsers`
+- [`parse_urlscan`](modules/estorides_core.parsers.py.md#parse_urlscan) function in `estorides_core.parsers`
+- [`parse_usufy_text`](modules/estorides_core.system_app_sources.py.md#parse_usufy_text) function in `estorides_core.system_app_sources`
+- [`parse_vt_domain`](modules/estorides_core.parsers.py.md#parse_vt_domain) function in `estorides_core.parsers`
+- [`parse_vt_file`](modules/estorides_core.parsers.py.md#parse_vt_file) function in `estorides_core.parsers`
+- [`parse_vt_ip`](modules/estorides_core.parsers.py.md#parse_vt_ip) function in `estorides_core.parsers`
+- [`parse_wafw00f_text`](modules/estorides_core.system_app_sources.py.md#parse_wafw00f_text) function in `estorides_core.system_app_sources`
+- [`parse_wayback_avail`](modules/estorides_core.parsers.py.md#parse_wayback_avail) function in `estorides_core.parsers`
+- [`parse_wayback_cdx`](modules/estorides_core.parsers.py.md#parse_wayback_cdx) function in `estorides_core.parsers`
+- [`parse_whatweb_text`](modules/estorides_core.system_app_sources.py.md#parse_whatweb_text) function in `estorides_core.system_app_sources`
+- [`parse_whois_text`](modules/estorides_core.parsers.py.md#parse_whois_text) function in `estorides_core.parsers`
+- [`parse_wikidata`](modules/estorides_core.parsers.py.md#parse_wikidata) function in `estorides_core.parsers`
+- [`parse_wikipedia`](modules/estorides_core.parsers.py.md#parse_wikipedia) function in `estorides_core.parsers`
+- [`parse_youtube_user`](modules/estorides_core.parsers.py.md#parse_youtube_user) function in `estorides_core.parsers`
+- [`parsed`](modules/estorides_core.observation_models.py.md#observation-parsed) attribute of `Observation` in `estorides_core.observation_models`
+- [`parsed`](modules/estorides_core.system_app_sources.py.md#systemappresult-parsed) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`parsed_entities`](modules/estorides_core.tool_runner.py.md#toolresult-parsed_entities) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`parser`](modules/estorides_core.observation_models.py.md#observation-parser) attribute of `Observation` in `estorides_core.observation_models`
+- [`PARSERS`](modules/estorides_core.parsers.py.md#parsers) constant in `estorides_core.parsers`
+- [`partition`](modules/estorides_core.scope.py.md#scopematcher-partition) method of `ScopeMatcher` in `estorides_core.scope`
+- [`passive_only`](modules/estorides_core.discoverer.py.md#discoverjob-passive_only) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`PASSIVE_ONLY`](modules/estorides_core.config.py.md#passive_only) constant in `estorides_core.config`
+- [`PASSIVE_TOOLS`](modules/estorides_core.lan_inventory.py.md#passive_tools) constant in `estorides_core.lan_inventory`
+- [`password`](modules/estorides_core.people_intel.py.md#breachrecord-password) attribute of `BreachRecord` in `estorides_core.people_intel`
+- [`password`](modules/estorides_core.vuln_correlation.py.md#defaultcred-password) attribute of `DefaultCred` in `estorides_core.vuln_correlation`
+- [`passwords_exposed`](modules/estorides_core.people_intel.py.md#breachcontext-passwords_exposed) attribute of `BreachContext` in `estorides_core.people_intel`
+- [`path`](modules/estorides_core.audit.py.md#auditevent-path) attribute of `AuditEvent` in `estorides_core.audit`
+- [`paths`](modules/estorides_core.lan_bundle.py.md#lanbundleresult-paths) attribute of `LanBundleResult` in `estorides_core.lan_bundle`
+- [`pattern`](modules/estorides_core.scope.py.md#regexrule-pattern) attribute of `RegexRule` in `estorides_core.scope`
+- [`PDNSResult`](modules/estorides_core.pdns_monitor.py.md#pdnsresult) class in `estorides_core.pdns_monitor`
+- [`pending_system_app_tasks`](modules/estorides_core.orchestrator.py.md#pending_system_app_tasks) function in `estorides_core.orchestrator`
+- [`PeopleIntelResult`](modules/estorides_core.people_intel.py.md#peopleintelresult) class in `estorides_core.people_intel`
+- [`per_target_timeout_seconds`](modules/estorides_core.config.py.md#pivotconfig-per_target_timeout_seconds) attribute of `PivotConfig` in `estorides_core.config`
+- [`percent`](modules/estorides_core.search_telemetry.py.md#progressview-percent) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`percent_encoded_emoji_in`](modules/estorides_core.search_telemetry.py.md#percent_encoded_emoji_in) function in `estorides_core.search_telemetry`
+- [`permitted`](modules/estorides_core.lan_web.py.md#lanwebverdict-permitted) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`personalized_pagerank`](modules/estorides_core.graph_rag_search.py.md#personalized_pagerank) function in `estorides_core.graph_rag_search`
+- [`phase`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-phase) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`phase_key`](modules/estorides_core.search_telemetry.py.md#progressview-phase_key) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`phase_label`](modules/estorides_core.search_telemetry.py.md#progressview-phase_label) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`phases`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-phases) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`phases`](modules/estorides_core.search_telemetry.py.md#telemetryconfig-phases) attribute of `TelemetryConfig` in `estorides_core.search_telemetry`
+- [`phone`](modules/estorides_core.people_intel.py.md#employee-phone) attribute of `Employee` in `estorides_core.people_intel`
+- [`pickHit`](modules/static.js.graph_force.js.md#pickhit) function in `static/js/graph_force.js`
+- [`PIVOT`](modules/estorides_core.config.py.md#pivot) constant in `estorides_core.config`
+- [`PIVOT_POLICY_FULL`](modules/estorides_core.config.py.md#pivot_policy_full) constant in `estorides_core.config`
+- [`PIVOT_POLICY_INFRA`](modules/estorides_core.config.py.md#pivot_policy_infra) constant in `estorides_core.config`
+- [`pivotable_types`](modules/estorides_core.config.py.md#pivotpolicyconfig-pivotable_types) attribute of `PivotPolicyConfig` in `estorides_core.config`
+- [`PivotBudget`](modules/estorides_core.pivot_engine.py.md#pivotbudget) class in `estorides_core.pivot_engine`
+- [`PivotConfig`](modules/estorides_core.config.py.md#pivotconfig) class in `estorides_core.config`
+- [`PivotEngine`](modules/estorides_core.pivot_engine.py.md#pivotengine) class in `estorides_core.pivot_engine`
+- [`PivotEvent`](modules/estorides_core.pivot_engine.py.md#pivotevent) class in `estorides_core.pivot_engine`
+- [`PivotLead`](modules/estorides_core.pivot_engine.py.md#pivotlead) class in `estorides_core.pivot_engine`
+- [`PivotPolicyConfig`](modules/estorides_core.config.py.md#pivotpolicyconfig) class in `estorides_core.config`
+- [`PivotResult`](modules/estorides_core.pivot_engine.py.md#pivotresult) class in `estorides_core.pivot_engine`
+- [`PLACEHOLDER_RE`](modules/estorides_core.code_exposure.py.md#placeholder_re) constant in `estorides_core.code_exposure`
+- [`platform`](modules/estorides_core.socmint.py.md#profilematch-platform) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`platform_list`](modules/estorides_core.socmint.py.md#socialmediainferer-platform_list) method of `SocialMediaInferer` in `estorides_core.socmint`
+- [`platform_profiles`](modules/estorides_core.socmint.py.md#socialmediaprofile-platform_profiles) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`PLATFORM_REGISTRY`](modules/estorides_core.socmint.py.md#platform_registry) constant in `estorides_core.socmint`
+- [`PlatformInfo`](modules/estorides_core.socmint.py.md#platforminfo) class in `estorides_core.socmint`
+- [`plotPoints`](modules/static.js.estorides.js.md#plotpoints) function in `static/js/estorides.js`
+- [`point`](modules/estorides_core.feeds.py.md#feed-point) method of `Feed` in `estorides_core.feeds`
+- [`pointOn`](modules/static.js.graph_bundle.js.md#pointon) function in `static/js/graph_bundle.js`
+- [`policy`](modules/estorides_core.config.py.md#pivotconfig-policy) attribute of `PivotConfig` in `estorides_core.config`
+- [`poll_interval_seconds`](modules/estorides_core.config.py.md#streamconfig-poll_interval_seconds) attribute of `StreamConfig` in `estorides_core.config`
+- [`pollToolInstall`](modules/static.js.estorides.js.md#polltoolinstall) function in `static/js/estorides.js`
+- [`pop`](modules/estorides_core.job_registry.py.md#boundedjobregistry-pop) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`populateCategoryFilter`](modules/static.js.estorides.js.md#populatecategoryfilter) function in `static/js/estorides.js`
+- [`POSSIBLY_TRUE`](modules/estorides_core.reliability_scoring.py.md#credibility-possibly_true) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`ppr_alpha`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-ppr_alpha) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`PREFERRED_OLLAMA_MODELS`](modules/estorides_llm.manager.py.md#preferred_ollama_models) constant in `estorides_llm.manager`
+- [`PRIMARY`](modules/estorides_core.reliability_scoring.py.md#sourcetype-primary) attribute of `SourceType` in `estorides_core.reliability_scoring`
+- [`PRIVATE_KEY_RE`](modules/estorides_core.code_exposure.py.md#private_key_re) constant in `estorides_core.code_exposure`
+- [`PROBABLY_TRUE`](modules/estorides_core.reliability_scoring.py.md#credibility-probably_true) attribute of `Credibility` in `estorides_core.reliability_scoring`
+- [`profile_url`](modules/estorides_core.socmint.py.md#profilematch-profile_url) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`profile_url_template`](modules/estorides_core.socmint.py.md#platforminfo-profile_url_template) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`ProfileMatch`](modules/estorides_core.socmint.py.md#profilematch) class in `estorides_core.socmint`
+- [`programs`](modules/estorides_core.ontology.py.md#sanctionentry-programs) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`progress`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-progress) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`ProgressView`](modules/estorides_core.search_telemetry.py.md#progressview) class in `estorides_core.search_telemetry`
+- [`PROJECT_ROOT`](modules/estorides_core.config.py.md#project_root) constant in `estorides_core.config`
+- [`project_root`](modules/estorides_core.ops_observability.py.md#project_root) function in `estorides_core.ops_observability`
+- [`promptModal`](modules/static.js.estorides.js.md#promptmodal) function in `static/js/estorides.js`
+- [`PROMPTS`](modules/estorides_llm.intelligence_prompts.py.md#prompts) constant in `estorides_llm.intelligence_prompts`
+- [`properties`](modules/estorides_core.change_detection.py.md#snapshotentity-properties) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`properties_changed`](modules/estorides_core.change_detection.py.md#changesummary-properties_changed) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`provider`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-provider) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`proxied`](modules/estorides_core.observation_models.py.md#observationmeta-proxied) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`proxy`](modules/estorides_core.discoverer.py.md#discoverjob-proxy) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`PROXY_REMOTE_DNS`](modules/estorides_core.config.py.md#proxy_remote_dns) constant in `estorides_core.config`
+- [`public_host`](modules/estorides_core.web_security.py.md#websecurityconfig-public_host) attribute of `WebSecurityConfig` in `estorides_core.web_security`
+- [`publish`](modules/estorides_core.event_bus.py.md#eventbus-publish) method of `EventBus` in `estorides_core.event_bus`
+- [`pump`](modules/static.js.estorides.js.md#pump) function in `static/js/estorides.js`
+- [`purifyHTML`](modules/static.js.estorides.js.md#purifyhtml) function in `static/js/estorides.js`
+- [`push_event`](modules/estorides_core.discoverer.py.md#discoverjob-push_event) method of `DiscoverJob` in `estorides_core.discoverer`
+- [`pushLink`](modules/static.js.estorides.js.md#pushlink) function in `static/js/estorides.js`
+- [`put`](modules/estorides_core.ontology.py.md#wikidatacache-put) method of `WikidataCache` in `estorides_core.ontology`
+
+<a id="q"></a>
+
+## Q
+
+- [`q`](modules/static.js.estorides.js.md#q) function in `static/js/estorides.js`
+- [`query`](modules/estorides_core.audit.py.md#auditevent-query) attribute of `AuditEvent` in `estorides_core.audit`
+- [`query`](modules/estorides_core.audit.py.md#auditlog-query) method of `AuditLog` in `estorides_core.audit`
+- [`query`](modules/estorides_core.recon_fusion.py.md#fusionresult-query) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`Query`](modules/estorides_core.validation.py.md#query) class in `estorides_core.validation`
+- [`query`](modules/estorides_core.graph_rag_search.py.md#ragcontext-query) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`query`](modules/estorides_core.monitoring.py.md#watchtarget-query) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`query_type`](modules/estorides_core.recon_fusion.py.md#fusionresult-query_type) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`query_type`](modules/estorides_core.monitoring.py.md#watchtarget-query_type) attribute of `WatchTarget` in `estorides_core.monitoring`
+- [`QueryValidationError`](modules/estorides_core.validation.py.md#queryvalidationerror) exception in `estorides_core.validation`
+- [`queue_remaining`](modules/estorides_core.discoverer.py.md#discoverjob-queue_remaining) attribute of `DiscoverJob` in `estorides_core.discoverer`
+
+<a id="r"></a>
+
+## R
+
+- [`radialForce`](modules/static.js.graph_force.js.md#radialforce) function in `static/js/graph_force.js`
+- [`radius`](modules/estorides_core.graph_bundle.py.md#bundlelayout-radius) attribute of `BundleLayout` in `estorides_core.graph_bundle`
+- [`radius`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout-radius) attribute of `SphereBundleLayout` in `estorides_core.graph_bundle`
+- [`radius`](modules/static.js.graph_bundle.js.md#radius) function in `static/js/graph_bundle.js`
+- [`radius`](modules/static.js.graph_force.js.md#radius) function in `static/js/graph_force.js`
+- [`RagCommunity`](modules/estorides_core.graph_rag_search.py.md#ragcommunity) class in `estorides_core.graph_rag_search`
+- [`RagContext`](modules/estorides_core.graph_rag_search.py.md#ragcontext) class in `estorides_core.graph_rag_search`
+- [`RagEntity`](modules/estorides_core.graph_rag_search.py.md#ragentity) class in `estorides_core.graph_rag_search`
+- [`RagRelation`](modules/estorides_core.graph_rag_search.py.md#ragrelation) class in `estorides_core.graph_rag_search`
+- [`RagTextUnit`](modules/estorides_core.graph_rag_search.py.md#ragtextunit) class in `estorides_core.graph_rag_search`
+- [`rank`](modules/estorides_core.graph_rag_search.py.md#ragentity-rank) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`rank`](modules/static.js.graph_bundle.js.md#rank) function in `static/js/graph_bundle.js`
+- [`rate_limited`](modules/estorides_core.code_exposure.py.md#codeexposureresult-rate_limited) attribute of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`RateLimiter`](modules/estorides_core.audit.py.md#ratelimiter) class in `estorides_core.audit`
+- [`rating`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-rating) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`rating_explanation`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-rating_explanation) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`raw`](modules/estorides_core.observation_models.py.md#observation-raw) attribute of `Observation` in `estorides_core.observation_models`
+- [`raw`](modules/estorides_core.validation.py.md#query-raw) attribute of `Query` in `estorides_core.validation`
+- [`raw_output`](modules/estorides_core.active_recon.py.md#dnsreconresult-raw_output) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`raw_output`](modules/estorides_core.active_recon.py.md#niktoresult-raw_output) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`raw_output`](modules/estorides_core.active_recon.py.md#nmapresult-raw_output) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`raw_output`](modules/estorides_core.active_recon.py.md#sqlmapresult-raw_output) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`raw_output`](modules/estorides_core.active_recon.py.md#theharvesterresult-raw_output) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`raw_output_sha1`](modules/estorides_core.system_app_sources.py.md#systemappresult-raw_output_sha1) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`raw_output_sha1`](modules/estorides_core.tool_runner.py.md#toolresult-raw_output_sha1) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`read_arp_table`](modules/estorides_core.lan_runner.py.md#read_arp_table) function in `estorides_core.lan_runner`
+- [`read_dhcp_leases`](modules/estorides_core.lan_runner.py.md#read_dhcp_leases) function in `estorides_core.lan_runner`
+- [`read_local_interfaces`](modules/estorides_core.lan_scope.py.md#read_local_interfaces) function in `estorides_core.lan_scope`
+- [`readForm`](modules/static.js.source_manager.js.md#readform) function in `static/js/source_manager.js`
+- [`readHash`](modules/static.js.graph_bundle.js.md#readhash) function in `static/js/graph_bundle.js`
+- [`readHash`](modules/static.js.graph_force.js.md#readhash) function in `static/js/graph_force.js`
+- [`ready_payload`](modules/estorides_core.ops_observability.py.md#ready_payload) function in `estorides_core.ops_observability`
+- [`reanalyze`](modules/static.js.estorides.js.md#reanalyze) function in `static/js/estorides.js`
+- [`reason`](modules/estorides_core.ssrf_guard.py.md#guardresult-reason) attribute of `GuardResult` in `estorides_core.ssrf_guard`
+- [`reasoning`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-reasoning) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`rebuildRaw`](modules/static.js.graph_force.js.md#rebuildraw) function in `static/js/graph_force.js`
+- [`recipe`](modules/estorides_core.tool_install.py.md#toolstatus-recipe) attribute of `ToolStatus` in `estorides_core.tool_install`
+- [`recipe_available`](modules/estorides_core.tool_install.py.md#recipe_available) function in `estorides_core.tool_install`
+- [`RECON_FUSION`](modules/estorides_core.config.py.md#recon_fusion) constant in `estorides_core.config`
+- [`ReconFusionConfig`](modules/estorides_core.config.py.md#reconfusionconfig) class in `estorides_core.config`
+- [`ReconFusionEngine`](modules/estorides_core.recon_fusion.py.md#reconfusionengine) class in `estorides_core.recon_fusion`
+- [`record`](modules/estorides_core.audit.py.md#auditlog-record) method of `AuditLog` in `estorides_core.audit`
+- [`record_failure`](modules/estorides_core.async_client.py.md#circuitbreaker-record_failure) method of `CircuitBreaker` in `estorides_core.async_client`
+- [`record_request`](modules/estorides_core.ops_observability.py.md#record_request) function in `estorides_core.ops_observability`
+- [`record_run_complete`](modules/estorides_core.monitoring.py.md#watchstore-record_run_complete) method of `WatchStore` in `estorides_core.monitoring`
+- [`record_run_start`](modules/estorides_core.monitoring.py.md#watchstore-record_run_start) method of `WatchStore` in `estorides_core.monitoring`
+- [`record_source`](modules/estorides_core.ops_observability.py.md#record_source) function in `estorides_core.ops_observability`
+- [`record_success`](modules/estorides_core.async_client.py.md#circuitbreaker-record_success) method of `CircuitBreaker` in `estorides_core.async_client`
+- [`REDACT_PATTERNS`](modules/estorides_export.recon_report.py.md#redact_patterns) constant in `estorides_export.recon_report`
+- [`redact_sensitive`](modules/estorides_export.recon_report.py.md#redact_sensitive) function in `estorides_export.recon_report`
+- [`reducedMotion`](modules/static.js.graph_force.js.md#reducedmotion) function in `static/js/graph_force.js`
+- [`refresh`](modules/static.js.graph_bundle.js.md#refresh) function in `static/js/graph_bundle.js`
+- [`refresh3D`](modules/static.js.graph_force.js.md#refresh3d) function in `static/js/graph_force.js`
+- [`refreshFamList`](modules/static.js.graph_force.js.md#refreshfamlist) function in `static/js/graph_force.js`
+- [`refused`](modules/estorides_core.lan_runner.py.md#lanscanresult-refused) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`RegexRule`](modules/estorides_core.scope.py.md#regexrule) class in `estorides_core.scope`
+- [`region`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-region) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`register`](modules/estorides_core.job_registry.py.md#boundedjobregistry-register) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`register`](modules/estorides_core.transforms.py.md#transformregistry-register) method of `TransformRegistry` in `estorides_core.transforms`
+- [`register`](modules/estorides_llm.manager.py.md#register) function in `estorides_llm.manager`
+- [`register_inferer`](modules/estorides_core.relationship_inference.py.md#register_inferer) function in `estorides_core.relationship_inference`
+- [`register_parser`](modules/estorides_core.parsers.py.md#register_parser) function in `estorides_core.parsers`
+- [`register_sources`](modules/estorides_core.fusion_store.py.md#fusionstore-register_sources) method of `FusionStore` in `estorides_core.fusion_store`
+- [`reheat`](modules/static.js.graph_force.js.md#reheat) function in `static/js/graph_force.js`
+- [`rel`](modules/estorides_core.change_detection.py.md#edge-rel) attribute of `Edge` in `estorides_core.change_detection`
+- [`relation`](modules/estorides_core.graph_rag_search.py.md#ragrelation-relation) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`RELATION_WEIGHTS`](modules/estorides_core.graph_rag_search.py.md#relation_weights) constant in `estorides_core.graph_rag_search`
+- [`relations`](modules/estorides_core.graph_rag_search.py.md#ragcontext-relations) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`Relationship`](modules/estorides_core.supply_chain.py.md#relationship) class in `estorides_core.supply_chain`
+- [`relationship_type`](modules/estorides_core.supply_chain.py.md#thirdparty-relationship_type) attribute of `ThirdParty` in `estorides_core.supply_chain`
+- [`RelationshipInferer`](modules/estorides_core.relationship_inference.py.md#relationshipinferer) protocol in `estorides_core.relationship_inference`
+- [`relationships`](modules/estorides_core.graph_rag_search.py.md#graphragindex-relationships) attribute of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`relationships`](modules/estorides_core.supply_chain.py.md#supplychainresult-relationships) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`relevance_score`](modules/estorides_core.recon_fusion.py.md#groupedentity-relevance_score) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`RelevanceTier`](modules/estorides_core.recon_fusion.py.md#relevancetier) enum in `estorides_core.recon_fusion`
+- [`reliability`](modules/estorides_core.hypothesis_engine.py.md#evidence-reliability) attribute of `Evidence` in `estorides_core.hypothesis_engine`
+- [`reliability_from_name`](modules/estorides_core.reliability_scoring.py.md#reliability_from_name) function in `estorides_core.reliability_scoring`
+- [`reliability_weight`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-reliability_weight) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`RELIABILITY_WEIGHT`](modules/estorides_core.reliability_scoring.py.md#reliability_weight) constant in `estorides_core.reliability_scoring`
+- [`reliability_weight`](modules/estorides_core.reliability_scoring.py.md#reliability_weight) function in `estorides_core.reliability_scoring`
+- [`reliability_weight_for_letter`](modules/estorides_core.reliability_scoring.py.md#reliability_weight_for_letter) function in `estorides_core.reliability_scoring`
+- [`reload3D`](modules/static.js.graph_force.js.md#reload3d) function in `static/js/graph_force.js`
+- [`remote_ip`](modules/estorides_core.audit.py.md#auditevent-remote_ip) attribute of `AuditEvent` in `estorides_core.audit`
+- [`removed`](modules/estorides_core.change_detection.py.md#diff-removed) attribute of `Diff` in `estorides_core.change_detection`
+- [`removed`](modules/static.js.estorides.js.md#removed) function in `static/js/estorides.js`
+- [`render_args`](modules/estorides_core.system_app_sources.py.md#render_args) function in `estorides_core.system_app_sources`
+- [`render_markdown_report`](modules/estorides_export.report.py.md#render_markdown_report) function in `estorides_export.report`
+- [`render_metrics`](modules/estorides_core.ops_observability.py.md#render_metrics) function in `estorides_core.ops_observability`
+- [`renderAnalysis`](modules/static.js.estorides.js.md#renderanalysis) function in `static/js/estorides.js`
+- [`renderAnalysisModels`](modules/static.js.estorides.js.md#renderanalysismodels) function in `static/js/estorides.js`
+- [`renderCaseDiffPanel`](modules/static.js.estorides.js.md#rendercasediffpanel) function in `static/js/estorides.js`
+- [`renderCaseItem`](modules/static.js.estorides.js.md#rendercaseitem) function in `static/js/estorides.js`
+- [`renderEntities`](modules/static.js.estorides.js.md#renderentities) function in `static/js/estorides.js`
+- [`renderGraphCore`](modules/static.js.estorides.js.md#rendergraphcore) function in `static/js/estorides.js`
+- [`renderGraphSummary`](modules/static.js.estorides.js.md#rendergraphsummary) function in `static/js/estorides.js`
+- [`renderLanResults`](modules/static.js.estorides.js.md#renderlanresults) function in `static/js/estorides.js`
+- [`renderLegend`](modules/static.js.graph_bundle.js.md#renderlegend) function in `static/js/graph_bundle.js`
+- [`renderLegend`](modules/static.js.graph_force.js.md#renderlegend) function in `static/js/graph_force.js`
+- [`renderList`](modules/static.js.source_manager.js.md#renderlist) function in `static/js/source_manager.js`
+- [`renderMarkdownInto`](modules/static.js.estorides.js.md#rendermarkdowninto) function in `static/js/estorides.js`
+- [`renderPanel`](modules/static.js.graph_bundle.js.md#renderpanel) function in `static/js/graph_bundle.js`
+- [`renderResult`](modules/static.js.estorides.js.md#renderresult) function in `static/js/estorides.js`
+- [`renderTieredResults`](modules/static.js.estorides.js.md#rendertieredresults) function in `static/js/estorides.js`
+- [`renderTimeline`](modules/static.js.estorides.js.md#rendertimeline) function in `static/js/estorides.js`
+- [`replotStreamData`](modules/static.js.estorides.js.md#replotstreamdata) function in `static/js/estorides.js`
+- [`repo_url`](modules/estorides_core.tool_install.py.md#installrecipe-repo_url) attribute of `InstallRecipe` in `estorides_core.tool_install`
+- [`report_key_entities`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-report_key_entities) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`report_max_findings`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-report_max_findings) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`ReportMetadata`](modules/estorides_export.recon_report.py.md#reportmetadata) class in `estorides_export.recon_report`
+- [`ReportResult`](modules/estorides_export.recon_report.py.md#reportresult) class in `estorides_export.recon_report`
+- [`reports`](modules/estorides_core.graph_rag_search.py.md#ragcontext-reports) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`REPORTS_DIR`](modules/estorides_core.config.py.md#reports_dir) constant in `estorides_core.config`
+- [`ReportSection`](modules/estorides_export.recon_report.py.md#reportsection) class in `estorides_export.recon_report`
+- [`repository`](modules/estorides_core.code_exposure.py.md#codefinding-repository) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`requestAnimationFrame`](modules/static.js.graph_force.js.md#requestanimationframe) method in `static/js/graph_force.js`
+- [`requested_contact`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest-requested_contact) attribute of `LanPolicyRequest` in `estorides_core.lan_policy`
+- [`requestToolInstall`](modules/static.js.estorides.js.md#requesttoolinstall) function in `static/js/estorides.js`
+- [`require_auth`](modules/estorides_core.web_security.py.md#require_auth) function in `estorides_core.web_security`
+- [`required_token`](modules/estorides_core.web_security.py.md#authgate-required_token) attribute of `AuthGate` in `estorides_core.web_security`
+- [`requires_consent`](modules/estorides_core.lan_policy.py.md#requires_consent) function in `estorides_core.lan_policy`
+- [`requires_key`](modules/estorides_core.socmint.py.md#platforminfo-requires_key) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`reset`](modules/estorides_core.audit.py.md#ratelimiter-reset) method of `RateLimiter` in `estorides_core.audit`
+- [`reset_metrics`](modules/estorides_core.ops_observability.py.md#reset_metrics) function in `estorides_core.ops_observability`
+- [`resize`](modules/static.js.graph_bundle.js.md#resize) function in `static/js/graph_bundle.js`
+- [`resize3D`](modules/static.js.graph_force.js.md#resize3d) function in `static/js/graph_force.js`
+- [`resolution_count`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-resolution_count) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`ResolutionResult`](modules/estorides_core.entity_resolution.py.md#resolutionresult) class in `estorides_core.entity_resolution`
+- [`resolve`](modules/estorides_core.entity_resolution.py.md#entityresolver-resolve) method of `EntityResolver` in `estorides_core.entity_resolution`
+- [`resolve`](modules/estorides_core.intel_resolver.py.md#entityresolver-resolve) method of `EntityResolver` in `estorides_core.intel_resolver`
+- [`resolve`](modules/estorides_core.socmint.py.md#socialmediainferer-resolve) method of `SocialMediaInferer` in `estorides_core.socmint`
+- [`resolve_entities`](modules/estorides_core.entity_resolution.py.md#resolve_entities) function in `estorides_core.entity_resolution`
+- [`resolved`](modules/estorides_core.ssrf_guard.py.md#guardresult-resolved) attribute of `GuardResult` in `estorides_core.ssrf_guard`
+- [`resolved_ips`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-resolved_ips) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`RESOLVER_RELATIONS`](modules/estorides_core.knowledge_graph.py.md#resolver_relations) constant in `estorides_core.knowledge_graph`
+- [`resolverTypeFor`](modules/static.js.estorides.js.md#resolvertypefor) function in `static/js/estorides.js`
+- [`resource_type`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-resource_type) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`response_list_path`](modules/estorides_core.pagination.py.md#paginationconfig-response_list_path) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`ResponseCache`](modules/estorides_core.async_client.py.md#responsecache) class in `estorides_core.async_client`
+- [`restoreCaseToWorkspace`](modules/static.js.estorides.js.md#restorecasetoworkspace) function in `static/js/estorides.js`
+- [`RETRY`](modules/estorides_core.config.py.md#retry) constant in `estorides_core.config`
+- [`retry_delay`](modules/estorides_core.config.py.md#retry_delay) function in `estorides_core.config`
+- [`RetryConfig`](modules/estorides_core.config.py.md#retryconfig) class in `estorides_core.config`
+- [`right`](modules/estorides_core.entity_resolution.py.md#sameaslink-right) attribute of `SameAsLink` in `estorides_core.entity_resolution`
+- [`ringOf`](modules/static.js.graph_force.js.md#ringof) function in `static/js/graph_force.js`
+- [`RIPE_STAT_URL`](modules/estorides_core.intel_resolver.py.md#ripe_stat_url) constant in `estorides_core.intel_resolver`
+- [`risk_score`](modules/estorides_core.people_intel.py.md#peopleintelresult-risk_score) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`role`](modules/estorides_core.people_intel.py.md#employee-role) attribute of `Employee` in `estorides_core.people_intel`
+- [`ROOT`](modules/tools.sync_docs.py.md#root) constant in `tools.sync_docs`
+- [`rows`](modules/static.js.estorides.js.md#rows) function in `static/js/estorides.js`
+- [`rr`](modules/static.js.graph_force.js.md#rr) function in `static/js/graph_force.js`
+- [`run`](modules/estorides_core.pivot_engine.py.md#entityrunner-run) method of `EntityRunner` in `estorides_core.pivot_engine`
+- [`run`](modules/estorides_core.orchestrator.py.md#orchestrator-run) method of `Orchestrator` in `estorides_core.orchestrator`
+- [`run`](modules/estorides_core.pivot_engine.py.md#pivotengine-run) method of `PivotEngine` in `estorides_core.pivot_engine`
+- [`run`](modules/estorides_core.transforms.py.md#transformregistry-run) method of `TransformRegistry` in `estorides_core.transforms`
+- [`run_active_scan`](modules/estorides_core.lan_runner.py.md#run_active_scan) function in `estorides_core.lan_runner`
+- [`RUN_DEADLINE`](modules/estorides_core.config.py.md#run_deadline) constant in `estorides_core.config`
+- [`run_dnsrecon`](modules/estorides_core.active_recon.py.md#run_dnsrecon) function in `estorides_core.active_recon`
+- [`run_nikto`](modules/estorides_core.active_recon.py.md#run_nikto) function in `estorides_core.active_recon`
+- [`run_nmap`](modules/estorides_core.active_recon.py.md#run_nmap) function in `estorides_core.active_recon`
+- [`run_passive_recon`](modules/estorides_core.recon_pipeline.py.md#run_passive_recon) function in `estorides_core.recon_pipeline`
+- [`run_sqlmap`](modules/estorides_core.active_recon.py.md#run_sqlmap) function in `estorides_core.active_recon`
+- [`RUN_STREAM_JOBS`](modules/estorides_web.py.md#run_stream_jobs) constant in `estorides_web`
+- [`run_theHarvester`](modules/estorides_core.active_recon.py.md#run_theharvester) function in `estorides_core.active_recon`
+- [`run_tool`](modules/estorides_core.tool_runner.py.md#run_tool) function in `estorides_core.tool_runner`
+- [`runner`](modules/estorides_core.transforms.py.md#transform-runner) attribute of `Transform` in `estorides_core.transforms`
+- [`running`](modules/estorides_core.monitoring.py.md#watchscheduler-running) property of `WatchScheduler` in `estorides_core.monitoring`
+- [`runQuery`](modules/static.js.estorides.js.md#runquery) function in `static/js/estorides.js`
+- [`runQueryBlocking`](modules/static.js.estorides.js.md#runqueryblocking) function in `static/js/estorides.js`
+- [`RunResult`](modules/estorides_core.observation_models.py.md#runresult) class in `estorides_core.observation_models`
+- [`runSearch`](modules/static.js.graph_force.js.md#runsearch) function in `static/js/graph_force.js`
+- [`runtime_ms`](modules/estorides_core.audit.py.md#auditevent-runtime_ms) attribute of `AuditEvent` in `estorides_core.audit`
+- [`runTransform`](modules/static.js.estorides.js.md#runtransform) function in `static/js/estorides.js`
+- [`runTransformStream`](modules/static.js.estorides.js.md#runtransformstream) function in `static/js/estorides.js`
+
+<a id="s"></a>
+
+## S
+
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`s`](modules/static.js.graph_force.js.md#s) function in `static/js/graph_force.js`
+- [`safe`](modules/static.js.estorides.js.md#safe) function in `static/js/estorides.js`
+- [`safeColor`](modules/static.js.estorides.js.md#safecolor) function in `static/js/estorides.js`
+- [`same_as`](modules/estorides_core.entity_resolution.py.md#resolutionresult-same_as) attribute of `ResolutionResult` in `estorides_core.entity_resolution`
+- [`SameAsLink`](modules/estorides_core.entity_resolution.py.md#sameaslink) class in `estorides_core.entity_resolution`
+- [`SanctionEntry`](modules/estorides_core.ontology.py.md#sanctionentry) class in `estorides_core.ontology`
+- [`sanctions`](modules/estorides_core.ontology.py.md#sanctionentry-sanctions) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`SanctionsIndex`](modules/estorides_core.ontology.py.md#sanctionsindex) class in `estorides_core.ontology`
+- [`sanitize_stem`](modules/estorides_core.lan_bundle.py.md#sanitize_stem) function in `estorides_core.lan_bundle`
+- [`saved`](modules/static.js.estorides.js.md#saved) function in `static/js/estorides.js`
+- [`saveLevelOverrides`](modules/static.js.estorides.js.md#saveleveloverrides) function in `static/js/estorides.js`
+- [`saveSidebarCollapsed`](modules/static.js.estorides.js.md#savesidebarcollapsed) function in `static/js/estorides.js`
+- [`saveSidebarWidth`](modules/static.js.estorides.js.md#savesidebarwidth) function in `static/js/estorides.js`
+- [`saveSource`](modules/static.js.source_manager.js.md#savesource) function in `static/js/source_manager.js`
+- [`SCAFFOLD_TYPES`](modules/estorides_core.graph_bundle.py.md#scaffold_types) constant in `estorides_core.graph_bundle`
+- [`scan`](modules/estorides_core.lan_runner.py.md#scan) function in `estorides_core.lan_runner`
+- [`scan_timestamp`](modules/estorides_core.code_exposure.py.md#codeexposureresult-scan_timestamp) attribute of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`scheduleRender`](modules/static.js.estorides.js.md#schedulerender) function in `static/js/estorides.js`
+- [`SCHEMA`](modules/estorides_core.config.py.md#schema) constant in `estorides_core.config`
+- [`schema`](modules/estorides_core.ontology.py.md#sanctionentry-schema) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`SCHEMA_VERSION`](modules/estorides_core.graph_rag_search.py.md#schema_version) constant in `estorides_core.graph_rag_search`
+- [`SCHEMA_VERSION`](modules/estorides_core.lan_bundle.py.md#schema_version) constant in `estorides_core.lan_bundle`
+- [`SCHEMA_VERSION`](modules/estorides_core.observation_models.py.md#schema_version) constant in `estorides_core.observation_models`
+- [`schema_version`](modules/estorides_core.config.py.md#schemaconfig-schema_version) attribute of `SchemaConfig` in `estorides_core.config`
+- [`SchemaConfig`](modules/estorides_core.config.py.md#schemaconfig) class in `estorides_core.config`
+- [`scope`](modules/static.js.estorides.js.md#scope) function in `static/js/estorides.js`
+- [`scope_cidr`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-scope_cidr) attribute of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`scope_cidr`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest-scope_cidr) attribute of `LanPolicyRequest` in `estorides_core.lan_policy`
+- [`scope_cidr`](modules/estorides_core.lan_runner.py.md#lanscanresult-scope_cidr) attribute of `LanScanResult` in `estorides_core.lan_runner`
+- [`scope_cidr`](modules/estorides_core.lan_web.py.md#lanwebverdict-scope_cidr) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`scope_payload`](modules/estorides_core.lan_web.py.md#scope_payload) function in `estorides_core.lan_web`
+- [`ScopeMatcher`](modules/estorides_core.scope.py.md#scopematcher) class in `estorides_core.scope`
+- [`ScopeReport`](modules/estorides_core.scope.py.md#scopereport) class in `estorides_core.scope`
+- [`ScopeRule`](modules/estorides_core.scope.py.md#scoperule) class in `estorides_core.scope`
+- [`score`](modules/estorides_core.change_detection.py.md#change-score) attribute of `Change` in `estorides_core.change_detection`
+- [`score`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-score) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`score`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-score) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`score`](modules/estorides_core.entity_resolution.py.md#matchscore-score) attribute of `MatchScore` in `estorides_core.entity_resolution`
+- [`score`](modules/estorides_core.pivot_engine.py.md#pivotlead-score) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`score`](modules/estorides_core.entity_resolution.py.md#sameaslink-score) attribute of `SameAsLink` in `estorides_core.entity_resolution`
+- [`score_max`](modules/estorides_core.change_detection.py.md#changesummary-score_max) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`score_mean`](modules/estorides_core.change_detection.py.md#changesummary-score_mean) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`score_pair`](modules/estorides_core.entity_resolution.py.md#score_pair) function in `estorides_core.entity_resolution`
+- [`scores`](modules/estorides_core.graph_rag_search.py.md#bm25index-scores) method of `Bm25Index` in `estorides_core.graph_rag_search`
+- [`screenNodes`](modules/static.js.graph_bundle.js.md#screennodes) function in `static/js/graph_bundle.js`
+- [`scripts`](modules/estorides_core.entity_resolution.py.md#canonicalentity-scripts) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`SDN_CSV_URL`](modules/estorides_core.ontology.py.md#sdn_csv_url) constant in `estorides_core.ontology`
+- [`SDN_LOCAL_CACHE`](modules/estorides_core.ontology.py.md#sdn_local_cache) constant in `estorides_core.ontology`
+- [`SDN_TTL_SECONDS`](modules/estorides_core.ontology.py.md#sdn_ttl_seconds) constant in `estorides_core.ontology`
+- [`search`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-search) method of `GraphRagSearcher` in `estorides_core.graph_rag_search`
+- [`search`](modules/static.js.graph_bundle.js.md#search) function in `static/js/graph_bundle.js`
+- [`search_by_entity`](modules/estorides_core.cases.py.md#casestore-search_by_entity) method of `CaseStore` in `estorides_core.cases`
+- [`search_cases`](modules/estorides_core.cases.py.md#casestore-search_cases) method of `CaseStore` in `estorides_core.cases`
+- [`search_entities`](modules/estorides_core.fusion_store.py.md#fusionstore-search_entities) method of `FusionStore` in `estorides_core.fusion_store`
+- [`search_observations_fts`](modules/estorides_core.cases.py.md#casestore-search_observations_fts) method of `CaseStore` in `estorides_core.cases`
+- [`searchEntity`](modules/static.js.estorides.js.md#searchentity) function in `static/js/estorides.js`
+- [`SearchPhase`](modules/estorides_core.search_telemetry.py.md#searchphase) class in `estorides_core.search_telemetry`
+- [`SearchTelemetry`](modules/estorides_core.search_telemetry.py.md#searchtelemetry) class in `estorides_core.search_telemetry`
+- [`SearchTelemetryError`](modules/estorides_core.search_telemetry.py.md#searchtelemetryerror) exception in `estorides_core.search_telemetry`
+- [`SECONDARY`](modules/estorides_core.reliability_scoring.py.md#sourcetype-secondary) attribute of `SourceType` in `estorides_core.reliability_scoring`
+- [`sections`](modules/estorides_export.recon_report.py.md#reportresult-sections) attribute of `ReportResult` in `estorides_export.recon_report`
+- [`seed_score`](modules/estorides_core.config.py.md#pivotconfig-seed_score) attribute of `PivotConfig` in `estorides_core.config`
+- [`seed_top_k`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-seed_top_k) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`seed_type`](modules/estorides_core.discoverer.py.md#discoverjob-seed_type) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`seed_value`](modules/estorides_core.discoverer.py.md#discoverjob-seed_value) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`seen`](modules/estorides_core.discoverer.py.md#discoverjob-seen) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`segDist`](modules/static.js.graph_force.js.md#segdist) function in `static/js/graph_force.js`
+- [`select_private_cidrs`](modules/estorides_core.lan_scope.py.md#select_private_cidrs) function in `estorides_core.lan_scope`
+- [`selectNode`](modules/static.js.estorides.js.md#selectnode) function in `static/js/estorides.js`
+- [`selectSource`](modules/static.js.source_manager.js.md#selectsource) function in `static/js/source_manager.js`
+- [`send`](modules/estorides_core.alerter.py.md#alertdispatcher-send) method of `AlertDispatcher` in `estorides_core.alerter`
+- [`send_watch_alert`](modules/estorides_core.alerter.py.md#alertdispatcher-send_watch_alert) method of `AlertDispatcher` in `estorides_core.alerter`
+- [`serial`](modules/estorides_core.pdns_monitor.py.md#certrecord-serial) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`services`](modules/estorides_core.active_recon.py.md#nmapresult-services) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`session`](modules/estorides_core.async_client.py.md#asyncclient-session) property of `AsyncClient` in `estorides_core.async_client`
+- [`set`](modules/estorides_core.async_client.py.md#responsecache-set) method of `ResponseCache` in `estorides_core.async_client`
+- [`set`](modules/static.js.estorides.js.md#set) function in `static/js/estorides.js`
+- [`set_alerter`](modules/estorides_core.monitoring.py.md#watchscheduler-set_alerter) method of `WatchScheduler` in `estorides_core.monitoring`
+- [`set_notes`](modules/estorides_core.cases.py.md#casestore-set_notes) method of `CaseStore` in `estorides_core.cases`
+- [`set_runner`](modules/estorides_core.monitoring.py.md#watchscheduler-set_runner) method of `WatchScheduler` in `estorides_core.monitoring`
+- [`setBeta`](modules/static.js.graph_bundle.js.md#setbeta) function in `static/js/graph_bundle.js`
+- [`setCheckedTags`](modules/static.js.source_manager.js.md#setcheckedtags) function in `static/js/source_manager.js`
+- [`setColor`](modules/static.js.graph_bundle.js.md#setcolor) function in `static/js/graph_bundle.js`
+- [`setDir`](modules/static.js.graph_bundle.js.md#setdir) function in `static/js/graph_bundle.js`
+- [`setDiscoverProgress`](modules/static.js.estorides.js.md#setdiscoverprogress) function in `static/js/estorides.js`
+- [`setEngineButtons`](modules/static.js.graph_force.js.md#setenginebuttons) function in `static/js/graph_force.js`
+- [`setInterval`](modules/static.js.graph_force.js.md#setinterval) method in `static/js/graph_force.js`
+- [`setNodeLevel`](modules/static.js.estorides.js.md#setnodelevel) function in `static/js/estorides.js`
+- [`setRunProgress`](modules/static.js.estorides.js.md#setrunprogress) function in `static/js/estorides.js`
+- [`setSanitizedHTML`](modules/static.js.estorides.js.md#setsanitizedhtml) function in `static/js/estorides.js`
+- [`setStatus`](modules/static.js.estorides.js.md#setstatus) function in `static/js/estorides.js`
+- [`setStatus`](modules/static.js.estorides.js.md#setstatus) function in `static/js/estorides.js`
+- [`setStatusDot`](modules/static.js.estorides.js.md#setstatusdot) function in `static/js/estorides.js`
+- [`setThinkingVisible`](modules/static.js.estorides.js.md#setthinkingvisible) function in `static/js/estorides.js`
+- [`setTimeout`](modules/static.js.estorides.js.md#settimeout) method in `static/js/estorides.js`
+- [`setTimeout`](modules/static.js.graph_force.js.md#settimeout) method in `static/js/graph_force.js`
+- [`setTimeout`](modules/static.js.graph_force.js.md#settimeout) method in `static/js/graph_force.js`
+- [`setTimeout`](modules/static.js.graph_force.js.md#settimeout) method in `static/js/graph_force.js`
+- [`setTimeout`](modules/static.js.source_manager.js.md#settimeout) method in `static/js/source_manager.js`
+- [`settings`](modules/static.js.graph_force.js.md#settings) function in `static/js/graph_force.js`
+- [`setView`](modules/static.js.graph_bundle.js.md#setview) function in `static/js/graph_bundle.js`
+- [`setVisible`](modules/static.js.estorides.js.md#setvisible) function in `static/js/estorides.js`
+- [`severity`](modules/estorides_core.people_intel.py.md#breachcontext-severity) attribute of `BreachContext` in `estorides_core.people_intel`
+- [`severity`](modules/estorides_core.people_intel.py.md#breachrecord-severity) attribute of `BreachRecord` in `estorides_core.people_intel`
+- [`severity`](modules/estorides_core.code_exposure.py.md#codefinding-severity) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`severity`](modules/estorides_export.recon_report.py.md#reportsection-severity) attribute of `ReportSection` in `estorides_export.recon_report`
+- [`severity`](modules/estorides_core.vuln_correlation.py.md#vulnentry-severity) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`severity_summary`](modules/estorides_core.code_exposure.py.md#codeexposureresult-severity_summary) attribute of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`SeveritySummary`](modules/estorides_core.code_exposure.py.md#severitysummary) class in `estorides_core.code_exposure`
+- [`shared_infrastructure`](modules/estorides_core.supply_chain.py.md#supplychainresult-shared_infrastructure) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`SharedInfra`](modules/estorides_core.supply_chain.py.md#sharedinfra) class in `estorides_core.supply_chain`
+- [`SHELL_METACHAR_RE`](modules/estorides_core.tool_runner.py.md#shell_metachar_re) constant in `estorides_core.tool_runner`
+- [`short`](modules/static.js.graph_force.js.md#short) function in `static/js/graph_force.js`
+- [`shortcuts`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-shortcuts) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`shortcuts`](modules/estorides_core.search_telemetry.py.md#telemetryconfig-shortcuts) attribute of `TelemetryConfig` in `estorides_core.search_telemetry`
+- [`should_stop`](modules/estorides_core.discoverer.py.md#discoverjob-should_stop) method of `DiscoverJob` in `estorides_core.discoverer`
+- [`show3DChrome`](modules/static.js.graph_force.js.md#show3dchrome) function in `static/js/graph_force.js`
+- [`showBridgeTooltip`](modules/static.js.estorides.js.md#showbridgetooltip) function in `static/js/estorides.js`
+- [`showContextMenu`](modules/static.js.estorides.js.md#showcontextmenu) function in `static/js/estorides.js`
+- [`showEmptyState`](modules/static.js.estorides.js.md#showemptystate) function in `static/js/estorides.js`
+- [`showFriendlyError`](modules/static.js.estorides.js.md#showfriendlyerror) function in `static/js/estorides.js`
+- [`showNodeTooltip`](modules/static.js.estorides.js.md#shownodetooltip) function in `static/js/estorides.js`
+- [`showReportModal`](modules/static.js.estorides.js.md#showreportmodal) function in `static/js/estorides.js`
+- [`showToast`](modules/static.js.estorides.js.md#showtoast) function in `static/js/estorides.js`
+- [`showTooltipAt`](modules/static.js.estorides.js.md#showtooltipat) function in `static/js/estorides.js`
+- [`showWorkingIndicator`](modules/static.js.estorides.js.md#showworkingindicator) function in `static/js/estorides.js`
+- [`sig`](modules/static.js.estorides.js.md#sig) function in `static/js/estorides.js`
+- [`sig`](modules/static.js.estorides.js.md#sig) function in `static/js/estorides.js`
+- [`size`](modules/estorides_core.ontology.py.md#sanctionsindex-size) method of `SanctionsIndex` in `estorides_core.ontology`
+- [`SLACK_TOKEN_RE`](modules/estorides_core.code_exposure.py.md#slack_token_re) constant in `estorides_core.code_exposure`
+- [`Snapshot`](modules/estorides_core.change_detection.py.md#snapshot) class in `estorides_core.change_detection`
+- [`snapshot3D`](modules/static.js.graph_force.js.md#snapshot3d) function in `static/js/graph_force.js`
+- [`snapshot_after_at`](modules/estorides_core.change_detection.py.md#changesummary-snapshot_after_at) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`snapshot_at`](modules/estorides_core.change_detection.py.md#snapshot-snapshot_at) attribute of `Snapshot` in `estorides_core.change_detection`
+- [`snapshot_before_at`](modules/estorides_core.change_detection.py.md#changesummary-snapshot_before_at) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`SnapshotEntity`](modules/estorides_core.change_detection.py.md#snapshotentity) class in `estorides_core.change_detection`
+- [`snippet`](modules/estorides_core.code_exposure.py.md#codefinding-snippet) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`SocialMediaInferer`](modules/estorides_core.socmint.py.md#socialmediainferer) class in `estorides_core.socmint`
+- [`SocialMediaProfile`](modules/estorides_core.socmint.py.md#socialmediaprofile) class in `estorides_core.socmint`
+- [`source`](modules/estorides_core.pdns_monitor.py.md#certrecord-source) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`source`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-source) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`source`](modules/estorides_core.code_exposure.py.md#codefinding-source) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`source`](modules/estorides_core.vuln_correlation.py.md#defaultcred-source) attribute of `DefaultCred` in `estorides_core.vuln_correlation`
+- [`source`](modules/estorides_core.entity_extraction.py.md#entity-source) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`source`](modules/estorides_core.hypothesis_engine.py.md#evidence-source) attribute of `Evidence` in `estorides_core.hypothesis_engine`
+- [`source`](modules/estorides_core.feeds.py.md#feedpoint-source) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`source`](modules/estorides_core.pdns_monitor.py.md#iprecord-source) attribute of `IPRecord` in `estorides_core.pdns_monitor`
+- [`source`](modules/estorides_core.observation_models.py.md#observation-source) attribute of `Observation` in `estorides_core.observation_models`
+- [`source`](modules/estorides_core.observation_models.py.md#observedentity-source) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`source`](modules/estorides_core.graph_rag_search.py.md#ragrelation-source) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`source`](modules/estorides_core.supply_chain.py.md#relationship-source) attribute of `Relationship` in `estorides_core.supply_chain`
+- [`Source`](modules/estorides_core.source_loader.py.md#source) class in `estorides_core.source_loader`
+- [`source_corroboration_matrix`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-source_corroboration_matrix) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`source_count`](modules/estorides_core.recon_fusion.py.md#groupedentity-source_count) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`source_count`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult-source_count) attribute of `TechFingerprintResult` in `estorides_core.tech_fingerprint`
+- [`source_name`](modules/estorides_core.socmint.py.md#platforminfo-source_name) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`source_name`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-source_name) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`source_name`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-source_name) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`source_name`](modules/estorides_core.system_app_sources.py.md#systemappresult-source_name) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`source_reliability`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-source_reliability) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`source_reliability`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-source_reliability) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`SOURCE_RELIABILITY_MAP`](modules/estorides_core.reliability_scoring.py.md#source_reliability_map) constant in `estorides_core.reliability_scoring`
+- [`source_reliability_overrides`](modules/estorides_core.config.py.md#reconfusionconfig-source_reliability_overrides) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`source_stats`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-source_stats) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`source_type`](modules/estorides_core.reliability_scoring.py.md#confidenceinput-source_type) attribute of `ConfidenceInput` in `estorides_core.reliability_scoring`
+- [`source_type`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-source_type) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`source_type_from_name`](modules/estorides_core.reliability_scoring.py.md#source_type_from_name) function in `estorides_core.reliability_scoring`
+- [`SOURCE_TYPE_MAP`](modules/estorides_core.reliability_scoring.py.md#source_type_map) constant in `estorides_core.reliability_scoring`
+- [`source_type_weight`](modules/estorides_core.reliability_scoring.py.md#confidenceresult-source_type_weight) attribute of `ConfidenceResult` in `estorides_core.reliability_scoring`
+- [`SOURCE_TYPE_WEIGHT`](modules/estorides_core.reliability_scoring.py.md#source_type_weight) constant in `estorides_core.reliability_scoring`
+- [`SourceHealthConfig`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthInput`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthResult`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthStatus`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus) enum in `estorides_core.source_health_monitoring`
+- [`SourceRegistry`](modules/estorides_core.source_loader.py.md#sourceregistry) class in `estorides_core.source_loader`
+- [`SourceReliability`](modules/estorides_core.reliability_scoring.py.md#sourcereliability) enum in `estorides_core.reliability_scoring`
+- [`sources`](modules/estorides_core.audit.py.md#auditevent-sources) attribute of `AuditEvent` in `estorides_core.audit`
+- [`sources`](modules/estorides_core.entity_resolution.py.md#canonicalentity-sources) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`sources`](modules/estorides_core.change_detection.py.md#change-sources) attribute of `Change` in `estorides_core.change_detection`
+- [`sources`](modules/estorides_core.people_intel.py.md#employee-sources) attribute of `Employee` in `estorides_core.people_intel`
+- [`sources`](modules/estorides_core.entity_extraction.py.md#entity-sources) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`sources`](modules/estorides_core.recon_fusion.py.md#groupedentity-sources) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`sources`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-sources) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`sources`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-sources) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`sources`](modules/estorides_core.lan_inventory.py.md#landevice-sources) attribute of `LanDevice` in `estorides_core.lan_inventory`
+- [`sources`](modules/estorides_core.observation_models.py.md#observedentity-sources) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`sources`](modules/estorides_core.change_detection.py.md#snapshotentity-sources) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`sources`](modules/estorides_core.tool_install.py.md#toolstatus-sources) attribute of `ToolStatus` in `estorides_core.tool_install`
+- [`SOURCES_DIR`](modules/estorides_core.config.py.md#sources_dir) constant in `estorides_core.config`
+- [`SOURCES_DIR`](modules/tools.split_sources.py.md#sources_dir) constant in `tools.split_sources`
+- [`sources_succeeded`](modules/estorides_core.observation_models.py.md#runresult-sources_succeeded) attribute of `RunResult` in `estorides_core.observation_models`
+- [`SourceType`](modules/estorides_core.reliability_scoring.py.md#sourcetype) enum in `estorides_core.reliability_scoring`
+- [`SphereBundleLayout`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout) class in `estorides_core.graph_bundle`
+- [`spherical_edge_bundling`](modules/estorides_core.graph_bundle.py.md#spherical_edge_bundling) function in `estorides_core.graph_bundle`
+- [`SplashTip`](modules/estorides_core.search_telemetry.py.md#splashtip) class in `estorides_core.search_telemetry`
+- [`SqliteStore`](modules/estorides_core.sqlite_store.py.md#sqlitestore) class in `estorides_core.sqlite_store`
+- [`SqlmapResult`](modules/estorides_core.active_recon.py.md#sqlmapresult) class in `estorides_core.active_recon`
+- [`src`](modules/static.js.graph_force.js.md#src) function in `static/js/graph_force.js`
+- [`sse_buffer_cap`](modules/estorides_core.config.py.md#streamconfig-sse_buffer_cap) attribute of `StreamConfig` in `estorides_core.config`
+- [`SSRFError`](modules/estorides_core.ssrf_guard.py.md#ssrferror) exception in `estorides_core.ssrf_guard`
+- [`stable_id`](modules/estorides_core.ids.py.md#stable_id) function in `estorides_core.ids`
+- [`stageLocal`](modules/static.js.graph_force.js.md#stagelocal) function in `static/js/graph_force.js`
+- [`STALE`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus-stale) attribute of `SourceHealthStatus` in `estorides_core.source_health_monitoring`
+- [`stale_count`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-stale_count) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`stale_hours`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-stale_hours) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
+- [`start`](modules/estorides_core.monitoring.py.md#watchscheduler-start) method of `WatchScheduler` in `estorides_core.monitoring`
+- [`start_discover`](modules/estorides_core.discoverer.py.md#start_discover) function in `estorides_core.discoverer`
+- [`start_discover_threadsafe`](modules/estorides_core.discoverer.py.md#start_discover_threadsafe) function in `estorides_core.discoverer`
+- [`start_dispatch_timeout_seconds`](modules/estorides_core.config.py.md#streamconfig-start_dispatch_timeout_seconds) attribute of `StreamConfig` in `estorides_core.config`
+- [`startDiscover`](modules/static.js.estorides.js.md#startdiscover) function in `static/js/estorides.js`
+- [`started_at`](modules/estorides_core.discoverer.py.md#discoverjob-started_at) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`started_monotonic`](modules/estorides_core.pivot_engine.py.md#pivotbudget-started_monotonic) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`startLanScan`](modules/static.js.estorides.js.md#startlanscan) function in `static/js/estorides.js`
+- [`startOverlayLoop`](modules/static.js.graph_force.js.md#startoverlayloop) function in `static/js/graph_force.js`
+- [`stat`](modules/static.js.graph_force.js.md#stat) function in `static/js/graph_force.js`
+- [`STATIC_DIR`](modules/estorides_core.config.py.md#static_dir) constant in `estorides_core.config`
+- [`stats`](modules/estorides_core.cases.py.md#casestore-stats) method of `CaseStore` in `estorides_core.cases`
+- [`stats`](modules/estorides_core.entity_store.py.md#entitystore-stats) method of `EntityStore` in `estorides_core.entity_store`
+- [`stats`](modules/estorides_core.fusion_store.py.md#fusionstore-stats) method of `FusionStore` in `estorides_core.fusion_store`
+- [`stats`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-stats) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`stats`](modules/estorides_core.monitoring.py.md#watchstore-stats) method of `WatchStore` in `estorides_core.monitoring`
+- [`stats`](modules/estorides_core.ontology.py.md#wikidatacache-stats) method of `WikidataCache` in `estorides_core.ontology`
+- [`status`](modules/estorides_core.audit.py.md#auditevent-status) attribute of `AuditEvent` in `estorides_core.audit`
+- [`status`](modules/estorides_core.discoverer.py.md#discoverjob-status) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`status`](modules/estorides_core.lan_web.py.md#lanwebverdict-status) attribute of `LanWebVerdict` in `estorides_core.lan_web`
+- [`status`](modules/estorides_core.observation_models.py.md#observationmeta-status) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`status`](modules/estorides_core.pivot_engine.py.md#pivotresult-status) attribute of `PivotResult` in `estorides_core.pivot_engine`
+- [`status`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-status) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`status`](modules/static.js.estorides.js.md#status) function in `static/js/estorides.js`
+- [`status`](modules/static.js.estorides.js.md#status) function in `static/js/estorides.js`
+- [`stderr`](modules/estorides_core.system_app_sources.py.md#systemappresult-stderr) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`stderr`](modules/estorides_core.tool_runner.py.md#toolresult-stderr) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`stdout`](modules/estorides_core.system_app_sources.py.md#systemappresult-stdout) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`stdout`](modules/estorides_core.tool_runner.py.md#toolresult-stdout) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`steps_done`](modules/estorides_core.discoverer.py.md#discoverjob-steps_done) attribute of `DiscoverJob` in `estorides_core.discoverer`
+- [`steps_done`](modules/estorides_core.pivot_engine.py.md#pivotbudget-steps_done) attribute of `PivotBudget` in `estorides_core.pivot_engine`
+- [`steps_done`](modules/estorides_core.pivot_engine.py.md#pivotresult-steps_done) attribute of `PivotResult` in `estorides_core.pivot_engine`
+- [`STIX_BUNDLE_PATH`](modules/estorides_core.config.py.md#stix_bundle_path) constant in `estorides_core.config`
+- [`stop`](modules/estorides_core.discoverer.py.md#discoverjob-stop) method of `DiscoverJob` in `estorides_core.discoverer`
+- [`stop`](modules/estorides_core.monitoring.py.md#watchscheduler-stop) method of `WatchScheduler` in `estorides_core.monitoring`
+- [`stop_reason`](modules/estorides_core.pivot_engine.py.md#pivotresult-stop_reason) attribute of `PivotResult` in `estorides_core.pivot_engine`
+- [`stopDiscover`](modules/static.js.estorides.js.md#stopdiscover) function in `static/js/estorides.js`
+- [`stopRunStream`](modules/static.js.estorides.js.md#stoprunstream) function in `static/js/estorides.js`
+- [`STOPWORDS`](modules/estorides_core.graph_rag_search.py.md#stopwords) constant in `estorides_core.graph_rag_search`
+- [`strategy`](modules/estorides_core.pagination.py.md#paginationconfig-strategy) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`stream`](modules/estorides_llm.manager.py.md#llmmanager-stream) method of `LLMManager` in `estorides_llm.manager`
+- [`STREAM`](modules/estorides_core.config.py.md#stream) constant in `estorides_core.config`
+- [`stream_generate`](modules/estorides_llm.manager.py.md#llmbackend-stream_generate) method of `LLMBackend` in `estorides_llm.manager`
+- [`stream_generate`](modules/estorides_llm.manager.py.md#ollamabackend-stream_generate) method of `OllamaBackend` in `estorides_llm.manager`
+- [`StreamConfig`](modules/estorides_core.config.py.md#streamconfig) class in `estorides_core.config`
+- [`STRIPE_KEY_RE`](modules/estorides_core.code_exposure.py.md#stripe_key_re) constant in `estorides_core.code_exposure`
+- [`strokeCurve`](modules/static.js.graph_bundle.js.md#strokecurve) function in `static/js/graph_bundle.js`
+- [`subdomains`](modules/estorides_core.active_recon.py.md#dnsreconresult-subdomains) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`subdomains`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-subdomains) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`subject`](modules/estorides_core.pdns_monitor.py.md#certrecord-subject) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`subscribe`](modules/estorides_core.event_bus.py.md#eventbus-subscribe) method of `EventBus` in `estorides_core.event_bus`
+- [`subscriber_count`](modules/estorides_core.event_bus.py.md#eventbus-subscriber_count) method of `EventBus` in `estorides_core.event_bus`
+- [`subsidiaries`](modules/estorides_core.supply_chain.py.md#supplychainresult-subsidiaries) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`success`](modules/estorides_core.active_recon.py.md#dnsreconresult-success) attribute of `DnsreconResult` in `estorides_core.active_recon`
+- [`success`](modules/estorides_core.tool_install.py.md#installresult-success) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`success`](modules/estorides_core.active_recon.py.md#niktoresult-success) attribute of `NiktoResult` in `estorides_core.active_recon`
+- [`success`](modules/estorides_core.active_recon.py.md#nmapresult-success) attribute of `NmapResult` in `estorides_core.active_recon`
+- [`success`](modules/estorides_core.active_recon.py.md#sqlmapresult-success) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`success`](modules/estorides_core.system_app_sources.py.md#systemappresult-success) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`success`](modules/estorides_core.active_recon.py.md#theharvesterresult-success) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`success_rate`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-success_rate) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`suffix`](modules/estorides_core.scope.py.md#wildcardrule-suffix) attribute of `WildcardRule` in `estorides_core.scope`
+- [`summariseObservation`](modules/static.js.estorides.js.md#summariseobservation) function in `static/js/estorides.js`
+- [`summary`](modules/estorides_core.change_detection.py.md#changereport-summary) attribute of `ChangeReport` in `estorides_core.change_detection`
+- [`summary`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard-summary) attribute of `HealthDashboard` in `estorides_core.source_health_monitoring`
+- [`summary`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-summary) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`summary`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-summary) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`summary`](modules/estorides_core.source_loader.py.md#sourceregistry-summary) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`summary`](modules/estorides_core.transforms.py.md#transform-summary) method of `Transform` in `estorides_core.transforms`
+- [`SupplyChainResult`](modules/estorides_core.supply_chain.py.md#supplychainresult) class in `estorides_core.supply_chain`
+- [`supporting`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-supporting) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`switchCanvasTab`](modules/static.js.estorides.js.md#switchcanvastab) function in `static/js/estorides.js`
+- [`switchSidebarTab`](modules/static.js.estorides.js.md#switchsidebartab) function in `static/js/estorides.js`
+- [`switchSidebarTab`](modules/static.js.estorides.js.md#switchsidebartab) function in `static/js/estorides.js`
+- [`sync`](modules/static.js.graph_bundle.js.md#sync) function in `static/js/graph_bundle.js`
+- [`sync_fetch`](modules/estorides_core.async_client.py.md#sync_fetch) function in `estorides_core.async_client`
+- [`syncIsolateBtn`](modules/static.js.graph_force.js.md#syncisolatebtn) function in `static/js/graph_force.js`
+- [`SYSTEM_PROMPT`](modules/estorides_llm.intelligence_prompts.py.md#system_prompt) constant in `estorides_llm.intelligence_prompts`
+- [`SystemAppResult`](modules/estorides_core.system_app_sources.py.md#systemappresult) class in `estorides_core.system_app_sources`
+
+<a id="t"></a>
+
+## T
+
+- [`t`](modules/static.js.estorides.js.md#t) function in `static/js/estorides.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t`](modules/static.js.graph_force.js.md#t) function in `static/js/graph_force.js`
+- [`t0`](modules/static.js.graph_bundle.js.md#t0) function in `static/js/graph_bundle.js`
+- [`tabActive`](modules/static.js.graph_bundle.js.md#tabactive) function in `static/js/graph_bundle.js`
+- [`TACTICAL_PROMPT`](modules/estorides_llm.intelligence_prompts.py.md#tactical_prompt) constant in `estorides_llm.intelligence_prompts`
+- [`tag`](modules/static.js.estorides.js.md#tag) function in `static/js/estorides.js`
+- [`tag`](modules/static.js.graph_bundle.js.md#tag) function in `static/js/graph_bundle.js`
+- [`tag`](modules/static.js.graph_force.js.md#tag) function in `static/js/graph_force.js`
+- [`tagline`](modules/estorides_core.search_telemetry.py.md#telemetryconfig-tagline) attribute of `TelemetryConfig` in `estorides_core.search_telemetry`
+- [`target`](modules/estorides_core.graph_rag_search.py.md#ragrelation-target) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`target`](modules/estorides_core.supply_chain.py.md#relationship-target) attribute of `Relationship` in `estorides_core.supply_chain`
+- [`Tech`](modules/estorides_core.tech_fingerprint.py.md#tech) class in `estorides_core.tech_fingerprint`
+- [`TechFingerprintResult`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult) class in `estorides_core.tech_fingerprint`
+- [`technologies`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult-technologies) attribute of `TechFingerprintResult` in `estorides_core.tech_fingerprint`
+- [`TELEMETRY`](modules/static.js.estorides.js.md#telemetry) function in `static/js/estorides.js`
+- [`TelemetryConfig`](modules/estorides_core.search_telemetry.py.md#telemetryconfig) class in `estorides_core.search_telemetry`
+- [`TEMPLATE_ENVS`](modules/estorides_core.config.py.md#template_envs) constant in `estorides_core.config`
+- [`TEMPLATES_DIR`](modules/estorides_core.config.py.md#templates_dir) constant in `estorides_core.config`
+- [`TERTIARY`](modules/estorides_core.reliability_scoring.py.md#sourcetype-tertiary) attribute of `SourceType` in `estorides_core.reliability_scoring`
+- [`test`](modules/estorides_core.alerter.py.md#alertdispatcher-test) method of `AlertDispatcher` in `estorides_core.alerter`
+- [`text`](modules/estorides_core.graph_rag_search.py.md#ragtextunit-text) attribute of `RagTextUnit` in `estorides_core.graph_rag_search`
+- [`text`](modules/static.js.estorides.js.md#text) function in `static/js/estorides.js`
+- [`text_units`](modules/estorides_core.graph_rag_search.py.md#graphragindex-text_units) attribute of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`text_units`](modules/estorides_core.graph_rag_search.py.md#ragcontext-text_units) attribute of `RagContext` in `estorides_core.graph_rag_search`
+- [`TheHarvesterResult`](modules/estorides_core.active_recon.py.md#theharvesterresult) class in `estorides_core.active_recon`
+- [`third_parties`](modules/estorides_core.supply_chain.py.md#supplychainresult-third_parties) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`ThirdParty`](modules/estorides_core.supply_chain.py.md#thirdparty) class in `estorides_core.supply_chain`
+- [`THREAT_SOURCES`](modules/estorides_core.knowledge_graph.py.md#threat_sources) constant in `estorides_core.knowledge_graph`
+- [`tier`](modules/estorides_core.recon_fusion.py.md#groupedentity-tier) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`tier`](modules/estorides_core.transforms.py.md#transform-tier) attribute of `Transform` in `estorides_core.transforms`
+- [`TIER_COLORS`](modules/estorides_core.graph_force.py.md#tier_colors) constant in `estorides_core.graph_force`
+- [`tier_summary`](modules/estorides_core.recon_fusion.py.md#fusionresult-tier_summary) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`tierColorOf`](modules/static.js.graph_force.js.md#tiercolorof) function in `static/js/graph_force.js`
+- [`tiers`](modules/estorides_core.recon_fusion.py.md#fusionresult-tiers) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`TIERS`](modules/estorides_core.transforms.py.md#tiers) constant in `estorides_core.transforms`
+- [`time_left`](modules/estorides_core.pivot_engine.py.md#pivotbudget-time_left) method of `PivotBudget` in `estorides_core.pivot_engine`
+- [`timestamp`](modules/estorides_core.audit.py.md#auditevent-timestamp) attribute of `AuditEvent` in `estorides_core.audit`
+- [`timestamp`](modules/estorides_core.feeds.py.md#feedpoint-timestamp) attribute of `FeedPoint` in `estorides_core.feeds`
+- [`tip`](modules/static.js.graph_force.js.md#tip) function in `static/js/graph_force.js`
+- [`tipFor`](modules/static.js.graph_bundle.js.md#tipfor) function in `static/js/graph_bundle.js`
+- [`tips`](modules/estorides_core.search_telemetry.py.md#searchtelemetry-tips) method of `SearchTelemetry` in `estorides_core.search_telemetry`
+- [`tips`](modules/estorides_core.search_telemetry.py.md#telemetryconfig-tips) attribute of `TelemetryConfig` in `estorides_core.search_telemetry`
+- [`title`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-title) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
+- [`title`](modules/estorides_export.recon_report.py.md#reportsection-title) attribute of `ReportSection` in `estorides_export.recon_report`
+- [`title`](modules/estorides_core.search_telemetry.py.md#splashtip-title) attribute of `SplashTip` in `estorides_core.search_telemetry`
+- [`to`](modules/static.js.estorides.js.md#to) class in `static/js/estorides.js`
+- [`to2D`](modules/static.js.graph_force.js.md#to2d) function in `static/js/graph_force.js`
+- [`to3D`](modules/static.js.graph_force.js.md#to3d) function in `static/js/graph_force.js`
+- [`to_dict`](modules/estorides_core.people_intel.py.md#breachcontext-to_dict) method of `BreachContext` in `estorides_core.people_intel`
+- [`to_dict`](modules/estorides_core.people_intel.py.md#breachrecord-to_dict) method of `BreachRecord` in `estorides_core.people_intel`
+- [`to_dict`](modules/estorides_core.entity_resolution.py.md#canonicalentity-to_dict) method of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`to_dict`](modules/estorides_core.pdns_monitor.py.md#certrecord-to_dict) method of `CertRecord` in `estorides_core.pdns_monitor`
+- [`to_dict`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-to_dict) method of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`to_dict`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult-to_dict) method of `CloudAssetDiscoveryResult` in `estorides_core.cloud_asset_discovery`
+- [`to_dict`](modules/estorides_core.code_exposure.py.md#codeexposureresult-to_dict) method of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`to_dict`](modules/estorides_core.code_exposure.py.md#codefinding-to_dict) method of `CodeFinding` in `estorides_core.code_exposure`
+- [`to_dict`](modules/estorides_core.vuln_correlation.py.md#defaultcred-to_dict) method of `DefaultCred` in `estorides_core.vuln_correlation`
+- [`to_dict`](modules/estorides_core.sqlite_store.py.md#dictmixin-to_dict) method of `DictMixin` in `estorides_core.sqlite_store`
+- [`to_dict`](modules/estorides_core.active_recon.py.md#dnsreconresult-to_dict) method of `DnsreconResult` in `estorides_core.active_recon`
+- [`to_dict`](modules/estorides_core.people_intel.py.md#employee-to_dict) method of `Employee` in `estorides_core.people_intel`
+- [`to_dict`](modules/estorides_core.entity_extraction.py.md#entity-to_dict) method of `Entity` in `estorides_core.entity_extraction`
+- [`to_dict`](modules/estorides_core.feeds.py.md#feedpoint-to_dict) method of `FeedPoint` in `estorides_core.feeds`
+- [`to_dict`](modules/estorides_core.recon_fusion.py.md#fusionresult-to_dict) method of `FusionResult` in `estorides_core.recon_fusion`
+- [`to_dict`](modules/estorides_core.graph_rag_search.py.md#graphragindex-to_dict) method of `GraphRagIndex` in `estorides_core.graph_rag_search`
+- [`to_dict`](modules/estorides_core.recon_fusion.py.md#groupedentity-to_dict) method of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`to_dict`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard-to_dict) method of `HealthDashboard` in `estorides_core.source_health_monitoring`
+- [`to_dict`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-to_dict) method of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
+- [`to_dict`](modules/estorides_core.pdns_monitor.py.md#iprecord-to_dict) method of `IPRecord` in `estorides_core.pdns_monitor`
+- [`to_dict`](modules/estorides_core.tool_install.py.md#installresult-to_dict) method of `InstallResult` in `estorides_core.tool_install`
+- [`to_dict`](modules/estorides_core.lan_bundle.py.md#lanbundleresult-to_dict) method of `LanBundleResult` in `estorides_core.lan_bundle`
+- [`to_dict`](modules/estorides_core.lan_inventory.py.md#landevice-to_dict) method of `LanDevice` in `estorides_core.lan_inventory`
+- [`to_dict`](modules/estorides_core.lan_policy.py.md#lanpolicydecision-to_dict) method of `LanPolicyDecision` in `estorides_core.lan_policy`
+- [`to_dict`](modules/estorides_core.lan_runner.py.md#lanscanresult-to_dict) method of `LanScanResult` in `estorides_core.lan_runner`
+- [`to_dict`](modules/estorides_core.lan_web.py.md#lanwebverdict-to_dict) method of `LanWebVerdict` in `estorides_core.lan_web`
+- [`to_dict`](modules/estorides_core.active_recon.py.md#niktoresult-to_dict) method of `NiktoResult` in `estorides_core.active_recon`
+- [`to_dict`](modules/estorides_core.active_recon.py.md#nmapresult-to_dict) method of `NmapResult` in `estorides_core.active_recon`
+- [`to_dict`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-to_dict) method of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`to_dict`](modules/estorides_core.people_intel.py.md#peopleintelresult-to_dict) method of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`to_dict`](modules/estorides_core.socmint.py.md#profilematch-to_dict) method of `ProfileMatch` in `estorides_core.socmint`
+- [`to_dict`](modules/estorides_core.supply_chain.py.md#relationship-to_dict) method of `Relationship` in `estorides_core.supply_chain`
+- [`to_dict`](modules/estorides_export.recon_report.py.md#reportmetadata-to_dict) method of `ReportMetadata` in `estorides_export.recon_report`
+- [`to_dict`](modules/estorides_export.recon_report.py.md#reportresult-to_dict) method of `ReportResult` in `estorides_export.recon_report`
+- [`to_dict`](modules/estorides_export.recon_report.py.md#reportsection-to_dict) method of `ReportSection` in `estorides_export.recon_report`
+- [`to_dict`](modules/estorides_core.entity_resolution.py.md#resolutionresult-to_dict) method of `ResolutionResult` in `estorides_core.entity_resolution`
+- [`to_dict`](modules/estorides_core.entity_resolution.py.md#sameaslink-to_dict) method of `SameAsLink` in `estorides_core.entity_resolution`
+- [`to_dict`](modules/estorides_core.ontology.py.md#sanctionentry-to_dict) method of `SanctionEntry` in `estorides_core.ontology`
+- [`to_dict`](modules/estorides_core.scope.py.md#scopereport-to_dict) method of `ScopeReport` in `estorides_core.scope`
+- [`to_dict`](modules/estorides_core.code_exposure.py.md#severitysummary-to_dict) method of `SeveritySummary` in `estorides_core.code_exposure`
+- [`to_dict`](modules/estorides_core.supply_chain.py.md#sharedinfra-to_dict) method of `SharedInfra` in `estorides_core.supply_chain`
+- [`to_dict`](modules/estorides_core.socmint.py.md#socialmediaprofile-to_dict) method of `SocialMediaProfile` in `estorides_core.socmint`
+- [`to_dict`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-to_dict) method of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`to_dict`](modules/estorides_core.active_recon.py.md#sqlmapresult-to_dict) method of `SqlmapResult` in `estorides_core.active_recon`
+- [`to_dict`](modules/estorides_core.supply_chain.py.md#supplychainresult-to_dict) method of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`to_dict`](modules/estorides_core.system_app_sources.py.md#systemappresult-to_dict) method of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`to_dict`](modules/estorides_core.tech_fingerprint.py.md#tech-to_dict) method of `Tech` in `estorides_core.tech_fingerprint`
+- [`to_dict`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult-to_dict) method of `TechFingerprintResult` in `estorides_core.tech_fingerprint`
+- [`to_dict`](modules/estorides_core.active_recon.py.md#theharvesterresult-to_dict) method of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`to_dict`](modules/estorides_core.supply_chain.py.md#thirdparty-to_dict) method of `ThirdParty` in `estorides_core.supply_chain`
+- [`to_dict`](modules/estorides_core.tool_runner.py.md#toolerrorresult-to_dict) method of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`to_dict`](modules/estorides_core.tool_runner.py.md#toolresult-to_dict) method of `ToolResult` in `estorides_core.tool_runner`
+- [`to_dict`](modules/estorides_core.tool_install.py.md#toolstatus-to_dict) method of `ToolStatus` in `estorides_core.tool_install`
+- [`to_dict`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-to_dict) method of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`to_dict`](modules/estorides_core.vuln_correlation.py.md#vulnentry-to_dict) method of `VulnEntry` in `estorides_core.vuln_correlation`
+- [`to_dict`](modules/estorides_core.monitoring.py.md#watchtarget-to_dict) method of `WatchTarget` in `estorides_core.monitoring`
+- [`to_entities`](modules/estorides_core.active_recon.py.md#dnsreconresult-to_entities) method of `DnsreconResult` in `estorides_core.active_recon`
+- [`to_entities`](modules/estorides_core.active_recon.py.md#niktoresult-to_entities) method of `NiktoResult` in `estorides_core.active_recon`
+- [`to_entities`](modules/estorides_core.active_recon.py.md#nmapresult-to_entities) method of `NmapResult` in `estorides_core.active_recon`
+- [`to_entities`](modules/estorides_core.active_recon.py.md#sqlmapresult-to_entities) method of `SqlmapResult` in `estorides_core.active_recon`
+- [`to_entities`](modules/estorides_core.active_recon.py.md#theharvesterresult-to_entities) method of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`to_entity`](modules/estorides_core.entity_resolution.py.md#canonicalentity-to_entity) method of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`to_jsonl`](modules/estorides_core.audit.py.md#auditevent-to_jsonl) method of `AuditEvent` in `estorides_core.audit`
+- [`to_latin`](modules/estorides_core.transliteration.py.md#to_latin) function in `estorides_core.transliteration`
+- [`to_legacy_dict`](modules/estorides_core.observation_models.py.md#observation-to_legacy_dict) method of `Observation` in `estorides_core.observation_models`
+- [`to_legacy_dict`](modules/estorides_core.observation_models.py.md#observationmeta-to_legacy_dict) method of `ObservationMeta` in `estorides_core.observation_models`
+- [`to_legacy_dict`](modules/estorides_core.observation_models.py.md#observedentity-to_legacy_dict) method of `ObservedEntity` in `estorides_core.observation_models`
+- [`to_legacy_dict`](modules/estorides_core.observation_models.py.md#runresult-to_legacy_dict) method of `RunResult` in `estorides_core.observation_models`
+- [`to_response`](modules/estorides_core.lan_web.py.md#lanwebverdict-to_response) method of `LanWebVerdict` in `estorides_core.lan_web`
+- [`toast`](modules/static.js.graph_force.js.md#toast) function in `static/js/graph_force.js`
+- [`toast`](modules/static.js.source_manager.js.md#toast) function in `static/js/source_manager.js`
+- [`toggle`](modules/static.js.graph_force.js.md#toggle) function in `static/js/graph_force.js`
+- [`toggle`](modules/static.js.graph_force.js.md#toggle) method in `static/js/graph_force.js`
+- [`toggleBridges`](modules/static.js.graph_force.js.md#togglebridges) function in `static/js/graph_force.js`
+- [`toggleOrbit`](modules/static.js.graph_force.js.md#toggleorbit) function in `static/js/graph_force.js`
+- [`toggleThinking`](modules/static.js.estorides.js.md#togglethinking) function in `static/js/estorides.js`
+- [`toggleTierSection`](modules/static.js.estorides.js.md#toggletiersection) function in `static/js/estorides.js`
+- [`tokenize`](modules/estorides_core.graph_rag_search.py.md#tokenize) function in `estorides_core.graph_rag_search`
+- [`tolerance`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-tolerance) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
+- [`TOOL_ALLOWLIST`](modules/estorides_core.config.py.md#tool_allowlist) constant in `estorides_core.config`
+- [`tool_available`](modules/estorides_core.system_app_sources.py.md#tool_available) function in `estorides_core.system_app_sources`
+- [`tool_available`](modules/estorides_core.tool_install.py.md#tool_available) function in `estorides_core.tool_install`
+- [`TOOL_INSTALL_MAX_OUTPUT_BYTES`](modules/estorides_core.config.py.md#tool_install_max_output_bytes) constant in `estorides_core.config`
+- [`TOOL_INSTALL_TIMEOUT_S`](modules/estorides_core.config.py.md#tool_install_timeout_s) constant in `estorides_core.config`
+- [`TOOL_MAP`](modules/estorides_core.active_recon.py.md#tool_map) constant in `estorides_core.active_recon`
+- [`TOOL_MAX_OUTPUT_BYTES`](modules/estorides_core.config.py.md#tool_max_output_bytes) constant in `estorides_core.config`
+- [`tool_name`](modules/estorides_core.tool_install.py.md#installresult-tool_name) attribute of `InstallResult` in `estorides_core.tool_install`
+- [`tool_name`](modules/estorides_core.system_app_sources.py.md#systemappresult-tool_name) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`tool_name`](modules/estorides_core.tool_runner.py.md#toolerrorresult-tool_name) attribute of `ToolErrorResult` in `estorides_core.tool_runner`
+- [`tool_name`](modules/estorides_core.tool_runner.py.md#toolresult-tool_name) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`TOOL_PARSER_NAMES`](modules/estorides_core.system_app_sources.py.md#tool_parser_names) constant in `estorides_core.system_app_sources`
+- [`TOOL_RECIPES_DIR`](modules/estorides_core.config.py.md#tool_recipes_dir) constant in `estorides_core.config`
+- [`TOOL_TIMEOUT`](modules/estorides_core.config.py.md#tool_timeout) constant in `estorides_core.config`
+- [`toolBinary`](modules/static.js.estorides.js.md#toolbinary) function in `static/js/estorides.js`
+- [`ToolError`](modules/estorides_core.tool_runner.py.md#toolerror) exception in `estorides_core.tool_runner`
+- [`ToolErrorResult`](modules/estorides_core.tool_runner.py.md#toolerrorresult) class in `estorides_core.tool_runner`
+- [`ToolInjectionError`](modules/estorides_core.tool_runner.py.md#toolinjectionerror) exception in `estorides_core.tool_runner`
+- [`ToolNotAllowedError`](modules/estorides_core.tool_runner.py.md#toolnotallowederror) exception in `estorides_core.tool_runner`
+- [`ToolNotFoundError`](modules/estorides_core.tool_runner.py.md#toolnotfounderror) exception in `estorides_core.tool_runner`
+- [`ToolResult`](modules/estorides_core.tool_runner.py.md#toolresult) class in `estorides_core.tool_runner`
+- [`TOOLS_DIR`](modules/estorides_core.config.py.md#tools_dir) constant in `estorides_core.config`
+- [`ToolStatus`](modules/estorides_core.tool_install.py.md#toolstatus) class in `estorides_core.tool_install`
+- [`ToolTimeoutError`](modules/estorides_core.tool_runner.py.md#tooltimeouterror) exception in `estorides_core.tool_runner`
+- [`top_changed`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics-top_changed) method of `FusionAnalytics` in `estorides_core.fusion_analytics`
+- [`top_entities`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-top_entities) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
+- [`top_observations`](modules/estorides_core.recon_fusion.py.md#groupedentity-top_observations) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`topN`](modules/static.js.graph_force.js.md#topn) function in `static/js/graph_force.js`
+- [`TOR_DEFAULT_PROXY`](modules/estorides_cli.py.md#tor_default_proxy) constant in `estorides_cli`
+- [`total`](modules/estorides_core.change_detection.py.md#changesummary-total) attribute of `ChangeSummary` in `estorides_core.change_detection`
+- [`total`](modules/estorides_core.search_telemetry.py.md#progressview-total) attribute of `ProgressView` in `estorides_core.search_telemetry`
+- [`total_assets`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult-total_assets) attribute of `CloudAssetDiscoveryResult` in `estorides_core.cloud_asset_discovery`
+- [`total_breaches`](modules/estorides_core.people_intel.py.md#breachcontext-total_breaches) attribute of `BreachContext` in `estorides_core.people_intel`
+- [`total_domains_on_infra`](modules/estorides_core.supply_chain.py.md#sharedinfra-total_domains_on_infra) attribute of `SharedInfra` in `estorides_core.supply_chain`
+- [`total_employees_found`](modules/estorides_core.people_intel.py.md#peopleintelresult-total_employees_found) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`total_entities`](modules/estorides_core.recon_fusion.py.md#fusionresult-total_entities) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`total_findings`](modules/estorides_core.code_exposure.py.md#codeexposureresult-total_findings) attribute of `CodeExposureResult` in `estorides_core.code_exposure`
+- [`total_new_certs`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-total_new_certs) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`total_observations`](modules/estorides_core.recon_fusion.py.md#fusionresult-total_observations) attribute of `FusionResult` in `estorides_core.recon_fusion`
+- [`total_sources`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-total_sources) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`total_subdomains`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-total_subdomains) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
+- [`total_third_parties`](modules/estorides_core.supply_chain.py.md#supplychainresult-total_third_parties) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
+- [`total_vulnerabilities`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-total_vulnerabilities) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+- [`tr`](modules/static.js.estorides.js.md#tr) function in `static/js/estorides.js`
+- [`tr`](modules/static.js.estorides.js.md#tr) function in `static/js/estorides.js`
+- [`traceSmooth`](modules/static.js.graph_force.js.md#tracesmooth) function in `static/js/graph_force.js`
+- [`Transform`](modules/estorides_core.transforms.py.md#transform) class in `estorides_core.transforms`
+- [`TransformRegistry`](modules/estorides_core.transforms.py.md#transformregistry) class in `estorides_core.transforms`
+- [`truncate`](modules/static.js.estorides.js.md#truncate) function in `static/js/estorides.js`
+- [`truncated`](modules/estorides_core.system_app_sources.py.md#systemappresult-truncated) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
+- [`truncated`](modules/estorides_core.tool_runner.py.md#toolresult-truncated) attribute of `ToolResult` in `estorides_core.tool_runner`
+- [`tt`](modules/static.js.graph_bundle.js.md#tt) function in `static/js/graph_bundle.js`
+- [`ttl_seconds`](modules/estorides_core.config.py.md#cacheconfig-ttl_seconds) attribute of `CacheConfig` in `estorides_core.config`
+- [`twitter`](modules/estorides_core.people_intel.py.md#employee-twitter) attribute of `Employee` in `estorides_core.people_intel`
+- [`type`](modules/estorides_core.entity_resolution.py.md#canonicalentity-type) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`type`](modules/estorides_core.code_exposure.py.md#codefinding-type) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`type`](modules/estorides_core.entity_extraction.py.md#entity-type) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`type`](modules/estorides_core.hypothesis_engine.py.md#entityref-type) attribute of `EntityRef` in `estorides_core.hypothesis_engine`
+- [`type`](modules/estorides_core.recon_fusion.py.md#groupedentity-type) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`type`](modules/estorides_core.hypothesis_engine.py.md#hypothesis-type) attribute of `Hypothesis` in `estorides_core.hypothesis_engine`
+- [`type`](modules/estorides_core.observation_models.py.md#observedentity-type) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`type`](modules/estorides_core.pivot_engine.py.md#pivotevent-type) attribute of `PivotEvent` in `estorides_core.pivot_engine`
+- [`type`](modules/estorides_core.validation.py.md#query-type) attribute of `Query` in `estorides_core.validation`
+- [`type`](modules/estorides_core.supply_chain.py.md#relationship-type) attribute of `Relationship` in `estorides_core.supply_chain`
+- [`type`](modules/estorides_core.change_detection.py.md#snapshotentity-type) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`TYPE_MAP`](modules/estorides_export.misp.py.md#type_map) constant in `estorides_export.misp`
+- [`type_weights`](modules/estorides_core.config.py.md#pivotpolicyconfig-type_weights) attribute of `PivotPolicyConfig` in `estorides_core.config`
+
+<a id="u"></a>
+
+## U
+
+- [`UNASSIGNED_KEY`](modules/estorides_core.graph_bundle.py.md#unassigned_key) constant in `estorides_core.graph_bundle`
+- [`undoGraph`](modules/static.js.estorides.js.md#undograph) function in `static/js/estorides.js`
+- [`unique_entity_count`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-unique_entity_count) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
+- [`unit_id`](modules/estorides_core.graph_rag_search.py.md#ragtextunit-unit_id) attribute of `RagTextUnit` in `estorides_core.graph_rag_search`
+- [`unknown`](modules/estorides_core.scope.py.md#scopereport-unknown) attribute of `ScopeReport` in `estorides_core.scope`
+- [`UNKNOWN`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus-unknown) attribute of `SourceHealthStatus` in `estorides_core.source_health_monitoring`
+- [`UNKNOWN`](modules/estorides_core.scope.py.md#unknown) constant in `estorides_core.scope`
+- [`unknown_count`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary-unknown_count) attribute of `DashboardSummary` in `estorides_core.source_health_monitoring`
+- [`unknown_sources`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard-unknown_sources) attribute of `HealthDashboard` in `estorides_core.source_health_monitoring`
+- [`UnknownPhaseError`](modules/estorides_core.search_telemetry.py.md#unknownphaseerror) exception in `estorides_core.search_telemetry`
+- [`unsubscribe`](modules/estorides_core.event_bus.py.md#eventbus-unsubscribe) method of `EventBus` in `estorides_core.event_bus`
+- [`update_watch`](modules/estorides_core.monitoring.py.md#watchstore-update_watch) method of `WatchStore` in `estorides_core.monitoring`
+- [`updateQueryChip`](modules/static.js.estorides.js.md#updatequerychip) function in `static/js/estorides.js`
+- [`updateYamlPreview`](modules/static.js.source_manager.js.md#updateyamlpreview) function in `static/js/source_manager.js`
+- [`upsert`](modules/estorides_core.entity_store.py.md#entitystore-upsert) method of `EntityStore` in `estorides_core.entity_store`
+- [`upsert_entity`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-upsert_entity) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`upsert_relationship`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-upsert_relationship) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
+- [`url`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset-url) attribute of `CloudAsset` in `estorides_core.cloud_asset_discovery`
+- [`url`](modules/estorides_core.observation_models.py.md#observationmeta-url) attribute of `ObservationMeta` in `estorides_core.observation_models`
+- [`USER_AGENT`](modules/estorides_core.config.py.md#user_agent) constant in `estorides_core.config`
+- [`username`](modules/estorides_core.vuln_correlation.py.md#defaultcred-username) attribute of `DefaultCred` in `estorides_core.vuln_correlation`
+- [`username`](modules/estorides_core.socmint.py.md#profilematch-username) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`username`](modules/estorides_core.socmint.py.md#socialmediaprofile-username) attribute of `SocialMediaProfile` in `estorides_core.socmint`
+- [`USGS_URL`](modules/estorides_core.feeds.py.md#earthquakesfeed-usgs_url) attribute of `EarthquakesFeed` in `estorides_core.feeds`
+
+<a id="v"></a>
+
+## V
+
+- [`V`](modules/estorides_core.job_registry.py.md#v) constant in `estorides_core.job_registry`
+- [`v`](modules/static.js.graph_bundle.js.md#v) function in `static/js/graph_bundle.js`
+- [`VALID_CONTACTS`](modules/estorides_core.lan_policy.py.md#valid_contacts) constant in `estorides_core.lan_policy`
+- [`VALID_KINDS`](modules/estorides_core.system_app_sources.py.md#valid_kinds) constant in `estorides_core.system_app_sources`
+- [`VALID_OUTPUT_FORMATS`](modules/estorides_core.system_app_sources.py.md#valid_output_formats) constant in `estorides_core.system_app_sources`
+- [`validate_aws_key`](modules/estorides_core.code_exposure.py.md#validate_aws_key) function in `estorides_core.code_exposure`
+- [`validate_query`](modules/estorides_core.validation.py.md#validate_query) function in `estorides_core.validation`
+- [`validCoord`](modules/static.js.estorides.js.md#validcoord) function in `static/js/estorides.js`
+- [`value`](modules/estorides_core.entity_resolution.py.md#canonicalentity-value) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
+- [`value`](modules/estorides_core.entity_extraction.py.md#entity-value) attribute of `Entity` in `estorides_core.entity_extraction`
+- [`value`](modules/estorides_core.hypothesis_engine.py.md#entityref-value) attribute of `EntityRef` in `estorides_core.hypothesis_engine`
+- [`value`](modules/estorides_core.hypothesis_engine.py.md#evidence-value) attribute of `Evidence` in `estorides_core.hypothesis_engine`
+- [`value`](modules/estorides_core.recon_fusion.py.md#groupedentity-value) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
+- [`value`](modules/estorides_core.observation_models.py.md#observedentity-value) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`value`](modules/estorides_core.pivot_engine.py.md#pivotlead-value) attribute of `PivotLead` in `estorides_core.pivot_engine`
+- [`value`](modules/estorides_core.change_detection.py.md#snapshotentity-value) attribute of `SnapshotEntity` in `estorides_core.change_detection`
+- [`values`](modules/estorides_core.job_registry.py.md#boundedjobregistry-values) method of `BoundedJobRegistry` in `estorides_core.job_registry`
+- [`verified`](modules/estorides_core.code_exposure.py.md#codefinding-verified) attribute of `CodeFinding` in `estorides_core.code_exposure`
+- [`verified`](modules/estorides_core.socmint.py.md#platforminfo-verified) attribute of `PlatformInfo` in `estorides_core.socmint`
+- [`verified`](modules/estorides_core.socmint.py.md#profilematch-verified) attribute of `ProfileMatch` in `estorides_core.socmint`
+- [`version`](modules/estorides_core.tech_fingerprint.py.md#tech-version) attribute of `Tech` in `estorides_core.tech_fingerprint`
+- [`VERSION_RE`](modules/estorides_core.vuln_correlation.py.md#version_re) constant in `estorides_core.vuln_correlation`
+- [`visiblePayload`](modules/static.js.graph_force.js.md#visiblepayload) function in `static/js/graph_force.js`
+- [`VT_API_BASE`](modules/estorides_core.intel_resolver.py.md#vt_api_base) constant in `estorides_core.intel_resolver`
+- [`VT_KEY_ENV`](modules/estorides_core.intel_resolver.py.md#vt_key_env) constant in `estorides_core.intel_resolver`
+- [`VULN_DB`](modules/estorides_core.vuln_correlation.py.md#vuln_db) constant in `estorides_core.vuln_correlation`
+- [`VulnCorrelationResult`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult) class in `estorides_core.vuln_correlation`
+- [`VulnEntry`](modules/estorides_core.vuln_correlation.py.md#vulnentry) class in `estorides_core.vuln_correlation`
+- [`vulnerabilities`](modules/estorides_core.active_recon.py.md#sqlmapresult-vulnerabilities) attribute of `SqlmapResult` in `estorides_core.active_recon`
+- [`vulnerabilities`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult-vulnerabilities) attribute of `VulnCorrelationResult` in `estorides_core.vuln_correlation`
+
+<a id="w"></a>
+
+## W
+
+- [`WatchScheduler`](modules/estorides_core.monitoring.py.md#watchscheduler) class in `estorides_core.monitoring`
+- [`WatchStore`](modules/estorides_core.monitoring.py.md#watchstore) class in `estorides_core.monitoring`
+- [`WatchTarget`](modules/estorides_core.monitoring.py.md#watchtarget) class in `estorides_core.monitoring`
+- [`WEB`](modules/estorides_core.config.py.md#web) constant in `estorides_core.config`
+- [`WebConfig`](modules/estorides_core.config.py.md#webconfig) class in `estorides_core.config`
+- [`WebSecurityConfig`](modules/estorides_core.web_security.py.md#websecurityconfig) class in `estorides_core.web_security`
+- [`weight`](modules/estorides_core.hypothesis_engine.py.md#evidence-weight) attribute of `Evidence` in `estorides_core.hypothesis_engine`
+- [`weight`](modules/estorides_core.graph_rag_search.py.md#ragrelation-weight) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`WIKIDATA_ENDPOINT`](modules/estorides_core.intel_resolver.py.md#wikidata_endpoint) constant in `estorides_core.intel_resolver`
+- [`WIKIDATA_ENDPOINT`](modules/estorides_core.ontology.py.md#wikidata_endpoint) constant in `estorides_core.ontology`
+- [`WIKIDATA_LRU_MAX`](modules/estorides_core.ontology.py.md#wikidata_lru_max) constant in `estorides_core.ontology`
+- [`WIKIDATA_TTL_SECONDS`](modules/estorides_core.ontology.py.md#wikidata_ttl_seconds) constant in `estorides_core.ontology`
+- [`WIKIDATA_UA`](modules/estorides_core.intel_resolver.py.md#wikidata_ua) constant in `estorides_core.intel_resolver`
+- [`WIKIDATA_UA`](modules/estorides_core.ontology.py.md#wikidata_ua) constant in `estorides_core.ontology`
+- [`WikidataCache`](modules/estorides_core.ontology.py.md#wikidatacache) class in `estorides_core.ontology`
+- [`WildcardRule`](modules/estorides_core.scope.py.md#wildcardrule) class in `estorides_core.scope`
+- [`wireToolbar`](modules/static.js.graph_force.js.md#wiretoolbar) function in `static/js/graph_force.js`
+- [`word_count`](modules/estorides_export.recon_report.py.md#reportresult-word_count) attribute of `ReportResult` in `estorides_export.recon_report`
+- [`write_bundle`](modules/estorides_core.lan_bundle.py.md#write_bundle) function in `estorides_core.lan_bundle`
+- [`write_flat_lists`](modules/estorides_core.scope.py.md#write_flat_lists) function in `estorides_core.scope`
+- [`write_source_file`](modules/estorides_core.source_loader.py.md#sourceregistry-write_source_file) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`writeForm`](modules/static.js.source_manager.js.md#writeform) function in `static/js/source_manager.js`
+- [`writeHash`](modules/static.js.graph_bundle.js.md#writehash) function in `static/js/graph_bundle.js`
+- [`writeHash`](modules/static.js.graph_force.js.md#writehash) function in `static/js/graph_force.js`

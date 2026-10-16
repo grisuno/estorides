@@ -1,5 +1,10 @@
 # Subsystem: properties
 
+## tests/properties/conftest.py
+- Doc: Directory guard for property-based (hypothesis) tests.
+- Layer: testing
+- Language: py
+
 ## tests/properties/test_change_detection_properties.py
 - Doc: Property-based invariants for estorides_core.change_detection.
 - Layer: testing

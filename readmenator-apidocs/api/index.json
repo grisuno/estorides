@@ -1,0 +1,1119 @@
+{
+ "schema_version": 1,
+ "format": "jsonl",
+ "meta": {
+  "modules": 101,
+  "entities": 2312,
+  "languages": {
+   "js": 4,
+   "py": 96,
+   "sh": 1
+  },
+  "kinds": {
+   "attribute": 799,
+   "class": 167,
+   "classmethod": 5,
+   "constant": 242,
+   "constructor": 32,
+   "enum": 5,
+   "exception": 11,
+   "function": 665,
+   "method": 266,
+   "module": 101,
+   "property": 13,
+   "protocol": 4,
+   "staticmethod": 2
+  },
+  "truncated": false,
+  "skipped_files": 90,
+  "privacy_mode": false
+ },
+ "coverage": {
+  "overall": {
+   "documented": 585,
+   "total": 1271,
+   "percent": 46.0
+  },
+  "by_kind": {
+   "class": {
+    "documented": 116,
+    "total": 167,
+    "percent": 69.5
+   },
+   "classmethod": {
+    "documented": 1,
+    "total": 5,
+    "percent": 20.0
+   },
+   "constructor": {
+    "documented": 1,
+    "total": 32,
+    "percent": 3.1
+   },
+   "enum": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "exception": {
+    "documented": 5,
+    "total": 11,
+    "percent": 45.5
+   },
+   "function": {
+    "documented": 255,
+    "total": 665,
+    "percent": 38.3
+   },
+   "method": {
+    "documented": 113,
+    "total": 266,
+    "percent": 42.5
+   },
+   "module": {
+    "documented": 79,
+    "total": 101,
+    "percent": 78.2
+   },
+   "property": {
+    "documented": 5,
+    "total": 13,
+    "percent": 38.5
+   },
+   "protocol": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "staticmethod": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   }
+  },
+  "by_module": {
+   ".scratchpad/gb_shots.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_bridge.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_click.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_data.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_debug.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_dom.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_func.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_raw.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_shots.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_step.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   ".scratchpad/gfv2_time.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "app.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "estorides_cli.py": {
+    "documented": 9,
+    "total": 25,
+    "percent": 36.0
+   },
+   "estorides_core/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "estorides_core/active_recon.py": {
+    "documented": 0,
+    "total": 21,
+    "percent": 0.0
+   },
+   "estorides_core/alerter.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "estorides_core/async_client.py": {
+    "documented": 5,
+    "total": 14,
+    "percent": 35.7
+   },
+   "estorides_core/audit.py": {
+    "documented": 4,
+    "total": 11,
+    "percent": 36.4
+   },
+   "estorides_core/case_crypto.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "estorides_core/cases.py": {
+    "documented": 11,
+    "total": 17,
+    "percent": 64.7
+   },
+   "estorides_core/change_detection.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "estorides_core/cloud_asset_discovery.py": {
+    "documented": 0,
+    "total": 8,
+    "percent": 0.0
+   },
+   "estorides_core/code_exposure.py": {
+    "documented": 0,
+    "total": 10,
+    "percent": 0.0
+   },
+   "estorides_core/config.py": {
+    "documented": 23,
+    "total": 23,
+    "percent": 100.0
+   },
+   "estorides_core/discoverer.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "estorides_core/entity_extraction.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "estorides_core/entity_resolution.py": {
+    "documented": 15,
+    "total": 19,
+    "percent": 78.9
+   },
+   "estorides_core/entity_store.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "estorides_core/event_bus.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "estorides_core/feeds.py": {
+    "documented": 10,
+    "total": 13,
+    "percent": 76.9
+   },
+   "estorides_core/fusion_analytics.py": {
+    "documented": 2,
+    "total": 11,
+    "percent": 18.2
+   },
+   "estorides_core/fusion_store.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "estorides_core/graph_bundle.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "estorides_core/graph_force.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "estorides_core/graph_kuzu.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "estorides_core/graph_rag_search.py": {
+    "documented": 12,
+    "total": 26,
+    "percent": 46.2
+   },
+   "estorides_core/hypothesis_engine.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "estorides_core/ids.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "estorides_core/intel_resolver.py": {
+    "documented": 2,
+    "total": 4,
+    "percent": 50.0
+   },
+   "estorides_core/job_registry.py": {
+    "documented": 6,
+    "total": 9,
+    "percent": 66.7
+   },
+   "estorides_core/knowledge_graph.py": {
+    "documented": 6,
+    "total": 15,
+    "percent": 40.0
+   },
+   "estorides_core/lan_bundle.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "estorides_core/lan_inventory.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "estorides_core/lan_policy.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "estorides_core/lan_runner.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "estorides_core/lan_scope.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "estorides_core/lan_web.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "estorides_core/mitre_attack.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "estorides_core/monitoring.py": {
+    "documented": 10,
+    "total": 24,
+    "percent": 41.7
+   },
+   "estorides_core/observation_models.py": {
+    "documented": 5,
+    "total": 9,
+    "percent": 55.6
+   },
+   "estorides_core/ontology.py": {
+    "documented": 8,
+    "total": 19,
+    "percent": 42.1
+   },
+   "estorides_core/openapi.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "estorides_core/ops_observability.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "estorides_core/orchestrator.py": {
+    "documented": 3,
+    "total": 5,
+    "percent": 60.0
+   },
+   "estorides_core/osiris_sources.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "estorides_core/pagination.py": {
+    "documented": 5,
+    "total": 8,
+    "percent": 62.5
+   },
+   "estorides_core/parsers.py": {
+    "documented": 22,
+    "total": 59,
+    "percent": 37.3
+   },
+   "estorides_core/pdns_monitor.py": {
+    "documented": 0,
+    "total": 12,
+    "percent": 0.0
+   },
+   "estorides_core/people_intel.py": {
+    "documented": 0,
+    "total": 12,
+    "percent": 0.0
+   },
+   "estorides_core/pivot_engine.py": {
+    "documented": 14,
+    "total": 20,
+    "percent": 70.0
+   },
+   "estorides_core/recon_fusion.py": {
+    "documented": 7,
+    "total": 10,
+    "percent": 70.0
+   },
+   "estorides_core/recon_pipeline.py": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "estorides_core/relationship_inference.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "estorides_core/reliability_scoring.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "estorides_core/scope.py": {
+    "documented": 30,
+    "total": 34,
+    "percent": 88.2
+   },
+   "estorides_core/search_telemetry.py": {
+    "documented": 19,
+    "total": 20,
+    "percent": 95.0
+   },
+   "estorides_core/socmint.py": {
+    "documented": 8,
+    "total": 11,
+    "percent": 72.7
+   },
+   "estorides_core/source_health_monitoring.py": {
+    "documented": 9,
+    "total": 11,
+    "percent": 81.8
+   },
+   "estorides_core/source_loader.py": {
+    "documented": 7,
+    "total": 15,
+    "percent": 46.7
+   },
+   "estorides_core/sqlite_store.py": {
+    "documented": 3,
+    "total": 6,
+    "percent": 50.0
+   },
+   "estorides_core/ssrf_guard.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "estorides_core/supply_chain.py": {
+    "documented": 0,
+    "total": 14,
+    "percent": 0.0
+   },
+   "estorides_core/system_app_sources.py": {
+    "documented": 10,
+    "total": 27,
+    "percent": 37.0
+   },
+   "estorides_core/tech_fingerprint.py": {
+    "documented": 0,
+    "total": 6,
+    "percent": 0.0
+   },
+   "estorides_core/tool_install.py": {
+    "documented": 13,
+    "total": 17,
+    "percent": 76.5
+   },
+   "estorides_core/tool_runner.py": {
+    "documented": 0,
+    "total": 12,
+    "percent": 0.0
+   },
+   "estorides_core/transforms.py": {
+    "documented": 5,
+    "total": 10,
+    "percent": 50.0
+   },
+   "estorides_core/transliteration.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "estorides_core/validation.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "estorides_core/vuln_correlation.py": {
+    "documented": 0,
+    "total": 10,
+    "percent": 0.0
+   },
+   "estorides_core/web_security.py": {
+    "documented": 13,
+    "total": 16,
+    "percent": 81.2
+   },
+   "estorides_export/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "estorides_export/encryption.py": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   },
+   "estorides_export/misp.py": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "estorides_export/recon_report.py": {
+    "documented": 0,
+    "total": 11,
+    "percent": 0.0
+   },
+   "estorides_export/report.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "estorides_export/stix.py": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "estorides_llm/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "estorides_llm/intelligence_prompts.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "estorides_llm/manager.py": {
+    "documented": 10,
+    "total": 18,
+    "percent": 55.6
+   },
+   "estorides_web.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "estorides_web_tools.py": {
+    "documented": 1,
+    "total": 5,
+    "percent": 20.0
+   },
+   "install.sh": {
+    "documented": 2,
+    "total": 3,
+    "percent": 66.7
+   },
+   "static/js/estorides.js": {
+    "documented": 45,
+    "total": 178,
+    "percent": 25.3
+   },
+   "static/js/graph_bundle.js": {
+    "documented": 1,
+    "total": 67,
+    "percent": 1.5
+   },
+   "static/js/graph_force.js": {
+    "documented": 9,
+    "total": 116,
+    "percent": 7.8
+   },
+   "static/js/source_manager.js": {
+    "documented": 15,
+    "total": 20,
+    "percent": 75.0
+   },
+   "tools/split_sources.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "tools/sync_docs.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "web.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "wsgi.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   }
+  }
+ },
+ "modules": [
+  {
+   "uid": ".scratchpad/gb_shots.py",
+   "path": "modules/scratchpad.gb_shots.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_bridge.py",
+   "path": "modules/scratchpad.gfv2_bridge.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_click.py",
+   "path": "modules/scratchpad.gfv2_click.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_data.py",
+   "path": "modules/scratchpad.gfv2_data.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_debug.py",
+   "path": "modules/scratchpad.gfv2_debug.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_dom.py",
+   "path": "modules/scratchpad.gfv2_dom.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_func.py",
+   "path": "modules/scratchpad.gfv2_func.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_raw.py",
+   "path": "modules/scratchpad.gfv2_raw.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_shots.py",
+   "path": "modules/scratchpad.gfv2_shots.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_step.py",
+   "path": "modules/scratchpad.gfv2_step.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": ".scratchpad/gfv2_time.py",
+   "path": "modules/scratchpad.gfv2_time.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "app.py",
+   "path": "modules/app.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "estorides_cli.py",
+   "path": "modules/estorides_cli.py.jsonl",
+   "entities": 26
+  },
+  {
+   "uid": "estorides_core/__init__.py",
+   "path": "modules/estorides_core.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "estorides_core/active_recon.py",
+   "path": "modules/estorides_core.active_recon.py.jsonl",
+   "entities": 62
+  },
+  {
+   "uid": "estorides_core/alerter.py",
+   "path": "modules/estorides_core.alerter.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_core/async_client.py",
+   "path": "modules/estorides_core.async_client.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "estorides_core/audit.py",
+   "path": "modules/estorides_core.audit.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "estorides_core/case_crypto.py",
+   "path": "modules/estorides_core.case_crypto.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "estorides_core/cases.py",
+   "path": "modules/estorides_core.cases.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "estorides_core/change_detection.py",
+   "path": "modules/estorides_core.change_detection.py.jsonl",
+   "entities": 58
+  },
+  {
+   "uid": "estorides_core/cloud_asset_discovery.py",
+   "path": "modules/estorides_core.cloud_asset_discovery.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "estorides_core/code_exposure.py",
+   "path": "modules/estorides_core.code_exposure.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "estorides_core/config.py",
+   "path": "modules/estorides_core.config.py.jsonl",
+   "entities": 149
+  },
+  {
+   "uid": "estorides_core/discoverer.py",
+   "path": "modules/estorides_core.discoverer.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "estorides_core/entity_extraction.py",
+   "path": "modules/estorides_core.entity_extraction.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "estorides_core/entity_resolution.py",
+   "path": "modules/estorides_core.entity_resolution.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "estorides_core/entity_store.py",
+   "path": "modules/estorides_core.entity_store.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_core/event_bus.py",
+   "path": "modules/estorides_core.event_bus.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "estorides_core/feeds.py",
+   "path": "modules/estorides_core.feeds.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "estorides_core/fusion_analytics.py",
+   "path": "modules/estorides_core.fusion_analytics.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "estorides_core/fusion_store.py",
+   "path": "modules/estorides_core.fusion_store.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "estorides_core/graph_bundle.py",
+   "path": "modules/estorides_core.graph_bundle.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "estorides_core/graph_force.py",
+   "path": "modules/estorides_core.graph_force.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "estorides_core/graph_kuzu.py",
+   "path": "modules/estorides_core.graph_kuzu.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "estorides_core/graph_rag_search.py",
+   "path": "modules/estorides_core.graph_rag_search.py.jsonl",
+   "entities": 94
+  },
+  {
+   "uid": "estorides_core/hypothesis_engine.py",
+   "path": "modules/estorides_core.hypothesis_engine.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "estorides_core/ids.py",
+   "path": "modules/estorides_core.ids.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "estorides_core/intel_resolver.py",
+   "path": "modules/estorides_core.intel_resolver.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "estorides_core/job_registry.py",
+   "path": "modules/estorides_core.job_registry.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "estorides_core/knowledge_graph.py",
+   "path": "modules/estorides_core.knowledge_graph.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "estorides_core/lan_bundle.py",
+   "path": "modules/estorides_core.lan_bundle.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "estorides_core/lan_inventory.py",
+   "path": "modules/estorides_core.lan_inventory.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "estorides_core/lan_policy.py",
+   "path": "modules/estorides_core.lan_policy.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "estorides_core/lan_runner.py",
+   "path": "modules/estorides_core.lan_runner.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "estorides_core/lan_scope.py",
+   "path": "modules/estorides_core.lan_scope.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_core/lan_web.py",
+   "path": "modules/estorides_core.lan_web.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "estorides_core/mitre_attack.py",
+   "path": "modules/estorides_core.mitre_attack.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "estorides_core/monitoring.py",
+   "path": "modules/estorides_core.monitoring.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "estorides_core/observation_models.py",
+   "path": "modules/estorides_core.observation_models.py.jsonl",
+   "entities": 43
+  },
+  {
+   "uid": "estorides_core/ontology.py",
+   "path": "modules/estorides_core.ontology.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "estorides_core/openapi.py",
+   "path": "modules/estorides_core.openapi.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "estorides_core/ops_observability.py",
+   "path": "modules/estorides_core.ops_observability.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "estorides_core/orchestrator.py",
+   "path": "modules/estorides_core.orchestrator.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "estorides_core/osiris_sources.py",
+   "path": "modules/estorides_core.osiris_sources.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "estorides_core/pagination.py",
+   "path": "modules/estorides_core.pagination.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "estorides_core/parsers.py",
+   "path": "modules/estorides_core.parsers.py.jsonl",
+   "entities": 60
+  },
+  {
+   "uid": "estorides_core/pdns_monitor.py",
+   "path": "modules/estorides_core.pdns_monitor.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "estorides_core/people_intel.py",
+   "path": "modules/estorides_core.people_intel.py.jsonl",
+   "entities": 38
+  },
+  {
+   "uid": "estorides_core/pivot_engine.py",
+   "path": "modules/estorides_core.pivot_engine.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "estorides_core/recon_fusion.py",
+   "path": "modules/estorides_core.recon_fusion.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "estorides_core/recon_pipeline.py",
+   "path": "modules/estorides_core.recon_pipeline.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "estorides_core/relationship_inference.py",
+   "path": "modules/estorides_core.relationship_inference.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_core/reliability_scoring.py",
+   "path": "modules/estorides_core.reliability_scoring.py.jsonl",
+   "entities": 53
+  },
+  {
+   "uid": "estorides_core/scope.py",
+   "path": "modules/estorides_core.scope.py.jsonl",
+   "entities": 45
+  },
+  {
+   "uid": "estorides_core/search_telemetry.py",
+   "path": "modules/estorides_core.search_telemetry.py.jsonl",
+   "entities": 46
+  },
+  {
+   "uid": "estorides_core/socmint.py",
+   "path": "modules/estorides_core.socmint.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "estorides_core/source_health_monitoring.py",
+   "path": "modules/estorides_core.source_health_monitoring.py.jsonl",
+   "entities": 48
+  },
+  {
+   "uid": "estorides_core/source_loader.py",
+   "path": "modules/estorides_core.source_loader.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "estorides_core/sqlite_store.py",
+   "path": "modules/estorides_core.sqlite_store.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_core/ssrf_guard.py",
+   "path": "modules/estorides_core.ssrf_guard.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "estorides_core/supply_chain.py",
+   "path": "modules/estorides_core.supply_chain.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "estorides_core/system_app_sources.py",
+   "path": "modules/estorides_core.system_app_sources.py.jsonl",
+   "entities": 44
+  },
+  {
+   "uid": "estorides_core/tech_fingerprint.py",
+   "path": "modules/estorides_core.tech_fingerprint.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "estorides_core/tool_install.py",
+   "path": "modules/estorides_core.tool_install.py.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "estorides_core/tool_runner.py",
+   "path": "modules/estorides_core.tool_runner.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "estorides_core/transforms.py",
+   "path": "modules/estorides_core.transforms.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "estorides_core/transliteration.py",
+   "path": "modules/estorides_core.transliteration.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "estorides_core/validation.py",
+   "path": "modules/estorides_core.validation.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "estorides_core/vuln_correlation.py",
+   "path": "modules/estorides_core.vuln_correlation.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "estorides_core/web_security.py",
+   "path": "modules/estorides_core.web_security.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "estorides_export/__init__.py",
+   "path": "modules/estorides_export.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "estorides_export/encryption.py",
+   "path": "modules/estorides_export.encryption.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "estorides_export/misp.py",
+   "path": "modules/estorides_export.misp.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "estorides_export/recon_report.py",
+   "path": "modules/estorides_export.recon_report.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "estorides_export/report.py",
+   "path": "modules/estorides_export.report.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "estorides_export/stix.py",
+   "path": "modules/estorides_export.stix.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "estorides_llm/__init__.py",
+   "path": "modules/estorides_llm.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "estorides_llm/intelligence_prompts.py",
+   "path": "modules/estorides_llm.intelligence_prompts.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "estorides_llm/manager.py",
+   "path": "modules/estorides_llm.manager.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "estorides_web.py",
+   "path": "modules/estorides_web.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "estorides_web_tools.py",
+   "path": "modules/estorides_web_tools.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "install.sh",
+   "path": "modules/install.sh.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "static/js/estorides.js",
+   "path": "modules/static.js.estorides.js.jsonl",
+   "entities": 178
+  },
+  {
+   "uid": "static/js/graph_bundle.js",
+   "path": "modules/static.js.graph_bundle.js.jsonl",
+   "entities": 67
+  },
+  {
+   "uid": "static/js/graph_force.js",
+   "path": "modules/static.js.graph_force.js.jsonl",
+   "entities": 116
+  },
+  {
+   "uid": "static/js/source_manager.js",
+   "path": "modules/static.js.source_manager.js.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "tools/split_sources.py",
+   "path": "modules/tools.split_sources.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "tools/sync_docs.py",
+   "path": "modules/tools.sync_docs.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "web.py",
+   "path": "modules/web.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "wsgi.py",
+   "path": "modules/wsgi.py.jsonl",
+   "entities": 1
+  }
+ ],
+ "warnings": {
+  "path": "warnings.jsonl",
+  "total": 668
+ },
+ "usage": [
+  "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",
+  "grep -h '\"qualname\":\"<Owner.method>\"' readmenator-apidocs/api/modules/*.jsonl",
+  "cat readmenator-apidocs/api/modules/<module-slug>.jsonl",
+  "grep -h '\"code\":\"DOC001\"' readmenator-apidocs/api/warnings.jsonl"
+ ]
+}

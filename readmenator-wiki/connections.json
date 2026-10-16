@@ -17,7 +17,7 @@
   },
   {
     "community_a": 4,
-    "community_b": 0,
+    "community_b": 1,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/orchestrator.py.",
     "strength": 0.9,
@@ -25,7 +25,7 @@
   },
   {
     "community_a": 4,
-    "community_b": 6,
+    "community_b": 8,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/validation.py.",
     "strength": 0.9,
@@ -41,22 +41,22 @@
   },
   {
     "community_a": 4,
-    "community_b": 8,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_core/entity_extraction.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 4,
-    "community_b": 1,
+    "community_b": 0,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_cli.py imports estorides_web.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 1,
+    "community_a": 5,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 0,
     "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.",
@@ -64,7 +64,23 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 8,
+    "community_a": 1,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 0,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/job_registry.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 7,
     "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.",
@@ -72,7 +88,7 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 8,
+    "community_a": 7,
     "community_b": 3,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.",
@@ -88,47 +104,15 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
-    "community_b": 2,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 7,
-    "community_b": 2,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 7,
-    "community_b": 8,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 0,
-    "community_b": 8,
+    "community_a": 1,
+    "community_b": 7,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
-    "community_b": 7,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 0,
+    "community_a": 1,
     "community_b": 3,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.",
@@ -136,15 +120,15 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 0,
-    "community_b": 6,
+    "community_a": 1,
+    "community_b": 8,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/system_app_sources.py imports estorides_core/tool_runner.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 6,
+    "community_a": 8,
     "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.",
@@ -152,10 +136,26 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 6,
-    "community_b": 8,
+    "community_a": 8,
+    "community_b": 7,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: estorides_core/tool_runner.py imports estorides_core/entity_extraction.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 7,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_web.py imports estorides_core/entity_extraction.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 0,
+    "community_b": 8,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: estorides_web.py imports estorides_core/validation.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   }

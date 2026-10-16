@@ -86,6 +86,25 @@ class SqliteStore:
             except Exception:  # noqa: S110 - closing an already-closed DB is fine
                 pass
 
+    def __del__(self) -> None:
+        # Safety net: short-lived owners (tests, per-request app fixtures)
+        # routinely drop stores without calling close(). An unclosed
+        # sqlite3 connection emits ResourceWarning at GC time, which pytest
+        # escalates to a failure under `filterwarnings = error` — attributed
+        # to whatever random test triggers the collection (rotating victim).
+        # Best-effort close without the lock: __del__ may run on any thread
+        # during GC, where blocking on a lock can deadlock. Never raise.
+        try:
+            conn = self.__dict__.get("_conn")
+        except Exception:
+            return
+        if conn is None:
+            return
+        try:
+            conn.close()
+        except Exception:  # noqa: S110 - __del__ must never raise
+            pass
+
 
 class DictMixin:
     """`to_dict()` for dataclasses that map 1:1 to a JSON object."""

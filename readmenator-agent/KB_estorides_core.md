@@ -6,7 +6,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Layer: utility
 - Language: py
 - Depends on: `estorides_core/config.py`
-- Imported by: `estorides_web.py`, `tests/test_central_config.py`, `tests/test_graph_bundle.py`, `tests/test_orchestrator_fanout.py`, `tests/test_parsers.py`, `tests/test_retry_policy.py`, `tests/test_security_remediation.py`
+- Imported by: `estorides_web.py`, `tests/test_central_config.py`, `tests/test_graph_bundle.py`, `tests/test_lan_bundle.py`, `tests/test_lan_inventory.py`, `tests/test_lan_policy.py`, `tests/test_lan_runner.py`, `tests/test_lan_scope.py`, `tests/test_lan_web.py`, `tests/test_orchestrator_fanout.py`, `tests/test_parsers.py`, `tests/test_retry_policy.py`, `tests/test_security_remediation.py`
 
 ## estorides_core/active_recon.py
 - Layer: utility
@@ -17,16 +17,16 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `SqlmapResult` (class, line 49) `class SqlmapResult`
   - `DnsreconResult` (class, line 66) `class DnsreconResult`
   - `TheHarvesterResult` (class, line 85) `class TheHarvesterResult`
-  - `_parse_nmap_stdout` (method, line 102) `def _parse_nmap_stdout(stdout, tool_name)`
-  - `_parse_nikto_stdout` (method, line 125) `def _parse_nikto_stdout(stdout, tool_name)`
-  - `_parse_sqlmap_stdout` (method, line 144) `def _parse_sqlmap_stdout(stdout, tool_name)`
-  - `_parse_dnsrecon_stdout` (method, line 171) `def _parse_dnsrecon_stdout(stdout, tool_name)`
-  - `_parse_harvester_stdout` (method, line 188) `def _parse_harvester_stdout(stdout, tool_name)`
-  - `run_nmap` (method, line 213) `def run_nmap(target, args)`
-  - `run_nikto` (method, line 243) `def run_nikto(target, args)`
-  - `run_sqlmap` (method, line 269) `def run_sqlmap(target, args)`
-  - `run_dnsrecon` (method, line 295) `def run_dnsrecon(target, args)`
-  - `run_theHarvester` (method, line 325) `def run_theHarvester(target, args)`
+  - `_parse_nmap_stdout` (function, line 102) `def _parse_nmap_stdout(stdout, tool_name)`
+  - `_parse_nikto_stdout` (function, line 125) `def _parse_nikto_stdout(stdout, tool_name)`
+  - `_parse_sqlmap_stdout` (function, line 144) `def _parse_sqlmap_stdout(stdout, tool_name)`
+  - `_parse_dnsrecon_stdout` (function, line 171) `def _parse_dnsrecon_stdout(stdout, tool_name)`
+  - `_parse_harvester_stdout` (function, line 188) `def _parse_harvester_stdout(stdout, tool_name)`
+  - `run_nmap` (function, line 213) `def run_nmap(target, args)`
+  - `run_nikto` (function, line 243) `def run_nikto(target, args)`
+  - `run_sqlmap` (function, line 269) `def run_sqlmap(target, args)`
+  - `run_dnsrecon` (function, line 295) `def run_dnsrecon(target, args)`
+  - `run_theHarvester` (function, line 325) `def run_theHarvester(target, args)`
   - `to_dict` (method, line 24) `def to_dict(self)`
   - `to_entities` (method, line 27) `def to_entities(self)`
   - `to_dict` (method, line 41) `def to_dict(self)`
@@ -47,14 +47,14 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Symbols:
   - `_check_cooldown` (function, line 42) `def _check_cooldown(channel)`
   - `_NoRedirectHandler` (class, line 53) `class _NoRedirectHandler(HTTPRedirectHandler)`
-  - `_http_post` (method, line 77) `def _http_post(url, payload)`
-  - `_send_slack` (method, line 111) `def _send_slack(webhook_url, title, body, severity)`
-  - `_send_discord` (method, line 126) `def _send_discord(webhook_url, title, body, severity)`
-  - `_send_telegram` (method, line 141) `def _send_telegram(bot_token, chat_id, title, body, severity)`
-  - `_send_email` (method, line 156) `def _send_email(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_addr, title, body, severity)`
-  - `_send_webhook` (method, line 177) `def _send_webhook(webhook_url, title, body, severity)`
+  - `_http_post` (function, line 77) `def _http_post(url, payload)`
+  - `_send_slack` (function, line 111) `def _send_slack(webhook_url, title, body, severity)`
+  - `_send_discord` (function, line 126) `def _send_discord(webhook_url, title, body, severity)`
+  - `_send_telegram` (function, line 141) `def _send_telegram(bot_token, chat_id, title, body, severity)`
+  - `_send_email` (function, line 156) `def _send_email(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_addr, title, body, severity)`
+  - `_send_webhook` (function, line 177) `def _send_webhook(webhook_url, title, body, severity)`
   - `AlertDispatcher` (class, line 194) `class AlertDispatcher`
-  - `_fmt_time` (method, line 314) `def _fmt_time(ts)`
+  - `_fmt_time` (function, line 314) `def _fmt_time(ts)`
   - `redirect_request` (method, line 64) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
   - `send` (method, line 201) `def send(self, channel, title, body, severity)`
   - `send_watch_alert` (method, line 260) `def send_watch_alert(self, watch, entity_count, obs_count, new_entities)`
@@ -73,7 +73,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `CircuitBreaker` (class, line 64) `class CircuitBreaker`
   - `ResponseCache` (class, line 86) `class ResponseCache`
   - `AsyncClient` (class, line 172) `class AsyncClient`
-  - `sync_fetch` (method, line 400) `def sync_fetch(method, url)`
+  - `sync_fetch` (function, line 400) `def sync_fetch(method, url)`
   - `allow` (method, line 69) `def allow(self, host)`
   - `record_success` (method, line 75) `def record_success(self, host)`
   - `record_failure` (method, line 79) `def record_failure(self, host)`
@@ -146,8 +146,8 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `stats` (method, line 447) `def stats(self)`
   - `_row_to_case` (method, line 455) `def _row_to_case(self, row)`
   - `_safe_json` (method, line 481) `def _safe_json(text)`
-  - `_per_type` (method, line 363) `def _per_type(pairs)`
-  - `_serialise` (method, line 369) `def _serialise(pairs)`
+  - `_per_type` (function, line 363) `def _per_type(pairs)`
+  - `_serialise` (function, line 369) `def _serialise(pairs)`
 - Depends on: `estorides_core/case_crypto.py`, `estorides_core/config.py`, `estorides_core/sqlite_store.py`
 - Imported by: `estorides_cli.py`, `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_case_crypto.py`, `tests/test_hardening.py`, `tests/test_obs_fts.py`
 
@@ -164,16 +164,16 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `Change` (class, line 135) `class Change`
   - `ChangeSummary` (class, line 152) `class ChangeSummary`
   - `ChangeReport` (class, line 169) `class ChangeReport`
-  - `_truncate_key` (method, line 177) `def _truncate_key(key)`
-  - `_change_id` (method, line 184) `def _change_id(kind, entity_id, diff_signature)`
-  - `_reliability_floor` (method, line 188) `def _reliability_floor(letter)`
-  - `_filter_sources_by_reliability` (method, line 193) `def _filter_sources_by_reliability(sources, min_reliability)`
-  - `_property_diff` (method, line 206) `def _property_diff(before, after)`
-  - `_edge_set` (method, line 225) `def _edge_set(edges)`
-  - `_union_sources` (method, line 229) `def _union_sources(a, b)`
-  - `_make_change` (method, line 241) `def _make_change(kind, entity_id, entity_type, entity_value, sig)`
-  - `_below_min_reliability` (method, line 274) `def _below_min_reliability(source, min_reliability)`
-  - `detect_changes` (method, line 284) `def detect_changes(snapshot_before, snapshot_after)`
+  - `_truncate_key` (function, line 177) `def _truncate_key(key)`
+  - `_change_id` (function, line 184) `def _change_id(kind, entity_id, diff_signature)`
+  - `_reliability_floor` (function, line 188) `def _reliability_floor(letter)`
+  - `_filter_sources_by_reliability` (function, line 193) `def _filter_sources_by_reliability(sources, min_reliability)`
+  - `_property_diff` (function, line 206) `def _property_diff(before, after)`
+  - `_edge_set` (function, line 225) `def _edge_set(edges)`
+  - `_union_sources` (function, line 229) `def _union_sources(a, b)`
+  - `_make_change` (function, line 241) `def _make_change(kind, entity_id, entity_type, entity_value, sig)`
+  - `_below_min_reliability` (function, line 274) `def _below_min_reliability(source, min_reliability)`
+  - `detect_changes` (function, line 284) `def detect_changes(snapshot_before, snapshot_after)`
   - `__post_init__` (method, line 85) `def __post_init__(self)`
   - `__post_init__` (method, line 116) `def __post_init__(self)`
 - Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
@@ -185,8 +185,8 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Symbols:
   - `CloudAsset` (class, line 34) `class CloudAsset`
   - `CloudAssetDiscoveryResult` (class, line 50) `class CloudAssetDiscoveryResult`
-  - `generate_bucket_names` (method, line 65) `def generate_bucket_names(domain)`
-  - `assess_bucket` (method, line 84) `def assess_bucket(url, method)`
+  - `generate_bucket_names` (function, line 65) `def generate_bucket_names(domain)`
+  - `assess_bucket` (function, line 84) `def assess_bucket(url, method)`
   - `CloudAssetDiscoveryError` (class, line 93) `class CloudAssetDiscoveryError(Exception)`
   - `to_dict` (method, line 45) `def to_dict(self)`
   - `to_dict` (method, line 56) `def to_dict(self)`
@@ -199,10 +199,10 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `CodeFinding` (class, line 47) `class CodeFinding`
   - `SeveritySummary` (class, line 62) `class SeveritySummary`
   - `CodeExposureResult` (class, line 74) `class CodeExposureResult`
-  - `validate_aws_key` (method, line 91) `def validate_aws_key(key)`
-  - `_is_placeholder` (method, line 95) `def _is_placeholder(text)`
-  - `classify_finding` (method, line 99) `def classify_finding(content, source, file_path)`
-  - `analyse_findings` (method, line 189) `def analyse_findings(findings, rate_limited)`
+  - `validate_aws_key` (function, line 91) `def validate_aws_key(key)`
+  - `_is_placeholder` (function, line 95) `def _is_placeholder(text)`
+  - `classify_finding` (function, line 99) `def classify_finding(content, source, file_path)`
+  - `analyse_findings` (function, line 189) `def analyse_findings(findings, rate_limited)`
   - `to_dict` (method, line 57) `def to_dict(self)`
   - `to_dict` (method, line 69) `def to_dict(self)`
   - `to_dict` (method, line 81) `def to_dict(self)`
@@ -226,9 +226,9 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `SchemaConfig` (class, line 493) `class SchemaConfig`
   - `WebConfig` (class, line 520) `class WebConfig`
   - `RetryConfig` (class, line 535) `class RetryConfig`
-  - `_pivot_weight_map` (method, line 550) `def _pivot_weight_map()`
-  - `_csv_frozenset` (method, line 567) `def _csv_frozenset(name, default)`
-  - `retry_delay` (method, line 672) `def retry_delay(attempt)`
+  - `_pivot_weight_map` (function, line 550) `def _pivot_weight_map()`
+  - `_csv_frozenset` (function, line 567) `def _csv_frozenset(name, default)`
+  - `retry_delay` (function, line 672) `def retry_delay(attempt)`
   - `is_active` (method, line 373) `def is_active(self)`
   - `is_pivotable` (method, line 393) `def is_pivotable(self, entity_type)`
   - `lead_score` (method, line 397) `def lead_score(self, entity_type, depth, parent_score)`
@@ -248,12 +248,12 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Symbols:
   - `DiscoverJob` (class, line 50) `class DiscoverJob`
   - `_DiscoverJobSink` (class, line 95) `class _DiscoverJobSink`
-  - `_new_job_id` (method, line 189) `def _new_job_id()`
-  - `create_discover_job` (method, line 194) `def create_discover_job(seed_type, seed_value)`
-  - `start_discover` (method, line 252) `def start_discover(seed_type, seed_value)`
-  - `start_discover_threadsafe` (method, line 285) `def start_discover_threadsafe(loop, seed_type, seed_value)`
-  - `_run_discoverer` (method, line 319) `def _run_discoverer(job)`
-  - `list_jobs` (method, line 349) `def list_jobs(limit)`
+  - `_new_job_id` (function, line 189) `def _new_job_id()`
+  - `create_discover_job` (function, line 194) `def create_discover_job(seed_type, seed_value)`
+  - `start_discover` (function, line 252) `def start_discover(seed_type, seed_value)`
+  - `start_discover_threadsafe` (function, line 285) `def start_discover_threadsafe(loop, seed_type, seed_value)`
+  - `_run_discoverer` (function, line 319) `def _run_discoverer(job)`
+  - `list_jobs` (function, line 349) `def list_jobs(limit)`
   - `stop` (method, line 78) `def stop(self)`
   - `should_stop` (method, line 81) `def should_stop(self)`
   - `push_event` (method, line 84) `def push_event(self, ev)`
@@ -276,26 +276,26 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Language: py
 - Symbols:
   - `Entity` (class, line 22) `class Entity`
-  - `_looks_like_phone` (method, line 49) `def _looks_like_phone(query)`
-  - `normalize_query` (method, line 57) `def normalize_query(query)`
-  - `detect_query_type` (method, line 100) `def detect_query_type(query)`
-  - `_is_valid_domain` (method, line 127) `def _is_valid_domain(candidate)`
-  - `_context` (method, line 140) `def _context(text, start, end, window)`
-  - `extract_from_text` (method, line 146) `def extract_from_text(text, source)`
-  - `_ip_in_textual_context` (method, line 200) `def _ip_in_textual_context(text, idx)`
-  - `extract_from_json` (method, line 210) `def extract_from_json(payload, source)`
-  - `_clean_scalar` (method, line 278) `def _clean_scalar(value)`
-  - `_looks_like_person` (method, line 288) `def _looks_like_person(value)`
-  - `_looks_like_username` (method, line 299) `def _looks_like_username(value)`
-  - `_classify_keyed_value` (method, line 306) `def _classify_keyed_value(key, value)`
-  - `extract_structured` (method, line 330) `def extract_structured(payload, source)`
-  - `merge` (method, line 382) `def merge()`
-  - `_fuzzy_cluster` (method, line 476) `def _fuzzy_cluster(entities)`
+  - `_looks_like_phone` (function, line 49) `def _looks_like_phone(query)`
+  - `normalize_query` (function, line 57) `def normalize_query(query)`
+  - `detect_query_type` (function, line 100) `def detect_query_type(query)`
+  - `_is_valid_domain` (function, line 127) `def _is_valid_domain(candidate)`
+  - `_context` (function, line 140) `def _context(text, start, end, window)`
+  - `extract_from_text` (function, line 146) `def extract_from_text(text, source)`
+  - `_ip_in_textual_context` (function, line 200) `def _ip_in_textual_context(text, idx)`
+  - `extract_from_json` (function, line 210) `def extract_from_json(payload, source)`
+  - `_clean_scalar` (function, line 278) `def _clean_scalar(value)`
+  - `_looks_like_person` (function, line 288) `def _looks_like_person(value)`
+  - `_looks_like_username` (function, line 299) `def _looks_like_username(value)`
+  - `_classify_keyed_value` (function, line 306) `def _classify_keyed_value(key, value)`
+  - `extract_structured` (function, line 330) `def extract_structured(payload, source)`
+  - `merge` (function, line 382) `def merge()`
+  - `_fuzzy_cluster` (function, line 476) `def _fuzzy_cluster(entities)`
   - `to_dict` (method, line 34) `def to_dict(self)`
-  - `visit` (method, line 344) `def visit(node, key)`
-  - `find` (method, line 499) `def find(x, parent)`
-  - `union` (method, line 505) `def union(a, b, parent)`
-  - `norm` (method, line 510) `def norm(v)`
+  - `visit` (function, line 344) `def visit(node, key)`
+  - `find` (function, line 499) `def find(x, parent)`
+  - `union` (function, line 505) `def union(a, b, parent)`
+  - `norm` (function, line 510) `def norm(v)`
 - Depends on: `estorides_core/config.py`
 - Imported by: `estorides_cli.py`, `estorides_core/entity_resolution.py`, `estorides_core/knowledge_graph.py`, `estorides_core/orchestrator.py`, `estorides_core/tool_runner.py`, `estorides_core/validation.py`, `estorides_web.py`, `tests/test_encrypted_export.py`, `tests/test_entity_extraction.py`, `tests/test_entity_resolution.py`, `tests/test_query_intent.py`, `tests/test_socmint.py`, `tests/test_structured_extraction.py`
 
@@ -313,14 +313,14 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `canonical_id` (function, line 246) `def canonical_id(etype, normalized)`
   - `blocking_keys` (function, line 257) `def blocking_keys(etype, normalized, value)`
   - `MatchScore` (class, line 295) `class MatchScore`
-  - `score_pair` (method, line 302) `def score_pair(etype, a_value, b_value, a_norm, b_norm)`
+  - `score_pair` (function, line 302) `def score_pair(etype, a_value, b_value, a_norm, b_norm)`
   - `CanonicalEntity` (class, line 341) `class CanonicalEntity`
   - `SameAsLink` (class, line 401) `class SameAsLink`
   - `ResolutionResult` (class, line 419) `class ResolutionResult`
   - `_UnionFind` (class, line 432) `class _UnionFind`
-  - `_script_of` (method, line 450) `def _script_of(value)`
+  - `_script_of` (function, line 450) `def _script_of(value)`
   - `EntityResolver` (class, line 454) `class EntityResolver`
-  - `resolve_entities` (method, line 727) `def resolve_entities(entities)`
+  - `resolve_entities` (function, line 727) `def resolve_entities(entities)`
   - `to_dict` (method, line 357) `def to_dict(self)`
   - `to_entity` (method, line 373) `def to_entity(self)`
   - `to_dict` (method, line 409) `def to_dict(self)`
@@ -338,7 +338,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `_representative` (method, line 661) `def _representative(members)`
   - `_best_internal_match` (method, line 679) `def _best_internal_match(members)`
   - `_reconcile_with_store` (method, line 705) `def _reconcile_with_store(self, canonicals)`
-  - `rank` (method, line 670) `def rank(rec)`
+  - `rank` (function, line 670) `def rank(rec)`
 - Depends on: `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/ids.py`, `estorides_core/transliteration.py`
 - Imported by: `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`, `estorides_core/orchestrator.py`, `tests/test_entity_resolution.py`
 
@@ -348,7 +348,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Language: py
 - Symbols:
   - `EntityStore` (class, line 60) `class EntityStore(SqliteStore)`
-  - `open_store` (method, line 155) `def open_store(path)`
+  - `open_store` (function, line 155) `def open_store(path)`
   - `lookup` (method, line 66) `def lookup(self, etype, normalized, aliases)`
   - `upsert` (method, line 104) `def upsert(self, entity)`
   - `stats` (method, line 143) `def stats(self)`
@@ -361,7 +361,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Language: py
 - Symbols:
   - `EventBus` (class, line 24) `class EventBus`
-  - `get_bus` (method, line 85) `def get_bus()`
+  - `get_bus` (function, line 85) `def get_bus()`
   - `__init__` (method, line 27) `def __init__(self)`
   - `subscribe` (method, line 31) `def subscribe(self, event, handler)`
   - `unsubscribe` (method, line 41) `def unsubscribe(self, event, handler)`
@@ -381,9 +381,9 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `EarthquakesFeed` (class, line 148) `class EarthquakesFeed(Feed)`
   - `FiresFeed` (class, line 190) `class FiresFeed(Feed)`
   - `NewsFeed` (class, line 251) `class NewsFeed(Feed)`
-  - `list_feeds` (method, line 313) `def list_feeds()`
-  - `get_feed` (method, line 321) `def get_feed(name)`
-  - `fetch_all` (method, line 325) `def fetch_all(bbox, use_cache)`
+  - `list_feeds` (function, line 313) `def list_feeds()`
+  - `get_feed` (function, line 321) `def get_feed(name)`
+  - `fetch_all` (function, line 325) `def fetch_all(bbox, use_cache)`
   - `to_dict` (method, line 69) `def to_dict(self)`
   - `__init__` (method, line 82) `def __init__(self)`
   - `_fetch` (method, line 87) `def _fetch(self)`
@@ -423,7 +423,7 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Symbols:
   - `entity_id` (function, line 177) `def entity_id(etype, value, normalized)`
   - `FusionStore` (class, line 190) `class FusionStore(SqliteStore)`
-  - `open_store` (method, line 723) `def open_store(path)`
+  - `open_store` (function, line 723) `def open_store(path)`
   - `_ensure_entity_stub` (method, line 202) `def _ensure_entity_stub(conn, etype, value)`
   - `register_sources` (method, line 222) `def register_sources(self, sources)`
   - `add_observation` (method, line 259) `def add_observation(self, observation)`
@@ -437,8 +437,8 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
   - `corroborated_properties` (method, line 657) `def corroborated_properties(self, eid, min_sources)`
   - `list_sources` (method, line 674) `def list_sources(self, limit)`
   - `stats` (method, line 692) `def stats(self)`
-  - `normalize_value` (method, line 73) `def normalize_value(etype, value)`
-  - `_count` (method, line 695) `def _count(table)`
+  - `normalize_value` (function, line 73) `def normalize_value(etype, value)`
+  - `_count` (function, line 695) `def _count(table)`
 - Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`, `estorides_core/sqlite_store.py`
 - Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_fusion_analytics.py`, `tests/test_probabilistic_fusion.py`
 
@@ -449,22 +449,22 @@ Pages: [KB_estorides_core.md](KB_estorides_core.md), [KB_estorides_core_p2.md](K
 - Symbols:
   - `BundleLayout` (class, line 37) `class BundleLayout`
   - `SphereBundleLayout` (class, line 49) `class SphereBundleLayout`
-  - `_req_str` (method, line 59) `def _req_str(item, key, default, what)`
-  - `_opt_str` (method, line 68) `def _opt_str(item, key, default)`
-  - `_opt_float` (method, line 73) `def _opt_float(item, key, default)`
-  - `_opt_int` (method, line 84) `def _opt_int(item, key, default)`
-  - `_opt_community` (method, line 94) `def _opt_community(value)`
-  - `_bspline` (method, line 102) `def _bspline(control, samples)`
-  - `_bundle_curves` (method, line 135) `def _bundle_curves(leaves, member_group, hub, root, edges, beta, samples)`
-  - `hierarchical_edge_bundling` (method, line 171) `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)`
-  - `fibonacci_sphere` (method, line 215) `def fibonacci_sphere(count)`
-  - `_unit` (method, line 231) `def _unit(v)`
-  - `_split_caps` (method, line 238) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `spherical_edge_bundling` (method, line 267) `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)`
-  - `_round2` (method, line 316) `def _round2(pt)`
-  - `_round3` (method, line 320) `def _round3(pt)`
-  - `bundle_settings` (method, line 324) `def bundle_settings()`
-  - `build_bundle_payload` (method, line 359) `def build_bundle_payload(force_payload)`
+  - `_req_str` (function, line 59) `def _req_str(item, key, default, what)`
+  - `_opt_str` (function, line 68) `def _opt_str(item, key, default)`
+  - `_opt_float` (function, line 73) `def _opt_float(item, key, default)`
+  - `_opt_int` (function, line 84) `def _opt_int(item, key, default)`
+  - `_opt_community` (function, line 94) `def _opt_community(value)`
+  - `_bspline` (function, line 102) `def _bspline(control, samples)`
+  - `_bundle_curves` (function, line 135) `def _bundle_curves(leaves, member_group, hub, root, edges, beta, samples)`
+  - `hierarchical_edge_bundling` (function, line 171) `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)`
+  - `fibonacci_sphere` (function, line 215) `def fibonacci_sphere(count)`
+  - `_unit` (function, line 231) `def _unit(v)`
+  - `_split_caps` (function, line 238) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `spherical_edge_bundling` (function, line 267) `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)`
+  - `_round2` (function, line 316) `def _round2(pt)`
+  - `_round3` (function, line 320) `def _round3(pt)`
+  - `bundle_settings` (function, line 324) `def bundle_settings()`
+  - `build_bundle_payload` (function, line 359) `def build_bundle_payload(force_payload)`
 - Depends on: `estorides_core/graph_force.py`
 - Imported by: `tests/properties/test_graph_bundle_properties.py`, `tests/test_graph_bundle.py`
 

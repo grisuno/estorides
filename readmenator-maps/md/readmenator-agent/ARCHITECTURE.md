@@ -58,6 +58,7 @@
 - `estorides_core/intel_resolver.py` -> `estorides_core/ssrf_guard.py`
 - `estorides_core/knowledge_graph.py` -> `estorides_core/config.py`
 - `estorides_core/knowledge_graph.py` -> `estorides_core/entity_extraction.py`
+- `estorides_core/lan_runner.py` -> `estorides_core/tool_runner.py`
 - `estorides_core/monitoring.py` -> `estorides_core/config.py`
 - `estorides_core/monitoring.py` -> `estorides_core/sqlite_store.py`
 - `estorides_core/observation_models.py` -> `estorides_core/config.py`
@@ -138,6 +139,7 @@
 - `estorides_web.py` -> `estorides_core/intel_resolver.py`
 - `estorides_web.py` -> `estorides_core/job_registry.py`
 - `estorides_web.py` -> `estorides_core/knowledge_graph.py`
+- `estorides_web.py` -> `estorides_core/lan_web.py`
 - `estorides_web.py` -> `estorides_core/monitoring.py`
 - `estorides_web.py` -> `estorides_core/openapi.py`
 - `estorides_web.py` -> `estorides_core/ops_observability.py`
@@ -156,6 +158,7 @@
 - `estorides_web_tools.py` -> `estorides_core/web_security.py`
 - `estorides_web_tools.py` -> `estorides_web.py`
 - `static/js/estorides.js` -> `estorides_core/discoverer.py`
+- `static/js/estorides.js` -> `estorides_core/scope.py`
 - `static/js/estorides.js` -> `estorides_export/report.py`
 - `tests/properties/test_change_detection_properties.py` -> `estorides_core/change_detection.py`
 - `tests/properties/test_csp_safe_styles_properties.py` -> `estorides_core/web_security.py`
@@ -217,6 +220,14 @@
 - `tests/test_job_registry.py` -> `estorides_core/job_registry.py`
 - `tests/test_keyless_sources.py` -> `estorides_core/orchestrator.py`
 - `tests/test_keyless_sources.py` -> `estorides_core/parsers.py`
+- `tests/test_lan_bundle.py` -> `estorides_core/__init__.py`
+- `tests/test_lan_bundle.py` -> `estorides_core/lan_inventory.py`
+- `tests/test_lan_inventory.py` -> `estorides_core/__init__.py`
+- `tests/test_lan_policy.py` -> `estorides_core/__init__.py`
+- `tests/test_lan_runner.py` -> `estorides_core/__init__.py`
+- `tests/test_lan_runner.py` -> `estorides_core/tool_runner.py`
+- `tests/test_lan_scope.py` -> `estorides_core/__init__.py`
+- `tests/test_lan_web.py` -> `estorides_core/__init__.py`
 - `tests/test_map_basemap.py` -> `estorides_core/web_security.py`
 - `tests/test_monitoring.py` -> `estorides_core/alerter.py`
 - `tests/test_monitoring.py` -> `estorides_core/config.py`
@@ -326,6 +337,12 @@
 - `estorides_core/intel_resolver.py` -> __future__, collections, ipaddress, json, logging, os, re, requests, threading, time, typing
 - `estorides_core/job_registry.py` -> __future__, threading, time, typing
 - `estorides_core/knowledge_graph.py` -> __future__, collections, json, logging, networkx, networkx.algorithms.community, pathlib, time, typing
+- `estorides_core/lan_bundle.py` -> __future__, dataclasses, datetime, json, logging, os, pathlib, re, time, typing, uuid
+- `estorides_core/lan_inventory.py` -> __future__, dataclasses, defusedxml.ElementTree, ipaddress, logging, re, typing
+- `estorides_core/lan_policy.py` -> __future__, dataclasses, envutil, ipaddress, typing
+- `estorides_core/lan_runner.py` -> __future__, collections.abc, dataclasses, logging, shutil, subprocess, typing
+- `estorides_core/lan_scope.py` -> __future__, ipaddress, logging, re, shutil, subprocess, typing
+- `estorides_core/lan_web.py` -> __future__, dataclasses, ipaddress, typing
 - `estorides_core/mitre_attack.py` -> __future__, json, logging, typing
 - `estorides_core/monitoring.py` -> __future__, asyncio, collections.abc, concurrent.futures, dataclasses, json, logging, os, pathlib, sqlite3, threading, time, typing, uuid
 - `estorides_core/observation_models.py` -> __future__, pydantic, typing
@@ -370,6 +387,7 @@
 - `estorides_web.py` -> __future__, asyncio, collections.abc, flask, functools, json, logging, networkx, os, pathlib, queue, shutil, sys, tempfile, threading, time, typing
 - `estorides_web_tools.py` -> __future__, flask, logging, threading, typing
 - `tests/conftest.py` -> __future__, pathlib, sys
+- `tests/properties/conftest.py` -> __future__, hypothesis
 - `tests/properties/test_change_detection_properties.py` -> __future__, hypothesis, pytest, re
 - `tests/properties/test_csp_safe_styles_properties.py` -> __future__, hypothesis, pathlib, re
 - `tests/properties/test_graph_bundle_properties.py` -> __future__, hypothesis, json, math, pytest
@@ -410,6 +428,7 @@
 - `tests/test_ids.py` -> __future__, hashlib
 - `tests/test_job_registry.py` -> __future__, pytest, time
 - `tests/test_keyless_sources.py` -> __future__, pathlib
+- `tests/test_lan_bundle.py` -> json, pathlib, warnings
 - `tests/test_map_basemap.py` -> __future__, pathlib, re
 - `tests/test_monitoring.py` -> __future__, pathlib, pytest, tempfile, time
 - `tests/test_obs_fts.py` -> __future__, importlib, pytest

@@ -1,68 +1,77 @@
 # estorides_export
 
-*Community 7 | 8 files | cohesion 0.45*
+*Community 7 | 15 files | cohesion 0.46*
 
 ## Definition
 
-This community groups 8 file(s) rooted at `estorides_export` with dominant language py (cohesion 0.45). Central symbols: `KnowledgeGraph`, `ReportMetadata`, `ReportResult`, `ReportSection`, `TestCredentialsRedacted`, `TestExecutiveSummaryFindings`, `TestFullReport`, `TestMinimalReport`. Core file: `tests/test_recon_report.py` (19 symbols). Documented purpose: estorides_core.knowledge_graph.
+This community groups 15 file(s) rooted at `estorides_export` with dominant language py (cohesion 0.46). Central symbols: `CanonicalEntity`, `Entity`, `EntityResolver`, `EntityStore`, `KnowledgeGraph`, `MatchScore`, `ReportMetadata`, `ReportResult`. Core file: `tests/test_entity_resolution.py` (68 symbols). Documented purpose: estorides_core.entity_extraction.
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `estorides_core/knowledge_graph.py` | py | utility | 17 | yes |
+| `estorides_core/entity_extraction.py` | py | business_logic | 21 | yes |
+| `estorides_core/entity_resolution.py` | py | business_logic | 35 | yes |
+| `estorides_core/entity_store.py` | py | business_logic | 5 | yes |
+| `estorides_core/knowledge_graph.py` | py | utility | 18 | yes |
+| `estorides_core/transliteration.py` | py | utility | 4 | yes |
 | `estorides_export/__init__.py` | py | utility | 0 | yes |
 | `estorides_export/encryption.py` | py | utility | 4 | yes |
 | `estorides_export/misp.py` | py | utility | 3 | yes |
 | `estorides_export/recon_report.py` | py | utility | 11 | no |
 | `estorides_export/stix.py` | py | utility | 4 | yes |
 | `tests/test_encrypted_export.py` | py | testing | 9 | yes |
+| `tests/test_entity_extraction.py` | py | testing | 7 | yes |
+| `tests/test_entity_resolution.py` | py | testing | 68 | yes |
+| `tests/test_query_intent.py` | py | testing | 6 | yes |
 | `tests/test_recon_report.py` | py | testing | 19 | yes |
 
 ## Key Symbols
 
-- `_node_sources` (function, `estorides_core/knowledge_graph.py:73`) `def _node_sources(node)` - Read the distinct source set off a node, tolerating GraphML's
-- `KnowledgeGraph` (class, `estorides_core/knowledge_graph.py:90`) `class KnowledgeGraph`
-- `__init__` (method, `estorides_core/knowledge_graph.py:91`) `def __init__(self, name)`
-- `add_entity` (method, `estorides_core/knowledge_graph.py:97`) `def add_entity(self, entity)` - Insert an entity. Returns the node id used.
-- `add_observation` (method, `estorides_core/knowledge_graph.py:127`) `def add_observation(self, source, entities)` - Add every entity + every co-occurrence edge within the same response.
-- `add_relationship` (method, `estorides_core/knowledge_graph.py:142`) `def add_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
-- `export_graphml` (method, `estorides_core/knowledge_graph.py:164`) `def export_graphml(self, path)`
-- `export_json` (method, `estorides_core/knowledge_graph.py:183`) `def export_json(self)`
-- `summary` (method, `estorides_core/knowledge_graph.py:197`) `def summary(self)`
-- `top_entities` (method, `estorides_core/knowledge_graph.py:215`) `def top_entities(self, n, by)`
-- `communities` (method, `estorides_core/knowledge_graph.py:235`) `def communities(self, nodes)` - Partition entity nodes into communities (clusters).
-- `intel_level` (method, `estorides_core/knowledge_graph.py:266`) `def intel_level(self, node_id, bridge_nodes)` - Classify a node into the intelligence pipeline tier.
-- `ego_subgraph` (method, `estorides_core/knowledge_graph.py:311`) `def ego_subgraph(self, node_id, radius)`
-- `neighbours` (method, `estorides_core/knowledge_graph.py:322`) `def neighbours(self, node_id, relation)`
-- `_node_id` (method, `estorides_core/knowledge_graph.py:338`) `def _node_id(self, kind, value)`
-- `_source_node` (method, `estorides_core/knowledge_graph.py:341`) `def _source_node(self, source)`
-- `_node_color` (method, `estorides_core/knowledge_graph.py:351`) `def _node_color(self, ent_type)`
-- `_have_age` (function, `estorides_export/encryption.py:47`) `def _have_age()`
-- `encrypt_file` (function, `estorides_export/encryption.py:51`) `def encrypt_file(plaintext_path, recipient_pubkey)` - Encrypt `plaintext_path` to `<plaintext_path>.age` for the recipient.
-- `export_stix_encrypted` (function, `estorides_export/encryption.py:100`) `def export_stix_encrypted(kg, recipient_pubkey, path)` - Build the STIX bundle, write to disk, encrypt to <path>.age.
-- `export_misp_encrypted` (function, `estorides_export/encryption.py:128`) `def export_misp_encrypted(kg, recipient_pubkey, path)`
-- `event_from_graph` (function, `estorides_export/misp.py:36`) `def event_from_graph(kg)`
-- `_category` (function, `estorides_export/misp.py:65`) `def _category(ent_type)`
-- `export` (function, `estorides_export/misp.py:79`) `def export(kg, path)`
-- `ReportMetadata` (class, `estorides_export/recon_report.py:23`) `class ReportMetadata`
-- `__post_init__` (method, `estorides_export/recon_report.py:29`) `def __post_init__(self)`
-- `to_dict` (method, `estorides_export/recon_report.py:35`) `def to_dict(self)`
-- `ReportSection` (class, `estorides_export/recon_report.py:40`) `class ReportSection`
-- `to_dict` (method, `estorides_export/recon_report.py:46`) `def to_dict(self)`
-- `ReportResult` (class, `estorides_export/recon_report.py:51`) `class ReportResult`
+- `Entity` (class, `estorides_core/entity_extraction.py:22`) `class Entity`
+- `to_dict` (method, `estorides_core/entity_extraction.py:34`) `def to_dict(self)`
+- `_looks_like_phone` (function, `estorides_core/entity_extraction.py:49`) `def _looks_like_phone(query)` - True for E.164-ish numbers with 7-15 digits (never consumes hashes).
+- `normalize_query` (function, `estorides_core/entity_extraction.py:57`) `def normalize_query(query)` - Return the routing form of raw operator input.
+- `detect_query_type` (function, `estorides_core/entity_extraction.py:100`) `def detect_query_type(query)` - Return the detected type of a free-form query.
+- `_is_valid_domain` (function, `estorides_core/entity_extraction.py:127`) `def _is_valid_domain(candidate)`
+- `_context` (function, `estorides_core/entity_extraction.py:140`) `def _context(text, start, end, window)`
+- `extract_from_text` (function, `estorides_core/entity_extraction.py:146`) `def extract_from_text(text, source)` - Find every recognised entity in a raw text blob.
+- `_ip_in_textual_context` (function, `estorides_core/entity_extraction.py:200`) `def _ip_in_textual_context(text, idx)` - Heuristic: only count a numeric match as an IP if it isn't part of a
+- `extract_from_json` (function, `estorides_core/entity_extraction.py:210`) `def extract_from_json(payload, source)` - Pull entities out of a JSON-like structure.
+- `_clean_scalar` (function, `estorides_core/entity_extraction.py:278`) `def _clean_scalar(value)` - Return a stripped string for a scalar leaf, or None for non-scalars.
+- `_looks_like_person` (function, `estorides_core/entity_extraction.py:288`) `def _looks_like_person(value)` - True when a value reads like a human name (has a space, mostly letters).
+- `_looks_like_username` (function, `estorides_core/entity_extraction.py:299`) `def _looks_like_username(value)` - True when a value reads like a handle (no spaces, handle charset).
+- `_classify_keyed_value` (function, `estorides_core/entity_extraction.py:306`) `def _classify_keyed_value(key, value)` - Map a (key, scalar value) pair to a human-selector entity type, or None.
+- `extract_structured` (function, `estorides_core/entity_extraction.py:330`) `def extract_structured(payload, source)` - Extract human selectors (email, username, person, org, phone) by key.
+- `visit` (function, `estorides_core/entity_extraction.py:344`) `def visit(node, key)`
+- `merge` (function, `estorides_core/entity_extraction.py:382`) `def merge()` - Deduplicate by (type, value) and merge sources / contexts.
+- `_fuzzy_cluster` (function, `estorides_core/entity_extraction.py:476`) `def _fuzzy_cluster(entities)` - Group entities of the same type by string similarity and merge.
+- `find` (function, `estorides_core/entity_extraction.py:499`) `def find(x, parent)`
+- `union` (function, `estorides_core/entity_extraction.py:505`) `def union(a, b, parent)`
+- `norm` (function, `estorides_core/entity_extraction.py:510`) `def norm(v)`
+- `jaro` (function, `estorides_core/entity_resolution.py:83`) `def jaro(s1, s2)` - Return the Jaro similarity of two strings in ``[0, 1]``.
+- `jaro_winkler` (function, `estorides_core/entity_resolution.py:126`) `def jaro_winkler(s1, s2, prefix_weight)` - Jaro-Winkler similarity: Jaro with a shared-prefix bonus.
+- `_soundex` (function, `estorides_core/entity_resolution.py:146`) `def _soundex(token)` - Return a 4-character Soundex code for a Latin token.
+- `_normalize_domain` (function, `estorides_core/entity_resolution.py:178`) `def _normalize_domain(value)`
+- `_normalize_name` (function, `estorides_core/entity_resolution.py:187`) `def _normalize_name(value)` - Order-independent transliterated key for persons and orgs.
+- `normalize_value` (function, `estorides_core/entity_resolution.py:206`) `def normalize_value(etype, value)` - Return the canonical normalised form of an entity value.
+- `canonical_id` (function, `estorides_core/entity_resolution.py:246`) `def canonical_id(etype, normalized)` - Stable, content-addressed id for a normalised entity.
+- `blocking_keys` (function, `estorides_core/entity_resolution.py:257`) `def blocking_keys(etype, normalized, value)` - Return the blocking keys that bucket an entity for comparison.
+- `MatchScore` (class, `estorides_core/entity_resolution.py:295`) `class MatchScore` - The result of comparing two entity values of the same type.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 15
-- Cross-boundary resolved imports (EXTRACTED): 13
+- Internal resolved imports (EXTRACTED): 26
+- Cross-boundary resolved imports (EXTRACTED): 29
 
 ## Connections
 
 - [EXTRACTED] depends_on community 4 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
+- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 8 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_runner.py imports estorides_core/entity_extraction.py.
+- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/entity_extraction.py.
 
 ## Risks
 
@@ -74,15 +83,22 @@ This community groups 8 file(s) rooted at `estorides_export` with dominant langu
 - Why do 1 file(s) lack file-level docs (e.g. `estorides_export/recon_report.py`)? What purpose do they serve?
 - Can the cycle `estorides_export/__init__.py` -> `estorides_export/encryption.py` be broken with an interface?
 - What would break if the most connected file in estorides_export changed?
-- Should estorides_export be split, given cohesion 0.45?
+- Should estorides_export be split, given cohesion 0.46?
 
 ## Sources
 
+- `estorides_core/entity_extraction.py`
+- `estorides_core/entity_resolution.py`
+- `estorides_core/entity_store.py`
 - `estorides_core/knowledge_graph.py`
+- `estorides_core/transliteration.py`
 - `estorides_export/__init__.py`
 - `estorides_export/encryption.py`
 - `estorides_export/misp.py`
 - `estorides_export/recon_report.py`
 - `estorides_export/stix.py`
 - `tests/test_encrypted_export.py`
+- `tests/test_entity_extraction.py`
+- `tests/test_entity_resolution.py`
+- `tests/test_query_intent.py`
 - `tests/test_recon_report.py`

@@ -23,29 +23,29 @@
   - `cmd_run` (function, line 205) `def cmd_run(args)`
   - `cmd_scope` (function, line 282) `def cmd_scope(args)`
   - `cmd_graph_export` (function, line 328) `def cmd_graph_export(args)`
-  - `cmd_export_stix` (function, line 351) `def cmd_export_stix(args)`
-  - `cmd_export_misp` (function, line 361) `def cmd_export_misp(args)`
-  - `cmd_report` (function, line 371) `def cmd_report(args)`
-  - `cmd_diff` (function, line 412) `def cmd_diff(args)`
-  - `cmd_status` (function, line 440) `def cmd_status(_)`
-  - `cmd_fusion` (function, line 447) `def cmd_fusion(args)`
-  - `cmd_watch_add` (function, line 490) `def cmd_watch_add(args)`
-  - `_watch_runner_factory` (function, line 532) `def _watch_runner_factory(proxy, passive_only)`
-  - `cmd_watch_list` (function, line 554) `def cmd_watch_list(args)`
-  - `cmd_watch_remove` (function, line 574) `def cmd_watch_remove(args)`
-  - `cmd_watch_enable` (function, line 586) `def cmd_watch_enable(args)`
-  - `cmd_watch_disable` (function, line 599) `def cmd_watch_disable(args)`
-  - `cmd_watch_history` (function, line 611) `def cmd_watch_history(args)`
-  - `cmd_alerts_test` (function, line 632) `def cmd_alerts_test(args)`
-  - `cmd_alerts_channels` (function, line 644) `def cmd_alerts_channels(args)`
-  - `cmd_scheduler_start` (function, line 656) `def cmd_scheduler_start(args)`
-  - `cmd_scheduler_stop` (function, line 666) `def cmd_scheduler_stop(args)`
-  - `cmd_scheduler_status` (function, line 676) `def cmd_scheduler_status(args)`
-  - `cmd_serve` (function, line 684) `def cmd_serve(args)`
-  - `build_parser` (function, line 701) `def build_parser()`
-  - `main` (function, line 857) `def main(argv)`
+  - `cmd_export_stix` (function, line 357) `def cmd_export_stix(args)`
+  - `cmd_export_misp` (function, line 367) `def cmd_export_misp(args)`
+  - `cmd_report` (function, line 377) `def cmd_report(args)`
+  - `cmd_diff` (function, line 418) `def cmd_diff(args)`
+  - `cmd_status` (function, line 446) `def cmd_status(_)`
+  - `cmd_fusion` (function, line 453) `def cmd_fusion(args)`
+  - `cmd_watch_add` (function, line 496) `def cmd_watch_add(args)`
+  - `_watch_runner_factory` (function, line 538) `def _watch_runner_factory(proxy, passive_only)`
+  - `cmd_watch_list` (function, line 560) `def cmd_watch_list(args)`
+  - `cmd_watch_remove` (function, line 580) `def cmd_watch_remove(args)`
+  - `cmd_watch_enable` (function, line 592) `def cmd_watch_enable(args)`
+  - `cmd_watch_disable` (function, line 605) `def cmd_watch_disable(args)`
+  - `cmd_watch_history` (function, line 617) `def cmd_watch_history(args)`
+  - `cmd_alerts_test` (function, line 638) `def cmd_alerts_test(args)`
+  - `cmd_alerts_channels` (function, line 650) `def cmd_alerts_channels(args)`
+  - `cmd_scheduler_start` (function, line 662) `def cmd_scheduler_start(args)`
+  - `cmd_scheduler_stop` (function, line 672) `def cmd_scheduler_stop(args)`
+  - `cmd_scheduler_status` (function, line 682) `def cmd_scheduler_status(args)`
+  - `cmd_serve` (function, line 690) `def cmd_serve(args)`
+  - `build_parser` (function, line 707) `def build_parser()`
+  - `main` (function, line 863) `def main(argv)`
   - `_on_done` (function, line 222) `def _on_done(source_name, ok, status, elapsed_ms)`
-  - `_run` (function, line 540) `def _run(watch)`
+  - `_run` (function, line 546) `def _run(watch)`
 - Depends on: `estorides_core/alerter.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/fusion_store.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/orchestrator.py`, `estorides_core/scope.py`, `estorides_core/validation.py`, `estorides_export/__init__.py`, `estorides_export/report.py`, `estorides_web.py`
 - Imported by: `tests/test_cli_watch.py`
 
@@ -54,102 +54,104 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_sse_response` (function, line 76) `def _sse_response(gen)`
-  - `_provides` (function, line 81) `def _provides(service, message)`
-  - `_client_ip` (function, line 100) `def _client_ip()`
-  - `_arg_int` (function, line 117) `def _arg_int(name, default)`
-  - `_send_and_cleanup` (function, line 133) `def _send_and_cleanup(p, tmpdir)`
-  - `_RunStreamJob` (class, line 147) `class _RunStreamJob`
-  - `_new_stream_job_id` (method, line 185) `def _new_stream_job_id()`
-  - `_rate_limit_decorator` (method, line 190) `def _rate_limit_decorator()`
-  - `_graph_rag_block` (method, line 234) `def _graph_rag_block(query, budget_tokens)`
-  - `create_app` (method, line 256) `def create_app()`
-  - `_serve_loop` (method, line 1724) `def _serve_loop()`
-  - `_shape_for_ui` (method, line 1737) `def _shape_for_ui(result)`
-  - `deco` (method, line 88) `def deco(view)`
-  - `__init__` (method, line 155) `def __init__(self, job_id, query, query_type, case_id)`
-  - `stop` (method, line 164) `def stop(self)`
-  - `should_stop` (method, line 167) `def should_stop(self)`
-  - `status` (method, line 171) `def status(self)`
-  - `done` (method, line 175) `def done(self)`
-  - `deco` (method, line 197) `def deco(view)`
-  - `healthz` (method, line 292) `def healthz()`
-  - `readyz` (method, line 303) `def readyz()`
-  - `metrics` (method, line 317) `def metrics()`
-  - `openapi_doc` (method, line 324) `def openapi_doc()`
-  - `index` (method, line 329) `def index()`
-  - `api_status` (method, line 350) `def api_status()`
-  - `api_ollama_status` (method, line 356) `def api_ollama_status()`
-  - `api_run` (method, line 362) `def api_run()`
-  - `api_graph` (method, line 418) `def api_graph()`
-  - `api_feeds` (method, line 521) `def api_feeds()`
-  - `api_export` (method, line 552) `def api_export(fmt)`
-  - `api_cases_list` (method, line 630) `def api_cases_list()`
-  - `api_cases_get` (method, line 643) `def api_cases_get(case_id)`
-  - `api_cases_delete` (method, line 657) `def api_cases_delete(case_id)`
-  - `api_cases_save` (method, line 665) `def api_cases_save(case_id)`
-  - `api_cases_diff` (method, line 688) `def api_cases_diff()`
-  - `api_intel_resolve` (method, line 713) `def api_intel_resolve()`
-  - `api_intel_graph` (method, line 752) `def api_intel_graph()`
-  - `api_intel_stats` (method, line 791) `def api_intel_stats()`
-  - `api_fusion_stats` (method, line 812) `def api_fusion_stats()`
-  - `api_fusion_sources` (method, line 820) `def api_fusion_sources()`
-  - `api_fusion_entities` (method, line 829) `def api_fusion_entities()`
-  - `api_fusion_entity` (method, line 850) `def api_fusion_entity(eid)`
-  - `api_fusion_analytics_entity_timeline` (method, line 868) `def api_fusion_analytics_entity_timeline(eid)`
-  - `api_fusion_analytics_entity_summary` (method, line 878) `def api_fusion_analytics_entity_summary(eid)`
-  - `api_fusion_analytics_source_stats` (method, line 888) `def api_fusion_analytics_source_stats(source_name)`
-  - `api_fusion_analytics_consensus` (method, line 898) `def api_fusion_analytics_consensus(eid)`
-  - `api_fusion_analytics_top_changed` (method, line 908) `def api_fusion_analytics_top_changed()`
-  - `admin_sources` (method, line 918) `def admin_sources()`
-  - `api_sources_yaml_list` (method, line 935) `def api_sources_yaml_list()`
-  - `api_sources_yaml_create` (method, line 961) `def api_sources_yaml_create()`
-  - `api_sources_yaml_update` (method, line 982) `def api_sources_yaml_update(name)`
-  - `api_sources_yaml_delete` (method, line 1001) `def api_sources_yaml_delete(name)`
-  - `api_fusion_analytics_corroboration_matrix` (method, line 1018) `def api_fusion_analytics_corroboration_matrix()`
-  - `api_socmint_resolve` (method, line 1032) `def api_socmint_resolve()`
-  - `api_socmint_platforms` (method, line 1054) `def api_socmint_platforms()`
-  - `api_socmint_discover` (method, line 1062) `def api_socmint_discover()`
-  - `api_watch_list` (method, line 1105) `def api_watch_list()`
-  - `api_watch_create` (method, line 1114) `def api_watch_create()`
-  - `api_watch_get` (method, line 1148) `def api_watch_get(watch_id)`
-  - `api_watch_delete` (method, line 1160) `def api_watch_delete(watch_id)`
-  - `api_watch_enable` (method, line 1171) `def api_watch_enable(watch_id)`
-  - `api_watch_disable` (method, line 1184) `def api_watch_disable(watch_id)`
-  - `api_watch_history` (method, line 1196) `def api_watch_history(watch_id)`
-  - `api_alerts_channels` (method, line 1206) `def api_alerts_channels()`
-  - `api_alerts_test` (method, line 1214) `def api_alerts_test()`
-  - `api_scheduler_status` (method, line 1230) `def api_scheduler_status()`
-  - `api_transforms` (method, line 1248) `def api_transforms()`
-  - `api_transform_run` (method, line 1262) `def api_transform_run()`
-  - `api_transform_stream` (method, line 1284) `def api_transform_stream()`
-  - `api_osiris_bgp` (method, line 1323) `def api_osiris_bgp()`
-  - `api_osiris_mac` (method, line 1337) `def api_osiris_mac()`
-  - `api_osiris_phone` (method, line 1351) `def api_osiris_phone()`
-  - `api_osiris_github` (method, line 1365) `def api_osiris_github()`
-  - `api_osiris_leaks` (method, line 1379) `def api_osiris_leaks()`
-  - `api_osiris_kev` (method, line 1393) `def api_osiris_kev()`
-  - `api_osiris_malware` (method, line 1402) `def api_osiris_malware()`
-  - `api_osiris_threats` (method, line 1407) `def api_osiris_threats()`
-  - `api_discover_start` (method, line 1420) `def api_discover_start()`
-  - `api_discover_jobs` (method, line 1466) `def api_discover_jobs()`
-  - `api_discover_stop` (method, line 1472) `def api_discover_stop()`
-  - `api_discover_stream` (method, line 1484) `def api_discover_stream()`
-  - `api_run_stream_start` (method, line 1534) `def api_run_stream_start()`
-  - `api_run_stream_stop` (method, line 1601) `def api_run_stream_stop()`
-  - `api_run_stream` (method, line 1613) `def api_run_stream()`
-  - `api_analyze_stream` (method, line 1660) `def api_analyze_stream()`
-  - `wrapper` (method, line 90) `def wrapper()`
-  - `wrapper` (method, line 199) `def wrapper()`
-  - `_gen` (method, line 1300) `def _gen()`
-  - `gen` (method, line 1497) `def gen()`
-  - `_drive` (method, line 1564) `def _drive()`
-  - `gen` (method, line 1619) `def gen()`
-  - `_run` (method, line 1673) `def _run()`
-  - `gen` (method, line 1695) `def gen()`
-  - `_watch_runner` (method, line 1081) `def _watch_runner(swatch)`
-  - `_err` (method, line 1295) `def _err()`
-- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/graph_rag_search.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
+  - `_sse_response` (function, line 78) `def _sse_response(gen)`
+  - `_provides` (function, line 83) `def _provides(service, message)`
+  - `_client_ip` (function, line 102) `def _client_ip()`
+  - `_arg_int` (function, line 119) `def _arg_int(name, default)`
+  - `_send_and_cleanup` (function, line 135) `def _send_and_cleanup(p, tmpdir)`
+  - `_RunStreamJob` (class, line 149) `class _RunStreamJob`
+  - `_new_stream_job_id` (function, line 187) `def _new_stream_job_id()`
+  - `_rate_limit_decorator` (function, line 192) `def _rate_limit_decorator()`
+  - `_graph_rag_block` (function, line 236) `def _graph_rag_block(query, budget_tokens)`
+  - `create_app` (function, line 258) `def create_app()`
+  - `_serve_loop` (function, line 1792) `def _serve_loop()`
+  - `_shape_for_ui` (function, line 1805) `def _shape_for_ui(result)`
+  - `deco` (function, line 90) `def deco(view)`
+  - `__init__` (method, line 157) `def __init__(self, job_id, query, query_type, case_id)`
+  - `stop` (method, line 166) `def stop(self)`
+  - `should_stop` (method, line 169) `def should_stop(self)`
+  - `status` (method, line 173) `def status(self)`
+  - `done` (method, line 177) `def done(self)`
+  - `deco` (function, line 199) `def deco(view)`
+  - `healthz` (function, line 294) `def healthz()`
+  - `readyz` (function, line 305) `def readyz()`
+  - `metrics` (function, line 319) `def metrics()`
+  - `openapi_doc` (function, line 326) `def openapi_doc()`
+  - `index` (function, line 331) `def index()`
+  - `api_status` (function, line 352) `def api_status()`
+  - `api_ollama_status` (function, line 358) `def api_ollama_status()`
+  - `api_run` (function, line 364) `def api_run()`
+  - `api_lan_scope` (function, line 428) `def api_lan_scope()`
+  - `api_lan_scan` (function, line 436) `def api_lan_scan()`
+  - `api_graph` (function, line 474) `def api_graph()`
+  - `api_feeds` (function, line 577) `def api_feeds()`
+  - `api_export` (function, line 608) `def api_export(fmt)`
+  - `api_cases_list` (function, line 686) `def api_cases_list()`
+  - `api_cases_get` (function, line 699) `def api_cases_get(case_id)`
+  - `api_cases_delete` (function, line 713) `def api_cases_delete(case_id)`
+  - `api_cases_save` (function, line 721) `def api_cases_save(case_id)`
+  - `api_cases_diff` (function, line 744) `def api_cases_diff()`
+  - `api_intel_resolve` (function, line 769) `def api_intel_resolve()`
+  - `api_intel_graph` (function, line 808) `def api_intel_graph()`
+  - `api_intel_stats` (function, line 847) `def api_intel_stats()`
+  - `api_fusion_stats` (function, line 868) `def api_fusion_stats()`
+  - `api_fusion_sources` (function, line 876) `def api_fusion_sources()`
+  - `api_fusion_entities` (function, line 885) `def api_fusion_entities()`
+  - `api_fusion_entity` (function, line 906) `def api_fusion_entity(eid)`
+  - `api_fusion_analytics_entity_timeline` (function, line 924) `def api_fusion_analytics_entity_timeline(eid)`
+  - `api_fusion_analytics_entity_summary` (function, line 934) `def api_fusion_analytics_entity_summary(eid)`
+  - `api_fusion_analytics_source_stats` (function, line 944) `def api_fusion_analytics_source_stats(source_name)`
+  - `api_fusion_analytics_consensus` (function, line 954) `def api_fusion_analytics_consensus(eid)`
+  - `api_fusion_analytics_top_changed` (function, line 964) `def api_fusion_analytics_top_changed()`
+  - `admin_sources` (function, line 974) `def admin_sources()`
+  - `api_sources_yaml_list` (function, line 991) `def api_sources_yaml_list()`
+  - `api_sources_yaml_create` (function, line 1017) `def api_sources_yaml_create()`
+  - `api_sources_yaml_update` (function, line 1038) `def api_sources_yaml_update(name)`
+  - `api_sources_yaml_delete` (function, line 1057) `def api_sources_yaml_delete(name)`
+  - `api_fusion_analytics_corroboration_matrix` (function, line 1074) `def api_fusion_analytics_corroboration_matrix()`
+  - `api_socmint_resolve` (function, line 1088) `def api_socmint_resolve()`
+  - `api_socmint_platforms` (function, line 1110) `def api_socmint_platforms()`
+  - `api_socmint_discover` (function, line 1118) `def api_socmint_discover()`
+  - `api_watch_list` (function, line 1161) `def api_watch_list()`
+  - `api_watch_create` (function, line 1170) `def api_watch_create()`
+  - `api_watch_get` (function, line 1204) `def api_watch_get(watch_id)`
+  - `api_watch_delete` (function, line 1216) `def api_watch_delete(watch_id)`
+  - `api_watch_enable` (function, line 1227) `def api_watch_enable(watch_id)`
+  - `api_watch_disable` (function, line 1240) `def api_watch_disable(watch_id)`
+  - `api_watch_history` (function, line 1252) `def api_watch_history(watch_id)`
+  - `api_alerts_channels` (function, line 1262) `def api_alerts_channels()`
+  - `api_alerts_test` (function, line 1270) `def api_alerts_test()`
+  - `api_scheduler_status` (function, line 1286) `def api_scheduler_status()`
+  - `api_transforms` (function, line 1304) `def api_transforms()`
+  - `api_transform_run` (function, line 1318) `def api_transform_run()`
+  - `api_transform_stream` (function, line 1340) `def api_transform_stream()`
+  - `api_osiris_bgp` (function, line 1379) `def api_osiris_bgp()`
+  - `api_osiris_mac` (function, line 1393) `def api_osiris_mac()`
+  - `api_osiris_phone` (function, line 1407) `def api_osiris_phone()`
+  - `api_osiris_github` (function, line 1421) `def api_osiris_github()`
+  - `api_osiris_leaks` (function, line 1435) `def api_osiris_leaks()`
+  - `api_osiris_kev` (function, line 1449) `def api_osiris_kev()`
+  - `api_osiris_malware` (function, line 1458) `def api_osiris_malware()`
+  - `api_osiris_threats` (function, line 1463) `def api_osiris_threats()`
+  - `api_discover_start` (function, line 1476) `def api_discover_start()`
+  - `api_discover_jobs` (function, line 1529) `def api_discover_jobs()`
+  - `api_discover_stop` (function, line 1535) `def api_discover_stop()`
+  - `api_discover_stream` (function, line 1547) `def api_discover_stream()`
+  - `api_run_stream_start` (function, line 1597) `def api_run_stream_start()`
+  - `api_run_stream_stop` (function, line 1669) `def api_run_stream_stop()`
+  - `api_run_stream` (function, line 1681) `def api_run_stream()`
+  - `api_analyze_stream` (function, line 1728) `def api_analyze_stream()`
+  - `wrapper` (function, line 92) `def wrapper()`
+  - `wrapper` (function, line 201) `def wrapper()`
+  - `_gen` (function, line 1356) `def _gen()`
+  - `gen` (function, line 1560) `def gen()`
+  - `_drive` (function, line 1632) `def _drive()`
+  - `gen` (function, line 1687) `def gen()`
+  - `_run` (function, line 1741) `def _run()`
+  - `gen` (function, line 1763) `def gen()`
+  - `_watch_runner` (function, line 1137) `def _watch_runner(swatch)`
+  - `_err` (function, line 1351) `def _err()`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/alerter.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/feeds.py`, `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_force.py`, `estorides_core/graph_kuzu.py`, `estorides_core/graph_rag_search.py`, `estorides_core/intel_resolver.py`, `estorides_core/job_registry.py`, `estorides_core/knowledge_graph.py`, `estorides_core/lan_web.py`, `estorides_core/monitoring.py`, `estorides_core/openapi.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`, `estorides_core/search_telemetry.py`, `estorides_core/socmint.py`, `estorides_core/transforms.py`, `estorides_core/validation.py`, `estorides_core/web_security.py`, `estorides_export/__init__.py`, `estorides_export/encryption.py`, `estorides_web_tools.py`
 - Imported by: `estorides_cli.py`, `estorides_web_tools.py`, `tests/test_graph_rag_search.py`, `tests/test_openapi.py`, `tests/test_web_helpers.py`, `tests/test_web_tools_blueprint.py`, `tools/sync_docs.py`, `wsgi.py`
 
 ## estorides_web_tools.py

@@ -26,34 +26,34 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
 - Language: py
 - Symbols:
   - `GraphRagConfig` (class, line 53) `class GraphRagConfig`
-  - `graph_rag_config_from_env` (method, line 75) `def graph_rag_config_from_env()`
-  - `tokenize` (method, line 98) `def tokenize(text, min_len, stopwords)`
+  - `graph_rag_config_from_env` (function, line 75) `def graph_rag_config_from_env()`
+  - `tokenize` (function, line 98) `def tokenize(text, min_len, stopwords)`
   - `Bm25Index` (class, line 112) `class Bm25Index`
-  - `_stochastic` (method, line 153) `def _stochastic(ids, edges)`
-  - `pagerank` (method, line 176) `def pagerank(ids, edges, alpha, max_iter, tolerance)`
-  - `personalized_pagerank` (method, line 207) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)`
-  - `_md_safe` (method, line 250) `def _md_safe(text, limit)`
+  - `_stochastic` (function, line 153) `def _stochastic(ids, edges)`
+  - `pagerank` (function, line 176) `def pagerank(ids, edges, alpha, max_iter, tolerance)`
+  - `personalized_pagerank` (function, line 207) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)`
+  - `_md_safe` (function, line 250) `def _md_safe(text, limit)`
   - `RagEntity` (class, line 260) `class RagEntity`
   - `RagRelation` (class, line 271) `class RagRelation`
   - `RagTextUnit` (class, line 281) `class RagTextUnit`
   - `RagCommunity` (class, line 289) `class RagCommunity`
   - `RagContext` (class, line 305) `class RagContext`
   - `GraphRagIndex` (class, line 317) `class GraphRagIndex`
-  - `_req_str` (method, line 354) `def _req_str(item, key, default, what)`
-  - `_opt_str` (method, line 363) `def _opt_str(item, key, default)`
-  - `_opt_int` (method, line 368) `def _opt_int(item, key, default)`
-  - `_rel_weight` (method, line 378) `def _rel_weight(relation)`
-  - `build_index` (method, line 382) `def build_index(nodes, edges, clusters, config)`
-  - `_reports` (method, line 491) `def _reports(nodes, degree, rank, top_mass, weighted, cluster_label, cfg)`
+  - `_req_str` (function, line 354) `def _req_str(item, key, default, what)`
+  - `_opt_str` (function, line 363) `def _opt_str(item, key, default)`
+  - `_opt_int` (function, line 368) `def _opt_int(item, key, default)`
+  - `_rel_weight` (function, line 378) `def _rel_weight(relation)`
+  - `build_index` (function, line 382) `def build_index(nodes, edges, clusters, config)`
+  - `_reports` (function, line 491) `def _reports(nodes, degree, rank, top_mass, weighted, cluster_label, cfg)`
   - `GraphRagSearcher` (class, line 593) `class GraphRagSearcher`
-  - `ask_context` (method, line 857) `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)`
-  - `_scalar_detail` (method, line 872) `def _scalar_detail(attrs)`
-  - `graph_context_block` (method, line 886) `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)`
+  - `ask_context` (function, line 857) `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)`
+  - `_scalar_detail` (function, line 872) `def _scalar_detail(attrs)`
+  - `graph_context_block` (function, line 886) `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)`
   - `__init__` (method, line 115) `def __init__(self, documents, k1, b)`
   - `scores` (method, line 136) `def scores(self, query)`
   - `to_dict` (method, line 324) `def to_dict(self)`
   - `from_dict` (method, line 334) `def from_dict(cls, data)`
-  - `where` (method, line 446) `def where(cid)`
+  - `where` (function, line 446) `def where(cid)`
   - `__init__` (method, line 596) `def __init__(self, config, index)`
   - `_tok` (method, line 621) `def _tok(self, text)`
   - `_entity_doc` (method, line 624) `def _entity_doc(self, entity)`
@@ -67,8 +67,8 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `_unit_block` (method, line 801) `def _unit_block(unit)`
   - `_pack` (method, line 804) `def _pack(self, header, sections, budget_tokens, shares)`
   - `_pack_with` (method, line 823) `def _pack_with(self, header, sections, shares, budget)`
-  - `rows` (method, line 335) `def rows(name)`
-  - `meta` (method, line 341) `def meta()`
+  - `rows` (function, line 335) `def rows(name)`
+  - `meta` (function, line 341) `def meta()`
 - Imported by: `estorides_web.py`, `tests/test_graph_rag_search.py`
 
 ## estorides_core/hypothesis_engine.py
@@ -79,25 +79,25 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `EntityRef` (class, line 57) `class EntityRef`
   - `Evidence` (class, line 65) `class Evidence`
   - `Hypothesis` (class, line 76) `class Hypothesis`
-  - `_truncate` (method, line 113) `def _truncate(value)`
-  - `_is_mapping` (method, line 123) `def _is_mapping(value)`
-  - `_entity_lookup` (method, line 127) `def _entity_lookup(entities)`
-  - `_hypothesis_id` (method, line 148) `def _hypothesis_id(htype, entity_refs, supporting)`
-  - `_score` (method, line 166) `def _score(supporting, contradicting)`
-  - `_confidence` (method, line 180) `def _confidence(supporting, contradicting)`
-  - `_clip_claim` (method, line 201) `def _clip_claim(template)`
+  - `_truncate` (function, line 113) `def _truncate(value)`
+  - `_is_mapping` (function, line 123) `def _is_mapping(value)`
+  - `_entity_lookup` (function, line 127) `def _entity_lookup(entities)`
+  - `_hypothesis_id` (function, line 148) `def _hypothesis_id(htype, entity_refs, supporting)`
+  - `_score` (function, line 166) `def _score(supporting, contradicting)`
+  - `_confidence` (function, line 180) `def _confidence(supporting, contradicting)`
+  - `_clip_claim` (function, line 201) `def _clip_claim(template)`
   - `HypothesisGenerator` (class, line 210) `class HypothesisGenerator(Protocol)`
-  - `_domain_belongsto_actor` (method, line 220) `def _domain_belongsto_actor(observations, entities)`
-  - `_domains_in_obs` (method, line 312) `def _domains_in_obs(obs)`
-  - `_email_aliases_person` (method, line 333) `def _email_aliases_person(observations, entities)`
-  - `_extract_email` (method, line 393) `def _extract_email(parsed)`
-  - `_extract_person_name` (method, line 404) `def _extract_person_name(parsed)`
-  - `_ip_shared_infra` (method, line 415) `def _ip_shared_infra(observations, entities)`
-  - `_extract_ips` (method, line 496) `def _extract_ips(parsed)`
-  - `_looks_like_ipv4` (method, line 511) `def _looks_like_ipv4(s)`
-  - `_asn_shared_infra` (method, line 524) `def _asn_shared_infra(observations, entities)`
-  - `_extract_asn` (method, line 588) `def _extract_asn(parsed)`
-  - `generate_hypotheses` (method, line 613) `def generate_hypotheses(observations, entities, kg)`
+  - `_domain_belongsto_actor` (function, line 220) `def _domain_belongsto_actor(observations, entities)`
+  - `_domains_in_obs` (function, line 312) `def _domains_in_obs(obs)`
+  - `_email_aliases_person` (function, line 333) `def _email_aliases_person(observations, entities)`
+  - `_extract_email` (function, line 393) `def _extract_email(parsed)`
+  - `_extract_person_name` (function, line 404) `def _extract_person_name(parsed)`
+  - `_ip_shared_infra` (function, line 415) `def _ip_shared_infra(observations, entities)`
+  - `_extract_ips` (function, line 496) `def _extract_ips(parsed)`
+  - `_looks_like_ipv4` (function, line 511) `def _looks_like_ipv4(s)`
+  - `_asn_shared_infra` (function, line 524) `def _asn_shared_infra(observations, entities)`
+  - `_extract_asn` (function, line 588) `def _extract_asn(parsed)`
+  - `generate_hypotheses` (function, line 613) `def generate_hypotheses(observations, entities, kg)`
   - `__call__` (method, line 213) `def __call__(self, observations, entities)`
 - Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
 - Imported by: `tests/properties/test_hypothesis_engine_properties.py`, `tests/test_hypothesis_engine.py`
@@ -119,9 +119,9 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `_val` (function, line 111) `def _val(row, key)`
   - `_TTLCache` (class, line 120) `class _TTLCache`
   - `EntityResolver` (class, line 156) `class EntityResolver`
-  - `_norm` (method, line 789) `def _norm(s)`
-  - `_is_valid_ipv4` (method, line 793) `def _is_valid_ipv4(s)`
-  - `_escape_sparql` (method, line 801) `def _escape_sparql(s)`
+  - `_norm` (function, line 789) `def _norm(s)`
+  - `_is_valid_ipv4` (function, line 793) `def _is_valid_ipv4(s)`
+  - `_escape_sparql` (function, line 801) `def _escape_sparql(s)`
   - `__init__` (method, line 121) `def __init__(self)`
   - `get` (method, line 127) `def get(self, kind, key)`
   - `put` (method, line 140) `def put(self, kind, key, value)`
@@ -174,17 +174,105 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `add_relationship` (method, line 142) `def add_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
   - `export_graphml` (method, line 164) `def export_graphml(self, path)`
   - `export_json` (method, line 183) `def export_json(self)`
-  - `summary` (method, line 197) `def summary(self)`
-  - `top_entities` (method, line 215) `def top_entities(self, n, by)`
-  - `communities` (method, line 235) `def communities(self, nodes)`
-  - `intel_level` (method, line 266) `def intel_level(self, node_id, bridge_nodes)`
-  - `ego_subgraph` (method, line 311) `def ego_subgraph(self, node_id, radius)`
-  - `neighbours` (method, line 322) `def neighbours(self, node_id, relation)`
-  - `_node_id` (method, line 338) `def _node_id(self, kind, value)`
-  - `_source_node` (method, line 341) `def _source_node(self, source)`
-  - `_node_color` (method, line 351) `def _node_color(self, ent_type)`
+  - `export_lazyown` (method, line 207) `def export_lazyown(self)`
+  - `summary` (method, line 243) `def summary(self)`
+  - `top_entities` (method, line 261) `def top_entities(self, n, by)`
+  - `communities` (method, line 281) `def communities(self, nodes)`
+  - `intel_level` (method, line 312) `def intel_level(self, node_id, bridge_nodes)`
+  - `ego_subgraph` (method, line 357) `def ego_subgraph(self, node_id, radius)`
+  - `neighbours` (method, line 368) `def neighbours(self, node_id, relation)`
+  - `_node_id` (method, line 384) `def _node_id(self, kind, value)`
+  - `_source_node` (method, line 387) `def _source_node(self, source)`
+  - `_node_color` (method, line 397) `def _node_color(self, ent_type)`
 - Depends on: `estorides_core/config.py`, `estorides_core/entity_extraction.py`
 - Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_export/encryption.py`, `estorides_export/misp.py`, `estorides_export/stix.py`, `estorides_web.py`, `tests/test_encrypted_export.py`
+
+## estorides_core/lan_bundle.py
+- Doc: estorides_core.lan_bundle
+- Layer: utility
+- Language: py
+- Symbols:
+  - `sanitize_stem` (function, line 27) `def sanitize_stem(stem)`
+  - `default_output_dir` (function, line 38) `def default_output_dir()`
+  - `build_bundle` (function, line 47) `def build_bundle(devices)`
+  - `_fmt_ts` (function, line 330) `def _fmt_ts(ts)`
+  - `_stix_ref` (function, line 340) `def _stix_ref(node_id, id_map)`
+  - `LanBundleResult` (class, line 350) `class LanBundleResult`
+  - `write_bundle` (function, line 362) `def write_bundle(devices)`
+  - `to_dict` (method, line 358) `def to_dict(self)`
+
+## estorides_core/lan_inventory.py
+- Doc: estorides_core.lan_inventory
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LanDevice` (class, line 51) `class LanDevice`
+  - `normalize_mac` (function, line 64) `def normalize_mac(raw)`
+  - `_valid_lan_ip` (function, line 77) `def _valid_lan_ip(raw)`
+  - `parse_arp_table` (function, line 91) `def parse_arp_table(text)`
+  - `parse_dhcp_leases` (function, line 119) `def parse_dhcp_leases(text)`
+  - `parse_nmap_xml` (function, line 152) `def parse_nmap_xml(text)`
+  - `parse_nmap_grepable` (function, line 214) `def parse_nmap_grepable(text)`
+  - `parse_active_output` (function, line 252) `def parse_active_output(text, source)`
+  - `merge_devices` (function, line 269) `def merge_devices(sightings)`
+  - `device_to_entities` (function, line 331) `def device_to_entities(device)`
+  - `contact_for_tool` (function, line 352) `def contact_for_tool(tool)`
+  - `to_dict` (method, line 60) `def to_dict(self)`
+- Imported by: `tests/test_lan_bundle.py`
+
+## estorides_core/lan_policy.py
+- Doc: estorides_core.lan_policy
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `LanPolicyRequest` (class, line 30) `class LanPolicyRequest`
+  - `LanPolicyDecision` (class, line 40) `class LanPolicyDecision`
+  - `requires_consent` (function, line 54) `def requires_consent()`
+  - `_env_ceiling` (function, line 59) `def _env_ceiling()`
+  - `_strict_bool` (function, line 66) `def _strict_bool(value)`
+  - `_normalize_scope` (function, line 70) `def _normalize_scope(raw)`
+  - `max_contact_for` (function, line 97) `def max_contact_for(allow_active, consent)`
+  - `evaluate` (function, line 104) `def evaluate(request)`
+  - `to_dict` (method, line 50) `def to_dict(self)`
+
+## estorides_core/lan_runner.py
+- Doc: estorides_core.lan_runner
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LanScanResult` (class, line 41) `class LanScanResult`
+  - `read_arp_table` (function, line 60) `def read_arp_table()`
+  - `read_dhcp_leases` (function, line 81) `def read_dhcp_leases()`
+  - `_default_runner` (function, line 93) `def _default_runner()`
+  - `_attempt` (function, line 99) `def _attempt(runner, tool, args, scope_cidr, timeout)`
+  - `run_active_scan` (function, line 122) `def run_active_scan(scope_cidr)`
+  - `scan` (function, line 147) `def scan(scope_cidr)`
+  - `to_dict` (method, line 56) `def to_dict(self)`
+- Depends on: `estorides_core/tool_runner.py`
+
+## estorides_core/lan_scope.py
+- Doc: estorides_core.lan_scope
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_interface_addr` (function, line 23) `def parse_interface_addr(raw)`
+  - `select_private_cidrs` (function, line 63) `def select_private_cidrs(interfaces)`
+  - `default_scope` (function, line 79) `def default_scope(interfaces)`
+  - `parse_ip_addr_output` (function, line 85) `def parse_ip_addr_output(text)`
+  - `read_local_interfaces` (function, line 92) `def read_local_interfaces()`
+
+## estorides_core/lan_web.py
+- Doc: estorides_core.lan_web
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LanWebVerdict` (class, line 18) `class LanWebVerdict`
+  - `is_lan_request` (function, line 50) `def is_lan_request(body, query)`
+  - `scope_payload` (function, line 80) `def scope_payload(interfaces)`
+  - `guard` (function, line 92) `def guard(body)`
+  - `to_dict` (method, line 29) `def to_dict(self)`
+  - `to_response` (method, line 32) `def to_response(self)`
+- Imported by: `estorides_web.py`
 
 ## estorides_core/mitre_attack.py
 - Doc: estorides_core.mitre_attack
@@ -259,7 +347,7 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
 - Language: py
 - Symbols:
   - `SanctionEntry` (class, line 70) `class SanctionEntry`
-  - `_normalise_name` (method, line 84) `def _normalise_name(s)`
+  - `_normalise_name` (function, line 84) `def _normalise_name(s)`
   - `SanctionsIndex` (class, line 96) `class SanctionsIndex`
   - `WikidataCache` (class, line 268) `class WikidataCache`
   - `OntologyEngine` (class, line 314) `class OntologyEngine`
@@ -300,15 +388,15 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
 - Language: py
 - Symbols:
   - `OpsConfig` (class, line 28) `class OpsConfig`
-  - `_clean_label` (method, line 43) `def _clean_label(value)`
-  - `health_payload` (method, line 50) `def health_payload()`
-  - `ready_payload` (method, line 55) `def ready_payload(source_count, sources_dir_ok)`
-  - `record_request` (method, line 62) `def record_request(endpoint, status)`
-  - `record_source` (method, line 72) `def record_source(source, ok)`
-  - `reset_metrics` (method, line 83) `def reset_metrics()`
-  - `render_metrics` (method, line 90) `def render_metrics()`
-  - `format_event` (method, line 112) `def format_event(fields, as_json)`
-  - `project_root` (method, line 130) `def project_root()`
+  - `_clean_label` (function, line 43) `def _clean_label(value)`
+  - `health_payload` (function, line 50) `def health_payload()`
+  - `ready_payload` (function, line 55) `def ready_payload(source_count, sources_dir_ok)`
+  - `record_request` (function, line 62) `def record_request(endpoint, status)`
+  - `record_source` (function, line 72) `def record_source(source, ok)`
+  - `reset_metrics` (function, line 83) `def reset_metrics()`
+  - `render_metrics` (function, line 90) `def render_metrics()`
+  - `format_event` (function, line 112) `def format_event(fields, as_json)`
+  - `project_root` (function, line 130) `def project_root()`
 - Depends on: `estorides_core/config.py`
 - Imported by: `estorides_web.py`, `tests/test_ops_observability.py`
 
@@ -323,7 +411,7 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
   - `_expand_query_type` (function, line 152) `def _expand_query_type(query_type)`
   - `_domain_from_query` (function, line 158) `def _domain_from_query(q)`
   - `Orchestrator` (class, line 168) `class Orchestrator`
-  - `repl` (method, line 122) `def repl(m)`
+  - `repl` (function, line 122) `def repl(m)`
   - `__init__` (method, line 169) `def __init__(self, registry, llm, kg)`
   - `run` (method, line 190) `def run(self, query)`
   - `_select_sources` (method, line 671) `def _select_sources(self, names)`
@@ -359,121 +447,13 @@ Previous: [KB_estorides_core.md](KB_estorides_core.md)
 - Language: py
 - Symbols:
   - `PaginationConfig` (class, line 19) `class PaginationConfig`
-  - `build_page_params` (method, line 62) `def build_page_params(cfg, page_num)`
-  - `extract_cursor` (method, line 78) `def extract_cursor(data, cfg)`
-  - `count_results` (method, line 99) `def count_results(data, cfg)`
+  - `build_page_params` (function, line 62) `def build_page_params(cfg, page_num)`
+  - `extract_cursor` (function, line 78) `def extract_cursor(data, cfg)`
+  - `count_results` (function, line 99) `def count_results(data, cfg)`
   - `from_dict` (method, line 38) `def from_dict(raw)`
   - `enabled` (method, line 54) `def enabled(self)`
   - `needs_page_size` (method, line 58) `def needs_page_size(self)`
 - Imported by: `estorides_core/orchestrator.py`, `tests/test_pagination.py`
-
-## estorides_core/parsers.py
-- Doc: estorides_core.parsers
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_d` (function, line 31) `def _d(obj)`
-  - `_first_dict` (function, line 40) `def _first_dict(items)`
-  - `_list` (function, line 47) `def _list(obj)`
-  - `_text` (function, line 56) `def _text(obj)`
-  - `parse_dns_json` (function, line 62) `def parse_dns_json(payload)`
-  - `parse_crtsh_json` (function, line 78) `def parse_crtsh_json(payload)`
-  - `parse_rdap` (function, line 96) `def parse_rdap(payload)`
-  - `parse_ipapi` (function, line 176) `def parse_ipapi(payload)`
-  - `parse_ipinfo` (function, line 202) `def parse_ipinfo(payload)`
-  - `parse_ipapi_co` (function, line 217) `def parse_ipapi_co(payload)`
-  - `parse_shodan_internetdb` (function, line 227) `def parse_shodan_internetdb(payload)`
-  - `parse_greynoise` (function, line 241) `def parse_greynoise(payload)`
-  - `parse_ipwhois` (function, line 256) `def parse_ipwhois(payload)`
-  - `parse_abuseipdb` (function, line 274) `def parse_abuseipdb(payload)`
-  - `_vt_stats` (function, line 290) `def _vt_stats(attrs)`
-  - `parse_vt_ip` (function, line 304) `def parse_vt_ip(payload)`
-  - `parse_vt_domain` (function, line 325) `def parse_vt_domain(payload)`
-  - `parse_vt_file` (function, line 352) `def parse_vt_file(payload)`
-  - `parse_bgpview` (function, line 376) `def parse_bgpview(payload)`
-  - `parse_cisa_kev` (function, line 408) `def parse_cisa_kev(payload)`
-  - `parse_ripe_stat` (function, line 427) `def parse_ripe_stat(payload)`
-  - `parse_nominatim` (function, line 438) `def parse_nominatim(payload)`
-  - `parse_urlscan` (function, line 456) `def parse_urlscan(payload)`
-  - `parse_wayback_cdx` (function, line 478) `def parse_wayback_cdx(payload)`
-  - `parse_wayback_avail` (function, line 493) `def parse_wayback_avail(payload)`
-  - `parse_threatfox` (function, line 503) `def parse_threatfox(payload)`
-  - `parse_urlhaus` (function, line 512) `def parse_urlhaus(payload)`
-  - `parse_urlhaus_payloads` (function, line 521) `def parse_urlhaus_payloads(payload)`
-  - `parse_malwarebazaar` (function, line 530) `def parse_malwarebazaar(payload)`
-  - `parse_otx` (function, line 539) `def parse_otx(payload)`
-  - `parse_hibp_breach` (function, line 564) `def parse_hibp_breach(payload)`
-  - `parse_hibp_paste` (function, line 582) `def parse_hibp_paste(payload)`
-  - `parse_phonebook` (function, line 598) `def parse_phonebook(payload)`
-  - `parse_wikipedia` (function, line 619) `def parse_wikipedia(payload)`
-  - `parse_wikidata` (function, line 628) `def parse_wikidata(payload)`
-  - `parse_openalex` (function, line 640) `def parse_openalex(payload)`
-  - `parse_crossref` (function, line 665) `def parse_crossref(payload)`
-  - `parse_arxiv` (function, line 685) `def parse_arxiv(payload)`
-  - `parse_nvd_cve` (function, line 706) `def parse_nvd_cve(payload)`
-  - `parse_github_advisories` (function, line 727) `def parse_github_advisories(payload)`
-  - `parse_blockchain_btc` (function, line 752) `def parse_blockchain_btc(payload)`
-  - `parse_blockstream` (function, line 769) `def parse_blockstream(payload)`
-  - `parse_ethplorer` (function, line 785) `def parse_ethplorer(payload)`
-  - `parse_microlink` (function, line 802) `def parse_microlink(payload)`
-  - `parse_github_user` (function, line 822) `def parse_github_user(payload)`
-  - `parse_github_search` (function, line 842) `def parse_github_search(payload)`
-  - `parse_reddit` (function, line 857) `def parse_reddit(payload)`
-  - `parse_mastodon` (function, line 887) `def parse_mastodon(payload)`
-  - `parse_keybase` (function, line 903) `def parse_keybase(payload)`
-  - `parse_hackernews` (function, line 932) `def parse_hackernews(payload)`
-  - `parse_reddit_search` (function, line 944) `def parse_reddit_search(payload)`
-  - `parse_dev_to` (function, line 958) `def parse_dev_to(payload)`
-  - `parse_text_lines` (function, line 973) `def parse_text_lines(payload)`
-  - `parse_raw_text` (function, line 984) `def parse_raw_text(payload)`
-  - `parse_http_headers` (function, line 992) `def parse_http_headers(payload)`
-  - `parse_whois_text` (function, line 1008) `def parse_whois_text(payload)`
-  - `parse_twitter_user` (function, line 1026) `def parse_twitter_user(payload)`
-  - `parse_youtube_user` (function, line 1062) `def parse_youtube_user(payload)`
-  - `parse_twitch_user` (function, line 1099) `def parse_twitch_user(payload)`
-  - `parse_discord_discovery` (function, line 1132) `def parse_discord_discovery(payload)`
-  - `_normalise_discord_server` (function, line 1152) `def _normalise_discord_server(raw)`
-  - `get_parser` (function, line 1251) `def get_parser(name)`
-  - `register_parser` (function, line 1264) `def register_parser(name, description)`
-  - `list_parsers` (function, line 1280) `def list_parsers()`
-  - `deco` (function, line 1272) `def deco(func)`
-- Imported by: `estorides_core/orchestrator.py`, `estorides_core/system_app_sources.py`, `tests/properties/test_parsers_properties.py`, `tests/properties/test_system_app_sources_properties.py`, `tests/test_keyless_sources.py`, `tests/test_socmint.py`
-
-## estorides_core/pdns_monitor.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `HistoricalSubdomain` (class, line 13) `class HistoricalSubdomain`
-  - `IPRecord` (class, line 27) `class IPRecord`
-  - `CertRecord` (class, line 40) `class CertRecord`
-  - `PDNSResult` (class, line 55) `class PDNSResult`
-  - `classify_subdomain_status` (method, line 72) `def classify_subdomain_status(fqdn, resolved_ips)`
-  - `extract_sans_from_cert` (method, line 76) `def extract_sans_from_cert(cert)`
-  - `analyse_pdns_data` (method, line 80) `def analyse_pdns_data(subdomains, ip_history, new_certs)`
-  - `to_dict` (method, line 22) `def to_dict(self)`
-  - `to_dict` (method, line 35) `def to_dict(self)`
-  - `to_dict` (method, line 50) `def to_dict(self)`
-  - `to_dict` (method, line 62) `def to_dict(self)`
-- Imported by: `estorides_core/recon_pipeline.py`, `tests/test_pdns_monitor.py`
-
-## estorides_core/people_intel.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `BreachRecord` (class, line 15) `class BreachRecord`
-  - `Employee` (class, line 29) `class Employee`
-  - `BreachContext` (class, line 56) `class BreachContext`
-  - `PeopleIntelResult` (class, line 67) `class PeopleIntelResult`
-  - `infer_email_pattern` (method, line 98) `def infer_email_pattern(emails)`
-  - `_match_pattern` (method, line 136) `def _match_pattern(local)`
-  - `_severity_from_breaches` (method, line 143) `def _severity_from_breaches(breaches)`
-  - `correlate_breaches` (method, line 153) `def correlate_breaches(employees)`
-  - `analyse_employees` (method, line 176) `def analyse_employees(employees, domain)`
-  - `to_dict` (method, line 22) `def to_dict(self)`
-  - `to_dict` (method, line 40) `def to_dict(self)`
-  - `to_dict` (method, line 62) `def to_dict(self)`
-  - `to_dict` (method, line 75) `def to_dict(self)`
-- Imported by: `estorides_core/recon_pipeline.py`, `tests/test_people_intel.py`
 
 
 Next: [KB_estorides_core_p3.md](KB_estorides_core_p3.md)

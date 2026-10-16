@@ -1,52 +1,37 @@
 # estorides_core: config
 
-*Community 2 | 19 files | cohesion 0.37*
+*Community 2 | 19 files | cohesion 0.38*
 
 ## Definition
 
-This community groups 19 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.37). Central symbols: `AlertDispatcher`, `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityRunner`, `EventSink`. Core file: `tests/test_security_remediation.py` (67 symbols). Documented purpose: estorides_core.__init__.
+This community groups 19 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.38). Central symbols: `AnthropicBackend`, `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityResolver`, `EntityRunner`. Core file: `tests/test_observation_models.py` (28 symbols). Documented purpose: estorides_core.async_client.
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `estorides_core/__init__.py` | py | utility | 0 | yes |
-| `estorides_core/alerter.py` | py | utility | 15 | yes |
 | `estorides_core/async_client.py` | py | infrastructure | 21 | yes |
 | `estorides_core/config.py` | py | infrastructure | 26 | yes |
 | `estorides_core/feeds.py` | py | utility | 16 | yes |
+| `estorides_core/intel_resolver.py` | py | utility | 26 | yes |
 | `estorides_core/observation_models.py` | py | business_logic | 14 | yes |
+| `estorides_core/ontology.py` | py | utility | 25 | yes |
 | `estorides_core/osiris_sources.py` | py | utility | 8 | yes |
 | `estorides_core/pivot_engine.py` | py | utility | 25 | yes |
 | `estorides_core/ssrf_guard.py` | py | utility | 12 | yes |
+| `estorides_core/transforms.py` | py | utility | 24 | yes |
+| `estorides_llm/__init__.py` | py | utility | 0 | yes |
+| `estorides_llm/intelligence_prompts.py` | py | utility | 1 | yes |
+| `estorides_llm/manager.py` | py | utility | 22 | yes |
 | `tests/properties/test_observation_models_properties.py` | py | testing | 7 | yes |
 | `tests/test_async_client.py` | py | testing | 15 | yes |
 | `tests/test_config_env.py` | py | testing | 13 | yes |
-| `tests/test_monitoring.py` | py | testing | 35 | yes |
 | `tests/test_observation_models.py` | py | testing | 28 | yes |
-| `tests/test_orchestrator_fanout.py` | py | testing | 9 | yes |
-| `tests/test_parsers.py` | py | testing | 9 | yes |
-| `tests/test_retry_policy.py` | py | testing | 2 | yes |
-| `tests/test_security_remediation.py` | py | testing | 67 | no |
 | `tests/test_structured_extraction.py` | py | testing | 8 | yes |
+| `tests/test_transforms.py` | py | testing | 12 | yes |
 
 ## Key Symbols
 
-- `_check_cooldown` (function, `estorides_core/alerter.py:42`) `def _check_cooldown(channel)`
-- `_NoRedirectHandler` (class, `estorides_core/alerter.py:53`) `class _NoRedirectHandler(HTTPRedirectHandler)` - Refuse every HTTP redirect.
-- `redirect_request` (method, `estorides_core/alerter.py:64`) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
-- `_http_post` (method, `estorides_core/alerter.py:77`) `def _http_post(url, payload)` - POST JSON payload to URL, return True on success.
-- `_send_slack` (method, `estorides_core/alerter.py:111`) `def _send_slack(webhook_url, title, body, severity)` - Send a Slack message via Incoming Webhook.
-- `_send_discord` (method, `estorides_core/alerter.py:126`) `def _send_discord(webhook_url, title, body, severity)` - Send a Discord embed via Webhook.
-- `_send_telegram` (method, `estorides_core/alerter.py:141`) `def _send_telegram(bot_token, chat_id, title, body, severity)` - Send a Telegram message via Bot API.
-- `_send_email` (method, `estorides_core/alerter.py:156`) `def _send_email(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_addr,` - Send an email alert via SMTP.
-- `_send_webhook` (method, `estorides_core/alerter.py:177`) `def _send_webhook(webhook_url, title, body, severity)` - Send a generic webhook POST.
-- `AlertDispatcher` (class, `estorides_core/alerter.py:194`) `class AlertDispatcher` - Central alert dispatcher: routes alerts to configured channels.
-- `send` (method, `estorides_core/alerter.py:201`) `def send(self, channel, title, body, severity)` - Send an alert to a single channel. Returns True on success.
-- `send_watch_alert` (method, `estorides_core/alerter.py:260`) `def send_watch_alert(self, watch, entity_count, obs_count, new_entities)` - Send alerts for a completed watch run to all configured channels.
-- `test` (method, `estorides_core/alerter.py:280`) `def test(self, channel)` - Send a test alert to verify channel configuration.
-- `available_channels` (method, `estorides_core/alerter.py:290`) `def available_channels(self)` - Return list of configured channels with their status.
-- `_fmt_time` (method, `estorides_core/alerter.py:314`) `def _fmt_time(ts)`
 - `_is_socks` (function, `estorides_core/async_client.py:49`) `def _is_socks(proxy)` - True when the proxy URL is a SOCKS proxy (e.g. Tor).
 - `_redact_proxy` (function, `estorides_core/async_client.py:54`) `def _redact_proxy(proxy)` - Strip any `user:pass@` credentials from a proxy URL before logging.
 - `CircuitBreaker` (class, `estorides_core/async_client.py:64`) `class CircuitBreaker` - Per-host circuit breaker.
@@ -62,27 +47,40 @@ This community groups 19 file(s) rooted at `estorides_core` with dominant langua
 - `set` (method, `estorides_core/async_client.py:161`) `def set(self, method, url, body, value)`
 - `AsyncClient` (class, `estorides_core/async_client.py:172`) `class AsyncClient` - Async HTTP client with retries, backoff, circuit breaker, cache.
 - `__init__` (method, `estorides_core/async_client.py:175`) `def __init__(self)`
+- `__aenter__` (method, `estorides_core/async_client.py:206`) `def __aenter__(self)`
+- `_next_http_proxy` (method, `estorides_core/async_client.py:250`) `def _next_http_proxy(self)` - Round-robin the next HTTP proxy, or None (SOCKS/connector or direct).
+- `__aexit__` (method, `estorides_core/async_client.py:258`) `def __aexit__(self)`
+- `session` (method, `estorides_core/async_client.py:264`) `def session(self)`
+- `fetch` (method, `estorides_core/async_client.py:270`) `def fetch(self, method, url)` - Fetch a URL. Returns (parsed_data, meta).
+- `sync_fetch` (function, `estorides_core/async_client.py:400`) `def sync_fetch(method, url)`
+- `ensure_data_dirs` (function, `estorides_core/config.py:58`) `def ensure_data_dirs()` - Idempotently create DATA_DIR.
+- `ensure_reports_dir` (function, `estorides_core/config.py:69`) `def ensure_reports_dir()` - Idempotently create REPORTS_DIR.
+- `_env_tool_allowlist` (function, `estorides_core/config.py:126`) `def _env_tool_allowlist()`
+- `contact_level` (function, `estorides_core/config.py:206`) `def contact_level(contact)` - Map a contact class to its numeric severity, unknown values to active.
+- `effective_proxies` (function, `estorides_core/config.py:232`) `def effective_proxies(explicit)` - Resolve the proxy rotation pool from an explicit value or the env.
+- `CacheConfig` (class, `estorides_core/config.py:366`) `class CacheConfig` - Disk response-cache behaviour.
+- `is_active` (method, `estorides_core/config.py:373`) `def is_active(self)` - Cache is only consulted when enabled and the TTL is positive.
+- `PivotPolicyConfig` (class, `estorides_core/config.py:379`) `class PivotPolicyConfig` - Which entity types are worth pivoting on, and how leads are scored.
+- `is_pivotable` (method, `estorides_core/config.py:393`) `def is_pivotable(self, entity_type)` - True when an entity of `entity_type` should be re-queried.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 42
-- Cross-boundary resolved imports (EXTRACTED): 51
+- Internal resolved imports (EXTRACTED): 37
+- Cross-boundary resolved imports (EXTRACTED): 47
 
 ## Connections
 
 - [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 0 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
 - [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 0 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/intel_resolver.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 6 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
 
 ## Risks
 
-- [taint medium] `estorides_core/alerter.py` -> `estorides_core/alerter.py` via `urllib.request` (0 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
-- [taint medium] `estorides_core/alerter.py` -> `estorides_core/alerter.py` via `urllib.request` (0 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/async_client.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/config.py` via `requests` (1 hops)
@@ -95,32 +93,33 @@ This community groups 19 file(s) rooted at `estorides_core` with dominant langua
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/intel_resolver.py` via `requests` (0 hops)
 
 ## Open Questions
 
-- Why do 1 file(s) lack file-level docs (e.g. `tests/test_security_remediation.py`)? What purpose do they serve?
-- Is the dangerous import `urllib.request` in `estorides_core/alerter.py` still required, or can it be isolated?
+- Is the dangerous import `requests` in `estorides_core/async_client.py` still required, or can it be isolated?
 - What would break if the most connected file in estorides_core: config changed?
-- Should estorides_core: config be split, given cohesion 0.37?
+- Should estorides_core: config be split, given cohesion 0.38?
 
 ## Sources
 
-- `estorides_core/__init__.py`
-- `estorides_core/alerter.py`
 - `estorides_core/async_client.py`
 - `estorides_core/config.py`
 - `estorides_core/feeds.py`
+- `estorides_core/intel_resolver.py`
 - `estorides_core/observation_models.py`
+- `estorides_core/ontology.py`
 - `estorides_core/osiris_sources.py`
 - `estorides_core/pivot_engine.py`
 - `estorides_core/ssrf_guard.py`
+- `estorides_core/transforms.py`
+- `estorides_llm/__init__.py`
+- `estorides_llm/intelligence_prompts.py`
+- `estorides_llm/manager.py`
 - `tests/properties/test_observation_models_properties.py`
 - `tests/test_async_client.py`
 - `tests/test_config_env.py`
-- `tests/test_monitoring.py`
 - `tests/test_observation_models.py`
-- `tests/test_orchestrator_fanout.py`
-- `tests/test_parsers.py`
-- `tests/test_retry_policy.py`
-- `tests/test_security_remediation.py`
 - `tests/test_structured_extraction.py`
+- `tests/test_transforms.py`

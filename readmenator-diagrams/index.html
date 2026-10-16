@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component Diagrams | Component diagrams</title>
+<style>
+:root{--cb-bg:#020617;--cb-stage:#030a1c;--cb-panel:#0b1224;--cb-panel2:#111c33;--cb-ink:#f8fafc;--cb-muted:#94a3b8;--cb-faint:#475569;--cb-border:#1e293b;--cb-accent:#22d3ee;--cb-accent2:#f472b6;--cb-chip:#111c33;--cb-glow:rgba(34,211,238,.16)}
+html[data-theme="light"]{--cb-bg:#f8fafc;--cb-stage:#eef2f7;--cb-panel:#ffffff;--cb-panel2:#f1f5f9;--cb-ink:#0f172a;--cb-muted:#475569;--cb-faint:#94a3b8;--cb-border:#e2e8f0;--cb-accent:#0891b2;--cb-accent2:#db2777;--cb-chip:#f1f5f9;--cb-glow:rgba(8,145,178,.10)}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:1240px;padding:20px;background:var(--cb-bg);color:var(--cb-ink);font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.6}
+a{color:var(--cb-accent)}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.brand{font-weight:700;background:linear-gradient(90deg,var(--cb-ink),var(--cb-accent) 70%,var(--cb-accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.spacer{flex:1}
+.home,.topbar button{font:inherit;font-size:12px;text-decoration:none;border:1px solid var(--cb-border);border-radius:9px;padding:6px 10px;color:var(--cb-ink);background:var(--cb-panel);cursor:pointer}
+.home:hover,.topbar button:hover{border-color:var(--cb-accent)}
+h1{margin:.4em 0 .2em;font-size:22px}
+h2{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--cb-muted);margin:26px 0 8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+.chips span{background:var(--cb-chip);border:1px solid var(--cb-border);border-radius:999px;padding:2px 10px;font-size:12px;color:var(--cb-muted)}
+.chips span b{color:var(--cb-accent)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:10px 0 2px;font-size:12px;color:var(--cb-muted)}
+.legend-title{letter-spacing:.12em;text-transform:uppercase;font-size:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;box-shadow:0 0 8px currentColor}
+.diagram-controls{margin:10px 0;text-align:center}
+.diagram-controls button{font:inherit;margin:0 5px;padding:8px 16px;background:var(--cb-panel);color:var(--cb-ink);border:1px solid var(--cb-border);border-radius:9px;cursor:pointer}
+.diagram-controls button:hover{border-color:var(--cb-accent)}
+.cb-wrap{border:1px solid var(--cb-border);border-radius:12px;background:radial-gradient(900px 400px at 20% 0%,var(--cb-glow),transparent 70%),var(--cb-stage);overflow:hidden}
+svg.cb-diagram{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+.cb-node rect{fill:var(--cb-panel2)}
+.cb-node:hover rect{stroke:var(--cb-accent)!important;stroke-width:3}
+.cb-node.hub rect{filter:drop-shadow(0 0 10px var(--cb-glow))}
+.cb-node a{text-decoration:none}
+.cb-node-label{fill:var(--cb-ink);font-size:13px;font-weight:700}
+.cb-node-sub{fill:var(--cb-muted);font-size:10px}
+.cb-node-layer{fill:var(--cb-muted);font-size:10px}
+.cb-node-sym{fill:var(--cb-accent);font-size:10.5px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.cb-node-hub{fill:var(--cb-accent2);font-size:9px;font-weight:700;text-anchor:end;letter-spacing:.1em}
+.cb-edge{fill:none;stroke:#38bdf8;stroke-opacity:.75}
+.cb-arrow{fill:#38bdf8;fill-opacity:.9}
+.cb-edge-label{fill:var(--cb-ink);font-size:10.5px;text-anchor:middle;paint-order:stroke;stroke:var(--cb-stage);stroke-width:4px}
+.cb-edge-sub{fill:var(--cb-muted);font-size:9px;text-anchor:middle;paint-order:stroke;stroke:var(--cb-stage);stroke-width:4px}
+.component{border:1px solid var(--cb-border);border-left:3px solid var(--cb-accent);background:var(--cb-panel);padding:15px;border-radius:10px;margin-bottom:20px}
+.component h3{color:var(--cb-ink);margin-top:0}
+.component h4{color:var(--cb-muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.rellist{list-style:none;padding-left:0}
+.rellist li{background:var(--cb-panel);border:1px solid var(--cb-border);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:12px}
+.rellist b{color:var(--cb-accent)}
+.references{list-style:none;padding-left:0;margin:10px 0}
+.references li{margin:4px 0}
+code{background:var(--cb-chip);border:1px solid var(--cb-border);padding:1px 6px;border-radius:6px;font-size:12px}
+.muted{color:var(--cb-muted)}
+footer{color:var(--cb-muted);font-size:12px;margin:24px 0}
+#cb-tip{position:fixed;z-index:50;pointer-events:none;display:none;max-width:340px;background:var(--cb-panel);color:var(--cb-ink);border:1px solid var(--cb-border);border-radius:10px;padding:8px 10px;font-size:12px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><span class="brand">Component diagrams</span>
+
+<span class="spacer"></span>
+<button type="button" id="cb-theme" title="Toggle light and dark theme">Theme</button></div>
+<main>
+<h1>Component Diagrams</h1>
+<div class="chips"><span>10 components</span><span>45 relations</span><span>191 files</span></div>
+<div class="legend"><span class="legend-title">Layer</span><span><i style="background:#fb923c"></i>testing</span><span><i style="background:#94a3b8"></i>utility</span></div>
+<div class="diagram-controls"><button type="button" id="cb-reset" title="Reset pan and zoom">Reset Layout</button><button type="button" id="cb-fit" title="Fit the diagram to the view">Fit to View</button><button type="button" id="cb-png" title="Export the diagram as PNG">Export PNG</button></div>
+<div class="cb-wrap"><svg id="cb-diagram" class="cb-diagram" viewBox="0 0 26750 1402" role="img" aria-label="Component diagram"><defs><marker id="cb-diagram-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M26710.0 107.0 C26760.0 107.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="198.0" class="cb-edge-label">calls into</text><text x="26575.0" y="212.0" class="cb-edge-sub">24 calls · 7 imports</text><path d="M26710.0 107.0 C26760.0 107.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="297.0" class="cb-edge-label">calls into</text><text x="26575.0" y="311.0" class="cb-edge-sub">176 calls · 9 imports</text><path d="M26710.0 107.0 C26760.0 107.0 26390.0 701.0 26440.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="396.0" class="cb-edge-label">calls into</text><text x="26575.0" y="410.0" class="cb-edge-sub">11 calls · 2 imports</text><path d="M26710.0 107.0 C26760.0 107.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="495.0" class="cb-edge-label">calls into</text><text x="26575.0" y="509.0" class="cb-edge-sub">43 calls · 6 imports</text><path d="M26710.0 107.0 C26760.0 107.0 26390.0 1097.0 26440.0 1097.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.8"/><text x="26575.0" y="594.0" class="cb-edge-label">depends on</text><text x="26575.0" y="608.0" class="cb-edge-sub">4 calls · 5 imports</text><path d="M26710.0 107.0 C26760.0 107.0 26390.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="693.0" class="cb-edge-label">calls into</text><text x="26575.0" y="707.0" class="cb-edge-sub">25 calls · 7 imports</text><path d="M26710.0 107.0 C26760.0 107.0 25910.0 701.0 25960.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26335.0" y="396.0" class="cb-edge-label">calls into</text><text x="26335.0" y="410.0" class="cb-edge-sub">12 calls · 2 imports</text><path d="M310.0 602.0 C13375.0 602.0 13375.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:2.5"/><text x="13375.0" y="742.5" class="cb-edge-label">calls into</text><text x="13375.0" y="756.5" class="cb-edge-sub">1 calls · 0 imports</text><path d="M26710.0 305.0 C26760.0 305.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="198.0" class="cb-edge-label">calls into</text><text x="26575.0" y="212.0" class="cb-edge-sub">37 calls · 1 imports</text><path d="M26710.0 305.0 C26760.0 305.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="396.0" class="cb-edge-label">calls into</text><text x="26575.0" y="410.0" class="cb-edge-sub">67 calls · 13 imports</text><path d="M26710.0 305.0 C26760.0 305.0 26390.0 701.0 26440.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="495.0" class="cb-edge-label">calls into</text><text x="26575.0" y="509.0" class="cb-edge-sub">7 calls · 3 imports</text><path d="M26710.0 305.0 C26760.0 305.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="594.0" class="cb-edge-label">calls into</text><text x="26575.0" y="608.0" class="cb-edge-sub">22 calls · 2 imports</text><path d="M26710.0 305.0 C26760.0 305.0 26390.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="792.0" class="cb-edge-label">calls into</text><text x="26575.0" y="806.0" class="cb-edge-sub">32 calls · 5 imports</text><path d="M26710.0 305.0 C26760.0 305.0 25910.0 701.0 25960.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.5"/><text x="26335.0" y="495.0" class="cb-edge-label">depends on</text><text x="26335.0" y="509.0" class="cb-edge-sub">3 calls · 4 imports</text><path d="M26710.0 503.0 C26760.0 503.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="297.0" class="cb-edge-label">calls into</text><text x="26575.0" y="311.0" class="cb-edge-sub">12 calls · 0 imports</text><path d="M26710.0 503.0 C26760.0 503.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.5"/><text x="26575.0" y="396.0" class="cb-edge-label">calls into</text><text x="26575.0" y="410.0" class="cb-edge-sub">3 calls · 0 imports</text><path d="M26710.0 503.0 C26760.0 503.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="693.0" class="cb-edge-label">calls into</text><text x="26575.0" y="707.0" class="cb-edge-sub">19 calls · 0 imports</text><path d="M26710.0 503.0 C26760.0 503.0 26390.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.1"/><text x="26575.0" y="891.0" class="cb-edge-label">calls into</text><text x="26575.0" y="905.0" class="cb-edge-sub">1 calls · 1 imports</text><path d="M26710.0 701.0 C26760.0 701.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="396.0" class="cb-edge-label">calls into</text><text x="26575.0" y="410.0" class="cb-edge-sub">22 calls · 1 imports</text><path d="M26710.0 701.0 C26760.0 701.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="495.0" class="cb-edge-label">calls into</text><text x="26575.0" y="509.0" class="cb-edge-sub">57 calls · 0 imports</text><path d="M26710.0 701.0 C26760.0 701.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.1"/><text x="26575.0" y="594.0" class="cb-edge-label">depends on</text><text x="26575.0" y="608.0" class="cb-edge-sub">1 calls · 4 imports</text><path d="M26710.0 701.0 C26760.0 701.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="792.0" class="cb-edge-label">calls into</text><text x="26575.0" y="806.0" class="cb-edge-sub">17 calls · 1 imports</text><path d="M26710.0 701.0 C26760.0 701.0 26390.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:2.5"/><text x="26575.0" y="990.0" class="cb-edge-label">depends on</text><text x="26575.0" y="1004.0" class="cb-edge-sub">0 calls · 1 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="495.0" class="cb-edge-label">calls into</text><text x="26575.0" y="509.0" class="cb-edge-sub">27 calls · 3 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="594.0" class="cb-edge-label">calls into</text><text x="26575.0" y="608.0" class="cb-edge-sub">65 calls · 4 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="693.0" class="cb-edge-label">depends on</text><text x="26575.0" y="707.0" class="cb-edge-sub">6 calls · 7 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 701.0 26440.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.3"/><text x="26575.0" y="792.0" class="cb-edge-label">calls into</text><text x="26575.0" y="806.0" class="cb-edge-sub">5 calls · 1 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 1097.0 26440.0 1097.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.8"/><text x="26575.0" y="990.0" class="cb-edge-label">depends on</text><text x="26575.0" y="1004.0" class="cb-edge-sub">0 calls · 4 imports</text><path d="M26710.0 899.0 C26760.0 899.0 26390.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="1089.0" class="cb-edge-label">calls into</text><text x="26575.0" y="1103.0" class="cb-edge-sub">12 calls · 4 imports</text><path d="M26710.0 899.0 C26760.0 899.0 25910.0 701.0 25960.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.1"/><text x="26335.0" y="792.0" class="cb-edge-label">calls into</text><text x="26335.0" y="806.0" class="cb-edge-sub">1 calls · 1 imports</text><path d="M26710.0 1097.0 C26760.0 1097.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="594.0" class="cb-edge-label">calls into</text><text x="26575.0" y="608.0" class="cb-edge-sub">23 calls · 0 imports</text><path d="M26710.0 1097.0 C26760.0 1097.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.7"/><text x="26575.0" y="693.0" class="cb-edge-label">calls into</text><text x="26575.0" y="707.0" class="cb-edge-sub">8 calls · 0 imports</text><path d="M26710.0 1097.0 C26760.0 1097.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="792.0" class="cb-edge-label">calls into</text><text x="26575.0" y="806.0" class="cb-edge-sub">8 calls · 3 imports</text><path d="M26710.0 1097.0 C26760.0 1097.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="990.0" class="cb-edge-label">calls into</text><text x="26575.0" y="1004.0" class="cb-edge-sub">11 calls · 0 imports</text><path d="M310.0 800.0 C13375.0 800.0 13375.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.5"/><text x="13375.0" y="445.5" class="cb-edge-label">calls into</text><text x="13375.0" y="459.5" class="cb-edge-sub">3 calls · 0 imports</text><path d="M26710.0 1295.0 C26760.0 1295.0 26390.0 107.0 26440.0 107.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.5"/><text x="26575.0" y="693.0" class="cb-edge-label">calls into</text><text x="26575.0" y="707.0" class="cb-edge-sub">7 calls · 0 imports</text><path d="M26710.0 1295.0 C26760.0 1295.0 26390.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.3"/><text x="26575.0" y="792.0" class="cb-edge-label">calls into</text><text x="26575.0" y="806.0" class="cb-edge-sub">6 calls · 0 imports</text><path d="M26710.0 1295.0 C26760.0 1295.0 26390.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:5.0"/><text x="26575.0" y="891.0" class="cb-edge-label">calls into</text><text x="26575.0" y="905.0" class="cb-edge-sub">6 calls · 6 imports</text><path d="M26710.0 1295.0 C26760.0 1295.0 26390.0 701.0 26440.0 701.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.1"/><text x="26575.0" y="990.0" class="cb-edge-label">calls into</text><text x="26575.0" y="1004.0" class="cb-edge-sub">1 calls · 1 imports</text><path d="M26710.0 1295.0 C26760.0 1295.0 26390.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.8"/><text x="26575.0" y="1089.0" class="cb-edge-label">calls into</text><text x="26575.0" y="1103.0" class="cb-edge-sub">2 calls · 2 imports</text><path d="M26230.0 701.0 C26335.0 701.0 26335.0 305.0 26440.0 305.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:2.5"/><text x="26335.0" y="495.0" class="cb-edge-label">depends on</text><text x="26335.0" y="509.0" class="cb-edge-sub">0 calls · 1 imports</text><path d="M26230.0 701.0 C26335.0 701.0 26335.0 503.0 26440.0 503.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.3"/><text x="26335.0" y="594.0" class="cb-edge-label">depends on</text><text x="26335.0" y="608.0" class="cb-edge-sub">2 calls · 4 imports</text><path d="M26230.0 701.0 C26335.0 701.0 26335.0 899.0 26440.0 899.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:2.5"/><text x="26335.0" y="792.0" class="cb-edge-label">calls into</text><text x="26335.0" y="806.0" class="cb-edge-sub">1 calls · 0 imports</text><path d="M26230.0 701.0 C26335.0 701.0 26335.0 1097.0 26440.0 1097.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:4.7"/><text x="26335.0" y="891.0" class="cb-edge-label">calls into</text><text x="26335.0" y="905.0" class="cb-edge-sub">5 calls · 3 imports</text><path d="M26230.0 701.0 C26335.0 701.0 26335.0 1295.0 26440.0 1295.0" class="cb-edge" marker-end="url(#cb-diagram-arrow)" style="stroke-width:3.8"/><text x="26335.0" y="990.0" class="cb-edge-label">calls into</text><text x="26335.0" y="1004.0" class="cb-edge-sub">2 calls · 2 imports</text><g class="cb-node linked" data-desc="estorides_core: estorides_web groups 27 files (py) around _sse_response, _provides, deco, wrapper, _client_ip. Deprecated entry point."><a href="#comp-1"><rect x="26440.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="26454.0" y="64.0" class="cb-node-label">estorides_core: estorides_w…</text><text x="26454.0" y="80.0" class="cb-node-sub">27 files · 332 symbols</text><circle cx="26460.0" cy="92.0" r="4" fill="#fb923c"/><text x="26470.0" y="96.0" class="cb-node-layer">testing</text><text x="26454.0" y="112.0" class="cb-node-sym">_sse_response</text><text x="26454.0" y="126.0" class="cb-node-sym">_provides</text><text x="26454.0" y="140.0" class="cb-node-sym">deco</text><text x="26454.0" y="154.0" class="cb-node-sub">+315 more</text></a></g><g class="cb-node" data-desc="estorides_core: source_health_monitoring groups 3 files (py) around SourceHealthStatus, SourceHealthConfig, __post_init__, SourceHealthInput, __post_init__. estorides_core.source_health_monitoring"><a href="#comp-10"><rect x="40.0" y="535.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="559.0" class="cb-node-label">estorides_core: source_heal…</text><text x="54.0" y="575.0" class="cb-node-sub">3 files · 73 symbols</text><circle cx="60.0" cy="587.0" r="4" fill="#fb923c"/><text x="70.0" y="591.0" class="cb-node-layer">testing</text><text x="54.0" y="607.0" class="cb-node-sym">SourceHealthStatus</text><text x="54.0" y="621.0" class="cb-node-sym">SourceHealthConfig</text><text x="54.0" y="635.0" class="cb-node-sym">__post_init__</text><text x="54.0" y="649.0" class="cb-node-sub">+68 more</text></a></g><g class="cb-node linked" data-desc="estorides_core: parsers groups 21 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer."><a href="#comp-2"><rect x="26440.0" y="238.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="26454.0" y="262.0" class="cb-node-label">estorides_core: parsers</text><text x="26454.0" y="278.0" class="cb-node-sub">21 files · 419 symbols</text><circle cx="26460.0" cy="290.0" r="4" fill="#fb923c"/><text x="26470.0" y="294.0" class="cb-node-layer">testing</text><text x="26454.0" y="310.0" class="cb-node-sym">_d</text><text x="26454.0" y="324.0" class="cb-node-sym">_first_dict</text><text x="26454.0" y="338.0" class="cb-node-sym">_list</text><text x="26454.0" y="352.0" class="cb-node-sub">+400 more</text></a></g><g class="cb-node linked hub" data-desc="estorides_core: config groups 19 files (py) around ensure_data_dirs, ensure_reports_dir, _env_tool_allowlist, contact_level, effective_proxies. estorides_core.async_client"><a href="#comp-3"><rect x="26440.0" y="436.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="3"/><text x="26454.0" y="460.0" class="cb-node-label">estorides_core: config</text><text x="26454.0" y="476.0" class="cb-node-sub">19 files · 303 symbols</text><circle cx="26460.0" cy="488.0" r="4" fill="#94a3b8"/><text x="26470.0" y="492.0" class="cb-node-layer">utility</text><text x="26454.0" y="508.0" class="cb-node-sym">ensure_data_dirs</text><text x="26454.0" y="522.0" class="cb-node-sym">ensure_reports_dir</text><text x="26454.0" y="536.0" class="cb-node-sym">_env_tool_allowlist</text><text x="26454.0" y="550.0" class="cb-node-sub">+259 more</text><text x="26696.0" y="456.0" class="cb-node-hub">HUB</text></a></g><g class="cb-node linked" data-desc="estorides_core: hypothesis_engine groups 19 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection"><a href="#comp-4"><rect x="26440.0" y="634.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="26454.0" y="658.0" class="cb-node-label">estorides_core: hypothesis_…</text><text x="26454.0" y="674.0" class="cb-node-sub">19 files · 447 symbols</text><circle cx="26460.0" cy="686.0" r="4" fill="#fb923c"/><text x="26470.0" y="690.0" class="cb-node-layer">testing</text><text x="26454.0" y="706.0" class="cb-node-sym">SourceReliability</text><text x="26454.0" y="720.0" class="cb-node-sym">Credibility</text><text x="26454.0" y="734.0" class="cb-node-sym">SourceType</text><text x="26454.0" y="748.0" class="cb-node-sub">+425 more</text></a></g><g class="cb-node linked" data-desc="estorides_core: estorides groups 17 files (js, py) around SqliteStore, __init__, _init_schema, _tx, close. estorides CLI."><a href="#comp-5"><rect x="26440.0" y="832.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="26454.0" y="856.0" class="cb-node-label">estorides_core: estorides</text><text x="26454.0" y="872.0" class="cb-node-sub">17 files · 504 symbols</text><circle cx="26460.0" cy="884.0" r="4" fill="#fb923c"/><text x="26470.0" y="888.0" class="cb-node-layer">testing</text><text x="26454.0" y="904.0" class="cb-node-sym">SqliteStore</text><text x="26454.0" y="918.0" class="cb-node-sym">__init__</text><text x="26454.0" y="932.0" class="cb-node-sym">_init_schema</text><text x="26454.0" y="946.0" class="cb-node-sub">+468 more</text></a></g><g class="cb-node linked" data-desc="estorides_core: graph_bundle groups 15 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__"><a href="#comp-6"><rect x="26440.0" y="1030.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="26454.0" y="1054.0" class="cb-node-label">estorides_core: graph_bundle</text><text x="26454.0" y="1070.0" class="cb-node-sub">15 files · 158 symbols</text><circle cx="26460.0" cy="1082.0" r="4" fill="#fb923c"/><text x="26470.0" y="1086.0" class="cb-node-layer">testing</text><text x="26454.0" y="1102.0" class="cb-node-sym">family_color_from_name</text><text x="26454.0" y="1116.0" class="cb-node-sym">node_value</text><text x="26454.0" y="1130.0" class="cb-node-sym">force_settings</text><text x="26454.0" y="1144.0" class="cb-node-sub">+152 more</text></a></g><g class="cb-node linked" data-desc="estorides_core: people_intel groups 15 files (py) around CloudAsset, to_dict, CloudAssetDiscoveryResult, to_dict, generate_bucket_names."><a href="#comp-7"><rect x="40.0" y="733.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="3"/><text x="54.0" y="757.0" class="cb-node-label">estorides_core: people_intel</text><text x="54.0" y="773.0" class="cb-node-sub">15 files · 196 symbols</text><circle cx="60.0" cy="785.0" r="4" fill="#94a3b8"/><text x="70.0" y="789.0" class="cb-node-layer">utility</text><text x="54.0" y="805.0" class="cb-node-sym">CloudAsset</text><text x="54.0" y="819.0" class="cb-node-sym">to_dict</text><text x="54.0" y="833.0" class="cb-node-sym">CloudAssetDiscoveryResu…</text><text x="54.0" y="847.0" class="cb-node-sub">+172 more</text></a></g><g class="cb-node linked" data-desc="estorides_export groups 15 files (py) around Entity, to_dict, _looks_like_phone, normalize_query, detect_query_type. estorides_core.entity_extraction"><a href="#comp-8"><rect x="26440.0" y="1228.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="3"/><text x="26454.0" y="1252.0" class="cb-node-label">estorides_export</text><text x="26454.0" y="1268.0" class="cb-node-sub">15 files · 214 symbols</text><circle cx="26460.0" cy="1280.0" r="4" fill="#94a3b8"/><text x="26470.0" y="1284.0" class="cb-node-layer">utility</text><text x="26454.0" y="1300.0" class="cb-node-sym">Entity</text><text x="26454.0" y="1314.0" class="cb-node-sym">to_dict</text><text x="26454.0" y="1328.0" class="cb-node-sym">_looks_like_phone</text><text x="26454.0" y="1342.0" class="cb-node-sub">+199 more</text></a></g><g class="cb-node linked" data-desc="estorides_core: tool_install groups 12 files (py) around ToolError, ToolNotAllowedError, ToolInjectionError, ToolNotFoundError, ToolTimeoutError. estorides_core.lan_runner"><a href="#comp-9"><rect x="25960.0" y="634.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="3"/><text x="25974.0" y="658.0" class="cb-node-label">estorides_core: tool_install</text><text x="25974.0" y="674.0" class="cb-node-sub">12 files · 186 symbols</text><circle cx="25980.0" cy="686.0" r="4" fill="#fb923c"/><text x="25990.0" y="690.0" class="cb-node-layer">testing</text><text x="25974.0" y="706.0" class="cb-node-sym">ToolError</text><text x="25974.0" y="720.0" class="cb-node-sym">ToolNotAllowedError</text><text x="25974.0" y="734.0" class="cb-node-sym">ToolInjectionError</text><text x="25974.0" y="748.0" class="cb-node-sub">+169 more</text></a></g></svg></div>
+<h2>Details</h2>
+<p>Static architecture map of 191 files (js, py, sh) in 10 components: estorides_core: estorides_web, estorides_core: parsers, estorides_core: config, estorides_core: hypothesis_engine, estorides_core: estorides, estorides_core: graph_bundle, estorides_core: people_intel, estorides_export. Structure is extracted statically without LLM calls; component prose may be enriched locally.</p>
+<h2>Relations</h2>
+<ul class="rellist">
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_core: parsers</b> — 7 imports, 24 calls across the boundary
+<br><code>estorides_web.py::create_app@285 → estorides_core/orchestrator.py::Orchestrator</code> · <code>estorides_web.py::api_run@390 → estorides_core/orchestrator.py::run</code> · <code>estorides_web.py::api_run@390 → estorides_core/orchestrator.py::run</code>
+</li>
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_core: config</b> — 9 imports, 176 calls across the boundary
+<br><code>estorides_core/ops_observability.py::_clean_label@45 → estorides_core/transforms.py::sub</code> · <code>estorides_web.py::_client_ip@111 → estorides_core/intel_resolver.py::get</code> · <code>estorides_web.py::_client_ip@112 → estorides_core/intel_resolver.py::get</code>
+</li>
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_core: hypothesis_engine</b> — 2 imports, 11 calls across the boundary
+<br><code>estorides_web.py::create_app@678 → estorides_core/fusion_analytics.py::FusionAnalytics</code> · <code>estorides_web.py::api_fusion_sources@879 → estorides_core/fusion_store.py::list_sources</code> · <code>estorides_web.py::api_fusion_entities@897 → estorides_core/fusion_store.py::search_entities</code>
+</li>
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_core: estorides</b> — 6 imports, 43 calls across the boundary
+<br><code>estorides_web.py::api_cases_list@691 → estorides_core/cases.py::search_cases</code> · <code>estorides_web.py::api_cases_list@692 → estorides_core/cases.py::stats</code> · <code>estorides_web.py::api_cases_get@700 → estorides_core/cases.py::get_case</code>
+</li>
+<li><b>estorides_core: estorides_web</b> depends on <b>estorides_core: graph_bundle</b> — 5 imports, 4 calls across the boundary
+<br><code>estorides_web.py::api_graph@550 → estorides_core/graph_force.py::build_force_payload</code> · <code>estorides_web.py::api_graph@551 → estorides_core/graph_force.py::force_settings</code> · <code>estorides_web.py::api_graph@562 → estorides_core/graph_bundle.py::build_bundle_payload</code>
+</li>
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_export</b> — 7 imports, 25 calls across the boundary
+<br><code>estorides_web.py::_graph_rag_block@250 → estorides_core/knowledge_graph.py::KnowledgeGraph</code> · <code>estorides_web.py::_graph_rag_block@252 → estorides_core/knowledge_graph.py::communities</code> · <code>estorides_web.py::api_status@353 → estorides_core/knowledge_graph.py::summary</code>
+</li>
+<li><b>estorides_core: estorides_web</b> calls into <b>estorides_core: tool_install</b> — 2 imports, 12 calls across the boundary
+<br><code>estorides_web.py::api_run@376 → estorides_core/validation.py::validate_query</code> · <code>estorides_web.py::api_lan_scan@441 → estorides_core/lan_runner.py::scan</code> · <code>estorides_web.py::api_run_stream_start@1604 → estorides_core/validation.py::validate_query</code>
+</li>
+<li><b>estorides_core: source_health_monitoring</b> calls into <b>estorides_core: estorides</b> — 0 imports, 1 calls across the boundary
+<br><code>tests/properties/test_source_health_monitoring_properties.py@38 → static/js/estorides.js::text</code>
+</li>
+<li><b>estorides_core: parsers</b> calls into <b>estorides_core: estorides_web</b> — 1 imports, 37 calls across the boundary
+<br><code>estorides_core/discoverer.py::_on_target_start@117 → estorides_core/job_registry.py::get</code> · <code>estorides_core/discoverer.py::_on_target_start@121 → estorides_core/job_registry.py::get</code> · <code>estorides_core/discoverer.py::_on_target_start@122 → estorides_core/job_registry.py::get</code>
+</li>
+<li><b>estorides_core: parsers</b> calls into <b>estorides_core: config</b> — 13 imports, 67 calls across the boundary
+<br><code>estorides_core/discoverer.py::create_discover_job@224 → estorides_core/config.py::clamp_depth</code> · <code>estorides_core/discoverer.py::create_discover_job@225 → estorides_core/config.py::clamp_steps</code> · <code>estorides_core/discoverer.py::create_discover_job@226 → estorides_core/config.py::clamp_entities</code>
+</li>
+<li><b>estorides_core: parsers</b> calls into <b>estorides_core: hypothesis_engine</b> — 3 imports, 7 calls across the boundary
+<br><code>estorides_core/orchestrator.py::__init__@185 → estorides_core/fusion_store.py::register_sources</code> · <code>estorides_core/orchestrator.py::run@555 → estorides_core/fusion_store.py::fuse_entities</code> · <code>estorides_core/orchestrator.py::run@563 → estorides_core/fusion_store.py::fuse_entity</code>
+</li>
+<li><b>estorides_core: parsers</b> calls into <b>estorides_core: estorides</b> — 2 imports, 22 calls across the boundary
+<br><code>estorides_core/discoverer.py::create_discover_job@214 → estorides_core/cases.py::create_case</code> · <code>estorides_core/orchestrator.py::run@258 → estorides_core/cases.py::create_case</code> · <code>estorides_core/orchestrator.py::run@392 → estorides_core/cases.py::add_observation</code>
+</li>
+<li><b>estorides_core: parsers</b> calls into <b>estorides_export</b> — 5 imports, 32 calls across the boundary
+<br><code>estorides_core/orchestrator.py::__init__@179 → estorides_core/knowledge_graph.py::KnowledgeGraph</code> · <code>estorides_core/orchestrator.py::run@240 → estorides_core/entity_extraction.py::detect_query_type</code> · <code>estorides_core/orchestrator.py::run@434 → estorides_core/entity_extraction.py::extract_from_json</code>
+</li>
+<li><b>estorides_core: parsers</b> depends on <b>estorides_core: tool_install</b> — 4 imports, 3 calls across the boundary
+<br><code>tests/properties/test_system_app_sources_properties.py::test_adversarial_query_rejected_at_runner_boundary@134 → estorides_core/tool_runner.py::_check_injection</code> · <code>tests/test_system_app_sources.py::stub@58 → estorides_core/tool_runner.py::ToolResult</code> · <code>tests/test_system_app_sources.py::timeout_runner@415 → estorides_core/tool_runner.py::ToolErrorResult</code>
+</li>
+<li><b>estorides_core: config</b> calls into <b>estorides_core: estorides_web</b> — 0 imports, 12 calls across the boundary
+<br><code>estorides_core/async_client.py::record_success@76 → estorides_core/job_registry.py::pop</code> · <code>estorides_core/async_client.py::record_success@77 → estorides_core/job_registry.py::pop</code> · <code>estorides_core/feeds.py::list_feeds@317 → estorides_core/job_registry.py::values</code>
+</li>
+<li><b>estorides_core: config</b> calls into <b>estorides_core: parsers</b> — 0 imports, 3 calls across the boundary
+<br><code>estorides_core/async_client.py::_init_db@125 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/async_client.py::get@150 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/async_client.py::set@166 → estorides_core/system_app_sources.py::execute</code>
+</li>
+<li><b>estorides_core: config</b> calls into <b>estorides_core: estorides</b> — 0 imports, 19 calls across the boundary
+<br><code>estorides_core/async_client.py::_redact_proxy@58 → estorides_core/scope.py::partition</code> · <code>estorides_core/async_client.py::fetch@345 → static/js/estorides.js::text</code> · <code>tests/properties/test_observation_models_properties.py@27 → static/js/estorides.js::text</code>
+</li>
+<li><b>estorides_core: config</b> calls into <b>estorides_export</b> — 1 imports, 1 calls across the boundary
+<br><code>tests/test_structured_extraction.py::_types@34 → estorides_core/entity_extraction.py::extract_structured</code>
+</li>
+<li><b>estorides_core: hypothesis_engine</b> calls into <b>estorides_core: estorides_web</b> — 1 imports, 22 calls across the boundary
+<br><code>estorides_core/change_detection.py::_property_diff@211 → estorides_core/job_registry.py::keys</code> · <code>estorides_core/change_detection.py::_property_diff@212 → estorides_core/job_registry.py::keys</code> · <code>estorides_core/change_detection.py::detect_changes@344 → estorides_core/job_registry.py::keys</code>
+</li>
+<li><b>estorides_core: hypothesis_engine</b> calls into <b>estorides_core: parsers</b> — 0 imports, 57 calls across the boundary
+<br><code>estorides_core/fusion_analytics.py::entity_timeline@51 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/fusion_analytics.py::entity_timeline@61 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/fusion_analytics.py::entity_timeline@69 → estorides_core/system_app_sources.py::execute</code>
+</li>
+<li><b>estorides_core: hypothesis_engine</b> depends on <b>estorides_core: config</b> — 4 imports, 1 calls across the boundary
+<br><code>tests/test_recon_fusion.py::test_bad_thresholds_raise@162 → estorides_core/config.py::ReconFusionConfig</code>
+</li>
+<li><b>estorides_core: hypothesis_engine</b> calls into <b>estorides_core: estorides</b> — 1 imports, 17 calls across the boundary
+<br><code>estorides_core/fusion_store.py::register_sources@246 → estorides_core/sqlite_store.py::_tx</code> · <code>estorides_core/fusion_store.py::add_observation@275 → estorides_core/sqlite_store.py::_tx</code> · <code>estorides_core/fusion_store.py::fuse_entity@338 → estorides_core/sqlite_store.py::_tx</code>
+</li>
+<li><b>estorides_core: hypothesis_engine</b> depends on <b>estorides_export</b> — 1 imports, 0 calls across the boundary
+</li>
+<li><b>estorides_core: estorides</b> calls into <b>estorides_core: estorides_web</b> — 3 imports, 27 calls across the boundary
+<br><code>estorides_cli.py::cmd_discover@196 → estorides_core/job_registry.py::values</code> · <code>estorides_cli.py::cmd_serve@697 → estorides_web.py::create_app</code> · <code>static/js/estorides.js::summariseObservation@199 → estorides_core/job_registry.py::keys</code>
+</li>
+<li><b>estorides_core: estorides</b> calls into <b>estorides_core: parsers</b> — 4 imports, 65 calls across the boundary
+<br><code>estorides_cli.py::cmd_discover@117 → estorides_core/discoverer.py::start_discover</code> · <code>estorides_cli.py::cmd_run@215 → estorides_core/orchestrator.py::Orchestrator</code> · <code>estorides_cli.py::cmd_run@231 → estorides_core/orchestrator.py::run</code>
+</li>
+<li><b>estorides_core: estorides</b> depends on <b>estorides_core: config</b> — 7 imports, 6 calls across the boundary
+<br><code>estorides_core/alerter.py::_http_post@88 → estorides_core/ssrf_guard.py::check_url</code> · <code>static/js/estorides.js::caseActionReport@2796 → estorides_core/ontology.py::entries</code> · <code>tests/test_security_remediation.py::test_dns_failure_log_omits_hostname@34 → estorides_core/ssrf_guard.py::_resolve</code>
+</li>
+<li><b>estorides_core: estorides</b> calls into <b>estorides_core: hypothesis_engine</b> — 1 imports, 5 calls across the boundary
+<br><code>estorides_cli.py::cmd_fusion@463 → estorides_core/fusion_store.py::open_store</code> · <code>estorides_cli.py::cmd_fusion@471 → estorides_core/fusion_store.py::list_sources</code> · <code>estorides_cli.py::cmd_fusion@473 → estorides_core/fusion_store.py::search_entities</code>
+</li>
+<li><b>estorides_core: estorides</b> depends on <b>estorides_core: graph_bundle</b> — 4 imports, 0 calls across the boundary
+</li>
+<li><b>estorides_core: estorides</b> calls into <b>estorides_export</b> — 4 imports, 12 calls across the boundary
+<br><code>estorides_cli.py::cmd_discover@106 → estorides_core/entity_extraction.py::detect_query_type</code> · <code>estorides_cli.py::cmd_scope@318 → estorides_core/entity_extraction.py::to_dict</code> · <code>estorides_cli.py::cmd_graph_export@329 → estorides_core/knowledge_graph.py::KnowledgeGraph</code>
+</li>
+<li><b>estorides_core: estorides</b> calls into <b>estorides_core: tool_install</b> — 1 imports, 1 calls across the boundary
+<br><code>estorides_cli.py::cmd_run@209 → estorides_core/validation.py::validate_query</code>
+</li>
+<li><b>estorides_core: graph_bundle</b> calls into <b>estorides_core: estorides_web</b> — 0 imports, 23 calls across the boundary
+<br><code>estorides_core/graph_bundle.py::build_bundle_payload@481 → estorides_core/job_registry.py::keys</code> · <code>estorides_core/graph_force.py::build_force_payload@228 → estorides_core/job_registry.py::values</code> · <code>estorides_core/graph_force.py::build_force_payload@321 → estorides_core/job_registry.py::values</code>
+</li>
+<li><b>estorides_core: graph_bundle</b> calls into <b>estorides_core: parsers</b> — 0 imports, 8 calls across the boundary
+<br><code>tests/test_orchestrator_fanout.py::_norm@30 → estorides_core/orchestrator.py::_normalise_results</code> · <code>tests/test_orchestrator_fanout.py::go@72 → estorides_core/orchestrator.py::_run_system_app</code> · <code>tests/test_parsers.py::test_otx_null_entry_skipped@40 → estorides_core/parsers.py::parse_otx</code>
+</li>
+<li><b>estorides_core: graph_bundle</b> calls into <b>estorides_core: config</b> — 3 imports, 8 calls across the boundary
+<br><code>estorides_core/lan_inventory.py::normalize_mac@71 → estorides_core/transforms.py::sub</code> · <code>tests/test_retry_policy.py::test_delays_geometric_and_capped@8 → estorides_core/config.py::retry_delay</code> · <code>tests/test_retry_policy.py::test_delays_geometric_and_capped@9 → estorides_core/config.py::retry_delay</code>
+</li>
+<li><b>estorides_core: graph_bundle</b> calls into <b>estorides_core: estorides</b> — 0 imports, 11 calls across the boundary
+<br><code>tests/properties/test_graph_bundle_properties.py@23 → static/js/estorides.js::text</code> · <code>tests/properties/test_graph_bundle_properties.py@24 → static/js/estorides.js::text</code> · <code>tests/properties/test_graph_bundle_properties.py::force_strategy@41 → static/js/estorides.js::text</code>
+</li>
+<li><b>estorides_core: people_intel</b> calls into <b>estorides_core: estorides_web</b> — 0 imports, 3 calls across the boundary
+<br><code>estorides_core/people_intel.py::to_dict@24 → estorides_core/job_registry.py::pop</code> · <code>estorides_core/tech_fingerprint.py::fingerprint@206 → estorides_core/job_registry.py::values</code> · <code>tests/test_pdns_monitor.py::test_tracks_ip_changes@42 → estorides_core/job_registry.py::keys</code>
+</li>
+<li><b>estorides_export</b> calls into <b>estorides_core: estorides_web</b> — 0 imports, 7 calls across the boundary
+<br><code>estorides_core/entity_extraction.py::extract_from_text@166 → estorides_core/job_registry.py::keys</code> · <code>estorides_core/entity_extraction.py::merge@448 → estorides_core/job_registry.py::values</code> · <code>estorides_core/entity_extraction.py::merge@459 → estorides_core/job_registry.py::values</code>
+</li>
+<li><b>estorides_export</b> calls into <b>estorides_core: parsers</b> — 0 imports, 6 calls across the boundary
+<br><code>estorides_core/entity_store.py::lookup@88 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/entity_store.py::lookup@95 → estorides_core/system_app_sources.py::execute</code> · <code>estorides_core/entity_store.py::upsert@115 → estorides_core/system_app_sources.py::execute</code>
+</li>
+<li><b>estorides_export</b> calls into <b>estorides_core: config</b> — 6 imports, 6 calls across the boundary
+<br><code>estorides_core/entity_extraction.py::_looks_like_phone@53 → estorides_core/transforms.py::sub</code> · <code>estorides_core/entity_resolution.py::_normalize_domain@180 → estorides_core/transforms.py::sub</code> · <code>estorides_core/entity_resolution.py::_normalize_name@197 → estorides_core/transforms.py::sub</code>
+</li>
+<li><b>estorides_export</b> calls into <b>estorides_core: hypothesis_engine</b> — 1 imports, 1 calls across the boundary
+<br><code>estorides_core/entity_resolution.py::canonical_id@254 → estorides_core/ids.py::stable_id</code>
+</li>
+<li><b>estorides_export</b> calls into <b>estorides_core: estorides</b> — 2 imports, 2 calls across the boundary
+<br><code>estorides_core/entity_resolution.py::blocking_keys@276 → estorides_core/scope.py::partition</code> · <code>estorides_core/entity_store.py::upsert@114 → estorides_core/sqlite_store.py::_tx</code>
+</li>
+<li><b>estorides_core: tool_install</b> depends on <b>estorides_core: parsers</b> — 1 imports, 0 calls across the boundary
+</li>
+<li><b>estorides_core: tool_install</b> depends on <b>estorides_core: config</b> — 4 imports, 2 calls across the boundary
+<br><code>estorides_core/validation.py::_strip_and_collapse@78 → estorides_core/transforms.py::sub</code> · <code>estorides_core/validation.py::_strip_and_collapse@79 → estorides_core/transforms.py::sub</code>
+</li>
+<li><b>estorides_core: tool_install</b> calls into <b>estorides_core: estorides</b> — 0 imports, 1 calls across the boundary
+<br><code>tests/properties/test_tool_runner_properties.py::test_run_tool_never_raises@56 → static/js/estorides.js::text</code>
+</li>
+<li><b>estorides_core: tool_install</b> calls into <b>estorides_core: graph_bundle</b> — 3 imports, 5 calls across the boundary
+<br><code>estorides_core/lan_runner.py::scan@194 → estorides_core/lan_inventory.py::parse_active_output</code> · <code>estorides_core/lan_runner.py::scan@206 → estorides_core/lan_inventory.py::parse_arp_table</code> · <code>estorides_core/lan_runner.py::scan@206 → estorides_core/lan_inventory.py::parse_dhcp_leases</code>
+</li>
+<li><b>estorides_core: tool_install</b> calls into <b>estorides_export</b> — 2 imports, 2 calls across the boundary
+<br><code>estorides_core/tool_runner.py::_parse_entities_generic@137 → estorides_core/entity_extraction.py::detect_query_type</code> · <code>estorides_core/validation.py::validate_query@123 → estorides_core/entity_extraction.py::detect_query_type</code>
+</li>
+</ul>
+<section class="component" id="comp-1">
+<h3>estorides_core: estorides_web (1)
+ <a href="#comp-1-children">[Expand]</a>
+</h3>
+<p>estorides_core: estorides_web groups 27 files (py) around _sse_response, _provides, deco, wrapper, _client_ip. Deprecated entry point.</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_web.py#L78-L82"><code>estorides_web.py::_sse_response</code></a></li>
+<li><a href="../estorides_web.py#L83-L89"><code>estorides_web.py::_provides</code></a></li>
+<li><a href="../estorides_web.py#L90-L91"><code>estorides_web.py::deco</code></a></li>
+<li><a href="../estorides_web.py#L92-L101"><code>estorides_web.py::wrapper</code></a></li>
+<li><a href="../estorides_web.py#L102-L118"><code>estorides_web.py::_client_ip</code></a></li>
+<li><a href="../estorides_web.py#L119-L134"><code>estorides_web.py::_arg_int</code></a></li>
+<li><a href="../estorides_web.py#L135-L148"><code>estorides_web.py::_send_and_cleanup</code></a></li>
+<li><a href="../estorides_web.py#L149-L156"><code>estorides_web.py::_RunStreamJob</code></a></li>
+</ul>
+<h4 id="comp-1-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-1" class="cb-diagram" viewBox="0 0 5150 412" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-1-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M5110.0 107.0 C5160.0 107.0 4310.0 206.0 4360.0 206.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:3.1"/><text x="4735.0" y="148.5" class="cb-edge-label">calls into</text><text x="4735.0" y="162.5" class="cb-edge-sub">2 calls · 0 imports</text><path d="M5110.0 305.0 C5160.0 305.0 4790.0 107.0 4840.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:5.0"/><text x="4975.0" y="198.0" class="cb-edge-label">calls into</text><text x="4975.0" y="212.0" class="cb-edge-sub">24 calls · 12 imports</text><path d="M5110.0 305.0 C5160.0 305.0 4310.0 206.0 4360.0 206.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:3.1"/><text x="4735.0" y="247.5" class="cb-edge-label">calls into</text><text x="4735.0" y="261.5" class="cb-edge-sub">2 calls · 0 imports</text><path d="M4630.0 206.0 C4735.0 206.0 4735.0 107.0 4840.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:5.0"/><text x="4735.0" y="148.5" class="cb-edge-label">calls into</text><text x="4735.0" y="162.5" class="cb-edge-sub">157 calls · 19 imports</text><path d="M4630.0 206.0 C4735.0 206.0 4735.0 305.0 4840.0 305.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:5.0"/><text x="4735.0" y="247.5" class="cb-edge-label">calls into</text><text x="4735.0" y="261.5" class="cb-edge-sub">11 calls · 7 imports</text><path d="M310.0 206.0 C2575.0 206.0 2575.0 305.0 4840.0 305.0" class="cb-edge" marker-end="url(#cb-sub-comp-1-arrow)" style="stroke-width:3.1"/><text x="2575.0" y="247.5" class="cb-edge-label">calls into</text><text x="2575.0" y="261.5" class="cb-edge-sub">1 calls · 1 imports</text><g class="cb-node" data-desc="estorides_core groups 8 files (py) around build_https_url, WebSecurityConfig, is_cors_enabled, is_origin_allowed, _env_str. estorides_core.audit"><a href="#comp-1-1"><rect x="4840.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="4854.0" y="64.0" class="cb-node-label">estorides_core</text><text x="4854.0" y="80.0" class="cb-node-sub">8 files · 126 symbols</text><circle cx="4860.0" cy="92.0" r="4" fill="#94a3b8"/><text x="4870.0" y="96.0" class="cb-node-layer">utility</text><text x="4854.0" y="112.0" class="cb-node-sym">build_https_url</text><text x="4854.0" y="126.0" class="cb-node-sym">WebSecurityConfig</text><text x="4854.0" y="140.0" class="cb-node-sym">is_cors_enabled</text><text x="4854.0" y="154.0" class="cb-node-sub">+117 more</text></a></g><g class="cb-node" data-desc="root groups 5 files (py) around _sse_response, _provides, deco, wrapper, _client_ip. Deprecated entry point."><a href="#comp-1-2"><rect x="4840.0" y="238.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="4854.0" y="262.0" class="cb-node-label">root</text><text x="4854.0" y="278.0" class="cb-node-sub">5 files · 102 symbols</text><circle cx="4860.0" cy="290.0" r="4" fill="#94a3b8"/><text x="4870.0" y="294.0" class="cb-node-layer">utility</text><text x="4854.0" y="310.0" class="cb-node-sym">_sse_response</text><text x="4854.0" y="324.0" class="cb-node-sym">_provides</text><text x="4854.0" y="338.0" class="cb-node-sym">deco</text><text x="4854.0" y="352.0" class="cb-node-sub">+95 more</text></a></g><g class="cb-node" data-desc="tests groups 13 files (py) around test_js_never_gains_a_style_attribute_in_template_literal, test_template_never_gains_a_style_attribute, test_csp_style_src_never_gains_unsafe_inline, test_progress_invariants_hold, test_progress_rejects_unknown_phase. Property-based fuzz for `csp_safe_styles`."><a href="#comp-1-3"><rect x="4360.0" y="139.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="4374.0" y="163.0" class="cb-node-label">tests</text><text x="4374.0" y="179.0" class="cb-node-sub">13 files · 102 symbols</text><circle cx="4380.0" cy="191.0" r="4" fill="#fb923c"/><text x="4390.0" y="195.0" class="cb-node-layer">testing</text><text x="4374.0" y="211.0" class="cb-node-sym">test_js_never_gains_a_s…</text><text x="4374.0" y="225.0" class="cb-node-sym">test_template_never_gai…</text><text x="4374.0" y="239.0" class="cb-node-sym">test_csp_style_src_neve…</text><text x="4374.0" y="253.0" class="cb-node-sub">+97 more</text></a></g><g class="cb-node" data-desc="tools groups 1 files (py) around collect, main. tools.sync_docs"><a href="#comp-1-4"><rect x="40.0" y="139.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="54.0" y="163.0" class="cb-node-label">tools</text><text x="54.0" y="179.0" class="cb-node-sub">1 files · 2 symbols</text><circle cx="60.0" cy="191.0" r="4" fill="#94a3b8"/><text x="70.0" y="195.0" class="cb-node-layer">utility</text><text x="54.0" y="211.0" class="cb-node-sym">collect</text><text x="54.0" y="225.0" class="cb-node-sym">main</text></a></g></svg></div>
+<h5 id="comp-1-1">estorides_core (1.1)</h5>
+<p>estorides_core groups 8 files (py) around build_https_url, WebSecurityConfig, is_cors_enabled, is_origin_allowed, _env_str. estorides_core.audit</p>
+<h5 id="comp-1-2">root (1.2)</h5>
+<p>root groups 5 files (py) around _sse_response, _provides, deco, wrapper, _client_ip. Deprecated entry point.</p>
+<h5 id="comp-1-3">tests (1.3)</h5>
+<p>tests groups 13 files (py) around test_js_never_gains_a_style_attribute_in_template_literal, test_template_never_gains_a_style_attribute, test_csp_style_src_never_gains_unsafe_inline, test_progress_invariants_hold, test_progress_rejects_unknown_phase. Property-based fuzz for `csp_safe_styles`.</p>
+<h5 id="comp-1-4">tools (1.4)</h5>
+<p>tools groups 1 files (py) around collect, main. tools.sync_docs</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>app.py</code></li>
+<li><code>estorides_core/audit.py</code></li>
+<li><code>estorides_core/graph_rag_search.py</code></li>
+<li><code>estorides_core/job_registry.py</code></li>
+<li><code>estorides_core/lan_web.py</code></li>
+<li><code>estorides_core/openapi.py</code></li>
+<li><code>estorides_core/ops_observability.py</code></li>
+<li><code>estorides_core/search_telemetry.py</code></li>
+<li><code>estorides_core/web_security.py</code></li>
+<li><code>estorides_web.py</code></li>
+<li><code>estorides_web_tools.py</code></li>
+<li><code>tests/properties/test_csp_safe_styles_properties.py</code></li>
+<li><code>tests/properties/test_search_telemetry_properties.py</code></li>
+<li><code>tests/test_audit_log.py</code></li>
+<li><code>tests/test_auth_gate.py</code></li>
+<li><code>tests/test_csp_safe_styles.py</code></li>
+<li><code>tests/test_graph_rag_search.py</code></li>
+<li><code>tests/test_job_registry.py</code></li>
+<li><code>tests/test_map_basemap.py</code></li>
+<li><code>tests/test_openapi.py</code></li>
+<li><code>tests/test_ops_observability.py</code></li>
+<li><code>tests/test_search_telemetry.py</code></li>
+<li><code>tests/test_web_helpers.py</code></li>
+<li><code>tests/test_web_tools_blueprint.py</code></li>
+<li><code>tools/sync_docs.py</code></li>
+<li><code>web.py</code></li>
+<li><code>wsgi.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-2">
+<h3>estorides_core: parsers (2)
+ <a href="#comp-2-children">[Expand]</a>
+</h3>
+<p>estorides_core: parsers groups 21 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer.</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/parsers.py#L31-L39"><code>estorides_core/parsers.py::_d</code></a></li>
+<li><a href="../estorides_core/parsers.py#L40-L46"><code>estorides_core/parsers.py::_first_dict</code></a></li>
+<li><a href="../estorides_core/parsers.py#L47-L55"><code>estorides_core/parsers.py::_list</code></a></li>
+<li><a href="../estorides_core/parsers.py#L56-L61"><code>estorides_core/parsers.py::_text</code></a></li>
+<li><a href="../estorides_core/parsers.py#L62-L77"><code>estorides_core/parsers.py::parse_dns_json</code></a></li>
+<li><a href="../estorides_core/parsers.py#L78-L95"><code>estorides_core/parsers.py::parse_crtsh_json</code></a></li>
+<li><a href="../estorides_core/parsers.py#L96-L175"><code>estorides_core/parsers.py::parse_rdap</code></a></li>
+<li><a href="../estorides_core/parsers.py#L176-L201"><code>estorides_core/parsers.py::parse_ipapi</code></a></li>
+</ul>
+<h4 id="comp-2-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-2" class="cb-diagram" viewBox="0 0 830 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-2-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-2-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">207 calls · 36 imports</text><g class="cb-node" data-desc="estorides_core groups 11 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer."><a href="#comp-2-1"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_core</text><text x="534.0" y="80.0" class="cb-node-sub">11 files · 215 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">_d</text><text x="534.0" y="126.0" class="cb-node-sym">_first_dict</text><text x="534.0" y="140.0" class="cb-node-sym">_list</text><text x="534.0" y="154.0" class="cb-node-sub">+202 more</text></a></g><g class="cb-node" data-desc="tests groups 10 files (py) around test_all_parsers_are_total, test_tool_parsers_never_raise, test_render_args_safe_inputs_no_metachars, test_render_args_substitution_is_verbatim, test_read_capped_respects_limit. Property-based fuzzing for the parser totality contract (doctrine §6)."><a href="#comp-2-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">10 files · 204 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">test_all_parsers_are_to…</text><text x="54.0" y="126.0" class="cb-node-sym">test_tool_parsers_never…</text><text x="54.0" y="140.0" class="cb-node-sym">test_render_args_safe_i…</text><text x="54.0" y="154.0" class="cb-node-sub">+195 more</text></a></g></svg></div>
+<h5 id="comp-2-1">estorides_core (2.1)</h5>
+<p>estorides_core groups 11 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer.</p>
+<h5 id="comp-2-2">tests (2.2)</h5>
+<p>tests groups 10 files (py) around test_all_parsers_are_total, test_tool_parsers_never_raise, test_render_args_safe_inputs_no_metachars, test_render_args_substitution_is_verbatim, test_read_capped_respects_limit. Property-based fuzzing for the parser totality contract (doctrine §6).</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/discoverer.py</code></li>
+<li><code>estorides_core/event_bus.py</code></li>
+<li><code>estorides_core/graph_kuzu.py</code></li>
+<li><code>estorides_core/mitre_attack.py</code></li>
+<li><code>estorides_core/orchestrator.py</code></li>
+<li><code>estorides_core/pagination.py</code></li>
+<li><code>estorides_core/parsers.py</code></li>
+<li><code>estorides_core/relationship_inference.py</code></li>
+<li><code>estorides_core/socmint.py</code></li>
+<li><code>estorides_core/source_loader.py</code></li>
+<li><code>estorides_core/system_app_sources.py</code></li>
+<li><code>tests/properties/test_parsers_properties.py</code></li>
+<li><code>tests/properties/test_system_app_sources_properties.py</code></li>
+<li><code>tests/test_event_bus.py</code></li>
+<li><code>tests/test_keyless_sources.py</code></li>
+<li><code>tests/test_opsec_contact.py</code></li>
+<li><code>tests/test_pagination.py</code></li>
+<li><code>tests/test_socmint.py</code></li>
+<li><code>tests/test_source_loader.py</code></li>
+<li><code>tests/test_source_routing.py</code></li>
+<li><code>tests/test_system_app_sources.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-3">
+<h3>estorides_core: config (3)
+ <a href="#comp-3-children">[Expand]</a>
+</h3>
+<p>estorides_core: config groups 19 files (py) around ensure_data_dirs, ensure_reports_dir, _env_tool_allowlist, contact_level, effective_proxies. estorides_core.async_client</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/config.py#L58-L68"><code>estorides_core/config.py::ensure_data_dirs</code></a></li>
+<li><a href="../estorides_core/config.py#L69-L125"><code>estorides_core/config.py::ensure_reports_dir</code></a></li>
+<li><a href="../estorides_core/config.py#L126-L205"><code>estorides_core/config.py::_env_tool_allowlist</code></a></li>
+<li><a href="../estorides_core/config.py#L206-L231"><code>estorides_core/config.py::contact_level</code></a></li>
+<li><a href="../estorides_core/config.py#L232-L365"><code>estorides_core/config.py::effective_proxies</code></a></li>
+<li><a href="../estorides_core/config.py#L366-L372"><code>estorides_core/config.py::CacheConfig</code></a></li>
+<li><a href="../estorides_core/config.py#L373-L378"><code>estorides_core/config.py::is_active</code></a></li>
+<li><a href="../estorides_core/config.py#L379-L392"><code>estorides_core/config.py::PivotPolicyConfig</code></a></li>
+</ul>
+<h4 id="comp-3-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-3" class="cb-diagram" viewBox="0 0 830 412" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-3-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 206.0 520.0 206.0" class="cb-edge" marker-end="url(#cb-sub-comp-3-arrow)" style="stroke-width:2.5"/><text x="415.0" y="148.5" class="cb-edge-label">depends on</text><text x="415.0" y="162.5" class="cb-edge-sub">0 calls · 1 imports</text><path d="M310.0 305.0 C415.0 305.0 415.0 206.0 520.0 206.0" class="cb-edge" marker-end="url(#cb-sub-comp-3-arrow)" style="stroke-width:5.0"/><text x="415.0" y="247.5" class="cb-edge-label">calls into</text><text x="415.0" y="261.5" class="cb-edge-sub">38 calls · 19 imports</text><g class="cb-node" data-desc="estorides_core groups 10 files (py) around ensure_data_dirs, ensure_reports_dir, _env_tool_allowlist, contact_level, effective_proxies. estorides_core.async_client"><a href="#comp-3-1"><rect x="520.0" y="139.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="163.0" class="cb-node-label">estorides_core</text><text x="534.0" y="179.0" class="cb-node-sub">10 files · 197 symbols</text><circle cx="540.0" cy="191.0" r="4" fill="#94a3b8"/><text x="550.0" y="195.0" class="cb-node-layer">utility</text><text x="534.0" y="211.0" class="cb-node-sym">ensure_data_dirs</text><text x="534.0" y="225.0" class="cb-node-sym">ensure_reports_dir</text><text x="534.0" y="239.0" class="cb-node-sym">_env_tool_allowlist</text><text x="534.0" y="253.0" class="cb-node-sub">+163 more</text></a></g><g class="cb-node" data-desc="estorides_llm groups 3 files (py) around LLMBackend, __call__, stream_generate, register, deco. estorides_llm"><a href="#comp-3-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">estorides_llm</text><text x="54.0" y="80.0" class="cb-node-sub">3 files · 23 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#94a3b8"/><text x="70.0" y="96.0" class="cb-node-layer">utility</text><text x="54.0" y="112.0" class="cb-node-sym">LLMBackend</text><text x="54.0" y="126.0" class="cb-node-sym">__call__</text><text x="54.0" y="140.0" class="cb-node-sym">stream_generate</text><text x="54.0" y="154.0" class="cb-node-sub">+16 more</text></a></g><g class="cb-node" data-desc="tests groups 6 files (py) around meta_strategy, obs_strategy, entity_strategy, test_observation_round_trip_stability, test_observation_bounded_fields. Property-based invariants for estorides_core.observation_models."><a href="#comp-3-3"><rect x="40.0" y="238.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="262.0" class="cb-node-label">tests</text><text x="54.0" y="278.0" class="cb-node-sub">6 files · 83 symbols</text><circle cx="60.0" cy="290.0" r="4" fill="#fb923c"/><text x="70.0" y="294.0" class="cb-node-layer">testing</text><text x="54.0" y="310.0" class="cb-node-sym">meta_strategy</text><text x="54.0" y="324.0" class="cb-node-sym">obs_strategy</text><text x="54.0" y="338.0" class="cb-node-sym">entity_strategy</text><text x="54.0" y="352.0" class="cb-node-sub">+78 more</text></a></g></svg></div>
+<h5 id="comp-3-1">estorides_core (3.1)</h5>
+<p>estorides_core groups 10 files (py) around ensure_data_dirs, ensure_reports_dir, _env_tool_allowlist, contact_level, effective_proxies. estorides_core.async_client</p>
+<h5 id="comp-3-2">estorides_llm (3.2)</h5>
+<p>estorides_llm groups 3 files (py) around LLMBackend, __call__, stream_generate, register, deco. estorides_llm</p>
+<h5 id="comp-3-3">tests (3.3)</h5>
+<p>tests groups 6 files (py) around meta_strategy, obs_strategy, entity_strategy, test_observation_round_trip_stability, test_observation_bounded_fields. Property-based invariants for estorides_core.observation_models.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/async_client.py</code></li>
+<li><code>estorides_core/config.py</code></li>
+<li><code>estorides_core/feeds.py</code></li>
+<li><code>estorides_core/intel_resolver.py</code></li>
+<li><code>estorides_core/observation_models.py</code></li>
+<li><code>estorides_core/ontology.py</code></li>
+<li><code>estorides_core/osiris_sources.py</code></li>
+<li><code>estorides_core/pivot_engine.py</code></li>
+<li><code>estorides_core/ssrf_guard.py</code></li>
+<li><code>estorides_core/transforms.py</code></li>
+<li><code>estorides_llm/__init__.py</code></li>
+<li><code>estorides_llm/intelligence_prompts.py</code></li>
+<li><code>estorides_llm/manager.py</code></li>
+<li><code>tests/properties/test_observation_models_properties.py</code></li>
+<li><code>tests/test_async_client.py</code></li>
+<li><code>tests/test_config_env.py</code></li>
+<li><code>tests/test_observation_models.py</code></li>
+<li><code>tests/test_structured_extraction.py</code></li>
+<li><code>tests/test_transforms.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-4">
+<h3>estorides_core: hypothesis_engine (4)
+ <a href="#comp-4-children">[Expand]</a>
+</h3>
+<p>estorides_core: hypothesis_engine groups 19 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/reliability_scoring.py#L37-L47"><code>estorides_core/reliability_scoring.py::SourceReliability</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L48-L58"><code>estorides_core/reliability_scoring.py::Credibility</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L59-L242"><code>estorides_core/reliability_scoring.py::SourceType</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L243-L252"><code>estorides_core/reliability_scoring.py::ConfidenceInput</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L253-L262"><code>estorides_core/reliability_scoring.py::__post_init__</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L263-L279"><code>estorides_core/reliability_scoring.py::ConfidenceResult</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L280-L286"><code>estorides_core/reliability_scoring.py::_corroboration_weight</code></a></li>
+<li><a href="../estorides_core/reliability_scoring.py#L287-L296"><code>estorides_core/reliability_scoring.py::_freshness_weight</code></a></li>
+</ul>
+<h4 id="comp-4-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-4" class="cb-diagram" viewBox="0 0 830 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-4-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-4-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">387 calls · 22 imports</text><g class="cb-node" data-desc="estorides_core groups 7 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection"><a href="#comp-4-1"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_core</text><text x="534.0" y="80.0" class="cb-node-sub">7 files · 111 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">SourceReliability</text><text x="534.0" y="126.0" class="cb-node-sym">Credibility</text><text x="534.0" y="140.0" class="cb-node-sym">SourceType</text><text x="534.0" y="154.0" class="cb-node-sub">+103 more</text></a></g><g class="cb-node" data-desc="tests groups 12 files (py) around test_scores_always_bounded, test_max_changes_respected, test_id_is_16_char_hex, test_idempotent, test_first_run_reports_all_as_new. Property-based invariants for estorides_core.change_detection."><a href="#comp-4-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">12 files · 336 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">test_scores_always_boun…</text><text x="54.0" y="126.0" class="cb-node-sym">test_max_changes_respec…</text><text x="54.0" y="140.0" class="cb-node-sym">test_id_is_16_char_hex</text><text x="54.0" y="154.0" class="cb-node-sub">+319 more</text></a></g></svg></div>
+<h5 id="comp-4-1">estorides_core (4.1)</h5>
+<p>estorides_core groups 7 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection</p>
+<h5 id="comp-4-2">tests (4.2)</h5>
+<p>tests groups 12 files (py) around test_scores_always_bounded, test_max_changes_respected, test_id_is_16_char_hex, test_idempotent, test_first_run_reports_all_as_new. Property-based invariants for estorides_core.change_detection.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/change_detection.py</code></li>
+<li><code>estorides_core/fusion_analytics.py</code></li>
+<li><code>estorides_core/fusion_store.py</code></li>
+<li><code>estorides_core/hypothesis_engine.py</code></li>
+<li><code>estorides_core/ids.py</code></li>
+<li><code>estorides_core/recon_fusion.py</code></li>
+<li><code>estorides_core/reliability_scoring.py</code></li>
+<li><code>tests/properties/test_change_detection_properties.py</code></li>
+<li><code>tests/properties/test_hypothesis_engine_properties.py</code></li>
+<li><code>tests/properties/test_recon_fusion_properties.py</code></li>
+<li><code>tests/properties/test_reliability_scoring_properties.py</code></li>
+<li><code>tests/test_change_detection.py</code></li>
+<li><code>tests/test_fusion_analytics.py</code></li>
+<li><code>tests/test_hypothesis_engine.py</code></li>
+<li><code>tests/test_ids.py</code></li>
+<li><code>tests/test_probabilistic_fusion.py</code></li>
+<li><code>tests/test_recon_fusion.py</code></li>
+<li><code>tests/test_reliability_scoring.py</code></li>
+<li><code>tests/test_ui_professional.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-5">
+<h3>estorides_core: estorides (5)
+ <a href="#comp-5-children">[Expand]</a>
+</h3>
+<p>estorides_core: estorides groups 17 files (js, py) around SqliteStore, __init__, _init_schema, _tx, close. estorides CLI.</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/sqlite_store.py#L34-L49"><code>estorides_core/sqlite_store.py::SqliteStore</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L50-L65"><code>estorides_core/sqlite_store.py::__init__</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L66-L71"><code>estorides_core/sqlite_store.py::_init_schema</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L72-L81"><code>estorides_core/sqlite_store.py::_tx</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L82-L88"><code>estorides_core/sqlite_store.py::close</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L89-L108"><code>estorides_core/sqlite_store.py::__del__</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L109-L111"><code>estorides_core/sqlite_store.py::DictMixin</code></a></li>
+<li><a href="../estorides_core/sqlite_store.py#L112-L119"><code>estorides_core/sqlite_store.py::to_dict</code></a></li>
+</ul>
+<h4 id="comp-5-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-5" class="cb-diagram" viewBox="0 0 1310 412" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-5-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M790.0 206.0 C895.0 206.0 895.0 107.0 1000.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:5.0"/><text x="895.0" y="148.5" class="cb-edge-label">calls into</text><text x="895.0" y="162.5" class="cb-edge-sub">31 calls · 16 imports</text><path d="M790.0 206.0 C895.0 206.0 895.0 305.0 1000.0 305.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:3.1"/><text x="895.0" y="247.5" class="cb-edge-label">calls into</text><text x="895.0" y="261.5" class="cb-edge-sub">1 calls · 1 imports</text><path d="M310.0 107.0 C655.0 107.0 655.0 107.0 1000.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:2.5"/><text x="655.0" y="99.0" class="cb-edge-label">depends on</text><text x="655.0" y="113.0" class="cb-edge-sub">0 calls · 1 imports</text><path d="M310.0 107.0 C655.0 107.0 655.0 305.0 1000.0 305.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:2.5"/><text x="655.0" y="198.0" class="cb-edge-label">depends on</text><text x="655.0" y="212.0" class="cb-edge-sub">0 calls · 1 imports</text><path d="M310.0 305.0 C655.0 305.0 655.0 107.0 1000.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:5.0"/><text x="655.0" y="198.0" class="cb-edge-label">calls into</text><text x="655.0" y="212.0" class="cb-edge-sub">128 calls · 17 imports</text><path d="M310.0 305.0 C655.0 305.0 655.0 305.0 1000.0 305.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:3.5"/><text x="655.0" y="297.0" class="cb-edge-label">calls into</text><text x="655.0" y="311.0" class="cb-edge-sub">2 calls · 1 imports</text><path d="M310.0 305.0 C415.0 305.0 415.0 206.0 520.0 206.0" class="cb-edge" marker-end="url(#cb-sub-comp-5-arrow)" style="stroke-width:5.0"/><text x="415.0" y="247.5" class="cb-edge-label">calls into</text><text x="415.0" y="261.5" class="cb-edge-sub">9 calls · 2 imports</text><g class="cb-node" data-desc="estorides_core groups 6 files (py) around SqliteStore, __init__, _init_schema, _tx, close. estorides_core.alerter"><a href="#comp-5-1"><rect x="1000.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="1014.0" y="64.0" class="cb-node-label">estorides_core</text><text x="1014.0" y="80.0" class="cb-node-sub">6 files · 113 symbols</text><circle cx="1020.0" cy="92.0" r="4" fill="#94a3b8"/><text x="1030.0" y="96.0" class="cb-node-layer">utility</text><text x="1014.0" y="112.0" class="cb-node-sym">SqliteStore</text><text x="1014.0" y="126.0" class="cb-node-sym">__init__</text><text x="1014.0" y="140.0" class="cb-node-sym">_init_schema</text><text x="1014.0" y="154.0" class="cb-node-sub">+96 more</text></a></g><g class="cb-node" data-desc="estorides_export groups 1 files (py) around _tldr, _iocs, _diff_section, _analysis, _meta_footer. estorides_export.report"><a href="#comp-5-2"><rect x="1000.0" y="238.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="1014.0" y="262.0" class="cb-node-label">estorides_export</text><text x="1014.0" y="278.0" class="cb-node-sub">1 files · 6 symbols</text><circle cx="1020.0" cy="290.0" r="4" fill="#94a3b8"/><text x="1030.0" y="294.0" class="cb-node-layer">utility</text><text x="1014.0" y="310.0" class="cb-node-sym">_tldr</text><text x="1014.0" y="324.0" class="cb-node-sym">_iocs</text><text x="1014.0" y="338.0" class="cb-node-sym">_diff_section</text><text x="1014.0" y="352.0" class="cb-node-sub">+3 more</text></a></g><g class="cb-node" data-desc="root groups 1 files (py) around _setup_logging, _collect_selectors, _resolve_proxy, _add_opsec_flags, cmd_discover. estorides CLI."><a href="#comp-5-3"><rect x="520.0" y="139.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="163.0" class="cb-node-label">root</text><text x="534.0" y="179.0" class="cb-node-sub">1 files · 31 symbols</text><circle cx="540.0" cy="191.0" r="4" fill="#94a3b8"/><text x="550.0" y="195.0" class="cb-node-layer">utility</text><text x="534.0" y="211.0" class="cb-node-sym">_setup_logging</text><text x="534.0" y="225.0" class="cb-node-sym">_collect_selectors</text><text x="534.0" y="239.0" class="cb-node-sym">_resolve_proxy</text><text x="534.0" y="253.0" class="cb-node-sub">+28 more</text></a></g><g class="cb-node" data-desc="static groups 1 files (js) around setVisible, isLanQueryLocal, t, lanRunFields, ensureLanConsent. Estorides front-end controller"><a href="#comp-5-4"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">static</text><text x="54.0" y="80.0" class="cb-node-sub">1 files · 182 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#94a3b8"/><text x="70.0" y="96.0" class="cb-node-layer">utility</text><text x="54.0" y="112.0" class="cb-node-sym">setVisible</text><text x="54.0" y="126.0" class="cb-node-sym">isLanQueryLocal</text><text x="54.0" y="140.0" class="cb-node-sym">t</text><text x="54.0" y="154.0" class="cb-node-sub">+169 more</text></a></g><g class="cb-node" data-desc="tests groups 8 files (py) around _fresh_store, test_disabled_stores_plaintext, test_enabled_roundtrip, test_bad_key_falls_back, test_mixed_rows_and_tamper. M4 case_crypto BDD red."><a href="#comp-5-5"><rect x="40.0" y="238.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="262.0" class="cb-node-label">tests</text><text x="54.0" y="278.0" class="cb-node-sub">8 files · 172 symbols</text><circle cx="60.0" cy="290.0" r="4" fill="#fb923c"/><text x="70.0" y="294.0" class="cb-node-layer">testing</text><text x="54.0" y="310.0" class="cb-node-sym">_fresh_store</text><text x="54.0" y="324.0" class="cb-node-sym">test_disabled_stores_pl…</text><text x="54.0" y="338.0" class="cb-node-sym">test_enabled_roundtrip</text><text x="54.0" y="352.0" class="cb-node-sub">+166 more</text></a></g></svg></div>
+<h5 id="comp-5-1">estorides_core (5.1)</h5>
+<p>estorides_core groups 6 files (py) around SqliteStore, __init__, _init_schema, _tx, close. estorides_core.alerter</p>
+<h5 id="comp-5-2">estorides_export (5.2)</h5>
+<p>estorides_export groups 1 files (py) around _tldr, _iocs, _diff_section, _analysis, _meta_footer. estorides_export.report</p>
+<h5 id="comp-5-3">root (5.3)</h5>
+<p>root groups 1 files (py) around _setup_logging, _collect_selectors, _resolve_proxy, _add_opsec_flags, cmd_discover. estorides CLI.</p>
+<h5 id="comp-5-4">static (5.4)</h5>
+<p>static groups 1 files (js) around setVisible, isLanQueryLocal, t, lanRunFields, ensureLanConsent. Estorides front-end controller</p>
+<h5 id="comp-5-5">tests (5.5)</h5>
+<p>tests groups 8 files (py) around _fresh_store, test_disabled_stores_plaintext, test_enabled_roundtrip, test_bad_key_falls_back, test_mixed_rows_and_tamper. M4 case_crypto BDD red.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_cli.py</code></li>
+<li><code>estorides_core/alerter.py</code></li>
+<li><code>estorides_core/case_crypto.py</code></li>
+<li><code>estorides_core/cases.py</code></li>
+<li><code>estorides_core/monitoring.py</code></li>
+<li><code>estorides_core/scope.py</code></li>
+<li><code>estorides_core/sqlite_store.py</code></li>
+<li><code>estorides_export/report.py</code></li>
+<li><code>static/js/estorides.js</code></li>
+<li><code>tests/test_case_crypto.py</code></li>
+<li><code>tests/test_cli_watch.py</code></li>
+<li><code>tests/test_hardening.py</code></li>
+<li><code>tests/test_monitoring.py</code></li>
+<li><code>tests/test_obs_fts.py</code></li>
+<li><code>tests/test_scope.py</code></li>
+<li><code>tests/test_security_remediation.py</code></li>
+<li><code>tests/test_sqlite_store.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-6">
+<h3>estorides_core: graph_bundle (6)
+ <a href="#comp-6-children">[Expand]</a>
+</h3>
+<p>estorides_core: graph_bundle groups 15 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/graph_force.py#L48-L64"><code>estorides_core/graph_force.py::family_color_from_name</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L65-L69"><code>estorides_core/graph_force.py::node_value</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L70-L96"><code>estorides_core/graph_force.py::force_settings</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L97-L106"><code>estorides_core/graph_force.py::_req_str</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L107-L112"><code>estorides_core/graph_force.py::_opt_str</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L113-L123"><code>estorides_core/graph_force.py::_opt_int</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L124-L149"><code>estorides_core/graph_force.py::_degrees</code></a></li>
+<li><a href="../estorides_core/graph_force.py#L150-L160"><code>estorides_core/graph_force.py::_is_bridge</code></a></li>
+</ul>
+<h4 id="comp-6-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-6" class="cb-diagram" viewBox="0 0 830 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-6-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-6-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">137 calls · 26 imports</text><g class="cb-node" data-desc="estorides_core groups 4 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__"><a href="#comp-6-1"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_core</text><text x="534.0" y="80.0" class="cb-node-sub">4 files · 42 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">family_color_from_name</text><text x="534.0" y="126.0" class="cb-node-sym">node_value</text><text x="534.0" y="140.0" class="cb-node-sym">force_settings</text><text x="534.0" y="154.0" class="cb-node-sub">+36 more</text></a></g><g class="cb-node" data-desc="tests groups 11 files (py) around force_strategy, _assert_consistent, test_p1_total_and_consistent, test_p2_deterministic, test_p3_empty_never_raises. Property-based invariants for estorides_core.graph_bundle."><a href="#comp-6-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">11 files · 116 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">force_strategy</text><text x="54.0" y="126.0" class="cb-node-sym">_assert_consistent</text><text x="54.0" y="140.0" class="cb-node-sym">test_p1_total_and_consi…</text><text x="54.0" y="154.0" class="cb-node-sub">+113 more</text></a></g></svg></div>
+<h5 id="comp-6-1">estorides_core (6.1)</h5>
+<p>estorides_core groups 4 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__</p>
+<h5 id="comp-6-2">tests (6.2)</h5>
+<p>tests groups 11 files (py) around force_strategy, _assert_consistent, test_p1_total_and_consistent, test_p2_deterministic, test_p3_empty_never_raises. Property-based invariants for estorides_core.graph_bundle.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/__init__.py</code></li>
+<li><code>estorides_core/graph_bundle.py</code></li>
+<li><code>estorides_core/graph_force.py</code></li>
+<li><code>estorides_core/lan_inventory.py</code></li>
+<li><code>tests/properties/test_graph_bundle_properties.py</code></li>
+<li><code>tests/test_graph_bundle.py</code></li>
+<li><code>tests/test_graph_force3d.py</code></li>
+<li><code>tests/test_lan_bundle.py</code></li>
+<li><code>tests/test_lan_inventory.py</code></li>
+<li><code>tests/test_lan_policy.py</code></li>
+<li><code>tests/test_lan_scope.py</code></li>
+<li><code>tests/test_lan_web.py</code></li>
+<li><code>tests/test_orchestrator_fanout.py</code></li>
+<li><code>tests/test_parsers.py</code></li>
+<li><code>tests/test_retry_policy.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-7">
+<h3>estorides_core: people_intel (7)
+ <a href="#comp-7-children">[Expand]</a>
+</h3>
+<p>estorides_core: people_intel groups 15 files (py) around CloudAsset, to_dict, CloudAssetDiscoveryResult, to_dict, generate_bucket_names.</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/cloud_asset_discovery.py#L34-L44"><code>estorides_core/cloud_asset_discovery.py::CloudAsset</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L45-L49"><code>estorides_core/cloud_asset_discovery.py::to_dict</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L50-L55"><code>estorides_core/cloud_asset_discovery.py::CloudAssetDiscoveryResult</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L56-L64"><code>estorides_core/cloud_asset_discovery.py::to_dict</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L65-L83"><code>estorides_core/cloud_asset_discovery.py::generate_bucket_names</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L84-L92"><code>estorides_core/cloud_asset_discovery.py::assess_bucket</code></a></li>
+<li><a href="../estorides_core/cloud_asset_discovery.py#L93-L94"><code>estorides_core/cloud_asset_discovery.py::CloudAssetDiscoveryError</code></a></li>
+<li><a href="../estorides_core/code_exposure.py#L47-L56"><code>estorides_core/code_exposure.py::CodeFinding</code></a></li>
+</ul>
+<h4 id="comp-7-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-7" class="cb-diagram" viewBox="0 0 830 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-7-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-7-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">94 calls · 9 imports</text><g class="cb-node" data-desc="estorides_core groups 8 files (py) around CloudAsset, to_dict, CloudAssetDiscoveryResult, to_dict, generate_bucket_names."><a href="#comp-7-1"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_core</text><text x="534.0" y="80.0" class="cb-node-sub">8 files · 72 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">CloudAsset</text><text x="534.0" y="126.0" class="cb-node-sym">to_dict</text><text x="534.0" y="140.0" class="cb-node-sym">CloudAssetDiscoveryResu…</text><text x="534.0" y="154.0" class="cb-node-sub">+48 more</text></a></g><g class="cb-node" data-desc="tests groups 7 files (py) around _make_asset, TestPublicS3Bucket, test_accessible_bucket_returned, TestBucketWithListing, test_listing_bucket_has_files. ATDD + BDD tests for estorides_core.cloud_asset_discovery."><a href="#comp-7-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">7 files · 124 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">_make_asset</text><text x="54.0" y="126.0" class="cb-node-sym">TestPublicS3Bucket</text><text x="54.0" y="140.0" class="cb-node-sym">test_accessible_bucket_…</text><text x="54.0" y="154.0" class="cb-node-sub">+121 more</text></a></g></svg></div>
+<h5 id="comp-7-1">estorides_core (7.1)</h5>
+<p>estorides_core groups 8 files (py) around CloudAsset, to_dict, CloudAssetDiscoveryResult, to_dict, generate_bucket_names.</p>
+<h5 id="comp-7-2">tests (7.2)</h5>
+<p>tests groups 7 files (py) around _make_asset, TestPublicS3Bucket, test_accessible_bucket_returned, TestBucketWithListing, test_listing_bucket_has_files. ATDD + BDD tests for estorides_core.cloud_asset_discovery.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/cloud_asset_discovery.py</code></li>
+<li><code>estorides_core/code_exposure.py</code></li>
+<li><code>estorides_core/pdns_monitor.py</code></li>
+<li><code>estorides_core/people_intel.py</code></li>
+<li><code>estorides_core/recon_pipeline.py</code></li>
+<li><code>estorides_core/supply_chain.py</code></li>
+<li><code>estorides_core/tech_fingerprint.py</code></li>
+<li><code>estorides_core/vuln_correlation.py</code></li>
+<li><code>tests/test_cloud_asset_discovery.py</code></li>
+<li><code>tests/test_code_exposure.py</code></li>
+<li><code>tests/test_pdns_monitor.py</code></li>
+<li><code>tests/test_people_intel.py</code></li>
+<li><code>tests/test_supply_chain.py</code></li>
+<li><code>tests/test_tech_fingerprint.py</code></li>
+<li><code>tests/test_vuln_correlation.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-8">
+<h3>estorides_export (8)
+ <a href="#comp-8-children">[Expand]</a>
+</h3>
+<p>estorides_export groups 15 files (py) around Entity, to_dict, _looks_like_phone, normalize_query, detect_query_type. estorides_core.entity_extraction</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/entity_extraction.py#L22-L33"><code>estorides_core/entity_extraction.py::Entity</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L34-L48"><code>estorides_core/entity_extraction.py::to_dict</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L49-L56"><code>estorides_core/entity_extraction.py::_looks_like_phone</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L57-L99"><code>estorides_core/entity_extraction.py::normalize_query</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L100-L126"><code>estorides_core/entity_extraction.py::detect_query_type</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L127-L139"><code>estorides_core/entity_extraction.py::_is_valid_domain</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L140-L145"><code>estorides_core/entity_extraction.py::_context</code></a></li>
+<li><a href="../estorides_core/entity_extraction.py#L146-L199"><code>estorides_core/entity_extraction.py::extract_from_text</code></a></li>
+</ul>
+<h4 id="comp-8-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-8" class="cb-diagram" viewBox="0 0 1310 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-8-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M790.0 107.0 C895.0 107.0 895.0 107.0 1000.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-8-arrow)" style="stroke-width:3.5"/><text x="895.0" y="99.0" class="cb-edge-label">depends on</text><text x="895.0" y="113.0" class="cb-edge-sub">0 calls · 3 imports</text><path d="M310.0 107.0 C655.0 107.0 655.0 107.0 1000.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-8-arrow)" style="stroke-width:5.0"/><text x="655.0" y="99.0" class="cb-edge-label">calls into</text><text x="655.0" y="113.0" class="cb-edge-sub">99 calls · 8 imports</text><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-8-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">14 calls · 5 imports</text><g class="cb-node" data-desc="estorides_core groups 5 files (py) around Entity, to_dict, _looks_like_phone, normalize_query, detect_query_type. estorides_core.entity_extraction"><a href="#comp-8-1"><rect x="1000.0" y="40.0" width="270" height="134" rx="10" stroke="#34d399" stroke-width="2.5"/><text x="1014.0" y="64.0" class="cb-node-label">estorides_core</text><text x="1014.0" y="80.0" class="cb-node-sub">5 files · 83 symbols</text><circle cx="1020.0" cy="92.0" r="4" fill="#34d399"/><text x="1030.0" y="96.0" class="cb-node-layer">business logic</text><text x="1014.0" y="112.0" class="cb-node-sym">Entity</text><text x="1014.0" y="126.0" class="cb-node-sym">to_dict</text><text x="1014.0" y="140.0" class="cb-node-sym">_looks_like_phone</text><text x="1014.0" y="154.0" class="cb-node-sub">+73 more</text></a></g><g class="cb-node" data-desc="estorides_export groups 5 files (py) around ReportMetadata, __post_init__, to_dict, ReportSection, to_dict. estorides_export"><a href="#comp-8-2"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_export</text><text x="534.0" y="80.0" class="cb-node-sub">5 files · 22 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">ReportMetadata</text><text x="534.0" y="126.0" class="cb-node-sym">__post_init__</text><text x="534.0" y="140.0" class="cb-node-sym">to_dict</text><text x="534.0" y="154.0" class="cb-node-sub">+16 more</text></a></g><g class="cb-node" data-desc="tests groups 5 files (py) around _FakeCompleted, __init__, _kg_with_one_node, _patch_age_ok, _run. Encrypted export: plaintext must be removed after encryption."><a href="#comp-8-3"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">5 files · 109 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">_FakeCompleted</text><text x="54.0" y="126.0" class="cb-node-sym">__init__</text><text x="54.0" y="140.0" class="cb-node-sym">_kg_with_one_node</text><text x="54.0" y="154.0" class="cb-node-sub">+106 more</text></a></g></svg></div>
+<h5 id="comp-8-1">estorides_core (8.1)</h5>
+<p>estorides_core groups 5 files (py) around Entity, to_dict, _looks_like_phone, normalize_query, detect_query_type. estorides_core.entity_extraction</p>
+<h5 id="comp-8-2">estorides_export (8.2)</h5>
+<p>estorides_export groups 5 files (py) around ReportMetadata, __post_init__, to_dict, ReportSection, to_dict. estorides_export</p>
+<h5 id="comp-8-3">tests (8.3)</h5>
+<p>tests groups 5 files (py) around _FakeCompleted, __init__, _kg_with_one_node, _patch_age_ok, _run. Encrypted export: plaintext must be removed after encryption.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/entity_extraction.py</code></li>
+<li><code>estorides_core/entity_resolution.py</code></li>
+<li><code>estorides_core/entity_store.py</code></li>
+<li><code>estorides_core/knowledge_graph.py</code></li>
+<li><code>estorides_core/transliteration.py</code></li>
+<li><code>estorides_export/__init__.py</code></li>
+<li><code>estorides_export/encryption.py</code></li>
+<li><code>estorides_export/misp.py</code></li>
+<li><code>estorides_export/recon_report.py</code></li>
+<li><code>estorides_export/stix.py</code></li>
+<li><code>tests/test_encrypted_export.py</code></li>
+<li><code>tests/test_entity_extraction.py</code></li>
+<li><code>tests/test_entity_resolution.py</code></li>
+<li><code>tests/test_query_intent.py</code></li>
+<li><code>tests/test_recon_report.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-9">
+<h3>estorides_core: tool_install (9)
+ <a href="#comp-9-children">[Expand]</a>
+</h3>
+<p>estorides_core: tool_install groups 12 files (py) around ToolError, ToolNotAllowedError, ToolInjectionError, ToolNotFoundError, ToolTimeoutError. estorides_core.lan_runner</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/tool_runner.py#L17-L20"><code>estorides_core/tool_runner.py::ToolError</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L21-L24"><code>estorides_core/tool_runner.py::ToolNotAllowedError</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L25-L28"><code>estorides_core/tool_runner.py::ToolInjectionError</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L29-L32"><code>estorides_core/tool_runner.py::ToolNotFoundError</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L33-L37"><code>estorides_core/tool_runner.py::ToolTimeoutError</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L38-L50"><code>estorides_core/tool_runner.py::ToolResult</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L51-L58"><code>estorides_core/tool_runner.py::to_dict</code></a></li>
+<li><a href="../estorides_core/tool_runner.py#L59-L85"><code>estorides_core/tool_runner.py::from_failure</code></a></li>
+</ul>
+<h4 id="comp-9-children">Sub-components</h4>
+<div class="cb-wrap"><svg id="cb-sub-comp-9" class="cb-diagram" viewBox="0 0 830 214" role="img" aria-label="Component diagram"><defs><marker id="cb-sub-comp-9-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="cb-arrow"/></marker></defs><path d="M310.0 107.0 C415.0 107.0 415.0 107.0 520.0 107.0" class="cb-edge" marker-end="url(#cb-sub-comp-9-arrow)" style="stroke-width:5.0"/><text x="415.0" y="99.0" class="cb-edge-label">calls into</text><text x="415.0" y="113.0" class="cb-edge-sub">91 calls · 12 imports</text><g class="cb-node" data-desc="estorides_core groups 5 files (py) around ToolError, ToolNotAllowedError, ToolInjectionError, ToolNotFoundError, ToolTimeoutError. estorides_core.lan_runner"><a href="#comp-9-1"><rect x="520.0" y="40.0" width="270" height="134" rx="10" stroke="#94a3b8" stroke-width="2.5"/><text x="534.0" y="64.0" class="cb-node-label">estorides_core</text><text x="534.0" y="80.0" class="cb-node-sub">5 files · 81 symbols</text><circle cx="540.0" cy="92.0" r="4" fill="#94a3b8"/><text x="550.0" y="96.0" class="cb-node-layer">utility</text><text x="534.0" y="112.0" class="cb-node-sym">ToolError</text><text x="534.0" y="126.0" class="cb-node-sym">ToolNotAllowedError</text><text x="534.0" y="140.0" class="cb-node-sym">ToolInjectionError</text><text x="534.0" y="154.0" class="cb-node-sub">+65 more</text></a></g><g class="cb-node" data-desc="tests groups 7 files (py) around test_check_injection_safe_strings_silent, test_check_injection_detects_all_metacharacters, test_run_tool_never_raises, TestNmapResult, test_run_nmap_returns_result. Property-based invariants for estorides_core.tool_runner."><a href="#comp-9-2"><rect x="40.0" y="40.0" width="270" height="134" rx="10" stroke="#fb923c" stroke-width="2.5"/><text x="54.0" y="64.0" class="cb-node-label">tests</text><text x="54.0" y="80.0" class="cb-node-sub">7 files · 105 symbols</text><circle cx="60.0" cy="92.0" r="4" fill="#fb923c"/><text x="70.0" y="96.0" class="cb-node-layer">testing</text><text x="54.0" y="112.0" class="cb-node-sym">test_check_injection_sa…</text><text x="54.0" y="126.0" class="cb-node-sym">test_check_injection_de…</text><text x="54.0" y="140.0" class="cb-node-sym">test_run_tool_never_rai…</text><text x="54.0" y="154.0" class="cb-node-sub">+102 more</text></a></g></svg></div>
+<h5 id="comp-9-1">estorides_core (9.1)</h5>
+<p>estorides_core groups 5 files (py) around ToolError, ToolNotAllowedError, ToolInjectionError, ToolNotFoundError, ToolTimeoutError. estorides_core.lan_runner</p>
+<h5 id="comp-9-2">tests (9.2)</h5>
+<p>tests groups 7 files (py) around test_check_injection_safe_strings_silent, test_check_injection_detects_all_metacharacters, test_run_tool_never_raises, TestNmapResult, test_run_nmap_returns_result. Property-based invariants for estorides_core.tool_runner.</p>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/active_recon.py</code></li>
+<li><code>estorides_core/lan_runner.py</code></li>
+<li><code>estorides_core/tool_install.py</code></li>
+<li><code>estorides_core/tool_runner.py</code></li>
+<li><code>estorides_core/validation.py</code></li>
+<li><code>tests/properties/test_tool_runner_properties.py</code></li>
+<li><code>tests/test_active_recon.py</code></li>
+<li><code>tests/test_central_config.py</code></li>
+<li><code>tests/test_lan_runner.py</code></li>
+<li><code>tests/test_tool_doctor.py</code></li>
+<li><code>tests/test_tool_install.py</code></li>
+<li><code>tests/test_tool_runner.py</code></li>
+</ul>
+</section>
+<section class="component" id="comp-10">
+<h3>estorides_core: source_health_monitoring (10)
+</h3>
+<p>estorides_core: source_health_monitoring groups 3 files (py) around SourceHealthStatus, SourceHealthConfig, __post_init__, SourceHealthInput, __post_init__. estorides_core.source_health_monitoring</p>
+<h4>Related Classes/Methods:</h4>
+<ul class="references">
+<li><a href="../estorides_core/source_health_monitoring.py#L31-L41"><code>estorides_core/source_health_monitoring.py::SourceHealthStatus</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L42-L57"><code>estorides_core/source_health_monitoring.py::SourceHealthConfig</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L58-L97"><code>estorides_core/source_health_monitoring.py::__post_init__</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L98-L111"><code>estorides_core/source_health_monitoring.py::SourceHealthInput</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L112-L133"><code>estorides_core/source_health_monitoring.py::__post_init__</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L134-L145"><code>estorides_core/source_health_monitoring.py::SourceHealthResult</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L146-L159"><code>estorides_core/source_health_monitoring.py::to_dict</code></a></li>
+<li><a href="../estorides_core/source_health_monitoring.py#L160-L172"><code>estorides_core/source_health_monitoring.py::DashboardSummary</code></a></li>
+</ul>
+<h4>Files</h4>
+<ul class="references">
+<li><code>estorides_core/source_health_monitoring.py</code></li>
+<li><code>tests/properties/test_source_health_monitoring_properties.py</code></li>
+<li><code>tests/test_source_health_monitoring.py</code></li>
+</ul>
+</section>
+<footer>Generated offline from static analysis &middot; 97603a2c40b1</footer>
+</main>
+<div id="cb-tip" role="tooltip"></div>
+<script>
+(function(){
+"use strict";
+try{var s=localStorage.getItem("readmenator-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}
+document.getElementById("cb-theme").addEventListener("click",function(){
+  var r=document.documentElement,n=r.getAttribute("data-theme")==="light"?"dark":"light";
+  r.setAttribute("data-theme",n);try{localStorage.setItem("readmenator-theme",n);}catch(e){}
+});
+var tip=document.getElementById("cb-tip");
+document.querySelectorAll(".cb-node").forEach(function(g){
+  g.addEventListener("mousemove",function(ev){
+    var d=g.getAttribute("data-desc");
+    if(!d){tip.style.display="none";return;}
+    tip.textContent=d;tip.style.display="block";
+    tip.style.left=Math.min(window.innerWidth-330,ev.clientX+12)+"px";
+    tip.style.top=(ev.clientY+14)+"px";
+  });
+  g.addEventListener("mouseleave",function(){tip.style.display="none";});
+});
+document.querySelectorAll("svg.cb-diagram").forEach(function(svg){
+  var vb=svg.viewBox.baseVal,home={x:vb.x,y:vb.y,w:vb.width,h:vb.height},drag=null;
+  function set(x,y,w,h){svg.setAttribute("viewBox",x+" "+y+" "+w+" "+h);}
+  function cur(){var v=svg.viewBox.baseVal;return {x:v.x,y:v.y,w:v.width,h:v.height};}
+  svg.addEventListener("pointerdown",function(ev){drag={x:ev.clientX,y:ev.clientY,v:cur()};svg.setPointerCapture(ev.pointerId);});
+  svg.addEventListener("pointermove",function(ev){
+    if(!drag)return;
+    var r=svg.getBoundingClientRect(),k=drag.v.w/r.width;
+    set(drag.v.x-(ev.clientX-drag.x)*k,drag.v.y-(ev.clientY-drag.y)*k,drag.v.w,drag.v.h);
+  });
+  svg.addEventListener("pointerup",function(){drag=null;});
+  svg.addEventListener("wheel",function(ev){
+    ev.preventDefault();
+    var v=cur(),r=svg.getBoundingClientRect(),f=Math.exp(ev.deltaY*0.0012);
+    var mx=v.x+(ev.clientX-r.left)/r.width*v.w,my=v.y+(ev.clientY-r.top)/r.height*v.h;
+    var w=Math.min(home.w*4,Math.max(home.w/8,v.w*f)),h=w*v.h/v.w;
+    set(mx-(mx-v.x)*w/v.w,my-(my-v.y)*h/v.h,w,h);
+  },{passive:false});
+  svg._home=home;svg._set=set;
+});
+document.getElementById("cb-reset").addEventListener("click",function(){
+  var svg=document.getElementById("cb-diagram");if(!svg)return;var h=svg._home;svg._set(h.x,h.y,h.w,h.h);
+});
+document.getElementById("cb-fit").addEventListener("click",function(){
+  var svg=document.getElementById("cb-diagram");if(!svg)return;var h=svg._home;svg._set(h.x,h.y,h.w,h.h);
+});
+document.getElementById("cb-png").addEventListener("click",function(){
+  var svg=document.getElementById("cb-diagram");if(!svg)return;
+  try{
+    var data=new XMLSerializer().serializeToString(svg);
+    var img=new Image();
+    img.onload=function(){
+      var c=document.createElement("canvas"),k=2;
+      c.width=svg.viewBox.baseVal.width*k;c.height=svg.viewBox.baseVal.height*k;
+      var x=c.getContext("2d");x.fillStyle="#020617";x.fillRect(0,0,c.width,c.height);
+      x.drawImage(img,0,0,c.width,c.height);
+      var a=document.createElement("a");a.download="component-diagram.png";a.href=c.toDataURL("image/png");a.click();
+    };
+    img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(data);
+  }catch(e){}
+});
+})();
+</script>
+
+</body>
+</html>

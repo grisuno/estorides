@@ -1,0 +1,193 @@
+# Class Hierarchy
+
+Project types nested under the project types they derive from. External bases are listed in parentheses.
+
+[Back to index](index.md)
+
+- [`AlertDispatcher`](modules/estorides_core.alerter.py.md#alertdispatcher) class in `estorides_core.alerter`
+- [`AnthropicBackend`](modules/estorides_llm.manager.py.md#anthropicbackend) class in `estorides_llm.manager`
+- [`AsyncClient`](modules/estorides_core.async_client.py.md#asyncclient) class in `estorides_core.async_client`
+- [`attribute`](modules/static.js.estorides.js.md#attribute) class in `static/js/estorides.js`
+- [`AuditEvent`](modules/estorides_core.audit.py.md#auditevent) class in `estorides_core.audit`
+- [`AuditLog`](modules/estorides_core.audit.py.md#auditlog) class in `estorides_core.audit`
+- [`AuthGate`](modules/estorides_core.web_security.py.md#authgate) class in `estorides_core.web_security`
+- [`Bm25Index`](modules/estorides_core.graph_rag_search.py.md#bm25index) class in `estorides_core.graph_rag_search`
+- [`BoundedJobRegistry`](modules/estorides_core.job_registry.py.md#boundedjobregistry) class in `estorides_core.job_registry`(Generic[V])
+- [`BreachContext`](modules/estorides_core.people_intel.py.md#breachcontext) class in `estorides_core.people_intel`
+- [`BreachRecord`](modules/estorides_core.people_intel.py.md#breachrecord) class in `estorides_core.people_intel`
+- [`BufferedEventSink`](modules/estorides_core.pivot_engine.py.md#bufferedeventsink) class in `estorides_core.pivot_engine`
+- [`BundleLayout`](modules/estorides_core.graph_bundle.py.md#bundlelayout) class in `estorides_core.graph_bundle`
+- [`CacheConfig`](modules/estorides_core.config.py.md#cacheconfig) class in `estorides_core.config`
+- [`CanonicalEntity`](modules/estorides_core.entity_resolution.py.md#canonicalentity) class in `estorides_core.entity_resolution`
+- [`CertRecord`](modules/estorides_core.pdns_monitor.py.md#certrecord) class in `estorides_core.pdns_monitor`
+- [`Change`](modules/estorides_core.change_detection.py.md#change) class in `estorides_core.change_detection`
+- [`ChangeConfig`](modules/estorides_core.change_detection.py.md#changeconfig) class in `estorides_core.change_detection`
+- [`ChangeReport`](modules/estorides_core.change_detection.py.md#changereport) class in `estorides_core.change_detection`
+- [`ChangeSummary`](modules/estorides_core.change_detection.py.md#changesummary) class in `estorides_core.change_detection`
+- [`CircuitBreaker`](modules/estorides_core.async_client.py.md#circuitbreaker) class in `estorides_core.async_client`
+- [`CloudAsset`](modules/estorides_core.cloud_asset_discovery.py.md#cloudasset) class in `estorides_core.cloud_asset_discovery`
+- [`CloudAssetDiscoveryError`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryerror) exception in `estorides_core.cloud_asset_discovery`(Exception)
+- [`CloudAssetDiscoveryResult`](modules/estorides_core.cloud_asset_discovery.py.md#cloudassetdiscoveryresult) class in `estorides_core.cloud_asset_discovery`
+- [`CodeExposureResult`](modules/estorides_core.code_exposure.py.md#codeexposureresult) class in `estorides_core.code_exposure`
+- [`CodeFinding`](modules/estorides_core.code_exposure.py.md#codefinding) class in `estorides_core.code_exposure`
+- [`ConfidenceInput`](modules/estorides_core.reliability_scoring.py.md#confidenceinput) class in `estorides_core.reliability_scoring`
+- [`ConfidenceResult`](modules/estorides_core.reliability_scoring.py.md#confidenceresult) class in `estorides_core.reliability_scoring`
+- [`Credibility`](modules/estorides_core.reliability_scoring.py.md#credibility) enum in `estorides_core.reliability_scoring`(int, Enum)
+- [`DashboardSummary`](modules/estorides_core.source_health_monitoring.py.md#dashboardsummary) class in `estorides_core.source_health_monitoring`
+- [`DefaultCred`](modules/estorides_core.vuln_correlation.py.md#defaultcred) class in `estorides_core.vuln_correlation`
+- [`DictMixin`](modules/estorides_core.sqlite_store.py.md#dictmixin) class in `estorides_core.sqlite_store`
+- [`Diff`](modules/estorides_core.change_detection.py.md#diff) class in `estorides_core.change_detection`
+- [`DiscoverJob`](modules/estorides_core.discoverer.py.md#discoverjob) class in `estorides_core.discoverer`
+- [`DnsreconResult`](modules/estorides_core.active_recon.py.md#dnsreconresult) class in `estorides_core.active_recon`
+- [`Edge`](modules/estorides_core.change_detection.py.md#edge) class in `estorides_core.change_detection`
+- [`Employee`](modules/estorides_core.people_intel.py.md#employee) class in `estorides_core.people_intel`
+- [`Entity`](modules/estorides_core.entity_extraction.py.md#entity) class in `estorides_core.entity_extraction`
+- [`EntityRef`](modules/estorides_core.hypothesis_engine.py.md#entityref) class in `estorides_core.hypothesis_engine`
+- [`EntityResolver`](modules/estorides_core.entity_resolution.py.md#entityresolver) class in `estorides_core.entity_resolution`
+- [`EntityResolver`](modules/estorides_core.intel_resolver.py.md#entityresolver) class in `estorides_core.intel_resolver`
+- [`EntityRunner`](modules/estorides_core.pivot_engine.py.md#entityrunner) protocol in `estorides_core.pivot_engine`(Protocol)
+- [`EventBus`](modules/estorides_core.event_bus.py.md#eventbus) class in `estorides_core.event_bus`
+- [`EventSink`](modules/estorides_core.pivot_engine.py.md#eventsink) protocol in `estorides_core.pivot_engine`(Protocol)
+- [`Evidence`](modules/estorides_core.hypothesis_engine.py.md#evidence) class in `estorides_core.hypothesis_engine`
+- [`Feed`](modules/estorides_core.feeds.py.md#feed) class in `estorides_core.feeds`(ABC)
+  - [`EarthquakesFeed`](modules/estorides_core.feeds.py.md#earthquakesfeed) class in `estorides_core.feeds`
+  - [`FiresFeed`](modules/estorides_core.feeds.py.md#firesfeed) class in `estorides_core.feeds`
+  - [`NewsFeed`](modules/estorides_core.feeds.py.md#newsfeed) class in `estorides_core.feeds`
+- [`FeedPoint`](modules/estorides_core.feeds.py.md#feedpoint) class in `estorides_core.feeds`
+- [`from`](modules/static.js.source_manager.js.md#from) class in `static/js/source_manager.js`
+- [`FusionAnalytics`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics) class in `estorides_core.fusion_analytics`
+- [`FusionResult`](modules/estorides_core.recon_fusion.py.md#fusionresult) class in `estorides_core.recon_fusion`
+- [`GraphRagConfig`](modules/estorides_core.graph_rag_search.py.md#graphragconfig) class in `estorides_core.graph_rag_search`
+- [`GraphRagIndex`](modules/estorides_core.graph_rag_search.py.md#graphragindex) class in `estorides_core.graph_rag_search`
+- [`GraphRagSearcher`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher) class in `estorides_core.graph_rag_search`
+- [`GroupedEntity`](modules/estorides_core.recon_fusion.py.md#groupedentity) class in `estorides_core.recon_fusion`
+- [`GuardResult`](modules/estorides_core.ssrf_guard.py.md#guardresult) class in `estorides_core.ssrf_guard`
+- [`HealthDashboard`](modules/estorides_core.source_health_monitoring.py.md#healthdashboard) class in `estorides_core.source_health_monitoring`
+- [`HistoricalSubdomain`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain) class in `estorides_core.pdns_monitor`
+- [`Hypothesis`](modules/estorides_core.hypothesis_engine.py.md#hypothesis) class in `estorides_core.hypothesis_engine`
+- [`InstallRecipe`](modules/estorides_core.tool_install.py.md#installrecipe) class in `estorides_core.tool_install`
+- [`InstallResult`](modules/estorides_core.tool_install.py.md#installresult) class in `estorides_core.tool_install`
+- [`IPRecord`](modules/estorides_core.pdns_monitor.py.md#iprecord) class in `estorides_core.pdns_monitor`
+- [`KeyboardShortcut`](modules/estorides_core.search_telemetry.py.md#keyboardshortcut) class in `estorides_core.search_telemetry`
+- [`KnowledgeGraph`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph) class in `estorides_core.knowledge_graph`
+- [`KuzuGraphBackend`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend) class in `estorides_core.graph_kuzu`
+- [`LanBundleResult`](modules/estorides_core.lan_bundle.py.md#lanbundleresult) class in `estorides_core.lan_bundle`
+- [`LanDevice`](modules/estorides_core.lan_inventory.py.md#landevice) class in `estorides_core.lan_inventory`
+- [`LanPolicyDecision`](modules/estorides_core.lan_policy.py.md#lanpolicydecision) class in `estorides_core.lan_policy`
+- [`LanPolicyRequest`](modules/estorides_core.lan_policy.py.md#lanpolicyrequest) class in `estorides_core.lan_policy`
+- [`LanScanResult`](modules/estorides_core.lan_runner.py.md#lanscanresult) class in `estorides_core.lan_runner`
+- [`LanWebVerdict`](modules/estorides_core.lan_web.py.md#lanwebverdict) class in `estorides_core.lan_web`
+- [`ListEventSink`](modules/estorides_core.pivot_engine.py.md#listeventsink) class in `estorides_core.pivot_engine`
+- [`LLMBackend`](modules/estorides_llm.manager.py.md#llmbackend) protocol in `estorides_llm.manager`(Protocol)
+- [`LLMManager`](modules/estorides_llm.manager.py.md#llmmanager) class in `estorides_llm.manager`
+- [`MatchScore`](modules/estorides_core.entity_resolution.py.md#matchscore) class in `estorides_core.entity_resolution`
+- [`NiktoResult`](modules/estorides_core.active_recon.py.md#niktoresult) class in `estorides_core.active_recon`
+- [`NmapResult`](modules/estorides_core.active_recon.py.md#nmapresult) class in `estorides_core.active_recon`
+- [`Observation`](modules/estorides_core.observation_models.py.md#observation) class in `estorides_core.observation_models`(_StrictModel)
+- [`ObservationMeta`](modules/estorides_core.observation_models.py.md#observationmeta) class in `estorides_core.observation_models`(_StrictModel)
+- [`ObservedEntity`](modules/estorides_core.observation_models.py.md#observedentity) class in `estorides_core.observation_models`(_StrictModel)
+- [`OllamaBackend`](modules/estorides_llm.manager.py.md#ollamabackend) class in `estorides_llm.manager`
+- [`on`](modules/static.js.estorides.js.md#on) class in `static/js/estorides.js`
+- [`OntologyEngine`](modules/estorides_core.ontology.py.md#ontologyengine) class in `estorides_core.ontology`
+- [`OpenAIBackend`](modules/estorides_llm.manager.py.md#openaibackend) class in `estorides_llm.manager`(_OpenAICompatibleBackend)
+- [`OpenRouterBackend`](modules/estorides_llm.manager.py.md#openrouterbackend) class in `estorides_llm.manager`(_OpenAICompatibleBackend)
+- [`OpsConfig`](modules/estorides_core.ops_observability.py.md#opsconfig) class in `estorides_core.ops_observability`
+- [`Orchestrator`](modules/estorides_core.orchestrator.py.md#orchestrator) class in `estorides_core.orchestrator`
+- [`PaginationConfig`](modules/estorides_core.pagination.py.md#paginationconfig) class in `estorides_core.pagination`
+- [`PDNSResult`](modules/estorides_core.pdns_monitor.py.md#pdnsresult) class in `estorides_core.pdns_monitor`
+- [`PeopleIntelResult`](modules/estorides_core.people_intel.py.md#peopleintelresult) class in `estorides_core.people_intel`
+- [`PivotBudget`](modules/estorides_core.pivot_engine.py.md#pivotbudget) class in `estorides_core.pivot_engine`
+- [`PivotConfig`](modules/estorides_core.config.py.md#pivotconfig) class in `estorides_core.config`
+- [`PivotEngine`](modules/estorides_core.pivot_engine.py.md#pivotengine) class in `estorides_core.pivot_engine`
+- [`PivotEvent`](modules/estorides_core.pivot_engine.py.md#pivotevent) class in `estorides_core.pivot_engine`
+- [`PivotLead`](modules/estorides_core.pivot_engine.py.md#pivotlead) class in `estorides_core.pivot_engine`
+- [`PivotPolicyConfig`](modules/estorides_core.config.py.md#pivotpolicyconfig) class in `estorides_core.config`
+- [`PivotResult`](modules/estorides_core.pivot_engine.py.md#pivotresult) class in `estorides_core.pivot_engine`
+- [`PlatformInfo`](modules/estorides_core.socmint.py.md#platforminfo) class in `estorides_core.socmint`
+- [`ProfileMatch`](modules/estorides_core.socmint.py.md#profilematch) class in `estorides_core.socmint`
+- [`ProgressView`](modules/estorides_core.search_telemetry.py.md#progressview) class in `estorides_core.search_telemetry`
+- [`Query`](modules/estorides_core.validation.py.md#query) class in `estorides_core.validation`
+- [`QueryValidationError`](modules/estorides_core.validation.py.md#queryvalidationerror) exception in `estorides_core.validation`(ValueError)
+- [`RagCommunity`](modules/estorides_core.graph_rag_search.py.md#ragcommunity) class in `estorides_core.graph_rag_search`
+- [`RagContext`](modules/estorides_core.graph_rag_search.py.md#ragcontext) class in `estorides_core.graph_rag_search`
+- [`RagEntity`](modules/estorides_core.graph_rag_search.py.md#ragentity) class in `estorides_core.graph_rag_search`
+- [`RagRelation`](modules/estorides_core.graph_rag_search.py.md#ragrelation) class in `estorides_core.graph_rag_search`
+- [`RagTextUnit`](modules/estorides_core.graph_rag_search.py.md#ragtextunit) class in `estorides_core.graph_rag_search`
+- [`RateLimiter`](modules/estorides_core.audit.py.md#ratelimiter) class in `estorides_core.audit`
+- [`ReconFusionConfig`](modules/estorides_core.config.py.md#reconfusionconfig) class in `estorides_core.config`
+- [`ReconFusionEngine`](modules/estorides_core.recon_fusion.py.md#reconfusionengine) class in `estorides_core.recon_fusion`
+- [`Relationship`](modules/estorides_core.supply_chain.py.md#relationship) class in `estorides_core.supply_chain`
+- [`RelationshipInferer`](modules/estorides_core.relationship_inference.py.md#relationshipinferer) protocol in `estorides_core.relationship_inference`(Protocol)
+- [`RelevanceTier`](modules/estorides_core.recon_fusion.py.md#relevancetier) enum in `estorides_core.recon_fusion`(str, Enum)
+- [`ReportMetadata`](modules/estorides_export.recon_report.py.md#reportmetadata) class in `estorides_export.recon_report`
+- [`ReportResult`](modules/estorides_export.recon_report.py.md#reportresult) class in `estorides_export.recon_report`
+- [`ReportSection`](modules/estorides_export.recon_report.py.md#reportsection) class in `estorides_export.recon_report`
+- [`ResolutionResult`](modules/estorides_core.entity_resolution.py.md#resolutionresult) class in `estorides_core.entity_resolution`
+- [`ResponseCache`](modules/estorides_core.async_client.py.md#responsecache) class in `estorides_core.async_client`
+- [`RetryConfig`](modules/estorides_core.config.py.md#retryconfig) class in `estorides_core.config`
+- [`RunResult`](modules/estorides_core.observation_models.py.md#runresult) class in `estorides_core.observation_models`(_StrictModel)
+- [`SameAsLink`](modules/estorides_core.entity_resolution.py.md#sameaslink) class in `estorides_core.entity_resolution`
+- [`SanctionEntry`](modules/estorides_core.ontology.py.md#sanctionentry) class in `estorides_core.ontology`
+- [`SanctionsIndex`](modules/estorides_core.ontology.py.md#sanctionsindex) class in `estorides_core.ontology`
+- [`SchemaConfig`](modules/estorides_core.config.py.md#schemaconfig) class in `estorides_core.config`
+- [`ScopeMatcher`](modules/estorides_core.scope.py.md#scopematcher) class in `estorides_core.scope`
+- [`ScopeReport`](modules/estorides_core.scope.py.md#scopereport) class in `estorides_core.scope`
+- [`ScopeRule`](modules/estorides_core.scope.py.md#scoperule) class in `estorides_core.scope`(ABC)
+  - [`CidrRule`](modules/estorides_core.scope.py.md#cidrrule) class in `estorides_core.scope`
+  - [`ExactHostRule`](modules/estorides_core.scope.py.md#exacthostrule) class in `estorides_core.scope`
+  - [`RegexRule`](modules/estorides_core.scope.py.md#regexrule) class in `estorides_core.scope`
+  - [`WildcardRule`](modules/estorides_core.scope.py.md#wildcardrule) class in `estorides_core.scope`
+- [`SearchPhase`](modules/estorides_core.search_telemetry.py.md#searchphase) class in `estorides_core.search_telemetry`
+- [`SearchTelemetry`](modules/estorides_core.search_telemetry.py.md#searchtelemetry) class in `estorides_core.search_telemetry`
+- [`SearchTelemetryError`](modules/estorides_core.search_telemetry.py.md#searchtelemetryerror) exception in `estorides_core.search_telemetry`(Exception)
+  - [`InvalidTelemetryConfigError`](modules/estorides_core.search_telemetry.py.md#invalidtelemetryconfigerror) exception in `estorides_core.search_telemetry`
+  - [`UnknownPhaseError`](modules/estorides_core.search_telemetry.py.md#unknownphaseerror) exception in `estorides_core.search_telemetry`
+- [`SeveritySummary`](modules/estorides_core.code_exposure.py.md#severitysummary) class in `estorides_core.code_exposure`
+- [`SharedInfra`](modules/estorides_core.supply_chain.py.md#sharedinfra) class in `estorides_core.supply_chain`
+- [`Snapshot`](modules/estorides_core.change_detection.py.md#snapshot) class in `estorides_core.change_detection`
+- [`SnapshotEntity`](modules/estorides_core.change_detection.py.md#snapshotentity) class in `estorides_core.change_detection`
+- [`SocialMediaInferer`](modules/estorides_core.socmint.py.md#socialmediainferer) class in `estorides_core.socmint`
+- [`SocialMediaProfile`](modules/estorides_core.socmint.py.md#socialmediaprofile) class in `estorides_core.socmint`
+- [`Source`](modules/estorides_core.source_loader.py.md#source) class in `estorides_core.source_loader`(dict)
+- [`SourceHealthConfig`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthInput`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthResult`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult) class in `estorides_core.source_health_monitoring`
+- [`SourceHealthStatus`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthstatus) enum in `estorides_core.source_health_monitoring`(str, Enum)
+- [`SourceRegistry`](modules/estorides_core.source_loader.py.md#sourceregistry) class in `estorides_core.source_loader`
+- [`SourceReliability`](modules/estorides_core.reliability_scoring.py.md#sourcereliability) enum in `estorides_core.reliability_scoring`(str, Enum)
+- [`SourceType`](modules/estorides_core.reliability_scoring.py.md#sourcetype) enum in `estorides_core.reliability_scoring`(str, Enum)
+- [`SphereBundleLayout`](modules/estorides_core.graph_bundle.py.md#spherebundlelayout) class in `estorides_core.graph_bundle`
+- [`SplashTip`](modules/estorides_core.search_telemetry.py.md#splashtip) class in `estorides_core.search_telemetry`
+- [`SqliteStore`](modules/estorides_core.sqlite_store.py.md#sqlitestore) class in `estorides_core.sqlite_store`
+  - [`CaseStore`](modules/estorides_core.cases.py.md#casestore) class in `estorides_core.cases`
+  - [`EntityStore`](modules/estorides_core.entity_store.py.md#entitystore) class in `estorides_core.entity_store`
+  - [`FusionStore`](modules/estorides_core.fusion_store.py.md#fusionstore) class in `estorides_core.fusion_store`
+  - [`WatchStore`](modules/estorides_core.monitoring.py.md#watchstore) class in `estorides_core.monitoring`
+- [`SqlmapResult`](modules/estorides_core.active_recon.py.md#sqlmapresult) class in `estorides_core.active_recon`
+- [`SSRFError`](modules/estorides_core.ssrf_guard.py.md#ssrferror) exception in `estorides_core.ssrf_guard`(ValueError)
+- [`StreamConfig`](modules/estorides_core.config.py.md#streamconfig) class in `estorides_core.config`
+- [`SupplyChainResult`](modules/estorides_core.supply_chain.py.md#supplychainresult) class in `estorides_core.supply_chain`
+- [`SystemAppResult`](modules/estorides_core.system_app_sources.py.md#systemappresult) class in `estorides_core.system_app_sources`
+- [`Tech`](modules/estorides_core.tech_fingerprint.py.md#tech) class in `estorides_core.tech_fingerprint`
+- [`TechFingerprintResult`](modules/estorides_core.tech_fingerprint.py.md#techfingerprintresult) class in `estorides_core.tech_fingerprint`
+- [`TelemetryConfig`](modules/estorides_core.search_telemetry.py.md#telemetryconfig) class in `estorides_core.search_telemetry`
+- [`TheHarvesterResult`](modules/estorides_core.active_recon.py.md#theharvesterresult) class in `estorides_core.active_recon`
+- [`ThirdParty`](modules/estorides_core.supply_chain.py.md#thirdparty) class in `estorides_core.supply_chain`
+- [`to`](modules/static.js.estorides.js.md#to) class in `static/js/estorides.js`
+- [`ToolError`](modules/estorides_core.tool_runner.py.md#toolerror) exception in `estorides_core.tool_runner`(Exception)
+  - [`ToolInjectionError`](modules/estorides_core.tool_runner.py.md#toolinjectionerror) exception in `estorides_core.tool_runner`
+  - [`ToolNotAllowedError`](modules/estorides_core.tool_runner.py.md#toolnotallowederror) exception in `estorides_core.tool_runner`
+  - [`ToolNotFoundError`](modules/estorides_core.tool_runner.py.md#toolnotfounderror) exception in `estorides_core.tool_runner`
+  - [`ToolTimeoutError`](modules/estorides_core.tool_runner.py.md#tooltimeouterror) exception in `estorides_core.tool_runner`
+- [`ToolErrorResult`](modules/estorides_core.tool_runner.py.md#toolerrorresult) class in `estorides_core.tool_runner`
+- [`ToolResult`](modules/estorides_core.tool_runner.py.md#toolresult) class in `estorides_core.tool_runner`
+- [`ToolStatus`](modules/estorides_core.tool_install.py.md#toolstatus) class in `estorides_core.tool_install`
+- [`Transform`](modules/estorides_core.transforms.py.md#transform) class in `estorides_core.transforms`
+- [`TransformRegistry`](modules/estorides_core.transforms.py.md#transformregistry) class in `estorides_core.transforms`
+- [`VulnCorrelationResult`](modules/estorides_core.vuln_correlation.py.md#vulncorrelationresult) class in `estorides_core.vuln_correlation`
+- [`VulnEntry`](modules/estorides_core.vuln_correlation.py.md#vulnentry) class in `estorides_core.vuln_correlation`
+- [`WatchScheduler`](modules/estorides_core.monitoring.py.md#watchscheduler) class in `estorides_core.monitoring`
+- [`WatchTarget`](modules/estorides_core.monitoring.py.md#watchtarget) class in `estorides_core.monitoring`
+- [`WebConfig`](modules/estorides_core.config.py.md#webconfig) class in `estorides_core.config`
+- [`WebSecurityConfig`](modules/estorides_core.web_security.py.md#websecurityconfig) class in `estorides_core.web_security`
+- [`WikidataCache`](modules/estorides_core.ontology.py.md#wikidatacache) class in `estorides_core.ontology`

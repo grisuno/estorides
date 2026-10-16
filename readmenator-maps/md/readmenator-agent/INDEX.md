@@ -16,7 +16,7 @@
 | `_multi_test.sh` | - | root | 0 | 0 |
 | `app.py` | Deprecated entry point. | root | 0 | 0 |
 | `estorides_cli.py` | estorides CLI. | root | 31 | 1 |
-| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 7 |
+| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 13 |
 | `estorides_core/active_recon.py` | - | estorides_core | 25 | 1 |
 | `estorides_core/alerter.py` | estorides_core.alerter | estorides_core | 15 | 4 |
 | `estorides_core/async_client.py` | estorides_core.async_client | estorides_core | 21 | 2 |
@@ -43,7 +43,13 @@
 | `estorides_core/ids.py` | estorides_core.ids | estorides_core | 1 | 6 |
 | `estorides_core/intel_resolver.py` | estorides_core.intel_resolver | estorides_core | 26 | 4 |
 | `estorides_core/job_registry.py` | estorides_core.job_registry | estorides_core | 10 | 3 |
-| `estorides_core/knowledge_graph.py` | estorides_core.knowledge_graph | estorides_core | 17 | 7 |
+| `estorides_core/knowledge_graph.py` | estorides_core.knowledge_graph | estorides_core | 18 | 7 |
+| `estorides_core/lan_bundle.py` | estorides_core.lan_bundle | estorides_core | 8 | 0 |
+| `estorides_core/lan_inventory.py` | estorides_core.lan_inventory | estorides_core | 12 | 1 |
+| `estorides_core/lan_policy.py` | estorides_core.lan_policy | estorides_core | 9 | 0 |
+| `estorides_core/lan_runner.py` | estorides_core.lan_runner | estorides_core | 8 | 0 |
+| `estorides_core/lan_scope.py` | estorides_core.lan_scope | estorides_core | 5 | 0 |
+| `estorides_core/lan_web.py` | estorides_core.lan_web | estorides_core | 6 | 1 |
 | `estorides_core/mitre_attack.py` | estorides_core.mitre_attack | estorides_core | 4 | 1 |
 | `estorides_core/monitoring.py` | estorides_core.monitoring | estorides_core | 26 | 4 |
 | `estorides_core/observation_models.py` | estorides_core.observation_models | estorides_core | 14 | 2 |
@@ -61,18 +67,18 @@
 | `estorides_core/recon_pipeline.py` | - | estorides_core | 1 | 0 |
 | `estorides_core/relationship_inference.py` | estorides_core.relationship_inference | estorides_core | 16 | 1 |
 | `estorides_core/reliability_scoring.py` | estorides_core.reliability_scoring | estorides_core | 16 | 8 |
-| `estorides_core/scope.py` | estorides_core.scope | estorides_core | 39 | 2 |
+| `estorides_core/scope.py` | estorides_core.scope | estorides_core | 39 | 3 |
 | `estorides_core/search_telemetry.py` | estorides.search_telemetry. | estorides_core | 22 | 5 |
 | `estorides_core/socmint.py` | estorides_core.socmint | estorides_core | 12 | 2 |
 | `estorides_core/source_health_monitoring.py` | estorides_core.source_health_monitoring | estorides_core | 14 | 2 |
 | `estorides_core/source_loader.py` | estorides_core.source_loader | estorides_core | 20 | 6 |
-| `estorides_core/sqlite_store.py` | estorides_core.sqlite_store | estorides_core | 7 | 5 |
+| `estorides_core/sqlite_store.py` | estorides_core.sqlite_store | estorides_core | 8 | 5 |
 | `estorides_core/ssrf_guard.py` | estorides_core.ssrf_guard | estorides_core | 12 | 7 |
 | `estorides_core/supply_chain.py` | - | estorides_core | 13 | 2 |
 | `estorides_core/system_app_sources.py` | estorides_core.system_app_sources | estorides_core | 32 | 3 |
 | `estorides_core/tech_fingerprint.py` | - | estorides_core | 6 | 2 |
 | `estorides_core/tool_install.py` | estorides_core.tool_install | estorides_core | 27 | 4 |
-| `estorides_core/tool_runner.py` | - | estorides_core | 15 | 8 |
+| `estorides_core/tool_runner.py` | - | estorides_core | 15 | 10 |
 | `estorides_core/transforms.py` | estorides_core.transforms | estorides_core | 24 | 2 |
 | `estorides_core/transliteration.py` | estorides_core.transliteration | estorides_core | 4 | 2 |
 | `estorides_core/validation.py` | estorides_core.validation | estorides_core | 6 | 3 |
@@ -87,14 +93,15 @@
 | `estorides_llm/__init__.py` | estorides_llm | estorides_llm | 0 | 1 |
 | `estorides_llm/intelligence_prompts.py` | estorides_llm.intelligence_prompts | estorides_llm | 1 | 1 |
 | `estorides_llm/manager.py` | estorides_llm.manager | estorides_llm | 22 | 1 |
-| `estorides_web.py` | estorides.web | root | 95 | 8 |
+| `estorides_web.py` | estorides.web | root | 97 | 8 |
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
-| `static/js/estorides.js` | Estorides front-end controller | js | 168 | 0 |
-| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 62 | 0 |
-| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 109 | 0 |
-| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 | 0 |
+| `static/js/estorides.js` | Estorides front-end controller | js | 182 | 0 |
+| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 66 | 0 |
+| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 115 | 0 |
+| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 19 | 0 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 | 0 |
+| `tests/properties/conftest.py` | Directory guard for property-based (hypothesis) tests. | properties | 0 | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection. | properties | 8 | 0 |
 | `tests/properties/test_csp_safe_styles_properties.py` | Property-based fuzz for `csp_safe_styles`. | properties | 3 | 0 |
 | `tests/properties/test_graph_bundle_properties.py` | Property-based invariants for estorides_core.graph_bundle. | properties | 6 | 0 |
@@ -135,6 +142,12 @@
 | `tests/test_ids.py` | BDD tests for the shared deterministic id helper (spec/ids.md).  - ID1: deterministic and... | tests | 7 | 0 |
 | `tests/test_job_registry.py` | BoundedJobRegistry: size cap + TTL eviction (issues #14, #20, #50). | tests | 8 | 0 |
 | `tests/test_keyless_sources.py` | M3 RED tests: keyless BGPView + CISA KEV sources and total parsers. | tests | 7 | 0 |
+| `tests/test_lan_bundle.py` | BDD tests for lan_bundle (spec/lan_bundle.md). | tests | 9 | 0 |
+| `tests/test_lan_inventory.py` | BDD tests for lan_inventory (spec/lan_inventory.md). | tests | 14 | 0 |
+| `tests/test_lan_policy.py` | BDD tests for lan_policy (spec/lan_policy.md). | tests | 8 | 0 |
+| `tests/test_lan_runner.py` | BDD tests for lan_runner (spec/lan_runner.md). | tests | 14 | 0 |
+| `tests/test_lan_scope.py` | BDD tests for lan_scope (spec/lan_scope.md). | tests | 8 | 0 |
+| `tests/test_lan_web.py` | BDD tests for lan_web (spec/lan_web.md). | tests | 12 | 0 |
 | `tests/test_map_basemap.py` | BDD tests for spec/map_basemap.md (CARTO basemap, no direct OSM tiles). | tests | 5 | 0 |
 | `tests/test_monitoring.py` | BDD tests for Monitoring & Advanced Recon modules. | tests | 35 | 0 |
 | `tests/test_obs_fts.py` | Obs FTS BDD. | tests | 3 | 0 |

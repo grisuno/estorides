@@ -1,5 +1,132 @@
-# Subsystem: tests (page 4 of 4)
+# Subsystem: tests (page 4 of 5)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
+
+## tests/test_source_health_monitoring.py
+- Doc: BDD tests for estorides_core.source_health_monitoring.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestHealthySource` (class, line 29) `class TestHealthySource`
+  - `TestDegradingLowSuccess` (class, line 97) `class TestDegradingLowSuccess`
+  - `TestDegradingHighLatency` (class, line 141) `class TestDegradingHighLatency`
+  - `TestStaleSource` (class, line 186) `class TestStaleSource`
+  - `TestUnknownSource` (class, line 217) `class TestUnknownSource`
+  - `TestDashboard` (class, line 248) `class TestDashboard`
+  - `TestValidation` (class, line 348) `class TestValidation`
+  - `TestDeterminism` (class, line 411) `class TestDeterminism`
+  - `TestScoreBounded` (class, line 441) `class TestScoreBounded`
+  - `TestStatusAlwaysValid` (class, line 472) `class TestStatusAlwaysValid`
+  - `TestDataclassContract` (class, line 492) `class TestDataclassContract`
+  - `test_healthy_status` (method, line 32) `def test_healthy_status(self)`
+  - `test_success_rate_computed` (method, line 44) `def test_success_rate_computed(self)`
+  - `test_avg_latency_computed` (method, line 56) `def test_avg_latency_computed(self)`
+  - `test_freshness_hours_computed` (method, line 68) `def test_freshness_hours_computed(self)`
+  - `test_health_score_high_band` (method, line 80) `def test_health_score_high_band(self)`
+  - `test_degrading_status` (method, line 100) `def test_degrading_status(self)`
+  - `test_success_rate_reflects_failures` (method, line 112) `def test_success_rate_reflects_failures(self)`
+  - `test_health_score_low_band` (method, line 124) `def test_health_score_low_band(self)`
+  - `test_degrading_status_for_latency` (method, line 144) `def test_degrading_status_for_latency(self)`
+  - `test_avg_latency_high` (method, line 156) `def test_avg_latency_high(self)`
+  - `test_health_score_penalised` (method, line 168) `def test_health_score_penalised(self)`
+  - `test_stale_status` (method, line 189) `def test_stale_status(self)`
+  - `test_freshness_hours_exceeds_stale` (method, line 201) `def test_freshness_hours_exceeds_stale(self)`
+  - `test_unknown_status` (method, line 220) `def test_unknown_status(self)`
+  - `test_zero_fetches_is_unknown` (method, line 232) `def test_zero_fetches_is_unknown(self)`
+  - `_healthy` (method, line 252) `def _healthy(name)`
+  - `_degrading` (method, line 263) `def _degrading(name)`
+  - `_stale` (method, line 274) `def _stale(name)`
+  - `_unknown` (method, line 285) `def _unknown(name)`
+  - `test_hot_sources_are_healthy` (method, line 295) `def test_hot_sources_are_healthy(self)`
+  - `test_degrading_includes_degrading_and_stale` (method, line 306) `def test_degrading_includes_degrading_and_stale(self)`
+  - `test_unknown_sources_separate` (method, line 319) `def test_unknown_sources_separate(self)`
+  - `test_summary_counts` (method, line 329) `def test_summary_counts(self)`
+  - `test_ok_exceeds_fetch_raises` (method, line 351) `def test_ok_exceeds_fetch_raises(self)`
+  - `test_negative_fetch_raises` (method, line 362) `def test_negative_fetch_raises(self)`
+  - `test_negative_latency_raises` (method, line 373) `def test_negative_latency_raises(self)`
+  - `test_empty_name_raises` (method, line 384) `def test_empty_name_raises(self)`
+  - `test_config_min_fetches_less_than_one_raises` (method, line 395) `def test_config_min_fetches_less_than_one_raises(self)`
+  - `test_config_stale_hours_zero_raises` (method, line 399) `def test_config_stale_hours_zero_raises(self)`
+  - `test_config_degrading_rate_out_of_range_raises` (method, line 403) `def test_config_degrading_rate_out_of_range_raises(self)`
+  - `test_compute_health_is_pure` (method, line 414) `def test_compute_health_is_pure(self)`
+  - `test_build_dashboard_is_pure` (method, line 428) `def test_build_dashboard_is_pure(self)`
+  - `test_perfect_source_scores_one` (method, line 444) `def test_perfect_source_scores_one(self)`
+  - `test_broken_source_scores_low` (method, line 456) `def test_broken_source_scores_low(self)`
+  - `test_status_is_enum` (method, line 475) `def test_status_is_enum(self)`
+  - `test_health_input_is_dataclass` (method, line 495) `def test_health_input_is_dataclass(self)`
+  - `test_health_result_is_dataclass` (method, line 498) `def test_health_result_is_dataclass(self)`
+  - `test_config_is_dataclass` (method, line 501) `def test_config_is_dataclass(self)`
+  - `test_dashboard_is_dataclass` (method, line 505) `def test_dashboard_is_dataclass(self)`
+  - `test_result_to_dict` (method, line 508) `def test_result_to_dict(self)`
+  - `test_dashboard_to_dict` (method, line 523) `def test_dashboard_to_dict(self)`
+- Depends on: `estorides_core/source_health_monitoring.py`
+
+## tests/test_source_loader.py
+- Doc: BDD / regression tests for SourceRegistry loading.  - SL1: a multi-document YAML file loads...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 17) `def _write(path, text)`
+  - `_source` (function, line 22) `def _source(name, category, extra)`
+  - `TestSL1MultiDocument` (class, line 32) `class TestSL1MultiDocument`
+  - `TestSL2ListDocument` (class, line 42) `class TestSL2ListDocument`
+  - `TestSL3DuplicateName` (class, line 55) `class TestSL3DuplicateName`
+  - `TestSL4UnknownContact` (class, line 70) `class TestSL4UnknownContact`
+  - `TestSL5UndecodableFile` (class, line 78) `class TestSL5UndecodableFile`
+  - `test_two_documents_load` (method, line 33) `def test_two_documents_load(self, tmp_path)`
+  - `test_list_of_sources_loads` (method, line 43) `def test_list_of_sources_loads(self, tmp_path)`
+  - `test_duplicate_overwrites_counts` (method, line 56) `def test_duplicate_overwrites_counts(self, tmp_path)`
+  - `test_unknown_contact_becomes_active` (method, line 71) `def test_unknown_contact_becomes_active(self, tmp_path)`
+  - `test_bad_encoding_does_not_abort_load` (method, line 79) `def test_bad_encoding_does_not_abort_load(self, tmp_path)`
+- Depends on: `estorides_core/source_loader.py`
+
+## tests/test_source_routing.py
+- Doc: M2 RED tests: alias routing + phone/mac YAML backfill.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_names` (function, line 13) `def _names(types)`
+  - `test_phone_routes_to_phone_tools` (function, line 26) `def test_phone_routes_to_phone_tools()`
+  - `test_mac_routes_to_macvendors` (function, line 32) `def test_mac_routes_to_macvendors()`
+  - `test_hash_alias_matches_concrete` (function, line 36) `def test_hash_alias_matches_concrete()`
+  - `test_url_also_matches_domain_sources` (function, line 43) `def test_url_also_matches_domain_sources()`
+  - `test_phone_yaml_tags` (function, line 47) `def test_phone_yaml_tags()`
+- Depends on: `estorides_core/orchestrator.py`
+
+## tests/test_sqlite_store.py
+- Doc: BDD tests for the shared SQLite store base (spec/sqlite_store.md).  - SS1: schema applied...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Store` (class, line 20) `class _Store(SqliteStore)`
+  - `TestSS1Schema` (class, line 24) `class TestSS1Schema`
+  - `TestSS2Commit` (class, line 43) `class TestSS2Commit`
+  - `TestSS3Rollback` (class, line 54) `class TestSS3Rollback`
+  - `TestSS4Close` (class, line 67) `class TestSS4Close`
+  - `TestSS5DictMixin` (class, line 74) `class TestSS5DictMixin`
+  - `test_default_path_and_schema` (method, line 25) `def test_default_path_and_schema(self, tmp_path)`
+  - `test_missing_path_raises` (method, line 35) `def test_missing_path_raises(self)`
+  - `test_tx_commits` (method, line 44) `def test_tx_commits(self, tmp_path)`
+  - `test_tx_rolls_back_and_reraises` (method, line 55) `def test_tx_rolls_back_and_reraises(self, tmp_path)`
+  - `test_close_idempotent` (method, line 68) `def test_close_idempotent(self, tmp_path)`
+  - `test_to_dict` (method, line 75) `def test_to_dict(self)`
+  - `NoPath` (class, line 36) `class NoPath(SqliteStore)`
+  - `Row` (class, line 77) `class Row(DictMixin)`
+- Depends on: `estorides_core/sqlite_store.py`
+
+## tests/test_structured_extraction.py
+- Doc: BDD tests for structured human-selector extraction + pivot leaf surfacing.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_types` (function, line 32) `def _types(payload)`
+  - `TestExtractStructured` (class, line 39) `class TestExtractStructured`
+  - `_StubRunner` (class, line 58) `class _StubRunner`
+  - `TestPivotLeafSurfacing` (class, line 67) `class TestPivotLeafSurfacing`
+  - `test_happy_path_selectors` (method, line 40) `def test_happy_path_selectors(self)`
+  - `test_noise_rejected` (method, line 51) `def test_noise_rejected(self)`
+  - `run` (method, line 59) `def run(self, query)`
+  - `test_non_pivotable_selectors_surface_as_leaves` (method, line 68) `def test_non_pivotable_selectors_surface_as_leaves(self)`
+- Depends on: `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/pivot_engine.py`
 
 ## tests/test_supply_chain.py
 - Doc: ATDD + BDD tests for estorides_core.supply_chain.
@@ -41,7 +168,7 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `TestS8Registry` (class, line 306) `class TestS8Registry`
   - `TestRunnerErrorPassthrough` (class, line 408) `class TestRunnerErrorPassthrough`
   - `TestS9LoopResponsiveness` (class, line 433) `class TestS9LoopResponsiveness`
-  - `stub` (method, line 52) `def stub(binary, args)`
+  - `stub` (function, line 52) `def stub(binary, args)`
   - `test_execute_renders_query_and_parses_found_lines` (method, line 80) `def test_execute_renders_query_and_parses_found_lines(self)`
   - `test_execute_returns_source_and_tool_metadata` (method, line 105) `def test_execute_returns_source_and_tool_metadata(self)`
   - `test_execute_reports_tool_not_found` (method, line 120) `def test_execute_reports_tool_not_found(self, monkeypatch)`
@@ -67,11 +194,11 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_write_source_file_roundtrip_keeps_system_app_block` (method, line 395) `def test_write_source_file_roundtrip_keeps_system_app_block(self, tmp_path)`
   - `test_timeout_error_is_propagated` (method, line 409) `def test_timeout_error_is_propagated(self, monkeypatch)`
   - `test_binary_branch_runs_in_worker_thread` (method, line 434) `def test_binary_branch_runs_in_worker_thread(self, monkeypatch)`
-  - `on_run` (method, line 83) `def on_run(binary, args)`
-  - `on_run` (method, line 214) `def on_run(binary, args)`
-  - `timeout_runner` (method, line 414) `def timeout_runner(binary, args)`
-  - `slow_execute` (method, line 444) `def slow_execute(source, query)`
-  - `scenario` (method, line 463) `def scenario()`
+  - `on_run` (function, line 83) `def on_run(binary, args)`
+  - `on_run` (function, line 214) `def on_run(binary, args)`
+  - `timeout_runner` (function, line 414) `def timeout_runner(binary, args)`
+  - `slow_execute` (function, line 444) `def slow_execute(source, query)`
+  - `scenario` (function, line 463) `def scenario()`
 - Depends on: `estorides_core/config.py`, `estorides_core/orchestrator.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_runner.py`
 
 ## tests/test_target_management.py
@@ -359,73 +486,5 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_scores_are_normalised` (method, line 280) `def test_scores_are_normalised(self)`
 - Depends on: `estorides_core/recon_fusion.py`, `estorides_core/search_telemetry.py`
 
-## tests/test_ui_visibility.py
-- Doc: Regression tests for the `hidden` attribute contract and output escaping.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_js` (function, line 21) `def _js()`
-  - `TestHiddenContract` (class, line 25) `class TestHiddenContract`
-  - `TestOutputEscaping` (class, line 54) `class TestOutputEscaping`
-  - `test_css_enforces_hidden` (method, line 26) `def test_css_enforces_hidden(self)`
-  - `test_setvisible_clears_hidden_attribute` (method, line 29) `def test_setvisible_clears_hidden_attribute(self)`
-  - `test_no_inline_display_reveal_of_hidden_overlays` (method, line 34) `def test_no_inline_display_reveal_of_hidden_overlays(self)`
-  - `test_tooltip_and_menu_use_setvisible` (method, line 47) `def test_tooltip_and_menu_use_setvisible(self)`
-  - `test_entity_list_escapes_type_and_source` (method, line 55) `def test_entity_list_escapes_type_and_source(self)`
-  - `test_fusion_detail_escapes_intel_level_and_lists` (method, line 60) `def test_fusion_detail_escapes_intel_level_and_lists(self)`
 
-## tests/test_vuln_correlation.py
-- Doc: ATDD + BDD tests for estorides_core.vuln_correlation.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_tech` (function, line 16) `def _make_tech(name, version)`
-  - `TestNginxCveMatch` (class, line 21) `class TestNginxCveMatch`
-  - `TestMetasploitAvailable` (class, line 31) `class TestMetasploitAvailable`
-  - `TestUnknownTechnology` (class, line 41) `class TestUnknownTechnology`
-  - `TestDefaultCredentials` (class, line 50) `class TestDefaultCredentials`
-  - `TestCriticalPrioritised` (class, line 62) `class TestCriticalPrioritised`
-  - `TestNoVersionMatch` (class, line 71) `class TestNoVersionMatch`
-  - `TestAttackReadiness` (class, line 81) `class TestAttackReadiness`
-  - `TestLocalCveLookup` (class, line 94) `class TestLocalCveLookup`
-  - `test_returns_cves_for_nginx` (method, line 22) `def test_returns_cves_for_nginx(self)`
-  - `test_apache_struts_has_metasploit` (method, line 32) `def test_apache_struts_has_metasploit(self)`
-  - `test_unknown_tech_returns_empty` (method, line 42) `def test_unknown_tech_returns_empty(self)`
-  - `test_jenkins_has_default_admin` (method, line 51) `def test_jenkins_has_default_admin(self)`
-  - `test_most_critical_is_highest_cvss` (method, line 63) `def test_most_critical_is_highest_cvss(self)`
-  - `test_no_version_reduces_confidence` (method, line 72) `def test_no_version_reduces_confidence(self)`
-  - `test_exploit_available_increases_score` (method, line 82) `def test_exploit_available_increases_score(self)`
-  - `test_known_tech_in_local_table` (method, line 95) `def test_known_tech_in_local_table(self)`
-- Depends on: `estorides_core/vuln_correlation.py`
-
-## tests/test_web_helpers.py
-- Doc: BDD tests for the web-layer decorators/helpers extracted from `create_app`.  - WH1: `_provides`...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_app` (function, line 17) `def _app()`
-  - `TestWH1Missing` (class, line 24) `class TestWH1Missing`
-  - `TestWH2Present` (class, line 39) `class TestWH2Present`
-  - `TestWH3Ordering` (class, line 54) `class TestWH3Ordering`
-  - `TestWH4Sse` (class, line 72) `class TestWH4Sse`
-  - `test_missing_service_edges_503` (method, line 25) `def test_missing_service_edges_503(self)`
-  - `test_present_service_passes` (method, line 40) `def test_present_service_passes(self)`
-  - `test_guard_runs_after_auth` (method, line 55) `def test_guard_runs_after_auth(self)`
-  - `test_sse_headers` (method, line 73) `def test_sse_headers(self)`
-  - `view` (method, line 31) `def view()`
-  - `view` (method, line 46) `def view()`
-  - `view` (method, line 63) `def view()`
-  - `stream` (method, line 77) `def stream()`
-- Depends on: `estorides_core/web_security.py`, `estorides_web.py`
-
-## tests/test_web_tools_blueprint.py
-- Doc: M5 RED tests: tools blueprint slice.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_tools_rules_present` (function, line 5) `def test_tools_rules_present()`
-  - `test_blueprint_registered` (function, line 16) `def test_blueprint_registered()`
-  - `test_unknown_tool_install_reaches_view` (function, line 23) `def test_unknown_tool_install_reaches_view()`
-  - `test_install_route_rejects_bad_binary` (function, line 34) `def test_install_route_rejects_bad_binary()`
-- Depends on: `estorides_web.py`
-
+Next: [KB_tests_p5.md](KB_tests_p5.md)

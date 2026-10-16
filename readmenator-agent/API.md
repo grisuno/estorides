@@ -8,26 +8,26 @@ Imported by: `tests/test_cli_watch.py`
 - `cmd_run` (function) `estorides_cli.py:205` `def cmd_run(args)`
 - `cmd_scope` (function) `estorides_cli.py:282` `def cmd_scope(args)` -- Classify discovered assets against a program's scope rules.
 - `cmd_graph_export` (function) `estorides_cli.py:328` `def cmd_graph_export(args)`
-- `cmd_export_stix` (function) `estorides_cli.py:351` `def cmd_export_stix(args)`
-- `cmd_export_misp` (function) `estorides_cli.py:361` `def cmd_export_misp(args)`
-- `cmd_report` (function) `estorides_cli.py:371` `def cmd_report(args)` -- Render a Markdown report for a case.
-- `cmd_diff` (function) `estorides_cli.py:412` `def cmd_diff(args)` -- Diff two cases.
-- `cmd_status` (function) `estorides_cli.py:440` `def cmd_status(_)`
-- `cmd_fusion` (function) `estorides_cli.py:447` `def cmd_fusion(args)` -- Query the cross-run fusion datastore.
-- `cmd_watch_add` (function) `estorides_cli.py:490` `def cmd_watch_add(args)` -- Add a new recurring watch target.
-- `cmd_watch_list` (function) `estorides_cli.py:554` `def cmd_watch_list(args)` -- List all watch targets.
-- `cmd_watch_remove` (function) `estorides_cli.py:574` `def cmd_watch_remove(args)` -- Delete a watch target.
-- `cmd_watch_enable` (function) `estorides_cli.py:586` `def cmd_watch_enable(args)`
-- `cmd_watch_disable` (function) `estorides_cli.py:599` `def cmd_watch_disable(args)`
-- `cmd_watch_history` (function) `estorides_cli.py:611` `def cmd_watch_history(args)`
-- `cmd_alerts_test` (function) `estorides_cli.py:632` `def cmd_alerts_test(args)`
-- `cmd_alerts_channels` (function) `estorides_cli.py:644` `def cmd_alerts_channels(args)`
-- `cmd_scheduler_start` (function) `estorides_cli.py:656` `def cmd_scheduler_start(args)`
-- `cmd_scheduler_stop` (function) `estorides_cli.py:666` `def cmd_scheduler_stop(args)`
-- `cmd_scheduler_status` (function) `estorides_cli.py:676` `def cmd_scheduler_status(args)`
-- `cmd_serve` (function) `estorides_cli.py:684` `def cmd_serve(args)`
-- `build_parser` (function) `estorides_cli.py:701` `def build_parser()`
-- `main` (function) `estorides_cli.py:857` `def main(argv)`
+- `cmd_export_stix` (function) `estorides_cli.py:357` `def cmd_export_stix(args)`
+- `cmd_export_misp` (function) `estorides_cli.py:367` `def cmd_export_misp(args)`
+- `cmd_report` (function) `estorides_cli.py:377` `def cmd_report(args)` -- Render a Markdown report for a case.
+- `cmd_diff` (function) `estorides_cli.py:418` `def cmd_diff(args)` -- Diff two cases.
+- `cmd_status` (function) `estorides_cli.py:446` `def cmd_status(_)`
+- `cmd_fusion` (function) `estorides_cli.py:453` `def cmd_fusion(args)` -- Query the cross-run fusion datastore.
+- `cmd_watch_add` (function) `estorides_cli.py:496` `def cmd_watch_add(args)` -- Add a new recurring watch target.
+- `cmd_watch_list` (function) `estorides_cli.py:560` `def cmd_watch_list(args)` -- List all watch targets.
+- `cmd_watch_remove` (function) `estorides_cli.py:580` `def cmd_watch_remove(args)` -- Delete a watch target.
+- `cmd_watch_enable` (function) `estorides_cli.py:592` `def cmd_watch_enable(args)`
+- `cmd_watch_disable` (function) `estorides_cli.py:605` `def cmd_watch_disable(args)`
+- `cmd_watch_history` (function) `estorides_cli.py:617` `def cmd_watch_history(args)`
+- `cmd_alerts_test` (function) `estorides_cli.py:638` `def cmd_alerts_test(args)`
+- `cmd_alerts_channels` (function) `estorides_cli.py:650` `def cmd_alerts_channels(args)`
+- `cmd_scheduler_start` (function) `estorides_cli.py:662` `def cmd_scheduler_start(args)`
+- `cmd_scheduler_stop` (function) `estorides_cli.py:672` `def cmd_scheduler_stop(args)`
+- `cmd_scheduler_status` (function) `estorides_cli.py:682` `def cmd_scheduler_status(args)`
+- `cmd_serve` (function) `estorides_cli.py:690` `def cmd_serve(args)`
+- `build_parser` (function) `estorides_cli.py:707` `def build_parser()`
+- `main` (function) `estorides_cli.py:863` `def main(argv)`
 
 ## estorides_core/active_recon.py
 Depends on: `estorides_core/tool_runner.py`
@@ -42,11 +42,11 @@ Imported by: `tests/test_active_recon.py`
 - `DnsreconResult.to_entities` (method) `estorides_core/active_recon.py:80` `def to_entities(self)`
 - `TheHarvesterResult.to_dict` (method) `estorides_core/active_recon.py:95` `def to_dict(self)`
 - `TheHarvesterResult.to_entities` (method) `estorides_core/active_recon.py:98` `def to_entities(self)`
-- `TheHarvesterResult.run_nmap` (method) `estorides_core/active_recon.py:213` `def run_nmap(target, args)`
-- `TheHarvesterResult.run_nikto` (method) `estorides_core/active_recon.py:243` `def run_nikto(target, args)`
-- `TheHarvesterResult.run_sqlmap` (method) `estorides_core/active_recon.py:269` `def run_sqlmap(target, args)`
-- `TheHarvesterResult.run_dnsrecon` (method) `estorides_core/active_recon.py:295` `def run_dnsrecon(target, args)`
-- `TheHarvesterResult.run_theHarvester` (method) `estorides_core/active_recon.py:325` `def run_theHarvester(target, args)`
+- `run_nmap` (function) `estorides_core/active_recon.py:213` `def run_nmap(target, args)`
+- `run_nikto` (function) `estorides_core/active_recon.py:243` `def run_nikto(target, args)`
+- `run_sqlmap` (function) `estorides_core/active_recon.py:269` `def run_sqlmap(target, args)`
+- `run_dnsrecon` (function) `estorides_core/active_recon.py:295` `def run_dnsrecon(target, args)`
+- `run_theHarvester` (function) `estorides_core/active_recon.py:325` `def run_theHarvester(target, args)`
 
 ## estorides_core/alerter.py
 Depends on: `estorides_core/ssrf_guard.py`
@@ -69,7 +69,7 @@ Imported by: `estorides_core/orchestrator.py`, `tests/test_async_client.py`
 - `AsyncClient.__init__` (method) `estorides_core/async_client.py:175` `def __init__(self)`
 - `AsyncClient.session` (method) `estorides_core/async_client.py:264` `def session(self)`
 - `AsyncClient.fetch` (method) `estorides_core/async_client.py:270` `def fetch(self, method, url)` -- Fetch a URL.
-- `AsyncClient.sync_fetch` (method) `estorides_core/async_client.py:400` `def sync_fetch(method, url)`
+- `sync_fetch` (function) `estorides_core/async_client.py:400` `def sync_fetch(method, url)`
 
 ## estorides_core/audit.py
 Depends on: `estorides_core/config.py`
@@ -110,23 +110,23 @@ Imported by: `estorides_cli.py`, `estorides_core/discoverer.py`, `estorides_core
 ## estorides_core/change_detection.py
 Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
 Imported by: `tests/properties/test_change_detection_properties.py`, `tests/test_change_detection.py`
-- `ChangeReport.detect_changes` (method) `estorides_core/change_detection.py:284` `def detect_changes(snapshot_before, snapshot_after)` -- Diff two snapshots.
+- `detect_changes` (function) `estorides_core/change_detection.py:284` `def detect_changes(snapshot_before, snapshot_after)` -- Diff two snapshots.
 
 ## estorides_core/cloud_asset_discovery.py
 Imported by: `estorides_core/recon_pipeline.py`, `tests/test_cloud_asset_discovery.py`
 - `CloudAsset.to_dict` (method) `estorides_core/cloud_asset_discovery.py:45` `def to_dict(self)`
 - `CloudAssetDiscoveryResult.to_dict` (method) `estorides_core/cloud_asset_discovery.py:56` `def to_dict(self)`
-- `CloudAssetDiscoveryResult.generate_bucket_names` (method) `estorides_core/cloud_asset_discovery.py:65` `def generate_bucket_names(domain)`
-- `CloudAssetDiscoveryResult.assess_bucket` (method) `estorides_core/cloud_asset_discovery.py:84` `def assess_bucket(url, method)`
+- `generate_bucket_names` (function) `estorides_core/cloud_asset_discovery.py:65` `def generate_bucket_names(domain)`
+- `assess_bucket` (function) `estorides_core/cloud_asset_discovery.py:84` `def assess_bucket(url, method)`
 
 ## estorides_core/code_exposure.py
 Imported by: `estorides_core/recon_pipeline.py`, `tests/test_code_exposure.py`
 - `CodeFinding.to_dict` (method) `estorides_core/code_exposure.py:57` `def to_dict(self)`
 - `SeveritySummary.to_dict` (method) `estorides_core/code_exposure.py:69` `def to_dict(self)`
 - `CodeExposureResult.to_dict` (method) `estorides_core/code_exposure.py:81` `def to_dict(self)`
-- `CodeExposureResult.validate_aws_key` (method) `estorides_core/code_exposure.py:91` `def validate_aws_key(key)`
-- `CodeExposureResult.classify_finding` (method) `estorides_core/code_exposure.py:99` `def classify_finding(content, source, file_path)`
-- `CodeExposureResult.analyse_findings` (method) `estorides_core/code_exposure.py:189` `def analyse_findings(findings, rate_limited)`
+- `validate_aws_key` (function) `estorides_core/code_exposure.py:91` `def validate_aws_key(key)`
+- `classify_finding` (function) `estorides_core/code_exposure.py:99` `def classify_finding(content, source, file_path)`
+- `analyse_findings` (function) `estorides_core/code_exposure.py:189` `def analyse_findings(findings, rate_limited)`
 
 ## estorides_core/config.py
 Imported by: `estorides_cli.py`, `estorides_core/__init__.py`, `estorides_core/async_client.py`, `estorides_core/audit.py`, `estorides_core/cases.py`, `estorides_core/discoverer.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/feeds.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/knowledge_graph.py`, `estorides_core/monitoring.py`, `estorides_core/observation_models.py`, `estorides_core/ontology.py`, `estorides_core/ops_observability.py`, `estorides_core/orchestrator.py`, `estorides_core/osiris_sources.py`, `estorides_core/pivot_engine.py`, `estorides_core/recon_fusion.py`, `estorides_core/search_telemetry.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_install.py`, `estorides_core/tool_runner.py`, `estorides_export/misp.py`, `estorides_export/stix.py`, `estorides_llm/manager.py`, `estorides_web.py`, `tests/test_async_client.py`, `tests/test_config_env.py`, `tests/test_monitoring.py`, `tests/test_opsec_contact.py`, `tests/test_recon_fusion.py`, `tests/test_retry_policy.py`, `tests/test_socmint.py`, `tests/test_structured_extraction.py`, `tests/test_system_app_sources.py`, `tests/test_tool_runner.py`
@@ -143,7 +143,7 @@ Imported by: `estorides_cli.py`, `estorides_core/__init__.py`, `estorides_core/a
 - `PivotConfig.clamp_parallel` (method) `estorides_core/config.py:439` `def clamp_parallel(self, value)` -- Clamp a requested fan-out width into [1, parallel_cap].
 - `PivotConfig.clamp_deadline` (method) `estorides_core/config.py:443` `def clamp_deadline(self, value)` -- Clamp a requested per-target deadline into (0, deadline_cap_seconds].
 - `RetryConfig.delay` (method) `estorides_core/config.py:543` `def delay(self, attempt)` -- Exponential backoff for 1-indexed attempt, clamped to cap.
-- `RetryConfig.retry_delay` (method) `estorides_core/config.py:672` `def retry_delay(attempt)` -- Return the backoff sleep for a 1-indexed attempt.
+- `retry_delay` (function) `estorides_core/config.py:672` `def retry_delay(attempt)` -- Return the backoff sleep for a 1-indexed attempt.
 
 ## estorides_core/discoverer.py
 Depends on: `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/graph_kuzu.py`, `estorides_core/job_registry.py`, `estorides_core/orchestrator.py`, `estorides_core/pivot_engine.py`
@@ -153,25 +153,25 @@ Imported by: `estorides_cli.py`, `estorides_web.py`, `static/js/estorides.js`
 - `DiscoverJob.push_event` (method) `estorides_core/discoverer.py:84` `def push_event(self, ev)` -- Append an event and keep the buffer bounded.
 - `_DiscoverJobSink.__init__` (method) `estorides_core/discoverer.py:103` `def __init__(self, job)`
 - `_DiscoverJobSink.emit` (method) `estorides_core/discoverer.py:106` `def emit(self, event)`
-- `_DiscoverJobSink.create_discover_job` (method) `estorides_core/discoverer.py:194` `def create_discover_job(seed_type, seed_value)` -- Create and register a discovery job synchronously.
-- `_DiscoverJobSink.start_discover` (method) `estorides_core/discoverer.py:252` `def start_discover(seed_type, seed_value)` -- Create a discovery job and schedule its worker on the current loop.
-- `_DiscoverJobSink.start_discover_threadsafe` (method) `estorides_core/discoverer.py:285` `def start_discover_threadsafe(loop, seed_type, seed_value)` -- Create the job in the calling thread, fire its worker on `loop`.
-- `_DiscoverJobSink.list_jobs` (method) `estorides_core/discoverer.py:349` `def list_jobs(limit)` -- Snapshot of the recent jobs for the /api/discover/jobs endpoint.
+- `create_discover_job` (function) `estorides_core/discoverer.py:194` `def create_discover_job(seed_type, seed_value)` -- Create and register a discovery job synchronously.
+- `start_discover` (function) `estorides_core/discoverer.py:252` `def start_discover(seed_type, seed_value)` -- Create a discovery job and schedule its worker on the current loop.
+- `start_discover_threadsafe` (function) `estorides_core/discoverer.py:285` `def start_discover_threadsafe(loop, seed_type, seed_value)` -- Create the job in the calling thread, fire its worker on `loop`.
+- `list_jobs` (function) `estorides_core/discoverer.py:349` `def list_jobs(limit)` -- Snapshot of the recent jobs for the /api/discover/jobs endpoint.
 
 ## estorides_core/entity_extraction.py
 Depends on: `estorides_core/config.py`
 Imported by: `estorides_cli.py`, `estorides_core/entity_resolution.py`, `estorides_core/knowledge_graph.py`, `estorides_core/orchestrator.py`, `estorides_core/tool_runner.py`, `estorides_core/validation.py`, `estorides_web.py`, `tests/test_encrypted_export.py`, `tests/test_entity_extraction.py`, `tests/test_entity_resolution.py`, `tests/test_query_intent.py`, `tests/test_socmint.py`, `tests/test_structured_extraction.py`
 - `Entity.to_dict` (method) `estorides_core/entity_extraction.py:34` `def to_dict(self)`
-- `Entity.normalize_query` (method) `estorides_core/entity_extraction.py:57` `def normalize_query(query)` -- Return the routing form of raw operator input.
-- `Entity.detect_query_type` (method) `estorides_core/entity_extraction.py:100` `def detect_query_type(query)` -- Return the detected type of a free-form query.
-- `Entity.extract_from_text` (method) `estorides_core/entity_extraction.py:146` `def extract_from_text(text, source)` -- Find every recognised entity in a raw text blob.
-- `Entity.extract_from_json` (method) `estorides_core/entity_extraction.py:210` `def extract_from_json(payload, source)` -- Pull entities out of a JSON-like structure.
-- `Entity.extract_structured` (method) `estorides_core/entity_extraction.py:330` `def extract_structured(payload, source)` -- Extract human selectors (email, username, person, org, phone) by key.
-- `Entity.visit` (method) `estorides_core/entity_extraction.py:344` `def visit(node, key)`
-- `Entity.merge` (method) `estorides_core/entity_extraction.py:382` `def merge()` -- Deduplicate by (type, value) and merge sources / contexts.
-- `Entity.find` (method) `estorides_core/entity_extraction.py:499` `def find(x, parent)`
-- `Entity.union` (method) `estorides_core/entity_extraction.py:505` `def union(a, b, parent)`
-- `Entity.norm` (method) `estorides_core/entity_extraction.py:510` `def norm(v)`
+- `normalize_query` (function) `estorides_core/entity_extraction.py:57` `def normalize_query(query)` -- Return the routing form of raw operator input.
+- `detect_query_type` (function) `estorides_core/entity_extraction.py:100` `def detect_query_type(query)` -- Return the detected type of a free-form query.
+- `extract_from_text` (function) `estorides_core/entity_extraction.py:146` `def extract_from_text(text, source)` -- Find every recognised entity in a raw text blob.
+- `extract_from_json` (function) `estorides_core/entity_extraction.py:210` `def extract_from_json(payload, source)` -- Pull entities out of a JSON-like structure.
+- `extract_structured` (function) `estorides_core/entity_extraction.py:330` `def extract_structured(payload, source)` -- Extract human selectors (email, username, person, org, phone) by key.
+- `visit` (function) `estorides_core/entity_extraction.py:344` `def visit(node, key)`
+- `merge` (function) `estorides_core/entity_extraction.py:382` `def merge()` -- Deduplicate by (type, value) and merge sources / contexts.
+- `find` (function) `estorides_core/entity_extraction.py:499` `def find(x, parent)`
+- `union` (function) `estorides_core/entity_extraction.py:505` `def union(a, b, parent)`
+- `norm` (function) `estorides_core/entity_extraction.py:510` `def norm(v)`
 
 ## estorides_core/entity_resolution.py
 Depends on: `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/ids.py`, `estorides_core/transliteration.py`
@@ -181,7 +181,7 @@ Imported by: `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`,
 - `normalize_value` (function) `estorides_core/entity_resolution.py:206` `def normalize_value(etype, value)` -- Return the canonical normalised form of an entity value.
 - `canonical_id` (function) `estorides_core/entity_resolution.py:246` `def canonical_id(etype, normalized)` -- Stable, content-addressed id for a normalised entity.
 - `blocking_keys` (function) `estorides_core/entity_resolution.py:257` `def blocking_keys(etype, normalized, value)` -- Return the blocking keys that bucket an entity for comparison.
-- `MatchScore.score_pair` (method) `estorides_core/entity_resolution.py:302` `def score_pair(etype, a_value, b_value, a_norm, b_norm)` -- Score how likely two same-type entities denote the same object.
+- `score_pair` (function) `estorides_core/entity_resolution.py:302` `def score_pair(etype, a_value, b_value, a_norm, b_norm)` -- Score how likely two same-type entities denote the same object.
 - `CanonicalEntity.to_dict` (method) `estorides_core/entity_resolution.py:357` `def to_dict(self)`
 - `CanonicalEntity.to_entity` (method) `estorides_core/entity_resolution.py:373` `def to_entity(self)` -- Project back onto the legacy :class:`Entity` shape.
 - `SameAsLink.to_dict` (method) `estorides_core/entity_resolution.py:409` `def to_dict(self)`
@@ -191,8 +191,8 @@ Imported by: `estorides_core/entity_store.py`, `estorides_core/fusion_store.py`,
 - `_UnionFind.union` (method) `estorides_core/entity_resolution.py:444` `def union(self, a, b)`
 - `EntityResolver.__init__` (method) `estorides_core/entity_resolution.py:469` `def __init__(self)`
 - `EntityResolver.resolve` (method) `estorides_core/entity_resolution.py:482` `def resolve(self, entities)` -- Resolve ``entities`` into canonical identities and links.
-- `EntityResolver.rank` (method) `estorides_core/entity_resolution.py:670` `def rank(rec)`
-- `EntityResolver.resolve_entities` (method) `estorides_core/entity_resolution.py:727` `def resolve_entities(entities)` -- Module-level convenience wrapper around :class:`EntityResolver`.
+- `rank` (function) `estorides_core/entity_resolution.py:670` `def rank(rec)`
+- `resolve_entities` (function) `estorides_core/entity_resolution.py:727` `def resolve_entities(entities)` -- Module-level convenience wrapper around :class:`EntityResolver`.
 
 ## estorides_core/entity_store.py
 Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/sqlite_store.py`
@@ -200,7 +200,7 @@ Imported by: `estorides_core/orchestrator.py`, `tests/test_entity_resolution.py`
 - `EntityStore.lookup` (method) `estorides_core/entity_store.py:66` `def lookup(self, etype, normalized, aliases)` -- Return an existing canonical id for any known form, or None.
 - `EntityStore.upsert` (method) `estorides_core/entity_store.py:104` `def upsert(self, entity)` -- Persist (insert or update) a canonical entity and its aliases.
 - `EntityStore.stats` (method) `estorides_core/entity_store.py:143` `def stats(self)` -- Return a one-glance summary of store size.
-- `EntityStore.open_store` (method) `estorides_core/entity_store.py:155` `def open_store(path)` -- Open the store, returning None instead of raising on failure.
+- `open_store` (function) `estorides_core/entity_store.py:155` `def open_store(path)` -- Open the store, returning None instead of raising on failure.
 
 ## estorides_core/event_bus.py
 Imported by: `estorides_core/orchestrator.py`, `tests/test_event_bus.py`
@@ -210,7 +210,7 @@ Imported by: `estorides_core/orchestrator.py`, `tests/test_event_bus.py`
 - `EventBus.publish` (method) `estorides_core/event_bus.py:50` `def publish(self, event, payload)` -- Deliver a copy of payload to each subscriber and count attempts.
 - `EventBus.clear` (method) `estorides_core/event_bus.py:63` `def clear(self, event)` -- Remove subscribers for one event or for the whole bus.
 - `EventBus.subscriber_count` (method) `estorides_core/event_bus.py:71` `def subscriber_count(self, event)` -- Return the number of handlers registered for event.
-- `EventBus.get_bus` (method) `estorides_core/event_bus.py:85` `def get_bus()` -- Return the process wide shared bus instance.
+- `get_bus` (function) `estorides_core/event_bus.py:85` `def get_bus()` -- Return the process wide shared bus instance.
 
 ## estorides_core/feeds.py
 Depends on: `estorides_core/config.py`, `estorides_core/ssrf_guard.py`
@@ -219,9 +219,9 @@ Imported by: `estorides_web.py`
 - `Feed.__init__` (method) `estorides_core/feeds.py:82` `def __init__(self)`
 - `Feed.fetch` (method) `estorides_core/feeds.py:90` `def fetch(self)` -- Public entrypoint.
 - `Feed.point` (method) `estorides_core/feeds.py:135` `def point(self, record)` -- Default: return (lat, lon) if both present.
-- `NewsFeed.list_feeds` (method) `estorides_core/feeds.py:313` `def list_feeds()` -- Return public feed descriptions for the /api/feeds endpoint.
-- `NewsFeed.get_feed` (method) `estorides_core/feeds.py:321` `def get_feed(name)`
-- `NewsFeed.fetch_all` (method) `estorides_core/feeds.py:325` `def fetch_all(bbox, use_cache)` -- Fetch every registered feed (optionally clipped to a bbox).
+- `list_feeds` (function) `estorides_core/feeds.py:313` `def list_feeds()` -- Return public feed descriptions for the /api/feeds endpoint.
+- `get_feed` (function) `estorides_core/feeds.py:321` `def get_feed(name)`
+- `fetch_all` (function) `estorides_core/feeds.py:325` `def fetch_all(bbox, use_cache)` -- Fetch every registered feed (optionally clipped to a bbox).
 
 ## estorides_core/fusion_analytics.py
 Imported by: `estorides_web.py`, `tests/test_fusion_analytics.py`
@@ -238,7 +238,7 @@ Imported by: `estorides_web.py`, `tests/test_fusion_analytics.py`
 ## estorides_core/fusion_store.py
 Depends on: `estorides_core/config.py`, `estorides_core/entity_resolution.py`, `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`, `estorides_core/sqlite_store.py`
 Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_web.py`, `tests/test_fusion_analytics.py`, `tests/test_probabilistic_fusion.py`
-- `normalize_value` (method) `estorides_core/fusion_store.py:73` `def normalize_value(etype, value)`
+- `normalize_value` (function) `estorides_core/fusion_store.py:73` `def normalize_value(etype, value)`
 - `entity_id` (function) `estorides_core/fusion_store.py:177` `def entity_id(etype, value, normalized)` -- Deterministic, run-independent id for an entity.
 - `FusionStore.register_sources` (method) `estorides_core/fusion_store.py:222` `def register_sources(self, sources)` -- Mirror the YAML source catalogue into the store.
 - `FusionStore.add_observation` (method) `estorides_core/fusion_store.py:259` `def add_observation(self, observation)` -- Fuse a single source response into the cross-run observation log and bump the source's fetch/ok counters.
@@ -252,16 +252,16 @@ Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_we
 - `FusionStore.corroborated_properties` (method) `estorides_core/fusion_store.py:657` `def corroborated_properties(self, eid, min_sources)` -- Return an entity's properties that at least ``min_sources`` distinct feeds independently asserted — the fusion...
 - `FusionStore.list_sources` (method) `estorides_core/fusion_store.py:674` `def list_sources(self, limit)` -- Return the source catalogue with accumulated fetch/ok counters.
 - `FusionStore.stats` (method) `estorides_core/fusion_store.py:692` `def stats(self)` -- One-glance dashboard of the fused store's size.
-- `FusionStore.open_store` (method) `estorides_core/fusion_store.py:723` `def open_store(path)` -- Open the fusion store, returning None instead of raising on failure.
+- `open_store` (function) `estorides_core/fusion_store.py:723` `def open_store(path)` -- Open the fusion store, returning None instead of raising on failure.
 
 ## estorides_core/graph_bundle.py
 Depends on: `estorides_core/graph_force.py`
 Imported by: `tests/properties/test_graph_bundle_properties.py`, `tests/test_graph_bundle.py`
-- `SphereBundleLayout.hierarchical_edge_bundling` (method) `estorides_core/graph_bundle.py:171` `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)` -- Hojas en un circulo por grupo; aristas por la jerarquia (Holten 2006).
-- `SphereBundleLayout.fibonacci_sphere` (method) `estorides_core/graph_bundle.py:215` `def fibonacci_sphere(count)` -- Vectores unitarios casi uniformes en espiral de angulo dorado.
-- `SphereBundleLayout.spherical_edge_bundling` (method) `estorides_core/graph_bundle.py:267` `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)` -- Hojas en caps esfericos por comunidad; aristas por la jerarquia.
-- `SphereBundleLayout.bundle_settings` (method) `estorides_core/graph_bundle.py:324` `def bundle_settings()` -- Defaults de la pagina bundle (fuente unica para el JS).
-- `SphereBundleLayout.build_bundle_payload` (method) `estorides_core/graph_bundle.py:359` `def build_bundle_payload(force_payload)` -- Deriva el payload bundle desde un payload force RAW.
+- `hierarchical_edge_bundling` (function) `estorides_core/graph_bundle.py:171` `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, group_gap, inner_ratio)` -- Hojas en un circulo por grupo; aristas por la jerarquia (Holten 2006).
+- `fibonacci_sphere` (function) `estorides_core/graph_bundle.py:215` `def fibonacci_sphere(count)` -- Vectores unitarios casi uniformes en espiral de angulo dorado.
+- `spherical_edge_bundling` (function) `estorides_core/graph_bundle.py:267` `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)` -- Hojas en caps esfericos por comunidad; aristas por la jerarquia.
+- `bundle_settings` (function) `estorides_core/graph_bundle.py:324` `def bundle_settings()` -- Defaults de la pagina bundle (fuente unica para el JS).
+- `build_bundle_payload` (function) `estorides_core/graph_bundle.py:359` `def build_bundle_payload(force_payload)` -- Deriva el payload bundle desde un payload force RAW.
 
 ## estorides_core/graph_force.py
 Imported by: `estorides_core/graph_bundle.py`, `estorides_web.py`, `tests/test_graph_bundle.py`, `tests/test_graph_force3d.py`
@@ -284,31 +284,31 @@ Imported by: `estorides_core/discoverer.py`, `estorides_core/orchestrator.py`, `
 
 ## estorides_core/graph_rag_search.py
 Imported by: `estorides_web.py`, `tests/test_graph_rag_search.py`
-- `GraphRagConfig.graph_rag_config_from_env` (method) `estorides_core/graph_rag_search.py:75` `def graph_rag_config_from_env()` -- Construye la config desde env; malformada → defaults (nunca raise).
-- `GraphRagConfig.tokenize` (method) `estorides_core/graph_rag_search.py:98` `def tokenize(text, min_len, stopwords)` -- Parte en tokens minusculos; camelCase se divide y se conserva entero.
+- `graph_rag_config_from_env` (function) `estorides_core/graph_rag_search.py:75` `def graph_rag_config_from_env()` -- Construye la config desde env; malformada → defaults (nunca raise).
+- `tokenize` (function) `estorides_core/graph_rag_search.py:98` `def tokenize(text, min_len, stopwords)` -- Parte en tokens minusculos; camelCase se divide y se conserva entero.
 - `Bm25Index.__init__` (method) `estorides_core/graph_rag_search.py:115` `def __init__(self, documents, k1, b)`
 - `Bm25Index.scores` (method) `estorides_core/graph_rag_search.py:136` `def scores(self, query)` -- Un score BM25 por documento, en orden de corpus.
-- `Bm25Index.pagerank` (method) `estorides_core/graph_rag_search.py:176` `def pagerank(ids, edges, alpha, max_iter, tolerance)` -- PageRank dirigido y pesado; los scores suman 1 (determinista).
-- `Bm25Index.personalized_pagerank` (method) `estorides_core/graph_rag_search.py:207` `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` -- PPR con teletransporte al seed; seeds ajenos se ignoran.
+- `pagerank` (function) `estorides_core/graph_rag_search.py:176` `def pagerank(ids, edges, alpha, max_iter, tolerance)` -- PageRank dirigido y pesado; los scores suman 1 (determinista).
+- `personalized_pagerank` (function) `estorides_core/graph_rag_search.py:207` `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` -- PPR con teletransporte al seed; seeds ajenos se ignoran.
 - `GraphRagIndex.to_dict` (method) `estorides_core/graph_rag_search.py:324` `def to_dict(self)`
 - `GraphRagIndex.from_dict` (method) `estorides_core/graph_rag_search.py:334` `def from_dict(cls, data)`
-- `GraphRagIndex.rows` (method) `estorides_core/graph_rag_search.py:335` `def rows(name)`
-- `GraphRagIndex.meta` (method) `estorides_core/graph_rag_search.py:341` `def meta()`
-- `GraphRagIndex.build_index` (method) `estorides_core/graph_rag_search.py:382` `def build_index(nodes, edges, clusters, config)` -- Indice extractivo desde nodos/edges estilo `/api/graph` (puro).
-- `GraphRagIndex.where` (method) `estorides_core/graph_rag_search.py:446` `def where(cid)`
+- `rows` (function) `estorides_core/graph_rag_search.py:335` `def rows(name)`
+- `meta` (function) `estorides_core/graph_rag_search.py:341` `def meta()`
+- `build_index` (function) `estorides_core/graph_rag_search.py:382` `def build_index(nodes, edges, clusters, config)` -- Indice extractivo desde nodos/edges estilo `/api/graph` (puro).
+- `where` (function) `estorides_core/graph_rag_search.py:446` `def where(cid)`
 - `GraphRagSearcher.__init__` (method) `estorides_core/graph_rag_search.py:596` `def __init__(self, config, index)`
 - `GraphRagSearcher.choose_mode` (method) `estorides_core/graph_rag_search.py:635` `def choose_mode(self, query)`
 - `GraphRagSearcher.search` (method) `estorides_core/graph_rag_search.py:644` `def search(self, query, mode, budget_tokens)`
 - `GraphRagSearcher.local_search` (method) `estorides_core/graph_rag_search.py:658` `def local_search(self, query, budget_tokens)`
 - `GraphRagSearcher.global_search` (method) `estorides_core/graph_rag_search.py:754` `def global_search(self, query, budget_tokens)`
-- `GraphRagSearcher.ask_context` (method) `estorides_core/graph_rag_search.py:857` `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)` -- One-shot: build + search (el camino que usa la capa IA local).
-- `GraphRagSearcher.graph_context_block` (method) `estorides_core/graph_rag_search.py:886` `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)` -- Bloque markdown para el prompt LLM desde un grafo networkx (duck-typing).
+- `ask_context` (function) `estorides_core/graph_rag_search.py:857` `def ask_context(query, nodes, edges, clusters, budget_tokens, mode, config)` -- One-shot: build + search (el camino que usa la capa IA local).
+- `graph_context_block` (function) `estorides_core/graph_rag_search.py:886` `def graph_context_block(query, nx_graph, cluster_of, budget_tokens, mode, config)` -- Bloque markdown para el prompt LLM desde un grafo networkx (duck-typing).
 
 ## estorides_core/hypothesis_engine.py
 Depends on: `estorides_core/ids.py`, `estorides_core/reliability_scoring.py`
 Imported by: `tests/properties/test_hypothesis_engine_properties.py`, `tests/test_hypothesis_engine.py`
 - `HypothesisGenerator.__call__` (method) `estorides_core/hypothesis_engine.py:213` `def __call__(self, observations, entities)`
-- `HypothesisGenerator.generate_hypotheses` (method) `estorides_core/hypothesis_engine.py:613` `def generate_hypotheses(observations, entities, kg)` -- Generate typed, scored, auditable hypotheses for a run.
+- `generate_hypotheses` (function) `estorides_core/hypothesis_engine.py:613` `def generate_hypotheses(observations, entities, kg)` -- Generate typed, scored, auditable hypotheses for a run.
 
 ## estorides_core/ids.py
 Imported by: `estorides_core/change_detection.py`, `estorides_core/entity_resolution.py`, `estorides_core/fusion_store.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/recon_fusion.py`, `tests/test_ids.py`
@@ -343,12 +343,62 @@ Imported by: `estorides_cli.py`, `estorides_core/orchestrator.py`, `estorides_ex
 - `KnowledgeGraph.add_relationship` (method) `estorides_core/knowledge_graph.py:142` `def add_relationship(self, src_type, src_value, rel, dst_type, dst_value)`
 - `KnowledgeGraph.export_graphml` (method) `estorides_core/knowledge_graph.py:164` `def export_graphml(self, path)`
 - `KnowledgeGraph.export_json` (method) `estorides_core/knowledge_graph.py:183` `def export_json(self)`
-- `KnowledgeGraph.summary` (method) `estorides_core/knowledge_graph.py:197` `def summary(self)`
-- `KnowledgeGraph.top_entities` (method) `estorides_core/knowledge_graph.py:215` `def top_entities(self, n, by)`
-- `KnowledgeGraph.communities` (method) `estorides_core/knowledge_graph.py:235` `def communities(self, nodes)` -- Partition entity nodes into communities (clusters).
-- `KnowledgeGraph.intel_level` (method) `estorides_core/knowledge_graph.py:266` `def intel_level(self, node_id, bridge_nodes)` -- Classify a node into the intelligence pipeline tier.
-- `KnowledgeGraph.ego_subgraph` (method) `estorides_core/knowledge_graph.py:311` `def ego_subgraph(self, node_id, radius)`
-- `KnowledgeGraph.neighbours` (method) `estorides_core/knowledge_graph.py:322` `def neighbours(self, node_id, relation)`
+- `KnowledgeGraph.export_lazyown` (method) `estorides_core/knowledge_graph.py:207` `def export_lazyown(self)` -- Emit the graph in LazyOwn intel vocabulary (JSON-serializable).
+- `KnowledgeGraph.summary` (method) `estorides_core/knowledge_graph.py:243` `def summary(self)`
+- `KnowledgeGraph.top_entities` (method) `estorides_core/knowledge_graph.py:261` `def top_entities(self, n, by)`
+- `KnowledgeGraph.communities` (method) `estorides_core/knowledge_graph.py:281` `def communities(self, nodes)` -- Partition entity nodes into communities (clusters).
+- `KnowledgeGraph.intel_level` (method) `estorides_core/knowledge_graph.py:312` `def intel_level(self, node_id, bridge_nodes)` -- Classify a node into the intelligence pipeline tier.
+- `KnowledgeGraph.ego_subgraph` (method) `estorides_core/knowledge_graph.py:357` `def ego_subgraph(self, node_id, radius)`
+- `KnowledgeGraph.neighbours` (method) `estorides_core/knowledge_graph.py:368` `def neighbours(self, node_id, relation)`
+
+## estorides_core/lan_bundle.py
+- `sanitize_stem` (function) `estorides_core/lan_bundle.py:27` `def sanitize_stem(stem)` -- Sanitize a file stem.
+- `default_output_dir` (function) `estorides_core/lan_bundle.py:38` `def default_output_dir()` -- Resolve the LAN output directory from env or data default.
+- `build_bundle` (function) `estorides_core/lan_bundle.py:47` `def build_bundle(devices)` -- Build all four payloads.
+- `LanBundleResult.to_dict` (method) `estorides_core/lan_bundle.py:358` `def to_dict(self)`
+- `write_bundle` (function) `estorides_core/lan_bundle.py:362` `def write_bundle(devices)` -- Write all four deliverables atomically.
+
+## estorides_core/lan_inventory.py
+Imported by: `tests/test_lan_bundle.py`
+- `LanDevice.to_dict` (method) `estorides_core/lan_inventory.py:60` `def to_dict(self)`
+- `normalize_mac` (function) `estorides_core/lan_inventory.py:64` `def normalize_mac(raw)` -- Normalize MAC to lowercase colon form, or None when invalid.
+- `parse_arp_table` (function) `estorides_core/lan_inventory.py:91` `def parse_arp_table(text)` -- Parse `ip neigh` or /proc/net/arp text into sightings.
+- `parse_dhcp_leases` (function) `estorides_core/lan_inventory.py:119` `def parse_dhcp_leases(text)` -- Parse dnsmasq lease lines into sightings.
+- `parse_nmap_xml` (function) `estorides_core/lan_inventory.py:152` `def parse_nmap_xml(text)` -- Parse nmap -oX output into sightings.
+- `parse_nmap_grepable` (function) `estorides_core/lan_inventory.py:214` `def parse_nmap_grepable(text)` -- Parse nmap -oG output into sightings.
+- `parse_active_output` (function) `estorides_core/lan_inventory.py:252` `def parse_active_output(text, source)` -- Dispatch active-tool output by format, tagged with source.
+- `merge_devices` (function) `estorides_core/lan_inventory.py:269` `def merge_devices(sightings)` -- Merge sightings by MAC, falling back to IP.
+- `device_to_entities` (function) `estorides_core/lan_inventory.py:331` `def device_to_entities(device)` -- Convert a device into graph-ready entity dicts.
+- `contact_for_tool` (function) `estorides_core/lan_inventory.py:352` `def contact_for_tool(tool)` -- Map a tool name to its contact class.
+
+## estorides_core/lan_policy.py
+- `LanPolicyDecision.to_dict` (method) `estorides_core/lan_policy.py:50` `def to_dict(self)`
+- `requires_consent` (function) `estorides_core/lan_policy.py:54` `def requires_consent()` -- Return the canonical consent notice for the blocking modal.
+- `max_contact_for` (function) `estorides_core/lan_policy.py:97` `def max_contact_for(allow_active, consent)` -- Return active only on the triple gate, else none.
+- `evaluate` (function) `estorides_core/lan_policy.py:104` `def evaluate(request)` -- Evaluate a LAN policy request.
+
+## estorides_core/lan_runner.py
+Depends on: `estorides_core/tool_runner.py`
+- `LanScanResult.to_dict` (method) `estorides_core/lan_runner.py:56` `def to_dict(self)`
+- `read_arp_table` (function) `estorides_core/lan_runner.py:60` `def read_arp_table()` -- Read the local neighbor table.
+- `read_dhcp_leases` (function) `estorides_core/lan_runner.py:81` `def read_dhcp_leases()` -- Read the first readable dnsmasq lease file.
+- `run_active_scan` (function) `estorides_core/lan_runner.py:122` `def run_active_scan(scope_cidr)` -- Run gated active discovery.
+- `scan` (function) `estorides_core/lan_runner.py:147` `def scan(scope_cidr)` -- Execute a LAN scan.
+
+## estorides_core/lan_scope.py
+- `parse_interface_addr` (function) `estorides_core/lan_scope.py:23` `def parse_interface_addr(raw)` -- Normalize one interface address to CIDR, or None when unsafe.
+- `select_private_cidrs` (function) `estorides_core/lan_scope.py:63` `def select_private_cidrs(interfaces)` -- Keep private CIDRs only, sorted and deduped.
+- `default_scope` (function) `estorides_core/lan_scope.py:79` `def default_scope(interfaces)` -- First private CIDR, or None when no private network exists.
+- `parse_ip_addr_output` (function) `estorides_core/lan_scope.py:85` `def parse_ip_addr_output(text)` -- Parse `ip addr` output into address dicts.
+- `read_local_interfaces` (function) `estorides_core/lan_scope.py:92` `def read_local_interfaces()` -- Read local interface addresses.
+
+## estorides_core/lan_web.py
+Imported by: `estorides_web.py`
+- `LanWebVerdict.to_dict` (method) `estorides_core/lan_web.py:29` `def to_dict(self)`
+- `LanWebVerdict.to_response` (method) `estorides_core/lan_web.py:32` `def to_response(self)` -- Return (body, status) for the Flask route.
+- `is_lan_request` (function) `estorides_core/lan_web.py:50` `def is_lan_request(body, query)` -- True when a run targets the local network.
+- `scope_payload` (function) `estorides_core/lan_web.py:80` `def scope_payload(interfaces)` -- Build the scope response from interface addresses.
+- `guard` (function) `estorides_core/lan_web.py:92` `def guard(body)` -- Validate a run request body for LAN consent.
 
 ## estorides_core/mitre_attack.py
 Imported by: `estorides_core/orchestrator.py`
@@ -413,20 +463,20 @@ Imported by: `estorides_web.py`
 ## estorides_core/ops_observability.py
 Depends on: `estorides_core/config.py`
 Imported by: `estorides_web.py`, `tests/test_ops_observability.py`
-- `OpsConfig.health_payload` (method) `estorides_core/ops_observability.py:50` `def health_payload()` -- Return liveness body and status code.
-- `OpsConfig.ready_payload` (method) `estorides_core/ops_observability.py:55` `def ready_payload(source_count, sources_dir_ok)` -- Return readiness body and status code for registry state.
-- `OpsConfig.record_request` (method) `estorides_core/ops_observability.py:62` `def record_request(endpoint, status)` -- Count one HTTP response by normalized endpoint and status.
-- `OpsConfig.record_source` (method) `estorides_core/ops_observability.py:72` `def record_source(source, ok)` -- Count one source execution failure when ok is False.
-- `OpsConfig.reset_metrics` (method) `estorides_core/ops_observability.py:83` `def reset_metrics()` -- Clear all in memory counters for tests and process restart.
-- `OpsConfig.render_metrics` (method) `estorides_core/ops_observability.py:90` `def render_metrics()` -- Render counters in Prometheus exposition text format.
-- `OpsConfig.format_event` (method) `estorides_core/ops_observability.py:112` `def format_event(fields, as_json)` -- Format one log event as JSON when opted in else legacy plain text.
-- `OpsConfig.project_root` (method) `estorides_core/ops_observability.py:130` `def project_root()` -- Expose project root without hardcoding absolute paths in callers.
+- `health_payload` (function) `estorides_core/ops_observability.py:50` `def health_payload()` -- Return liveness body and status code.
+- `ready_payload` (function) `estorides_core/ops_observability.py:55` `def ready_payload(source_count, sources_dir_ok)` -- Return readiness body and status code for registry state.
+- `record_request` (function) `estorides_core/ops_observability.py:62` `def record_request(endpoint, status)` -- Count one HTTP response by normalized endpoint and status.
+- `record_source` (function) `estorides_core/ops_observability.py:72` `def record_source(source, ok)` -- Count one source execution failure when ok is False.
+- `reset_metrics` (function) `estorides_core/ops_observability.py:83` `def reset_metrics()` -- Clear all in memory counters for tests and process restart.
+- `render_metrics` (function) `estorides_core/ops_observability.py:90` `def render_metrics()` -- Render counters in Prometheus exposition text format.
+- `format_event` (function) `estorides_core/ops_observability.py:112` `def format_event(fields, as_json)` -- Format one log event as JSON when opted in else legacy plain text.
+- `project_root` (function) `estorides_core/ops_observability.py:130` `def project_root()` -- Expose project root without hardcoding absolute paths in callers.
 
 ## estorides_core/orchestrator.py
 Depends on: `estorides_core/async_client.py`, `estorides_core/cases.py`, `estorides_core/config.py`, `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/event_bus.py`, `estorides_core/fusion_store.py`, `estorides_core/graph_kuzu.py`, `estorides_core/intel_resolver.py`, `estorides_core/knowledge_graph.py`, `estorides_core/mitre_attack.py`, `estorides_core/ontology.py`, `estorides_core/pagination.py`, `estorides_core/parsers.py`, `estorides_core/recon_fusion.py`, `estorides_core/relationship_inference.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_llm/__init__.py`
 Imported by: `estorides_cli.py`, `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_central_config.py`, `tests/test_keyless_sources.py`, `tests/test_opsec_contact.py`, `tests/test_source_routing.py`, `tests/test_system_app_sources.py`
 - `pending_system_app_tasks` (function) `estorides_core/orchestrator.py:56` `def pending_system_app_tasks()` -- Number of slow CLI-tool runs still in flight (for the stream gate).
-- `repl` (method) `estorides_core/orchestrator.py:122` `def repl(m)`
+- `repl` (function) `estorides_core/orchestrator.py:122` `def repl(m)`
 - `Orchestrator.__init__` (method) `estorides_core/orchestrator.py:169` `def __init__(self, registry, llm, kg)`
 - `Orchestrator.run` (method) `estorides_core/orchestrator.py:190` `def run(self, query)` -- Run a full intelligence cycle.
 
@@ -439,15 +489,6 @@ Depends on: `estorides_core/config.py`, `estorides_core/ssrf_guard.py`
 - `fetch_leaks` (function) `estorides_core/osiris_sources.py:356` `def fetch_leaks(email)` -- Breach analytics for `email` via xposedornot (free, no key).
 - `fetch_cisa_kev` (function) `estorides_core/osiris_sources.py:400` `def fetch_cisa_kev(limit, days)` -- Recently-added CVEs from the CISA KEV feed (authoritative).
 - `fetch_malware_c2` (function) `estorides_core/osiris_sources.py:452` `def fetch_malware_c2(limit)` -- Active botnet C2 (Feodo) + recent malware URLs (URLhaus).
-
-## estorides_core/pagination.py
-Imported by: `estorides_core/orchestrator.py`, `tests/test_pagination.py`
-- `PaginationConfig.from_dict` (method) `estorides_core/pagination.py:38` `def from_dict(raw)`
-- `PaginationConfig.enabled` (method) `estorides_core/pagination.py:54` `def enabled(self)`
-- `PaginationConfig.needs_page_size` (method) `estorides_core/pagination.py:58` `def needs_page_size(self)`
-- `PaginationConfig.build_page_params` (method) `estorides_core/pagination.py:62` `def build_page_params(cfg, page_num)` -- Build URL params dict for a given page number.
-- `PaginationConfig.extract_cursor` (method) `estorides_core/pagination.py:78` `def extract_cursor(data, cfg)` -- Extract the next-page cursor from a parsed response body.
-- `PaginationConfig.count_results` (method) `estorides_core/pagination.py:99` `def count_results(data, cfg)` -- Count results in a parsed response page.
 
 
 Next: [API_p2.md](API_p2.md)

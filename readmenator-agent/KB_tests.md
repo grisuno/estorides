@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 4)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md)
+# Subsystem: tests (page 1 of 5)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md)
 
 ## tests/conftest.py
 - Doc: Pytest configuration and shared fixtures for the estorides test suite.
@@ -55,8 +55,8 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_round_robin` (method, line 46) `def test_round_robin(self)`
   - `test_direct_has_no_proxy` (method, line 57) `def test_direct_has_no_proxy(self)`
   - `test_socks_without_backend_raises` (method, line 64) `def test_socks_without_backend_raises(self, monkeypatch)`
-  - `_enter_and_rotate` (method, line 49) `def _enter_and_rotate()`
-  - `_enter_socks` (method, line 68) `def _enter_socks()`
+  - `_enter_and_rotate` (function, line 49) `def _enter_and_rotate()`
+  - `_enter_socks` (function, line 68) `def _enter_socks()`
 - Depends on: `estorides_core/async_client.py`, `estorides_core/config.py`
 
 ## tests/test_audit_log.py
@@ -166,7 +166,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Language: py
 - Symbols:
   - `_FakeScheduler` (class, line 24) `class _FakeScheduler`
-  - `cli_env` (method, line 47) `def cli_env(monkeypatch, tmp_path)`
+  - `cli_env` (function, line 47) `def cli_env(monkeypatch, tmp_path)`
   - `TestCW1Parser` (class, line 59) `class TestCW1Parser`
   - `TestCW2Command` (class, line 69) `class TestCW2Command`
   - `TestCW3Validation` (class, line 92) `class TestCW3Validation`
@@ -280,14 +280,14 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Language: py
 - Symbols:
   - `_FakeCompleted` (class, line 21) `class _FakeCompleted`
-  - `_kg_with_one_node` (method, line 27) `def _kg_with_one_node()`
-  - `_patch_age_ok` (method, line 33) `def _patch_age_ok()`
-  - `test_stix_encrypted_removes_plaintext` (method, line 43) `def test_stix_encrypted_removes_plaintext(tmp_path)`
-  - `test_misp_encrypted_removes_plaintext` (method, line 52) `def test_misp_encrypted_removes_plaintext(tmp_path)`
-  - `test_stix_encrypted_removes_plaintext_on_failure` (method, line 61) `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)`
+  - `_kg_with_one_node` (function, line 27) `def _kg_with_one_node()`
+  - `_patch_age_ok` (function, line 33) `def _patch_age_ok()`
+  - `test_stix_encrypted_removes_plaintext` (function, line 43) `def test_stix_encrypted_removes_plaintext(tmp_path)`
+  - `test_misp_encrypted_removes_plaintext` (function, line 52) `def test_misp_encrypted_removes_plaintext(tmp_path)`
+  - `test_stix_encrypted_removes_plaintext_on_failure` (function, line 61) `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)`
   - `__init__` (method, line 22) `def __init__(self, rc, stderr)`
-  - `_run` (method, line 35) `def _run(cmd, stdin, stdout, stderr, check)`
-  - `_run_fail` (method, line 66) `def _run_fail(cmd, stdin, stdout, stderr, check)`
+  - `_run` (function, line 35) `def _run(cmd, stdin, stdout, stderr, check)`
+  - `_run_fail` (function, line 66) `def _run_fail(cmd, stdin, stdout, stderr, check)`
 - Depends on: `estorides_core/entity_extraction.py`, `estorides_core/knowledge_graph.py`, `estorides_export/encryption.py`
 
 ## tests/test_entity_extraction.py

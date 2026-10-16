@@ -283,13 +283,13 @@ python3 estorides_cli.py serve --port 5050
 # open http://127.0.0.1:5050
 ```
 
-<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/fb65013a-6cd0-4486-a5c9-88d31a31ed2d" />
+<img width="1913" height="963" alt="image" src="https://github.com/user-attachments/assets/dcc2ff2a-bdbe-49ed-a803-61b7362877e0" />
 
+<img width="1913" height="963" alt="image" src="https://github.com/user-attachments/assets/c2d0b501-1d34-40b0-a300-4a623a6c8cab" />
 
-<img width="1503" height="979" alt="image" src="https://github.com/user-attachments/assets/039fd29c-4973-4ba5-be44-7b5fe1024ba0" />
+<img width="1913" height="963" alt="image" src="https://github.com/user-attachments/assets/760c4f10-961e-41ca-9f4b-ae8ab936a09c" />
 
-
-<img width="1882" height="979" alt="image" src="https://github.com/user-attachments/assets/01ae4738-26ec-49bb-a925-55286e4fb50f" />
+<img width="1913" height="963" alt="image" src="https://github.com/user-attachments/assets/5050fb8f-1e96-43bd-a109-ffbec7845634" />
 
 UI features:
 

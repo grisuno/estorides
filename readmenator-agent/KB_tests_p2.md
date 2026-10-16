@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 4)
+# Subsystem: tests (page 2 of 5)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_graph_bundle_assets.py
@@ -54,7 +54,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `TestCaseDiff` (class, line 72) `class TestCaseDiff`
   - `TestReport` (class, line 107) `class TestReport`
   - `TestConsoleScript` (class, line 137) `class TestConsoleScript`
-  - `status` (method, line 29) `def status()`
+  - `status` (function, line 29) `def status()`
   - `test_headers_and_body_cap` (method, line 36) `def test_headers_and_body_cap(self)`
   - `test_default_off` (method, line 49) `def test_default_off(self)`
   - `test_allowlist` (method, line 54) `def test_allowlist(self)`
@@ -74,7 +74,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `_obs` (function, line 23) `def _obs(source, parsed, raw)`
   - `TestHappyPathDomainBelongsToActor` (class, line 39) `class TestHappyPathDomainBelongsToActor`
   - `TestEmptyInputProducesEmptyOutput` (class, line 113) `class TestEmptyInputProducesEmptyOutput`
-  - `generate_hypothences_safe` (method, line 127) `def generate_hypothences_safe(observations, entities)`
+  - `generate_hypothences_safe` (function, line 127) `def generate_hypothences_safe(observations, entities)`
   - `TestMalformedObservationsAreSkipped` (class, line 138) `class TestMalformedObservationsAreSkipped`
   - `TestUnknownSourceFallsBackToReliabilityC` (class, line 176) `class TestUnknownSourceFallsBackToReliabilityC`
   - `TestMinScoreFiltersHypotheses` (class, line 199) `class TestMinScoreFiltersHypotheses`
@@ -150,6 +150,113 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_parsers_total_on_hostile_input` (function, line 53) `def test_parsers_total_on_hostile_input()`
   - `test_parse_cisa_kev_extracts` (function, line 62) `def test_parse_cisa_kev_extracts()`
 - Depends on: `estorides_core/orchestrator.py`, `estorides_core/parsers.py`
+
+## tests/test_lan_bundle.py
+- Doc: BDD tests for lan_bundle (spec/lan_bundle.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_devs` (function, line 9) `def _devs()`
+  - `test_s1_bundle_graph_and_lazyown` (function, line 28) `def test_s1_bundle_graph_and_lazyown()`
+  - `test_s2_empty` (function, line 37) `def test_s2_empty()`
+  - `test_s3_stem_traversal_sanitized` (function, line 43) `def test_s3_stem_traversal_sanitized()`
+  - `test_s4_stix_shapes` (function, line 47) `def test_s4_stix_shapes()`
+  - `test_s5_write_atomic` (function, line 53) `def test_s5_write_atomic(tmp_path)`
+  - `test_s6_error_dir` (function, line 68) `def test_s6_error_dir(tmp_path)`
+  - `test_s7_scope_tagged` (function, line 75) `def test_s7_scope_tagged()`
+  - `test_s8_deterministic` (function, line 81) `def test_s8_deterministic()`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/lan_inventory.py`
+
+## tests/test_lan_inventory.py
+- Doc: BDD tests for lan_inventory (spec/lan_inventory.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s1_arp_parses` (function, line 6) `def test_s1_arp_parses()`
+  - `test_s2_dhcp_parses_hostname` (function, line 13) `def test_s2_dhcp_parses_hostname()`
+  - `test_s3_merge_same_mac` (function, line 19) `def test_s3_merge_same_mac()`
+  - `test_s4_merge_no_mac_by_ip` (function, line 33) `def test_s4_merge_no_mac_by_ip()`
+  - `test_s5_garbage_empty` (function, line 46) `def test_s5_garbage_empty()`
+  - `test_s6_public_dropped` (function, line 51) `def test_s6_public_dropped()`
+  - `test_s7_mac_formats_equal` (function, line 58) `def test_s7_mac_formats_equal()`
+  - `test_s9_dead_entries_dropped` (function, line 64) `def test_s9_dead_entries_dropped()`
+  - `test_s10_nmap_xml` (function, line 99) `def test_s10_nmap_xml()`
+  - `test_s11_nmap_grepable` (function, line 107) `def test_s11_nmap_grepable()`
+  - `test_s12_dispatch_tags_source` (function, line 114) `def test_s12_dispatch_tags_source()`
+  - `test_s13_hostile_xml_rejected` (function, line 125) `def test_s13_hostile_xml_rejected()`
+  - `test_s10_cross_source_fold` (function, line 130) `def test_s10_cross_source_fold()`
+  - `test_s8_contact_map` (function, line 144) `def test_s8_contact_map()`
+- Depends on: `estorides_core/__init__.py`
+
+## tests/test_lan_policy.py
+- Doc: BDD tests for lan_policy (spec/lan_policy.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s1_passive_allowed_with_consent` (function, line 6) `def test_s1_passive_allowed_with_consent()`
+  - `test_s2_active_allowed_on_triple_gate` (function, line 16) `def test_s2_active_allowed_on_triple_gate(monkeypatch)`
+  - `test_s3_checkbox_without_env_ceiling_denies_active` (function, line 27) `def test_s3_checkbox_without_env_ceiling_denies_active(monkeypatch)`
+  - `test_s4_valid_private_scope_echoes` (function, line 37) `def test_s4_valid_private_scope_echoes()`
+  - `test_s5_no_consent_blocks_even_passive` (function, line 49) `def test_s5_no_consent_blocks_even_passive()`
+  - `test_s6_public_scope_blocked` (function, line 58) `def test_s6_public_scope_blocked()`
+  - `test_s7_truthy_string_consent_blocked` (function, line 70) `def test_s7_truthy_string_consent_blocked()`
+  - `test_s8_unknown_contact_denied_and_capped` (function, line 79) `def test_s8_unknown_contact_denied_and_capped()`
+- Depends on: `estorides_core/__init__.py`
+
+## tests/test_lan_runner.py
+- Doc: BDD tests for lan_runner (spec/lan_runner.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s1_passive_injected` (function, line 10) `def test_s1_passive_injected(tmp_path)`
+  - `test_s2_no_consent_refused` (function, line 22) `def test_s2_no_consent_refused(tmp_path)`
+  - `test_s3_bad_scope_refused` (function, line 32) `def test_s3_bad_scope_refused(tmp_path)`
+  - `test_s4_degrade_active` (function, line 41) `def test_s4_degrade_active(tmp_path, monkeypatch)`
+  - `test_s5_active_injected` (function, line 53) `def test_s5_active_injected(tmp_path, monkeypatch)`
+  - `_FakeToolResult` (class, line 63) `class _FakeToolResult`
+  - `test_s9_tool_order` (function, line 69) `def test_s9_tool_order()`
+  - `test_s6_empty_readers` (function, line 102) `def test_s6_empty_readers(tmp_path)`
+  - `test_s7_scope_auto` (function, line 112) `def test_s7_scope_auto(tmp_path)`
+  - `test_s8_no_scope_found` (function, line 121) `def test_s8_no_scope_found(tmp_path)`
+  - `__init__` (method, line 64) `def __init__(self, exit_code, stdout)`
+  - `ok_nmap` (function, line 74) `def ok_nmap(tool, args)`
+  - `fail_then_arp` (function, line 81) `def fail_then_arp(tool, args)`
+  - `both_fail` (function, line 93) `def both_fail(tool, args)`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/tool_runner.py`
+
+## tests/test_lan_scope.py
+- Doc: BDD tests for lan_scope (spec/lan_scope.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s1_v4_parses_to_network` (function, line 6) `def test_s1_v4_parses_to_network()`
+  - `test_s2_v6_ula_accepted` (function, line 13) `def test_s2_v6_ula_accepted()`
+  - `test_s3_mixed_keeps_private_only` (function, line 18) `def test_s3_mixed_keeps_private_only()`
+  - `test_s4_garbage_returns_none` (function, line 29) `def test_s4_garbage_returns_none()`
+  - `test_s5_public_returns_none` (function, line 33) `def test_s5_public_returns_none()`
+  - `test_s6_wide_scope_rejected` (function, line 37) `def test_s6_wide_scope_rejected()`
+  - `test_s7_empty_default_none` (function, line 41) `def test_s7_empty_default_none()`
+  - `test_s8_reader_fail_soft` (function, line 45) `def test_s8_reader_fail_soft(monkeypatch)`
+- Depends on: `estorides_core/__init__.py`
+
+## tests/test_lan_web.py
+- Doc: BDD tests for lan_web (spec/lan_web.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_s1_passive_permitted` (function, line 6) `def test_s1_passive_permitted()`
+  - `test_s2_active_permitted` (function, line 12) `def test_s2_active_permitted(monkeypatch)`
+  - `test_s3_checkbox_without_ceiling_degrades` (function, line 21) `def test_s3_checkbox_without_ceiling_degrades(monkeypatch)`
+  - `test_s3b_pure_passive_has_no_notice` (function, line 32) `def test_s3b_pure_passive_has_no_notice()`
+  - `test_s4_no_consent_refused` (function, line 37) `def test_s4_no_consent_refused()`
+  - `test_s5_bad_scope_400` (function, line 43) `def test_s5_bad_scope_400()`
+  - `test_s6_string_consent_refused` (function, line 49) `def test_s6_string_consent_refused()`
+  - `test_s7_body_not_dict` (function, line 54) `def test_s7_body_not_dict()`
+  - `test_s9_lan_request_detection` (function, line 59) `def test_s9_lan_request_detection()`
+  - `test_s10_scope_payload` (function, line 66) `def test_s10_scope_payload()`
+  - `test_s11_active_intent_permitted` (function, line 74) `def test_s11_active_intent_permitted(monkeypatch)`
+  - `test_s8_scope_echo_normalized` (function, line 84) `def test_s8_scope_echo_normalized()`
+- Depends on: `estorides_core/__init__.py`
 
 ## tests/test_map_basemap.py
 - Doc: BDD tests for spec/map_basemap.md (CARTO basemap, no direct OSM tiles).
@@ -368,102 +475,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_keybase_valid` (method, line 58) `def test_keybase_valid(self)`
   - `test_ethplorer_valid` (method, line 72) `def test_ethplorer_valid(self)`
 - Depends on: `estorides_core/__init__.py`
-
-## tests/test_pdns_monitor.py
-- Doc: ATDD + BDD tests for estorides_core.pdns_monitor.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestCtLogSubdomains` (class, line 18) `class TestCtLogSubdomains`
-  - `TestIPHistory` (class, line 32) `class TestIPHistory`
-  - `TestNoData` (class, line 47) `class TestNoData`
-  - `TestNewCertificates` (class, line 55) `class TestNewCertificates`
-  - `TestNoAxfr` (class, line 76) `class TestNoAxfr`
-  - `TestWildcardCert` (class, line 85) `class TestWildcardCert`
-  - `TestSubdomainStatusClassification` (class, line 102) `class TestSubdomainStatusClassification`
-  - `TestMonitorPollInterval` (class, line 111) `class TestMonitorPollInterval`
-  - `test_returns_subdomains_from_ct` (method, line 19) `def test_returns_subdomains_from_ct(self)`
-  - `test_tracks_ip_changes` (method, line 33) `def test_tracks_ip_changes(self)`
-  - `test_empty_when_no_history` (method, line 48) `def test_empty_when_no_history(self)`
-  - `test_new_cert_with_san` (method, line 56) `def test_new_cert_with_san(self)`
-  - `test_no_zone_transfer_attempted` (method, line 77) `def test_no_zone_transfer_attempted(self)`
-  - `test_wildcard_cert_detected` (method, line 86) `def test_wildcard_cert_detected(self)`
-  - `test_active_status_when_resolves` (method, line 103) `def test_active_status_when_resolves(self)`
-  - `test_inactive_when_no_resolution` (method, line 106) `def test_inactive_when_no_resolution(self)`
-  - `test_minimum_poll_interval` (method, line 112) `def test_minimum_poll_interval(self)`
-- Depends on: `estorides_core/pdns_monitor.py`
-
-## tests/test_people_intel.py
-- Doc: ATDD + BDD tests for estorides_core.people_intel.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_emp` (function, line 18) `def _make_emp(name, role, email)`
-  - `TestHappyPathEmployeeDiscovery` (class, line 28) `class TestHappyPathEmployeeDiscovery`
-  - `TestNoEmployees` (class, line 42) `class TestNoEmployees`
-  - `TestInvalidDomain` (class, line 50) `class TestInvalidDomain`
-  - `TestBreachPasswordContext` (class, line 57) `class TestBreachPasswordContext`
-  - `TestEmailPatternInference` (class, line 81) `class TestEmailPatternInference`
-  - `TestSingleEmailAmbiguous` (class, line 101) `class TestSingleEmailAmbiguous`
-  - `TestCrossBreachCorrelation` (class, line 108) `class TestCrossBreachCorrelation`
-  - `TestNoRawPasswords` (class, line 128) `class TestNoRawPasswords`
-  - `test_returns_employees_from_domain` (method, line 29) `def test_returns_employees_from_domain(self)`
-  - `test_empty_when_no_employees` (method, line 43) `def test_empty_when_no_employees(self)`
-  - `test_rejects_invalid_domain` (method, line 51) `def test_rejects_invalid_domain(self)`
-  - `test_breach_with_password_is_critical` (method, line 58) `def test_breach_with_password_is_critical(self)`
-  - `test_infers_first_dot_last_pattern` (method, line 82) `def test_infers_first_dot_last_pattern(self)`
-  - `test_infers_firstinitial_last_pattern` (method, line 91) `def test_infers_firstinitial_last_pattern(self)`
-  - `test_single_email_low_confidence` (method, line 102) `def test_single_email_low_confidence(self)`
-  - `test_multiple_breaches_increase_risk` (method, line 109) `def test_multiple_breaches_increase_risk(self)`
-  - `test_passwords_not_in_serialised_output` (method, line 129) `def test_passwords_not_in_serialised_output(self)`
-- Depends on: `estorides_core/people_intel.py`
-
-## tests/test_probabilistic_fusion.py
-- Doc: BDD + property tests for probabilistic fusion.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fs` (function, line 17) `def _fs()`
-  - `_teardown` (function, line 23) `def _teardown(store, tmp)`
-  - `_entity` (function, line 30) `def _entity(etype, value, source, confidence)`
-  - `TestPrimarySourceRaisesLowConf` (class, line 48) `class TestPrimarySourceRaisesLowConf`
-  - `TestTertiaryCannotOverride` (class, line 77) `class TestTertiaryCannotOverride`
-  - `TestCorroborationLiftsScore` (class, line 110) `class TestCorroborationLiftsScore`
-  - `TestMergeMonotonic` (class, line 142) `class TestMergeMonotonic`
-  - `TestFirstSightingWeighted` (class, line 170) `class TestFirstSightingWeighted`
-  - `TestRelationshipBayesian` (class, line 192) `class TestRelationshipBayesian`
-  - `TestFusionStoreRegression` (class, line 217) `class TestFusionStoreRegression`
-  - `test_primary_source_raises_score` (method, line 51) `def test_primary_source_raises_score(self)`
-  - `test_untrusted_source_cannot_override` (method, line 80) `def test_untrusted_source_cannot_override(self)`
-  - `test_two_sources_are_better_than_one` (method, line 113) `def test_two_sources_are_better_than_one(self)`
-  - `test_lower_confidence_never_decreases` (method, line 145) `def test_lower_confidence_never_decreases(self)`
-  - `test_untrusted_first_sighting_discounted` (method, line 173) `def test_untrusted_first_sighting_discounted(self)`
-  - `test_relationship_untrusted_cannot_override` (method, line 195) `def test_relationship_untrusted_cannot_override(self)`
-  - `test_entity_id_deterministic` (method, line 220) `def test_entity_id_deterministic(self)`
-  - `test_entity_source_count_tracks` (method, line 229) `def test_entity_source_count_tracks(self)`
-  - `test_observation_count_advances` (method, line 243) `def test_observation_count_advances(self)`
-  - `test_empty_type_returns_empty` (method, line 259) `def test_empty_type_returns_empty(self)`
-  - `test_empty_value_returns_empty` (method, line 267) `def test_empty_value_returns_empty(self)`
-  - `test_add_observation_and_stats` (method, line 275) `def test_add_observation_and_stats(self)`
-  - `test_register_sources` (method, line 290) `def test_register_sources(self)`
-  - `test_search_entities` (method, line 305) `def test_search_entities(self)`
-  - `test_corroborated_properties` (method, line 320) `def test_corroborated_properties(self)`
-  - `test_get_entity_nonexistent` (method, line 333) `def test_get_entity_nonexistent(self)`
-  - `test_open_store_closes_gracefully` (method, line 340) `def test_open_store_closes_gracefully(self)`
-- Depends on: `estorides_core/fusion_store.py`
-
-## tests/test_query_intent.py
-- Doc: M1 RED tests: query intent v2.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_phone` (function, line 7) `def test_phone()`
-  - `test_mac` (function, line 12) `def test_mac()`
-  - `test_at_handle` (function, line 17) `def test_at_handle()`
-  - `test_url_normalises_to_host` (function, line 22) `def test_url_normalises_to_host()`
-  - `test_btc_uppercase_bech32` (function, line 27) `def test_btc_uppercase_bech32()`
-  - `test_backward_compat` (function, line 31) `def test_backward_compat()`
-- Depends on: `estorides_core/entity_extraction.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

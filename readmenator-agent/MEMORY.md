@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 178 files at commit `4c41d43a66be`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 191 files at commit `1eb59a9c4908`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: From the creators of LazyOwn Redteam Framework comes a free and open-source (`README.md:16`)
-- Domain vocabulary (term, files): `estorides` (120), `not` (67), `run` (65), `source` (64), `one` (52), `single` (51), `bdd` (50), `sources` (46), `entity` (44), `type` (43), `error` (43), `safe` (42), `key` (40), `same` (40), `spec` (40)
-- Subsystem `estorides_core: parsers`: 26 files, core `estorides_core/parsers.py`: estorides_core.parsers
-- Subsystem `estorides_core: estorides_web`: 24 files, core `estorides_web.py`: estorides.web
+- Domain vocabulary (term, files): `estorides` (126), `not` (69), `run` (68), `source` (66), `bdd` (56), `one` (55), `single` (52), `sources` (46), `error` (46), `spec` (46), `entity` (45), `default` (44), `type` (43), `result` (42), `safe` (42)
+- Subsystem `estorides_core: estorides_web`: 27 files, core `estorides_web.py`: estorides.web
+- Subsystem `estorides_core: parsers`: 21 files, core `estorides_core/parsers.py`: estorides_core.parsers
 - Subsystem `estorides_core: config`: 19 files, core `estorides_core/config.py`: estorides.config
 - Subsystem `estorides_core: hypothesis_engine`: 19 files, core `estorides_core/hypothesis_engine.py`: estorides_core.hypothesis_engine
-- Subsystem `estorides_core: estorides`: 18 files, core `static/js/estorides.js`: Estorides front-end controller
+- Subsystem `estorides_core: estorides`: 17 files, core `static/js/estorides.js`: Estorides front-end controller
+- Subsystem `estorides_core: graph_bundle`: 15 files, core `estorides_core/graph_bundle.py`: graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator.
 - Subsystem `estorides_core: people_intel`: 15 files, core `estorides_core/people_intel.py`
-- Subsystem `estorides_core: tool_install`: 10 files, core `estorides_core/tool_install.py`: estorides_core.tool_install
-- Subsystem `estorides_export`: 8 files, core `estorides_core/knowledge_graph.py`: estorides_core.knowledge_graph
+- Subsystem `estorides_export`: 15 files, core `estorides_core/entity_resolution.py`: estorides_core.entity_resolution
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -48,10 +48,10 @@ Declared:
 - none declared in instruction files (add them to AGENTS.md or record them in section 7)
 
 Measured baseline:
-- py: 172 files, 2692 symbols; docstrings on 34% of symbols; functions snake_case (100%); types PascalCase (100%); median file 146 lines, max 1774.
-- js: 4 files, 357 symbols; docstrings on 19% of symbols; functions camelCase (69%); types PascalCase (0%); median file 1580 lines, max 3281.
+- py: 185 files, 2809 symbols; docstrings on 34% of symbols; functions snake_case (100%); types PascalCase (100%); median file 146 lines, max 1842.
+- js: 4 files, 382 symbols; docstrings on 18% of symbols; functions camelCase (69%); types PascalCase (0%); median file 1580 lines, max 3533.
 - sh: 2 files, 2 symbols; docstrings on 50% of symbols; functions snake_case (100%); median file 100 lines, max 100.
-- Tests: 82 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
+- Tests: 89 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
 
 ## 5. Minimum deliverables
 

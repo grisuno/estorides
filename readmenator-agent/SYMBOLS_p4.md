@@ -3,6 +3,76 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `listInto` | method | `static/js/graph_bundle.js:560` | `` |
+| `listInto` | method | `static/js/graph_bundle.js:580` | `` |
+| `makeProjector` | function | `static/js/graph_bundle.js:166` | `` |
+| `mid` | function | `static/js/graph_bundle.js:306` | `` |
+| `mk` | function | `static/js/graph_bundle.js:61` | `` |
+| `nodeButton` | function | `static/js/graph_bundle.js:505` | `` |
+| `nodeLit` | function | `static/js/graph_bundle.js:206` | `` |
+| `nodeRadius` | function | `static/js/graph_bundle.js:334` | `` |
+| `pointOn` | function | `static/js/graph_bundle.js:227` | `` |
+| `radius` | function | `static/js/graph_bundle.js:161` | `` |
+| `rank` | function | `static/js/graph_bundle.js:492` | `` |
+| `readHash` | function | `static/js/graph_bundle.js:710` | `` |
+| `refresh` | function | `static/js/graph_bundle.js:763` | `` |
+| `renderLegend` | function | `static/js/graph_bundle.js:614` | `` |
+| `renderPanel` | function | `static/js/graph_bundle.js:530` | `` |
+| `resize` | function | `static/js/graph_bundle.js:149` | `` |
+| `screenNodes` | function | `static/js/graph_bundle.js:338` | `` |
+| `search` | function | `static/js/graph_bundle.js:913` | `` |
+| `setBeta` | function | `static/js/graph_bundle.js:680` | `` |
+| `setColor` | function | `static/js/graph_bundle.js:672` | `` |
+| `setDir` | function | `static/js/graph_bundle.js:676` | `` |
+| `setView` | function | `static/js/graph_bundle.js:668` | `` |
+| `strokeCurve` | function | `static/js/graph_bundle.js:217` | `` |
+| `sync` | function | `static/js/graph_bundle.js:688` | `` |
+| `t0` | function | `static/js/graph_bundle.js:275` | `` |
+| `tabActive` | function | `static/js/graph_bundle.js:71` | `` |
+| `tag` | function | `static/js/graph_bundle.js:958` | `` |
+| `tipFor` | function | `static/js/graph_bundle.js:462` | `` |
+| `tt` | function | `static/js/graph_bundle.js:279` | `` |
+| `v` | function | `static/js/graph_bundle.js:78` | `` |
+| `writeHash` | function | `static/js/graph_bundle.js:698` | `` |
+| `a` | function | `static/js/graph_force.js:327` | `` |
+| `adaptLocal` | function | `static/js/graph_force.js:79` | `` |
+| `applyFilters` | function | `static/js/graph_force.js:1241` | `` |
+| `applyLayout3D` | function | `static/js/graph_force.js:961` | `` |
+| `bindStagePointer` | function | `static/js/graph_force.js:887` | `` |
+| `cid` | function | `static/js/graph_force.js:104` | `` |
+| `clearSelection` | function | `static/js/graph_force.js:1112` | `` |
+| `clusterForce` | function | `static/js/graph_force.js:335` | `` |
+| `col` | function | `static/js/graph_force.js:788` | `` |
+| `collideForce` | function | `static/js/graph_force.js:377` | `` |
+| `colorOf` | function | `static/js/graph_force.js:219` | `` |
+| `computeHighlight` | function | `static/js/graph_force.js:275` | `` |
+| `convexHullPts` | function | `static/js/graph_force.js:561` | `` |
+| `copyDeepLink` | function | `static/js/graph_force.js:1020` | `` |
+| `cross` | function | `static/js/graph_force.js:564` | `` |
+| `currentRaw` | function | `static/js/graph_force.js:137` | `` |
+| `dimmed` | function | `static/js/graph_force.js:220` | `` |
+| `done` | function | `static/js/graph_force.js:1022` | `` |
+| `drawGlyph3D` | function | `static/js/graph_force.js:651` | `` |
+| `drawLabel3D` | function | `static/js/graph_force.js:703` | `` |
+| `edges` | function | `static/js/graph_force.js:1256` | `` |
+| `entities` | function | `static/js/graph_force.js:205` | `` |
+| `esc` | function | `static/js/graph_force.js:25` | `` |
+| `expandSelected` | function | `static/js/graph_force.js:999` | `` |
+| `fail` | function | `static/js/graph_force.js:65` | `` |
+| `fam` | function | `static/js/graph_force.js:105` | `` |
+| `famAnchor` | function | `static/js/graph_force.js:320` | `` |
+| `famOf` | function | `static/js/graph_force.js:330` | `` |
+| `fn` | function | `static/js/graph_force.js:1267` | `` |
+| `focusFamily` | function | `static/js/graph_force.js:1125` | `` |
+| `focusSelected` | function | `static/js/graph_force.js:1009` | `` |
+| `force` | function | `static/js/graph_force.js:337` | `` |
+| `force` | function | `static/js/graph_force.js:362` | `` |
+| `force` | function | `static/js/graph_force.js:379` | `` |
+| `glyphPath` | function | `static/js/graph_force.js:619` | `` |
+| `hiddenKind` | function | `static/js/graph_force.js:221` | `` |
+| `hitEdge3D` | function | `static/js/graph_force.js:861` | `` |
+| `hitNode3D` | function | `static/js/graph_force.js:845` | `` |
+| `hoverAt3D` | function | `static/js/graph_force.js:876` | `` |
 | `hud` | function | `static/js/graph_force.js:1156` | `` |
 | `indexRaw` | function | `static/js/graph_force.js:179` | `` |
 | `inflateHull` | function | `static/js/graph_force.js:580` | `` |
@@ -30,6 +100,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `reheat` | function | `static/js/graph_force.js:1030` | `` |
 | `reload3D` | function | `static/js/graph_force.js:945` | `` |
 | `renderLegend` | function | `static/js/graph_force.js:1187` | `` |
+| `requestAnimationFrame` | method | `static/js/graph_force.js:931` | `` |
 | `resize3D` | function | `static/js/graph_force.js:950` | `` |
 | `ringOf` | function | `static/js/graph_force.js:352` | `` |
 | `rr` | function | `static/js/graph_force.js:610` | `` |
@@ -43,6 +114,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `s` | function | `static/js/graph_force.js:1257` | `` |
 | `segDist` | function | `static/js/graph_force.js:854` | `` |
 | `setEngineButtons` | function | `static/js/graph_force.js:422` | `` |
+| `setInterval` | method | `static/js/graph_force.js:1553` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:526` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:1478` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:1502` | `` |
 | `settings` | function | `static/js/graph_force.js:72` | `` |
 | `short` | function | `static/js/graph_force.js:21` | `` |
 | `show3DChrome` | function | `static/js/graph_force.js:435` | `` |
@@ -66,6 +141,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `to3D` | function | `static/js/graph_force.js:1353` | `` |
 | `toast` | function | `static/js/graph_force.js:57` | `` |
 | `toggle` | function | `static/js/graph_force.js:1423` | `` |
+| `toggle` | method | `static/js/graph_force.js:1434` | `` |
 | `toggleBridges` | function | `static/js/graph_force.js:1038` | `` |
 | `toggleOrbit` | function | `static/js/graph_force.js:1074` | `` |
 | `topN` | function | `static/js/graph_force.js:816` | `` |
@@ -88,6 +164,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `saveSource` | function | `static/js/source_manager.js:273` | `` |
 | `selectSource` | function | `static/js/source_manager.js:261` | `` |
 | `setCheckedTags` | function | `static/js/source_manager.js:74` | `` |
+| `setTimeout` | method | `static/js/source_manager.js:232` | `` |
 | `toast` | function | `static/js/source_manager.js:227` | `` |
 | `updateYamlPreview` | function | `static/js/source_manager.js:183` | `` |
 | `writeForm` | function | `static/js/source_manager.js:120` | `` |
@@ -215,8 +292,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `TestRedaction` | class | `tests/test_async_client.py:23` | `class TestRedaction` |
 | `TestRotation` | class | `tests/test_async_client.py:45` | `class TestRotation` |
 | `TestSocksDetection` | class | `tests/test_async_client.py:16` | `class TestSocksDetection` |
-| `_enter_and_rotate` | method | `tests/test_async_client.py:49` | `def _enter_and_rotate()` |
-| `_enter_socks` | method | `tests/test_async_client.py:68` | `def _enter_socks()` |
+| `_enter_and_rotate` | function | `tests/test_async_client.py:49` | `def _enter_and_rotate()` |
+| `_enter_socks` | function | `tests/test_async_client.py:68` | `def _enter_socks()` |
 | `test_direct_has_no_proxy` | method | `tests/test_async_client.py:57` | `def test_direct_has_no_proxy(self)` |
 | `test_explicit_wins` | method | `tests/test_async_client.py:34` | `def test_explicit_wins(self, monkeypatch)` |
 | `test_hides_credentials_keeps_host` | method | `tests/test_async_client.py:24` | `def test_hides_credentials_keeps_host(self)` |
@@ -297,7 +374,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `TestCW4RunnerFactory` | class | `tests/test_cli_watch.py:102` | `class TestCW4RunnerFactory` |
 | `_FakeScheduler` | class | `tests/test_cli_watch.py:24` | `class _FakeScheduler` |
 | `__init__` | method | `tests/test_cli_watch.py:27` | `def __init__(self)` |
-| `cli_env` | method | `tests/test_cli_watch.py:47` | `def cli_env(monkeypatch, tmp_path)` |
+| `cli_env` | function | `tests/test_cli_watch.py:47` | `def cli_env(monkeypatch, tmp_path)` |
 | `has_runner` | method | `tests/test_cli_watch.py:34` | `def has_runner(self)` |
 | `set_runner` | method | `tests/test_cli_watch.py:37` | `def set_runner(self, runner)` |
 | `start` | method | `tests/test_cli_watch.py:41` | `def start(self)` |
@@ -372,13 +449,13 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `test_rendered_template_has_no_style_attribute_and_uses_hidden` | function | `tests/test_csp_safe_styles.py:289` | `def test_rendered_template_has_no_style_attribute_and_uses_hidden()` |
 | `_FakeCompleted` | class | `tests/test_encrypted_export.py:21` | `class _FakeCompleted` |
 | `__init__` | method | `tests/test_encrypted_export.py:22` | `def __init__(self, rc, stderr)` |
-| `_kg_with_one_node` | method | `tests/test_encrypted_export.py:27` | `def _kg_with_one_node()` |
-| `_patch_age_ok` | method | `tests/test_encrypted_export.py:33` | `def _patch_age_ok()` |
-| `_run` | method | `tests/test_encrypted_export.py:35` | `def _run(cmd, stdin, stdout, stderr, check)` |
-| `_run_fail` | method | `tests/test_encrypted_export.py:66` | `def _run_fail(cmd, stdin, stdout, stderr, check)` |
-| `test_misp_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:52` | `def test_misp_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:43` | `def test_stix_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext_on_failure` | method | `tests/test_encrypted_export.py:61` | `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)` |
+| `_kg_with_one_node` | function | `tests/test_encrypted_export.py:27` | `def _kg_with_one_node()` |
+| `_patch_age_ok` | function | `tests/test_encrypted_export.py:33` | `def _patch_age_ok()` |
+| `_run` | function | `tests/test_encrypted_export.py:35` | `def _run(cmd, stdin, stdout, stderr, check)` |
+| `_run_fail` | function | `tests/test_encrypted_export.py:66` | `def _run_fail(cmd, stdin, stdout, stderr, check)` |
+| `test_misp_encrypted_removes_plaintext` | function | `tests/test_encrypted_export.py:52` | `def test_misp_encrypted_removes_plaintext(tmp_path)` |
+| `test_stix_encrypted_removes_plaintext` | function | `tests/test_encrypted_export.py:43` | `def test_stix_encrypted_removes_plaintext(tmp_path)` |
+| `test_stix_encrypted_removes_plaintext_on_failure` | function | `tests/test_encrypted_export.py:61` | `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)` |
 | `TestEE1TypesFilter` | class | `tests/test_entity_extraction.py:12` | `class TestEE1TypesFilter` |
 | `TestEE2FuzzyCanonical` | class | `tests/test_entity_extraction.py:28` | `class TestEE2FuzzyCanonical` |
 | `test_empty_list_means_nothing` | method | `tests/test_entity_extraction.py:20` | `def test_empty_list_means_nothing(self)` |
@@ -419,82 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `test_deterministic` | method | `tests/test_entity_resolution.py:136` | `def test_deterministic(self)` |
 | `test_deterministic_near_miss_never_matches` | method | `tests/test_entity_resolution.py:249` | `def test_deterministic_near_miss_never_matches(self)` |
 | `test_diacritic_fold` | method | `tests/test_entity_resolution.py:51` | `def test_diacritic_fold(self)` |
-| `test_different_normalised_different_id` | method | `tests/test_entity_resolution.py:409` | `def test_different_normalised_different_id(self)` |
-| `test_different_values_different_ids` | method | `tests/test_entity_resolution.py:141` | `def test_different_values_different_ids(self)` |
-| `test_dissimilar_strings_score_low` | method | `tests/test_entity_resolution.py:81` | `def test_dissimilar_strings_score_low(self)` |
-| `test_distinct_names_have_distinct_skeletons` | method | `tests/test_entity_resolution.py:60` | `def test_distinct_names_have_distinct_skeletons(self)` |
-| `test_distinct_persons_not_absorbed` | method | `tests/test_entity_resolution.py:329` | `def test_distinct_persons_not_absorbed(self)` |
-| `test_domain_case_variants_merge` | method | `tests/test_entity_resolution.py:197` | `def test_domain_case_variants_merge(self)` |
-| `test_domain_merge_is_exact` | method | `tests/test_entity_resolution.py:207` | `def test_domain_merge_is_exact(self)` |
-| `test_domain_strips_scheme_www_path` | method | `tests/test_entity_resolution.py:110` | `def test_domain_strips_scheme_www_path(self)` |
-| `test_email_lowered` | method | `tests/test_entity_resolution.py:129` | `def test_email_lowered(self)` |
-| `test_empty_input_returns_empty` | method | `tests/test_entity_resolution.py:385` | `def test_empty_input_returns_empty(self)` |
-| `test_empty_pair_scores_zero` | method | `tests/test_entity_resolution.py:74` | `def test_empty_pair_scores_zero(self)` |
-| `test_fused_identity_carries_all_sources` | method | `tests/test_entity_resolution.py:169` | `def test_fused_identity_carries_all_sources(self)` |
-| `test_greek_accented_to_latin` | method | `tests/test_entity_resolution.py:48` | `def test_greek_accented_to_latin(self)` |
-| `test_hash_lowered` | method | `tests/test_entity_resolution.py:101` | `def test_hash_lowered(self)` |
-| `test_id_format` | method | `tests/test_entity_resolution.py:146` | `def test_id_format(self)` |
-| `test_identical_ips_merge` | method | `tests/test_entity_resolution.py:275` | `def test_identical_ips_merge(self)` |
-| `test_identical_strings_score_one` | method | `tests/test_entity_resolution.py:71` | `def test_identical_strings_score_one(self)` |
-| `test_ipv4_normalised` | method | `tests/test_entity_resolution.py:92` | `def test_ipv4_normalised(self)` |
-| `test_ipv6_compressed` | method | `tests/test_entity_resolution.py:95` | `def test_ipv6_compressed(self)` |
-| `test_look_alike_domains_produce_same_as_link` | method | `tests/test_entity_resolution.py:233` | `def test_look_alike_domains_produce_same_as_link(self)` |
-| `test_look_alike_domains_stay_separate` | method | `tests/test_entity_resolution.py:224` | `def test_look_alike_domains_stay_separate(self)` |
-| `test_near_ips_stay_separate` | method | `tests/test_entity_resolution.py:292` | `def test_near_ips_stay_separate(self)` |
-| `test_non_latin_detector` | method | `tests/test_entity_resolution.py:63` | `def test_non_latin_detector(self)` |
-| `test_org_suffix_stripped` | method | `tests/test_entity_resolution.py:121` | `def test_org_suffix_stripped(self)` |
-| `test_org_suffix_variants_merge` | method | `tests/test_entity_resolution.py:312` | `def test_org_suffix_variants_merge(self)` |
-| `test_person_order_independent` | method | `tests/test_entity_resolution.py:116` | `def test_person_order_independent(self)` |
-| `test_resolution_result_has_one_entity` | method | `tests/test_entity_resolution.py:373` | `def test_resolution_result_has_one_entity(self)` |
-| `test_same_normalised_same_id` | method | `tests/test_entity_resolution.py:397` | `def test_same_normalised_same_id(self)` |
-| `test_score_pair_deterministic_mismatch` | method | `tests/test_entity_resolution.py:259` | `def test_score_pair_deterministic_mismatch(self)` |
-| `test_scores_stay_in_unit_interval` | method | `tests/test_entity_resolution.py:84` | `def test_scores_stay_in_unit_interval(self)` |
-| `test_single_entity_produces_one_canonical` | method | `tests/test_entity_resolution.py:429` | `def test_single_entity_produces_one_canonical(self)` |
-| `test_three_spellings_fuse` | method | `tests/test_entity_resolution.py:158` | `def test_three_spellings_fuse(self)` |
-| `test_to_dict_serialises` | method | `tests/test_entity_resolution.py:350` | `def test_to_dict_serialises(self)` |
-| `test_to_entity_projects_legacy` | method | `tests/test_entity_resolution.py:361` | `def test_to_entity_projects_legacy(self)` |
-| `test_whitespace_only_handled` | method | `tests/test_entity_resolution.py:425` | `def test_whitespace_only_handled(self)` |
-| `TestEnvBool` | class | `tests/test_envutil.py:28` | `class TestEnvBool` |
-| `TestEnvCsv` | class | `tests/test_envutil.py:40` | `class TestEnvCsv` |
-| `TestEnvFloat` | class | `tests/test_envutil.py:20` | `class TestEnvFloat` |
-| `TestEnvInt` | class | `tests/test_envutil.py:7` | `class TestEnvInt` |
-| `test_absent` | method | `tests/test_envutil.py:16` | `def test_absent(self)` |
-| `test_default` | method | `tests/test_envutil.py:45` | `def test_default(self)` |
-| `test_malformed` | method | `tests/test_envutil.py:12` | `def test_malformed(self, monkeypatch)` |
-| `test_parse` | method | `tests/test_envutil.py:8` | `def test_parse(self, monkeypatch)` |
-| `test_parse_and_malformed` | method | `tests/test_envutil.py:21` | `def test_parse_and_malformed(self, monkeypatch)` |
-| `test_strip_and_filter` | method | `tests/test_envutil.py:41` | `def test_strip_and_filter(self, monkeypatch)` |
-| `test_tokens` | method | `tests/test_envutil.py:29` | `def test_tokens(self, monkeypatch)` |
-| `test_unknown_uses_default` | method | `tests/test_envutil.py:35` | `def test_unknown_uses_default(self, monkeypatch)` |
-| `bad` | function | `tests/test_event_bus.py:22` | `def bad(p)` |
-| `test_invalid_inputs_raise` | function | `tests/test_event_bus.py:45` | `def test_invalid_inputs_raise()` |
-| `test_payload_isolation_between_handlers` | function | `tests/test_event_bus.py:34` | `def test_payload_isolation_between_handlers()` |
-| `test_raising_handler_does_not_block_others` | function | `tests/test_event_bus.py:19` | `def test_raising_handler_does_not_block_others()` |
-| `test_singleton_and_unsubscribe` | function | `tests/test_event_bus.py:57` | `def test_singleton_and_unsubscribe()` |
-| `test_subscribe_publish_order_and_count` | function | `tests/test_event_bus.py:7` | `def test_subscribe_publish_order_and_count()` |
-| `TestBoundaryConditions` | class | `tests/test_fusion_analytics.py:281` | `class TestBoundaryConditions` |
-| `TestCorroboratedProperties` | class | `tests/test_fusion_analytics.py:176` | `class TestCorroboratedProperties` |
-| `TestEntitySearch` | class | `tests/test_fusion_analytics.py:195` | `class TestEntitySearch` |
-| `TestEntitySummary` | class | `tests/test_fusion_analytics.py:87` | `class TestEntitySummary` |
-| `TestEntityTimeline` | class | `tests/test_fusion_analytics.py:64` | `class TestEntityTimeline` |
-| `TestEntityTimelineNonexistent` | class | `tests/test_fusion_analytics.py:109` | `class TestEntityTimelineNonexistent` |
-| `TestMultiSourceConsensus` | class | `tests/test_fusion_analytics.py:155` | `class TestMultiSourceConsensus` |
-| `TestSourceCorroborationMatrix` | class | `tests/test_fusion_analytics.py:250` | `class TestSourceCorroborationMatrix` |
-| `TestSourceStats` | class | `tests/test_fusion_analytics.py:118` | `class TestSourceStats` |
-| `TestTopChanged` | class | `tests/test_fusion_analytics.py:230` | `class TestTopChanged` |
-| `TestWithNoneStore` | class | `tests/test_fusion_analytics.py:268` | `class TestWithNoneStore` |
-| `_populate_evilcorp` | function | `tests/test_fusion_analytics.py:42` | `def _populate_evilcorp(store)` |
-| `_register_source` | function | `tests/test_fusion_analytics.py:57` | `def _register_source(store, name)` |
-| `store_and_analytics` | function | `tests/test_fusion_analytics.py:27` | `def store_and_analytics(tmp_path)` |
-| `test_all_methods_return_empty` | method | `tests/test_fusion_analytics.py:269` | `def test_all_methods_return_empty(self)` |
-| `test_consensus_picks_majority_value` | method | `tests/test_fusion_analytics.py:156` | `def test_consensus_picks_majority_value(self, store_and_analytics)` |
-| `test_empty_window_returns_empty` | method | `tests/test_fusion_analytics.py:241` | `def test_empty_window_returns_empty(self, store_and_analytics)` |
-| `test_filters_by_min_sources` | method | `tests/test_fusion_analytics.py:177` | `def test_filters_by_min_sources(self, store_and_analytics)` |
-| `test_min_sources_one_returns_all` | method | `tests/test_fusion_analytics.py:185` | `def test_min_sources_one_returns_all(self, store_and_analytics)` |
-| `test_min_sources_zero_treated_as_one` | method | `tests/test_fusion_analytics.py:282` | `def test_min_sources_zero_treated_as_one(self, store_and_analytics)` |
-| `test_negative_days_treated_as_one` | method | `tests/test_fusion_analytics.py:288` | `def test_negative_days_treated_as_one(self, store_and_analytics)` |
-| `test_nonexistent_eid_returns_none` | method | `tests/test_fusion_analytics.py:79` | `def test_nonexistent_eid_returns_none(self, store_and_analytics)` |
-| `test_nonexistent_eid_returns_none` | method | `tests/test_fusion_analytics.py:101` | `def test_nonexistent_eid_returns_none(self, store_and_analytics)` |
-| `test_nonexistent_key_returns_empty` | method | `tests/test_fusion_analytics.py:165` | `def test_nonexistent_key_returns_empty(self, store_and_analytics)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)
