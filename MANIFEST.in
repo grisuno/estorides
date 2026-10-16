@@ -1,0 +1,9 @@
+# Ship the runtime data dirs in the sdist so `pip install` from the
+# tarball works the same as from the wheel (wheel layout itself is
+# declared via [tool.setuptools.data-files] in pyproject.toml).
+graft sources
+graft transforms
+graft tool_recipes
+graft templates
+graft static
+global-exclude __pycache__ *.pyc *.pyo

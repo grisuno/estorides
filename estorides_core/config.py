@@ -21,6 +21,7 @@ logs, instead of crashing the whole process at import time).
 from __future__ import annotations
 
 import os
+import sys
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,11 +37,53 @@ from .envutil import env_int as _env_int
 # Filesystem layout
 # -----------------------------------------------------------------------------
 PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
-SOURCES_DIR: Path = Path(os.environ.get("ESTORIDES_SOURCES_DIR", str(PROJECT_ROOT / "sources")))
-DATA_DIR: Path = PROJECT_ROOT / "data"
-REPORTS_DIR: Path = PROJECT_ROOT / "reports"
-TEMPLATES_DIR: Path = PROJECT_ROOT / "templates"
-STATIC_DIR: Path = PROJECT_ROOT / "static"
+
+
+def _installed_share() -> Path:
+    """`<prefix>/share/estorides` — the data-files target of a pip install."""
+    return Path(sys.prefix) / "share" / "estorides"
+
+
+def _resolve_dir(env_key: str, dirname: str) -> Path:
+    """Resolve a read-only runtime data dir.
+
+    Precedence: env var > dev checkout (`PROJECT_ROOT/<dirname>`) >
+    pip-installed prefix (`<prefix>/share/estorides/<dirname>`, the
+    `[tool.setuptools.data-files]` target). No I/O besides `is_dir`.
+    """
+    env = os.environ.get(env_key)
+    if env:
+        return Path(env)
+    dev = PROJECT_ROOT / dirname
+    if dev.is_dir():
+        return dev
+    return _installed_share() / dirname
+
+
+def _resolve_writable_dir(env_key: str, dirname: str) -> Path:
+    """Resolve a writable runtime dir (no import-time mkdir, issue #49).
+
+    Precedence: env var > dev checkout (`PROJECT_ROOT/<dirname>`, when it
+    exists) > `$XDG_DATA_HOME/estorides/<dirname>` (default
+    `~/.local/share/estorides/<dirname>`). A pip-installed wheel must
+    never write into site-packages.
+    """
+    env = os.environ.get(env_key)
+    if env:
+        return Path(env)
+    dev = PROJECT_ROOT / dirname
+    if dev.is_dir():
+        return dev
+    base = Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local" / "share")))
+    return base / "estorides" / dirname
+
+
+SOURCES_DIR: Path = _resolve_dir("ESTORIDES_SOURCES_DIR", "sources")
+TRANSFORMS_DIR: Path = _resolve_dir("ESTORIDES_TRANSFORMS_DIR", "transforms")
+TEMPLATES_DIR: Path = _resolve_dir("ESTORIDES_TEMPLATES_DIR", "templates")
+STATIC_DIR: Path = _resolve_dir("ESTORIDES_STATIC_DIR", "static")
+DATA_DIR: Path = _resolve_writable_dir("ESTORIDES_DATA_DIR", "data")
+REPORTS_DIR: Path = _resolve_writable_dir("ESTORIDES_REPORTS_DIR", "reports")
 
 # Issue #49: do NOT call .mkdir() at import time. The previous code
 # did, which violated the project's "no side effects at import" rule:
@@ -157,10 +200,8 @@ TOOL_MAX_OUTPUT_BYTES: int = _env_int("ESTORIDES_TOOL_MAX_OUTPUT", 10_485_760)
 # `tool_recipes/` holds one YAML recipe per installable Kali/OSINT tool
 # (apt package and/or git repo + install_command, mirroring LazyOwn's
 # lazyaddons/*.yaml). `.tools/` is where git-based recipes clone to.
-TOOL_RECIPES_DIR: Path = Path(
-    os.environ.get("ESTORIDES_TOOL_RECIPES_DIR", str(PROJECT_ROOT / "tool_recipes"))
-)
-TOOLS_DIR: Path = Path(os.environ.get("ESTORIDES_TOOLS_DIR", str(PROJECT_ROOT / ".tools")))
+TOOL_RECIPES_DIR: Path = _resolve_dir("ESTORIDES_TOOL_RECIPES_DIR", "tool_recipes")
+TOOLS_DIR: Path = _resolve_writable_dir("ESTORIDES_TOOLS_DIR", ".tools")
 
 # Install-run caps for one-click tool installation (M6). Fault-tolerant
 # via envutil: a malformed value falls back to the default instead of

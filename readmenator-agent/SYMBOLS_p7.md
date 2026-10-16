@@ -3,16 +3,6 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_exceeds_max` | method | `tests/test_target_management.py:212` | `def test_exceeds_max(self)` |
-| `test_has_case_id` | method | `tests/test_target_management.py:30` | `def test_has_case_id(self)` |
-| `test_id_deterministic` | method | `tests/test_target_management.py:35` | `def test_id_deterministic(self)` |
-| `test_invalid_domain_script` | method | `tests/test_target_management.py:123` | `def test_invalid_domain_script(self)` |
-| `test_invalid_email` | method | `tests/test_target_management.py:114` | `def test_invalid_email(self)` |
-| `test_invalid_fails` | method | `tests/test_target_management.py:275` | `def test_invalid_fails(self)` |
-| `test_invalid_ipv4` | method | `tests/test_target_management.py:119` | `def test_invalid_ipv4(self)` |
-| `test_invalid_phone` | method | `tests/test_target_management.py:131` | `def test_invalid_phone(self)` |
-| `test_invalid_url` | method | `tests/test_target_management.py:127` | `def test_invalid_url(self)` |
-| `test_ipv4` | method | `tests/test_target_management.py:345` | `def test_ipv4(self)` |
 | `test_ipv4_auto` | method | `tests/test_target_management.py:47` | `def test_ipv4_auto(self)` |
 | `test_ipv4_invalid_octet` | method | `tests/test_target_management.py:293` | `def test_ipv4_invalid_octet(self)` |
 | `test_ipv4_valid` | method | `tests/test_target_management.py:289` | `def test_ipv4_valid(self)` |
@@ -223,14 +213,14 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `TestWH3Ordering` | class | `tests/test_web_helpers.py:54` | `class TestWH3Ordering` |
 | `TestWH4Sse` | class | `tests/test_web_helpers.py:72` | `class TestWH4Sse` |
 | `_app` | function | `tests/test_web_helpers.py:17` | `def _app()` |
-| `stream` | function | `tests/test_web_helpers.py:77` | `def stream()` |
+| `stream` | method | `tests/test_web_helpers.py:77` | `def stream()` |
 | `test_guard_runs_after_auth` | method | `tests/test_web_helpers.py:55` | `def test_guard_runs_after_auth(self)` |
 | `test_missing_service_edges_503` | method | `tests/test_web_helpers.py:25` | `def test_missing_service_edges_503(self)` |
 | `test_present_service_passes` | method | `tests/test_web_helpers.py:40` | `def test_present_service_passes(self)` |
 | `test_sse_headers` | method | `tests/test_web_helpers.py:73` | `def test_sse_headers(self)` |
-| `view` | function | `tests/test_web_helpers.py:31` | `def view()` |
-| `view` | function | `tests/test_web_helpers.py:46` | `def view()` |
-| `view` | function | `tests/test_web_helpers.py:63` | `def view()` |
+| `view` | method | `tests/test_web_helpers.py:31` | `def view()` |
+| `view` | method | `tests/test_web_helpers.py:46` | `def view()` |
+| `view` | method | `tests/test_web_helpers.py:63` | `def view()` |
 | `test_blueprint_registered` | function | `tests/test_web_tools_blueprint.py:16` | `def test_blueprint_registered()` |
 | `test_install_route_rejects_bad_binary` | function | `tests/test_web_tools_blueprint.py:34` | `def test_install_route_rejects_bad_binary()` |
 | `test_tools_rules_present` | function | `tests/test_web_tools_blueprint.py:5` | `def test_tools_rules_present()` |

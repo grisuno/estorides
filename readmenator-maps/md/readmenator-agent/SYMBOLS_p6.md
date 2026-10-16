@@ -3,16 +3,6 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_phone` | function | `tests/test_query_intent.py:7` | `def test_phone()` |
-| `test_url_normalises_to_host` | function | `tests/test_query_intent.py:22` | `def test_url_normalises_to_host()` |
-| `TestFusionResultDataclass` | class | `tests/test_recon_fusion.py:252` | `class TestFusionResultDataclass` |
-| `TestIntegrationMultiEntity` | class | `tests/test_recon_fusion.py:227` | `class TestIntegrationMultiEntity` |
-| `TestRelevanceTierEnum` | class | `tests/test_recon_fusion.py:267` | `class TestRelevanceTierEnum` |
-| `TestS10EntityWithoutType` | class | `tests/test_recon_fusion.py:183` | `class TestS10EntityWithoutType` |
-| `TestS11Dedup` | class | `tests/test_recon_fusion.py:195` | `class TestS11Dedup` |
-| `TestS12Ordering` | class | `tests/test_recon_fusion.py:212` | `class TestS12Ordering` |
-| `TestS1CriticalCorroborated` | class | `tests/test_recon_fusion.py:46` | `class TestS1CriticalCorroborated` |
-| `TestS2TwoReliableSources` | class | `tests/test_recon_fusion.py:65` | `class TestS2TwoReliableSources` |
 | `TestS3SingleHighReliability` | class | `tests/test_recon_fusion.py:82` | `class TestS3SingleHighReliability` |
 | `TestS4SingleLowReliability` | class | `tests/test_recon_fusion.py:102` | `class TestS4SingleLowReliability` |
 | `TestS5EmptyInput` | class | `tests/test_recon_fusion.py:117` | `class TestS5EmptyInput` |
@@ -178,26 +168,26 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_FakeOpener` | class | `tests/test_security_remediation.py:564` | `class _FakeOpener` |
 | `__enter__` | method | `tests/test_security_remediation.py:558` | `def __enter__(self)` |
 | `__exit__` | method | `tests/test_security_remediation.py:561` | `def __exit__(self)` |
-| `_fake_build_opener` | function | `tests/test_security_remediation.py:571` | `def _fake_build_opener()` |
+| `_fake_build_opener` | method | `tests/test_security_remediation.py:571` | `def _fake_build_opener()` |
 | `_make_export_route` | method | `tests/test_security_remediation.py:86` | `def _make_export_route(self, app, raise_val, error_msg, status)` |
 | `_make_export_route_fixed` | method | `tests/test_security_remediation.py:118` | `def _make_export_route_fixed(self, app, raise_val, error_msg, status)` |
 | `_make_osiris_route_fixed` | method | `tests/test_security_remediation.py:347` | `def _make_osiris_route_fixed(self, app, route_path)` |
-| `api_create` | function | `tests/test_security_remediation.py:212` | `def api_create()` |
-| `api_delete` | function | `tests/test_security_remediation.py:191` | `def api_delete(name)` |
-| `api_export_fixed` | function | `tests/test_security_remediation.py:130` | `def api_export_fixed()` |
-| `api_export_test` | function | `tests/test_security_remediation.py:97` | `def api_export_test()` |
-| `api_update` | function | `tests/test_security_remediation.py:236` | `def api_update(name)` |
+| `api_create` | method | `tests/test_security_remediation.py:212` | `def api_create()` |
+| `api_delete` | method | `tests/test_security_remediation.py:191` | `def api_delete(name)` |
+| `api_export_fixed` | method | `tests/test_security_remediation.py:130` | `def api_export_fixed()` |
+| `api_export_test` | method | `tests/test_security_remediation.py:97` | `def api_export_test()` |
+| `api_update` | method | `tests/test_security_remediation.py:236` | `def api_update(name)` |
 | `app` | method | `tests/test_security_remediation.py:79` | `def app(self)` |
 | `app` | method | `tests/test_security_remediation.py:180` | `def app(self)` |
 | `app` | method | `tests/test_security_remediation.py:264` | `def app(self)` |
 | `app` | method | `tests/test_security_remediation.py:340` | `def app(self)` |
-| `fetch_bgp` | function | `tests/test_security_remediation.py:354` | `def fetch_bgp(q)` |
-| `fetch_github_user` | function | `tests/test_security_remediation.py:363` | `def fetch_github_user(u)` |
-| `fetch_leaks` | function | `tests/test_security_remediation.py:366` | `def fetch_leaks(e)` |
-| `fetch_mac` | function | `tests/test_security_remediation.py:357` | `def fetch_mac(mac)` |
-| `fetch_phone` | function | `tests/test_security_remediation.py:360` | `def fetch_phone(n)` |
+| `fetch_bgp` | method | `tests/test_security_remediation.py:354` | `def fetch_bgp(q)` |
+| `fetch_github_user` | method | `tests/test_security_remediation.py:363` | `def fetch_github_user(u)` |
+| `fetch_leaks` | method | `tests/test_security_remediation.py:366` | `def fetch_leaks(e)` |
+| `fetch_mac` | method | `tests/test_security_remediation.py:357` | `def fetch_mac(mac)` |
+| `fetch_phone` | method | `tests/test_security_remediation.py:360` | `def fetch_phone(n)` |
 | `open` | method | `tests/test_security_remediation.py:565` | `def open(self, req, timeout)` |
-| `osiris_endpoint` | function | `tests/test_security_remediation.py:376` | `def osiris_endpoint()` |
+| `osiris_endpoint` | method | `tests/test_security_remediation.py:376` | `def osiris_endpoint()` |
 | `test_ci_yml_has_permissions` | method | `tests/test_security_remediation.py:309` | `def test_ci_yml_has_permissions(self)` |
 | `test_ci_yml_permissions_is_read_all` | method | `tests/test_security_remediation.py:325` | `def test_ci_yml_permissions_is_read_all(self)` |
 | `test_dns_failure_log_contains_host_length_not_host` | method | `tests/test_security_remediation.py:55` | `def test_dns_failure_log_contains_host_length_not_host(self, caplog)` |
@@ -423,11 +413,11 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `TestS9LoopResponsiveness` | class | `tests/test_system_app_sources.py:433` | `class TestS9LoopResponsiveness` |
 | `_load` | method | `tests/test_system_app_sources.py:307` | `def _load(self, tmp_path, yaml_text)` |
 | `_stub_runner` | function | `tests/test_system_app_sources.py:48` | `def _stub_runner(exit_code, stdout, stderr, error_code, error_message, on_run)` |
-| `on_run` | function | `tests/test_system_app_sources.py:83` | `def on_run(binary, args)` |
-| `on_run` | function | `tests/test_system_app_sources.py:214` | `def on_run(binary, args)` |
-| `scenario` | function | `tests/test_system_app_sources.py:463` | `def scenario()` |
-| `slow_execute` | function | `tests/test_system_app_sources.py:444` | `def slow_execute(source, query)` |
-| `stub` | function | `tests/test_system_app_sources.py:52` | `def stub(binary, args)` |
+| `on_run` | method | `tests/test_system_app_sources.py:83` | `def on_run(binary, args)` |
+| `on_run` | method | `tests/test_system_app_sources.py:214` | `def on_run(binary, args)` |
+| `scenario` | method | `tests/test_system_app_sources.py:463` | `def scenario()` |
+| `slow_execute` | method | `tests/test_system_app_sources.py:444` | `def slow_execute(source, query)` |
+| `stub` | method | `tests/test_system_app_sources.py:52` | `def stub(binary, args)` |
 | `test_bad_output_format_falls_back_to_text` | method | `tests/test_system_app_sources.py:352` | `def test_bad_output_format_falls_back_to_text(self, tmp_path)` |
 | `test_binary_branch_runs_in_worker_thread` | method | `tests/test_system_app_sources.py:434` | `def test_binary_branch_runs_in_worker_thread(self, monkeypatch)` |
 | `test_execute_rejects_non_allowlisted_binary` | method | `tests/test_system_app_sources.py:136` | `def test_execute_rejects_non_allowlisted_binary(self, monkeypatch)` |
@@ -452,7 +442,7 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `test_unknown_kind_derives_from_block` | method | `tests/test_system_app_sources.py:366` | `def test_unknown_kind_derives_from_block(self, tmp_path)` |
 | `test_unknown_tokens_survive` | method | `tests/test_system_app_sources.py:259` | `def test_unknown_tokens_survive(self)` |
 | `test_write_source_file_roundtrip_keeps_system_app_block` | method | `tests/test_system_app_sources.py:395` | `def test_write_source_file_roundtrip_keeps_system_app_block(self, tmp_path)` |
-| `timeout_runner` | function | `tests/test_system_app_sources.py:414` | `def timeout_runner(binary, args)` |
+| `timeout_runner` | method | `tests/test_system_app_sources.py:414` | `def timeout_runner(binary, args)` |
 | `TestAutoDetectType` | class | `tests/test_target_management.py:344` | `class TestAutoDetectType` |
 | `TestBatchResultSerialization` | class | `tests/test_target_management.py:367` | `class TestBatchResultSerialization` |
 | `TestCsvImport` | class | `tests/test_target_management.py:410` | `class TestCsvImport` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `test_ephemeral_no_case_store` | method | `tests/test_target_management.py:175` | `def test_ephemeral_no_case_store(self)` |
 | `test_eth_auto` | method | `tests/test_target_management.py:72` | `def test_eth_auto(self)` |
 | `test_eth_valid` | method | `tests/test_target_management.py:316` | `def test_eth_valid(self)` |
+| `test_exceeds_max` | method | `tests/test_target_management.py:212` | `def test_exceeds_max(self)` |
+| `test_has_case_id` | method | `tests/test_target_management.py:30` | `def test_has_case_id(self)` |
+| `test_id_deterministic` | method | `tests/test_target_management.py:35` | `def test_id_deterministic(self)` |
+| `test_invalid_domain_script` | method | `tests/test_target_management.py:123` | `def test_invalid_domain_script(self)` |
+| `test_invalid_email` | method | `tests/test_target_management.py:114` | `def test_invalid_email(self)` |
+| `test_invalid_fails` | method | `tests/test_target_management.py:275` | `def test_invalid_fails(self)` |
+| `test_invalid_ipv4` | method | `tests/test_target_management.py:119` | `def test_invalid_ipv4(self)` |
+| `test_invalid_phone` | method | `tests/test_target_management.py:131` | `def test_invalid_phone(self)` |
+| `test_invalid_url` | method | `tests/test_target_management.py:127` | `def test_invalid_url(self)` |
+| `test_ipv4` | method | `tests/test_target_management.py:345` | `def test_ipv4(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

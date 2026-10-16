@@ -3,42 +3,45 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `LanBundleResult` | class | `estorides_core/lan_bundle.py:350` | `class LanBundleResult` |
-| `_fmt_ts` | function | `estorides_core/lan_bundle.py:330` | `def _fmt_ts(ts)` |
-| `_stix_ref` | function | `estorides_core/lan_bundle.py:340` | `def _stix_ref(node_id, id_map)` |
-| `build_bundle` | function | `estorides_core/lan_bundle.py:47` | `def build_bundle(devices)` |
-| `default_output_dir` | function | `estorides_core/lan_bundle.py:38` | `def default_output_dir()` |
-| `sanitize_stem` | function | `estorides_core/lan_bundle.py:27` | `def sanitize_stem(stem)` |
-| `to_dict` | method | `estorides_core/lan_bundle.py:358` | `def to_dict(self)` |
-| `write_bundle` | function | `estorides_core/lan_bundle.py:362` | `def write_bundle(devices)` |
+| `neighbours` | method | `estorides_core/knowledge_graph.py:368` | `def neighbours(self, node_id, relation)` |
+| `summary` | method | `estorides_core/knowledge_graph.py:243` | `def summary(self)` |
+| `top_entities` | method | `estorides_core/knowledge_graph.py:261` | `def top_entities(self, n, by)` |
+| `LanBundleResult` | class | `estorides_core/lan_bundle.py:351` | `class LanBundleResult` |
+| `_fmt_ts` | function | `estorides_core/lan_bundle.py:331` | `def _fmt_ts(ts)` |
+| `_stix_ref` | function | `estorides_core/lan_bundle.py:341` | `def _stix_ref(node_id, id_map)` |
+| `build_bundle` | function | `estorides_core/lan_bundle.py:48` | `def build_bundle(devices)` |
+| `default_output_dir` | function | `estorides_core/lan_bundle.py:40` | `def default_output_dir()` |
+| `sanitize_stem` | function | `estorides_core/lan_bundle.py:29` | `def sanitize_stem(stem)` |
+| `to_dict` | method | `estorides_core/lan_bundle.py:359` | `def to_dict(self)` |
+| `write_bundle` | method | `estorides_core/lan_bundle.py:363` | `def write_bundle(devices)` |
 | `LanDevice` | class | `estorides_core/lan_inventory.py:51` | `class LanDevice` |
-| `_valid_lan_ip` | function | `estorides_core/lan_inventory.py:77` | `def _valid_lan_ip(raw)` |
-| `contact_for_tool` | function | `estorides_core/lan_inventory.py:352` | `def contact_for_tool(tool)` |
-| `device_to_entities` | function | `estorides_core/lan_inventory.py:331` | `def device_to_entities(device)` |
-| `merge_devices` | function | `estorides_core/lan_inventory.py:269` | `def merge_devices(sightings)` |
-| `normalize_mac` | function | `estorides_core/lan_inventory.py:64` | `def normalize_mac(raw)` |
-| `parse_active_output` | function | `estorides_core/lan_inventory.py:252` | `def parse_active_output(text, source)` |
-| `parse_arp_table` | function | `estorides_core/lan_inventory.py:91` | `def parse_arp_table(text)` |
-| `parse_dhcp_leases` | function | `estorides_core/lan_inventory.py:119` | `def parse_dhcp_leases(text)` |
-| `parse_nmap_grepable` | function | `estorides_core/lan_inventory.py:214` | `def parse_nmap_grepable(text)` |
-| `parse_nmap_xml` | function | `estorides_core/lan_inventory.py:152` | `def parse_nmap_xml(text)` |
+| `_valid_lan_ip` | method | `estorides_core/lan_inventory.py:77` | `def _valid_lan_ip(raw)` |
+| `contact_for_tool` | method | `estorides_core/lan_inventory.py:352` | `def contact_for_tool(tool)` |
+| `device_to_entities` | method | `estorides_core/lan_inventory.py:331` | `def device_to_entities(device)` |
+| `merge_devices` | method | `estorides_core/lan_inventory.py:269` | `def merge_devices(sightings)` |
+| `normalize_mac` | method | `estorides_core/lan_inventory.py:64` | `def normalize_mac(raw)` |
+| `parse_active_output` | method | `estorides_core/lan_inventory.py:252` | `def parse_active_output(text, source)` |
+| `parse_arp_table` | method | `estorides_core/lan_inventory.py:91` | `def parse_arp_table(text)` |
+| `parse_dhcp_leases` | method | `estorides_core/lan_inventory.py:119` | `def parse_dhcp_leases(text)` |
+| `parse_nmap_grepable` | method | `estorides_core/lan_inventory.py:214` | `def parse_nmap_grepable(text)` |
+| `parse_nmap_xml` | method | `estorides_core/lan_inventory.py:152` | `def parse_nmap_xml(text)` |
 | `to_dict` | method | `estorides_core/lan_inventory.py:60` | `def to_dict(self)` |
 | `LanPolicyDecision` | class | `estorides_core/lan_policy.py:40` | `class LanPolicyDecision` |
 | `LanPolicyRequest` | class | `estorides_core/lan_policy.py:30` | `class LanPolicyRequest` |
-| `_env_ceiling` | function | `estorides_core/lan_policy.py:59` | `def _env_ceiling()` |
-| `_normalize_scope` | function | `estorides_core/lan_policy.py:70` | `def _normalize_scope(raw)` |
-| `_strict_bool` | function | `estorides_core/lan_policy.py:66` | `def _strict_bool(value)` |
-| `evaluate` | function | `estorides_core/lan_policy.py:104` | `def evaluate(request)` |
-| `max_contact_for` | function | `estorides_core/lan_policy.py:97` | `def max_contact_for(allow_active, consent)` |
-| `requires_consent` | function | `estorides_core/lan_policy.py:54` | `def requires_consent()` |
+| `_env_ceiling` | method | `estorides_core/lan_policy.py:59` | `def _env_ceiling()` |
+| `_normalize_scope` | method | `estorides_core/lan_policy.py:70` | `def _normalize_scope(raw)` |
+| `_strict_bool` | method | `estorides_core/lan_policy.py:66` | `def _strict_bool(value)` |
+| `evaluate` | method | `estorides_core/lan_policy.py:104` | `def evaluate(request)` |
+| `max_contact_for` | method | `estorides_core/lan_policy.py:97` | `def max_contact_for(allow_active, consent)` |
+| `requires_consent` | method | `estorides_core/lan_policy.py:54` | `def requires_consent()` |
 | `to_dict` | method | `estorides_core/lan_policy.py:50` | `def to_dict(self)` |
 | `LanScanResult` | class | `estorides_core/lan_runner.py:41` | `class LanScanResult` |
-| `_attempt` | function | `estorides_core/lan_runner.py:99` | `def _attempt(runner, tool, args, scope_cidr, timeout)` |
-| `_default_runner` | function | `estorides_core/lan_runner.py:93` | `def _default_runner()` |
-| `read_arp_table` | function | `estorides_core/lan_runner.py:60` | `def read_arp_table()` |
-| `read_dhcp_leases` | function | `estorides_core/lan_runner.py:81` | `def read_dhcp_leases()` |
-| `run_active_scan` | function | `estorides_core/lan_runner.py:122` | `def run_active_scan(scope_cidr)` |
-| `scan` | function | `estorides_core/lan_runner.py:147` | `def scan(scope_cidr)` |
+| `_attempt` | method | `estorides_core/lan_runner.py:99` | `def _attempt(runner, tool, args, scope_cidr, timeout)` |
+| `_default_runner` | method | `estorides_core/lan_runner.py:93` | `def _default_runner()` |
+| `read_arp_table` | method | `estorides_core/lan_runner.py:60` | `def read_arp_table()` |
+| `read_dhcp_leases` | method | `estorides_core/lan_runner.py:81` | `def read_dhcp_leases()` |
+| `run_active_scan` | method | `estorides_core/lan_runner.py:122` | `def run_active_scan(scope_cidr)` |
+| `scan` | method | `estorides_core/lan_runner.py:147` | `def scan(scope_cidr)` |
 | `to_dict` | method | `estorides_core/lan_runner.py:56` | `def to_dict(self)` |
 | `default_scope` | function | `estorides_core/lan_scope.py:79` | `def default_scope(interfaces)` |
 | `parse_interface_addr` | function | `estorides_core/lan_scope.py:23` | `def parse_interface_addr(raw)` |
@@ -46,9 +49,9 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `read_local_interfaces` | function | `estorides_core/lan_scope.py:92` | `def read_local_interfaces()` |
 | `select_private_cidrs` | function | `estorides_core/lan_scope.py:63` | `def select_private_cidrs(interfaces)` |
 | `LanWebVerdict` | class | `estorides_core/lan_web.py:18` | `class LanWebVerdict` |
-| `guard` | function | `estorides_core/lan_web.py:92` | `def guard(body)` |
-| `is_lan_request` | function | `estorides_core/lan_web.py:50` | `def is_lan_request(body, query)` |
-| `scope_payload` | function | `estorides_core/lan_web.py:80` | `def scope_payload(interfaces)` |
+| `guard` | method | `estorides_core/lan_web.py:92` | `def guard(body)` |
+| `is_lan_request` | method | `estorides_core/lan_web.py:50` | `def is_lan_request(body, query)` |
+| `scope_payload` | method | `estorides_core/lan_web.py:80` | `def scope_payload(interfaces)` |
 | `to_dict` | method | `estorides_core/lan_web.py:29` | `def to_dict(self)` |
 | `to_response` | method | `estorides_core/lan_web.py:32` | `def to_response(self)` |
 | `_scan_keywords` | function | `estorides_core/mitre_attack.py:156` | `def _scan_keywords(text)` |
@@ -105,7 +108,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_candidate_fields` | method | `estorides_core/ontology.py:359` | `def _candidate_fields(source, parsed)` |
 | `_download` | method | `estorides_core/ontology.py:201` | `def _download(self)` |
 | `_index` | method | `estorides_core/ontology.py:255` | `def _index(self, entries)` |
-| `_normalise_name` | function | `estorides_core/ontology.py:84` | `def _normalise_name(s)` |
+| `_normalise_name` | method | `estorides_core/ontology.py:84` | `def _normalise_name(s)` |
 | `_parse` | method | `estorides_core/ontology.py:226` | `def _parse(self, text)` |
 | `_persist` | method | `estorides_core/ontology.py:213` | `def _persist(self, text)` |
 | `_refresh` | method | `estorides_core/ontology.py:172` | `def _refresh(self)` |
@@ -122,15 +125,15 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `to_dict` | method | `estorides_core/ontology.py:79` | `def to_dict(self)` |
 | `build_openapi` | function | `estorides_core/openapi.py:14` | `def build_openapi(app)` |
 | `OpsConfig` | class | `estorides_core/ops_observability.py:28` | `class OpsConfig` |
-| `_clean_label` | function | `estorides_core/ops_observability.py:43` | `def _clean_label(value)` |
-| `format_event` | function | `estorides_core/ops_observability.py:112` | `def format_event(fields, as_json)` |
-| `health_payload` | function | `estorides_core/ops_observability.py:50` | `def health_payload()` |
-| `project_root` | function | `estorides_core/ops_observability.py:130` | `def project_root()` |
-| `ready_payload` | function | `estorides_core/ops_observability.py:55` | `def ready_payload(source_count, sources_dir_ok)` |
-| `record_request` | function | `estorides_core/ops_observability.py:62` | `def record_request(endpoint, status)` |
-| `record_source` | function | `estorides_core/ops_observability.py:72` | `def record_source(source, ok)` |
-| `render_metrics` | function | `estorides_core/ops_observability.py:90` | `def render_metrics()` |
-| `reset_metrics` | function | `estorides_core/ops_observability.py:83` | `def reset_metrics()` |
+| `_clean_label` | method | `estorides_core/ops_observability.py:43` | `def _clean_label(value)` |
+| `format_event` | method | `estorides_core/ops_observability.py:112` | `def format_event(fields, as_json)` |
+| `health_payload` | method | `estorides_core/ops_observability.py:50` | `def health_payload()` |
+| `project_root` | method | `estorides_core/ops_observability.py:130` | `def project_root()` |
+| `ready_payload` | method | `estorides_core/ops_observability.py:55` | `def ready_payload(source_count, sources_dir_ok)` |
+| `record_request` | method | `estorides_core/ops_observability.py:62` | `def record_request(endpoint, status)` |
+| `record_source` | method | `estorides_core/ops_observability.py:72` | `def record_source(source, ok)` |
+| `render_metrics` | method | `estorides_core/ops_observability.py:90` | `def render_metrics()` |
+| `reset_metrics` | method | `estorides_core/ops_observability.py:83` | `def reset_metrics()` |
 | `Orchestrator` | class | `estorides_core/orchestrator.py:168` | `class Orchestrator` |
 | `__init__` | method | `estorides_core/orchestrator.py:169` | `def __init__(self, registry, llm, kg)` |
 | `_domain_from_query` | function | `estorides_core/orchestrator.py:158` | `def _domain_from_query(q)` |
@@ -147,7 +150,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_source_of` | method | `estorides_core/orchestrator.py:764` | `def _source_of(item, fallback, raw)` |
 | `_write_dataset` | method | `estorides_core/orchestrator.py:971` | `def _write_dataset(self, query, observations, entities, analysis)` |
 | `pending_system_app_tasks` | function | `estorides_core/orchestrator.py:56` | `def pending_system_app_tasks()` |
-| `repl` | function | `estorides_core/orchestrator.py:122` | `def repl(m)` |
+| `repl` | method | `estorides_core/orchestrator.py:122` | `def repl(m)` |
 | `run` | method | `estorides_core/orchestrator.py:190` | `def run(self, query)` |
 | `_cached_get` | function | `estorides_core/osiris_sources.py:81` | `def _cached_get(url)` |
 | `fetch_bgp` | function | `estorides_core/osiris_sources.py:119` | `def fetch_bgp(query)` |
@@ -158,10 +161,10 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `fetch_malware_c2` | function | `estorides_core/osiris_sources.py:452` | `def fetch_malware_c2(limit)` |
 | `fetch_phone` | function | `estorides_core/osiris_sources.py:233` | `def fetch_phone(number)` |
 | `PaginationConfig` | class | `estorides_core/pagination.py:19` | `class PaginationConfig` |
-| `build_page_params` | function | `estorides_core/pagination.py:62` | `def build_page_params(cfg, page_num)` |
-| `count_results` | function | `estorides_core/pagination.py:99` | `def count_results(data, cfg)` |
+| `build_page_params` | method | `estorides_core/pagination.py:62` | `def build_page_params(cfg, page_num)` |
+| `count_results` | method | `estorides_core/pagination.py:99` | `def count_results(data, cfg)` |
 | `enabled` | method | `estorides_core/pagination.py:54` | `def enabled(self)` |
-| `extract_cursor` | function | `estorides_core/pagination.py:78` | `def extract_cursor(data, cfg)` |
+| `extract_cursor` | method | `estorides_core/pagination.py:78` | `def extract_cursor(data, cfg)` |
 | `from_dict` | method | `estorides_core/pagination.py:38` | `def from_dict(raw)` |
 | `needs_page_size` | method | `estorides_core/pagination.py:58` | `def needs_page_size(self)` |
 | `_d` | function | `estorides_core/parsers.py:31` | `def _d(obj)` |
@@ -233,9 +236,9 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `HistoricalSubdomain` | class | `estorides_core/pdns_monitor.py:13` | `class HistoricalSubdomain` |
 | `IPRecord` | class | `estorides_core/pdns_monitor.py:27` | `class IPRecord` |
 | `PDNSResult` | class | `estorides_core/pdns_monitor.py:55` | `class PDNSResult` |
-| `analyse_pdns_data` | function | `estorides_core/pdns_monitor.py:80` | `def analyse_pdns_data(subdomains, ip_history, new_certs)` |
-| `classify_subdomain_status` | function | `estorides_core/pdns_monitor.py:72` | `def classify_subdomain_status(fqdn, resolved_ips)` |
-| `extract_sans_from_cert` | function | `estorides_core/pdns_monitor.py:76` | `def extract_sans_from_cert(cert)` |
+| `analyse_pdns_data` | method | `estorides_core/pdns_monitor.py:80` | `def analyse_pdns_data(subdomains, ip_history, new_certs)` |
+| `classify_subdomain_status` | method | `estorides_core/pdns_monitor.py:72` | `def classify_subdomain_status(fqdn, resolved_ips)` |
+| `extract_sans_from_cert` | method | `estorides_core/pdns_monitor.py:76` | `def extract_sans_from_cert(cert)` |
 | `to_dict` | method | `estorides_core/pdns_monitor.py:22` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/pdns_monitor.py:35` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/pdns_monitor.py:50` | `def to_dict(self)` |
@@ -244,11 +247,11 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `BreachRecord` | class | `estorides_core/people_intel.py:15` | `class BreachRecord` |
 | `Employee` | class | `estorides_core/people_intel.py:29` | `class Employee` |
 | `PeopleIntelResult` | class | `estorides_core/people_intel.py:67` | `class PeopleIntelResult` |
-| `_match_pattern` | function | `estorides_core/people_intel.py:136` | `def _match_pattern(local)` |
-| `_severity_from_breaches` | function | `estorides_core/people_intel.py:143` | `def _severity_from_breaches(breaches)` |
-| `analyse_employees` | function | `estorides_core/people_intel.py:176` | `def analyse_employees(employees, domain)` |
-| `correlate_breaches` | function | `estorides_core/people_intel.py:153` | `def correlate_breaches(employees)` |
-| `infer_email_pattern` | function | `estorides_core/people_intel.py:98` | `def infer_email_pattern(emails)` |
+| `_match_pattern` | method | `estorides_core/people_intel.py:136` | `def _match_pattern(local)` |
+| `_severity_from_breaches` | method | `estorides_core/people_intel.py:143` | `def _severity_from_breaches(breaches)` |
+| `analyse_employees` | method | `estorides_core/people_intel.py:176` | `def analyse_employees(employees, domain)` |
+| `correlate_breaches` | method | `estorides_core/people_intel.py:153` | `def correlate_breaches(employees)` |
+| `infer_email_pattern` | method | `estorides_core/people_intel.py:98` | `def infer_email_pattern(emails)` |
 | `to_dict` | method | `estorides_core/people_intel.py:22` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/people_intel.py:40` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/people_intel.py:62` | `def to_dict(self)` |
@@ -269,8 +272,8 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_expand_lead` | method | `estorides_core/pivot_engine.py:341` | `def _expand_lead(self, lead, frontier, budget)` |
 | `_heap_push` | method | `estorides_core/pivot_engine.py:255` | `def _heap_push(heap, counter, lead)` |
 | `_ingest_children` | method | `estorides_core/pivot_engine.py:411` | `def _ingest_children(self, parent, result, frontier, budget)` |
-| `_on_source_done` | function | `estorides_core/pivot_engine.py:356` | `def _on_source_done(name, ok, status, elapsed_ms)` |
-| `_on_source_result` | function | `estorides_core/pivot_engine.py:366` | `def _on_source_result(observation)` |
+| `_on_source_done` | method | `estorides_core/pivot_engine.py:356` | `def _on_source_done(name, ok, status, elapsed_ms)` |
+| `_on_source_result` | method | `estorides_core/pivot_engine.py:366` | `def _on_source_result(observation)` |
 | `emit` | method | `estorides_core/pivot_engine.py:62` | `def emit(self, event)` |
 | `emit` | method | `estorides_core/pivot_engine.py:73` | `def emit(self, event)` |
 | `emit` | method | `estorides_core/pivot_engine.py:94` | `def emit(self, event)` |
@@ -284,15 +287,15 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `RelevanceTier` | class | `estorides_core/recon_fusion.py:27` | `class RelevanceTier(str, Enum)` |
 | `__init__` | method | `estorides_core/recon_fusion.py:166` | `def __init__(self, config)` |
 | `_assign_tier` | method | `estorides_core/recon_fusion.py:386` | `def _assign_tier(self, source_count, avg_reliability, direct_match)` |
-| `_canonical_id` | function | `estorides_core/recon_fusion.py:112` | `def _canonical_id(etype, value)` |
+| `_canonical_id` | method | `estorides_core/recon_fusion.py:112` | `def _canonical_id(etype, value)` |
 | `_classify_groups` | method | `estorides_core/recon_fusion.py:321` | `def _classify_groups(self, groups, query)` |
-| `_corroboration_factor` | function | `estorides_core/recon_fusion.py:117` | `def _corroboration_factor(source_count)` |
+| `_corroboration_factor` | method | `estorides_core/recon_fusion.py:117` | `def _corroboration_factor(source_count)` |
 | `_deduplicate` | method | `estorides_core/recon_fusion.py:219` | `def _deduplicate(self, observations)` |
-| `_direct_match_query` | function | `estorides_core/recon_fusion.py:132` | `def _direct_match_query(value, query)` |
-| `_extract_key_findings` | function | `estorides_core/recon_fusion.py:137` | `def _extract_key_findings(observations)` |
-| `_freshness_factor` | function | `estorides_core/recon_fusion.py:124` | `def _freshness_factor(age_hours, max_hours)` |
+| `_direct_match_query` | method | `estorides_core/recon_fusion.py:132` | `def _direct_match_query(value, query)` |
+| `_extract_key_findings` | method | `estorides_core/recon_fusion.py:137` | `def _extract_key_findings(observations)` |
+| `_freshness_factor` | method | `estorides_core/recon_fusion.py:124` | `def _freshness_factor(age_hours, max_hours)` |
 | `_group_by_entity` | method | `estorides_core/recon_fusion.py:237` | `def _group_by_entity(self, observations, entities)` |
-| `_normalize_value` | function | `estorides_core/recon_fusion.py:107` | `def _normalize_value(etype, value)` |
+| `_normalize_value` | method | `estorides_core/recon_fusion.py:107` | `def _normalize_value(etype, value)` |
 | `classify` | method | `estorides_core/recon_fusion.py:169` | `def classify(self, query, query_type, observations, entities)` |
 | `ordered` | method | `estorides_core/recon_fusion.py:40` | `def ordered(cls)` |
 | `to_dict` | method | `estorides_core/recon_fusion.py:64` | `def to_dict(self)` |
@@ -300,36 +303,36 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `run_passive_recon` | function | `estorides_core/recon_pipeline.py:22` | `def run_passive_recon(query, headers, html, cookies, employees, code_findings, third_parties, pdns_subdomains...` |
 | `RelationshipInferer` | class | `estorides_core/relationship_inference.py:36` | `class RelationshipInferer(Protocol)` |
 | `__call__` | method | `estorides_core/relationship_inference.py:51` | `def __call__(self, observation, query, kg)` |
-| `_infer_abuseipdb` | function | `estorides_core/relationship_inference.py:143` | `def _infer_abuseipdb(observation, query, kg)` |
-| `_infer_crtsh` | function | `estorides_core/relationship_inference.py:114` | `def _infer_crtsh(observation, query, kg)` |
-| `_infer_dns` | function | `estorides_core/relationship_inference.py:105` | `def _infer_dns(observation, query, kg)` |
-| `_infer_greynoise` | function | `estorides_core/relationship_inference.py:134` | `def _infer_greynoise(observation, query, kg)` |
-| `_infer_ipapi` | function | `estorides_core/relationship_inference.py:186` | `def _infer_ipapi(observation, query, kg)` |
-| `_infer_nvd` | function | `estorides_core/relationship_inference.py:208` | `def _infer_nvd(observation, query, kg)` |
-| `_infer_otx` | function | `estorides_core/relationship_inference.py:195` | `def _infer_otx(observation, query, kg)` |
-| `_infer_phonebook` | function | `estorides_core/relationship_inference.py:175` | `def _infer_phonebook(observation, query, kg)` |
-| `_infer_shodan` | function | `estorides_core/relationship_inference.py:122` | `def _infer_shodan(observation, query, kg)` |
-| `_infer_urlscan` | function | `estorides_core/relationship_inference.py:163` | `def _infer_urlscan(observation, query, kg)` |
-| `_infer_whois` | function | `estorides_core/relationship_inference.py:152` | `def _infer_whois(observation, query, kg)` |
-| `deco` | function | `estorides_core/relationship_inference.py:70` | `def deco(func)` |
-| `infer_relationship` | function | `estorides_core/relationship_inference.py:78` | `def infer_relationship(observation, query, kg)` |
-| `register_inferer` | function | `estorides_core/relationship_inference.py:63` | `def register_inferer(source_name)` |
+| `_infer_abuseipdb` | method | `estorides_core/relationship_inference.py:143` | `def _infer_abuseipdb(observation, query, kg)` |
+| `_infer_crtsh` | method | `estorides_core/relationship_inference.py:114` | `def _infer_crtsh(observation, query, kg)` |
+| `_infer_dns` | method | `estorides_core/relationship_inference.py:105` | `def _infer_dns(observation, query, kg)` |
+| `_infer_greynoise` | method | `estorides_core/relationship_inference.py:134` | `def _infer_greynoise(observation, query, kg)` |
+| `_infer_ipapi` | method | `estorides_core/relationship_inference.py:186` | `def _infer_ipapi(observation, query, kg)` |
+| `_infer_nvd` | method | `estorides_core/relationship_inference.py:208` | `def _infer_nvd(observation, query, kg)` |
+| `_infer_otx` | method | `estorides_core/relationship_inference.py:195` | `def _infer_otx(observation, query, kg)` |
+| `_infer_phonebook` | method | `estorides_core/relationship_inference.py:175` | `def _infer_phonebook(observation, query, kg)` |
+| `_infer_shodan` | method | `estorides_core/relationship_inference.py:122` | `def _infer_shodan(observation, query, kg)` |
+| `_infer_urlscan` | method | `estorides_core/relationship_inference.py:163` | `def _infer_urlscan(observation, query, kg)` |
+| `_infer_whois` | method | `estorides_core/relationship_inference.py:152` | `def _infer_whois(observation, query, kg)` |
+| `deco` | method | `estorides_core/relationship_inference.py:70` | `def deco(func)` |
+| `infer_relationship` | method | `estorides_core/relationship_inference.py:78` | `def infer_relationship(observation, query, kg)` |
+| `register_inferer` | method | `estorides_core/relationship_inference.py:63` | `def register_inferer(source_name)` |
 | `ConfidenceInput` | class | `estorides_core/reliability_scoring.py:243` | `class ConfidenceInput` |
 | `ConfidenceResult` | class | `estorides_core/reliability_scoring.py:263` | `class ConfidenceResult` |
 | `Credibility` | class | `estorides_core/reliability_scoring.py:48` | `class Credibility(int, Enum)` |
 | `SourceReliability` | class | `estorides_core/reliability_scoring.py:37` | `class SourceReliability(str, Enum)` |
 | `SourceType` | class | `estorides_core/reliability_scoring.py:59` | `class SourceType(str, Enum)` |
 | `__post_init__` | method | `estorides_core/reliability_scoring.py:253` | `def __post_init__(self)` |
-| `_clamp01` | function | `estorides_core/reliability_scoring.py:302` | `def _clamp01(value)` |
-| `_corroboration_weight` | function | `estorides_core/reliability_scoring.py:280` | `def _corroboration_weight(n)` |
-| `_freshness_weight` | function | `estorides_core/reliability_scoring.py:287` | `def _freshness_weight(age_seconds, half_life_days)` |
-| `_validate_score` | function | `estorides_core/reliability_scoring.py:297` | `def _validate_score(value, field_name)` |
-| `compute_confidence` | function | `estorides_core/reliability_scoring.py:312` | `def compute_confidence(inp)` |
-| `merge_confidence` | function | `estorides_core/reliability_scoring.py:350` | `def merge_confidence(existing, new_observation)` |
-| `reliability_from_name` | function | `estorides_core/reliability_scoring.py:400` | `def reliability_from_name(source_name)` |
-| `reliability_weight` | function | `estorides_core/reliability_scoring.py:430` | `def reliability_weight(source_name, overrides)` |
-| `reliability_weight_for_letter` | function | `estorides_core/reliability_scoring.py:452` | `def reliability_weight_for_letter(letter)` |
-| `source_type_from_name` | function | `estorides_core/reliability_scoring.py:415` | `def source_type_from_name(source_name)` |
+| `_clamp01` | method | `estorides_core/reliability_scoring.py:302` | `def _clamp01(value)` |
+| `_corroboration_weight` | method | `estorides_core/reliability_scoring.py:280` | `def _corroboration_weight(n)` |
+| `_freshness_weight` | method | `estorides_core/reliability_scoring.py:287` | `def _freshness_weight(age_seconds, half_life_days)` |
+| `_validate_score` | method | `estorides_core/reliability_scoring.py:297` | `def _validate_score(value, field_name)` |
+| `compute_confidence` | method | `estorides_core/reliability_scoring.py:312` | `def compute_confidence(inp)` |
+| `merge_confidence` | method | `estorides_core/reliability_scoring.py:350` | `def merge_confidence(existing, new_observation)` |
+| `reliability_from_name` | method | `estorides_core/reliability_scoring.py:400` | `def reliability_from_name(source_name)` |
+| `reliability_weight` | method | `estorides_core/reliability_scoring.py:430` | `def reliability_weight(source_name, overrides)` |
+| `reliability_weight_for_letter` | method | `estorides_core/reliability_scoring.py:452` | `def reliability_weight_for_letter(letter)` |
+| `source_type_from_name` | method | `estorides_core/reliability_scoring.py:415` | `def source_type_from_name(source_name)` |
 | `CidrRule` | class | `estorides_core/scope.py:130` | `class CidrRule(ScopeRule)` |
 | `ExactHostRule` | class | `estorides_core/scope.py:117` | `class ExactHostRule(ScopeRule)` |
 | `RegexRule` | class | `estorides_core/scope.py:148` | `class RegexRule(ScopeRule)` |
@@ -338,13 +341,13 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `ScopeRule` | class | `estorides_core/scope.py:89` | `class ScopeRule(ABC)` |
 | `WildcardRule` | class | `estorides_core/scope.py:102` | `class WildcardRule(ScopeRule)` |
 | `__init__` | method | `estorides_core/scope.py:242` | `def __init__(self, in_scope, out_of_scope)` |
-| `_assets_from_json` | function | `estorides_core/scope.py:322` | `def _assets_from_json(doc)` |
-| `_cidr_factory` | function | `estorides_core/scope.py:179` | `def _cidr_factory(text)` |
-| `_exact_host_factory` | function | `estorides_core/scope.py:195` | `def _exact_host_factory(text)` |
-| `_ip_factory` | function | `estorides_core/scope.py:188` | `def _ip_factory(text)` |
-| `_regex_factory` | function | `estorides_core/scope.py:168` | `def _regex_factory(text)` |
-| `_wildcard_factory` | function | `estorides_core/scope.py:161` | `def _wildcard_factory(text)` |
-| `build_report` | function | `estorides_core/scope.py:371` | `def build_report(matcher, assets)` |
+| `_assets_from_json` | method | `estorides_core/scope.py:322` | `def _assets_from_json(doc)` |
+| `_cidr_factory` | method | `estorides_core/scope.py:179` | `def _cidr_factory(text)` |
+| `_exact_host_factory` | method | `estorides_core/scope.py:195` | `def _exact_host_factory(text)` |
+| `_ip_factory` | method | `estorides_core/scope.py:188` | `def _ip_factory(text)` |
+| `_regex_factory` | method | `estorides_core/scope.py:168` | `def _regex_factory(text)` |
+| `_wildcard_factory` | method | `estorides_core/scope.py:161` | `def _wildcard_factory(text)` |
+| `build_report` | method | `estorides_core/scope.py:371` | `def build_report(matcher, assets)` |
 | `classify` | method | `estorides_core/scope.py:258` | `def classify(self, raw_asset)` |
 | `describe` | method | `estorides_core/scope.py:97` | `def describe(self)` |
 | `describe` | method | `estorides_core/scope.py:112` | `def describe(self)` |
@@ -355,8 +358,8 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `in_rules` | method | `estorides_core/scope.py:251` | `def in_rules(self)` |
 | `ips` | method | `estorides_core/scope.py:357` | `def ips(self)` |
 | `is_ip` | function | `estorides_core/scope.py:79` | `def is_ip(asset)` |
-| `load_assets` | function | `estorides_core/scope.py:303` | `def load_assets(path)` |
-| `load_rules_file` | function | `estorides_core/scope.py:285` | `def load_rules_file(path)` |
+| `load_assets` | method | `estorides_core/scope.py:303` | `def load_assets(path)` |
+| `load_rules_file` | method | `estorides_core/scope.py:285` | `def load_rules_file(path)` |
 | `matches` | method | `estorides_core/scope.py:93` | `def matches(self, asset)` |
 | `matches` | method | `estorides_core/scope.py:107` | `def matches(self, asset)` |
 | `matches` | method | `estorides_core/scope.py:122` | `def matches(self, asset)` |
@@ -364,11 +367,11 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `matches` | method | `estorides_core/scope.py:153` | `def matches(self, asset)` |
 | `normalise_asset` | function | `estorides_core/scope.py:52` | `def normalise_asset(raw)` |
 | `out_rules` | method | `estorides_core/scope.py:255` | `def out_rules(self)` |
-| `parse_rule` | function | `estorides_core/scope.py:211` | `def parse_rule(line)` |
-| `parse_rules` | function | `estorides_core/scope.py:223` | `def parse_rules(lines)` |
+| `parse_rule` | method | `estorides_core/scope.py:211` | `def parse_rule(line)` |
+| `parse_rules` | method | `estorides_core/scope.py:223` | `def parse_rules(lines)` |
 | `partition` | method | `estorides_core/scope.py:269` | `def partition(self, assets)` |
 | `to_dict` | method | `estorides_core/scope.py:361` | `def to_dict(self)` |
-| `write_flat_lists` | function | `estorides_core/scope.py:381` | `def write_flat_lists(report, out_dir)` |
+| `write_flat_lists` | method | `estorides_core/scope.py:381` | `def write_flat_lists(report, out_dir)` |
 | `InvalidTelemetryConfigError` | class | `estorides_core/search_telemetry.py:45` | `class InvalidTelemetryConfigError(SearchTelemetryError, ValueError)` |
 | `KeyboardShortcut` | class | `estorides_core/search_telemetry.py:117` | `class KeyboardShortcut` |
 | `ProgressView` | class | `estorides_core/search_telemetry.py:146` | `class ProgressView` |
@@ -380,12 +383,12 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `UnknownPhaseError` | class | `estorides_core/search_telemetry.py:41` | `class UnknownPhaseError(SearchTelemetryError, KeyError)` |
 | `__init__` | method | `estorides_core/search_telemetry.py:223` | `def __init__(self, config)` |
 | `__post_init__` | method | `estorides_core/search_telemetry.py:191` | `def __post_init__(self)` |
-| `_assert_clean` | function | `estorides_core/search_telemetry.py:167` | `def _assert_clean(label)` |
-| `_default_config` | function | `estorides_core/search_telemetry.py:309` | `def _default_config()` |
+| `_assert_clean` | method | `estorides_core/search_telemetry.py:167` | `def _assert_clean(label)` |
+| `_default_config` | method | `estorides_core/search_telemetry.py:309` | `def _default_config()` |
 | `context` | method | `estorides_core/search_telemetry.py:288` | `def context(self)` |
-| `disallowed_brands_in` | function | `estorides_core/search_telemetry.py:75` | `def disallowed_brands_in(text)` |
-| `emoji_in` | function | `estorides_core/search_telemetry.py:89` | `def emoji_in(text)` |
-| `percent_encoded_emoji_in` | function | `estorides_core/search_telemetry.py:103` | `def percent_encoded_emoji_in(text)` |
+| `disallowed_brands_in` | method | `estorides_core/search_telemetry.py:75` | `def disallowed_brands_in(text)` |
+| `emoji_in` | method | `estorides_core/search_telemetry.py:89` | `def emoji_in(text)` |
+| `percent_encoded_emoji_in` | method | `estorides_core/search_telemetry.py:103` | `def percent_encoded_emoji_in(text)` |
 | `phase` | method | `estorides_core/search_telemetry.py:241` | `def phase(self, key)` |
 | `phases` | method | `estorides_core/search_telemetry.py:237` | `def phases(self)` |
 | `progress` | method | `estorides_core/search_telemetry.py:249` | `def progress(self, completed, total, phase_key)` |
@@ -396,8 +399,8 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `SocialMediaInferer` | class | `estorides_core/socmint.py:203` | `class SocialMediaInferer` |
 | `SocialMediaProfile` | class | `estorides_core/socmint.py:105` | `class SocialMediaProfile` |
 | `__init__` | method | `estorides_core/socmint.py:214` | `def __init__(self)` |
-| `_confidence_for_platform_matches` | function | `estorides_core/socmint.py:185` | `def _confidence_for_platform_matches(platform_count, has_verified, has_keybase)` |
-| `_extract_profile_urls` | function | `estorides_core/socmint.py:164` | `def _extract_profile_urls(text)` |
+| `_confidence_for_platform_matches` | method | `estorides_core/socmint.py:185` | `def _confidence_for_platform_matches(platform_count, has_verified, has_keybase)` |
+| `_extract_profile_urls` | method | `estorides_core/socmint.py:164` | `def _extract_profile_urls(text)` |
 | `discover_from_text` | method | `estorides_core/socmint.py:311` | `def discover_from_text(self, text)` |
 | `platform_list` | method | `estorides_core/socmint.py:344` | `def platform_list(self)` |
 | `resolve` | method | `estorides_core/socmint.py:218` | `def resolve(self, username, platforms)` |
@@ -411,10 +414,10 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `SourceHealthStatus` | class | `estorides_core/source_health_monitoring.py:31` | `class SourceHealthStatus(str, Enum)` |
 | `__post_init__` | method | `estorides_core/source_health_monitoring.py:58` | `def __post_init__(self)` |
 | `__post_init__` | method | `estorides_core/source_health_monitoring.py:112` | `def __post_init__(self)` |
-| `_clamp01` | function | `estorides_core/source_health_monitoring.py:202` | `def _clamp01(value)` |
-| `_classify` | function | `estorides_core/source_health_monitoring.py:210` | `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config)` |
-| `build_dashboard` | function | `estorides_core/source_health_monitoring.py:295` | `def build_dashboard(records, config)` |
-| `compute_health` | function | `estorides_core/source_health_monitoring.py:235` | `def compute_health(inp, config)` |
+| `_clamp01` | method | `estorides_core/source_health_monitoring.py:202` | `def _clamp01(value)` |
+| `_classify` | method | `estorides_core/source_health_monitoring.py:210` | `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config)` |
+| `build_dashboard` | method | `estorides_core/source_health_monitoring.py:295` | `def build_dashboard(records, config)` |
+| `compute_health` | method | `estorides_core/source_health_monitoring.py:235` | `def compute_health(inp, config)` |
 | `to_dict` | method | `estorides_core/source_health_monitoring.py:146` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/source_health_monitoring.py:184` | `def to_dict(self)` |
 | `Source` | class | `estorides_core/source_loader.py:22` | `class Source(dict)` |
@@ -448,53 +451,50 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `GuardResult` | class | `estorides_core/ssrf_guard.py:99` | `class GuardResult` |
 | `SSRFError` | class | `estorides_core/ssrf_guard.py:269` | `class SSRFError(ValueError)` |
 | `__bool__` | method | `estorides_core/ssrf_guard.py:105` | `def __bool__(self)` |
-| `_is_blocked_v4` | function | `estorides_core/ssrf_guard.py:110` | `def _is_blocked_v4(ip)` |
-| `_is_blocked_v6` | function | `estorides_core/ssrf_guard.py:114` | `def _is_blocked_v6(addr)` |
-| `_is_host_in_blocked_literal` | function | `estorides_core/ssrf_guard.py:134` | `def _is_host_in_blocked_literal(host)` |
-| `_load_allowlist` | function | `estorides_core/ssrf_guard.py:189` | `def _load_allowlist()` |
-| `_matches_allowlist` | function | `estorides_core/ssrf_guard.py:172` | `def _matches_allowlist(host, allowlist)` |
-| `_normalise_host` | function | `estorides_core/ssrf_guard.py:126` | `def _normalise_host(host)` |
-| `_resolve` | function | `estorides_core/ssrf_guard.py:155` | `def _resolve(host)` |
-| `assert_safe` | function | `estorides_core/ssrf_guard.py:262` | `def assert_safe(url)` |
-| `check_url` | function | `estorides_core/ssrf_guard.py:194` | `def check_url(url)` |
+| `_is_blocked_v4` | method | `estorides_core/ssrf_guard.py:110` | `def _is_blocked_v4(ip)` |
+| `_is_blocked_v6` | method | `estorides_core/ssrf_guard.py:114` | `def _is_blocked_v6(addr)` |
+| `_is_host_in_blocked_literal` | method | `estorides_core/ssrf_guard.py:134` | `def _is_host_in_blocked_literal(host)` |
+| `_load_allowlist` | method | `estorides_core/ssrf_guard.py:189` | `def _load_allowlist()` |
+| `_matches_allowlist` | method | `estorides_core/ssrf_guard.py:172` | `def _matches_allowlist(host, allowlist)` |
+| `_normalise_host` | method | `estorides_core/ssrf_guard.py:126` | `def _normalise_host(host)` |
+| `_resolve` | method | `estorides_core/ssrf_guard.py:155` | `def _resolve(host)` |
+| `assert_safe` | method | `estorides_core/ssrf_guard.py:262` | `def assert_safe(url)` |
+| `check_url` | method | `estorides_core/ssrf_guard.py:194` | `def check_url(url)` |
 | `Relationship` | class | `estorides_core/supply_chain.py:78` | `class Relationship` |
 | `SharedInfra` | class | `estorides_core/supply_chain.py:66` | `class SharedInfra` |
 | `SupplyChainResult` | class | `estorides_core/supply_chain.py:89` | `class SupplyChainResult` |
 | `ThirdParty` | class | `estorides_core/supply_chain.py:54` | `class ThirdParty` |
-| `analyse_third_parties` | function | `estorides_core/supply_chain.py:129` | `def analyse_third_parties(third_parties, subsidiaries)` |
-| `detect_cdn` | function | `estorides_core/supply_chain.py:122` | `def detect_cdn(cname)` |
-| `detect_mx_provider` | function | `estorides_core/supply_chain.py:106` | `def detect_mx_provider(mx_records)` |
-| `detect_ns_provider` | function | `estorides_core/supply_chain.py:114` | `def detect_ns_provider(ns_records)` |
-| `detect_shared_infrastructure` | function | `estorides_core/supply_chain.py:140` | `def detect_shared_infrastructure(asn)` |
+| `analyse_third_parties` | method | `estorides_core/supply_chain.py:129` | `def analyse_third_parties(third_parties, subsidiaries)` |
+| `detect_cdn` | method | `estorides_core/supply_chain.py:122` | `def detect_cdn(cname)` |
+| `detect_mx_provider` | method | `estorides_core/supply_chain.py:106` | `def detect_mx_provider(mx_records)` |
+| `detect_ns_provider` | method | `estorides_core/supply_chain.py:114` | `def detect_ns_provider(ns_records)` |
+| `detect_shared_infrastructure` | method | `estorides_core/supply_chain.py:140` | `def detect_shared_infrastructure(asn)` |
 | `to_dict` | method | `estorides_core/supply_chain.py:61` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/supply_chain.py:73` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/supply_chain.py:84` | `def to_dict(self)` |
 | `to_dict` | method | `estorides_core/supply_chain.py:96` | `def to_dict(self)` |
 | `SystemAppResult` | class | `estorides_core/system_app_sources.py:57` | `class SystemAppResult` |
-| `_line_filter_parser` | function | `estorides_core/system_app_sources.py:150` | `def _line_filter_parser()` |
-| `_loads_lenient` | function | `estorides_core/system_app_sources.py:131` | `def _loads_lenient(text)` |
-| `_read_capped` | function | `estorides_core/system_app_sources.py:121` | `def _read_capped(path, cap)` |
-| `execute` | function | `estorides_core/system_app_sources.py:396` | `def execute(source, query)` |
-| `fail` | function | `estorides_core/system_app_sources.py:418` | `def fail(code, message)` |
-| `is_system_app` | function | `estorides_core/system_app_sources.py:81` | `def is_system_app(source)` |
-| `parse_amass_json` | function | `estorides_core/system_app_sources.py:193` | `def parse_amass_json(payload)` |
-| `parse_dmitry_text` | function | `estorides_core/system_app_sources.py:297` | `def parse_dmitry_text(payload)` |
-| `parse_dnsenum_text` | function | `estorides_core/system_app_sources.py:285` | `def parse_dnsenum_text(payload)` |
-| `parse_dnsrecon_text` | function | `estorides_core/system_app_sources.py:280` | `def parse_dnsrecon_text(payload)` |
-| `parse_fierce_text` | function | `estorides_core/system_app_sources.py:292` | `def parse_fierce_text(payload)` |
-| `parse_holehe_text` | function | `estorides_core/system_app_sources.py:265` | `def parse_holehe_text(payload)` |
-| `parse_maigret_json` | function | `estorides_core/system_app_sources.py:225` | `def parse_maigret_json(payload)` |
-| `parse_mailfy_text` | function | `estorides_core/system_app_sources.py:327` | `def parse_mailfy_text(payload)` |
-| `parse_metagoofil_text` | function | `estorides_core/system_app_sources.py:307` | `def parse_metagoofil_text(payload)` |
-| `parse_phonefy_text` | function | `estorides_core/system_app_sources.py:332` | `def parse_phonefy_text(payload)` |
-| `parse_phoneinfoga_json` | function | `estorides_core/system_app_sources.py:247` | `def parse_phoneinfoga_json(payload)` |
-| `parse_searchfy_text` | function | `estorides_core/system_app_sources.py:337` | `def parse_searchfy_text(payload)` |
-| `parse_sherlock_text` | function | `estorides_core/system_app_sources.py:260` | `def parse_sherlock_text(payload)` |
-| `parse_sublist3r_lines` | function | `estorides_core/system_app_sources.py:275` | `def parse_sublist3r_lines(payload)` |
-| `parse_theharvester_text` | function | `estorides_core/system_app_sources.py:317` | `def parse_theharvester_text(payload)` |
-| `parse_tool_output` | function | `estorides_core/system_app_sources.py:365` | `def parse_tool_output(source_name, parser_name, data)` |
-| `parse_urlcrazy_text` | function | `estorides_core/system_app_sources.py:302` | `def parse_urlcrazy_text(payload)` |
-| `parse_usufy_text` | function | `estorides_core/system_app_sources.py:322` | `def parse_usufy_text(payload)` |
-| `parse_wafw00f_text` | function | `estorides_core/system_app_sources.py:270` | `def parse_wafw00f_text(payload)` |
+| `_line_filter_parser` | method | `estorides_core/system_app_sources.py:150` | `def _line_filter_parser()` |
+| `_loads_lenient` | method | `estorides_core/system_app_sources.py:131` | `def _loads_lenient(text)` |
+| `_read_capped` | method | `estorides_core/system_app_sources.py:121` | `def _read_capped(path, cap)` |
+| `execute` | method | `estorides_core/system_app_sources.py:396` | `def execute(source, query)` |
+| `fail` | method | `estorides_core/system_app_sources.py:418` | `def fail(code, message)` |
+| `is_system_app` | method | `estorides_core/system_app_sources.py:81` | `def is_system_app(source)` |
+| `parse_amass_json` | method | `estorides_core/system_app_sources.py:193` | `def parse_amass_json(payload)` |
+| `parse_dmitry_text` | method | `estorides_core/system_app_sources.py:297` | `def parse_dmitry_text(payload)` |
+| `parse_dnsenum_text` | method | `estorides_core/system_app_sources.py:285` | `def parse_dnsenum_text(payload)` |
+| `parse_dnsrecon_text` | method | `estorides_core/system_app_sources.py:280` | `def parse_dnsrecon_text(payload)` |
+| `parse_fierce_text` | method | `estorides_core/system_app_sources.py:292` | `def parse_fierce_text(payload)` |
+| `parse_holehe_text` | method | `estorides_core/system_app_sources.py:265` | `def parse_holehe_text(payload)` |
+| `parse_maigret_json` | method | `estorides_core/system_app_sources.py:225` | `def parse_maigret_json(payload)` |
+| `parse_mailfy_text` | method | `estorides_core/system_app_sources.py:327` | `def parse_mailfy_text(payload)` |
+| `parse_metagoofil_text` | method | `estorides_core/system_app_sources.py:307` | `def parse_metagoofil_text(payload)` |
+| `parse_phonefy_text` | method | `estorides_core/system_app_sources.py:332` | `def parse_phonefy_text(payload)` |
+| `parse_phoneinfoga_json` | method | `estorides_core/system_app_sources.py:247` | `def parse_phoneinfoga_json(payload)` |
+| `parse_searchfy_text` | method | `estorides_core/system_app_sources.py:337` | `def parse_searchfy_text(payload)` |
+| `parse_sherlock_text` | method | `estorides_core/system_app_sources.py:260` | `def parse_sherlock_text(payload)` |
+| `parse_sublist3r_lines` | method | `estorides_core/system_app_sources.py:275` | `def parse_sublist3r_lines(payload)` |
+| `parse_theharvester_text` | method | `estorides_core/system_app_sources.py:317` | `def parse_theharvester_text(payload)` |
+| `parse_tool_output` | method | `estorides_core/system_app_sources.py:365` | `def parse_tool_output(source_name, parser_name, data)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

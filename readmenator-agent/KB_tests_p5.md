@@ -54,10 +54,10 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_present_service_passes` (method, line 40) `def test_present_service_passes(self)`
   - `test_guard_runs_after_auth` (method, line 55) `def test_guard_runs_after_auth(self)`
   - `test_sse_headers` (method, line 73) `def test_sse_headers(self)`
-  - `view` (function, line 31) `def view()`
-  - `view` (function, line 46) `def view()`
-  - `view` (function, line 63) `def view()`
-  - `stream` (function, line 77) `def stream()`
+  - `view` (method, line 31) `def view()`
+  - `view` (method, line 46) `def view()`
+  - `view` (method, line 63) `def view()`
+  - `stream` (method, line 77) `def stream()`
 - Depends on: `estorides_core/web_security.py`, `estorides_web.py`
 
 ## tests/test_web_tools_blueprint.py

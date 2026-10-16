@@ -50,6 +50,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .config import TRANSFORMS_DIR
+
 log = logging.getLogger("estorides.transforms")
 
 # The ordered pipeline tiers; mirrors knowledge_graph.INTEL_LEVELS.
@@ -535,7 +537,6 @@ _T("crypto_to_sanctions", "Address → Sanctions (OFAC)", "counter_intelligence"
 # YAML-defined transforms (same ease as sources/): one file per pivot.
 # Fail-soft — a missing dir or broken YAML never touches the built-ins above.
 try:
-    _yaml_dir = Path(__file__).resolve().parent.parent / "transforms"
-    registry.load_yaml_dir(_yaml_dir)
+    registry.load_yaml_dir(TRANSFORMS_DIR)
 except Exception:
     log.exception("yaml transform autoload failed")

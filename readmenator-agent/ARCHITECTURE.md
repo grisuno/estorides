@@ -58,6 +58,7 @@
 - `estorides_core/intel_resolver.py` -> `estorides_core/ssrf_guard.py`
 - `estorides_core/knowledge_graph.py` -> `estorides_core/config.py`
 - `estorides_core/knowledge_graph.py` -> `estorides_core/entity_extraction.py`
+- `estorides_core/lan_bundle.py` -> `estorides_core/config.py`
 - `estorides_core/lan_runner.py` -> `estorides_core/tool_runner.py`
 - `estorides_core/monitoring.py` -> `estorides_core/config.py`
 - `estorides_core/monitoring.py` -> `estorides_core/sqlite_store.py`
@@ -107,6 +108,7 @@
 - `estorides_core/tool_install.py` -> `estorides_core/tool_runner.py`
 - `estorides_core/tool_runner.py` -> `estorides_core/config.py`
 - `estorides_core/tool_runner.py` -> `estorides_core/entity_extraction.py`
+- `estorides_core/transforms.py` -> `estorides_core/config.py`
 - `estorides_core/transforms.py` -> `estorides_core/intel_resolver.py`
 - `estorides_core/validation.py` -> `estorides_core/entity_extraction.py`
 - `estorides_export/__init__.py` -> `estorides_export/encryption.py`
@@ -319,7 +321,7 @@
 - `estorides_core/change_detection.py` -> __future__, collections.abc, dataclasses, typing
 - `estorides_core/cloud_asset_discovery.py` -> __future__, dataclasses, logging, typing
 - `estorides_core/code_exposure.py` -> __future__, dataclasses, logging, re, typing
-- `estorides_core/config.py` -> __future__, collections.abc, dataclasses, envutil, os, pathlib
+- `estorides_core/config.py` -> __future__, collections.abc, dataclasses, envutil, os, pathlib, sys
 - `estorides_core/discoverer.py` -> __future__, asyncio, dataclasses, logging, time, typing
 - `estorides_core/entity_extraction.py` -> __future__, dataclasses, difflib, json, re, typing, urllib.parse
 - `estorides_core/entity_resolution.py` -> __future__, dataclasses, ipaddress, re, typing

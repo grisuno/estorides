@@ -30,25 +30,25 @@ This community groups 15 file(s) rooted at `estorides_export` with dominant lang
 
 - `Entity` (class, `estorides_core/entity_extraction.py:22`) `class Entity`
 - `to_dict` (method, `estorides_core/entity_extraction.py:34`) `def to_dict(self)`
-- `_looks_like_phone` (function, `estorides_core/entity_extraction.py:49`) `def _looks_like_phone(query)` - True for E.164-ish numbers with 7-15 digits (never consumes hashes).
-- `normalize_query` (function, `estorides_core/entity_extraction.py:57`) `def normalize_query(query)` - Return the routing form of raw operator input.
-- `detect_query_type` (function, `estorides_core/entity_extraction.py:100`) `def detect_query_type(query)` - Return the detected type of a free-form query.
-- `_is_valid_domain` (function, `estorides_core/entity_extraction.py:127`) `def _is_valid_domain(candidate)`
-- `_context` (function, `estorides_core/entity_extraction.py:140`) `def _context(text, start, end, window)`
-- `extract_from_text` (function, `estorides_core/entity_extraction.py:146`) `def extract_from_text(text, source)` - Find every recognised entity in a raw text blob.
-- `_ip_in_textual_context` (function, `estorides_core/entity_extraction.py:200`) `def _ip_in_textual_context(text, idx)` - Heuristic: only count a numeric match as an IP if it isn't part of a
-- `extract_from_json` (function, `estorides_core/entity_extraction.py:210`) `def extract_from_json(payload, source)` - Pull entities out of a JSON-like structure.
-- `_clean_scalar` (function, `estorides_core/entity_extraction.py:278`) `def _clean_scalar(value)` - Return a stripped string for a scalar leaf, or None for non-scalars.
-- `_looks_like_person` (function, `estorides_core/entity_extraction.py:288`) `def _looks_like_person(value)` - True when a value reads like a human name (has a space, mostly letters).
-- `_looks_like_username` (function, `estorides_core/entity_extraction.py:299`) `def _looks_like_username(value)` - True when a value reads like a handle (no spaces, handle charset).
-- `_classify_keyed_value` (function, `estorides_core/entity_extraction.py:306`) `def _classify_keyed_value(key, value)` - Map a (key, scalar value) pair to a human-selector entity type, or None.
-- `extract_structured` (function, `estorides_core/entity_extraction.py:330`) `def extract_structured(payload, source)` - Extract human selectors (email, username, person, org, phone) by key.
-- `visit` (function, `estorides_core/entity_extraction.py:344`) `def visit(node, key)`
-- `merge` (function, `estorides_core/entity_extraction.py:382`) `def merge()` - Deduplicate by (type, value) and merge sources / contexts.
-- `_fuzzy_cluster` (function, `estorides_core/entity_extraction.py:476`) `def _fuzzy_cluster(entities)` - Group entities of the same type by string similarity and merge.
-- `find` (function, `estorides_core/entity_extraction.py:499`) `def find(x, parent)`
-- `union` (function, `estorides_core/entity_extraction.py:505`) `def union(a, b, parent)`
-- `norm` (function, `estorides_core/entity_extraction.py:510`) `def norm(v)`
+- `_looks_like_phone` (method, `estorides_core/entity_extraction.py:49`) `def _looks_like_phone(query)` - True for E.164-ish numbers with 7-15 digits (never consumes hashes).
+- `normalize_query` (method, `estorides_core/entity_extraction.py:57`) `def normalize_query(query)` - Return the routing form of raw operator input.
+- `detect_query_type` (method, `estorides_core/entity_extraction.py:100`) `def detect_query_type(query)` - Return the detected type of a free-form query.
+- `_is_valid_domain` (method, `estorides_core/entity_extraction.py:127`) `def _is_valid_domain(candidate)`
+- `_context` (method, `estorides_core/entity_extraction.py:140`) `def _context(text, start, end, window)`
+- `extract_from_text` (method, `estorides_core/entity_extraction.py:146`) `def extract_from_text(text, source)` - Find every recognised entity in a raw text blob.
+- `_ip_in_textual_context` (method, `estorides_core/entity_extraction.py:200`) `def _ip_in_textual_context(text, idx)` - Heuristic: only count a numeric match as an IP if it isn't part of a
+- `extract_from_json` (method, `estorides_core/entity_extraction.py:210`) `def extract_from_json(payload, source)` - Pull entities out of a JSON-like structure.
+- `_clean_scalar` (method, `estorides_core/entity_extraction.py:278`) `def _clean_scalar(value)` - Return a stripped string for a scalar leaf, or None for non-scalars.
+- `_looks_like_person` (method, `estorides_core/entity_extraction.py:288`) `def _looks_like_person(value)` - True when a value reads like a human name (has a space, mostly letters).
+- `_looks_like_username` (method, `estorides_core/entity_extraction.py:299`) `def _looks_like_username(value)` - True when a value reads like a handle (no spaces, handle charset).
+- `_classify_keyed_value` (method, `estorides_core/entity_extraction.py:306`) `def _classify_keyed_value(key, value)` - Map a (key, scalar value) pair to a human-selector entity type, or None.
+- `extract_structured` (method, `estorides_core/entity_extraction.py:330`) `def extract_structured(payload, source)` - Extract human selectors (email, username, person, org, phone) by key.
+- `visit` (method, `estorides_core/entity_extraction.py:344`) `def visit(node, key)`
+- `merge` (method, `estorides_core/entity_extraction.py:382`) `def merge()` - Deduplicate by (type, value) and merge sources / contexts.
+- `_fuzzy_cluster` (method, `estorides_core/entity_extraction.py:476`) `def _fuzzy_cluster(entities)` - Group entities of the same type by string similarity and merge.
+- `find` (method, `estorides_core/entity_extraction.py:499`) `def find(x, parent)`
+- `union` (method, `estorides_core/entity_extraction.py:505`) `def union(a, b, parent)`
+- `norm` (method, `estorides_core/entity_extraction.py:510`) `def norm(v)`
 - `jaro` (function, `estorides_core/entity_resolution.py:83`) `def jaro(s1, s2)` - Return the Jaro similarity of two strings in ``[0, 1]``.
 - `jaro_winkler` (function, `estorides_core/entity_resolution.py:126`) `def jaro_winkler(s1, s2, prefix_weight)` - Jaro-Winkler similarity: Jaro with a shared-prefix bonus.
 - `_soundex` (function, `estorides_core/entity_resolution.py:146`) `def _soundex(token)` - Return a 4-character Soundex code for a Latin token.
@@ -66,9 +66,9 @@ This community groups 15 file(s) rooted at `estorides_export` with dominant lang
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
+- [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/knowledge_graph.py.
+- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
 - [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/entity_extraction.py.
 - [EXTRACTED] depends_on community 8 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_runner.py imports estorides_core/entity_extraction.py.
 - [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/entity_extraction.py.

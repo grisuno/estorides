@@ -3,37 +3,34 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `listInto` | method | `static/js/graph_bundle.js:560` | `` |
-| `listInto` | method | `static/js/graph_bundle.js:580` | `` |
-| `makeProjector` | function | `static/js/graph_bundle.js:166` | `` |
 | `mid` | function | `static/js/graph_bundle.js:306` | `` |
-| `mk` | function | `static/js/graph_bundle.js:61` | `` |
-| `nodeButton` | function | `static/js/graph_bundle.js:505` | `` |
-| `nodeLit` | function | `static/js/graph_bundle.js:206` | `` |
-| `nodeRadius` | function | `static/js/graph_bundle.js:334` | `` |
-| `pointOn` | function | `static/js/graph_bundle.js:227` | `` |
-| `radius` | function | `static/js/graph_bundle.js:161` | `` |
+| `mk` | function | `static/js/graph_bundle.js:60` | `` |
+| `nodeButton` | function | `static/js/graph_bundle.js:504` | `` |
+| `nodeLit` | function | `static/js/graph_bundle.js:205` | `` |
+| `nodeRadius` | function | `static/js/graph_bundle.js:333` | `` |
+| `pointOn` | function | `static/js/graph_bundle.js:226` | `` |
+| `radius` | function | `static/js/graph_bundle.js:160` | `` |
 | `rank` | function | `static/js/graph_bundle.js:492` | `` |
-| `readHash` | function | `static/js/graph_bundle.js:710` | `` |
-| `refresh` | function | `static/js/graph_bundle.js:763` | `` |
-| `renderLegend` | function | `static/js/graph_bundle.js:614` | `` |
-| `renderPanel` | function | `static/js/graph_bundle.js:530` | `` |
-| `resize` | function | `static/js/graph_bundle.js:149` | `` |
-| `screenNodes` | function | `static/js/graph_bundle.js:338` | `` |
+| `readHash` | function | `static/js/graph_bundle.js:709` | `` |
+| `refresh` | function | `static/js/graph_bundle.js:762` | `` |
+| `renderLegend` | function | `static/js/graph_bundle.js:613` | `` |
+| `renderPanel` | function | `static/js/graph_bundle.js:529` | `` |
+| `resize` | function | `static/js/graph_bundle.js:148` | `` |
+| `screenNodes` | function | `static/js/graph_bundle.js:337` | `` |
 | `search` | function | `static/js/graph_bundle.js:913` | `` |
-| `setBeta` | function | `static/js/graph_bundle.js:680` | `` |
-| `setColor` | function | `static/js/graph_bundle.js:672` | `` |
-| `setDir` | function | `static/js/graph_bundle.js:676` | `` |
-| `setView` | function | `static/js/graph_bundle.js:668` | `` |
-| `strokeCurve` | function | `static/js/graph_bundle.js:217` | `` |
-| `sync` | function | `static/js/graph_bundle.js:688` | `` |
+| `setBeta` | function | `static/js/graph_bundle.js:679` | `` |
+| `setColor` | function | `static/js/graph_bundle.js:671` | `` |
+| `setDir` | function | `static/js/graph_bundle.js:675` | `` |
+| `setView` | function | `static/js/graph_bundle.js:667` | `` |
+| `strokeCurve` | function | `static/js/graph_bundle.js:216` | `` |
+| `sync` | function | `static/js/graph_bundle.js:687` | `` |
 | `t0` | function | `static/js/graph_bundle.js:275` | `` |
-| `tabActive` | function | `static/js/graph_bundle.js:71` | `` |
+| `tabActive` | function | `static/js/graph_bundle.js:70` | `` |
 | `tag` | function | `static/js/graph_bundle.js:958` | `` |
-| `tipFor` | function | `static/js/graph_bundle.js:462` | `` |
+| `tipFor` | function | `static/js/graph_bundle.js:461` | `` |
 | `tt` | function | `static/js/graph_bundle.js:279` | `` |
 | `v` | function | `static/js/graph_bundle.js:78` | `` |
-| `writeHash` | function | `static/js/graph_bundle.js:698` | `` |
+| `writeHash` | function | `static/js/graph_bundle.js:697` | `` |
 | `a` | function | `static/js/graph_force.js:327` | `` |
 | `adaptLocal` | function | `static/js/graph_force.js:79` | `` |
 | `applyFilters` | function | `static/js/graph_force.js:1241` | `` |
@@ -100,7 +97,6 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `reheat` | function | `static/js/graph_force.js:1030` | `` |
 | `reload3D` | function | `static/js/graph_force.js:945` | `` |
 | `renderLegend` | function | `static/js/graph_force.js:1187` | `` |
-| `requestAnimationFrame` | method | `static/js/graph_force.js:931` | `` |
 | `resize3D` | function | `static/js/graph_force.js:950` | `` |
 | `ringOf` | function | `static/js/graph_force.js:352` | `` |
 | `rr` | function | `static/js/graph_force.js:610` | `` |
@@ -114,10 +110,6 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `s` | function | `static/js/graph_force.js:1257` | `` |
 | `segDist` | function | `static/js/graph_force.js:854` | `` |
 | `setEngineButtons` | function | `static/js/graph_force.js:422` | `` |
-| `setInterval` | method | `static/js/graph_force.js:1553` | `` |
-| `setTimeout` | method | `static/js/graph_force.js:526` | `` |
-| `setTimeout` | method | `static/js/graph_force.js:1478` | `` |
-| `setTimeout` | method | `static/js/graph_force.js:1502` | `` |
 | `settings` | function | `static/js/graph_force.js:72` | `` |
 | `short` | function | `static/js/graph_force.js:21` | `` |
 | `show3DChrome` | function | `static/js/graph_force.js:435` | `` |
@@ -141,7 +133,6 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `to3D` | function | `static/js/graph_force.js:1353` | `` |
 | `toast` | function | `static/js/graph_force.js:57` | `` |
 | `toggle` | function | `static/js/graph_force.js:1423` | `` |
-| `toggle` | method | `static/js/graph_force.js:1434` | `` |
 | `toggleBridges` | function | `static/js/graph_force.js:1038` | `` |
 | `toggleOrbit` | function | `static/js/graph_force.js:1074` | `` |
 | `topN` | function | `static/js/graph_force.js:816` | `` |
@@ -164,7 +155,6 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `saveSource` | function | `static/js/source_manager.js:273` | `` |
 | `selectSource` | function | `static/js/source_manager.js:261` | `` |
 | `setCheckedTags` | function | `static/js/source_manager.js:74` | `` |
-| `setTimeout` | method | `static/js/source_manager.js:232` | `` |
 | `toast` | function | `static/js/source_manager.js:227` | `` |
 | `updateYamlPreview` | function | `static/js/source_manager.js:183` | `` |
 | `writeForm` | function | `static/js/source_manager.js:120` | `` |
@@ -292,8 +282,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `TestRedaction` | class | `tests/test_async_client.py:23` | `class TestRedaction` |
 | `TestRotation` | class | `tests/test_async_client.py:45` | `class TestRotation` |
 | `TestSocksDetection` | class | `tests/test_async_client.py:16` | `class TestSocksDetection` |
-| `_enter_and_rotate` | function | `tests/test_async_client.py:49` | `def _enter_and_rotate()` |
-| `_enter_socks` | function | `tests/test_async_client.py:68` | `def _enter_socks()` |
+| `_enter_and_rotate` | method | `tests/test_async_client.py:49` | `def _enter_and_rotate()` |
+| `_enter_socks` | method | `tests/test_async_client.py:68` | `def _enter_socks()` |
 | `test_direct_has_no_proxy` | method | `tests/test_async_client.py:57` | `def test_direct_has_no_proxy(self)` |
 | `test_explicit_wins` | method | `tests/test_async_client.py:34` | `def test_explicit_wins(self, monkeypatch)` |
 | `test_hides_credentials_keeps_host` | method | `tests/test_async_client.py:24` | `def test_hides_credentials_keeps_host(self)` |
@@ -374,7 +364,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `TestCW4RunnerFactory` | class | `tests/test_cli_watch.py:102` | `class TestCW4RunnerFactory` |
 | `_FakeScheduler` | class | `tests/test_cli_watch.py:24` | `class _FakeScheduler` |
 | `__init__` | method | `tests/test_cli_watch.py:27` | `def __init__(self)` |
-| `cli_env` | function | `tests/test_cli_watch.py:47` | `def cli_env(monkeypatch, tmp_path)` |
+| `cli_env` | method | `tests/test_cli_watch.py:47` | `def cli_env(monkeypatch, tmp_path)` |
 | `has_runner` | method | `tests/test_cli_watch.py:34` | `def has_runner(self)` |
 | `set_runner` | method | `tests/test_cli_watch.py:37` | `def set_runner(self, runner)` |
 | `start` | method | `tests/test_cli_watch.py:41` | `def start(self)` |
@@ -449,13 +439,13 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `test_rendered_template_has_no_style_attribute_and_uses_hidden` | function | `tests/test_csp_safe_styles.py:289` | `def test_rendered_template_has_no_style_attribute_and_uses_hidden()` |
 | `_FakeCompleted` | class | `tests/test_encrypted_export.py:21` | `class _FakeCompleted` |
 | `__init__` | method | `tests/test_encrypted_export.py:22` | `def __init__(self, rc, stderr)` |
-| `_kg_with_one_node` | function | `tests/test_encrypted_export.py:27` | `def _kg_with_one_node()` |
-| `_patch_age_ok` | function | `tests/test_encrypted_export.py:33` | `def _patch_age_ok()` |
-| `_run` | function | `tests/test_encrypted_export.py:35` | `def _run(cmd, stdin, stdout, stderr, check)` |
-| `_run_fail` | function | `tests/test_encrypted_export.py:66` | `def _run_fail(cmd, stdin, stdout, stderr, check)` |
-| `test_misp_encrypted_removes_plaintext` | function | `tests/test_encrypted_export.py:52` | `def test_misp_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext` | function | `tests/test_encrypted_export.py:43` | `def test_stix_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext_on_failure` | function | `tests/test_encrypted_export.py:61` | `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)` |
+| `_kg_with_one_node` | method | `tests/test_encrypted_export.py:27` | `def _kg_with_one_node()` |
+| `_patch_age_ok` | method | `tests/test_encrypted_export.py:33` | `def _patch_age_ok()` |
+| `_run` | method | `tests/test_encrypted_export.py:35` | `def _run(cmd, stdin, stdout, stderr, check)` |
+| `_run_fail` | method | `tests/test_encrypted_export.py:66` | `def _run_fail(cmd, stdin, stdout, stderr, check)` |
+| `test_misp_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:52` | `def test_misp_encrypted_removes_plaintext(tmp_path)` |
+| `test_stix_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:43` | `def test_stix_encrypted_removes_plaintext(tmp_path)` |
+| `test_stix_encrypted_removes_plaintext_on_failure` | method | `tests/test_encrypted_export.py:61` | `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)` |
 | `TestEE1TypesFilter` | class | `tests/test_entity_extraction.py:12` | `class TestEE1TypesFilter` |
 | `TestEE2FuzzyCanonical` | class | `tests/test_entity_extraction.py:28` | `class TestEE2FuzzyCanonical` |
 | `test_empty_list_means_nothing` | method | `tests/test_entity_extraction.py:20` | `def test_empty_list_means_nothing(self)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `test_deterministic` | method | `tests/test_entity_resolution.py:136` | `def test_deterministic(self)` |
 | `test_deterministic_near_miss_never_matches` | method | `tests/test_entity_resolution.py:249` | `def test_deterministic_near_miss_never_matches(self)` |
 | `test_diacritic_fold` | method | `tests/test_entity_resolution.py:51` | `def test_diacritic_fold(self)` |
+| `test_different_normalised_different_id` | method | `tests/test_entity_resolution.py:409` | `def test_different_normalised_different_id(self)` |
+| `test_different_values_different_ids` | method | `tests/test_entity_resolution.py:141` | `def test_different_values_different_ids(self)` |
+| `test_dissimilar_strings_score_low` | method | `tests/test_entity_resolution.py:81` | `def test_dissimilar_strings_score_low(self)` |
+| `test_distinct_names_have_distinct_skeletons` | method | `tests/test_entity_resolution.py:60` | `def test_distinct_names_have_distinct_skeletons(self)` |
+| `test_distinct_persons_not_absorbed` | method | `tests/test_entity_resolution.py:329` | `def test_distinct_persons_not_absorbed(self)` |
+| `test_domain_case_variants_merge` | method | `tests/test_entity_resolution.py:197` | `def test_domain_case_variants_merge(self)` |
+| `test_domain_merge_is_exact` | method | `tests/test_entity_resolution.py:207` | `def test_domain_merge_is_exact(self)` |
+| `test_domain_strips_scheme_www_path` | method | `tests/test_entity_resolution.py:110` | `def test_domain_strips_scheme_www_path(self)` |
+| `test_email_lowered` | method | `tests/test_entity_resolution.py:129` | `def test_email_lowered(self)` |
+| `test_empty_input_returns_empty` | method | `tests/test_entity_resolution.py:385` | `def test_empty_input_returns_empty(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

@@ -30,22 +30,22 @@ This community groups 15 file(s) rooted at `tests` with dominant language py (co
 
 - `BundleLayout` (class, `estorides_core/graph_bundle.py:37`) `class BundleLayout` - Resultado del bundling circular (igual que ReadMenator).
 - `SphereBundleLayout` (class, `estorides_core/graph_bundle.py:49`) `class SphereBundleLayout` - Resultado del bundling esferico (igual que ReadMenator).
-- `_req_str` (function, `estorides_core/graph_bundle.py:59`) `def _req_str(item, key, default, what)`
-- `_opt_str` (function, `estorides_core/graph_bundle.py:68`) `def _opt_str(item, key, default)`
-- `_opt_float` (function, `estorides_core/graph_bundle.py:73`) `def _opt_float(item, key, default)`
-- `_opt_int` (function, `estorides_core/graph_bundle.py:84`) `def _opt_int(item, key, default)`
-- `_opt_community` (function, `estorides_core/graph_bundle.py:94`) `def _opt_community(value)`
-- `_bspline` (function, `estorides_core/graph_bundle.py:102`) `def _bspline(control, samples)` - Muestrea una B-spline cubica uniforme clamped (cualquier dimension).
-- `_bundle_curves` (function, `estorides_core/graph_bundle.py:135`) `def _bundle_curves(leaves, member_group, hub, root, edges, beta, samples)` - Rutea cada arista por la jerarquia y la muestrea como B-spline.
-- `hierarchical_edge_bundling` (function, `estorides_core/graph_bundle.py:171`) `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, gro` - Hojas en un circulo por grupo; aristas por la jerarquia (Holten 2006).
-- `fibonacci_sphere` (function, `estorides_core/graph_bundle.py:215`) `def fibonacci_sphere(count)` - Vectores unitarios casi uniformes en espiral de angulo dorado.
-- `_unit` (function, `estorides_core/graph_bundle.py:231`) `def _unit(v)`
-- `_split_caps` (function, `estorides_core/graph_bundle.py:238`) `def _split_caps(labels, sizes, points, lattice, out)` - Biseca el lattice entre runs de grupos hasta un cap contiguo por grupo.
-- `spherical_edge_bundling` (function, `estorides_core/graph_bundle.py:267`) `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)` - Hojas en caps esfericos por comunidad; aristas por la jerarquia.
-- `_round2` (function, `estorides_core/graph_bundle.py:316`) `def _round2(pt)`
-- `_round3` (function, `estorides_core/graph_bundle.py:320`) `def _round3(pt)`
-- `bundle_settings` (function, `estorides_core/graph_bundle.py:324`) `def bundle_settings()` - Defaults de la pagina bundle (fuente unica para el JS).
-- `build_bundle_payload` (function, `estorides_core/graph_bundle.py:359`) `def build_bundle_payload(force_payload)` - Deriva el payload bundle desde un payload force RAW.
+- `_req_str` (method, `estorides_core/graph_bundle.py:59`) `def _req_str(item, key, default, what)`
+- `_opt_str` (method, `estorides_core/graph_bundle.py:68`) `def _opt_str(item, key, default)`
+- `_opt_float` (method, `estorides_core/graph_bundle.py:73`) `def _opt_float(item, key, default)`
+- `_opt_int` (method, `estorides_core/graph_bundle.py:84`) `def _opt_int(item, key, default)`
+- `_opt_community` (method, `estorides_core/graph_bundle.py:94`) `def _opt_community(value)`
+- `_bspline` (method, `estorides_core/graph_bundle.py:102`) `def _bspline(control, samples)` - Muestrea una B-spline cubica uniforme clamped (cualquier dimension).
+- `_bundle_curves` (method, `estorides_core/graph_bundle.py:135`) `def _bundle_curves(leaves, member_group, hub, root, edges, beta, samples)` - Rutea cada arista por la jerarquia y la muestrea como B-spline.
+- `hierarchical_edge_bundling` (method, `estorides_core/graph_bundle.py:171`) `def hierarchical_edge_bundling(groups, edges, center, radius, beta, samples, gro` - Hojas en un circulo por grupo; aristas por la jerarquia (Holten 2006).
+- `fibonacci_sphere` (method, `estorides_core/graph_bundle.py:215`) `def fibonacci_sphere(count)` - Vectores unitarios casi uniformes en espiral de angulo dorado.
+- `_unit` (method, `estorides_core/graph_bundle.py:231`) `def _unit(v)`
+- `_split_caps` (method, `estorides_core/graph_bundle.py:238`) `def _split_caps(labels, sizes, points, lattice, out)` - Biseca el lattice entre runs de grupos hasta un cap contiguo por grupo.
+- `spherical_edge_bundling` (method, `estorides_core/graph_bundle.py:267`) `def spherical_edge_bundling(groups, edges, radius, beta, samples, inner_ratio)` - Hojas en caps esfericos por comunidad; aristas por la jerarquia.
+- `_round2` (method, `estorides_core/graph_bundle.py:316`) `def _round2(pt)`
+- `_round3` (method, `estorides_core/graph_bundle.py:320`) `def _round3(pt)`
+- `bundle_settings` (method, `estorides_core/graph_bundle.py:324`) `def bundle_settings()` - Defaults de la pagina bundle (fuente unica para el JS).
+- `build_bundle_payload` (method, `estorides_core/graph_bundle.py:359`) `def build_bundle_payload(force_payload)` - Deriva el payload bundle desde un payload force RAW.
 - `family_color_from_name` (function, `estorides_core/graph_force.py:48`) `def family_color_from_name(name, sat_base, sat_span, light_base, light_span)` - Deriva un color HSL estable desde un label (djb2, como ReadMenator).
 - `node_value` (function, `estorides_core/graph_force.py:65`) `def node_value(symbols, degree, findings)` - Escala log2 del tamano de nodo (minimo 1).
 - `force_settings` (function, `estorides_core/graph_force.py:70`) `def force_settings()` - Valores SETTINGS de ReadMenator graph-force.html (fuente unica).
@@ -66,7 +66,7 @@ This community groups 15 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
 
 ## Risks
 

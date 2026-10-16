@@ -155,7 +155,6 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `close` (function) `static/js/estorides.js:2863`
 - `promptModal` (function) `static/js/estorides.js:2878` -- Promise-style text prompt.
 - `confirmModal` (function) `static/js/estorides.js:2902`
-- `on.setTimeout` (method) `static/js/estorides.js:2942`
 - `tag` (function) `static/js/estorides.js:2964`
 - `loadSidebarWidth` (function) `static/js/estorides.js:2994` -- Responsive sidebar toggle + resizable divider.
 - `saveSidebarWidth` (function) `static/js/estorides.js:3005`
@@ -168,85 +167,80 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `loadFusionSearch` (function) `static/js/estorides.js:3141`
 - `doSearch` (function) `static/js/estorides.js:3148`
 - `loadFusionEntityDetail` (function) `static/js/estorides.js:3186`
-- `setStatus` (function) `static/js/estorides.js:3283` -- The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here.
-- `setDiscoverProgress` (function) `static/js/estorides.js:3290`
-- `hideDiscoverProgress` (function) `static/js/estorides.js:3302`
+- `setStatus` (function) `static/js/estorides.js:3282` -- The discoverer code lives outside the IIFE, so the module-private setStatus is not in scope here.
+- `setDiscoverProgress` (function) `static/js/estorides.js:3289`
+- `hideDiscoverProgress` (function) `static/js/estorides.js:3301`
 - `startDiscover` (function) `static/js/estorides.js:3307`
-- `attribute.fetch` (method) `static/js/estorides.js:3326`
-- `stopDiscover` (function) `static/js/estorides.js:3391`
-- `handleDiscoverEvent` (function) `static/js/estorides.js:3408`
-- `addDiscoverEntityToTab` (function) `static/js/estorides.js:3447`
+- `stopDiscover` (function) `static/js/estorides.js:3390`
+- `handleDiscoverEvent` (function) `static/js/estorides.js:3407`
+- `addDiscoverEntityToTab` (function) `static/js/estorides.js:3446`
 - `sig` (function) `static/js/estorides.js:3451` -- Avoid duplicates with the simple in-memory check.
-- `escapeHtml` (function) `static/js/estorides.js:3475`
-- `maybePlotDiscoverEntity` (function) `static/js/estorides.js:3480`
-- `flushDiscoverEntities` (function) `static/js/estorides.js:3487`
+- `escapeHtml` (function) `static/js/estorides.js:3474`
+- `maybePlotDiscoverEntity` (function) `static/js/estorides.js:3479`
+- `flushDiscoverEntities` (function) `static/js/estorides.js:3486`
 - `check` (function) `static/js/estorides.js:3505`
 
 ## static/js/graph_bundle.js
-- `djb2KindColor` (function) `static/js/graph_bundle.js:33`
-- `mk` (function) `static/js/graph_bundle.js:61`
-- `clip` (function) `static/js/graph_bundle.js:67`
-- `tabActive` (function) `static/js/graph_bundle.js:71`
-- `ink` (function) `static/js/graph_bundle.js:75`
+- `djb2KindColor` (function) `static/js/graph_bundle.js:32`
+- `mk` (function) `static/js/graph_bundle.js:60`
+- `clip` (function) `static/js/graph_bundle.js:66`
+- `tabActive` (function) `static/js/graph_bundle.js:70`
+- `ink` (function) `static/js/graph_bundle.js:74`
 - `v` (function) `static/js/graph_bundle.js:78`
-- `colorOf` (function) `static/js/graph_bundle.js:89`
-- `keyOf` (function) `static/js/graph_bundle.js:95`
-- `bspline` (function) `static/js/graph_bundle.js:100`
-- `curve` (function) `static/js/graph_bundle.js:121`
-- `buildCurves` (function) `static/js/graph_bundle.js:138`
-- `resize` (function) `static/js/graph_bundle.js:149`
-- `radius` (function) `static/js/graph_bundle.js:161`
-- `center` (function) `static/js/graph_bundle.js:165`
-- `makeProjector` (function) `static/js/graph_bundle.js:166`
-- `depthAlpha` (function) `static/js/graph_bundle.js:176`
-- `focusState` (function) `static/js/graph_bundle.js:178`
-- `edgeState` (function) `static/js/graph_bundle.js:186`
-- `nodeLit` (function) `static/js/graph_bundle.js:206`
-- `strokeCurve` (function) `static/js/graph_bundle.js:217`
-- `pointOn` (function) `static/js/graph_bundle.js:227`
+- `colorOf` (function) `static/js/graph_bundle.js:88`
+- `keyOf` (function) `static/js/graph_bundle.js:94`
+- `bspline` (function) `static/js/graph_bundle.js:99`
+- `curve` (function) `static/js/graph_bundle.js:120`
+- `buildCurves` (function) `static/js/graph_bundle.js:137`
+- `resize` (function) `static/js/graph_bundle.js:148`
+- `radius` (function) `static/js/graph_bundle.js:160`
+- `center` (function) `static/js/graph_bundle.js:164`
+- `makeProjector` (function) `static/js/graph_bundle.js:165`
+- `depthAlpha` (function) `static/js/graph_bundle.js:175`
+- `focusState` (function) `static/js/graph_bundle.js:177`
+- `edgeState` (function) `static/js/graph_bundle.js:185`
+- `nodeLit` (function) `static/js/graph_bundle.js:205`
+- `strokeCurve` (function) `static/js/graph_bundle.js:216`
+- `pointOn` (function) `static/js/graph_bundle.js:226`
 - `g` (function) `static/js/graph_bundle.js:229`
-- `draw` (function) `static/js/graph_bundle.js:232`
+- `draw` (function) `static/js/graph_bundle.js:231`
 - `t0` (function) `static/js/graph_bundle.js:275`
 - `tt` (function) `static/js/graph_bundle.js:279`
-- `drawGroups` (function) `static/js/graph_bundle.js:292`
+- `drawGroups` (function) `static/js/graph_bundle.js:291`
 - `mid` (function) `static/js/graph_bundle.js:306`
-- `nodeRadius` (function) `static/js/graph_bundle.js:334`
-- `screenNodes` (function) `static/js/graph_bundle.js:338`
-- `drawNodes` (function) `static/js/graph_bundle.js:344`
-- `labelSet` (function) `static/js/graph_bundle.js:356`
-- `drawLabels` (function) `static/js/graph_bundle.js:368`
-- `drawHud` (function) `static/js/graph_bundle.js:406`
+- `nodeRadius` (function) `static/js/graph_bundle.js:333`
+- `screenNodes` (function) `static/js/graph_bundle.js:337`
+- `drawNodes` (function) `static/js/graph_bundle.js:343`
+- `labelSet` (function) `static/js/graph_bundle.js:355`
+- `drawLabels` (function) `static/js/graph_bundle.js:367`
+- `drawHud` (function) `static/js/graph_bundle.js:405`
 - `add` (function) `static/js/graph_bundle.js:411`
-- `add` (method) `static/js/graph_bundle.js:415`
-- `hitNode` (function) `static/js/graph_bundle.js:421`
-- `hitGroup` (function) `static/js/graph_bundle.js:444`
-- `tipFor` (function) `static/js/graph_bundle.js:462`
-- `flowsOf` (function) `static/js/graph_bundle.js:484`
+- `hitNode` (function) `static/js/graph_bundle.js:420`
+- `hitGroup` (function) `static/js/graph_bundle.js:443`
+- `tipFor` (function) `static/js/graph_bundle.js:461`
+- `flowsOf` (function) `static/js/graph_bundle.js:483`
 - `rank` (function) `static/js/graph_bundle.js:492`
-- `inspectInGraph` (function) `static/js/graph_bundle.js:498`
-- `nodeButton` (function) `static/js/graph_bundle.js:505`
-- `groupButton` (function) `static/js/graph_bundle.js:513`
-- `listInto` (function) `static/js/graph_bundle.js:520`
-- `renderPanel` (function) `static/js/graph_bundle.js:530`
-- `listInto` (method) `static/js/graph_bundle.js:559`
-- `listInto` (method) `static/js/graph_bundle.js:560`
-- `listInto` (method) `static/js/graph_bundle.js:580`
-- `renderLegend` (function) `static/js/graph_bundle.js:614`
-- `focusNode` (function) `static/js/graph_bundle.js:646`
-- `focusGroup` (function) `static/js/graph_bundle.js:651`
-- `facing` (function) `static/js/graph_bundle.js:656`
-- `aimAt` (function) `static/js/graph_bundle.js:662`
-- `setView` (function) `static/js/graph_bundle.js:668`
-- `setColor` (function) `static/js/graph_bundle.js:672`
-- `setDir` (function) `static/js/graph_bundle.js:676`
-- `setBeta` (function) `static/js/graph_bundle.js:680`
-- `sync` (function) `static/js/graph_bundle.js:688`
-- `writeHash` (function) `static/js/graph_bundle.js:698`
-- `readHash` (function) `static/js/graph_bundle.js:710`
-- `ingest` (function) `static/js/graph_bundle.js:727`
-- `refresh` (function) `static/js/graph_bundle.js:763`
-- `frame` (function) `static/js/graph_bundle.js:787`
-- `init` (function) `static/js/graph_bundle.js:813`
+- `inspectInGraph` (function) `static/js/graph_bundle.js:497`
+- `nodeButton` (function) `static/js/graph_bundle.js:504`
+- `groupButton` (function) `static/js/graph_bundle.js:512`
+- `listInto` (function) `static/js/graph_bundle.js:519`
+- `renderPanel` (function) `static/js/graph_bundle.js:529`
+- `renderLegend` (function) `static/js/graph_bundle.js:613`
+- `focusNode` (function) `static/js/graph_bundle.js:645`
+- `focusGroup` (function) `static/js/graph_bundle.js:650`
+- `facing` (function) `static/js/graph_bundle.js:655`
+- `aimAt` (function) `static/js/graph_bundle.js:661`
+- `setView` (function) `static/js/graph_bundle.js:667`
+- `setColor` (function) `static/js/graph_bundle.js:671`
+- `setDir` (function) `static/js/graph_bundle.js:675`
+- `setBeta` (function) `static/js/graph_bundle.js:679`
+- `sync` (function) `static/js/graph_bundle.js:687`
+- `writeHash` (function) `static/js/graph_bundle.js:697`
+- `readHash` (function) `static/js/graph_bundle.js:709`
+- `ingest` (function) `static/js/graph_bundle.js:726`
+- `refresh` (function) `static/js/graph_bundle.js:762`
+- `frame` (function) `static/js/graph_bundle.js:786`
+- `init` (function) `static/js/graph_bundle.js:812`
 - `search` (function) `static/js/graph_bundle.js:913`
 - `tag` (function) `static/js/graph_bundle.js:958`
 
@@ -301,7 +295,6 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `setEngineButtons` (function) `static/js/graph_force.js:422` -- var base = st.linkStrength; var src = l.source.id || l.source, tgt = l.target.id || l.target; if (l.type ===...
 - `show3DChrome` (function) `static/js/graph_force.js:435` -- Exclusive render: exactly one engine owns the pixels.
 - `mount3D` (function) `static/js/graph_force.js:458`
-- `setTimeout` (method) `static/js/graph_force.js:526`
 - `startOverlayLoop` (function) `static/js/graph_force.js:546`
 - `overlayTick` (function) `static/js/graph_force.js:551`
 - `convexHullPts` (function) `static/js/graph_force.js:561`
@@ -323,7 +316,6 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `hitEdge3D` (function) `static/js/graph_force.js:861`
 - `hoverAt3D` (function) `static/js/graph_force.js:876`
 - `bindStagePointer` (function) `static/js/graph_force.js:887`
-- `requestAnimationFrame` (method) `static/js/graph_force.js:931`
 - `refresh3D` (function) `static/js/graph_force.js:939`
 - `reload3D` (function) `static/js/graph_force.js:945`
 - `resize3D` (function) `static/js/graph_force.js:950`
@@ -361,11 +353,7 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `syncIsolateBtn` (function) `static/js/graph_force.js:1393`
 - `wireToolbar` (function) `static/js/graph_force.js:1398`
 - `toggle` (function) `static/js/graph_force.js:1423`
-- `toggle` (method) `static/js/graph_force.js:1434`
-- `setTimeout` (method) `static/js/graph_force.js:1478`
-- `setTimeout` (method) `static/js/graph_force.js:1502`
 - `tag` (function) `static/js/graph_force.js:1511`
-- `setInterval` (method) `static/js/graph_force.js:1553`
 
 ## static/js/source_manager.js
 - `authHeaders` (function) `static/js/source_manager.js:7` -- /* Estorides Source Manager — form-based YAML editor (function () { 'use strict'; /* ─── auth ───
@@ -379,7 +367,6 @@ Depends on: `estorides_core/discoverer.py`, `estorides_core/scope.py`, `estoride
 - `escHtml` (function) `static/js/source_manager.js:223` -- var keyBadge = s.requires_key ? '<span class="src-item-key-badge">key</span>' : ''; var sysBadge = s.kind ===...
 - `escAttr` (function) `static/js/source_manager.js:224`
 - `toast` (function) `static/js/source_manager.js:227` -- '<div class="src-item-info">' + '<div class="src-item-name">' + escHtml(s.name) + sysBadge + keyBadge + '</div>' +...
-- `setTimeout` (method) `static/js/source_manager.js:232`
 - `loadSources` (function) `static/js/source_manager.js:236` -- /* ─── helpers ─── function escHtml(s) { return String(s).replace(/[&<>"]/g, function (m) { return ({ '&': '&amp;'...
 - `clearEditor` (function) `static/js/source_manager.js:251` -- apiFetch('/api/sources/yaml').then(function (data) { sources = data.sources || []; srcCount.textContent = data.total...
 - `selectSource` (function) `static/js/source_manager.js:261` -- }); } /* ─── clear editor ─── function clearEditor() { form.hidden = true; editorEmpty.hidden = false...

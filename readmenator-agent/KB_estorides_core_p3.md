@@ -81,9 +81,9 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `IPRecord` (class, line 27) `class IPRecord`
   - `CertRecord` (class, line 40) `class CertRecord`
   - `PDNSResult` (class, line 55) `class PDNSResult`
-  - `classify_subdomain_status` (function, line 72) `def classify_subdomain_status(fqdn, resolved_ips)`
-  - `extract_sans_from_cert` (function, line 76) `def extract_sans_from_cert(cert)`
-  - `analyse_pdns_data` (function, line 80) `def analyse_pdns_data(subdomains, ip_history, new_certs)`
+  - `classify_subdomain_status` (method, line 72) `def classify_subdomain_status(fqdn, resolved_ips)`
+  - `extract_sans_from_cert` (method, line 76) `def extract_sans_from_cert(cert)`
+  - `analyse_pdns_data` (method, line 80) `def analyse_pdns_data(subdomains, ip_history, new_certs)`
   - `to_dict` (method, line 22) `def to_dict(self)`
   - `to_dict` (method, line 35) `def to_dict(self)`
   - `to_dict` (method, line 50) `def to_dict(self)`
@@ -98,11 +98,11 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `Employee` (class, line 29) `class Employee`
   - `BreachContext` (class, line 56) `class BreachContext`
   - `PeopleIntelResult` (class, line 67) `class PeopleIntelResult`
-  - `infer_email_pattern` (function, line 98) `def infer_email_pattern(emails)`
-  - `_match_pattern` (function, line 136) `def _match_pattern(local)`
-  - `_severity_from_breaches` (function, line 143) `def _severity_from_breaches(breaches)`
-  - `correlate_breaches` (function, line 153) `def correlate_breaches(employees)`
-  - `analyse_employees` (function, line 176) `def analyse_employees(employees, domain)`
+  - `infer_email_pattern` (method, line 98) `def infer_email_pattern(emails)`
+  - `_match_pattern` (method, line 136) `def _match_pattern(local)`
+  - `_severity_from_breaches` (method, line 143) `def _severity_from_breaches(breaches)`
+  - `correlate_breaches` (method, line 153) `def correlate_breaches(employees)`
+  - `analyse_employees` (method, line 176) `def analyse_employees(employees, domain)`
   - `to_dict` (method, line 22) `def to_dict(self)`
   - `to_dict` (method, line 40) `def to_dict(self)`
   - `to_dict` (method, line 62) `def to_dict(self)`
@@ -137,8 +137,8 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `run` (method, line 264) `def run(self, seed_type, seed_value)`
   - `_expand_lead` (method, line 341) `def _expand_lead(self, lead, frontier, budget)`
   - `_ingest_children` (method, line 411) `def _ingest_children(self, parent, result, frontier, budget)`
-  - `_on_source_done` (function, line 356) `def _on_source_done(name, ok, status, elapsed_ms)`
-  - `_on_source_result` (function, line 366) `def _on_source_result(observation)`
+  - `_on_source_done` (method, line 356) `def _on_source_done(name, ok, status, elapsed_ms)`
+  - `_on_source_result` (method, line 366) `def _on_source_result(observation)`
 - Depends on: `estorides_core/config.py`
 - Imported by: `estorides_core/discoverer.py`, `estorides_web.py`, `tests/test_structured_extraction.py`
 
@@ -150,12 +150,12 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `RelevanceTier` (class, line 27) `class RelevanceTier(str, Enum)`
   - `GroupedEntity` (class, line 46) `class GroupedEntity`
   - `FusionResult` (class, line 84) `class FusionResult`
-  - `_normalize_value` (function, line 107) `def _normalize_value(etype, value)`
-  - `_canonical_id` (function, line 112) `def _canonical_id(etype, value)`
-  - `_corroboration_factor` (function, line 117) `def _corroboration_factor(source_count)`
-  - `_freshness_factor` (function, line 124) `def _freshness_factor(age_hours, max_hours)`
-  - `_direct_match_query` (function, line 132) `def _direct_match_query(value, query)`
-  - `_extract_key_findings` (function, line 137) `def _extract_key_findings(observations)`
+  - `_normalize_value` (method, line 107) `def _normalize_value(etype, value)`
+  - `_canonical_id` (method, line 112) `def _canonical_id(etype, value)`
+  - `_corroboration_factor` (method, line 117) `def _corroboration_factor(source_count)`
+  - `_freshness_factor` (method, line 124) `def _freshness_factor(age_hours, max_hours)`
+  - `_direct_match_query` (method, line 132) `def _direct_match_query(value, query)`
+  - `_extract_key_findings` (method, line 137) `def _extract_key_findings(observations)`
   - `ReconFusionEngine` (class, line 160) `class ReconFusionEngine`
   - `ordered` (method, line 40) `def ordered(cls)`
   - `to_dict` (method, line 64) `def to_dict(self)`
@@ -182,21 +182,21 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 - Language: py
 - Symbols:
   - `RelationshipInferer` (class, line 36) `class RelationshipInferer(Protocol)`
-  - `register_inferer` (function, line 63) `def register_inferer(source_name)`
-  - `infer_relationship` (function, line 78) `def infer_relationship(observation, query, kg)`
-  - `_infer_dns` (function, line 105) `def _infer_dns(observation, query, kg)`
-  - `_infer_crtsh` (function, line 114) `def _infer_crtsh(observation, query, kg)`
-  - `_infer_shodan` (function, line 122) `def _infer_shodan(observation, query, kg)`
-  - `_infer_greynoise` (function, line 134) `def _infer_greynoise(observation, query, kg)`
-  - `_infer_abuseipdb` (function, line 143) `def _infer_abuseipdb(observation, query, kg)`
-  - `_infer_whois` (function, line 152) `def _infer_whois(observation, query, kg)`
-  - `_infer_urlscan` (function, line 163) `def _infer_urlscan(observation, query, kg)`
-  - `_infer_phonebook` (function, line 175) `def _infer_phonebook(observation, query, kg)`
-  - `_infer_ipapi` (function, line 186) `def _infer_ipapi(observation, query, kg)`
-  - `_infer_otx` (function, line 195) `def _infer_otx(observation, query, kg)`
-  - `_infer_nvd` (function, line 208) `def _infer_nvd(observation, query, kg)`
+  - `register_inferer` (method, line 63) `def register_inferer(source_name)`
+  - `infer_relationship` (method, line 78) `def infer_relationship(observation, query, kg)`
+  - `_infer_dns` (method, line 105) `def _infer_dns(observation, query, kg)`
+  - `_infer_crtsh` (method, line 114) `def _infer_crtsh(observation, query, kg)`
+  - `_infer_shodan` (method, line 122) `def _infer_shodan(observation, query, kg)`
+  - `_infer_greynoise` (method, line 134) `def _infer_greynoise(observation, query, kg)`
+  - `_infer_abuseipdb` (method, line 143) `def _infer_abuseipdb(observation, query, kg)`
+  - `_infer_whois` (method, line 152) `def _infer_whois(observation, query, kg)`
+  - `_infer_urlscan` (method, line 163) `def _infer_urlscan(observation, query, kg)`
+  - `_infer_phonebook` (method, line 175) `def _infer_phonebook(observation, query, kg)`
+  - `_infer_ipapi` (method, line 186) `def _infer_ipapi(observation, query, kg)`
+  - `_infer_otx` (method, line 195) `def _infer_otx(observation, query, kg)`
+  - `_infer_nvd` (method, line 208) `def _infer_nvd(observation, query, kg)`
   - `__call__` (method, line 51) `def __call__(self, observation, query, kg)`
-  - `deco` (function, line 70) `def deco(func)`
+  - `deco` (method, line 70) `def deco(func)`
 - Imported by: `estorides_core/orchestrator.py`
 
 ## estorides_core/reliability_scoring.py
@@ -209,16 +209,16 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `SourceType` (class, line 59) `class SourceType(str, Enum)`
   - `ConfidenceInput` (class, line 243) `class ConfidenceInput`
   - `ConfidenceResult` (class, line 263) `class ConfidenceResult`
-  - `_corroboration_weight` (function, line 280) `def _corroboration_weight(n)`
-  - `_freshness_weight` (function, line 287) `def _freshness_weight(age_seconds, half_life_days)`
-  - `_validate_score` (function, line 297) `def _validate_score(value, field_name)`
-  - `_clamp01` (function, line 302) `def _clamp01(value)`
-  - `compute_confidence` (function, line 312) `def compute_confidence(inp)`
-  - `merge_confidence` (function, line 350) `def merge_confidence(existing, new_observation)`
-  - `reliability_from_name` (function, line 400) `def reliability_from_name(source_name)`
-  - `source_type_from_name` (function, line 415) `def source_type_from_name(source_name)`
-  - `reliability_weight` (function, line 430) `def reliability_weight(source_name, overrides)`
-  - `reliability_weight_for_letter` (function, line 452) `def reliability_weight_for_letter(letter)`
+  - `_corroboration_weight` (method, line 280) `def _corroboration_weight(n)`
+  - `_freshness_weight` (method, line 287) `def _freshness_weight(age_seconds, half_life_days)`
+  - `_validate_score` (method, line 297) `def _validate_score(value, field_name)`
+  - `_clamp01` (method, line 302) `def _clamp01(value)`
+  - `compute_confidence` (method, line 312) `def compute_confidence(inp)`
+  - `merge_confidence` (method, line 350) `def merge_confidence(existing, new_observation)`
+  - `reliability_from_name` (method, line 400) `def reliability_from_name(source_name)`
+  - `source_type_from_name` (method, line 415) `def source_type_from_name(source_name)`
+  - `reliability_weight` (method, line 430) `def reliability_weight(source_name, overrides)`
+  - `reliability_weight_for_letter` (method, line 452) `def reliability_weight_for_letter(letter)`
   - `__post_init__` (method, line 253) `def __post_init__(self)`
 - Imported by: `estorides_core/change_detection.py`, `estorides_core/fusion_store.py`, `estorides_core/hypothesis_engine.py`, `estorides_core/recon_fusion.py`, `tests/properties/test_reliability_scoring_properties.py`, `tests/test_change_detection.py`, `tests/test_hypothesis_engine.py`, `tests/test_reliability_scoring.py`
 
@@ -234,20 +234,20 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `ExactHostRule` (class, line 117) `class ExactHostRule(ScopeRule)`
   - `CidrRule` (class, line 130) `class CidrRule(ScopeRule)`
   - `RegexRule` (class, line 148) `class RegexRule(ScopeRule)`
-  - `_wildcard_factory` (function, line 161) `def _wildcard_factory(text)`
-  - `_regex_factory` (function, line 168) `def _regex_factory(text)`
-  - `_cidr_factory` (function, line 179) `def _cidr_factory(text)`
-  - `_ip_factory` (function, line 188) `def _ip_factory(text)`
-  - `_exact_host_factory` (function, line 195) `def _exact_host_factory(text)`
-  - `parse_rule` (function, line 211) `def parse_rule(line)`
-  - `parse_rules` (function, line 223) `def parse_rules(lines)`
+  - `_wildcard_factory` (method, line 161) `def _wildcard_factory(text)`
+  - `_regex_factory` (method, line 168) `def _regex_factory(text)`
+  - `_cidr_factory` (method, line 179) `def _cidr_factory(text)`
+  - `_ip_factory` (method, line 188) `def _ip_factory(text)`
+  - `_exact_host_factory` (method, line 195) `def _exact_host_factory(text)`
+  - `parse_rule` (method, line 211) `def parse_rule(line)`
+  - `parse_rules` (method, line 223) `def parse_rules(lines)`
   - `ScopeMatcher` (class, line 234) `class ScopeMatcher`
-  - `load_rules_file` (function, line 285) `def load_rules_file(path)`
-  - `load_assets` (function, line 303) `def load_assets(path)`
-  - `_assets_from_json` (function, line 322) `def _assets_from_json(doc)`
+  - `load_rules_file` (method, line 285) `def load_rules_file(path)`
+  - `load_assets` (method, line 303) `def load_assets(path)`
+  - `_assets_from_json` (method, line 322) `def _assets_from_json(doc)`
   - `ScopeReport` (class, line 344) `class ScopeReport`
-  - `build_report` (function, line 371) `def build_report(matcher, assets)`
-  - `write_flat_lists` (function, line 381) `def write_flat_lists(report, out_dir)`
+  - `build_report` (method, line 371) `def build_report(matcher, assets)`
+  - `write_flat_lists` (method, line 381) `def write_flat_lists(report, out_dir)`
   - `matches` (method, line 93) `def matches(self, asset)`
   - `describe` (method, line 97) `def describe(self)`
   - `matches` (method, line 107) `def matches(self, asset)`
@@ -276,17 +276,17 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `SearchTelemetryError` (class, line 37) `class SearchTelemetryError(Exception)`
   - `UnknownPhaseError` (class, line 41) `class UnknownPhaseError(SearchTelemetryError, KeyError)`
   - `InvalidTelemetryConfigError` (class, line 45) `class InvalidTelemetryConfigError(SearchTelemetryError, ValueError)`
-  - `disallowed_brands_in` (function, line 75) `def disallowed_brands_in(text)`
-  - `emoji_in` (function, line 89) `def emoji_in(text)`
-  - `percent_encoded_emoji_in` (function, line 103) `def percent_encoded_emoji_in(text)`
+  - `disallowed_brands_in` (method, line 75) `def disallowed_brands_in(text)`
+  - `emoji_in` (method, line 89) `def emoji_in(text)`
+  - `percent_encoded_emoji_in` (method, line 103) `def percent_encoded_emoji_in(text)`
   - `KeyboardShortcut` (class, line 117) `class KeyboardShortcut`
   - `SplashTip` (class, line 125) `class SplashTip`
   - `SearchPhase` (class, line 133) `class SearchPhase`
   - `ProgressView` (class, line 146) `class ProgressView`
-  - `_assert_clean` (function, line 167) `def _assert_clean(label)`
+  - `_assert_clean` (method, line 167) `def _assert_clean(label)`
   - `TelemetryConfig` (class, line 177) `class TelemetryConfig`
   - `SearchTelemetry` (class, line 217) `class SearchTelemetry`
-  - `_default_config` (function, line 309) `def _default_config()`
+  - `_default_config` (method, line 309) `def _default_config()`
   - `__post_init__` (method, line 191) `def __post_init__(self)`
   - `__init__` (method, line 223) `def __init__(self, config)`
   - `shortcuts` (method, line 229) `def shortcuts(self)`
@@ -306,8 +306,8 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `PlatformInfo` (class, line 32) `class PlatformInfo`
   - `ProfileMatch` (class, line 81) `class ProfileMatch`
   - `SocialMediaProfile` (class, line 105) `class SocialMediaProfile`
-  - `_extract_profile_urls` (function, line 164) `def _extract_profile_urls(text)`
-  - `_confidence_for_platform_matches` (function, line 185) `def _confidence_for_platform_matches(platform_count, has_verified, has_keybase)`
+  - `_extract_profile_urls` (method, line 164) `def _extract_profile_urls(text)`
+  - `_confidence_for_platform_matches` (method, line 185) `def _confidence_for_platform_matches(platform_count, has_verified, has_keybase)`
   - `SocialMediaInferer` (class, line 203) `class SocialMediaInferer`
   - `to_dict` (method, line 92) `def to_dict(self)`
   - `to_dict` (method, line 119) `def to_dict(self)`
@@ -328,10 +328,10 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `SourceHealthResult` (class, line 134) `class SourceHealthResult`
   - `DashboardSummary` (class, line 160) `class DashboardSummary`
   - `HealthDashboard` (class, line 173) `class HealthDashboard`
-  - `_clamp01` (function, line 202) `def _clamp01(value)`
-  - `_classify` (function, line 210) `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config)`
-  - `compute_health` (function, line 235) `def compute_health(inp, config)`
-  - `build_dashboard` (function, line 295) `def build_dashboard(records, config)`
+  - `_clamp01` (method, line 202) `def _clamp01(value)`
+  - `_classify` (method, line 210) `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config)`
+  - `compute_health` (method, line 235) `def compute_health(inp, config)`
+  - `build_dashboard` (method, line 295) `def build_dashboard(records, config)`
   - `__post_init__` (method, line 58) `def __post_init__(self)`
   - `__post_init__` (method, line 112) `def __post_init__(self)`
   - `to_dict` (method, line 146) `def to_dict(self)`
@@ -387,15 +387,15 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 - Language: py
 - Symbols:
   - `GuardResult` (class, line 99) `class GuardResult`
-  - `_is_blocked_v4` (function, line 110) `def _is_blocked_v4(ip)`
-  - `_is_blocked_v6` (function, line 114) `def _is_blocked_v6(addr)`
-  - `_normalise_host` (function, line 126) `def _normalise_host(host)`
-  - `_is_host_in_blocked_literal` (function, line 134) `def _is_host_in_blocked_literal(host)`
-  - `_resolve` (function, line 155) `def _resolve(host)`
-  - `_matches_allowlist` (function, line 172) `def _matches_allowlist(host, allowlist)`
-  - `_load_allowlist` (function, line 189) `def _load_allowlist()`
-  - `check_url` (function, line 194) `def check_url(url)`
-  - `assert_safe` (function, line 262) `def assert_safe(url)`
+  - `_is_blocked_v4` (method, line 110) `def _is_blocked_v4(ip)`
+  - `_is_blocked_v6` (method, line 114) `def _is_blocked_v6(addr)`
+  - `_normalise_host` (method, line 126) `def _normalise_host(host)`
+  - `_is_host_in_blocked_literal` (method, line 134) `def _is_host_in_blocked_literal(host)`
+  - `_resolve` (method, line 155) `def _resolve(host)`
+  - `_matches_allowlist` (method, line 172) `def _matches_allowlist(host, allowlist)`
+  - `_load_allowlist` (method, line 189) `def _load_allowlist()`
+  - `check_url` (method, line 194) `def check_url(url)`
+  - `assert_safe` (method, line 262) `def assert_safe(url)`
   - `SSRFError` (class, line 269) `class SSRFError(ValueError)`
   - `__bool__` (method, line 105) `def __bool__(self)`
 - Imported by: `estorides_core/alerter.py`, `estorides_core/async_client.py`, `estorides_core/feeds.py`, `estorides_core/intel_resolver.py`, `estorides_core/ontology.py`, `estorides_core/osiris_sources.py`, `tests/test_security_remediation.py`
@@ -408,11 +408,11 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
   - `SharedInfra` (class, line 66) `class SharedInfra`
   - `Relationship` (class, line 78) `class Relationship`
   - `SupplyChainResult` (class, line 89) `class SupplyChainResult`
-  - `detect_mx_provider` (function, line 106) `def detect_mx_provider(mx_records)`
-  - `detect_ns_provider` (function, line 114) `def detect_ns_provider(ns_records)`
-  - `detect_cdn` (function, line 122) `def detect_cdn(cname)`
-  - `analyse_third_parties` (function, line 129) `def analyse_third_parties(third_parties, subsidiaries)`
-  - `detect_shared_infrastructure` (function, line 140) `def detect_shared_infrastructure(asn)`
+  - `detect_mx_provider` (method, line 106) `def detect_mx_provider(mx_records)`
+  - `detect_ns_provider` (method, line 114) `def detect_ns_provider(ns_records)`
+  - `detect_cdn` (method, line 122) `def detect_cdn(cname)`
+  - `analyse_third_parties` (method, line 129) `def analyse_third_parties(third_parties, subsidiaries)`
+  - `detect_shared_infrastructure` (method, line 140) `def detect_shared_infrastructure(asn)`
   - `to_dict` (method, line 61) `def to_dict(self)`
   - `to_dict` (method, line 73) `def to_dict(self)`
   - `to_dict` (method, line 84) `def to_dict(self)`
@@ -425,37 +425,37 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 - Language: py
 - Symbols:
   - `SystemAppResult` (class, line 57) `class SystemAppResult`
-  - `is_system_app` (function, line 81) `def is_system_app(source)`
-  - `tool_available` (function, line 91) `def tool_available(binary)`
-  - `render_args` (function, line 96) `def render_args(args, query, outdir)`
-  - `_read_capped` (function, line 121) `def _read_capped(path, cap)`
-  - `_loads_lenient` (function, line 131) `def _loads_lenient(text)`
-  - `_line_filter_parser` (function, line 150) `def _line_filter_parser()`
-  - `parse_amass_json` (function, line 193) `def parse_amass_json(payload)`
-  - `parse_maigret_json` (function, line 225) `def parse_maigret_json(payload)`
-  - `parse_phoneinfoga_json` (function, line 247) `def parse_phoneinfoga_json(payload)`
-  - `parse_sherlock_text` (function, line 260) `def parse_sherlock_text(payload)`
-  - `parse_holehe_text` (function, line 265) `def parse_holehe_text(payload)`
-  - `parse_wafw00f_text` (function, line 270) `def parse_wafw00f_text(payload)`
-  - `parse_sublist3r_lines` (function, line 275) `def parse_sublist3r_lines(payload)`
-  - `parse_dnsrecon_text` (function, line 280) `def parse_dnsrecon_text(payload)`
-  - `parse_dnsenum_text` (function, line 285) `def parse_dnsenum_text(payload)`
-  - `parse_fierce_text` (function, line 292) `def parse_fierce_text(payload)`
-  - `parse_dmitry_text` (function, line 297) `def parse_dmitry_text(payload)`
-  - `parse_urlcrazy_text` (function, line 302) `def parse_urlcrazy_text(payload)`
-  - `parse_metagoofil_text` (function, line 307) `def parse_metagoofil_text(payload)`
-  - `parse_whatweb_text` (function, line 312) `def parse_whatweb_text(payload)`
-  - `parse_theharvester_text` (function, line 317) `def parse_theharvester_text(payload)`
-  - `parse_usufy_text` (function, line 322) `def parse_usufy_text(payload)`
-  - `parse_mailfy_text` (function, line 327) `def parse_mailfy_text(payload)`
-  - `parse_phonefy_text` (function, line 332) `def parse_phonefy_text(payload)`
-  - `parse_searchfy_text` (function, line 337) `def parse_searchfy_text(payload)`
-  - `parse_tool_output` (function, line 365) `def parse_tool_output(source_name, parser_name, data)`
-  - `execute` (function, line 396) `def execute(source, query)`
+  - `is_system_app` (method, line 81) `def is_system_app(source)`
+  - `tool_available` (method, line 91) `def tool_available(binary)`
+  - `render_args` (method, line 96) `def render_args(args, query, outdir)`
+  - `_read_capped` (method, line 121) `def _read_capped(path, cap)`
+  - `_loads_lenient` (method, line 131) `def _loads_lenient(text)`
+  - `_line_filter_parser` (method, line 150) `def _line_filter_parser()`
+  - `parse_amass_json` (method, line 193) `def parse_amass_json(payload)`
+  - `parse_maigret_json` (method, line 225) `def parse_maigret_json(payload)`
+  - `parse_phoneinfoga_json` (method, line 247) `def parse_phoneinfoga_json(payload)`
+  - `parse_sherlock_text` (method, line 260) `def parse_sherlock_text(payload)`
+  - `parse_holehe_text` (method, line 265) `def parse_holehe_text(payload)`
+  - `parse_wafw00f_text` (method, line 270) `def parse_wafw00f_text(payload)`
+  - `parse_sublist3r_lines` (method, line 275) `def parse_sublist3r_lines(payload)`
+  - `parse_dnsrecon_text` (method, line 280) `def parse_dnsrecon_text(payload)`
+  - `parse_dnsenum_text` (method, line 285) `def parse_dnsenum_text(payload)`
+  - `parse_fierce_text` (method, line 292) `def parse_fierce_text(payload)`
+  - `parse_dmitry_text` (method, line 297) `def parse_dmitry_text(payload)`
+  - `parse_urlcrazy_text` (method, line 302) `def parse_urlcrazy_text(payload)`
+  - `parse_metagoofil_text` (method, line 307) `def parse_metagoofil_text(payload)`
+  - `parse_whatweb_text` (method, line 312) `def parse_whatweb_text(payload)`
+  - `parse_theharvester_text` (method, line 317) `def parse_theharvester_text(payload)`
+  - `parse_usufy_text` (method, line 322) `def parse_usufy_text(payload)`
+  - `parse_mailfy_text` (method, line 327) `def parse_mailfy_text(payload)`
+  - `parse_phonefy_text` (method, line 332) `def parse_phonefy_text(payload)`
+  - `parse_searchfy_text` (method, line 337) `def parse_searchfy_text(payload)`
+  - `parse_tool_output` (method, line 365) `def parse_tool_output(source_name, parser_name, data)`
+  - `execute` (method, line 396) `def execute(source, query)`
   - `to_dict` (method, line 76) `def to_dict(self)`
-  - `parser` (function, line 165) `def parser(payload)`
-  - `fail` (function, line 418) `def fail(code, message)`
-  - `repl` (function, line 109) `def repl(m)`
+  - `parser` (method, line 165) `def parser(payload)`
+  - `fail` (method, line 418) `def fail(code, message)`
+  - `repl` (method, line 109) `def repl(m)`
 - Depends on: `estorides_core/config.py`, `estorides_core/parsers.py`, `estorides_core/tool_runner.py`
 - Imported by: `estorides_core/orchestrator.py`, `tests/properties/test_system_app_sources_properties.py`, `tests/test_system_app_sources.py`
 
@@ -465,10 +465,10 @@ Previous: [KB_estorides_core_p2.md](KB_estorides_core_p2.md)
 - Symbols:
   - `Tech` (class, line 89) `class Tech`
   - `TechFingerprintResult` (class, line 102) `class TechFingerprintResult`
-  - `fingerprint` (function, line 115) `def fingerprint(headers, html, cookies, status)`
+  - `fingerprint` (method, line 115) `def fingerprint(headers, html, cookies, status)`
   - `to_dict` (method, line 97) `def to_dict(self)`
   - `to_dict` (method, line 107) `def to_dict(self)`
-  - `_add` (function, line 129) `def _add(name, category, version, source, confidence)`
+  - `_add` (method, line 129) `def _add(name, category, version, source, confidence)`
 - Imported by: `estorides_core/recon_pipeline.py`, `tests/test_tech_fingerprint.py`
 
 

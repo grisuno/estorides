@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "estorides"
-version = "1.3.0"
+version = "1.3.1"
 description = "State-level OSINT orchestrator. 99+ free public sources, async fanout, knowledge graph, multi-LLM analyst."
 readme = "README.md"
 license = {text = "GPL-3.0"}
@@ -57,11 +57,61 @@ estorides = "estorides_cli:main"
 Homepage = "https://github.com/grisuno/estorides"
 Issues = "https://github.com/grisuno/estorides/issues"
 
+[tool.setuptools]
+# Flat-layout repo: the CLI, web factory, tools blueprint and WSGI entry
+# points are top-level modules, not packages. Without py-modules the wheel
+# ships only estorides_core/* and the `estorides` console script crashes
+# with `ModuleNotFoundError: No module named 'estorides_cli'`.
+py-modules = [
+    "estorides_cli",
+    "estorides_web",
+    "estorides_web_tools",
+    "wsgi",
+    "app",
+    "web",
+]
+
 [tool.setuptools.packages.find]
 # The engine ships as three top-level packages; everything else is data
 # (sources/, templates/, static/) or tooling (tools/, workflows/).
 include = ["estorides_core*", "estorides_llm*", "estorides_export*"]
 exclude = ["env*", "data*", "reports*", "tests*"]
+
+[tool.setuptools.data-files]
+# Runtime data the engine reads off disk: the source YAML catalog, Jinja
+# templates, static assets, transform pivots and tool-install recipes.
+# Installed under <prefix>/share/estorides/ and resolved at runtime by
+# estorides_core.config._resolve_dir()
+# (env var > dev checkout > install prefix).
+# NOTE: setuptools data-files flattens `**` globs, so each category dir
+# gets its own entry — the tree matters (`20_system_tools/` is resolved
+# by tool_install.doctor; category dirs by source_loader._source_path).
+"share/estorides/sources/01_dns" = ["sources/01_dns/*.yaml"]
+"share/estorides/sources/02_ip_infra" = ["sources/02_ip_infra/*.yaml"]
+"share/estorides/sources/03_web" = ["sources/03_web/*.yaml"]
+"share/estorides/sources/04_social" = ["sources/04_social/*.yaml"]
+"share/estorides/sources/05_threat" = ["sources/05_threat/*.yaml"]
+"share/estorides/sources/06_breach" = ["sources/06_breach/*.yaml"]
+"share/estorides/sources/07_geolocation" = ["sources/07_geolocation/*.yaml"]
+"share/estorides/sources/08_knowledge" = ["sources/08_knowledge/*.yaml"]
+"share/estorides/sources/09_wireless" = ["sources/09_wireless/*.yaml"]
+"share/estorides/sources/10_blockchain" = ["sources/10_blockchain/*.yaml"]
+"share/estorides/sources/11_paste_leaks" = ["sources/11_paste_leaks/*.yaml"]
+"share/estorides/sources/12_visual" = ["sources/12_visual/*.yaml"]
+"share/estorides/sources/13_reputation" = ["sources/13_reputation/*.yaml"]
+"share/estorides/sources/14_tech" = ["sources/14_tech/*.yaml"]
+"share/estorides/sources/15_cloud" = ["sources/15_cloud/*.yaml"]
+"share/estorides/sources/16_people" = ["sources/16_people/*.yaml"]
+"share/estorides/sources/17_code" = ["sources/17_code/*.yaml"]
+"share/estorides/sources/18_supply" = ["sources/18_supply/*.yaml"]
+"share/estorides/sources/19_pdns" = ["sources/19_pdns/*.yaml"]
+"share/estorides/sources/20_system_tools" = ["sources/20_system_tools/*.yaml"]
+"share/estorides/transforms" = ["transforms/*.yaml"]
+"share/estorides/tool_recipes" = ["tool_recipes/*.yaml"]
+"share/estorides/templates" = ["templates/*.html"]
+"share/estorides/static/css" = ["static/css/*.css"]
+"share/estorides/static/js" = ["static/js/*.js"]
+"share/estorides/static/js/vendor" = ["static/js/vendor/*.js"]
 
 [tool.setuptools.package-data]
 # Make sure the source YAMLs ship with the wheel. Anyone doing a real

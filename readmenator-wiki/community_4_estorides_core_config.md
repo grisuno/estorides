@@ -1,28 +1,26 @@
 # estorides_core: config
 
-*Community 2 | 19 files | cohesion 0.38*
+*Community 4 | 17 files | cohesion 0.37*
 
 ## Definition
 
-This community groups 19 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.38). Central symbols: `AnthropicBackend`, `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityResolver`, `EntityRunner`. Core file: `tests/test_observation_models.py` (28 symbols). Documented purpose: estorides_core.async_client.
+This community groups 17 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.37). Central symbols: `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityResolver`, `EntityRunner`, `EventSink`. Core file: `estorides_core/config.py` (29 symbols). Documented purpose: estorides_core.async_client.
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `estorides_core/async_client.py` | py | infrastructure | 21 | yes |
-| `estorides_core/config.py` | py | infrastructure | 26 | yes |
+| `estorides_core/config.py` | py | infrastructure | 29 | yes |
 | `estorides_core/feeds.py` | py | utility | 16 | yes |
 | `estorides_core/intel_resolver.py` | py | utility | 26 | yes |
+| `estorides_core/lan_bundle.py` | py | utility | 8 | yes |
 | `estorides_core/observation_models.py` | py | business_logic | 14 | yes |
 | `estorides_core/ontology.py` | py | utility | 25 | yes |
 | `estorides_core/osiris_sources.py` | py | utility | 8 | yes |
 | `estorides_core/pivot_engine.py` | py | utility | 25 | yes |
 | `estorides_core/ssrf_guard.py` | py | utility | 12 | yes |
 | `estorides_core/transforms.py` | py | utility | 24 | yes |
-| `estorides_llm/__init__.py` | py | utility | 0 | yes |
-| `estorides_llm/intelligence_prompts.py` | py | utility | 1 | yes |
-| `estorides_llm/manager.py` | py | utility | 22 | yes |
 | `tests/properties/test_observation_models_properties.py` | py | testing | 7 | yes |
 | `tests/test_async_client.py` | py | testing | 15 | yes |
 | `tests/test_config_env.py` | py | testing | 13 | yes |
@@ -52,31 +50,31 @@ This community groups 19 file(s) rooted at `estorides_core` with dominant langua
 - `__aexit__` (method, `estorides_core/async_client.py:258`) `def __aexit__(self)`
 - `session` (method, `estorides_core/async_client.py:264`) `def session(self)`
 - `fetch` (method, `estorides_core/async_client.py:270`) `def fetch(self, method, url)` - Fetch a URL. Returns (parsed_data, meta).
-- `sync_fetch` (function, `estorides_core/async_client.py:400`) `def sync_fetch(method, url)`
-- `ensure_data_dirs` (function, `estorides_core/config.py:58`) `def ensure_data_dirs()` - Idempotently create DATA_DIR.
-- `ensure_reports_dir` (function, `estorides_core/config.py:69`) `def ensure_reports_dir()` - Idempotently create REPORTS_DIR.
-- `_env_tool_allowlist` (function, `estorides_core/config.py:126`) `def _env_tool_allowlist()`
-- `contact_level` (function, `estorides_core/config.py:206`) `def contact_level(contact)` - Map a contact class to its numeric severity, unknown values to active.
-- `effective_proxies` (function, `estorides_core/config.py:232`) `def effective_proxies(explicit)` - Resolve the proxy rotation pool from an explicit value or the env.
-- `CacheConfig` (class, `estorides_core/config.py:366`) `class CacheConfig` - Disk response-cache behaviour.
-- `is_active` (method, `estorides_core/config.py:373`) `def is_active(self)` - Cache is only consulted when enabled and the TTL is positive.
-- `PivotPolicyConfig` (class, `estorides_core/config.py:379`) `class PivotPolicyConfig` - Which entity types are worth pivoting on, and how leads are scored.
-- `is_pivotable` (method, `estorides_core/config.py:393`) `def is_pivotable(self, entity_type)` - True when an entity of `entity_type` should be re-queried.
+- `sync_fetch` (method, `estorides_core/async_client.py:400`) `def sync_fetch(method, url)`
+- `_installed_share` (function, `estorides_core/config.py:42`) `def _installed_share()` - `<prefix>/share/estorides` — the data-files target of a pip install.
+- `_resolve_dir` (function, `estorides_core/config.py:47`) `def _resolve_dir(env_key, dirname)` - Resolve a read-only runtime data dir.
+- `_resolve_writable_dir` (function, `estorides_core/config.py:63`) `def _resolve_writable_dir(env_key, dirname)` - Resolve a writable runtime dir (no import-time mkdir, issue #49).
+- `ensure_data_dirs` (function, `estorides_core/config.py:101`) `def ensure_data_dirs()` - Idempotently create DATA_DIR.
+- `ensure_reports_dir` (function, `estorides_core/config.py:112`) `def ensure_reports_dir()` - Idempotently create REPORTS_DIR.
+- `_env_tool_allowlist` (function, `estorides_core/config.py:169`) `def _env_tool_allowlist()`
+- `contact_level` (function, `estorides_core/config.py:247`) `def contact_level(contact)` - Map a contact class to its numeric severity, unknown values to active.
+- `effective_proxies` (function, `estorides_core/config.py:273`) `def effective_proxies(explicit)` - Resolve the proxy rotation pool from an explicit value or the env.
+- `CacheConfig` (class, `estorides_core/config.py:407`) `class CacheConfig` - Disk response-cache behaviour.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 37
+- Internal resolved imports (EXTRACTED): 36
 - Cross-boundary resolved imports (EXTRACTED): 47
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 0 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 3 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 2 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
 
 ## Risks
 
@@ -100,7 +98,7 @@ This community groups 19 file(s) rooted at `estorides_core` with dominant langua
 
 - Is the dangerous import `requests` in `estorides_core/async_client.py` still required, or can it be isolated?
 - What would break if the most connected file in estorides_core: config changed?
-- Should estorides_core: config be split, given cohesion 0.38?
+- Should estorides_core: config be split, given cohesion 0.37?
 
 ## Sources
 
@@ -108,15 +106,13 @@ This community groups 19 file(s) rooted at `estorides_core` with dominant langua
 - `estorides_core/config.py`
 - `estorides_core/feeds.py`
 - `estorides_core/intel_resolver.py`
+- `estorides_core/lan_bundle.py`
 - `estorides_core/observation_models.py`
 - `estorides_core/ontology.py`
 - `estorides_core/osiris_sources.py`
 - `estorides_core/pivot_engine.py`
 - `estorides_core/ssrf_guard.py`
 - `estorides_core/transforms.py`
-- `estorides_llm/__init__.py`
-- `estorides_llm/intelligence_prompts.py`
-- `estorides_llm/manager.py`
 - `tests/properties/test_observation_models_properties.py`
 - `tests/test_async_client.py`
 - `tests/test_config_env.py`

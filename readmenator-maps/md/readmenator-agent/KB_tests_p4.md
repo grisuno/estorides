@@ -168,7 +168,7 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `TestS8Registry` (class, line 306) `class TestS8Registry`
   - `TestRunnerErrorPassthrough` (class, line 408) `class TestRunnerErrorPassthrough`
   - `TestS9LoopResponsiveness` (class, line 433) `class TestS9LoopResponsiveness`
-  - `stub` (function, line 52) `def stub(binary, args)`
+  - `stub` (method, line 52) `def stub(binary, args)`
   - `test_execute_renders_query_and_parses_found_lines` (method, line 80) `def test_execute_renders_query_and_parses_found_lines(self)`
   - `test_execute_returns_source_and_tool_metadata` (method, line 105) `def test_execute_returns_source_and_tool_metadata(self)`
   - `test_execute_reports_tool_not_found` (method, line 120) `def test_execute_reports_tool_not_found(self, monkeypatch)`
@@ -194,11 +194,11 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_write_source_file_roundtrip_keeps_system_app_block` (method, line 395) `def test_write_source_file_roundtrip_keeps_system_app_block(self, tmp_path)`
   - `test_timeout_error_is_propagated` (method, line 409) `def test_timeout_error_is_propagated(self, monkeypatch)`
   - `test_binary_branch_runs_in_worker_thread` (method, line 434) `def test_binary_branch_runs_in_worker_thread(self, monkeypatch)`
-  - `on_run` (function, line 83) `def on_run(binary, args)`
-  - `on_run` (function, line 214) `def on_run(binary, args)`
-  - `timeout_runner` (function, line 414) `def timeout_runner(binary, args)`
-  - `slow_execute` (function, line 444) `def slow_execute(source, query)`
-  - `scenario` (function, line 463) `def scenario()`
+  - `on_run` (method, line 83) `def on_run(binary, args)`
+  - `on_run` (method, line 214) `def on_run(binary, args)`
+  - `timeout_runner` (method, line 414) `def timeout_runner(binary, args)`
+  - `slow_execute` (method, line 444) `def slow_execute(source, query)`
+  - `scenario` (method, line 463) `def scenario()`
 - Depends on: `estorides_core/config.py`, `estorides_core/orchestrator.py`, `estorides_core/source_loader.py`, `estorides_core/system_app_sources.py`, `estorides_core/tool_runner.py`
 
 ## tests/test_target_management.py

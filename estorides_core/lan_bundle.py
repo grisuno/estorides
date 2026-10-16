@@ -18,6 +18,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .config import DATA_DIR
+
 log = logging.getLogger("estorides.lan_bundle")
 
 SCHEMA_VERSION = 1
@@ -37,11 +39,10 @@ def sanitize_stem(stem: Any) -> str:
 
 def default_output_dir() -> Path:
     """Resolve the LAN output directory from env or data default."""
-    root = Path(__file__).resolve().parent.parent
     raw = os.environ.get("ESTORIDES_LAN_OUTPUT_DIR", "")
     if raw.strip():
         return Path(raw.strip())
-    return root / "data" / "lan_output"
+    return DATA_DIR / "lan_output"
 
 
 def build_bundle(

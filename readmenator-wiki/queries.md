@@ -4,7 +4,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does config.py depend on, and what depends on it? (41 connections)
+### Q: What does config.py depend on, and what depends on it? (43 connections)
 
 - Status: unanswered
 

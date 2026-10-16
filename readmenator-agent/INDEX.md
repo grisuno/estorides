@@ -26,7 +26,7 @@
 | `estorides_core/change_detection.py` | estorides_core.change_detection | estorides_core | 20 | 2 |
 | `estorides_core/cloud_asset_discovery.py` | - | estorides_core | 7 | 2 |
 | `estorides_core/code_exposure.py` | - | estorides_core | 10 | 2 |
-| `estorides_core/config.py` | estorides.config | estorides_core | 26 | 41 |
+| `estorides_core/config.py` | estorides.config | estorides_core | 29 | 43 |
 | `estorides_core/discoverer.py` | Background subdomain/domain discoverer. | estorides_core | 21 | 3 |
 | `estorides_core/entity_extraction.py` | estorides_core.entity_extraction | estorides_core | 21 | 13 |
 | `estorides_core/entity_resolution.py` | estorides_core.entity_resolution | estorides_core | 35 | 4 |
@@ -96,10 +96,10 @@
 | `estorides_web.py` | estorides.web | root | 97 | 8 |
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
-| `static/js/estorides.js` | Estorides front-end controller | js | 182 | 0 |
-| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 66 | 0 |
-| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 115 | 0 |
-| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 19 | 0 |
+| `static/js/estorides.js` | Estorides front-end controller | js | 180 | 0 |
+| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 62 | 0 |
+| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 109 | 0 |
+| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 | 0 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 | 0 |
 | `tests/properties/conftest.py` | Directory guard for property-based (hypothesis) tests. | properties | 0 | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection. | properties | 8 | 0 |

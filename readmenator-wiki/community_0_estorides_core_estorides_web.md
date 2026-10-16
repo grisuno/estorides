@@ -70,15 +70,15 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - `allow` (method, `estorides_core/audit.py:214`) `def allow(self, key)` - Return (allowed, retry_after_seconds).
 - `reset` (method, `estorides_core/audit.py:238`) `def reset(self, key)`
 - `GraphRagConfig` (class, `estorides_core/graph_rag_search.py:53`) `class GraphRagConfig` - Presupuestos y pesos de retrieval (env `ESTORIDES_GRAPHRAG_*`).
-- `graph_rag_config_from_env` (function, `estorides_core/graph_rag_search.py:75`) `def graph_rag_config_from_env()` - Construye la config desde env; malformada → defaults (nunca raise).
-- `tokenize` (function, `estorides_core/graph_rag_search.py:98`) `def tokenize(text, min_len, stopwords)` - Parte en tokens minusculos; camelCase se divide y se conserva entero.
+- `graph_rag_config_from_env` (method, `estorides_core/graph_rag_search.py:75`) `def graph_rag_config_from_env()` - Construye la config desde env; malformada → defaults (nunca raise).
+- `tokenize` (method, `estorides_core/graph_rag_search.py:98`) `def tokenize(text, min_len, stopwords)` - Parte en tokens minusculos; camelCase se divide y se conserva entero.
 - `Bm25Index` (class, `estorides_core/graph_rag_search.py:112`) `class Bm25Index` - Okapi BM25 sobre un corpus fijo de listas de tokens.
 - `__init__` (method, `estorides_core/graph_rag_search.py:115`) `def __init__(self, documents, k1, b)`
 - `scores` (method, `estorides_core/graph_rag_search.py:136`) `def scores(self, query)` - Un score BM25 por documento, en orden de corpus.
-- `_stochastic` (function, `estorides_core/graph_rag_search.py:153`) `def _stochastic(ids, edges)` - Filas estocasticas (indice, prob) + nodos dangling, orden determinista.
-- `pagerank` (function, `estorides_core/graph_rag_search.py:176`) `def pagerank(ids, edges, alpha, max_iter, tolerance)` - PageRank dirigido y pesado; los scores suman 1 (determinista).
-- `personalized_pagerank` (function, `estorides_core/graph_rag_search.py:207`) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` - PPR con teletransporte al seed; seeds ajenos se ignoran.
-- `_md_safe` (function, `estorides_core/graph_rag_search.py:250`) `def _md_safe(text, limit)` - Gemelo de graph_force._md_safe: neutraliza markdown hostil.
+- `_stochastic` (method, `estorides_core/graph_rag_search.py:153`) `def _stochastic(ids, edges)` - Filas estocasticas (indice, prob) + nodos dangling, orden determinista.
+- `pagerank` (method, `estorides_core/graph_rag_search.py:176`) `def pagerank(ids, edges, alpha, max_iter, tolerance)` - PageRank dirigido y pesado; los scores suman 1 (determinista).
+- `personalized_pagerank` (method, `estorides_core/graph_rag_search.py:207`) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` - PPR con teletransporte al seed; seeds ajenos se ignoran.
+- `_md_safe` (method, `estorides_core/graph_rag_search.py:250`) `def _md_safe(text, limit)` - Gemelo de graph_force._md_safe: neutraliza markdown hostil.
 - `RagEntity` (class, `estorides_core/graph_rag_search.py:260`) `class RagEntity`
 - `RagRelation` (class, `estorides_core/graph_rag_search.py:271`) `class RagRelation`
 - `RagTextUnit` (class, `estorides_core/graph_rag_search.py:281`) `class RagTextUnit`
@@ -87,7 +87,7 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - `GraphRagIndex` (class, `estorides_core/graph_rag_search.py:317`) `class GraphRagIndex`
 - `to_dict` (method, `estorides_core/graph_rag_search.py:324`) `def to_dict(self)`
 - `from_dict` (method, `estorides_core/graph_rag_search.py:334`) `def from_dict(cls, data)`
-- `rows` (function, `estorides_core/graph_rag_search.py:335`) `def rows(name)`
+- `rows` (method, `estorides_core/graph_rag_search.py:335`) `def rows(name)`
 
 ## Internal vs External Edges
 
@@ -96,8 +96,8 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_web.py.
-- [EXTRACTED] depends_on community 0 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_web.py.
+- [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
 - [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/job_registry.py.
 - [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/entity_extraction.py.
 - [EXTRACTED] depends_on community 0 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/validation.py.

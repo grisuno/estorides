@@ -54,7 +54,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `TestCaseDiff` (class, line 72) `class TestCaseDiff`
   - `TestReport` (class, line 107) `class TestReport`
   - `TestConsoleScript` (class, line 137) `class TestConsoleScript`
-  - `status` (function, line 29) `def status()`
+  - `status` (method, line 29) `def status()`
   - `test_headers_and_body_cap` (method, line 36) `def test_headers_and_body_cap(self)`
   - `test_default_off` (method, line 49) `def test_default_off(self)`
   - `test_allowlist` (method, line 54) `def test_allowlist(self)`
@@ -74,7 +74,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `_obs` (function, line 23) `def _obs(source, parsed, raw)`
   - `TestHappyPathDomainBelongsToActor` (class, line 39) `class TestHappyPathDomainBelongsToActor`
   - `TestEmptyInputProducesEmptyOutput` (class, line 113) `class TestEmptyInputProducesEmptyOutput`
-  - `generate_hypothences_safe` (function, line 127) `def generate_hypothences_safe(observations, entities)`
+  - `generate_hypothences_safe` (method, line 127) `def generate_hypothences_safe(observations, entities)`
   - `TestMalformedObservationsAreSkipped` (class, line 138) `class TestMalformedObservationsAreSkipped`
   - `TestUnknownSourceFallsBackToReliabilityC` (class, line 176) `class TestUnknownSourceFallsBackToReliabilityC`
   - `TestMinScoreFiltersHypotheses` (class, line 199) `class TestMinScoreFiltersHypotheses`
@@ -214,14 +214,14 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_s4_degrade_active` (function, line 41) `def test_s4_degrade_active(tmp_path, monkeypatch)`
   - `test_s5_active_injected` (function, line 53) `def test_s5_active_injected(tmp_path, monkeypatch)`
   - `_FakeToolResult` (class, line 63) `class _FakeToolResult`
-  - `test_s9_tool_order` (function, line 69) `def test_s9_tool_order()`
-  - `test_s6_empty_readers` (function, line 102) `def test_s6_empty_readers(tmp_path)`
-  - `test_s7_scope_auto` (function, line 112) `def test_s7_scope_auto(tmp_path)`
-  - `test_s8_no_scope_found` (function, line 121) `def test_s8_no_scope_found(tmp_path)`
+  - `test_s9_tool_order` (method, line 69) `def test_s9_tool_order()`
+  - `test_s6_empty_readers` (method, line 102) `def test_s6_empty_readers(tmp_path)`
+  - `test_s7_scope_auto` (method, line 112) `def test_s7_scope_auto(tmp_path)`
+  - `test_s8_no_scope_found` (method, line 121) `def test_s8_no_scope_found(tmp_path)`
   - `__init__` (method, line 64) `def __init__(self, exit_code, stdout)`
-  - `ok_nmap` (function, line 74) `def ok_nmap(tool, args)`
-  - `fail_then_arp` (function, line 81) `def fail_then_arp(tool, args)`
-  - `both_fail` (function, line 93) `def both_fail(tool, args)`
+  - `ok_nmap` (method, line 74) `def ok_nmap(tool, args)`
+  - `fail_then_arp` (method, line 81) `def fail_then_arp(tool, args)`
+  - `both_fail` (method, line 93) `def both_fail(tool, args)`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/tool_runner.py`
 
 ## tests/test_lan_scope.py

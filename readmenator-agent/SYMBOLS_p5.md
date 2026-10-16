@@ -3,16 +3,6 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_different_normalised_different_id` | method | `tests/test_entity_resolution.py:409` | `def test_different_normalised_different_id(self)` |
-| `test_different_values_different_ids` | method | `tests/test_entity_resolution.py:141` | `def test_different_values_different_ids(self)` |
-| `test_dissimilar_strings_score_low` | method | `tests/test_entity_resolution.py:81` | `def test_dissimilar_strings_score_low(self)` |
-| `test_distinct_names_have_distinct_skeletons` | method | `tests/test_entity_resolution.py:60` | `def test_distinct_names_have_distinct_skeletons(self)` |
-| `test_distinct_persons_not_absorbed` | method | `tests/test_entity_resolution.py:329` | `def test_distinct_persons_not_absorbed(self)` |
-| `test_domain_case_variants_merge` | method | `tests/test_entity_resolution.py:197` | `def test_domain_case_variants_merge(self)` |
-| `test_domain_merge_is_exact` | method | `tests/test_entity_resolution.py:207` | `def test_domain_merge_is_exact(self)` |
-| `test_domain_strips_scheme_www_path` | method | `tests/test_entity_resolution.py:110` | `def test_domain_strips_scheme_www_path(self)` |
-| `test_email_lowered` | method | `tests/test_entity_resolution.py:129` | `def test_email_lowered(self)` |
-| `test_empty_input_returns_empty` | method | `tests/test_entity_resolution.py:385` | `def test_empty_input_returns_empty(self)` |
 | `test_empty_pair_scores_zero` | method | `tests/test_entity_resolution.py:74` | `def test_empty_pair_scores_zero(self)` |
 | `test_fused_identity_carries_all_sources` | method | `tests/test_entity_resolution.py:169` | `def test_fused_identity_carries_all_sources(self)` |
 | `test_greek_accented_to_latin` | method | `tests/test_entity_resolution.py:48` | `def test_greek_accented_to_latin(self)` |
@@ -150,7 +140,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `TestReport` | class | `tests/test_hardening.py:107` | `class TestReport` |
 | `TestSecurityHeaders` | class | `tests/test_hardening.py:35` | `class TestSecurityHeaders` |
 | `_secured_app` | function | `tests/test_hardening.py:23` | `def _secured_app(cfg)` |
-| `status` | function | `tests/test_hardening.py:29` | `def status()` |
+| `status` | method | `tests/test_hardening.py:29` | `def status()` |
 | `test_allowlist` | method | `tests/test_hardening.py:54` | `def test_allowlist(self)` |
 | `test_debug_raises` | method | `tests/test_hardening.py:65` | `def test_debug_raises(self)` |
 | `test_default_off` | method | `tests/test_hardening.py:49` | `def test_default_off(self)` |
@@ -171,7 +161,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `TestProgrammerErrorRaisesValueOrTypeError` | class | `tests/test_hypothesis_engine.py:253` | `class TestProgrammerErrorRaisesValueOrTypeError` |
 | `TestUnknownSourceFallsBackToReliabilityC` | class | `tests/test_hypothesis_engine.py:176` | `class TestUnknownSourceFallsBackToReliabilityC` |
 | `_obs` | function | `tests/test_hypothesis_engine.py:23` | `def _obs(source, parsed, raw)` |
-| `generate_hypothences_safe` | function | `tests/test_hypothesis_engine.py:127` | `def generate_hypothences_safe(observations, entities)` |
+| `generate_hypothences_safe` | method | `tests/test_hypothesis_engine.py:127` | `def generate_hypothences_safe(observations, entities)` |
 | `test_emits_domain_belongsto_actor_hypothesis` | method | `tests/test_hypothesis_engine.py:42` | `def test_emits_domain_belongsto_actor_hypothesis(self)` |
 | `test_empty_entities_only` | method | `tests/test_hypothesis_engine.py:122` | `def test_empty_entities_only(self)` |
 | `test_empty_observations_empty_entities` | method | `tests/test_hypothesis_engine.py:116` | `def test_empty_observations_empty_entities(self)` |
@@ -250,18 +240,18 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `test_s8_unknown_contact_denied_and_capped` | function | `tests/test_lan_policy.py:79` | `def test_s8_unknown_contact_denied_and_capped()` |
 | `_FakeToolResult` | class | `tests/test_lan_runner.py:63` | `class _FakeToolResult` |
 | `__init__` | method | `tests/test_lan_runner.py:64` | `def __init__(self, exit_code, stdout)` |
-| `both_fail` | function | `tests/test_lan_runner.py:93` | `def both_fail(tool, args)` |
-| `fail_then_arp` | function | `tests/test_lan_runner.py:81` | `def fail_then_arp(tool, args)` |
-| `ok_nmap` | function | `tests/test_lan_runner.py:74` | `def ok_nmap(tool, args)` |
+| `both_fail` | method | `tests/test_lan_runner.py:93` | `def both_fail(tool, args)` |
+| `fail_then_arp` | method | `tests/test_lan_runner.py:81` | `def fail_then_arp(tool, args)` |
+| `ok_nmap` | method | `tests/test_lan_runner.py:74` | `def ok_nmap(tool, args)` |
 | `test_s1_passive_injected` | function | `tests/test_lan_runner.py:10` | `def test_s1_passive_injected(tmp_path)` |
 | `test_s2_no_consent_refused` | function | `tests/test_lan_runner.py:22` | `def test_s2_no_consent_refused(tmp_path)` |
 | `test_s3_bad_scope_refused` | function | `tests/test_lan_runner.py:32` | `def test_s3_bad_scope_refused(tmp_path)` |
 | `test_s4_degrade_active` | function | `tests/test_lan_runner.py:41` | `def test_s4_degrade_active(tmp_path, monkeypatch)` |
 | `test_s5_active_injected` | function | `tests/test_lan_runner.py:53` | `def test_s5_active_injected(tmp_path, monkeypatch)` |
-| `test_s6_empty_readers` | function | `tests/test_lan_runner.py:102` | `def test_s6_empty_readers(tmp_path)` |
-| `test_s7_scope_auto` | function | `tests/test_lan_runner.py:112` | `def test_s7_scope_auto(tmp_path)` |
-| `test_s8_no_scope_found` | function | `tests/test_lan_runner.py:121` | `def test_s8_no_scope_found(tmp_path)` |
-| `test_s9_tool_order` | function | `tests/test_lan_runner.py:69` | `def test_s9_tool_order()` |
+| `test_s6_empty_readers` | method | `tests/test_lan_runner.py:102` | `def test_s6_empty_readers(tmp_path)` |
+| `test_s7_scope_auto` | method | `tests/test_lan_runner.py:112` | `def test_s7_scope_auto(tmp_path)` |
+| `test_s8_no_scope_found` | method | `tests/test_lan_runner.py:121` | `def test_s8_no_scope_found(tmp_path)` |
+| `test_s9_tool_order` | method | `tests/test_lan_runner.py:69` | `def test_s9_tool_order()` |
 | `test_s1_v4_parses_to_network` | function | `tests/test_lan_scope.py:6` | `def test_s1_v4_parses_to_network()` |
 | `test_s2_v6_ula_accepted` | function | `tests/test_lan_scope.py:13` | `def test_s2_v6_ula_accepted()` |
 | `test_s3_mixed_keeps_private_only` | function | `tests/test_lan_scope.py:18` | `def test_s3_mixed_keeps_private_only()` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `test_backward_compat` | function | `tests/test_query_intent.py:31` | `def test_backward_compat()` |
 | `test_btc_uppercase_bech32` | function | `tests/test_query_intent.py:27` | `def test_btc_uppercase_bech32()` |
 | `test_mac` | function | `tests/test_query_intent.py:12` | `def test_mac()` |
+| `test_phone` | function | `tests/test_query_intent.py:7` | `def test_phone()` |
+| `test_url_normalises_to_host` | function | `tests/test_query_intent.py:22` | `def test_url_normalises_to_host()` |
+| `TestFusionResultDataclass` | class | `tests/test_recon_fusion.py:252` | `class TestFusionResultDataclass` |
+| `TestIntegrationMultiEntity` | class | `tests/test_recon_fusion.py:227` | `class TestIntegrationMultiEntity` |
+| `TestRelevanceTierEnum` | class | `tests/test_recon_fusion.py:267` | `class TestRelevanceTierEnum` |
+| `TestS10EntityWithoutType` | class | `tests/test_recon_fusion.py:183` | `class TestS10EntityWithoutType` |
+| `TestS11Dedup` | class | `tests/test_recon_fusion.py:195` | `class TestS11Dedup` |
+| `TestS12Ordering` | class | `tests/test_recon_fusion.py:212` | `class TestS12Ordering` |
+| `TestS1CriticalCorroborated` | class | `tests/test_recon_fusion.py:46` | `class TestS1CriticalCorroborated` |
+| `TestS2TwoReliableSources` | class | `tests/test_recon_fusion.py:65` | `class TestS2TwoReliableSources` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

@@ -352,20 +352,20 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_no_innerhtml_markdown_sink` (method, line 630) `def test_no_innerhtml_markdown_sink(self)`
   - `test_no_html_string_round_trip` (method, line 636) `def test_no_html_string_round_trip(self)`
   - `test_vendored_dompurify_wired_with_fallback` (method, line 643) `def test_vendored_dompurify_wired_with_fallback(self)`
-  - `api_export_test` (function, line 97) `def api_export_test()`
-  - `api_export_fixed` (function, line 130) `def api_export_fixed()`
-  - `api_delete` (function, line 191) `def api_delete(name)`
-  - `api_create` (function, line 212) `def api_create()`
-  - `api_update` (function, line 236) `def api_update(name)`
-  - `fetch_bgp` (function, line 354) `def fetch_bgp(q)`
-  - `fetch_mac` (function, line 357) `def fetch_mac(mac)`
-  - `fetch_phone` (function, line 360) `def fetch_phone(n)`
-  - `fetch_github_user` (function, line 363) `def fetch_github_user(u)`
-  - `fetch_leaks` (function, line 366) `def fetch_leaks(e)`
-  - `osiris_endpoint` (function, line 376) `def osiris_endpoint()`
+  - `api_export_test` (method, line 97) `def api_export_test()`
+  - `api_export_fixed` (method, line 130) `def api_export_fixed()`
+  - `api_delete` (method, line 191) `def api_delete(name)`
+  - `api_create` (method, line 212) `def api_create()`
+  - `api_update` (method, line 236) `def api_update(name)`
+  - `fetch_bgp` (method, line 354) `def fetch_bgp(q)`
+  - `fetch_mac` (method, line 357) `def fetch_mac(mac)`
+  - `fetch_phone` (method, line 360) `def fetch_phone(n)`
+  - `fetch_github_user` (method, line 363) `def fetch_github_user(u)`
+  - `fetch_leaks` (method, line 366) `def fetch_leaks(e)`
+  - `osiris_endpoint` (method, line 376) `def osiris_endpoint()`
   - `_Fake302` (class, line 555) `class _Fake302`
   - `_FakeOpener` (class, line 564) `class _FakeOpener`
-  - `_fake_build_opener` (function, line 571) `def _fake_build_opener()`
+  - `_fake_build_opener` (method, line 571) `def _fake_build_opener()`
   - `__enter__` (method, line 558) `def __enter__(self)`
   - `__exit__` (method, line 561) `def __exit__(self)`
   - `open` (method, line 565) `def open(self, req, timeout)`

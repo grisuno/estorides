@@ -1,6 +1,6 @@
 # estorides_core: hypothesis_engine
 
-*Community 3 | 19 files | cohesion 0.66*
+*Community 2 | 19 files | cohesion 0.66*
 
 ## Definition
 
@@ -42,16 +42,16 @@ This community groups 19 file(s) rooted at `tests` with dominant language py (co
 - `Change` (class, `estorides_core/change_detection.py:135`) `class Change` - One detected change.
 - `ChangeSummary` (class, `estorides_core/change_detection.py:152`) `class ChangeSummary` - Aggregate stats for a :class:`ChangeReport`.
 - `ChangeReport` (class, `estorides_core/change_detection.py:169`) `class ChangeReport` - Top-N changes + summary stats for a single diff operation.
-- `_truncate_key` (function, `estorides_core/change_detection.py:177`) `def _truncate_key(key)`
-- `_change_id` (function, `estorides_core/change_detection.py:184`) `def _change_id(kind, entity_id, diff_signature)`
-- `_reliability_floor` (function, `estorides_core/change_detection.py:188`) `def _reliability_floor(letter)` - A=1, B=2, ..., F=6. For 'min_reliability' comparison.
-- `_filter_sources_by_reliability` (function, `estorides_core/change_detection.py:193`) `def _filter_sources_by_reliability(sources, min_reliability)`
-- `_property_diff` (function, `estorides_core/change_detection.py:206`) `def _property_diff(before, after)` - Compute the per-key add/change/remove between two property maps.
-- `_edge_set` (function, `estorides_core/change_detection.py:225`) `def _edge_set(edges)`
-- `_union_sources` (function, `estorides_core/change_detection.py:229`) `def _union_sources(a, b)` - Sorted union of two entities' source lists.
-- `_make_change` (function, `estorides_core/change_detection.py:241`) `def _make_change(kind, entity_id, entity_type, entity_value, sig)` - Build a :class:`Change` with the deterministic id derived from
-- `_below_min_reliability` (function, `estorides_core/change_detection.py:274`) `def _below_min_reliability(source, min_reliability)` - True if a source's reliability is strictly *worse* than the
-- `detect_changes` (function, `estorides_core/change_detection.py:284`) `def detect_changes(snapshot_before, snapshot_after)` - Diff two snapshots. Pure: no I/O, deterministic, bounded.
+- `_truncate_key` (method, `estorides_core/change_detection.py:177`) `def _truncate_key(key)`
+- `_change_id` (method, `estorides_core/change_detection.py:184`) `def _change_id(kind, entity_id, diff_signature)`
+- `_reliability_floor` (method, `estorides_core/change_detection.py:188`) `def _reliability_floor(letter)` - A=1, B=2, ..., F=6. For 'min_reliability' comparison.
+- `_filter_sources_by_reliability` (method, `estorides_core/change_detection.py:193`) `def _filter_sources_by_reliability(sources, min_reliability)`
+- `_property_diff` (method, `estorides_core/change_detection.py:206`) `def _property_diff(before, after)` - Compute the per-key add/change/remove between two property maps.
+- `_edge_set` (method, `estorides_core/change_detection.py:225`) `def _edge_set(edges)`
+- `_union_sources` (method, `estorides_core/change_detection.py:229`) `def _union_sources(a, b)` - Sorted union of two entities' source lists.
+- `_make_change` (method, `estorides_core/change_detection.py:241`) `def _make_change(kind, entity_id, entity_type, entity_value, sig)` - Build a :class:`Change` with the deterministic id derived from
+- `_below_min_reliability` (method, `estorides_core/change_detection.py:274`) `def _below_min_reliability(source, min_reliability)` - True if a source's reliability is strictly *worse* than the
+- `detect_changes` (method, `estorides_core/change_detection.py:284`) `def detect_changes(snapshot_before, snapshot_after)` - Diff two snapshots. Pure: no I/O, deterministic, bounded.
 - `FusionAnalytics` (class, `estorides_core/fusion_analytics.py:31`) `class FusionAnalytics` - Read-only analytics queries over the fusion store.
 - `__init__` (method, `estorides_core/fusion_analytics.py:40`) `def __init__(self, store)`
 - `entity_timeline` (method, `estorides_core/fusion_analytics.py:46`) `def entity_timeline(self, eid)`
@@ -70,10 +70,10 @@ This community groups 19 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/fusion_store.py.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
-- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.
+- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/fusion_store.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_resolution.py imports estorides_core/ids.py.
+- [EXTRACTED] depends_on community 2 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: estorides_core/orchestrator.py imports estorides_core/recon_fusion.py.
 
 ## Risks
 

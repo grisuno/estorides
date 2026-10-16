@@ -32,8 +32,8 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 - `to_dict` (method, `estorides_core/cloud_asset_discovery.py:45`) `def to_dict(self)`
 - `CloudAssetDiscoveryResult` (class, `estorides_core/cloud_asset_discovery.py:50`) `class CloudAssetDiscoveryResult`
 - `to_dict` (method, `estorides_core/cloud_asset_discovery.py:56`) `def to_dict(self)`
-- `generate_bucket_names` (function, `estorides_core/cloud_asset_discovery.py:65`) `def generate_bucket_names(domain)`
-- `assess_bucket` (function, `estorides_core/cloud_asset_discovery.py:84`) `def assess_bucket(url, method)`
+- `generate_bucket_names` (method, `estorides_core/cloud_asset_discovery.py:65`) `def generate_bucket_names(domain)`
+- `assess_bucket` (method, `estorides_core/cloud_asset_discovery.py:84`) `def assess_bucket(url, method)`
 - `CloudAssetDiscoveryError` (class, `estorides_core/cloud_asset_discovery.py:93`) `class CloudAssetDiscoveryError(Exception)`
 - `CodeFinding` (class, `estorides_core/code_exposure.py:47`) `class CodeFinding`
 - `to_dict` (method, `estorides_core/code_exposure.py:57`) `def to_dict(self)`
@@ -41,10 +41,10 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 - `to_dict` (method, `estorides_core/code_exposure.py:69`) `def to_dict(self)`
 - `CodeExposureResult` (class, `estorides_core/code_exposure.py:74`) `class CodeExposureResult`
 - `to_dict` (method, `estorides_core/code_exposure.py:81`) `def to_dict(self)`
-- `validate_aws_key` (function, `estorides_core/code_exposure.py:91`) `def validate_aws_key(key)`
-- `_is_placeholder` (function, `estorides_core/code_exposure.py:95`) `def _is_placeholder(text)`
-- `classify_finding` (function, `estorides_core/code_exposure.py:99`) `def classify_finding(content, source, file_path)`
-- `analyse_findings` (function, `estorides_core/code_exposure.py:189`) `def analyse_findings(findings, rate_limited)`
+- `validate_aws_key` (method, `estorides_core/code_exposure.py:91`) `def validate_aws_key(key)`
+- `_is_placeholder` (method, `estorides_core/code_exposure.py:95`) `def _is_placeholder(text)`
+- `classify_finding` (method, `estorides_core/code_exposure.py:99`) `def classify_finding(content, source, file_path)`
+- `analyse_findings` (method, `estorides_core/code_exposure.py:189`) `def analyse_findings(findings, rate_limited)`
 - `HistoricalSubdomain` (class, `estorides_core/pdns_monitor.py:13`) `class HistoricalSubdomain`
 - `to_dict` (method, `estorides_core/pdns_monitor.py:22`) `def to_dict(self)`
 - `IPRecord` (class, `estorides_core/pdns_monitor.py:27`) `class IPRecord`
@@ -53,9 +53,9 @@ This community groups 15 file(s) rooted at `estorides_core` with dominant langua
 - `to_dict` (method, `estorides_core/pdns_monitor.py:50`) `def to_dict(self)`
 - `PDNSResult` (class, `estorides_core/pdns_monitor.py:55`) `class PDNSResult`
 - `to_dict` (method, `estorides_core/pdns_monitor.py:62`) `def to_dict(self)`
-- `classify_subdomain_status` (function, `estorides_core/pdns_monitor.py:72`) `def classify_subdomain_status(fqdn, resolved_ips)`
-- `extract_sans_from_cert` (function, `estorides_core/pdns_monitor.py:76`) `def extract_sans_from_cert(cert)`
-- `analyse_pdns_data` (function, `estorides_core/pdns_monitor.py:80`) `def analyse_pdns_data(subdomains, ip_history, new_certs)`
+- `classify_subdomain_status` (method, `estorides_core/pdns_monitor.py:72`) `def classify_subdomain_status(fqdn, resolved_ips)`
+- `extract_sans_from_cert` (method, `estorides_core/pdns_monitor.py:76`) `def extract_sans_from_cert(cert)`
+- `analyse_pdns_data` (method, `estorides_core/pdns_monitor.py:80`) `def analyse_pdns_data(subdomains, ip_history, new_certs)`
 - `BreachRecord` (class, `estorides_core/people_intel.py:15`) `class BreachRecord`
 - `to_dict` (method, `estorides_core/people_intel.py:22`) `def to_dict(self)`
 

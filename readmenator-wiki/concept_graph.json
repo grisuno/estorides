@@ -130,7 +130,7 @@
         "web.py",
         "wsgi.py"
       ],
-      "mentions": 256,
+      "mentions": 260,
       "confidence": "EXTRACTED"
     },
     {
@@ -208,7 +208,7 @@
         "tests/test_vuln_correlation.py",
         "tests/test_web_helpers.py"
       ],
-      "mentions": 143,
+      "mentions": 144,
       "confidence": "EXTRACTED"
     },
     {
@@ -697,7 +697,7 @@
         "tests/test_tool_install.py",
         "tests/test_ui_visibility.py"
       ],
-      "mentions": 149,
+      "mentions": 146,
       "confidence": "EXTRACTED"
     },
     {
@@ -944,7 +944,7 @@
         "tests/test_ui_visibility.py",
         "wsgi.py"
       ],
-      "mentions": 98,
+      "mentions": 99,
       "confidence": "EXTRACTED"
     },
     {
@@ -1378,7 +1378,7 @@
         "tests/test_vuln_correlation.py",
         "wsgi.py"
       ],
-      "mentions": 80,
+      "mentions": 81,
       "confidence": "EXTRACTED"
     },
     {
@@ -1674,7 +1674,7 @@
         "tests/test_target_management.py",
         "tests/test_tech_fingerprint.py"
       ],
-      "mentions": 98,
+      "mentions": 97,
       "confidence": "EXTRACTED"
     },
     {
@@ -2052,7 +2052,7 @@
         "tests/test_csp_safe_styles.py",
         "tests/test_ui_visibility.py"
       ],
-      "mentions": 74,
+      "mentions": 73,
       "confidence": "EXTRACTED"
     },
     {
@@ -2278,7 +2278,7 @@
         "tests/test_target_scoring.py",
         "tests/test_ui_professional.py"
       ],
-      "mentions": 70,
+      "mentions": 74,
       "confidence": "EXTRACTED"
     },
     {
@@ -2366,6 +2366,48 @@
       "confidence": "EXTRACTED"
     },
     {
+      "name": "must",
+      "files": [
+        "estorides_core/audit.py",
+        "estorides_core/config.py",
+        "estorides_core/entity_store.py",
+        "estorides_core/observation_models.py",
+        "estorides_core/orchestrator.py",
+        "estorides_core/pivot_engine.py",
+        "estorides_core/relationship_inference.py",
+        "estorides_core/system_app_sources.py",
+        "estorides_core/tool_install.py",
+        "estorides_core/web_security.py",
+        "estorides_export/report.py",
+        "estorides_llm/manager.py",
+        "static/js/estorides.js",
+        "tests/properties/test_change_detection_properties.py",
+        "tests/properties/test_hypothesis_engine_properties.py",
+        "tests/properties/test_parsers_properties.py",
+        "tests/properties/test_reliability_scoring_properties.py",
+        "tests/properties/test_search_telemetry_properties.py",
+        "tests/properties/test_source_health_monitoring_properties.py",
+        "tests/properties/test_tool_runner_properties.py",
+        "tests/test_config_env.py",
+        "tests/test_csp_safe_styles.py",
+        "tests/test_encrypted_export.py",
+        "tests/test_entity_resolution.py",
+        "tests/test_fusion_analytics.py",
+        "tests/test_hypothesis_engine.py",
+        "tests/test_observation_models.py",
+        "tests/test_parsers.py",
+        "tests/test_probabilistic_fusion.py",
+        "tests/test_recon_report.py",
+        "tests/test_reliability_scoring.py",
+        "tests/test_security_remediation.py",
+        "tests/test_socmint.py",
+        "tests/test_source_health_monitoring.py",
+        "tests/test_tool_install.py"
+      ],
+      "mentions": 72,
+      "confidence": "EXTRACTED"
+    },
+    {
       "name": "per",
       "files": [
         "estorides_core/async_client.py",
@@ -2405,48 +2447,6 @@
         "tools/split_sources.py"
       ],
       "mentions": 72,
-      "confidence": "EXTRACTED"
-    },
-    {
-      "name": "must",
-      "files": [
-        "estorides_core/audit.py",
-        "estorides_core/config.py",
-        "estorides_core/entity_store.py",
-        "estorides_core/observation_models.py",
-        "estorides_core/orchestrator.py",
-        "estorides_core/pivot_engine.py",
-        "estorides_core/relationship_inference.py",
-        "estorides_core/system_app_sources.py",
-        "estorides_core/tool_install.py",
-        "estorides_core/web_security.py",
-        "estorides_export/report.py",
-        "estorides_llm/manager.py",
-        "static/js/estorides.js",
-        "tests/properties/test_change_detection_properties.py",
-        "tests/properties/test_hypothesis_engine_properties.py",
-        "tests/properties/test_parsers_properties.py",
-        "tests/properties/test_reliability_scoring_properties.py",
-        "tests/properties/test_search_telemetry_properties.py",
-        "tests/properties/test_source_health_monitoring_properties.py",
-        "tests/properties/test_tool_runner_properties.py",
-        "tests/test_config_env.py",
-        "tests/test_csp_safe_styles.py",
-        "tests/test_encrypted_export.py",
-        "tests/test_entity_resolution.py",
-        "tests/test_fusion_analytics.py",
-        "tests/test_hypothesis_engine.py",
-        "tests/test_observation_models.py",
-        "tests/test_parsers.py",
-        "tests/test_probabilistic_fusion.py",
-        "tests/test_recon_report.py",
-        "tests/test_reliability_scoring.py",
-        "tests/test_security_remediation.py",
-        "tests/test_socmint.py",
-        "tests/test_source_health_monitoring.py",
-        "tests/test_tool_install.py"
-      ],
-      "mentions": 71,
       "confidence": "EXTRACTED"
     },
     {
@@ -2729,25 +2729,6 @@
       ]
     },
     {
-      "source": "not",
-      "target": "estorides",
-      "verb": "depends_on",
-      "strength": 0.93,
-      "confidence": "INFERRED",
-      "evidence": [
-        "app.py->wsgi.py",
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py"
-      ]
-    },
-    {
       "source": "when",
       "target": "estorides",
       "verb": "depends_on",
@@ -2764,6 +2745,25 @@
         "estorides_cli.py->estorides_core/monitoring.py",
         "estorides_cli.py->estorides_core/orchestrator.py",
         "estorides_cli.py->estorides_core/scope.py"
+      ]
+    },
+    {
+      "source": "not",
+      "target": "estorides",
+      "verb": "depends_on",
+      "strength": 0.92,
+      "confidence": "INFERRED",
+      "evidence": [
+        "app.py->wsgi.py",
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py"
       ]
     },
     {
@@ -2827,7 +2827,7 @@
       "source": "estorides",
       "target": "single",
       "verb": "depends_on",
-      "strength": 0.8,
+      "strength": 0.81,
       "confidence": "INFERRED",
       "evidence": [
         "app.py->wsgi.py",
@@ -2865,7 +2865,7 @@
       "source": "estorides",
       "target": "source",
       "verb": "depends_on",
-      "strength": 0.78,
+      "strength": 0.79,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/cases.py",
@@ -2941,7 +2941,7 @@
       "source": "estorides",
       "target": "can",
       "verb": "depends_on",
-      "strength": 0.74,
+      "strength": 0.75,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/alerter.py",
@@ -2960,7 +2960,7 @@
       "source": "estorides",
       "target": "list",
       "verb": "depends_on",
-      "strength": 0.74,
+      "strength": 0.75,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/alerter.py",
@@ -2979,7 +2979,7 @@
       "source": "estorides",
       "target": "one",
       "verb": "depends_on",
-      "strength": 0.74,
+      "strength": 0.75,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/config.py",
@@ -2992,6 +2992,25 @@
         "estorides_cli.py->estorides_core/validation.py",
         "estorides_cli.py->estorides_web.py",
         "estorides_core/__init__.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "estorides",
+      "target": "every",
+      "verb": "depends_on",
+      "strength": 0.73,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py"
       ]
     },
     {
@@ -3053,28 +3072,9 @@
     },
     {
       "source": "estorides",
-      "target": "every",
-      "verb": "depends_on",
-      "strength": 0.72,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py"
-      ]
-    },
-    {
-      "source": "estorides",
       "target": "entity",
       "verb": "depends_on",
-      "strength": 0.7,
+      "strength": 0.71,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/cases.py",
@@ -3093,7 +3093,7 @@
       "source": "estorides",
       "target": "when",
       "verb": "depends_on",
-      "strength": 0.7,
+      "strength": 0.71,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/cases.py",
@@ -3112,7 +3112,7 @@
       "source": "estorides",
       "target": "return",
       "verb": "depends_on",
-      "strength": 0.69,
+      "strength": 0.7,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/alerter.py",
@@ -3185,6 +3185,44 @@
       ]
     },
     {
+      "source": "estorides",
+      "target": "never",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/async_client.py->estorides_core/config.py",
+        "estorides_core/audit.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "estorides",
+      "target": "only",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "app.py->wsgi.py",
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_export/report.py"
+      ]
+    },
+    {
       "source": "every",
       "target": "estorides",
       "verb": "depends_on",
@@ -3224,47 +3262,9 @@
     },
     {
       "source": "estorides",
-      "target": "never",
-      "verb": "depends_on",
-      "strength": 0.66,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_core/__init__.py->estorides_core/config.py",
-        "estorides_core/async_client.py->estorides_core/config.py",
-        "estorides_core/audit.py->estorides_core/config.py"
-      ]
-    },
-    {
-      "source": "estorides",
-      "target": "only",
-      "verb": "depends_on",
-      "strength": 0.66,
-      "confidence": "INFERRED",
-      "evidence": [
-        "app.py->wsgi.py",
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_export/report.py"
-      ]
-    },
-    {
-      "source": "estorides",
       "target": "same",
       "verb": "depends_on",
-      "strength": 0.65,
+      "strength": 0.66,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/cases.py",
@@ -3280,29 +3280,10 @@
       ]
     },
     {
-      "source": "not",
-      "target": "single",
-      "verb": "depends_on",
-      "strength": 0.65,
-      "confidence": "INFERRED",
-      "evidence": [
-        "app.py->wsgi.py",
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py"
-      ]
-    },
-    {
       "source": "returns",
       "target": "not",
       "verb": "depends_on",
-      "strength": 0.65,
+      "strength": 0.66,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/alerter.py",
@@ -3394,22 +3375,41 @@
       ]
     },
     {
-      "source": "not",
-      "target": "source",
+      "source": "graph",
+      "target": "estorides",
       "verb": "depends_on",
       "strength": 0.64,
       "confidence": "INFERRED",
       "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py"
+      ]
+    },
+    {
+      "source": "not",
+      "target": "single",
+      "verb": "depends_on",
+      "strength": 0.64,
+      "confidence": "INFERRED",
+      "evidence": [
+        "app.py->wsgi.py",
+        "estorides_cli.py->estorides_core/alerter.py",
         "estorides_cli.py->estorides_core/cases.py",
         "estorides_cli.py->estorides_core/config.py",
         "estorides_cli.py->estorides_core/entity_extraction.py",
         "estorides_cli.py->estorides_core/fusion_store.py",
         "estorides_cli.py->estorides_core/knowledge_graph.py",
         "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_export/report.py",
-        "estorides_cli.py->estorides_web.py",
-        "estorides_core/alerter.py->estorides_core/ssrf_guard.py"
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py"
       ]
     },
     {
@@ -3489,8 +3489,46 @@
       ]
     },
     {
-      "source": "graph",
-      "target": "estorides",
+      "source": "estorides",
+      "target": "type",
+      "verb": "depends_on",
+      "strength": 0.63,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/async_client.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "not",
+      "target": "source",
+      "verb": "depends_on",
+      "strength": 0.63,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_export/report.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/alerter.py->estorides_core/ssrf_guard.py"
+      ]
+    },
+    {
+      "source": "returns",
+      "target": "return",
       "verb": "depends_on",
       "strength": 0.63,
       "confidence": "INFERRED",
@@ -3498,13 +3536,13 @@
         "estorides_cli.py->estorides_core/alerter.py",
         "estorides_cli.py->estorides_core/cases.py",
         "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
         "estorides_cli.py->estorides_core/entity_extraction.py",
         "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
         "estorides_cli.py->estorides_core/monitoring.py",
         "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py"
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_web.py"
       ]
     },
     {
@@ -3546,6 +3584,25 @@
       ]
     },
     {
+      "source": "when",
+      "target": "single",
+      "verb": "depends_on",
+      "strength": 0.63,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_core/async_client.py->estorides_core/config.py"
+      ]
+    },
+    {
       "source": "error",
       "target": "estorides",
       "verb": "depends_on",
@@ -3565,25 +3622,6 @@
       ]
     },
     {
-      "source": "estorides",
-      "target": "type",
-      "verb": "depends_on",
-      "strength": 0.62,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_web.py",
-        "estorides_core/__init__.py->estorides_core/config.py",
-        "estorides_core/async_client.py->estorides_core/config.py"
-      ]
-    },
-    {
       "source": "returns",
       "target": "can",
       "verb": "depends_on",
@@ -3599,25 +3637,6 @@
         "estorides_cli.py->estorides_core/scope.py",
         "estorides_cli.py->estorides_core/validation.py",
         "estorides_cli.py->estorides_export/report.py",
-        "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "returns",
-      "target": "return",
-      "verb": "depends_on",
-      "strength": 0.62,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
         "estorides_cli.py->estorides_web.py"
       ]
     },
@@ -3641,25 +3660,6 @@
       ]
     },
     {
-      "source": "when",
-      "target": "single",
-      "verb": "depends_on",
-      "strength": 0.62,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_core/async_client.py->estorides_core/config.py"
-      ]
-    },
-    {
       "source": "not",
       "target": "can",
       "verb": "depends_on",
@@ -3676,44 +3676,6 @@
         "estorides_cli.py->estorides_core/validation.py",
         "estorides_cli.py->estorides_export/report.py",
         "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "not",
-      "target": "return",
-      "verb": "depends_on",
-      "strength": 0.61,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "not",
-      "target": "returns",
-      "verb": "depends_on",
-      "strength": 0.61,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py"
       ]
     },
     {
@@ -3809,6 +3771,44 @@
         "estorides_cli.py->estorides_export/report.py",
         "estorides_cli.py->estorides_web.py",
         "estorides_core/alerter.py->estorides_core/ssrf_guard.py"
+      ]
+    },
+    {
+      "source": "not",
+      "target": "return",
+      "verb": "depends_on",
+      "strength": 0.6,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_web.py"
+      ]
+    },
+    {
+      "source": "not",
+      "target": "returns",
+      "verb": "depends_on",
+      "strength": 0.6,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py"
       ]
     },
     {
@@ -3926,6 +3926,44 @@
       ]
     },
     {
+      "source": "estorides",
+      "target": "default",
+      "verb": "depends_on",
+      "strength": 0.59,
+      "confidence": "INFERRED",
+      "evidence": [
+        "app.py->wsgi.py",
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/alerter.py->estorides_core/ssrf_guard.py",
+        "estorides_core/async_client.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "estorides",
+      "target": "per",
+      "verb": "depends_on",
+      "strength": 0.59,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/async_client.py->estorides_core/config.py",
+        "estorides_core/audit.py->estorides_core/config.py"
+      ]
+    },
+    {
       "source": "list",
       "target": "return",
       "verb": "depends_on",
@@ -4002,25 +4040,6 @@
       ]
     },
     {
-      "source": "not",
-      "target": "list",
-      "verb": "depends_on",
-      "strength": 0.59,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py"
-      ]
-    },
-    {
       "source": "returns",
       "target": "one",
       "verb": "depends_on",
@@ -4154,6 +4173,25 @@
       ]
     },
     {
+      "source": "all",
+      "target": "estorides",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py"
+      ]
+    },
+    {
       "source": "entity",
       "target": "single",
       "verb": "depends_on",
@@ -4174,18 +4212,18 @@
     },
     {
       "source": "estorides",
-      "target": "default",
+      "target": "safe",
       "verb": "depends_on",
       "strength": 0.58,
       "confidence": "INFERRED",
       "evidence": [
         "app.py->wsgi.py",
-        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
         "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
         "estorides_cli.py->estorides_core/monitoring.py",
         "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_web.py",
         "estorides_core/__init__.py->estorides_core/config.py",
         "estorides_core/alerter.py->estorides_core/ssrf_guard.py",
         "estorides_core/async_client.py->estorides_core/config.py"
@@ -4193,7 +4231,7 @@
     },
     {
       "source": "estorides",
-      "target": "per",
+      "target": "value",
       "verb": "depends_on",
       "strength": 0.58,
       "confidence": "INFERRED",
@@ -4208,6 +4246,25 @@
         "estorides_core/__init__.py->estorides_core/config.py",
         "estorides_core/async_client.py->estorides_core/config.py",
         "estorides_core/audit.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "list",
+      "target": "can",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_export/report.py",
+        "estorides_cli.py->estorides_web.py"
       ]
     },
     {
@@ -4250,6 +4307,25 @@
     },
     {
       "source": "not",
+      "target": "list",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py"
+      ]
+    },
+    {
+      "source": "not",
       "target": "one",
       "verb": "depends_on",
       "strength": 0.58,
@@ -4265,6 +4341,25 @@
         "estorides_cli.py->estorides_core/validation.py",
         "estorides_cli.py->estorides_web.py",
         "estorides_core/async_client.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "one",
+      "target": "not",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/async_client.py->estorides_core/config.py",
+        "estorides_core/async_client.py->estorides_core/ssrf_guard.py"
       ]
     },
     {
@@ -4306,6 +4401,63 @@
       ]
     },
     {
+      "source": "run",
+      "target": "never",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_core/audit.py->estorides_core/config.py",
+        "estorides_core/cases.py->estorides_core/case_crypto.py",
+        "estorides_core/cases.py->estorides_core/config.py"
+      ]
+    },
+    {
+      "source": "run",
+      "target": "same",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/discoverer.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_export/report.py",
+        "estorides_core/audit.py->estorides_core/config.py",
+        "estorides_core/cases.py->estorides_core/config.py",
+        "estorides_core/cases.py->estorides_core/sqlite_store.py"
+      ]
+    },
+    {
+      "source": "sources",
+      "target": "return",
+      "verb": "depends_on",
+      "strength": 0.58,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/alerter.py",
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/monitoring.py",
+        "estorides_cli.py->estorides_core/orchestrator.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_core/validation.py",
+        "estorides_cli.py->estorides_web.py"
+      ]
+    },
+    {
       "source": "sources",
       "target": "returns",
       "verb": "depends_on",
@@ -4325,22 +4477,22 @@
       ]
     },
     {
-      "source": "all",
-      "target": "estorides",
+      "source": "estorides",
+      "target": "any",
       "verb": "depends_on",
       "strength": 0.57,
       "confidence": "INFERRED",
       "evidence": [
         "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
         "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
         "estorides_cli.py->estorides_core/entity_extraction.py",
         "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
         "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py"
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/alerter.py->estorides_core/ssrf_guard.py",
+        "estorides_core/async_client.py->estorides_core/config.py"
       ]
     },
     {
@@ -4363,101 +4515,6 @@
       ]
     },
     {
-      "source": "estorides",
-      "target": "safe",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "app.py->wsgi.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_core/__init__.py->estorides_core/config.py",
-        "estorides_core/alerter.py->estorides_core/ssrf_guard.py",
-        "estorides_core/async_client.py->estorides_core/config.py"
-      ]
-    },
-    {
-      "source": "estorides",
-      "target": "value",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_web.py",
-        "estorides_core/__init__.py->estorides_core/config.py",
-        "estorides_core/async_client.py->estorides_core/config.py",
-        "estorides_core/audit.py->estorides_core/config.py"
-      ]
-    },
-    {
-      "source": "list",
-      "target": "can",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_export/report.py",
-        "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "not",
-      "target": "when",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_export/report.py",
-        "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "one",
-      "target": "not",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_web.py",
-        "estorides_core/async_client.py->estorides_core/config.py",
-        "estorides_core/async_client.py->estorides_core/ssrf_guard.py"
-      ]
-    },
-    {
       "source": "return",
       "target": "estorides",
       "verb": "depends_on",
@@ -4477,82 +4534,6 @@
       ]
     },
     {
-      "source": "run",
-      "target": "never",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_core/audit.py->estorides_core/config.py",
-        "estorides_core/cases.py->estorides_core/case_crypto.py",
-        "estorides_core/cases.py->estorides_core/config.py"
-      ]
-    },
-    {
-      "source": "run",
-      "target": "same",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/discoverer.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/knowledge_graph.py",
-        "estorides_cli.py->estorides_export/report.py",
-        "estorides_core/audit.py->estorides_core/config.py",
-        "estorides_core/cases.py->estorides_core/config.py",
-        "estorides_core/cases.py->estorides_core/sqlite_store.py"
-      ]
-    },
-    {
-      "source": "sources",
-      "target": "return",
-      "verb": "depends_on",
-      "strength": 0.57,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/cases.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/monitoring.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_core/validation.py",
-        "estorides_cli.py->estorides_web.py"
-      ]
-    },
-    {
-      "source": "estorides",
-      "target": "any",
-      "verb": "depends_on",
-      "strength": 0.56,
-      "confidence": "INFERRED",
-      "evidence": [
-        "estorides_cli.py->estorides_core/alerter.py",
-        "estorides_cli.py->estorides_core/config.py",
-        "estorides_cli.py->estorides_core/entity_extraction.py",
-        "estorides_cli.py->estorides_core/fusion_store.py",
-        "estorides_cli.py->estorides_core/orchestrator.py",
-        "estorides_cli.py->estorides_core/scope.py",
-        "estorides_cli.py->estorides_web.py",
-        "estorides_core/__init__.py->estorides_core/config.py",
-        "estorides_core/alerter.py->estorides_core/ssrf_guard.py",
-        "estorides_core/async_client.py->estorides_core/config.py"
-      ]
-    },
-    {
       "source": "estorides",
       "target": "back",
       "verb": "depends_on",
@@ -4569,6 +4550,25 @@
         "estorides_core/audit.py->estorides_core/config.py",
         "estorides_core/cases.py->estorides_core/config.py",
         "estorides_core/change_detection.py->estorides_core/reliability_scoring.py"
+      ]
+    },
+    {
+      "source": "estorides",
+      "target": "entities",
+      "verb": "depends_on",
+      "strength": 0.56,
+      "confidence": "INFERRED",
+      "evidence": [
+        "estorides_cli.py->estorides_core/cases.py",
+        "estorides_cli.py->estorides_core/config.py",
+        "estorides_cli.py->estorides_core/entity_extraction.py",
+        "estorides_cli.py->estorides_core/fusion_store.py",
+        "estorides_cli.py->estorides_core/knowledge_graph.py",
+        "estorides_cli.py->estorides_core/scope.py",
+        "estorides_cli.py->estorides_export/report.py",
+        "estorides_cli.py->estorides_web.py",
+        "estorides_core/__init__.py->estorides_core/config.py",
+        "estorides_core/active_recon.py->estorides_core/tool_runner.py"
       ]
     },
     {
