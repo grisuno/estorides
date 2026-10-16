@@ -18,23 +18,23 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## estorides_core (5.1)
+## estorides_core (4.1)
 
 estorides_core groups 6 files (py) around SqliteStore, __init__, _init_schema, _tx, close. estorides_core.alerter
 
-## estorides_export (5.2)
+## estorides_export (4.2)
 
 estorides_export groups 1 files (py) around _tldr, _iocs, _diff_section, _analysis, _meta_footer. estorides_export.report
 
-## root (5.3)
+## root (4.3)
 
 root groups 1 files (py) around _setup_logging, _collect_selectors, _resolve_proxy, _add_opsec_flags, cmd_discover. estorides CLI.
 
-## static (5.4)
+## static (4.4)
 
 static groups 1 files (js) around setVisible, isLanQueryLocal, t, lanRunFields, ensureLanConsent. Estorides front-end controller
 
-## tests (5.5)
+## tests (4.5)
 
 tests groups 8 files (py) around _fresh_store, test_disabled_stores_plaintext, test_enabled_roundtrip, test_bad_key_falls_back, test_mixed_rows_and_tamper. M4 case_crypto BDD red.
 

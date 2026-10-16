@@ -36,7 +36,7 @@ flowchart LR
 
 ### `LanBundleResult`
 
-`class` `dataclass` | [estorides_core/lan_bundle.py:350](../../estorides_core/lan_bundle.py#L350)
+`class` `dataclass` | [estorides_core/lan_bundle.py:351](../../estorides_core/lan_bundle.py#L351)
 
 Decorators: `@dataclass`
 
@@ -67,7 +67,7 @@ Failures are values, never raises.
 
 #### `LanBundleResult.to_dict`
 
-`method` | [estorides_core/lan_bundle.py:358](../../estorides_core/lan_bundle.py#L358)
+`method` | [estorides_core/lan_bundle.py:359](../../estorides_core/lan_bundle.py#L359)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -83,7 +83,7 @@ def to_dict(self) -> dict[str, Any]
 
 ### `sanitize_stem`
 
-`function` | [estorides_core/lan_bundle.py:27](../../estorides_core/lan_bundle.py#L27)
+`function` | [estorides_core/lan_bundle.py:29](../../estorides_core/lan_bundle.py#L29)
 
 ```python
 def sanitize_stem(stem: Any) -> str
@@ -109,7 +109,7 @@ Bad input falls back to lan.
 
 ### `default_output_dir`
 
-`function` | [estorides_core/lan_bundle.py:38](../../estorides_core/lan_bundle.py#L38)
+`function` | [estorides_core/lan_bundle.py:40](../../estorides_core/lan_bundle.py#L40)
 
 ```python
 def default_output_dir() -> Path
@@ -127,7 +127,7 @@ Resolve the LAN output directory from env or data default.
 
 ### `build_bundle`
 
-`function` | [estorides_core/lan_bundle.py:47](../../estorides_core/lan_bundle.py#L47)
+`function` | [estorides_core/lan_bundle.py:48](../../estorides_core/lan_bundle.py#L48)
 
 ```python
 def build_bundle(devices: list[Any], *, scope_cidr: str | None = None, generated_at: float | None = None) -> dict[str, Any]
@@ -155,7 +155,7 @@ Never raises on bad items.
 
 ### `write_bundle`
 
-`function` | [estorides_core/lan_bundle.py:362](../../estorides_core/lan_bundle.py#L362)
+`function` | [estorides_core/lan_bundle.py:363](../../estorides_core/lan_bundle.py#L363)
 
 ```python
 def write_bundle(devices: list[Any], *, output_dir: str | Path | None = None, stem: str = 'lan', scope_cidr: str | None = None) -> LanBundleResult
@@ -186,7 +186,7 @@ Never raises.
 
 ### `SCHEMA_VERSION`
 
-`constant` | [estorides_core/lan_bundle.py:23](../../estorides_core/lan_bundle.py#L23)
+`constant` | [estorides_core/lan_bundle.py:25](../../estorides_core/lan_bundle.py#L25)
 
 ```python
 SCHEMA_VERSION = 1

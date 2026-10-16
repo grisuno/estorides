@@ -1,10 +1,10 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-16T21:14:22Z",
+  "generated_at": "2026-10-16T23:02:06Z",
   "project_root": ".",
   "project_name": "estorides",
-  "git_commit": "e9a8fc5da449641762acac0a5e7094e080844cae",
+  "git_commit": "a278a7be646c81c4b04cfcf42e9c04e51d8939f5",
   "git_branch": "main",
   "source_fingerprint": "59883bda08d14f8cdf7c1fbf38d01e5d5d7d71ff608666119d2aefb2aa7f2000",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",

@@ -265,7 +265,7 @@ DOC001: 658, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
 - DOC001 `estorides_core/knowledge_graph.py:261` method KnowledgeGraph.top_entities is not documented
 - DOC001 `estorides_core/knowledge_graph.py:357` method KnowledgeGraph.ego_subgraph is not documented
 - DOC001 `estorides_core/knowledge_graph.py:368` method KnowledgeGraph.neighbours is not documented
-- DOC001 `estorides_core/lan_bundle.py:358` method LanBundleResult.to_dict is not documented
+- DOC001 `estorides_core/lan_bundle.py:359` method LanBundleResult.to_dict is not documented
 - DOC001 `estorides_core/lan_inventory.py:60` method LanDevice.to_dict is not documented
 - DOC001 `estorides_core/lan_policy.py:50` method LanPolicyDecision.to_dict is not documented
 - DOC001 `estorides_core/lan_runner.py:56` method LanScanResult.to_dict is not documented
@@ -438,10 +438,10 @@ DOC001: 658, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
 - DOC001 `estorides_core/tool_runner.py:86` class ToolErrorResult is not documented
 - DOC001 `estorides_core/tool_runner.py:93` method ToolErrorResult.to_dict is not documented
 - DOC001 `estorides_core/tool_runner.py:156` function run_tool is not documented
-- DOC001 `estorides_core/transforms.py:83` method Transform.summary is not documented
-- DOC001 `estorides_core/transforms.py:231` method TransformRegistry.register is not documented
-- DOC001 `estorides_core/transforms.py:234` method TransformRegistry.for_type is not documented
-- DOC001 `estorides_core/transforms.py:246` method TransformRegistry.run is not documented
+- DOC001 `estorides_core/transforms.py:85` method Transform.summary is not documented
+- DOC001 `estorides_core/transforms.py:233` method TransformRegistry.register is not documented
+- DOC001 `estorides_core/transforms.py:236` method TransformRegistry.for_type is not documented
+- DOC001 `estorides_core/transforms.py:248` method TransformRegistry.run is not documented
 - DOC005 `estorides_core/validation.py:85` validate_query raises QueryValidationError but does not document it
 - DOC001 `estorides_core/vuln_correlation.py:1` module estorides_core/vuln_correlation.py is not documented
 - DOC001 `estorides_core/vuln_correlation.py:14` class DefaultCred is not documented

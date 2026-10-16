@@ -131,7 +131,7 @@
 {"code":"DOC001","uid":"estorides_core/knowledge_graph.py::KnowledgeGraph.top_entities","file":"estorides_core/knowledge_graph.py","line":261,"message":"method KnowledgeGraph.top_entities is not documented"}
 {"code":"DOC001","uid":"estorides_core/knowledge_graph.py::KnowledgeGraph.ego_subgraph","file":"estorides_core/knowledge_graph.py","line":357,"message":"method KnowledgeGraph.ego_subgraph is not documented"}
 {"code":"DOC001","uid":"estorides_core/knowledge_graph.py::KnowledgeGraph.neighbours","file":"estorides_core/knowledge_graph.py","line":368,"message":"method KnowledgeGraph.neighbours is not documented"}
-{"code":"DOC001","uid":"estorides_core/lan_bundle.py::LanBundleResult.to_dict","file":"estorides_core/lan_bundle.py","line":358,"message":"method LanBundleResult.to_dict is not documented"}
+{"code":"DOC001","uid":"estorides_core/lan_bundle.py::LanBundleResult.to_dict","file":"estorides_core/lan_bundle.py","line":359,"message":"method LanBundleResult.to_dict is not documented"}
 {"code":"DOC001","uid":"estorides_core/lan_inventory.py::LanDevice.to_dict","file":"estorides_core/lan_inventory.py","line":60,"message":"method LanDevice.to_dict is not documented"}
 {"code":"DOC001","uid":"estorides_core/lan_policy.py::LanPolicyDecision.to_dict","file":"estorides_core/lan_policy.py","line":50,"message":"method LanPolicyDecision.to_dict is not documented"}
 {"code":"DOC001","uid":"estorides_core/lan_runner.py::LanScanResult.to_dict","file":"estorides_core/lan_runner.py","line":56,"message":"method LanScanResult.to_dict is not documented"}
@@ -304,10 +304,10 @@
 {"code":"DOC001","uid":"estorides_core/tool_runner.py::ToolErrorResult","file":"estorides_core/tool_runner.py","line":86,"message":"class ToolErrorResult is not documented"}
 {"code":"DOC001","uid":"estorides_core/tool_runner.py::ToolErrorResult.to_dict","file":"estorides_core/tool_runner.py","line":93,"message":"method ToolErrorResult.to_dict is not documented"}
 {"code":"DOC001","uid":"estorides_core/tool_runner.py::run_tool","file":"estorides_core/tool_runner.py","line":156,"message":"function run_tool is not documented"}
-{"code":"DOC001","uid":"estorides_core/transforms.py::Transform.summary","file":"estorides_core/transforms.py","line":83,"message":"method Transform.summary is not documented"}
-{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.register","file":"estorides_core/transforms.py","line":231,"message":"method TransformRegistry.register is not documented"}
-{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.for_type","file":"estorides_core/transforms.py","line":234,"message":"method TransformRegistry.for_type is not documented"}
-{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.run","file":"estorides_core/transforms.py","line":246,"message":"method TransformRegistry.run is not documented"}
+{"code":"DOC001","uid":"estorides_core/transforms.py::Transform.summary","file":"estorides_core/transforms.py","line":85,"message":"method Transform.summary is not documented"}
+{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.register","file":"estorides_core/transforms.py","line":233,"message":"method TransformRegistry.register is not documented"}
+{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.for_type","file":"estorides_core/transforms.py","line":236,"message":"method TransformRegistry.for_type is not documented"}
+{"code":"DOC001","uid":"estorides_core/transforms.py::TransformRegistry.run","file":"estorides_core/transforms.py","line":248,"message":"method TransformRegistry.run is not documented"}
 {"code":"DOC005","uid":"estorides_core/validation.py::validate_query","file":"estorides_core/validation.py","line":85,"message":"validate_query raises QueryValidationError but does not document it"}
 {"code":"DOC001","uid":"estorides_core/vuln_correlation.py","file":"estorides_core/vuln_correlation.py","line":1,"message":"module estorides_core/vuln_correlation.py is not documented"}
 {"code":"DOC001","uid":"estorides_core/vuln_correlation.py::DefaultCred","file":"estorides_core/vuln_correlation.py","line":14,"message":"class DefaultCred is not documented"}

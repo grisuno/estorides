@@ -2217,6 +2217,7 @@
 - [`traceSmooth`](modules/static.js.graph_force.js.md#tracesmooth) function in `static/js/graph_force.js`
 - [`Transform`](modules/estorides_core.transforms.py.md#transform) class in `estorides_core.transforms`
 - [`TransformRegistry`](modules/estorides_core.transforms.py.md#transformregistry) class in `estorides_core.transforms`
+- [`TRANSFORMS_DIR`](modules/estorides_core.config.py.md#transforms_dir) constant in `estorides_core.config`
 - [`truncate`](modules/static.js.estorides.js.md#truncate) function in `static/js/estorides.js`
 - [`truncated`](modules/estorides_core.system_app_sources.py.md#systemappresult-truncated) attribute of `SystemAppResult` in `estorides_core.system_app_sources`
 - [`truncated`](modules/estorides_core.tool_runner.py.md#toolresult-truncated) attribute of `ToolResult` in `estorides_core.tool_runner`

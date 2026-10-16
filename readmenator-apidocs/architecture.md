@@ -18,7 +18,7 @@ flowchart TB
         n_c0["estorides_core: estorides_web<br/>14 files, 230 symbols<br/>Core / utility"]:::entry
         n_d_tools["tools<br/>1 files, 1 symbols<br/>Core / utility"]:::default
         n_d_static["static<br/>3 files, 200 symbols<br/>Core / utility"]:::default
-        n_d_estorides_core["estorides_core<br/>3 files, 22 symbols<br/>Core / utility"]:::default
+        n_d_estorides_core["estorides_core<br/>2 files, 14 symbols<br/>Business logic"]:::default
         n_d__scratchpad[".scratchpad<br/>11 files, 0 symbols<br/>Core / utility"]:::default
         n_d__root_["(root)<br/>1 files, 2 symbols<br/>Core / utility"]:::default
         n_c9["estorides_core: source_health_monitoring<br/>1 files, 14 symbols<br/>Core / utility"]:::default
@@ -26,17 +26,17 @@ flowchart TB
     end
     subgraph lane_1["Tier 2"]
         direction LR
-        n_c1["estorides_core: parsers<br/>11 files, 215 symbols<br/>Core / utility"]:::cycle
+        n_c1["estorides_core: parsers<br/>14 files, 238 symbols<br/>Core / utility"]:::cycle
         n_c5["estorides_core: graph_bundle<br/>4 files, 42 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_2["Tier 3"]
         direction LR
-        n_c4["estorides_core: estorides<br/>9 files, 332 symbols<br/>Core / utility"]:::cycle
+        n_c3["estorides_core: estorides<br/>9 files, 332 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_3["Tier 4"]
         direction LR
         n_c8["estorides_core: tool_install<br/>5 files, 81 symbols<br/>Core / utility"]:::cycle
-        n_c3["estorides_core: hypothesis_engine<br/>7 files, 111 symbols<br/>Core / utility"]:::cycle
+        n_c2["estorides_core: hypothesis_engine<br/>7 files, 111 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_4["Tier 5"]
         direction LR
@@ -44,29 +44,29 @@ flowchart TB
     end
     subgraph lane_5["Tier 6 - foundation"]
         direction LR
-        n_c2["estorides_core: config<br/>13 files, 220 symbols<br/>Core / utility"]:::default
+        n_c4["estorides_core: config<br/>11 files, 208 symbols<br/>Core / utility"]:::default
     end
     n_c0 ==>|"7"| n_c1
     n_c0 ==>|"5"| n_c5
-    n_c1 -->|"2"| n_c4
-    n_c3 -->|"1"| n_c7
-    n_c4 -->|"1"| n_c3
-    n_c4 -->|"1"| n_c8
-    n_c5 -->|"1"| n_c2
-    n_c7 ==>|"6"| n_c2
+    n_c1 -->|"2"| n_c3
+    n_c2 -->|"1"| n_c7
+    n_c3 -->|"1"| n_c2
+    n_c3 -->|"1"| n_c8
+    n_c5 -->|"1"| n_c4
+    n_c7 ==>|"6"| n_c4
     n_c8 -->|"2"| n_c7
     n_c0 <-.-|"1 upward"| n_c1
-    n_c4 <-.-|"1 upward"| n_c3
-    n_c0 <-.-|"1 upward"| n_c4
-    n_c1 <-.-|"3 upward"| n_c4
-    n_c3 <-.-|"1 upward"| n_c7
-    n_c4 <-.-|"2 upward"| n_c7
+    n_c3 <-.-|"1 upward"| n_c2
+    n_c0 <-.-|"1 upward"| n_c3
+    n_c1 <-.-|"3 upward"| n_c3
+    n_c2 <-.-|"1 upward"| n_c7
+    n_c3 <-.-|"2 upward"| n_c7
     linkStyle 9,10,11,12,13,14 stroke:#f87171,stroke-width:2px;
     n_c0 ~~~ n_c1
-    n_c1 ~~~ n_c4
-    n_c4 ~~~ n_c8
+    n_c1 ~~~ n_c3
+    n_c3 ~~~ n_c8
     n_c8 ~~~ n_c7
-    n_c7 ~~~ n_c2
+    n_c7 ~~~ n_c4
 ```
 
 ---
@@ -77,7 +77,7 @@ Entry points are scored from `__main__` guards, `main` functions, entry-style na
 
 ### `transforms.run`
 
-`estorides_core/transforms.py:122`, score 9: entry-style name `run`.
+`estorides_core/transforms.py:124`, score 9: entry-style name `run`.
 
 Call tree:
 
@@ -85,8 +85,8 @@ Call tree:
 flowchart LR
     classDef default fill:#111827,stroke:#38bdf8,color:#e5e7eb;
     classDef entry fill:#0e7490,stroke:#22d3ee,color:#ecfeff,stroke-width:2px;
-    n_estorides_core_transforms_py__run["transforms.run<br/>transforms.py:122"]:::entry
-    n_estorides_core_transforms_py___resolver_filtered["transforms._resolver_filtered<br/>Resolve #96;(ent_type, value)#96; and keep only lin...<br/>transforms.py:100"]:::default
+    n_estorides_core_transforms_py__run["transforms.run<br/>transforms.py:124"]:::entry
+    n_estorides_core_transforms_py___resolver_filtered["transforms._resolver_filtered<br/>Resolve #96;(ent_type, value)#96; and keep only lin...<br/>transforms.py:102"]:::default
     n_estorides_core_transforms_py__run -->|"1"| n_estorides_core_transforms_py___resolver_filtered
 ```
 

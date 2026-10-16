@@ -2,64 +2,64 @@
 graph LR
     estorides_core_estorides_web["estorides_core: estorides_web"]
     estorides_core_parsers["estorides_core: parsers"]
-    estorides_core_config["estorides_core: config"]
     estorides_core_hypothesis_engine["estorides_core: hypothesis_engine"]
     estorides_core_estorides["estorides_core: estorides"]
+    estorides_core_config["estorides_core: config"]
     estorides_core_graph_bundle["estorides_core: graph_bundle"]
     estorides_core_people_intel["estorides_core: people_intel"]
     estorides_export["estorides_export"]
     estorides_core_tool_install["estorides_core: tool_install"]
     estorides_core_source_health_monitoring["estorides_core: source_health_monitoring"]
     estorides_core_estorides_web -- "calls into" --> estorides_core_parsers
-    estorides_core_estorides_web -- "calls into" --> estorides_core_config
     estorides_core_estorides_web -- "calls into" --> estorides_core_hypothesis_engine
     estorides_core_estorides_web -- "calls into" --> estorides_core_estorides
+    estorides_core_estorides_web -- "calls into" --> estorides_core_config
     estorides_core_estorides_web -- "depends on" --> estorides_core_graph_bundle
     estorides_core_estorides_web -- "calls into" --> estorides_export
     estorides_core_estorides_web -- "calls into" --> estorides_core_tool_install
     estorides_core_source_health_monitoring -- "calls into" --> estorides_core_estorides
     estorides_core_parsers -- "calls into" --> estorides_core_estorides_web
-    estorides_core_parsers -- "calls into" --> estorides_core_config
     estorides_core_parsers -- "calls into" --> estorides_core_hypothesis_engine
     estorides_core_parsers -- "calls into" --> estorides_core_estorides
+    estorides_core_parsers -- "calls into" --> estorides_core_config
     estorides_core_parsers -- "calls into" --> estorides_export
     estorides_core_parsers -- "depends on" --> estorides_core_tool_install
+    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_estorides_web
+    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_parsers
+    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_estorides
+    estorides_core_hypothesis_engine -- "depends on" --> estorides_core_config
+    estorides_core_hypothesis_engine -- "depends on" --> estorides_export
+    estorides_core_estorides -- "calls into" --> estorides_core_estorides_web
+    estorides_core_estorides -- "calls into" --> estorides_core_parsers
+    estorides_core_estorides -- "calls into" --> estorides_core_hypothesis_engine
+    estorides_core_estorides -- "depends on" --> estorides_core_config
+    estorides_core_estorides -- "depends on" --> estorides_core_graph_bundle
+    estorides_core_estorides -- "calls into" --> estorides_export
+    estorides_core_estorides -- "calls into" --> estorides_core_tool_install
     estorides_core_config -- "calls into" --> estorides_core_estorides_web
     estorides_core_config -- "calls into" --> estorides_core_parsers
     estorides_core_config -- "calls into" --> estorides_core_estorides
     estorides_core_config -- "calls into" --> estorides_export
-    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_estorides_web
-    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_parsers
-    estorides_core_hypothesis_engine -- "depends on" --> estorides_core_config
-    estorides_core_hypothesis_engine -- "calls into" --> estorides_core_estorides
-    estorides_core_hypothesis_engine -- "depends on" --> estorides_export
-    estorides_core_estorides -- "calls into" --> estorides_core_estorides_web
-    estorides_core_estorides -- "calls into" --> estorides_core_parsers
-    estorides_core_estorides -- "depends on" --> estorides_core_config
-    estorides_core_estorides -- "calls into" --> estorides_core_hypothesis_engine
-    estorides_core_estorides -- "depends on" --> estorides_core_graph_bundle
-    estorides_core_estorides -- "calls into" --> estorides_export
-    estorides_core_estorides -- "calls into" --> estorides_core_tool_install
     estorides_core_graph_bundle -- "calls into" --> estorides_core_estorides_web
     estorides_core_graph_bundle -- "calls into" --> estorides_core_parsers
-    estorides_core_graph_bundle -- "calls into" --> estorides_core_config
     estorides_core_graph_bundle -- "calls into" --> estorides_core_estorides
+    estorides_core_graph_bundle -- "calls into" --> estorides_core_config
     estorides_core_people_intel -- "calls into" --> estorides_core_estorides_web
     estorides_export -- "calls into" --> estorides_core_estorides_web
     estorides_export -- "calls into" --> estorides_core_parsers
-    estorides_export -- "calls into" --> estorides_core_config
     estorides_export -- "calls into" --> estorides_core_hypothesis_engine
     estorides_export -- "calls into" --> estorides_core_estorides
+    estorides_export -- "calls into" --> estorides_core_config
     estorides_core_tool_install -- "depends on" --> estorides_core_parsers
-    estorides_core_tool_install -- "depends on" --> estorides_core_config
     estorides_core_tool_install -- "calls into" --> estorides_core_estorides
+    estorides_core_tool_install -- "depends on" --> estorides_core_config
     estorides_core_tool_install -- "calls into" --> estorides_core_graph_bundle
     estorides_core_tool_install -- "calls into" --> estorides_export
     click estorides_core_estorides_web href "./estorides_core_estorides_web.md" "Details"
     click estorides_core_parsers href "./estorides_core_parsers.md" "Details"
-    click estorides_core_config href "./estorides_core_config.md" "Details"
     click estorides_core_hypothesis_engine href "./estorides_core_hypothesis_engine.md" "Details"
     click estorides_core_estorides href "./estorides_core_estorides.md" "Details"
+    click estorides_core_config href "./estorides_core_config.md" "Details"
     click estorides_core_graph_bundle href "./estorides_core_graph_bundle.md" "Details"
     click estorides_core_people_intel href "./estorides_core_people_intel.md" "Details"
     click estorides_export href "./estorides_export.md" "Details"
@@ -68,7 +68,7 @@ graph LR
 
 ## Details
 
-Static architecture map of 191 files (js, py, sh) in 10 components: estorides_core: estorides_web, estorides_core: parsers, estorides_core: config, estorides_core: hypothesis_engine, estorides_core: estorides, estorides_core: graph_bundle, estorides_core: people_intel, estorides_export. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 191 files (js, py, sh) in 10 components: estorides_core: estorides_web, estorides_core: parsers, estorides_core: hypothesis_engine, estorides_core: estorides, estorides_core: config, estorides_core: graph_bundle, estorides_core: people_intel, estorides_export. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### estorides_core: estorides_web (1)
 
@@ -87,7 +87,7 @@ estorides_core: estorides_web groups 27 files (py) around _sse_response, _provid
 
 ### estorides_core: parsers (2)
 
-estorides_core: parsers groups 21 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer.
+estorides_core: parsers groups 24 files (py) around _d, _first_dict, _list, _text, parse_dns_json. Background subdomain/domain discoverer.
 
 **Related Classes/Methods**:
 
@@ -100,22 +100,7 @@ estorides_core: parsers groups 21 files (py) around _d, _first_dict, _list, _tex
 - <a href="../estorides_core/parsers.py#L96-L175">estorides_core/parsers.py::parse_rdap</a>
 - <a href="../estorides_core/parsers.py#L176-L201">estorides_core/parsers.py::parse_ipapi</a>
 
-### estorides_core: config (3)
-
-estorides_core: config groups 19 files (py) around ensure_data_dirs, ensure_reports_dir, _env_tool_allowlist, contact_level, effective_proxies. estorides_core.async_client
-
-**Related Classes/Methods**:
-
-- <a href="../estorides_core/config.py#L58-L68">estorides_core/config.py::ensure_data_dirs</a>
-- <a href="../estorides_core/config.py#L69-L125">estorides_core/config.py::ensure_reports_dir</a>
-- <a href="../estorides_core/config.py#L126-L205">estorides_core/config.py::_env_tool_allowlist</a>
-- <a href="../estorides_core/config.py#L206-L231">estorides_core/config.py::contact_level</a>
-- <a href="../estorides_core/config.py#L232-L365">estorides_core/config.py::effective_proxies</a>
-- <a href="../estorides_core/config.py#L366-L372">estorides_core/config.py::CacheConfig</a>
-- <a href="../estorides_core/config.py#L373-L378">estorides_core/config.py::is_active</a>
-- <a href="../estorides_core/config.py#L379-L392">estorides_core/config.py::PivotPolicyConfig</a>
-
-### estorides_core: hypothesis_engine (4)
+### estorides_core: hypothesis_engine (3)
 
 estorides_core: hypothesis_engine groups 19 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection
 
@@ -130,7 +115,7 @@ estorides_core: hypothesis_engine groups 19 files (py) around SourceReliability,
 - <a href="../estorides_core/reliability_scoring.py#L280-L286">estorides_core/reliability_scoring.py::_corroboration_weight</a>
 - <a href="../estorides_core/reliability_scoring.py#L287-L296">estorides_core/reliability_scoring.py::_freshness_weight</a>
 
-### estorides_core: estorides (5)
+### estorides_core: estorides (4)
 
 estorides_core: estorides groups 17 files (js, py) around SqliteStore, __init__, _init_schema, _tx, close. estorides CLI.
 
@@ -144,6 +129,21 @@ estorides_core: estorides groups 17 files (js, py) around SqliteStore, __init__,
 - <a href="../estorides_core/sqlite_store.py#L89-L108">estorides_core/sqlite_store.py::__del__</a>
 - <a href="../estorides_core/sqlite_store.py#L109-L111">estorides_core/sqlite_store.py::DictMixin</a>
 - <a href="../estorides_core/sqlite_store.py#L112-L119">estorides_core/sqlite_store.py::to_dict</a>
+
+### estorides_core: config (5)
+
+estorides_core: config groups 17 files (py) around _installed_share, _resolve_dir, _resolve_writable_dir, ensure_data_dirs, ensure_reports_dir. estorides_core.async_client
+
+**Related Classes/Methods**:
+
+- <a href="../estorides_core/config.py#L42-L46">estorides_core/config.py::_installed_share</a>
+- <a href="../estorides_core/config.py#L47-L62">estorides_core/config.py::_resolve_dir</a>
+- <a href="../estorides_core/config.py#L63-L100">estorides_core/config.py::_resolve_writable_dir</a>
+- <a href="../estorides_core/config.py#L101-L111">estorides_core/config.py::ensure_data_dirs</a>
+- <a href="../estorides_core/config.py#L112-L168">estorides_core/config.py::ensure_reports_dir</a>
+- <a href="../estorides_core/config.py#L169-L246">estorides_core/config.py::_env_tool_allowlist</a>
+- <a href="../estorides_core/config.py#L247-L272">estorides_core/config.py::contact_level</a>
+- <a href="../estorides_core/config.py#L273-L406">estorides_core/config.py::effective_proxies</a>
 
 ### estorides_core: graph_bundle (6)
 

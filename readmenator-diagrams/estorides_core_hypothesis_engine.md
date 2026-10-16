@@ -9,11 +9,11 @@ graph LR
     tests -- "calls into" --> estorides_core
 ```
 
-## estorides_core (4.1)
+## estorides_core (3.1)
 
 estorides_core groups 7 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, __post_init__. estorides_core.change_detection
 
-## tests (4.2)
+## tests (3.2)
 
 tests groups 12 files (py) around test_scores_always_bounded, test_max_changes_respected, test_id_is_16_char_hex, test_idempotent, test_first_run_reports_all_as_new. Property-based invariants for estorides_core.change_detection.
 

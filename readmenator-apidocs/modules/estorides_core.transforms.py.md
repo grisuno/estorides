@@ -87,7 +87,7 @@ flowchart LR
 
 ### `Transform`
 
-`class` `dataclass` | [estorides_core/transforms.py:71](../../estorides_core/transforms.py#L71)
+`class` `dataclass` | [estorides_core/transforms.py:73](../../estorides_core/transforms.py#L73)
 
 Decorators: `@dataclass`
 
@@ -120,7 +120,7 @@ One named transform applicable to a set of entity types.
 
 #### `Transform.summary`
 
-`method` | [estorides_core/transforms.py:83](../../estorides_core/transforms.py#L83)
+`method` | [estorides_core/transforms.py:85](../../estorides_core/transforms.py#L85)
 
 ```python
 def summary(self) -> dict[str, Any]
@@ -134,7 +134,7 @@ def summary(self) -> dict[str, Any]
 
 ### `TransformRegistry`
 
-`class` | [estorides_core/transforms.py:225](../../estorides_core/transforms.py#L225)
+`class` | [estorides_core/transforms.py:227](../../estorides_core/transforms.py#L227)
 
 ```python
 class TransformRegistry
@@ -156,7 +156,7 @@ Holds every transform and dispatches by id.
 
 #### `TransformRegistry.__init__`
 
-`constructor` | [estorides_core/transforms.py:228](../../estorides_core/transforms.py#L228)
+`constructor` | [estorides_core/transforms.py:230](../../estorides_core/transforms.py#L230)
 
 ```python
 def __init__(self) -> None
@@ -166,7 +166,7 @@ def __init__(self) -> None
 
 #### `TransformRegistry.register`
 
-`method` | [estorides_core/transforms.py:231](../../estorides_core/transforms.py#L231)
+`method` | [estorides_core/transforms.py:233](../../estorides_core/transforms.py#L233)
 
 ```python
 def register(self, t: Transform) -> None
@@ -184,7 +184,7 @@ def register(self, t: Transform) -> None
 
 #### `TransformRegistry.for_type`
 
-`method` | [estorides_core/transforms.py:234](../../estorides_core/transforms.py#L234)
+`method` | [estorides_core/transforms.py:236](../../estorides_core/transforms.py#L236)
 
 ```python
 def for_type(self, ent_type: str) -> list[dict[str, Any]]
@@ -202,7 +202,7 @@ def for_type(self, ent_type: str) -> list[dict[str, Any]]
 
 #### `TransformRegistry.run`
 
-`method` | [estorides_core/transforms.py:246](../../estorides_core/transforms.py#L246)
+`method` | [estorides_core/transforms.py:248](../../estorides_core/transforms.py#L248)
 
 ```python
 def run(self, transform_id: str, ent_type: str, value: str) -> Result
@@ -222,7 +222,7 @@ def run(self, transform_id: str, ent_type: str, value: str) -> Result
 
 #### `TransformRegistry.load_yaml_dir`
 
-`method` | [estorides_core/transforms.py:280](../../estorides_core/transforms.py#L280)
+`method` | [estorides_core/transforms.py:282](../../estorides_core/transforms.py#L282)
 
 ```python
 def load_yaml_dir(self, directory: str | Path) -> int
@@ -252,7 +252,7 @@ overwrite with a warning. Returns the number of transforms loaded.
 
 ### `iter_sse_events`
 
-`function` `generator` | [estorides_core/transforms.py:406](../../estorides_core/transforms.py#L406)
+`function` `generator` | [estorides_core/transforms.py:408](../../estorides_core/transforms.py#L408)
 
 ```python
 def iter_sse_events(transform_id: str, ent_type: str, value: str, runner: Callable[[str, str], Result] | None = None) -> Iterator[tuple[str, dict[str, Any]]]
@@ -284,7 +284,7 @@ Kinds: ``node`` / ``link`` per item, then ``done`` with counts, or
 
 ### `TIERS`
 
-`constant` | [estorides_core/transforms.py:56](../../estorides_core/transforms.py#L56)
+`constant` | [estorides_core/transforms.py:58](../../estorides_core/transforms.py#L58)
 
 ```python
 TIERS = ('data', 'information', 'intelligence', 'counter_intelligence')
@@ -296,7 +296,7 @@ TIERS = ('data', 'information', 'intelligence', 'counter_intelligence')
 
 ### `MAX_ID_LEN`
 
-`constant` | [estorides_core/transforms.py:60](../../estorides_core/transforms.py#L60)
+`constant` | [estorides_core/transforms.py:62](../../estorides_core/transforms.py#L62)
 
 ```python
 MAX_ID_LEN = 64
@@ -308,7 +308,7 @@ MAX_ID_LEN = 64
 
 ### `MAX_TYPE_LEN`
 
-`constant` | [estorides_core/transforms.py:61](../../estorides_core/transforms.py#L61)
+`constant` | [estorides_core/transforms.py:63](../../estorides_core/transforms.py#L63)
 
 ```python
 MAX_TYPE_LEN = 64
@@ -320,7 +320,7 @@ MAX_TYPE_LEN = 64
 
 ### `MAX_VALUE_LEN`
 
-`constant` | [estorides_core/transforms.py:62](../../estorides_core/transforms.py#L62)
+`constant` | [estorides_core/transforms.py:64](../../estorides_core/transforms.py#L64)
 
 ```python
 MAX_VALUE_LEN = 512
@@ -332,7 +332,7 @@ MAX_VALUE_LEN = 512
 
 ### `MAX_STATIC_NODES`
 
-`constant` | [estorides_core/transforms.py:64](../../estorides_core/transforms.py#L64)
+`constant` | [estorides_core/transforms.py:66](../../estorides_core/transforms.py#L66)
 
 ```python
 MAX_STATIC_NODES = 50
@@ -344,7 +344,7 @@ MAX_STATIC_NODES = 50
 
 ### `MAX_STATIC_LINKS`
 
-`constant` | [estorides_core/transforms.py:65](../../estorides_core/transforms.py#L65)
+`constant` | [estorides_core/transforms.py:67](../../estorides_core/transforms.py#L67)
 
 ```python
 MAX_STATIC_LINKS = 100

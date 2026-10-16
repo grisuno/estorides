@@ -3,7 +3,7 @@
  "format": "jsonl",
  "meta": {
   "modules": 101,
-  "entities": 2312,
+  "entities": 2313,
   "languages": {
    "js": 4,
    "py": 96,
@@ -13,7 +13,7 @@
    "attribute": 799,
    "class": 167,
    "classmethod": 5,
-   "constant": 242,
+   "constant": 243,
    "constructor": 32,
    "enum": 5,
    "exception": 11,
@@ -718,7 +718,7 @@
   {
    "uid": "estorides_core/config.py",
    "path": "modules/estorides_core.config.py.jsonl",
-   "entities": 149
+   "entities": 150
   },
   {
    "uid": "estorides_core/discoverer.py",

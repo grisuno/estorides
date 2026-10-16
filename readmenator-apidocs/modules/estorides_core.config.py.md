@@ -25,7 +25,7 @@ logs, instead of crashing the whole process at import time).
 
 - **Classes:** [`CacheConfig`](#cacheconfig), [`PivotPolicyConfig`](#pivotpolicyconfig), [`PivotConfig`](#pivotconfig), [`StreamConfig`](#streamconfig), [`ReconFusionConfig`](#reconfusionconfig), [`SchemaConfig`](#schemaconfig), [`WebConfig`](#webconfig), [`RetryConfig`](#retryconfig)
 - **Functions:** [`ensure_data_dirs`](#ensure_data_dirs), [`ensure_reports_dir`](#ensure_reports_dir), [`contact_level`](#contact_level), [`effective_proxies`](#effective_proxies), [`retry_delay`](#retry_delay)
-- **Constants:** [`PROJECT_ROOT`](#project_root), [`SOURCES_DIR`](#sources_dir), [`DATA_DIR`](#data_dir), [`REPORTS_DIR`](#reports_dir), [`TEMPLATES_DIR`](#templates_dir), [`STATIC_DIR`](#static_dir), [`DATASET_PATH`](#dataset_path), [`GRAPH_PATH`](#graph_path), [`CACHE_PATH`](#cache_path), [`STIX_BUNDLE_PATH`](#stix_bundle_path), [`MISP_EVENT_PATH`](#misp_event_path), [`ENTITY_STORE_PATH`](#entity_store_path), [`FUSION_DB_PATH`](#fusion_db_path), [`FUSION_ENABLED`](#fusion_enabled), [`ER_ENABLED`](#er_enabled), [`ER_MERGE_THRESHOLD`](#er_merge_threshold), [`ER_LINK_THRESHOLD`](#er_link_threshold), [`ER_MAX_BUCKET`](#er_max_bucket), [`ER_PERSIST`](#er_persist), [`HTTP_TIMEOUT`](#http_timeout), [`RUN_DEADLINE`](#run_deadline), [`HTTP_MAX_RETRIES`](#http_max_retries), [`HTTP_BACKOFF_BASE`](#http_backoff_base), [`HTTP_BACKOFF_FACTOR`](#http_backoff_factor), [`HTTP_MAX_PARALLEL`](#http_max_parallel), [`USER_AGENT`](#user_agent), [`TOOL_ALLOWLIST`](#tool_allowlist), [`TOOL_TIMEOUT`](#tool_timeout), [`TOOL_MAX_OUTPUT_BYTES`](#tool_max_output_bytes), [`TOOL_RECIPES_DIR`](#tool_recipes_dir), [`TOOLS_DIR`](#tools_dir), [`TOOL_INSTALL_TIMEOUT_S`](#tool_install_timeout_s), [`TOOL_INSTALL_MAX_OUTPUT_BYTES`](#tool_install_max_output_bytes), [`CIRCUIT_FAIL_THRESHOLD`](#circuit_fail_threshold), [`CIRCUIT_COOLDOWN_S`](#circuit_cooldown_s), [`HTTP_CACHE_TTL_S`](#http_cache_ttl_s), [`CONTACT_NONE`](#contact_none), [`CONTACT_BROKER`](#contact_broker), [`CONTACT_ACTIVE`](#contact_active), [`CONTACT_LEVELS`](#contact_levels), [`DEFAULT_CONTACT`](#default_contact), [`PASSIVE_ONLY`](#passive_only), [`HTTP_PROXY`](#http_proxy), [`HTTP_PROXY_POOL`](#http_proxy_pool), [`PROXY_REMOTE_DNS`](#proxy_remote_dns), [`LLM_MAX_TOKENS`](#llm_max_tokens), [`LLM_TEMPERATURE`](#llm_temperature), [`LLM_REQUEST_TIMEOUT`](#llm_request_timeout), [`LLM_BACKSTOP_S`](#llm_backstop_s), [`TEMPLATE_ENVS`](#template_envs), [`LLM_MODELS`](#llm_models), [`OLLAMA_URL`](#ollama_url), [`OPENROUTER_URL`](#openrouter_url), [`ANTHROPIC_URL`](#anthropic_url), [`OPENAI_URL`](#openai_url), [`ENTITY_REGEX`](#entity_regex), [`ENTITY_MAX_SCAN_CHARS`](#entity_max_scan_chars), [`ENTITY_MAX_PER_TYPE`](#entity_max_per_type), [`KG_MAX_COOCCUR_ENTITIES`](#kg_max_cooccur_entities), [`DOMAIN_BLACKLIST`](#domain_blacklist), [`CLUSTER_PALETTE`](#cluster_palette), [`CATEGORY_PALETTE`](#category_palette), [`FLASK_HOST`](#flask_host), [`FLASK_PORT`](#flask_port), [`FLASK_DEBUG`](#flask_debug), [`SCHEMA`](#schema), [`HTTP_CACHE`](#http_cache), [`PIVOT_POLICY_FULL`](#pivot_policy_full), [`PIVOT_POLICY_INFRA`](#pivot_policy_infra), [`PIVOT`](#pivot), [`STREAM`](#stream), [`RECON_FUSION`](#recon_fusion), [`WEB`](#web), [`RETRY`](#retry)
+- **Constants:** [`PROJECT_ROOT`](#project_root), [`SOURCES_DIR`](#sources_dir), [`TRANSFORMS_DIR`](#transforms_dir), [`TEMPLATES_DIR`](#templates_dir), [`STATIC_DIR`](#static_dir), [`DATA_DIR`](#data_dir), [`REPORTS_DIR`](#reports_dir), [`DATASET_PATH`](#dataset_path), [`GRAPH_PATH`](#graph_path), [`CACHE_PATH`](#cache_path), [`STIX_BUNDLE_PATH`](#stix_bundle_path), [`MISP_EVENT_PATH`](#misp_event_path), [`ENTITY_STORE_PATH`](#entity_store_path), [`FUSION_DB_PATH`](#fusion_db_path), [`FUSION_ENABLED`](#fusion_enabled), [`ER_ENABLED`](#er_enabled), [`ER_MERGE_THRESHOLD`](#er_merge_threshold), [`ER_LINK_THRESHOLD`](#er_link_threshold), [`ER_MAX_BUCKET`](#er_max_bucket), [`ER_PERSIST`](#er_persist), [`HTTP_TIMEOUT`](#http_timeout), [`RUN_DEADLINE`](#run_deadline), [`HTTP_MAX_RETRIES`](#http_max_retries), [`HTTP_BACKOFF_BASE`](#http_backoff_base), [`HTTP_BACKOFF_FACTOR`](#http_backoff_factor), [`HTTP_MAX_PARALLEL`](#http_max_parallel), [`USER_AGENT`](#user_agent), [`TOOL_ALLOWLIST`](#tool_allowlist), [`TOOL_TIMEOUT`](#tool_timeout), [`TOOL_MAX_OUTPUT_BYTES`](#tool_max_output_bytes), [`TOOL_RECIPES_DIR`](#tool_recipes_dir), [`TOOLS_DIR`](#tools_dir), [`TOOL_INSTALL_TIMEOUT_S`](#tool_install_timeout_s), [`TOOL_INSTALL_MAX_OUTPUT_BYTES`](#tool_install_max_output_bytes), [`CIRCUIT_FAIL_THRESHOLD`](#circuit_fail_threshold), [`CIRCUIT_COOLDOWN_S`](#circuit_cooldown_s), [`HTTP_CACHE_TTL_S`](#http_cache_ttl_s), [`CONTACT_NONE`](#contact_none), [`CONTACT_BROKER`](#contact_broker), [`CONTACT_ACTIVE`](#contact_active), [`CONTACT_LEVELS`](#contact_levels), [`DEFAULT_CONTACT`](#default_contact), [`PASSIVE_ONLY`](#passive_only), [`HTTP_PROXY`](#http_proxy), [`HTTP_PROXY_POOL`](#http_proxy_pool), [`PROXY_REMOTE_DNS`](#proxy_remote_dns), [`LLM_MAX_TOKENS`](#llm_max_tokens), [`LLM_TEMPERATURE`](#llm_temperature), [`LLM_REQUEST_TIMEOUT`](#llm_request_timeout), [`LLM_BACKSTOP_S`](#llm_backstop_s), [`TEMPLATE_ENVS`](#template_envs), [`LLM_MODELS`](#llm_models), [`OLLAMA_URL`](#ollama_url), [`OPENROUTER_URL`](#openrouter_url), [`ANTHROPIC_URL`](#anthropic_url), [`OPENAI_URL`](#openai_url), [`ENTITY_REGEX`](#entity_regex), [`ENTITY_MAX_SCAN_CHARS`](#entity_max_scan_chars), [`ENTITY_MAX_PER_TYPE`](#entity_max_per_type), [`KG_MAX_COOCCUR_ENTITIES`](#kg_max_cooccur_entities), [`DOMAIN_BLACKLIST`](#domain_blacklist), [`CLUSTER_PALETTE`](#cluster_palette), [`CATEGORY_PALETTE`](#category_palette), [`FLASK_HOST`](#flask_host), [`FLASK_PORT`](#flask_port), [`FLASK_DEBUG`](#flask_debug), [`SCHEMA`](#schema), [`HTTP_CACHE`](#http_cache), [`PIVOT_POLICY_FULL`](#pivot_policy_full), [`PIVOT_POLICY_INFRA`](#pivot_policy_infra), [`PIVOT`](#pivot), [`STREAM`](#stream), [`RECON_FUSION`](#recon_fusion), [`WEB`](#web), [`RETRY`](#retry)
 
 ## Type Diagram
 
@@ -109,7 +109,7 @@ classDiagram
 
 ### `CacheConfig`
 
-`class` `dataclass` | [estorides_core/config.py:366](../../estorides_core/config.py#L366)
+`class` `dataclass` | [estorides_core/config.py:407](../../estorides_core/config.py#L407)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -136,7 +136,7 @@ Disk response-cache behaviour.
 
 #### `CacheConfig.is_active`
 
-`property` | [estorides_core/config.py:373](../../estorides_core/config.py#L373)
+`property` | [estorides_core/config.py:414](../../estorides_core/config.py#L414)
 
 Decorators: `@property`
 
@@ -154,7 +154,7 @@ Cache is only consulted when enabled and the TTL is positive.
 
 ### `PivotPolicyConfig`
 
-`class` `dataclass` | [estorides_core/config.py:379](../../estorides_core/config.py#L379)
+`class` `dataclass` | [estorides_core/config.py:420](../../estorides_core/config.py#L420)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -189,7 +189,7 @@ discounts every additional hop so the frontier stays close to the seed.
 
 #### `PivotPolicyConfig.is_pivotable`
 
-`method` | [estorides_core/config.py:393](../../estorides_core/config.py#L393)
+`method` | [estorides_core/config.py:434](../../estorides_core/config.py#L434)
 
 ```python
 def is_pivotable(self, entity_type: str) -> bool
@@ -209,7 +209,7 @@ True when an entity of `entity_type` should be re-queried.
 
 #### `PivotPolicyConfig.lead_score`
 
-`method` | [estorides_core/config.py:397](../../estorides_core/config.py#L397)
+`method` | [estorides_core/config.py:438](../../estorides_core/config.py#L438)
 
 ```python
 def lead_score(self, entity_type: str, depth: int, parent_score: float) -> float
@@ -235,7 +235,7 @@ Higher expands sooner.
 
 ### `PivotConfig`
 
-`class` `dataclass` | [estorides_core/config.py:404](../../estorides_core/config.py#L404)
+`class` `dataclass` | [estorides_core/config.py:445](../../estorides_core/config.py#L445)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -282,7 +282,7 @@ request an unbounded crawl.
 
 #### `PivotConfig.clamp_depth`
 
-`method` | [estorides_core/config.py:427](../../estorides_core/config.py#L427)
+`method` | [estorides_core/config.py:468](../../estorides_core/config.py#L468)
 
 ```python
 def clamp_depth(self, value: int) -> int
@@ -304,7 +304,7 @@ Clamp a requested depth into [1, max_depth_cap].
 
 #### `PivotConfig.clamp_steps`
 
-`method` | [estorides_core/config.py:431](../../estorides_core/config.py#L431)
+`method` | [estorides_core/config.py:472](../../estorides_core/config.py#L472)
 
 ```python
 def clamp_steps(self, value: int) -> int
@@ -326,7 +326,7 @@ Clamp a requested step budget into [1, max_steps_cap].
 
 #### `PivotConfig.clamp_entities`
 
-`method` | [estorides_core/config.py:435](../../estorides_core/config.py#L435)
+`method` | [estorides_core/config.py:476](../../estorides_core/config.py#L476)
 
 ```python
 def clamp_entities(self, value: int) -> int
@@ -348,7 +348,7 @@ Clamp a requested entity budget into [1, max_entities_cap].
 
 #### `PivotConfig.clamp_parallel`
 
-`method` | [estorides_core/config.py:439](../../estorides_core/config.py#L439)
+`method` | [estorides_core/config.py:480](../../estorides_core/config.py#L480)
 
 ```python
 def clamp_parallel(self, value: int) -> int
@@ -370,7 +370,7 @@ Clamp a requested fan-out width into [1, parallel_cap].
 
 #### `PivotConfig.clamp_deadline`
 
-`method` | [estorides_core/config.py:443](../../estorides_core/config.py#L443)
+`method` | [estorides_core/config.py:484](../../estorides_core/config.py#L484)
 
 ```python
 def clamp_deadline(self, value: float) -> float
@@ -394,7 +394,7 @@ Clamp a requested per-target deadline into (0, deadline_cap_seconds].
 
 ### `StreamConfig`
 
-`class` `dataclass` | [estorides_core/config.py:449](../../estorides_core/config.py#L449)
+`class` `dataclass` | [estorides_core/config.py:490](../../estorides_core/config.py#L490)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -421,7 +421,7 @@ Server-Sent-Events streaming knobs (buffer size, cadence).
 
 ### `ReconFusionConfig`
 
-`class` `dataclass` | [estorides_core/config.py:461](../../estorides_core/config.py#L461)
+`class` `dataclass` | [estorides_core/config.py:502](../../estorides_core/config.py#L502)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -458,7 +458,7 @@ and never defines its own copy.
 
 ### `SchemaConfig`
 
-`class` `dataclass` | [estorides_core/config.py:493](../../estorides_core/config.py#L493)
+`class` `dataclass` | [estorides_core/config.py:534](../../estorides_core/config.py#L534)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -491,7 +491,7 @@ not truncated. [`max_url_len`](#schemaconfig-max_url_len) is applied as a trunca
 
 ### `WebConfig`
 
-`class` `dataclass` | [estorides_core/config.py:520](../../estorides_core/config.py#L520)
+`class` `dataclass` | [estorides_core/config.py:561](../../estorides_core/config.py#L561)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -521,7 +521,7 @@ Per-endpoint defaults and render limits for the Flask layer.
 
 ### `RetryConfig`
 
-`class` `dataclass` | [estorides_core/config.py:535](../../estorides_core/config.py#L535)
+`class` `dataclass` | [estorides_core/config.py:576](../../estorides_core/config.py#L576)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -550,7 +550,7 @@ Central retry bounds for HTTP fanout.
 
 #### `RetryConfig.delay`
 
-`method` | [estorides_core/config.py:543](../../estorides_core/config.py#L543)
+`method` | [estorides_core/config.py:584](../../estorides_core/config.py#L584)
 
 ```python
 def delay(self, attempt: int) -> float
@@ -574,7 +574,7 @@ Exponential backoff for 1-indexed attempt, clamped to cap.
 
 ### `ensure_data_dirs`
 
-`function` | [estorides_core/config.py:58](../../estorides_core/config.py#L58)
+`function` | [estorides_core/config.py:101](../../estorides_core/config.py#L101)
 
 ```python
 def ensure_data_dirs() -> None
@@ -593,7 +593,7 @@ pre-existing directory is fine.
 
 ### `ensure_reports_dir`
 
-`function` | [estorides_core/config.py:69](../../estorides_core/config.py#L69)
+`function` | [estorides_core/config.py:112](../../estorides_core/config.py#L112)
 
 ```python
 def ensure_reports_dir() -> None
@@ -612,7 +612,7 @@ exports.
 
 ### `contact_level`
 
-`function` | [estorides_core/config.py:206](../../estorides_core/config.py#L206)
+`function` | [estorides_core/config.py:247](../../estorides_core/config.py#L247)
 
 ```python
 def contact_level(contact: str) -> int
@@ -640,7 +640,7 @@ passive-only guarantee.
 
 ### `effective_proxies`
 
-`function` | [estorides_core/config.py:232](../../estorides_core/config.py#L232)
+`function` | [estorides_core/config.py:273](../../estorides_core/config.py#L273)
 
 ```python
 def effective_proxies(explicit: str | None = None) -> list[str]
@@ -668,7 +668,7 @@ list when no anonymising egress is configured.
 
 ### `retry_delay`
 
-`function` | [estorides_core/config.py:672](../../estorides_core/config.py#L672)
+`function` | [estorides_core/config.py:713](../../estorides_core/config.py#L713)
 
 ```python
 def retry_delay(attempt: int) -> float
@@ -694,7 +694,7 @@ Return the backoff sleep for a 1-indexed attempt.
 
 ### `PROJECT_ROOT`
 
-`constant` | [estorides_core/config.py:38](../../estorides_core/config.py#L38)
+`constant` | [estorides_core/config.py:39](../../estorides_core/config.py#L39)
 
 ```python
 PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
@@ -706,34 +706,22 @@ PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
 
 ### `SOURCES_DIR`
 
-`constant` | [estorides_core/config.py:39](../../estorides_core/config.py#L39)
+`constant` | [estorides_core/config.py:81](../../estorides_core/config.py#L81)
 
 ```python
-SOURCES_DIR: Path = Path(os.environ.get('ESTORIDES_SOURCES_DIR', str(PROJECT_ROOT / 'sources')))
+SOURCES_DIR: Path = _resolve_dir('ESTORIDES_SOURCES_DIR', 'sources')
 ```
 
 ---
 
-<a id="data_dir"></a>
+<a id="transforms_dir"></a>
 
-### `DATA_DIR`
+### `TRANSFORMS_DIR`
 
-`constant` | [estorides_core/config.py:40](../../estorides_core/config.py#L40)
-
-```python
-DATA_DIR: Path = PROJECT_ROOT / 'data'
-```
-
----
-
-<a id="reports_dir"></a>
-
-### `REPORTS_DIR`
-
-`constant` | [estorides_core/config.py:41](../../estorides_core/config.py#L41)
+`constant` | [estorides_core/config.py:82](../../estorides_core/config.py#L82)
 
 ```python
-REPORTS_DIR: Path = PROJECT_ROOT / 'reports'
+TRANSFORMS_DIR: Path = _resolve_dir('ESTORIDES_TRANSFORMS_DIR', 'transforms')
 ```
 
 ---
@@ -742,10 +730,10 @@ REPORTS_DIR: Path = PROJECT_ROOT / 'reports'
 
 ### `TEMPLATES_DIR`
 
-`constant` | [estorides_core/config.py:42](../../estorides_core/config.py#L42)
+`constant` | [estorides_core/config.py:83](../../estorides_core/config.py#L83)
 
 ```python
-TEMPLATES_DIR: Path = PROJECT_ROOT / 'templates'
+TEMPLATES_DIR: Path = _resolve_dir('ESTORIDES_TEMPLATES_DIR', 'templates')
 ```
 
 ---
@@ -754,10 +742,34 @@ TEMPLATES_DIR: Path = PROJECT_ROOT / 'templates'
 
 ### `STATIC_DIR`
 
-`constant` | [estorides_core/config.py:43](../../estorides_core/config.py#L43)
+`constant` | [estorides_core/config.py:84](../../estorides_core/config.py#L84)
 
 ```python
-STATIC_DIR: Path = PROJECT_ROOT / 'static'
+STATIC_DIR: Path = _resolve_dir('ESTORIDES_STATIC_DIR', 'static')
+```
+
+---
+
+<a id="data_dir"></a>
+
+### `DATA_DIR`
+
+`constant` | [estorides_core/config.py:85](../../estorides_core/config.py#L85)
+
+```python
+DATA_DIR: Path = _resolve_writable_dir('ESTORIDES_DATA_DIR', 'data')
+```
+
+---
+
+<a id="reports_dir"></a>
+
+### `REPORTS_DIR`
+
+`constant` | [estorides_core/config.py:86](../../estorides_core/config.py#L86)
+
+```python
+REPORTS_DIR: Path = _resolve_writable_dir('ESTORIDES_REPORTS_DIR', 'reports')
 ```
 
 ---
@@ -766,7 +778,7 @@ STATIC_DIR: Path = PROJECT_ROOT / 'static'
 
 ### `DATASET_PATH`
 
-`constant` | [estorides_core/config.py:53](../../estorides_core/config.py#L53)
+`constant` | [estorides_core/config.py:96](../../estorides_core/config.py#L96)
 
 ```python
 DATASET_PATH: Path = DATA_DIR / 'estorides_dataset.jsonl'
@@ -778,7 +790,7 @@ DATASET_PATH: Path = DATA_DIR / 'estorides_dataset.jsonl'
 
 ### `GRAPH_PATH`
 
-`constant` | [estorides_core/config.py:54](../../estorides_core/config.py#L54)
+`constant` | [estorides_core/config.py:97](../../estorides_core/config.py#L97)
 
 ```python
 GRAPH_PATH: Path = DATA_DIR / 'estorides_graph.graphml'
@@ -790,7 +802,7 @@ GRAPH_PATH: Path = DATA_DIR / 'estorides_graph.graphml'
 
 ### `CACHE_PATH`
 
-`constant` | [estorides_core/config.py:55](../../estorides_core/config.py#L55)
+`constant` | [estorides_core/config.py:98](../../estorides_core/config.py#L98)
 
 ```python
 CACHE_PATH: Path = DATA_DIR / 'estorides_cache.sqlite'
@@ -802,7 +814,7 @@ CACHE_PATH: Path = DATA_DIR / 'estorides_cache.sqlite'
 
 ### `STIX_BUNDLE_PATH`
 
-`constant` | [estorides_core/config.py:78](../../estorides_core/config.py#L78)
+`constant` | [estorides_core/config.py:121](../../estorides_core/config.py#L121)
 
 ```python
 STIX_BUNDLE_PATH: Path = DATA_DIR / 'estorides_stix_bundle.json'
@@ -814,7 +826,7 @@ STIX_BUNDLE_PATH: Path = DATA_DIR / 'estorides_stix_bundle.json'
 
 ### `MISP_EVENT_PATH`
 
-`constant` | [estorides_core/config.py:79](../../estorides_core/config.py#L79)
+`constant` | [estorides_core/config.py:122](../../estorides_core/config.py#L122)
 
 ```python
 MISP_EVENT_PATH: Path = DATA_DIR / 'estorides_misp_event.json'
@@ -826,7 +838,7 @@ MISP_EVENT_PATH: Path = DATA_DIR / 'estorides_misp_event.json'
 
 ### `ENTITY_STORE_PATH`
 
-`constant` | [estorides_core/config.py:80](../../estorides_core/config.py#L80)
+`constant` | [estorides_core/config.py:123](../../estorides_core/config.py#L123)
 
 ```python
 ENTITY_STORE_PATH: Path
@@ -838,7 +850,7 @@ ENTITY_STORE_PATH: Path
 
 ### `FUSION_DB_PATH`
 
-`constant` | [estorides_core/config.py:87](../../estorides_core/config.py#L87)
+`constant` | [estorides_core/config.py:130](../../estorides_core/config.py#L130)
 
 ```python
 FUSION_DB_PATH: Path
@@ -850,7 +862,7 @@ FUSION_DB_PATH: Path
 
 ### `FUSION_ENABLED`
 
-`constant` | [estorides_core/config.py:90](../../estorides_core/config.py#L90)
+`constant` | [estorides_core/config.py:133](../../estorides_core/config.py#L133)
 
 ```python
 FUSION_ENABLED: bool = _env_bool('ESTORIDES_FUSION_ENABLED', True)
@@ -862,7 +874,7 @@ FUSION_ENABLED: bool = _env_bool('ESTORIDES_FUSION_ENABLED', True)
 
 ### `ER_ENABLED`
 
-`constant` | [estorides_core/config.py:100](../../estorides_core/config.py#L100)
+`constant` | [estorides_core/config.py:143](../../estorides_core/config.py#L143)
 
 ```python
 ER_ENABLED: bool = _env_bool('ESTORIDES_ER_ENABLED', True)
@@ -874,7 +886,7 @@ ER_ENABLED: bool = _env_bool('ESTORIDES_ER_ENABLED', True)
 
 ### `ER_MERGE_THRESHOLD`
 
-`constant` | [estorides_core/config.py:101](../../estorides_core/config.py#L101)
+`constant` | [estorides_core/config.py:144](../../estorides_core/config.py#L144)
 
 ```python
 ER_MERGE_THRESHOLD: float = _env_float('ESTORIDES_ER_MERGE_THRESHOLD', 0.92)
@@ -886,7 +898,7 @@ ER_MERGE_THRESHOLD: float = _env_float('ESTORIDES_ER_MERGE_THRESHOLD', 0.92)
 
 ### `ER_LINK_THRESHOLD`
 
-`constant` | [estorides_core/config.py:102](../../estorides_core/config.py#L102)
+`constant` | [estorides_core/config.py:145](../../estorides_core/config.py#L145)
 
 ```python
 ER_LINK_THRESHOLD: float = _env_float('ESTORIDES_ER_LINK_THRESHOLD', 0.84)
@@ -898,7 +910,7 @@ ER_LINK_THRESHOLD: float = _env_float('ESTORIDES_ER_LINK_THRESHOLD', 0.84)
 
 ### `ER_MAX_BUCKET`
 
-`constant` | [estorides_core/config.py:106](../../estorides_core/config.py#L106)
+`constant` | [estorides_core/config.py:149](../../estorides_core/config.py#L149)
 
 ```python
 ER_MAX_BUCKET: int = _env_int('ESTORIDES_ER_MAX_BUCKET', 400)
@@ -910,7 +922,7 @@ ER_MAX_BUCKET: int = _env_int('ESTORIDES_ER_MAX_BUCKET', 400)
 
 ### `ER_PERSIST`
 
-`constant` | [estorides_core/config.py:110](../../estorides_core/config.py#L110)
+`constant` | [estorides_core/config.py:153](../../estorides_core/config.py#L153)
 
 ```python
 ER_PERSIST: bool = _env_bool('ESTORIDES_ER_PERSIST', True)
@@ -922,7 +934,7 @@ ER_PERSIST: bool = _env_bool('ESTORIDES_ER_PERSIST', True)
 
 ### `HTTP_TIMEOUT`
 
-`constant` | [estorides_core/config.py:115](../../estorides_core/config.py#L115)
+`constant` | [estorides_core/config.py:158](../../estorides_core/config.py#L158)
 
 ```python
 HTTP_TIMEOUT: float = _env_float('ESTORIDES_TIMEOUT', 12.0)
@@ -934,7 +946,7 @@ HTTP_TIMEOUT: float = _env_float('ESTORIDES_TIMEOUT', 12.0)
 
 ### `RUN_DEADLINE`
 
-`constant` | [estorides_core/config.py:118](../../estorides_core/config.py#L118)
+`constant` | [estorides_core/config.py:161](../../estorides_core/config.py#L161)
 
 ```python
 RUN_DEADLINE: float = _env_float('ESTORIDES_RUN_DEADLINE', 30.0)
@@ -946,7 +958,7 @@ RUN_DEADLINE: float = _env_float('ESTORIDES_RUN_DEADLINE', 30.0)
 
 ### `HTTP_MAX_RETRIES`
 
-`constant` | [estorides_core/config.py:119](../../estorides_core/config.py#L119)
+`constant` | [estorides_core/config.py:162](../../estorides_core/config.py#L162)
 
 ```python
 HTTP_MAX_RETRIES: int = _env_int('ESTORIDES_MAX_RETRIES', 3)
@@ -958,7 +970,7 @@ HTTP_MAX_RETRIES: int = _env_int('ESTORIDES_MAX_RETRIES', 3)
 
 ### `HTTP_BACKOFF_BASE`
 
-`constant` | [estorides_core/config.py:120](../../estorides_core/config.py#L120)
+`constant` | [estorides_core/config.py:163](../../estorides_core/config.py#L163)
 
 ```python
 HTTP_BACKOFF_BASE: float = _env_float('ESTORIDES_BACKOFF_BASE', 0.6)
@@ -970,7 +982,7 @@ HTTP_BACKOFF_BASE: float = _env_float('ESTORIDES_BACKOFF_BASE', 0.6)
 
 ### `HTTP_BACKOFF_FACTOR`
 
-`constant` | [estorides_core/config.py:121](../../estorides_core/config.py#L121)
+`constant` | [estorides_core/config.py:164](../../estorides_core/config.py#L164)
 
 ```python
 HTTP_BACKOFF_FACTOR: float = _env_float('ESTORIDES_BACKOFF_FACTOR', 2.0)
@@ -982,7 +994,7 @@ HTTP_BACKOFF_FACTOR: float = _env_float('ESTORIDES_BACKOFF_FACTOR', 2.0)
 
 ### `HTTP_MAX_PARALLEL`
 
-`constant` | [estorides_core/config.py:122](../../estorides_core/config.py#L122)
+`constant` | [estorides_core/config.py:165](../../estorides_core/config.py#L165)
 
 ```python
 HTTP_MAX_PARALLEL: int = _env_int('ESTORIDES_PARALLEL', 8)
@@ -994,7 +1006,7 @@ HTTP_MAX_PARALLEL: int = _env_int('ESTORIDES_PARALLEL', 8)
 
 ### `USER_AGENT`
 
-`constant` | [estorides_core/config.py:123](../../estorides_core/config.py#L123)
+`constant` | [estorides_core/config.py:166](../../estorides_core/config.py#L166)
 
 ```python
 USER_AGENT: str = os.environ.get('ESTORIDES_UA', 'Estorides/1.0 (+open-source OSINT platform)')
@@ -1006,7 +1018,7 @@ USER_AGENT: str = os.environ.get('ESTORIDES_UA', 'Estorides/1.0 (+open-source OS
 
 ### `TOOL_ALLOWLIST`
 
-`constant` | [estorides_core/config.py:152](../../estorides_core/config.py#L152)
+`constant` | [estorides_core/config.py:195](../../estorides_core/config.py#L195)
 
 ```python
 TOOL_ALLOWLIST: set[str] = _env_tool_allowlist()
@@ -1018,7 +1030,7 @@ TOOL_ALLOWLIST: set[str] = _env_tool_allowlist()
 
 ### `TOOL_TIMEOUT`
 
-`constant` | [estorides_core/config.py:153](../../estorides_core/config.py#L153)
+`constant` | [estorides_core/config.py:196](../../estorides_core/config.py#L196)
 
 ```python
 TOOL_TIMEOUT: int = _env_int('ESTORIDES_TOOL_TIMEOUT', 300)
@@ -1030,7 +1042,7 @@ TOOL_TIMEOUT: int = _env_int('ESTORIDES_TOOL_TIMEOUT', 300)
 
 ### `TOOL_MAX_OUTPUT_BYTES`
 
-`constant` | [estorides_core/config.py:154](../../estorides_core/config.py#L154)
+`constant` | [estorides_core/config.py:197](../../estorides_core/config.py#L197)
 
 ```python
 TOOL_MAX_OUTPUT_BYTES: int = _env_int('ESTORIDES_TOOL_MAX_OUTPUT', 10485760)
@@ -1042,10 +1054,10 @@ TOOL_MAX_OUTPUT_BYTES: int = _env_int('ESTORIDES_TOOL_MAX_OUTPUT', 10485760)
 
 ### `TOOL_RECIPES_DIR`
 
-`constant` | [estorides_core/config.py:160](../../estorides_core/config.py#L160)
+`constant` | [estorides_core/config.py:203](../../estorides_core/config.py#L203)
 
 ```python
-TOOL_RECIPES_DIR: Path
+TOOL_RECIPES_DIR: Path = _resolve_dir('ESTORIDES_TOOL_RECIPES_DIR', 'tool_recipes')
 ```
 
 ---
@@ -1054,10 +1066,10 @@ TOOL_RECIPES_DIR: Path
 
 ### `TOOLS_DIR`
 
-`constant` | [estorides_core/config.py:163](../../estorides_core/config.py#L163)
+`constant` | [estorides_core/config.py:204](../../estorides_core/config.py#L204)
 
 ```python
-TOOLS_DIR: Path = Path(os.environ.get('ESTORIDES_TOOLS_DIR', str(PROJECT_ROOT / '.tools')))
+TOOLS_DIR: Path = _resolve_writable_dir('ESTORIDES_TOOLS_DIR', '.tools')
 ```
 
 ---
@@ -1066,7 +1078,7 @@ TOOLS_DIR: Path = Path(os.environ.get('ESTORIDES_TOOLS_DIR', str(PROJECT_ROOT / 
 
 ### `TOOL_INSTALL_TIMEOUT_S`
 
-`constant` | [estorides_core/config.py:168](../../estorides_core/config.py#L168)
+`constant` | [estorides_core/config.py:209](../../estorides_core/config.py#L209)
 
 ```python
 TOOL_INSTALL_TIMEOUT_S: int = _env_int('ESTORIDES_TOOL_INSTALL_TIMEOUT', 1800)
@@ -1078,7 +1090,7 @@ TOOL_INSTALL_TIMEOUT_S: int = _env_int('ESTORIDES_TOOL_INSTALL_TIMEOUT', 1800)
 
 ### `TOOL_INSTALL_MAX_OUTPUT_BYTES`
 
-`constant` | [estorides_core/config.py:169](../../estorides_core/config.py#L169)
+`constant` | [estorides_core/config.py:210](../../estorides_core/config.py#L210)
 
 ```python
 TOOL_INSTALL_MAX_OUTPUT_BYTES: int = _env_int('ESTORIDES_TOOL_INSTALL_MAX_OUTPUT', 1048576)
@@ -1090,7 +1102,7 @@ TOOL_INSTALL_MAX_OUTPUT_BYTES: int = _env_int('ESTORIDES_TOOL_INSTALL_MAX_OUTPUT
 
 ### `CIRCUIT_FAIL_THRESHOLD`
 
-`constant` | [estorides_core/config.py:172](../../estorides_core/config.py#L172)
+`constant` | [estorides_core/config.py:213](../../estorides_core/config.py#L213)
 
 ```python
 CIRCUIT_FAIL_THRESHOLD: int = _env_int('ESTORIDES_CIRCUIT_FAIL_THRESHOLD', 5)
@@ -1102,7 +1114,7 @@ CIRCUIT_FAIL_THRESHOLD: int = _env_int('ESTORIDES_CIRCUIT_FAIL_THRESHOLD', 5)
 
 ### `CIRCUIT_COOLDOWN_S`
 
-`constant` | [estorides_core/config.py:173](../../estorides_core/config.py#L173)
+`constant` | [estorides_core/config.py:214](../../estorides_core/config.py#L214)
 
 ```python
 CIRCUIT_COOLDOWN_S: int = _env_int('ESTORIDES_CIRCUIT_COOLDOWN_S', 300)
@@ -1114,7 +1126,7 @@ CIRCUIT_COOLDOWN_S: int = _env_int('ESTORIDES_CIRCUIT_COOLDOWN_S', 300)
 
 ### `HTTP_CACHE_TTL_S`
 
-`constant` | [estorides_core/config.py:179](../../estorides_core/config.py#L179)
+`constant` | [estorides_core/config.py:220](../../estorides_core/config.py#L220)
 
 ```python
 HTTP_CACHE_TTL_S: int = _env_int('ESTORIDES_CACHE_TTL_S', 86400)
@@ -1126,7 +1138,7 @@ HTTP_CACHE_TTL_S: int = _env_int('ESTORIDES_CACHE_TTL_S', 86400)
 
 ### `CONTACT_NONE`
 
-`constant` | [estorides_core/config.py:198](../../estorides_core/config.py#L198)
+`constant` | [estorides_core/config.py:239](../../estorides_core/config.py#L239)
 
 ```python
 CONTACT_NONE: str = 'none'
@@ -1138,7 +1150,7 @@ CONTACT_NONE: str = 'none'
 
 ### `CONTACT_BROKER`
 
-`constant` | [estorides_core/config.py:199](../../estorides_core/config.py#L199)
+`constant` | [estorides_core/config.py:240](../../estorides_core/config.py#L240)
 
 ```python
 CONTACT_BROKER: str = 'broker'
@@ -1150,7 +1162,7 @@ CONTACT_BROKER: str = 'broker'
 
 ### `CONTACT_ACTIVE`
 
-`constant` | [estorides_core/config.py:200](../../estorides_core/config.py#L200)
+`constant` | [estorides_core/config.py:241](../../estorides_core/config.py#L241)
 
 ```python
 CONTACT_ACTIVE: str = 'active'
@@ -1162,7 +1174,7 @@ CONTACT_ACTIVE: str = 'active'
 
 ### `CONTACT_LEVELS`
 
-`constant` | [estorides_core/config.py:201](../../estorides_core/config.py#L201)
+`constant` | [estorides_core/config.py:242](../../estorides_core/config.py#L242)
 
 ```python
 CONTACT_LEVELS: dict[str, int] = {CONTACT_NONE: 0, CONTACT_BROKER: 1, CONTACT_ACTIVE: 2}
@@ -1174,7 +1186,7 @@ CONTACT_LEVELS: dict[str, int] = {CONTACT_NONE: 0, CONTACT_BROKER: 1, CONTACT_AC
 
 ### `DEFAULT_CONTACT`
 
-`constant` | [estorides_core/config.py:202](../../estorides_core/config.py#L202)
+`constant` | [estorides_core/config.py:243](../../estorides_core/config.py#L243)
 
 ```python
 DEFAULT_CONTACT: str = CONTACT_NONE
@@ -1186,7 +1198,7 @@ DEFAULT_CONTACT: str = CONTACT_NONE
 
 ### `PASSIVE_ONLY`
 
-`constant` | [estorides_core/config.py:203](../../estorides_core/config.py#L203)
+`constant` | [estorides_core/config.py:244](../../estorides_core/config.py#L244)
 
 ```python
 PASSIVE_ONLY: bool = _env_bool('ESTORIDES_PASSIVE_ONLY', False)
@@ -1198,7 +1210,7 @@ PASSIVE_ONLY: bool = _env_bool('ESTORIDES_PASSIVE_ONLY', False)
 
 ### `HTTP_PROXY`
 
-`constant` | [estorides_core/config.py:220](../../estorides_core/config.py#L220)
+`constant` | [estorides_core/config.py:261](../../estorides_core/config.py#L261)
 
 ```python
 HTTP_PROXY: str = (os.environ.get('ESTORIDES_HTTP_PROXY') or '').strip()
@@ -1210,7 +1222,7 @@ HTTP_PROXY: str = (os.environ.get('ESTORIDES_HTTP_PROXY') or '').strip()
 
 ### `HTTP_PROXY_POOL`
 
-`constant` | [estorides_core/config.py:221](../../estorides_core/config.py#L221)
+`constant` | [estorides_core/config.py:262](../../estorides_core/config.py#L262)
 
 ```python
 HTTP_PROXY_POOL: list[str]
@@ -1222,7 +1234,7 @@ HTTP_PROXY_POOL: list[str]
 
 ### `PROXY_REMOTE_DNS`
 
-`constant` | [estorides_core/config.py:229](../../estorides_core/config.py#L229)
+`constant` | [estorides_core/config.py:270](../../estorides_core/config.py#L270)
 
 ```python
 PROXY_REMOTE_DNS: bool = _env_bool('ESTORIDES_PROXY_REMOTE_DNS', True)
@@ -1234,7 +1246,7 @@ PROXY_REMOTE_DNS: bool = _env_bool('ESTORIDES_PROXY_REMOTE_DNS', True)
 
 ### `LLM_MAX_TOKENS`
 
-`constant` | [estorides_core/config.py:249](../../estorides_core/config.py#L249)
+`constant` | [estorides_core/config.py:290](../../estorides_core/config.py#L290)
 
 ```python
 LLM_MAX_TOKENS: int = _env_int('ESTORIDES_LLM_MAX_TOKENS', 2048)
@@ -1246,7 +1258,7 @@ LLM_MAX_TOKENS: int = _env_int('ESTORIDES_LLM_MAX_TOKENS', 2048)
 
 ### `LLM_TEMPERATURE`
 
-`constant` | [estorides_core/config.py:250](../../estorides_core/config.py#L250)
+`constant` | [estorides_core/config.py:291](../../estorides_core/config.py#L291)
 
 ```python
 LLM_TEMPERATURE: float = _env_float('ESTORIDES_LLM_TEMP', 0.25)
@@ -1258,7 +1270,7 @@ LLM_TEMPERATURE: float = _env_float('ESTORIDES_LLM_TEMP', 0.25)
 
 ### `LLM_REQUEST_TIMEOUT`
 
-`constant` | [estorides_core/config.py:261](../../estorides_core/config.py#L261)
+`constant` | [estorides_core/config.py:302](../../estorides_core/config.py#L302)
 
 ```python
 LLM_REQUEST_TIMEOUT: float = _env_float('ESTORIDES_LLM_REQUEST_TIMEOUT', 600.0)
@@ -1270,7 +1282,7 @@ LLM_REQUEST_TIMEOUT: float = _env_float('ESTORIDES_LLM_REQUEST_TIMEOUT', 600.0)
 
 ### `LLM_BACKSTOP_S`
 
-`constant` | [estorides_core/config.py:264](../../estorides_core/config.py#L264)
+`constant` | [estorides_core/config.py:305](../../estorides_core/config.py#L305)
 
 ```python
 LLM_BACKSTOP_S: float = _env_float('ESTORIDES_LLM_BACKSTOP_S', 3.0)
@@ -1282,7 +1294,7 @@ LLM_BACKSTOP_S: float = _env_float('ESTORIDES_LLM_BACKSTOP_S', 3.0)
 
 ### `TEMPLATE_ENVS`
 
-`constant` | [estorides_core/config.py:269](../../estorides_core/config.py#L269)
+`constant` | [estorides_core/config.py:310](../../estorides_core/config.py#L310)
 
 ```python
 TEMPLATE_ENVS: tuple[str, ...]
@@ -1294,7 +1306,7 @@ TEMPLATE_ENVS: tuple[str, ...]
 
 ### `LLM_MODELS`
 
-`constant` | [estorides_core/config.py:275](../../estorides_core/config.py#L275)
+`constant` | [estorides_core/config.py:316](../../estorides_core/config.py#L316)
 
 ```python
 LLM_MODELS: dict[str, str]
@@ -1306,7 +1318,7 @@ LLM_MODELS: dict[str, str]
 
 ### `OLLAMA_URL`
 
-`constant` | [estorides_core/config.py:284](../../estorides_core/config.py#L284)
+`constant` | [estorides_core/config.py:325](../../estorides_core/config.py#L325)
 
 ```python
 OLLAMA_URL: str = os.environ.get('ESTORIDES_OLLAMA_URL', 'http://localhost:11434')
@@ -1318,7 +1330,7 @@ OLLAMA_URL: str = os.environ.get('ESTORIDES_OLLAMA_URL', 'http://localhost:11434
 
 ### `OPENROUTER_URL`
 
-`constant` | [estorides_core/config.py:285](../../estorides_core/config.py#L285)
+`constant` | [estorides_core/config.py:326](../../estorides_core/config.py#L326)
 
 ```python
 OPENROUTER_URL: str = os.environ.get('ESTORIDES_OPENROUTER_URL', 'https://openrouter.ai/api/v1')
@@ -1330,7 +1342,7 @@ OPENROUTER_URL: str = os.environ.get('ESTORIDES_OPENROUTER_URL', 'https://openro
 
 ### `ANTHROPIC_URL`
 
-`constant` | [estorides_core/config.py:286](../../estorides_core/config.py#L286)
+`constant` | [estorides_core/config.py:327](../../estorides_core/config.py#L327)
 
 ```python
 ANTHROPIC_URL: str = os.environ.get('ESTORIDES_ANTHROPIC_URL', 'https://api.anthropic.com/v1')
@@ -1342,7 +1354,7 @@ ANTHROPIC_URL: str = os.environ.get('ESTORIDES_ANTHROPIC_URL', 'https://api.anth
 
 ### `OPENAI_URL`
 
-`constant` | [estorides_core/config.py:287](../../estorides_core/config.py#L287)
+`constant` | [estorides_core/config.py:328](../../estorides_core/config.py#L328)
 
 ```python
 OPENAI_URL: str = os.environ.get('ESTORIDES_OPENAI_URL', 'https://api.openai.com/v1')
@@ -1354,7 +1366,7 @@ OPENAI_URL: str = os.environ.get('ESTORIDES_OPENAI_URL', 'https://api.openai.com
 
 ### `ENTITY_REGEX`
 
-`constant` | [estorides_core/config.py:292](../../estorides_core/config.py#L292)
+`constant` | [estorides_core/config.py:333](../../estorides_core/config.py#L333)
 
 ```python
 ENTITY_REGEX
@@ -1366,7 +1378,7 @@ ENTITY_REGEX
 
 ### `ENTITY_MAX_SCAN_CHARS`
 
-`constant` | [estorides_core/config.py:315](../../estorides_core/config.py#L315)
+`constant` | [estorides_core/config.py:356](../../estorides_core/config.py#L356)
 
 ```python
 ENTITY_MAX_SCAN_CHARS: int = _env_int('ESTORIDES_ENTITY_MAX_SCAN', 120000)
@@ -1378,7 +1390,7 @@ ENTITY_MAX_SCAN_CHARS: int = _env_int('ESTORIDES_ENTITY_MAX_SCAN', 120000)
 
 ### `ENTITY_MAX_PER_TYPE`
 
-`constant` | [estorides_core/config.py:316](../../estorides_core/config.py#L316)
+`constant` | [estorides_core/config.py:357](../../estorides_core/config.py#L357)
 
 ```python
 ENTITY_MAX_PER_TYPE: int = _env_int('ESTORIDES_ENTITY_MAX_PER_TYPE', 750)
@@ -1390,7 +1402,7 @@ ENTITY_MAX_PER_TYPE: int = _env_int('ESTORIDES_ENTITY_MAX_PER_TYPE', 750)
 
 ### `KG_MAX_COOCCUR_ENTITIES`
 
-`constant` | [estorides_core/config.py:321](../../estorides_core/config.py#L321)
+`constant` | [estorides_core/config.py:362](../../estorides_core/config.py#L362)
 
 ```python
 KG_MAX_COOCCUR_ENTITIES: int = _env_int('ESTORIDES_KG_MAX_COOCCUR', 30)
@@ -1402,7 +1414,7 @@ KG_MAX_COOCCUR_ENTITIES: int = _env_int('ESTORIDES_KG_MAX_COOCCUR', 30)
 
 ### `DOMAIN_BLACKLIST`
 
-`constant` | [estorides_core/config.py:324](../../estorides_core/config.py#L324)
+`constant` | [estorides_core/config.py:365](../../estorides_core/config.py#L365)
 
 ```python
 DOMAIN_BLACKLIST: set[str]
@@ -1414,7 +1426,7 @@ DOMAIN_BLACKLIST: set[str]
 
 ### `CLUSTER_PALETTE`
 
-`constant` | [estorides_core/config.py:332](../../estorides_core/config.py#L332)
+`constant` | [estorides_core/config.py:373](../../estorides_core/config.py#L373)
 
 ```python
 CLUSTER_PALETTE: tuple[str, ...]
@@ -1426,7 +1438,7 @@ CLUSTER_PALETTE: tuple[str, ...]
 
 ### `CATEGORY_PALETTE`
 
-`constant` | [estorides_core/config.py:338](../../estorides_core/config.py#L338)
+`constant` | [estorides_core/config.py:379](../../estorides_core/config.py#L379)
 
 ```python
 CATEGORY_PALETTE: dict[str, str]
@@ -1438,7 +1450,7 @@ CATEGORY_PALETTE: dict[str, str]
 
 ### `FLASK_HOST`
 
-`constant` | [estorides_core/config.py:356](../../estorides_core/config.py#L356)
+`constant` | [estorides_core/config.py:397](../../estorides_core/config.py#L397)
 
 ```python
 FLASK_HOST: str = os.environ.get('ESTORIDES_HOST', '127.0.0.1')
@@ -1450,7 +1462,7 @@ FLASK_HOST: str = os.environ.get('ESTORIDES_HOST', '127.0.0.1')
 
 ### `FLASK_PORT`
 
-`constant` | [estorides_core/config.py:357](../../estorides_core/config.py#L357)
+`constant` | [estorides_core/config.py:398](../../estorides_core/config.py#L398)
 
 ```python
 FLASK_PORT: int = _env_int('ESTORIDES_PORT', 5050)
@@ -1462,7 +1474,7 @@ FLASK_PORT: int = _env_int('ESTORIDES_PORT', 5050)
 
 ### `FLASK_DEBUG`
 
-`constant` | [estorides_core/config.py:358](../../estorides_core/config.py#L358)
+`constant` | [estorides_core/config.py:399](../../estorides_core/config.py#L399)
 
 ```python
 FLASK_DEBUG: bool = _env_bool('ESTORIDES_DEBUG', False)
@@ -1474,7 +1486,7 @@ FLASK_DEBUG: bool = _env_bool('ESTORIDES_DEBUG', False)
 
 ### `SCHEMA`
 
-`constant` | [estorides_core/config.py:511](../../estorides_core/config.py#L511)
+`constant` | [estorides_core/config.py:552](../../estorides_core/config.py#L552)
 
 ```python
 SCHEMA: SchemaConfig
@@ -1486,7 +1498,7 @@ SCHEMA: SchemaConfig
 
 ### `HTTP_CACHE`
 
-`constant` | [estorides_core/config.py:575](../../estorides_core/config.py#L575)
+`constant` | [estorides_core/config.py:616](../../estorides_core/config.py#L616)
 
 ```python
 HTTP_CACHE: CacheConfig
@@ -1498,7 +1510,7 @@ HTTP_CACHE: CacheConfig
 
 ### `PIVOT_POLICY_FULL`
 
-`constant` | [estorides_core/config.py:582](../../estorides_core/config.py#L582)
+`constant` | [estorides_core/config.py:623](../../estorides_core/config.py#L623)
 
 ```python
 PIVOT_POLICY_FULL: PivotPolicyConfig
@@ -1510,7 +1522,7 @@ PIVOT_POLICY_FULL: PivotPolicyConfig
 
 ### `PIVOT_POLICY_INFRA`
 
-`constant` | [estorides_core/config.py:594](../../estorides_core/config.py#L594)
+`constant` | [estorides_core/config.py:635](../../estorides_core/config.py#L635)
 
 ```python
 PIVOT_POLICY_INFRA: PivotPolicyConfig
@@ -1522,7 +1534,7 @@ PIVOT_POLICY_INFRA: PivotPolicyConfig
 
 ### `PIVOT`
 
-`constant` | [estorides_core/config.py:604](../../estorides_core/config.py#L604)
+`constant` | [estorides_core/config.py:645](../../estorides_core/config.py#L645)
 
 ```python
 PIVOT: PivotConfig
@@ -1534,7 +1546,7 @@ PIVOT: PivotConfig
 
 ### `STREAM`
 
-`constant` | [estorides_core/config.py:621](../../estorides_core/config.py#L621)
+`constant` | [estorides_core/config.py:662](../../estorides_core/config.py#L662)
 
 ```python
 STREAM: StreamConfig
@@ -1546,7 +1558,7 @@ STREAM: StreamConfig
 
 ### `RECON_FUSION`
 
-`constant` | [estorides_core/config.py:636](../../estorides_core/config.py#L636)
+`constant` | [estorides_core/config.py:677](../../estorides_core/config.py#L677)
 
 ```python
 RECON_FUSION: ReconFusionConfig
@@ -1558,7 +1570,7 @@ RECON_FUSION: ReconFusionConfig
 
 ### `WEB`
 
-`constant` | [estorides_core/config.py:652](../../estorides_core/config.py#L652)
+`constant` | [estorides_core/config.py:693](../../estorides_core/config.py#L693)
 
 ```python
 WEB: WebConfig
@@ -1570,7 +1582,7 @@ WEB: WebConfig
 
 ### `RETRY`
 
-`constant` | [estorides_core/config.py:664](../../estorides_core/config.py#L664)
+`constant` | [estorides_core/config.py:705](../../estorides_core/config.py#L705)
 
 ```python
 RETRY: RetryConfig
