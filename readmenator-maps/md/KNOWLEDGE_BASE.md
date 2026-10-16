@@ -12,7 +12,7 @@
 **Total Files Parsed:** 191 | **Total Symbols Extracted:** 3183 | **Total Imports:** 1301
  | **Resolved Imports:** 412
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:a278a7b | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:11ddd73 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -642,7 +642,7 @@ Files sorted by how many other files would be affected if they changed. High-imp
 
 | File | Direct Dependents | Transitive Dependents | Total Impact |
 |------|------------------|----------------------|--------------|
-| `config.py` | 43 | 8 | 51 |
+| `config.py` | 43 | 10 | 53 |
 | `entity_extraction.py` | 13 | 36 | 49 |
 | `ids.py` | 6 | 31 | 37 |
 | `reliability_scoring.py` | 8 | 27 | 35 |
