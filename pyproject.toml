@@ -38,6 +38,9 @@ dependencies = [
 # absent (kuzu -> in-memory NetworkX; aiohttp_socks -> SOCKS proxy disabled).
 kuzu = ["kuzu>=0.11"]
 tor = ["aiohttp_socks>=0.8"]
+# Optional high-accuracy orbit propagation for the satellites feed. The
+# feed falls back to a two-body propagator when this is absent.
+space = ["sgp4>=2.23,<3.0"]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
@@ -45,8 +48,9 @@ dev = [
     "mypy>=1.10",
     "bandit>=1.7",
     "hypothesis>=6.100",
+    "mutmut>=2.5",
 ]
-all = ["estorides[kuzu,tor,dev]"]
+all = ["estorides[kuzu,tor,space,dev]"]
 
 [project.scripts]
 # Single console script. `pip install -e .` puts `estorides` on PATH.
@@ -106,6 +110,7 @@ exclude = ["env*", "data*", "reports*", "tests*"]
 "share/estorides/sources/18_supply" = ["sources/18_supply/*.yaml"]
 "share/estorides/sources/19_pdns" = ["sources/19_pdns/*.yaml"]
 "share/estorides/sources/20_system_tools" = ["sources/20_system_tools/*.yaml"]
+"share/estorides/sources/21_aerospace" = ["sources/21_aerospace/*.yaml"]
 "share/estorides/transforms" = ["transforms/*.yaml"]
 "share/estorides/tool_recipes" = ["tool_recipes/*.yaml"]
 "share/estorides/templates" = ["templates/*.html"]
@@ -144,5 +149,13 @@ warn_return_any = true
 
 [tool.mutmut]
 source_paths = ["estorides_core"]
-only_mutate = ["estorides_core/observation_models.py"]
-pytest_add_cli_args_test_selection = ["tests/test_observation_models.py", "tests/properties/test_observation_models_properties.py"]
+only_mutate = [
+    "estorides_core/observation_models.py",
+    "estorides_core/aerospace.py",
+]
+pytest_add_cli_args_test_selection = [
+    "tests/test_observation_models.py",
+    "tests/properties/test_observation_models_properties.py",
+    "tests/test_aerospace.py",
+    "tests/properties/test_aerospace_properties.py",
+]

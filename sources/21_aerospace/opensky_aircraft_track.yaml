@@ -1,0 +1,25 @@
+name: opensky_aircraft_track
+enabled: true
+category: 21. Aerospace
+description: OpenSky Network — recent flight track waypoints for an ICAO 24-bit hex
+os: any
+requires_key: false
+contact: none
+parser: opensky_track
+entity_hints:
+- aircraft
+- icao24
+- track
+applies_to:
+- mac
+- username
+- keyword
+tool:
+  method: GET
+  url: https://opensky-network.org/api/tracks/all
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    icao24: '{query}'
+    time: '0'
+timeout: 20

@@ -1,0 +1,24 @@
+name: celestrak_satellite_by_catalog
+enabled: true
+category: 21. Aerospace
+description: CelesTrak GP — TLE catalog entry by NORAD catalog number
+os: any
+requires_key: false
+contact: none
+parser: celestrak_tle
+entity_hints:
+- satellite
+- norad_id
+- orbit
+applies_to:
+- keyword
+- username
+- mac
+tool:
+  method: GET
+  url: https://celestrak.org/NORAD/elements/gp.php
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    CATNR: '{query}'
+    FORMAT: tle

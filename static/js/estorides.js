@@ -456,6 +456,178 @@
     });
   }
 
+  // ---- Estorides Aerospace map layers ----
+  // One Leaflet layer per keyless aerospace feed. The panel, class names
+  // and storage key are Estorides/Lazy Own branded on purpose: no
+  // upstream project branding is exposed in the interface.
+  const AERO_FEEDS = [
+    { name: 'aircraft', label: 'Aircraft', color: '#4FD1C5', radius: 4 },
+    { name: 'military_aircraft', label: 'Military aircraft', color: '#FF9E64', radius: 5 },
+    { name: 'satellites', label: 'Satellites', color: '#A78BFA', radius: 4 },
+    { name: 'rocket_launches', label: 'Rocket launches', color: '#F472B6', radius: 6 },
+  ];
+  const AERO_STORAGE_KEY = 'estorides.aero.enabled';
+  const AERO_DEFAULT = ['aircraft', 'satellites'];
+  const aeroLayers = {};
+  let aeroEnabled = aeroEnabledSet();
+  let aeroFetching = false;
+
+  function aeroEnabledSet() {
+    try {
+      const raw = window.localStorage.getItem(AERO_STORAGE_KEY);
+      if (!raw) return new Set(AERO_DEFAULT);
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return new Set(AERO_DEFAULT);
+      return new Set(parsed.filter((name) => AERO_FEEDS.some((f) => f.name === name)));
+    } catch (err) {
+      return new Set(AERO_DEFAULT);
+    }
+  }
+
+  function aeroPersist() {
+    try {
+      window.localStorage.setItem(AERO_STORAGE_KEY, JSON.stringify(Array.from(aeroEnabled)));
+    } catch (err) {
+      // Private mode / quota: toggles stay session-only.
+    }
+  }
+
+  function aeroStatus(text, isError) {
+    const el = $('#estorides-aero-status');
+    if (!el) return;
+    el.textContent = text;
+    el.classList.toggle('is-error', Boolean(isError));
+  }
+
+  function aeroPopup(point) {
+    const extra = point.extra || {};
+    const rows = ['<div class="estorides-aero-popup">'];
+    rows.push('<b>' + escapeHTML(point.label || 'unknown') + '</b>');
+    rows.push('<div><small>' + escapeHTML(point.kind || '') + '</small></div>');
+    if (extra.icao24) rows.push('ICAO <code>' + escapeHTML(extra.icao24) + '</code>');
+    if (extra.callsign && extra.callsign !== point.label) {
+      rows.push('Callsign <code>' + escapeHTML(extra.callsign) + '</code>');
+    }
+    if (extra.country) rows.push('Country ' + escapeHTML(extra.country));
+    if (extra.altitude_m !== undefined && extra.altitude_m !== null) {
+      rows.push('Altitude ' + Math.round(Number(extra.altitude_m)) + ' m');
+    }
+    if (extra.speed_mps !== undefined && extra.speed_mps !== null) {
+      rows.push('Speed ' + Math.round(Number(extra.speed_mps) * 3.6) + ' km/h');
+    }
+    if (extra.norad_id !== undefined) {
+      rows.push('NORAD <code>' + escapeHTML(String(extra.norad_id)) + '</code>');
+    }
+    if (extra.group) rows.push('Group ' + escapeHTML(extra.group));
+    if (extra.altitude_km !== undefined) {
+      rows.push('Altitude ' + Math.round(Number(extra.altitude_km)) + ' km');
+    }
+    if (extra.propagator) rows.push('Propagator ' + escapeHTML(extra.propagator));
+    if (extra.net) rows.push('NET ' + escapeHTML(String(extra.net)));
+    if (extra.status) rows.push('Status ' + escapeHTML(String(extra.status)));
+    if (extra.provider) rows.push('Provider ' + escapeHTML(String(extra.provider)));
+    if (extra.rocket) rows.push('Rocket ' + escapeHTML(String(extra.rocket)));
+    if (extra.pad) rows.push('Pad ' + escapeHTML(String(extra.pad)));
+    if (extra.source) rows.push('Source ' + escapeHTML(String(extra.source)));
+    rows.push('</div>');
+    return rows.join('<br>');
+  }
+
+  function aeroRenderLayer(name, points) {
+    const config = AERO_FEEDS.find((f) => f.name === name);
+    const layer = aeroLayers[name];
+    if (!config || !layer) return 0;
+    layer.clearLayers();
+    if (!aeroEnabled.has(name)) return 0;
+    let drawn = 0;
+    (points || []).forEach((point) => {
+      const lat = Number(point.lat);
+      const lon = Number(point.lon);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+      if (Math.abs(lat) > 90 || Math.abs(lon) > 180) return;
+      L.circleMarker([lat, lon], {
+        radius: config.radius,
+        color: config.color,
+        fillColor: config.color,
+        fillOpacity: 0.75,
+        weight: 1,
+      }).bindPopup(aeroPopup(point)).addTo(layer);
+      drawn += 1;
+    });
+    return drawn;
+  }
+
+  async function loadAeroFeeds(force) {
+    if (aeroFetching) return;
+    const enabled = AERO_FEEDS.filter((f) => aeroEnabled.has(f.name));
+    AERO_FEEDS.forEach((f) => {
+      if (!aeroEnabled.has(f.name) && aeroLayers[f.name]) aeroLayers[f.name].clearLayers();
+    });
+    if (!enabled.length) {
+      aeroStatus('no layers enabled');
+      return;
+    }
+    aeroFetching = true;
+    aeroStatus('loading...');
+    try {
+      const url = '/api/feeds?feeds=' + encodeURIComponent(enabled.map((f) => f.name).join(',')) +
+        (force ? '&no_cache=1' : '');
+      const response = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      let total = 0;
+      enabled.forEach((config) => {
+        const points = (data.points && data.points[config.name]) || [];
+        total += aeroRenderLayer(config.name, points);
+      });
+      aeroStatus(total + ' objects · updated ' + new Date().toLocaleTimeString());
+    } catch (err) {
+      aeroStatus('unavailable — ' + (err && err.message ? err.message : 'feed error'), true);
+    } finally {
+      aeroFetching = false;
+    }
+  }
+
+  function initAerospaceLayers() {
+    const host = $('#estorides-aero-toggles');
+    if (!host) return;
+    AERO_FEEDS.forEach((config) => {
+      aeroLayers[config.name] = L.layerGroup().addTo(map);
+      const row = document.createElement('label');
+      row.className = 'estorides-aero-row';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = aeroEnabled.has(config.name);
+      input.setAttribute('data-estorides-aero-feed', config.name);
+      const dot = document.createElement('i');
+      dot.className = 'estorides-aero-dot';
+      dot.style.background = config.color;
+      const text = document.createElement('span');
+      text.textContent = config.label;
+      input.addEventListener('change', () => {
+        if (input.checked) aeroEnabled.add(config.name);
+        else aeroEnabled.delete(config.name);
+        aeroPersist();
+        loadAeroFeeds(false);
+      });
+      row.appendChild(input);
+      row.appendChild(dot);
+      row.appendChild(text);
+      host.appendChild(row);
+    });
+    const refresh = $('#estorides-aero-refresh');
+    if (refresh) refresh.addEventListener('click', () => loadAeroFeeds(true));
+    loadAeroFeeds(false);
+    window.setInterval(() => {
+      if (document.hidden) return;
+      const canvas = $('#map');
+      if (!canvas || !canvas.classList.contains('active')) return;
+      loadAeroFeeds(false);
+    }, 90000);
+  }
+
+  initAerospaceLayers();
+
   // ---- tabs ----
   $$('.tab').forEach((t) => {
     t.addEventListener('click', () => {

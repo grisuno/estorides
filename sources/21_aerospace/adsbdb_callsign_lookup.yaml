@@ -1,0 +1,23 @@
+name: adsbdb_callsign_lookup
+enabled: true
+category: 21. Aerospace
+description: adsbdb — airline, origin and destination by flight callsign
+os: any
+requires_key: false
+contact: none
+parser: adsbdb
+entity_hints:
+- aircraft
+- callsign
+- airline
+- airport
+applies_to:
+- keyword
+- username
+- domain
+tool:
+  method: GET
+  url: https://api.adsbdb.com/v0/callsign/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

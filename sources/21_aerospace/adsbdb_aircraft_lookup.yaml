@@ -1,0 +1,22 @@
+name: adsbdb_aircraft_lookup
+enabled: true
+category: 21. Aerospace
+description: adsbdb — aircraft registration, type and operator by ICAO 24-bit hex
+os: any
+requires_key: false
+contact: none
+parser: adsbdb
+entity_hints:
+- aircraft
+- icao24
+- registration
+applies_to:
+- mac
+- username
+- keyword
+tool:
+  method: GET
+  url: https://api.adsbdb.com/v0/aircraft/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

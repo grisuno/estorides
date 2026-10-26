@@ -1211,3 +1211,80 @@ button.gb-badge { cursor: pointer; }
   .gb-stage { height: 60vh; }
   .gb-beta input { width: 70px; }
 }
+
+/* ---- Estorides Aerospace map layer panel ---- */
+.estorides-aero-panel {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 900;
+  width: 214px;
+  padding: 10px 12px;
+  background: rgba(10, 14, 26, .92);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  color: var(--text-1);
+  font-size: 11px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .45);
+  backdrop-filter: blur(4px);
+}
+#map.map-canvas.active ~ .estorides-aero-panel { display: block; }
+.estorides-aero-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.estorides-aero-title {
+  color: var(--text-0);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.estorides-aero-refresh {
+  background: transparent;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 10px;
+  padding: 2px 7px;
+}
+.estorides-aero-refresh:hover { border-color: var(--accent); }
+.estorides-aero-toggles { display: grid; gap: 4px; }
+.estorides-aero-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+.estorides-aero-row input { accent-color: var(--accent); }
+.estorides-aero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.estorides-aero-row span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.estorides-aero-status {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.estorides-aero-status.is-error { color: var(--warn); }
+.estorides-aero-credit {
+  margin-top: 5px;
+  color: var(--text-2);
+  font-size: 9px;
+  line-height: 1.45;
+}
+.estorides-aero-popup { font-size: 11px; line-height: 1.5; }
+.estorides-aero-popup b { color: var(--text-0); }
+.estorides-aero-popup code { color: var(--accent-2); }
+

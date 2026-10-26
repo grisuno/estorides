@@ -1,0 +1,24 @@
+name: celestrak_group_catalog
+enabled: true
+category: 21. Aerospace
+description: CelesTrak GP — whole constellation group (stations, gps-ops, geo, starlink)
+os: any
+requires_key: false
+contact: none
+parser: celestrak_tle
+entity_hints:
+- satellite
+- constellation
+- orbit
+applies_to:
+- keyword
+- username
+tool:
+  method: GET
+  url: https://celestrak.org/NORAD/elements/gp.php
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    GROUP: '{query}'
+    FORMAT: tle
+timeout: 20

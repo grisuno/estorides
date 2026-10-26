@@ -43,7 +43,7 @@ from estorides_core.config import (
 from estorides_core.discoverer import DISCOVER_JOBS, start_discover_threadsafe
 from estorides_core.discoverer import list_jobs as list_discover_jobs
 from estorides_core.entity_extraction import detect_query_type
-from estorides_core.feeds import fetch_all, list_feeds
+from estorides_core.feeds import FEEDS, fetch_all, list_feeds
 from estorides_core.job_registry import BoundedJobRegistry
 from estorides_core.knowledge_graph import KnowledgeGraph
 from estorides_core.lan_web import guard as lan_guard
@@ -575,10 +575,11 @@ def create_app() -> Flask:
     @app.route("/api/feeds")
     @_rate_limit_decorator(event="api_feeds")
     def api_feeds() -> Any:
-        """Return real-time feed points (quakes, fires, news) for the map.
+        """Return real-time feed points (aircraft, satellites, launches, quakes) for the map.
 
         Optional query string:
           bbox=min_lon,min_lat,max_lon,max_lat — drop points outside.
+          feeds=aircraft,satellites — restrict the fan-out (whitelist).
           no_cache=1 — bypass the on-disk cache.
         """
         bbox: Any = None
@@ -590,8 +591,20 @@ def create_app() -> Flask:
                     bbox = tuple(parts)  # type: ignore[assignment]
             except ValueError:
                 return jsonify({"error": "invalid bbox"}), 400
+        valid_feeds = sorted(FEEDS)
+        selected: list[str] | None = None
+        feeds_str = request.args.get("feeds", "").strip()
+        if feeds_str:
+            selected = [name.strip() for name in feeds_str.split(",") if name.strip()]
+            unknown = sorted(set(selected) - set(valid_feeds))
+            if unknown:
+                return jsonify({
+                    "error": "unknown feed",
+                    "unknown": unknown,
+                    "valid": valid_feeds,
+                }), 400
         use_cache = request.args.get("no_cache", "0") != "1"
-        all_points = fetch_all(bbox=bbox, use_cache=use_cache)
+        all_points = fetch_all(bbox=bbox, use_cache=use_cache, names=selected)
         out: dict[str, list[dict[str, Any]]] = {}
         for name, points in all_points.items():
             out[name] = [p.to_dict() for p in points]

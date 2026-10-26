@@ -1,0 +1,26 @@
+name: launch_library_search
+enabled: true
+category: 21. Aerospace
+description: Launch Library 2 — search launches, vehicles, pads and providers
+os: any
+requires_key: false
+contact: none
+parser: launch_library
+entity_hints:
+- launch
+- rocket
+- launch_pad
+- provider
+applies_to:
+- keyword
+- username
+tool:
+  method: GET
+  url: https://ll.thespacedevs.com/2.3.0/launches/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    search: '{query}'
+    limit: '10'
+    mode: detailed
+timeout: 20

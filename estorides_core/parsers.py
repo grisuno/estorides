@@ -1164,6 +1164,53 @@ def _normalise_discord_server(raw: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+# ------------------------------------------------------ aerospace parsers ----
+def parse_celestrak_tle(payload: Any) -> dict[str, Any]:
+    """CelesTrak GP three-line TLE catalog (text or ``{"raw_text": ...}``)."""
+    from .aerospace import parse_tle_catalog
+
+    satellites = parse_tle_catalog(payload)
+    return {"satellites": satellites, "count": len(satellites)}
+
+
+def parse_opensky_states(payload: Any) -> dict[str, Any]:
+    """OpenSky Network state vectors -> common aircraft records."""
+    from .aerospace import normalize_opensky_states
+
+    aircraft = normalize_opensky_states(payload)
+    return {"aircraft": aircraft, "count": len(aircraft)}
+
+
+def parse_adsblol_aircraft(payload: Any) -> dict[str, Any]:
+    """adsb.lol v2 aircraft snapshot -> common aircraft records."""
+    from .aerospace import normalize_adsblol_aircraft
+
+    aircraft = normalize_adsblol_aircraft(payload)
+    return {"aircraft": aircraft, "count": len(aircraft)}
+
+
+def parse_opensky_track(payload: Any) -> dict[str, Any]:
+    """OpenSky Network aircraft track with waypoints."""
+    from .aerospace import normalize_opensky_track
+
+    return normalize_opensky_track(payload)
+
+
+def parse_adsbdb(payload: Any) -> dict[str, Any]:
+    """adsbdb aircraft or callsign flight route."""
+    from .aerospace import normalize_adsbdb
+
+    return normalize_adsbdb(payload)
+
+
+def parse_launch_library(payload: Any) -> dict[str, Any]:
+    """Launch Library 2 launches with pad coordinates when present."""
+    from .aerospace import normalize_launch_library
+
+    launches = normalize_launch_library(payload)
+    return {"launches": launches, "count": len(launches)}
+
+
 # ------------------------------------------------------------- registry ----
 PARSERS = {
     "dns_json": parse_dns_json,
@@ -1245,6 +1292,13 @@ PARSERS = {
     "youtube_user": parse_youtube_user,
     "twitch_user": parse_twitch_user,
     "discord_discovery": parse_discord_discovery,
+    # --- Aerospace parsers (21_aerospace) ---
+    "celestrak_tle": parse_celestrak_tle,
+    "opensky_states": parse_opensky_states,
+    "adsblol_aircraft": parse_adsblol_aircraft,
+    "opensky_track": parse_opensky_track,
+    "adsbdb": parse_adsbdb,
+    "launch_library": parse_launch_library,
 }
 
 

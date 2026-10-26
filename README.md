@@ -69,7 +69,7 @@ touching the central orchestrator. The five plug-in surfaces are:
 | Source parsers | `@register_parser("name")` | `estorides_core/parsers.py` | Translate raw HTTP into structured dicts |
 | LLM backends | `@register("name")` | `estorides_llm/manager.py` | Add an LLM provider (ollama, openai, …) |
 | Relationship inferers | `@register_inferer("source")` | `estorides_core/relationship_inference.py` | Source -> graph edges |
-| Real-time feeds | subclass `Feed` | `estorides_core/feeds.py` | Map layers (quakes, fires, news) |
+| Real-time feeds | subclass `Feed` | `estorides_core/feeds.py` | Map layers (quakes, fires, news, aircraft, satellites, launches) |
 | Encrypted exporters | `estorides_export.encryption` | `estorides_export/encryption.py` | STIX/MISP + age encryption |
 
 ## What you get that the original does not
@@ -620,16 +620,31 @@ of the orchestrator result as `result.mitre.techniques`.
 
 ### Real-time feeds
 
-`estorides_core/feeds.py` ships three keyless feeds that the map
-UI can layer on top of OSINT results:
+`estorides_core/feeds.py` ships keyless feeds that the map UI layers on
+top of OSINT results. The Map tab exposes an **Estorides Aerospace**
+panel with per-layer toggles (aircraft, military aircraft, satellites,
+rocket launches); every layer is fetched on demand and cached on disk.
 
 | Feed | Source | Refresh | Notes |
 | --- | --- | --- | --- |
 | Earthquakes | USGS M2.5+ GeoJSON | 10 min | Always on |
 | Fires | NASA FIRMS VIIRS_NOAA20_NRT CSV | 30 min | Requires `ESTORIDES_FIRMS_KEY` |
 | News | GDELT 2.0 article list | 15 min | Coords unavailable; surfaces at (0,0) |
+| Aircraft | OpenSky Network `/api/states/all` | 5 min | Keyless anonymous tier; `ESTORIDES_AIRCRAFT_MAX` cap |
+| Military aircraft | adsb.lol `/v2/mil` (ODbL) | 2 min | Attribution required |
+| Satellites | CelesTrak GP groups | 10 min | SGP4 when `sgp4` is installed, Kepler fallback |
+| Rocket launches | Launch Library 2 `2.3.0/launches` | 60 min | Only located pads become map points |
 
-Endpoint: `GET /api/feeds?bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
+Endpoint: `GET /api/feeds?feeds=aircraft,satellites&bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
+Unknown feed names answer `400` with the valid list. The query-driven
+counterparts live in `sources/21_aerospace/` (CelesTrak by catalog id,
+name or group; adsbdb aircraft and callsign; OpenSky track; Launch
+Library 2 search). See `spec/aerospace.md`.
+
+Optional high-accuracy propagation: `pip install "estorides[space]"`
+installs `sgp4`; without it the satellites layer uses a two-body
+fallback.
+
 
 ### LLM prompt flavours
 
