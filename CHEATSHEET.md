@@ -115,6 +115,32 @@ Combine with `--passive-only` to keep the crawl invisible from the
 target's network. The engine adds jittered retries and a per-host
 circuit breaker so a flaky SOCKS hop doesn't kill the run.
 
+## I want aircraft, satellites and launches on the map
+
+The **Map** tab ships an **Estorides Aerospace** panel with four
+keyless layers. Toggle them on; the panel fetches only the enabled
+feeds, caches them on disk and refreshes every 90 seconds.
+
+```bash
+# Same data over the API (feed names are a whitelist)
+curl 'http://127.0.0.1:5050/api/feeds?feeds=aircraft,satellites'
+curl 'http://127.0.0.1:5050/api/feeds?feeds=military_aircraft,rocket_launches&no_cache=1'
+
+# Query-driven counterparts (routed automatically by query type)
+estorides run 25544                     # NORAD catalog id -> CelesTrak TLE
+estorides run "ISS (ZARYA)"             # satellite name -> CelesTrak TLE
+estorides run 400a1b                    # ICAO hex -> adsbdb aircraft
+estorides run BAW123                    # callsign -> adsbdb flight route
+estorides run 3f5a1b --only-sources opensky_aircraft_track
+estorides run "Falcon 9" --only-sources launch_library_search
+```
+
+Satellite positions come from SGP4 when `pip install "estorides[space]"`
+is present, and from a two-body fallback otherwise. All four feeds are
+`contact: none` and keyless; the panel renders the required OpenSky,
+adsb.lol (ODbL), CelesTrak and Launch Library 2 credits. See
+`spec/aerospace.md`.
+
 ## I want to add a new source
 
 Drop a YAML file under `sources/<NN_category>/`:

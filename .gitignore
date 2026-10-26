@@ -201,3 +201,7 @@ reports/*.json
 reports/*.json.age
 reports/*.graphml
 reports/*.age
+
+# mutation testing working tree (mutmut)
+mutants/
+.mutmut-cache*

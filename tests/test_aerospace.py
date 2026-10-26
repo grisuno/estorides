@@ -524,3 +524,285 @@ class TestA14Branding:
         assert 'id="estorides-aero-panel"' in html
         assert "Estorides Aerospace" in html
 
+
+class TestGoldenMath:
+    """Golden values pin the orbital math so mutation testing is real."""
+
+    def test_gmst_golden(self) -> None:
+        assert aerospace.gmst_deg(0.0) == pytest.approx(100.22963716229424, rel=0, abs=1e-9)
+        assert aerospace.gmst_deg(_iss_epoch()) == pytest.approx(
+            280.6454536123201, rel=0, abs=1e-9
+        )
+
+    def test_eci_to_geodetic_golden(self) -> None:
+        point = aerospace.eci_to_geodetic((7000.0, 0.0, 0.0), 0.0)
+        assert point is not None
+        assert point["latitude"] == pytest.approx(0.0, abs=1e-12)
+        assert point["longitude"] == pytest.approx(-100.22963716229424, abs=1e-9)
+        assert point["altitude_km"] == pytest.approx(621.863, abs=1e-9)
+
+    def test_kepler_golden(self) -> None:
+        point = aerospace.kepler_subsatellite_point(
+            ISS_LINE1, ISS_LINE2, _iss_epoch() + 60
+        )
+        assert point is not None
+        assert point["latitude"] == pytest.approx(50.679600472088815, abs=1e-9)
+        assert point["longitude"] == pytest.approx(71.50341804217987, abs=1e-9)
+        assert point["altitude_km"] == pytest.approx(412.82677701315424, abs=1e-9)
+        assert point["velocity_kms"] == pytest.approx(7.6635105041239155, abs=1e-9)
+        assert point["propagator"] == "kepler"
+        assert point["epoch_unix"] == pytest.approx(1704110400.0)
+
+    def test_sgp4_golden(self) -> None:
+        pytest.importorskip("sgp4")
+        point = aerospace._sgp4_point(ISS_LINE1, ISS_LINE2, _iss_epoch() + 60)
+        assert point is not None
+        assert point["latitude"] == pytest.approx(50.656818280246505, abs=0.01)
+        assert point["longitude"] == pytest.approx(71.52054123963904, abs=0.01)
+        assert point["altitude_km"] == pytest.approx(405.8496639299228, abs=1.0)
+        assert point["velocity_kms"] == pytest.approx(7.668481390511879, abs=0.01)
+        assert point["propagator"] == "sgp4"
+
+    def test_subsatellite_prefers_sgp4(self) -> None:
+        pytest.importorskip("sgp4")
+        point = aerospace.subsatellite_point(
+            ISS_LINE1, ISS_LINE2, _iss_epoch() + 60
+        )
+        assert point is not None
+        assert point["propagator"] == "sgp4"
+
+    def test_subsatellite_falls_back_to_kepler(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(aerospace, "_sgp4_point", lambda *a, **k: None)
+        point = aerospace.subsatellite_point(
+            ISS_LINE1, ISS_LINE2, _iss_epoch() + 60
+        )
+        assert point is not None
+        assert point["propagator"] == "kepler"
+
+    def test_sgp4_error_code_returns_none(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        pytest.importorskip("sgp4")
+
+        class _Broken:
+            def sgp4(self, jd: float, fr: float) -> tuple[int, list[float], list[float]]:
+                return 1, [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]
+
+        class _Satrec:
+            @staticmethod
+            def twoline2rv(line1: str, line2: str) -> _Broken:
+                return _Broken()
+
+        import sgp4.api as sgp4_api
+
+        monkeypatch.setattr(sgp4_api, "Satrec", _Satrec)
+        assert aerospace._sgp4_point(ISS_LINE1, ISS_LINE2, _iss_epoch()) is None
+
+
+class TestPrivateHelpers:
+    def test_finite_rejects_bool_and_junk(self) -> None:
+        assert aerospace._finite(True) is None
+        assert aerospace._finite(False) is None
+        assert aerospace._finite("nan") is None
+        assert aerospace._finite(float("inf")) is None
+        assert aerospace._finite("1.5") == pytest.approx(1.5)
+        assert aerospace._finite(3) == pytest.approx(3.0)
+
+    def test_text_and_clean(self) -> None:
+        assert aerospace._text(None) == ""
+        assert aerospace._text("  x  ") == "x"
+        assert aerospace._clean("  ab  ") == "ab"
+        assert aerospace._clean("") is None
+        assert aerospace._clean("abcdef", limit=3) == "abc"
+
+    def test_valid_coordinates_boundaries(self) -> None:
+        assert aerospace._valid_coordinates(90, 180) == (90.0, 180.0)
+        assert aerospace._valid_coordinates(-90, -180) == (-90.0, -180.0)
+        assert aerospace._valid_coordinates(90.0001, 0) is None
+        assert aerospace._valid_coordinates(0, -180.0001) is None
+        assert aerospace._valid_coordinates(None, 0) is None
+
+    def test_text_payload_shapes(self) -> None:
+        assert aerospace._text_payload({"raw_text": "a"}) == "a"
+        assert aerospace._text_payload(["a"]) == ""
+        assert aerospace._text_payload(None) == ""
+
+    def test_emitter_category_mapping(self) -> None:
+        assert aerospace._emitter_category("A1") == 2
+        assert aerospace._emitter_category("B7") == 15
+        assert aerospace._emitter_category("a3") == 4
+        assert aerospace._emitter_category("12") == 12
+        assert aerospace._emitter_category("18") is None
+        assert aerospace._emitter_category("Z9") is None
+
+    def test_adsblol_now_units(self) -> None:
+        assert aerospace._adsblol_now({"now": 1700000000}) == pytest.approx(1700000000)
+        assert aerospace._adsblol_now({"now": 1700000000000}) == pytest.approx(1700000000)
+        assert aerospace._adsblol_now({}) is None
+
+
+AIRCRAFT_KEYS = {
+    "icao24", "callsign", "origin_country", "latitude", "longitude",
+    "baro_altitude_m", "geo_altitude_m", "on_ground", "velocity_mps",
+    "heading_deg", "vertical_rate_mps", "squawk", "spi",
+    "position_source", "category", "observed_at", "source",
+}
+
+
+class TestExactRecords:
+    """Every field is asserted so a mutated key or value cannot survive."""
+
+    def test_opensky_full_record(self) -> None:
+        record = aerospace.normalize_opensky_states(_opensky_payload())[0]
+        assert set(record) == AIRCRAFT_KEYS
+        expected = {
+            "icao24": "abc123",
+            "callsign": "UAL123",
+            "origin_country": "United States",
+            "latitude": 40.64,
+            "longitude": -73.78,
+            "baro_altitude_m": 10000.0,
+            "geo_altitude_m": 10100.0,
+            "on_ground": False,
+            "velocity_mps": 250.0,
+            "heading_deg": 90.0,
+            "vertical_rate_mps": 1.5,
+            "squawk": "1200",
+            "spi": False,
+            "position_source": 0.0,
+            "category": 3.0,
+            "observed_at": 1699999995.0,
+            "source": "opensky",
+        }
+        for key, value in expected.items():
+            if isinstance(value, float):
+                assert record[key] == pytest.approx(value), key
+            else:
+                assert record[key] == value, key
+
+    def test_adsblol_full_record(self) -> None:
+        payload = {"now": 1700000000, "ac": [{
+            "hex": "ABC123", "flight": "UAL123 ", "lat": 40.0, "lon": -73.0,
+            "alt_baro": 30000, "alt_geom": 31000, "gs": 400.0, "track": 90.0,
+            "baro_rate": 1000.0, "seen_pos": 2.0, "squawk": "1200",
+            "category": "A3", "spi": 1,
+        }]}
+        record = aerospace.normalize_adsblol_aircraft(payload)[0]
+        assert set(record) == AIRCRAFT_KEYS
+        assert record["icao24"] == "abc123"
+        assert record["callsign"] == "UAL123"
+        assert record["origin_country"] is None
+        assert record["latitude"] == pytest.approx(40.0)
+        assert record["longitude"] == pytest.approx(-73.0)
+        assert record["baro_altitude_m"] == pytest.approx(9144.0)
+        assert record["geo_altitude_m"] == pytest.approx(9448.8)
+        assert record["on_ground"] is False
+        assert record["velocity_mps"] == pytest.approx(205.7776)
+        assert record["heading_deg"] == pytest.approx(90.0)
+        assert record["vertical_rate_mps"] == pytest.approx(5.08)
+        assert record["squawk"] == "1200"
+        assert record["spi"] is True
+        assert record["position_source"] is None
+        assert record["category"] == 4.0
+        assert record["observed_at"] == pytest.approx(1699999998.0)
+        assert record["source"] == "adsb.lol"
+
+    def test_adsb_unknown_shape(self) -> None:
+        assert aerospace.normalize_adsbdb({"response": {}}) == {}
+
+
+    def test_adsbdb_aircraft_full_record(self) -> None:
+        payload = {"response": {"aircraft": {
+            "mode_s": "400A1B", "registration": "G-ABCD", "icao_type": "B738",
+            "manufacturer": "Boeing", "type": "737-8K5",
+            "registered_owner": "Test Air", "registered_owner_country_name": "UK",
+            "url_photo": "https://example.test/photo.jpg",
+        }}}
+        assert aerospace.normalize_adsbdb(payload) == {
+            "kind": "aircraft",
+            "icao24": "400A1B",
+            "registration": "G-ABCD",
+            "icao_type": "B738",
+            "manufacturer": "Boeing",
+            "type": "737-8K5",
+            "owner": "Test Air",
+            "owner_country": "UK",
+            "photo_url": "https://example.test/photo.jpg",
+        }
+
+    def test_adsbdb_flightroute_full_record(self) -> None:
+        payload = {"response": {"flightroute": {
+            "callsign": "BAW123",
+            "airline": {"name": "British Airways", "icao": "BAW"},
+            "origin": {"iata": "LHR", "name": "London Heathrow"},
+            "destination": {"iata": "JFK", "name": "New York JFK"},
+        }}}
+        assert aerospace.normalize_adsbdb(payload) == {
+            "kind": "flightroute",
+            "callsign": "BAW123",
+            "airline": "British Airways",
+            "airline_icao": "BAW",
+            "origin": "LHR",
+            "origin_name": "London Heathrow",
+            "destination": "JFK",
+            "destination_name": "New York JFK",
+        }
+
+    def test_opensky_track_full_record(self) -> None:
+        payload = {
+            "icao24": "abc123", "callsign": "UAL123",
+            "startTime": 1699999000, "endTime": 1699999999,
+            "path": [
+                [1699999000, 40.0, -73.0, 9000.0, 0.0, 90.0, False],
+                [1699999100, 41.0, -72.0, 9100.0, 0.0, 91.0, True],
+                ["bad", 200.0, 0.0],
+            ],
+        }
+        assert aerospace.normalize_opensky_track(payload) == {
+            "icao24": "abc123",
+            "callsign": "UAL123",
+            "start_time": 1699999000.0,
+            "end_time": 1699999999.0,
+            "waypoints": [
+                {"observed_at": 1699999000.0, "latitude": 40.0, "longitude": -73.0,
+                 "baro_altitude_m": 9000.0, "heading_deg": 90.0, "on_ground": False},
+                {"observed_at": 1699999100.0, "latitude": 41.0, "longitude": -72.0,
+                 "baro_altitude_m": 9100.0, "heading_deg": 91.0, "on_ground": True},
+            ],
+        }
+
+    def test_launch_full_record(self) -> None:
+        payload = {"results": [{
+            "id": "abc-1", "name": "Falcon 9 | Starlink",
+            "net": "2026-01-01T00:00:00Z",
+            "status": {"abbrev": "Go", "name": "Go for launch"},
+            "launch_service_provider": {"name": "SpaceX"},
+            "rocket": {"configuration": {"full_name": "Falcon 9 Block 5"}},
+            "pad": {"name": "SLC-40", "latitude": "28.5619", "longitude": "-80.5772",
+                    "location": {"name": "Cape Canaveral"}},
+            "mission": {"name": "Starlink Group", "orbit": {"name": "LEO"}},
+        }]}
+        assert aerospace.normalize_launch_library(payload) == [{
+            "id": "abc-1",
+            "name": "Falcon 9 | Starlink",
+            "net": "2026-01-01T00:00:00Z",
+            "status": "Go",
+            "provider": "SpaceX",
+            "rocket": "Falcon 9 Block 5",
+            "pad": "SLC-40",
+            "location": "Cape Canaveral",
+            "latitude": 28.5619,
+            "longitude": -80.5772,
+            "mission": "Starlink Group",
+            "orbit": "LEO",
+        }]
+
+    def test_aircraft_record_rejects_missing_identifier_or_position(self) -> None:
+        base = {"icao24": "abc123", "latitude": 1.0, "longitude": 2.0}
+        assert aerospace._aircraft_record(**base) is not None
+        for override in ({"icao24": None}, {"latitude": None},
+                         {"longitude": 999.0}, {"icao24": "   "}):
+            payload = dict(base)
+            payload.update(override)
+            assert aerospace._aircraft_record(**payload) is None
+

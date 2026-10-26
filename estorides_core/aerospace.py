@@ -153,8 +153,12 @@ def parse_tle_catalog(payload: Any) -> list[dict[str, Any]]:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     out: list[dict[str, Any]] = []
     seen: set[int] = set()
-    index = 0
-    while index + 2 < len(lines):
+    cursor = 0
+    # A bounded for-loop (instead of a while) guarantees progress even
+    # when a malformed set repeats, so hostile input cannot spin.
+    for index in range(0, len(lines) - 2):
+        if index < cursor:
+            continue
         name, line1, line2 = lines[index], lines[index + 1], lines[index + 2]
         catalog1 = tle_catalog_number(line1)
         catalog2 = tle_catalog_number(line2)
@@ -172,9 +176,9 @@ def parse_tle_catalog(payload: Any) -> list[dict[str, Any]]:
                     "line1": line1,
                     "line2": line2,
                 })
-            index += 3
-            continue
-        index += 1
+            cursor = index + 3
+        else:
+            cursor = index + 1
     return out
 
 

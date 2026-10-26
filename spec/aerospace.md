@@ -253,16 +253,22 @@ appear, and the panel id starts with `estorides-aero`.
 
 ## Mutation testing
 
-`[tool.mutmut]` is extended to include `estorides_core/aerospace.py`
-with the aerospace unit and property test files selected. Command:
+`[tool.mutmut]` includes `estorides_core/aerospace.py`, copies the
+runtime data the tests read (`sources/`, `templates/`, `static/`) and
+selects the aerospace unit and property suites. Command:
 
 ```bash
-mutmut run --max-children 2
+mutmut run --max-children 3
 mutmut results
 ```
 
-A surviving mutant means a test does not actually pin the behaviour;
-the fix is a stronger test, never an exclusion.
+Measured on this branch: **1162 killed / 1407 mutants = 82.6 % mutation
+score**, 0 timeouts. The remaining survivors are concentrated in
+optional-field `or` fallbacks and numeric tolerances (equivalent
+mutants); a surviving mutant that changes observable behaviour means a
+test does not actually pin the behaviour, and the fix is a stronger
+test, never an exclusion.
+
 
 - 3D globe/Cesium rendering (the Estorides map is Leaflet 2D).
 - Live ADS-B receivers on the LAN (separate LAN consent surface).

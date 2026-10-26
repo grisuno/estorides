@@ -149,6 +149,19 @@ warn_return_any = true
 
 [tool.mutmut]
 source_paths = ["estorides_core"]
+# Runtime data the tests read off disk. mutmut copies only Python by
+# default, so the source catalog, templates and static assets must be
+# listed explicitly or the source-loader and branding tests fail inside
+# the mutation sandbox with a false negative.
+also_copy = [
+    "sources/",
+    "templates/",
+    "static/",
+    "estorides_llm/",
+    "estorides_export/",
+    "estorides_web.py",
+    "estorides_web_tools.py",
+]
 only_mutate = [
     "estorides_core/observation_models.py",
     "estorides_core/aerospace.py",
