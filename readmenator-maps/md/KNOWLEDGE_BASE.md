@@ -12,7 +12,7 @@
 **Total Files Parsed:** 199 | **Total Symbols Extracted:** 3515 | **Total Imports:** 1379
  | **Resolved Imports:** 441
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:5ae92f7 | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:08f2905 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -727,28 +727,28 @@ Taint analysis traces how dangerous imports propagate through the codebase via t
   Path: async_client.py -> config.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
-  Path: feeds.py -> aviation.py
-- `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
-  Path: feeds.py -> airports.py
-- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
-  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
   Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
   Path: feeds.py -> aerospace.py
+- `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
+  Path: feeds.py -> airports.py
+- `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
+  Path: feeds.py -> aviation.py
+- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
+  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
-  Path: feeds.py -> aviation.py
-- `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
-  Path: feeds.py -> airports.py
-- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
-  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
   Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
   Path: feeds.py -> aerospace.py
+- `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
+  Path: feeds.py -> airports.py
+- `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
+  Path: feeds.py -> aviation.py
+- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
+  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
 
@@ -885,7 +885,7 @@ Files sorted by how many other files would be affected if they changed. High-imp
 
 | File | Direct Dependents | Transitive Dependents | Total Impact |
 |------|------------------|----------------------|--------------|
-| `config.py` | 43 | 7 | 50 |
+| `config.py` | 43 | 8 | 51 |
 | `entity_extraction.py` | 14 | 36 | 50 |
 | `ids.py` | 6 | 32 | 38 |
 | `reliability_scoring.py` | 8 | 28 | 36 |

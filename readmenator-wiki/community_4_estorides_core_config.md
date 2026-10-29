@@ -83,10 +83,10 @@ This community groups 16 file(s) rooted at `estorides_core` with dominant langua
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/async_client.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 
 ## Open Questions
 

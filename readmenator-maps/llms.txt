@@ -42,7 +42,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_tests_p4.md](md/readmenator-agent/KB_tests_p4.md): Doc: BDD tests for the bug-bounty scope classifier (estoridescore.scope).
 - [readmenator-agent/KB_tests_p5.md](md/readmenator-agent/KB_tests_p5.md): Doc: ATDD + BDD tests for estoridescore.targetscoring.
 - [readmenator-agent/KB_tools.md](md/readmenator-agent/KB_tools.md): Doc: Split legacy grouped source files into one addon per file.
-- [readmenator-agent/MEMORY.md](md/readmenator-agent/MEMORY.md): Generated from 199 files at commit 5ae92f7a0242. Read this first, then readmenator-wiki/index.md, then readmenator . ask "<question>" for anything specific.
+- [readmenator-agent/MEMORY.md](md/readmenator-agent/MEMORY.md): Generated from 199 files at commit 08f29052918d. Read this first, then readmenator-wiki/index.md, then readmenator . ask "<question>" for anything specific.
 - [readmenator-agent/SECURITY.md](md/readmenator-agent/SECURITY.md)
 - [readmenator-agent/SYMBOLS.md](md/readmenator-agent/SYMBOLS.md)
 - [readmenator-agent/SYMBOLS_p2.md](md/readmenator-agent/SYMBOLS_p2.md)
@@ -53,7 +53,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/SYMBOLS_p7.md](md/readmenator-agent/SYMBOLS_p7.md)
 - [readmenator-agent/SYMBOLS_p8.md](md/readmenator-agent/SYMBOLS_p8.md)
 - [readmenator-agent/recipes/add-function.md](md/readmenator-agent/recipes/add-function.md): Find the target file by purpose: grep -in '<topic>' readmenator-agent/INDEX.md
-- [readmenator-agent/recipes/change-impact.md](md/readmenator-agent/recipes/change-impact.md): Riskiest file: estoridescore/config.py (50 dependents)
+- [readmenator-agent/recipes/change-impact.md](md/readmenator-agent/recipes/change-impact.md): Riskiest file: estoridescore/config.py (51 dependents)
 - [readmenator-agent/recipes/fix-cycle.md](md/readmenator-agent/recipes/fix-cycle.md): Target cycle: estoridesexport/init.py -> estoridesexport/encryption.py -> estoridesexport/init.py
 - [readmenator-agent/recipes/fix-security.md](md/readmenator-agent/recipes/fix-security.md): Read findings: grep -n '<file>' readmenator-agent/SECURITY.md
 - [readmenator-agent/recipes/reduce-complexity.md](md/readmenator-agent/recipes/reduce-complexity.md): Target hotspot: static/js/estorides.js
