@@ -1,10 +1,10 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-29T03:07:35Z",
+  "generated_at": "2026-10-29T03:18:20Z",
   "project_root": ".",
   "project_name": "estorides",
-  "git_commit": "112cb635e83582c97fa0b3e442489731b8f9ae6b",
+  "git_commit": "80ee20221fac76314a3d237aefb859f302855444",
   "git_branch": "main",
   "source_fingerprint": "e693f6ed43f7e6e91b08bfc044b4675ffe329f0151941d772fb20636a5aa1008",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
@@ -173,7 +173,7 @@
     {
       "path": "MEMORY.md",
       "lines": 83,
-      "approx_tokens": 1334
+      "approx_tokens": 1333
     },
     {
       "path": "SECURITY.md",

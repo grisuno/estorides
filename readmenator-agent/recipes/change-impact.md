@@ -1,6 +1,6 @@
 # Recipe: Change a File Safely
 
-Riskiest file: `estorides_core/config.py` (53 dependents)
+Riskiest file: `estorides_core/config.py` (50 dependents)
 
 1. Who depends on it: `grep -n -- '-> `<file>`' readmenator-agent/ARCHITECTURE*.md`
 2. Its public surface: `grep -n '`<file>:' readmenator-agent/API*.md`
