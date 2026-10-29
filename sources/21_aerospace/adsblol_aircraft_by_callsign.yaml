@@ -1,0 +1,22 @@
+name: adsblol_aircraft_by_callsign
+enabled: true
+category: 21. Aerospace
+description: adsb.lol — live ADS-B state for one flight callsign
+os: any
+requires_key: false
+contact: none
+parser: adsblol_aircraft
+entity_hints:
+- aircraft
+- callsign
+- position
+applies_to:
+- keyword
+- username
+tool:
+  method: GET
+  url: https://api.adsb.lol/v2/callsign/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

@@ -1,0 +1,23 @@
+name: hexdb_route_lookup
+enabled: true
+category: 21. Aerospace
+description: hexdb.io — origin and destination airports by ICAO callsign
+os: any
+requires_key: false
+contact: none
+parser: hexdb_route
+entity_hints:
+- aircraft
+- callsign
+- airport
+- route
+applies_to:
+- keyword
+- username
+tool:
+  method: GET
+  url: https://hexdb.io/api/v1/route/icao/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

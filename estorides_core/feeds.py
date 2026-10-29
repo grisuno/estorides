@@ -28,7 +28,9 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import os
+import threading
 import time
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
@@ -45,6 +47,12 @@ from .aerospace import (
     parse_tle_catalog,
     subsatellite_point,
 )
+from .airports import AirportIndex, airport_brief, build_index, parse_airports_csv
+from .aviation import (
+    MAX_REGIONAL_RADIUS_NM,
+    bbox_center_radius,
+    emergency_phrase,
+)
 from .config import DATA_DIR
 from .ssrf_guard import assert_safe
 
@@ -58,6 +66,10 @@ FEED_CACHE_DIR: Path = DATA_DIR / "feeds"
 # be cached longer; spiky data (flights) shorter. Each feed overrides.
 DEFAULT_TTL_S: int = 15 * 60
 
+# A moving map produces one regional cache file per quantised bbox. Keep
+# the newest few so a long session cannot fill the disk with them.
+BBOX_CACHE_MAX_FILES: int = 50
+
 
 def _env_int(name: str, default: int) -> int:
     """Read a positive integer from the environment, clamped to >= 0."""
@@ -69,6 +81,154 @@ def _env_int(name: str, default: int) -> int:
     except ValueError:
         return default
     return max(0, value)
+
+
+def _env_float(name: str, default: float) -> float:
+    """Read a positive float from the environment, falling back on garbage."""
+    raw = os.environ.get(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = float(raw)
+    except ValueError:
+        return default
+    return value if math.isfinite(value) and value > 0 else default
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    """Read a boolean flag (``1/true/yes/on``) from the environment."""
+    raw = os.environ.get(name, "").strip().lower()
+    if not raw:
+        return default
+    return raw in {"1", "true", "yes", "on"}
+
+
+def _bbox_cache_key(bbox: Any) -> str:
+    """Filename-safe cache key for a bbox, quantised to 0.01 degrees.
+
+    Two requests a few hundred metres apart land on the same regional
+    cache entry, which is exactly the tolerance a 15 s refresh needs.
+    """
+    if not isinstance(bbox, (list, tuple)) or len(bbox) != 4:
+        return ""
+    parts: list[str] = []
+    for value in bbox:
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            return ""
+        if not math.isfinite(number):
+            return ""
+        parts.append(f"{number:.2f}".replace("-", "m").replace(".", "_"))
+    return "-".join(parts)
+
+
+# ------------------------------------------------------- airport reference
+AIRPORTS_URL = "https://davidmegginson.github.io/ourairports-data/airports.csv"
+AIRPORTS_CACHE_FILE: Path = DATA_DIR / "airports.json"
+AIRPORTS_TTL_S: int = 30 * 24 * 60 * 60   # OurAirports changes weekly, not hourly
+AIRPORTS_MAX_BYTES: int = 64 * 1024 * 1024
+
+_airport_index: AirportIndex | None = None
+_airport_index_lock = threading.Lock()
+
+
+def airports_enabled() -> bool:
+    """True when aircraft records should be annotated with a nearby airport.
+
+    Off by default: enabling it downloads the public-domain OurAirports
+    catalogue (~13 MB) once and refreshes it monthly. Set
+    ``ESTORIDES_AIRPORTS_ENRICH=1`` to opt in.
+    """
+    return _env_flag("ESTORIDES_AIRPORTS_ENRICH", False)
+
+
+def _airport_index_from_disk() -> tuple[AirportIndex | None, float]:
+    """Return the cached index and its epoch, or ``(None, 0)``."""
+    try:
+        blob = json.loads(AIRPORTS_CACHE_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None, 0.0
+    airports = blob.get("airports")
+    if not isinstance(airports, list) or not airports:
+        return None, 0.0
+    fetched_at = blob.get("fetched_at")
+    stamp = float(fetched_at) if isinstance(fetched_at, (int, float)) else 0.0
+    return build_index(airports), stamp
+
+
+def _download_airport_catalogue() -> list[dict[str, Any]]:
+    """Fetch and parse the OurAirports CSV. Raises on failure."""
+    import requests
+
+    url = os.environ.get("ESTORIDES_AIRPORTS_URL", "").strip() or AIRPORTS_URL
+    assert_safe(url)
+    response = requests.get(
+        url,
+        timeout=60,
+        headers={"User-Agent": "Estorides/1.0 (+osint platform)"},
+        stream=True,
+    )
+    response.raise_for_status()
+    chunks: list[bytes] = []
+    total = 0
+    for chunk in response.iter_content(chunk_size=1 << 20):
+        if not chunk:
+            continue
+        total += len(chunk)
+        if total > AIRPORTS_MAX_BYTES:
+            raise ValueError("airport catalogue exceeds the configured size cap")
+        chunks.append(chunk)
+    return parse_airports_csv(b"".join(chunks).decode("utf-8", errors="replace"))
+
+
+def _load_airport_index() -> AirportIndex | None:
+    """Load (and refresh) the airport index. Never raises; ``None`` on failure."""
+    global _airport_index
+    with _airport_index_lock:
+        cached, fetched_at = _airport_index_from_disk()
+        fresh = cached is not None and (time.time() - fetched_at) < AIRPORTS_TTL_S
+        if fresh:
+            _airport_index = cached
+            return _airport_index
+        if _airport_index is not None and cached is None:
+            return _airport_index
+        try:
+            airports = _download_airport_catalogue()
+        except Exception as e:  # the layer must survive a bad download
+            log.warning("airport catalogue unavailable: %s", e)
+            _airport_index = cached or _airport_index
+            return _airport_index
+        if not airports:
+            _airport_index = cached or _airport_index
+            return _airport_index
+        try:
+            AIRPORTS_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            AIRPORTS_CACHE_FILE.write_text(
+                json.dumps({"fetched_at": time.time(), "airports": airports},
+                           ensure_ascii=False),
+                encoding="utf-8",
+            )
+        except OSError as e:
+            log.debug("airport cache write failed (non-fatal): %s", e)
+        _airport_index = build_index(airports)
+        return _airport_index
+
+
+def _annotate_airports(points: list[FeedPoint]) -> list[FeedPoint]:
+    """Attach the nearest aerodrome to each point, when the feature is on."""
+    if not points or not airports_enabled():
+        return points
+    index = _load_airport_index()
+    if index is None or not len(index):
+        return points
+    radius_km = _env_float("ESTORIDES_AIRPORTS_RADIUS_KM", 25.0)
+    for point in points:
+        nearest = index.nearest(point.lat, point.lon, max_km=radius_km)
+        brief = airport_brief(nearest)
+        if brief is not None:
+            point.extra["nearest_airport"] = brief
+    return points
 
 
 # ---------------------------------------------------------------- shape
@@ -102,6 +262,9 @@ class Feed(ABC):
     # returned by GET /api/feeds. Empty means "no attribution required".
     attribution: str = ""
     default_ttl_s: int = DEFAULT_TTL_S
+    # Some feeds are cheap in a region and expensive worldwide; they
+    # override this to refresh a bbox answer faster than the global one.
+    bbox_ttl_s: int = 0
     cache_filename: str = ""  # set by subclass in __init__
 
     def __init__(self) -> None:
@@ -112,24 +275,86 @@ class Feed(ABC):
     def _fetch(self) -> list[FeedPoint]:
         """Subclass implementation: hit the upstream and return points."""
 
-    def fetch(self, *, use_cache: bool = True) -> list[FeedPoint]:
+    def _fetch_bbox(
+        self, bbox: tuple[float, float, float, float]
+    ) -> list[FeedPoint] | None:
+        """Regional override for a bounding box.
+
+        Returning ``None`` means "this feed has no regional form"; the
+        caller then runs the worldwide :meth:`_fetch` and clips the
+        result. A feed that can answer a box directly (denser, cheaper and
+        inside the upstream's own limits) overrides this.
+        """
+        return None
+
+    def _answers_regionally(self) -> bool:
+        """True when this feed overrides :meth:`_fetch_bbox`."""
+        return type(self)._fetch_bbox is not Feed._fetch_bbox
+
+    def cache_path(
+        self, bbox: tuple[float, float, float, float] | None = None
+    ) -> Path:
+        """On-disk cache path, namespaced by bbox when one is supplied.
+
+        A feed that cannot answer a box regionally keeps one global cache
+        file even when the caller passes a bbox: its answer is the world,
+        clipped afterwards, so keying it by box would refetch the same
+        world once per viewport.
+        """
+        key = _bbox_cache_key(bbox) if self._answers_regionally() else ""
+        stem = f"{self.name}-{key}" if key else self.name
+        return FEED_CACHE_DIR / f"{stem}.json"
+
+    def _prune_bbox_cache(self, keep: Path) -> None:
+        """Keep the newest ``BBOX_CACHE_MAX_FILES`` regional cache files."""
+        try:
+            siblings = sorted(
+                (path for path in FEED_CACHE_DIR.glob(f"{self.name}-*.json")
+                 if path != keep),
+                key=lambda path: path.stat().st_mtime,
+            )
+        except OSError:
+            return
+        excess = len(siblings) - max(0, BBOX_CACHE_MAX_FILES - 1)
+        for path in siblings[:max(0, excess)]:
+            try:
+                path.unlink()
+            except OSError:
+                continue
+
+    def fetch(
+        self,
+        *,
+        use_cache: bool = True,
+        bbox: tuple[float, float, float, float] | None = None,
+    ) -> list[FeedPoint]:
         """Public entrypoint. Reads/writes the on-disk cache.
 
-        The cache is a simple `{fetched_at, points}` JSON blob —
-        good enough for a self-hosted deployment. A real production
-        system would want a TTL'd Redis layer, but that pulls in a
-        network dependency."""
-        cache_path = FEED_CACHE_DIR / self.cache_filename
+        The cache is a simple `{fetched_at, points}` JSON blob — good
+        enough for a self-hosted deployment. A real production system
+        would want a TTL'd Redis layer, but that pulls in a network
+        dependency.
+
+        A ``bbox`` asks for a regional answer: the feed may serve it from
+        its upstream's own regional endpoint and caches it under a
+        bbox-specific key, so a wide and a narrow request never poison
+        each other.
+        """
+        cache_path = self.cache_path(bbox)
+        regional = bbox is not None and self._answers_regionally()
+        ttl = self.bbox_ttl_s if regional and self.bbox_ttl_s else self.default_ttl_s
         if use_cache and cache_path.exists():
             try:
                 blob = json.loads(cache_path.read_text(encoding="utf-8"))
-                if (time.time() - blob.get("fetched_at", 0)) < self.default_ttl_s:
+                if (time.time() - blob.get("fetched_at", 0)) < ttl:
                     return [FeedPoint(**p) for p in blob.get("points", [])]
             except (json.JSONDecodeError, TypeError):
                 pass  # corrupt cache, fall through to refetch
 
         try:
-            points = self._fetch()
+            points = self._fetch_bbox(bbox) if regional else None
+            if points is None:
+                points = self._fetch()
         except Exception as e:
             log.warning("feed %s fetch failed: %s", self.name, e)
             # Serve stale cache rather than nothing, but only if it
@@ -153,6 +378,8 @@ class Feed(ABC):
                            ensure_ascii=False),
                 encoding="utf-8",
             )
+            if bbox is not None:
+                self._prune_bbox_cache(cache_path)
         except OSError as e:
             log.debug("feed cache write failed (non-fatal): %s", e)
         return points
@@ -331,19 +558,80 @@ class NewsFeed(Feed):
 
 
 # ---------------------------------------------------------------- OpenSky aircraft
-class AircraftFeed(Feed):
-    """Worldwide civil aircraft snapshot from OpenSky Network.
+def _aircraft_feed_point(
+    record: dict[str, Any], *, kind: str, source: str
+) -> FeedPoint:
+    """One map point from a common aircraft record.
 
-    The anonymous tier is keyless and rate-limited; the 5-minute cache
-    keeps the platform inside the published research/education budget.
-    Coordinates and units are already SI in the OpenSky payload.
+    The extra dict is what the popup renders, so it carries identity
+    (type, registration, owner), kinematics, the transponder state and the
+    community flags. Empty values are dropped to keep /api/feeds small;
+    ``False`` survives because "not on the ground" is information.
+    """
+    extra: dict[str, Any] = {
+        "icao24": record.get("icao24"),
+        "callsign": record.get("callsign"),
+        "country": record.get("origin_country"),
+        "altitude_m": record.get("baro_altitude_m"),
+        "geo_altitude_m": record.get("geo_altitude_m"),
+        "speed_mps": record.get("velocity_mps"),
+        "heading_deg": record.get("heading_deg"),
+        "vertical_rate_mps": record.get("vertical_rate_mps"),
+        "on_ground": bool(record.get("on_ground")),
+        "category": record.get("category"),
+        "aircraft_class": record.get("aircraft_class"),
+        "type_code": record.get("type_code"),
+        "registration": record.get("registration"),
+        "owner": record.get("owner"),
+        "description": record.get("description"),
+        "squawk": record.get("squawk"),
+    }
+    emergency = record.get("emergency")
+    if isinstance(emergency, dict):
+        extra["emergency"] = emergency
+        phrase = emergency_phrase(emergency)
+        if phrase:
+            extra["emergency_phrase"] = phrase
+    flags = record.get("db_flags")
+    if isinstance(flags, dict):
+        extra["flags"] = flags
+    extra = {key: value for key, value in extra.items() if value is not None}
+    return FeedPoint(
+        lat=record["latitude"],
+        lon=record["longitude"],
+        timestamp=record["observed_at"] or time.time(),
+        label=record["callsign"] or record["icao24"],
+        source=source,
+        kind=kind,
+        extra=extra,
+    )
+
+
+class AircraftFeed(Feed):
+    """Aircraft in the air, from the cheapest keyless source for the ask.
+
+    Without a bbox the feed takes the OpenSky worldwide snapshot (the
+    anonymous tier is rate-limited; the 5-minute cache keeps the platform
+    inside the published research/education budget). With a bbox it asks
+    adsb.lol for that exact region: community receivers are denser than
+    OpenSky locally, the regional query costs no credits, and 250 nm is
+    the upstream's own radius limit — beyond it the worldwide snapshot is
+    the better answer.
     """
     name = "aircraft"
-    description = "OpenSky Network live aircraft (worldwide snapshot)"
-    attribution = "OpenSky Network (research/education terms)"
+    description = "Live aircraft (OpenSky worldwide, adsb.lol for a region)"
+    attribution = (
+        "OpenSky Network (research/education terms); "
+        "adsb.lol contributors (ODbL 1.0)"
+    )
     default_ttl_s = 5 * 60
+    bbox_ttl_s = 60          # a regional snapshot refreshes every minute
 
     STATES_URL = "https://opensky-network.org/api/states/all?extended=1"
+    POINT_URL = "https://api.adsb.lol/v2/point/{lat:.4f}/{lon:.4f}/{radius}"
+
+    def _limit(self) -> int:
+        return _env_int("ESTORIDES_AIRCRAFT_MAX", 3000)
 
     def _fetch(self) -> list[FeedPoint]:
         assert_safe(self.STATES_URL)
@@ -351,28 +639,38 @@ class AircraftFeed(Feed):
         r = requests.get(self.STATES_URL, timeout=20,
                          headers={"User-Agent": "Estorides/1.0 (+osint platform)"})
         r.raise_for_status()
-        limit = _env_int("ESTORIDES_AIRCRAFT_MAX", 3000)
-        out: list[FeedPoint] = []
-        for record in cap_records(normalize_opensky_states(r.json()), limit):
-            label = record["callsign"] or record['icao24']
-            out.append(FeedPoint(
-                lat=record["latitude"],
-                lon=record["longitude"],
-                timestamp=record["observed_at"] or time.time(),
-                label=label,
-                source="opensky",
-                kind="aircraft",
-                extra={
-                    "icao24": record["icao24"],
-                    "callsign": record["callsign"],
-                    "country": record["origin_country"],
-                    "altitude_m": record["baro_altitude_m"],
-                    "speed_mps": record["velocity_mps"],
-                    "heading_deg": record["heading_deg"],
-                    "on_ground": record["on_ground"],
-                },
-            ))
-        return out
+        records = cap_records(normalize_opensky_states(r.json()), self._limit())
+        points = [
+            _aircraft_feed_point(record, kind="aircraft", source="opensky")
+            for record in records
+        ]
+        return _annotate_airports(points)
+
+    def _fetch_bbox(
+        self, bbox: tuple[float, float, float, float]
+    ) -> list[FeedPoint] | None:
+        if not _env_flag("ESTORIDES_AIRCRAFT_REGIONAL", True):
+            return None
+        geometry = bbox_center_radius(bbox)
+        if geometry is None:
+            return None
+        latitude, longitude, radius_nm = geometry
+        if radius_nm > MAX_REGIONAL_RADIUS_NM:
+            return None
+        radius = math.ceil(radius_nm)
+        radius = max(1, min(radius, int(MAX_REGIONAL_RADIUS_NM)))
+        url = self.POINT_URL.format(lat=latitude, lon=longitude, radius=radius)
+        assert_safe(url)
+        import requests
+        r = requests.get(url, timeout=20,
+                         headers={"User-Agent": "Estorides/1.0 (+osint platform)"})
+        r.raise_for_status()
+        records = cap_records(normalize_adsblol_aircraft(r.json()), self._limit())
+        points = [
+            _aircraft_feed_point(record, kind="aircraft", source="adsb.lol")
+            for record in records
+        ]
+        return _annotate_airports(points)
 
 
 # ---------------------------------------------------------------- adsb.lol military
@@ -397,25 +695,61 @@ class MilitaryAircraftFeed(Feed):
                          headers={"User-Agent": "Estorides/1.0 (+osint platform)"})
         r.raise_for_status()
         limit = _env_int("ESTORIDES_AIRCRAFT_MAX", 3000)
+        records = cap_records(normalize_adsblol_aircraft(r.json()), limit)
+        points = [
+            _aircraft_feed_point(record, kind="military_aircraft", source="adsb.lol")
+            for record in records
+        ]
+        return _annotate_airports(points)
+
+
+# ------------------------------------------------------- adsb.lol emergencies
+class AircraftEmergencyFeed(Feed):
+    """Aircraft currently broadcasting an emergency squawk (adsb.lol, ODbL).
+
+    Three ICAO Mode A codes are polled — 7500 unlawful interference,
+    7600 radio failure, 7700 general emergency — plus the ADS-B
+    emergency/priority field, which is a superset. A code is what the
+    transponder broadcast in this poll, never a finding: crews pass
+    through 7x00 codes while dialling. One-minute cache, because this is
+    the most time-sensitive layer in the set.
+    """
+    name = "aircraft_emergency"
+    description = "Aircraft broadcasting an emergency squawk (adsb.lol, ODbL)"
+    attribution = "adsb.lol contributors (ODbL 1.0)"
+    default_ttl_s = 60
+
+    SQUAWKS: tuple[str, ...] = ("7500", "7600", "7700")
+    SQUAWK_URL = "https://api.adsb.lol/v2/squawk/{squawk}"
+
+    def _fetch(self) -> list[FeedPoint]:
+        import requests
+        limit = _env_int("ESTORIDES_EMERGENCY_MAX", 200)
         out: list[FeedPoint] = []
-        for record in cap_records(normalize_adsblol_aircraft(r.json()), limit):
-            label = record["callsign"] or record['icao24']
-            out.append(FeedPoint(
-                lat=record["latitude"],
-                lon=record["longitude"],
-                timestamp=record["observed_at"] or time.time(),
-                label=label,
-                source="adsb.lol",
-                kind="military_aircraft",
-                extra={
-                    "icao24": record["icao24"],
-                    "callsign": record["callsign"],
-                    "altitude_m": record["baro_altitude_m"],
-                    "speed_mps": record["velocity_mps"],
-                    "heading_deg": record["heading_deg"],
-                    "on_ground": record["on_ground"],
-                },
-            ))
+        seen: set[str] = set()
+        for squawk in self.SQUAWKS:
+            if len(out) >= limit:
+                break
+            url = self.SQUAWK_URL.format(squawk=squawk)
+            assert_safe(url)
+            try:
+                r = requests.get(
+                    url, timeout=15,
+                    headers={"User-Agent": "Estorides/1.0 (+osint platform)"},
+                )
+                r.raise_for_status()
+            except Exception as e:  # one code down must not kill the layer
+                log.warning("adsb.lol squawk %s failed: %s", squawk, e)
+                continue
+            for record in cap_records(normalize_adsblol_aircraft(r.json()), limit):
+                if record["icao24"] in seen:
+                    continue
+                seen.add(record["icao24"])
+                out.append(
+                    _aircraft_feed_point(
+                        record, kind="aircraft_emergency", source="adsb.lol"
+                    )
+                )
         return out
 
 
@@ -560,6 +894,7 @@ FEEDS: dict[str, Feed] = {
         NewsFeed,
         AircraftFeed,
         MilitaryAircraftFeed,
+        AircraftEmergencyFeed,
         SatellitesFeed,
         RocketLaunchesFeed,
     )
@@ -602,7 +937,7 @@ def fetch_all(bbox: tuple[float, float, float, float] | None = None,
         if wanted is not None and feed.name not in wanted:
             continue
         try:
-            points = feed.fetch(use_cache=use_cache)
+            points = feed.fetch(use_cache=use_cache, bbox=bbox)
         except Exception as e:
             log.warning("feed %s raised: %s", feed.name, e)
             out[feed.name] = []

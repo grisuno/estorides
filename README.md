@@ -622,24 +622,38 @@ of the orchestrator result as `result.mitre.techniques`.
 
 `estorides_core/feeds.py` ships keyless feeds that the map UI layers on
 top of OSINT results. The Map tab exposes an **Estorides Aerospace**
-panel with per-layer toggles (aircraft, military aircraft, satellites,
-rocket launches); every layer is fetched on demand and cached on disk.
+panel with per-layer toggles (aircraft, military aircraft, emergency
+squawks, satellites, rocket launches); every layer is fetched on demand
+and cached on disk.
 
 | Feed | Source | Refresh | Notes |
 | --- | --- | --- | --- |
 | Earthquakes | USGS M2.5+ GeoJSON | 10 min | Always on |
 | Fires | NASA FIRMS VIIRS_NOAA20_NRT CSV | 30 min | Requires `ESTORIDES_FIRMS_KEY` |
 | News | GDELT 2.0 article list | 15 min | Coords unavailable; surfaces at (0,0) |
-| Aircraft | OpenSky Network `/api/states/all` | 5 min | Keyless anonymous tier; `ESTORIDES_AIRCRAFT_MAX` cap |
+| Aircraft | OpenSky `/api/states/all`, adsb.lol `/v2/point` for a bbox | 5 min / 60 s | Keyless; `ESTORIDES_AIRCRAFT_MAX` cap |
 | Military aircraft | adsb.lol `/v2/mil` (ODbL) | 2 min | Attribution required |
+| Emergency squawks | adsb.lol `/v2/squawk/7500,7600,7700` (ODbL) | 60 s | Broadcast state, not an incident report |
 | Satellites | CelesTrak GP groups | 10 min | SGP4 when `sgp4` is installed, Kepler fallback |
 | Rocket launches | Launch Library 2 `2.3.0/launches` | 60 min | Only located pads become map points |
 
 Endpoint: `GET /api/feeds?feeds=aircraft,satellites&bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
-Unknown feed names answer `400` with the valid list. The query-driven
-counterparts live in `sources/21_aerospace/` (CelesTrak by catalog id,
-name or group; adsbdb aircraft and callsign; OpenSky track; Launch
-Library 2 search). See `spec/aerospace.md`.
+A bbox switches the aircraft layer to the regional adsb.lol roster
+(250 nm ceiling, own 60 s cache); without one it falls back to the
+worldwide OpenSky snapshot. Unknown feed names answer `400` with the
+valid list.
+
+Each aircraft point carries identity and state — `aircraft_class`
+(light/turboprop/airliner/widebody/quadjet/helicopter/fastjet/bizjet/
+glider/uav), ICAO type, registration, owner, squawk and the decoded
+community flags — plus `emergency`/`emergency_phrase` when the
+transponder is broadcasting one. `ESTORIDES_AIRPORTS_ENRICH=1` adds the
+nearest aerodrome (OurAirports, public domain) to every point.
+
+The query-driven counterparts live in `sources/21_aerospace/`
+(CelesTrak by catalog id, name or group; adsb.lol by hex, callsign,
+registration, type and squawk; adsbdb and hexdb.io enrichment; OpenSky
+track; Launch Library 2 search). See `spec/aerospace.md`.
 
 Optional high-accuracy propagation: `pip install "estorides[space]"`
 installs `sgp4`; without it the satellites layer uses a two-body

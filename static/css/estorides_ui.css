@@ -1287,4 +1287,5 @@ button.gb-badge { cursor: pointer; }
 .estorides-aero-popup { font-size: 11px; line-height: 1.5; }
 .estorides-aero-popup b { color: var(--text-0); }
 .estorides-aero-popup code { color: var(--accent-2); }
+.estorides-aero-emergency { color: #FF4444; font-weight: 600; }
 

@@ -165,10 +165,14 @@ also_copy = [
 only_mutate = [
     "estorides_core/observation_models.py",
     "estorides_core/aerospace.py",
+    "estorides_core/aviation.py",
+    "estorides_core/airports.py",
 ]
 pytest_add_cli_args_test_selection = [
     "tests/test_observation_models.py",
     "tests/properties/test_observation_models_properties.py",
     "tests/test_aerospace.py",
     "tests/properties/test_aerospace_properties.py",
+    "tests/test_aviation.py",
+    "tests/test_airports.py",
 ]

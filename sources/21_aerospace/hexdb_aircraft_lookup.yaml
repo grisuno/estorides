@@ -1,0 +1,23 @@
+name: hexdb_aircraft_lookup
+enabled: true
+category: 21. Aerospace
+description: hexdb.io — registration, ICAO type and registered owner by ICAO hex
+os: any
+requires_key: false
+contact: none
+parser: hexdb_aircraft
+entity_hints:
+- aircraft
+- registration
+- type
+- owner
+applies_to:
+- mac
+- keyword
+tool:
+  method: GET
+  url: https://hexdb.io/api/v1/aircraft/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

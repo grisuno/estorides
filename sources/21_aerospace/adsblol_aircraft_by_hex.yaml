@@ -1,0 +1,22 @@
+name: adsblol_aircraft_by_hex
+enabled: true
+category: 21. Aerospace
+description: adsb.lol — live ADS-B state for one ICAO 24-bit address
+os: any
+requires_key: false
+contact: none
+parser: adsblol_aircraft
+entity_hints:
+- aircraft
+- icao24
+- position
+applies_to:
+- mac
+- keyword
+tool:
+  method: GET
+  url: https://api.adsb.lol/v2/hex/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

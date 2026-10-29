@@ -7,6 +7,9 @@ whitelist. Each scenario id (A1..A14) matches the spec.
 """
 from __future__ import annotations
 
+import json
+import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -397,7 +400,7 @@ class TestFeedRegistry:
                 self.attribution = ""
                 self.description = ""
 
-            def fetch(self, *, use_cache: bool = True) -> list[Any]:
+            def fetch(self, *, use_cache: bool = True, bbox: Any = None) -> list[Any]:
                 requested.append(self.name)
                 return []
 
@@ -418,6 +421,13 @@ AEROSPACE_SOURCES = {
     "adsbdb_callsign_lookup": "adsbdb",
     "opensky_aircraft_track": "opensky_track",
     "launch_library_search": "launch_library",
+    "adsblol_aircraft_by_hex": "adsblol_aircraft",
+    "adsblol_aircraft_by_callsign": "adsblol_aircraft",
+    "adsblol_aircraft_by_registration": "adsblol_aircraft",
+    "adsblol_aircraft_by_type": "adsblol_aircraft",
+    "adsblol_emergency_squawk": "adsblol_aircraft",
+    "hexdb_aircraft_lookup": "hexdb_aircraft",
+    "hexdb_route_lookup": "hexdb_route",
 }
 
 
@@ -646,6 +656,8 @@ AIRCRAFT_KEYS = {
     "baro_altitude_m", "geo_altitude_m", "on_ground", "velocity_mps",
     "heading_deg", "vertical_rate_mps", "squawk", "spi",
     "position_source", "category", "observed_at", "source",
+    "type_code", "registration", "description", "owner",
+    "aircraft_class", "emergency", "db_flags",
 }
 
 
@@ -679,6 +691,15 @@ class TestExactRecords:
                 assert record[key] == pytest.approx(value), key
             else:
                 assert record[key] == value, key
+        # Enrichment fields: OpenSky carries no identity or ADS-B emergency
+        # field, but the squawk still classifies and the category still maps.
+        assert record["type_code"] is None
+        assert record["registration"] is None
+        assert record["description"] is None
+        assert record["owner"] is None
+        assert record["aircraft_class"] == "airliner"
+        assert record["emergency"] is None
+        assert record["db_flags"] is None
 
     def test_adsblol_full_record(self) -> None:
         payload = {"now": 1700000000, "ac": [{
@@ -706,6 +727,12 @@ class TestExactRecords:
         assert record["category"] == 4.0
         assert record["observed_at"] == pytest.approx(1699999998.0)
         assert record["source"] == "adsb.lol"
+        # No type designator in this row: the A3 emitter category decides.
+        assert record["aircraft_class"] == "airliner"
+        assert record["type_code"] is None
+        assert record["registration"] is None
+        assert record["emergency"] is None
+        assert record["db_flags"] is None
 
     def test_adsb_unknown_shape(self) -> None:
         assert aerospace.normalize_adsbdb({"response": {}}) == {}
@@ -806,3 +833,203 @@ class TestExactRecords:
             payload.update(override)
             assert aerospace._aircraft_record(**payload) is None
 
+
+
+class TestA15RegionalAircraftFetch:
+    """A bbox asks adsb.lol for the region; a wide box falls back to OpenSky."""
+
+    def test_point_query_is_used(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        calls = _patch_requests(monkeypatch, {
+            "https://api.adsb.lol/v2/point/": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{
+                    "hex": "abc123", "flight": "UAL123 ", "lat": 40.45,
+                    "lon": -3.65, "alt_baro": 3000, "gs": 200.0,
+                    "track": 90.0, "t": "B738", "r": "N12345",
+                    "category": "A3", "squawk": "1200", "dbFlags": 0,
+                }],
+            }),
+        })
+        points = feed_module.AircraftFeed()._fetch_bbox((-3.8, 40.3, -3.5, 40.6))
+        assert points is not None
+        assert len(points) == 1
+        assert calls and calls[0].startswith("https://api.adsb.lol/v2/point/40.4500/-3.6500/")
+        assert points[0].source == "adsb.lol"
+        assert points[0].extra["aircraft_class"] == "airliner"
+        assert points[0].extra["type_code"] == "B738"
+        assert points[0].extra["registration"] == "N12345"
+
+    def test_wide_bbox_falls_back_to_worldwide(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        calls = _patch_requests(monkeypatch, {})
+        assert feed_module.AircraftFeed()._fetch_bbox((-180.0, -80.0, 180.0, 80.0)) is None
+        assert calls == []
+
+    def test_regional_kill_switch(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("ESTORIDES_AIRCRAFT_REGIONAL", "0")
+        calls = _patch_requests(monkeypatch, {})
+        assert feed_module.AircraftFeed()._fetch_bbox((-3.8, 40.3, -3.5, 40.6)) is None
+        assert calls == []
+
+    def test_bbox_cache_is_namespaced(self) -> None:
+        feed = feed_module.AircraftFeed()
+        narrow = feed.cache_path((-3.8, 40.3, -3.5, 40.6))
+        wide = feed.cache_path((-10.0, 30.0, 10.0, 50.0))
+        assert narrow != wide
+        assert feed.cache_path() == feed_module.FEED_CACHE_DIR / "aircraft.json"
+
+    def test_regional_failure_uses_stale_cache(self, monkeypatch: pytest.MonkeyPatch,
+                                               tmp_path: Any) -> None:
+        cache_dir = tmp_path / "feeds"
+        monkeypatch.setattr(feed_module, "FEED_CACHE_DIR", cache_dir)
+        feed = feed_module.AircraftFeed()
+        bbox = (-3.8, 40.3, -3.5, 40.6)
+        path = feed.cache_path(bbox)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        stale_at = time.time() - 120      # past the 60 s regional TTL, inside 6 h
+        path.write_text(
+            json.dumps({"fetched_at": stale_at, "points": [{
+                "lat": 40.4, "lon": -3.6, "timestamp": 1.0, "label": "STALE",
+                "source": "adsb.lol", "kind": "aircraft", "extra": {},
+            }]}),
+            encoding="utf-8",
+        )
+        _patch_requests(monkeypatch, {})
+        points = feed.fetch(use_cache=True, bbox=bbox)
+        assert [point.label for point in points] == ["STALE"]
+
+
+class TestA16EmergencyFeed:
+    """Three squawk polls, merged and deduplicated, resilient to one failure."""
+
+    def test_merges_and_deduplicates(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        calls = _patch_requests(monkeypatch, {
+            "https://api.adsb.lol/v2/squawk/7500": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{"hex": "aaa111", "flight": "X1", "lat": 40.0,
+                        "lon": -3.0, "squawk": "7500", "t": "B738"}],
+            }),
+            "https://api.adsb.lol/v2/squawk/7600": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{"hex": "aaa111", "flight": "X1", "lat": 40.0,
+                        "lon": -3.0, "squawk": "7600"}],
+            }),
+            "https://api.adsb.lol/v2/squawk/7700": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{"hex": "bbb222", "flight": "Y2", "lat": 41.0,
+                        "lon": -4.0, "squawk": "7700"}],
+            }),
+        })
+        points = feed_module.AircraftEmergencyFeed()._fetch()
+        assert len(points) == 2
+        assert {point.kind for point in points} == {"aircraft_emergency"}
+        assert {point.extra["icao24"] for point in points} == {"aaa111", "bbb222"}
+        assert len(calls) == 3
+        general = next(p for p in points if p.extra["icao24"] == "bbb222")
+        assert general.extra["emergency"]["kind"] == "general"
+        assert general.extra["emergency_phrase"] == (
+            "broadcasting squawk 7700 (general emergency)"
+        )
+
+    def test_one_failing_code_does_not_kill_the_layer(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _patch_requests(monkeypatch, {
+            "https://api.adsb.lol/v2/squawk/7700": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{"hex": "ccc333", "lat": 1.0, "lon": 2.0}],
+            }),
+        })
+        points = feed_module.AircraftEmergencyFeed()._fetch()
+        assert [point.extra["icao24"] for point in points] == ["ccc333"]
+
+    def test_cap_is_honoured(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("ESTORIDES_EMERGENCY_MAX", "1")
+        _patch_requests(monkeypatch, {
+            "https://api.adsb.lol/v2/squawk/7500": _FakeResponse(payload={
+                "now": 1700000000,
+                "ac": [{"hex": "a1", "lat": 1.0, "lon": 2.0},
+                       {"hex": "a2", "lat": 1.1, "lon": 2.1}],
+            }),
+        })
+        points = feed_module.AircraftEmergencyFeed()._fetch()
+        assert len(points) == 1
+
+    def test_feed_is_registered_and_listed(self) -> None:
+        assert "aircraft_emergency" in feed_module.FEEDS
+        listed = {feed["name"]: feed for feed in feed_module.list_feeds()}
+        assert "adsb.lol" in listed["aircraft_emergency"]["attribution"]
+
+
+class TestA17AirportEnrichment:
+    """Nearest-airport annotation is opt-in and never breaks the layer."""
+
+    CSV_SAMPLE = (
+        "ident,type,name,latitude_deg,longitude_deg,elevation_ft,iso_country,"
+        "iso_region,municipality,iata_code,icao_code,gps_code\n"
+        "LEMD,large_airport,Madrid-Barajas,40.4719,-3.5626,1998,ES,ES-MD,"
+        "Madrid,MAD,LEMD,LEMD\n"
+    )
+
+    def _index(self) -> Any:
+        from estorides_core.airports import build_index, parse_airports_csv
+
+        return build_index(parse_airports_csv(self.CSV_SAMPLE))
+
+    def _points(self) -> list[Any]:
+        return [feed_module.FeedPoint(
+            lat=40.45, lon=-3.60, timestamp=1.0, label="UAL1",
+            source="adsb.lol", kind="aircraft", extra={},
+        )]
+
+    def test_disabled_by_default(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("ESTORIDES_AIRPORTS_ENRICH", raising=False)
+        points = feed_module._annotate_airports(self._points())
+        assert "nearest_airport" not in points[0].extra
+
+    def test_annotates_when_enabled(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("ESTORIDES_AIRPORTS_ENRICH", "1")
+        monkeypatch.setattr(feed_module, "_load_airport_index", self._index)
+        points = feed_module._annotate_airports(self._points())
+        nearest = points[0].extra["nearest_airport"]
+        assert nearest["ident"] == "LEMD"
+        assert nearest["iata"] == "MAD"
+        assert nearest["distance_km"] < 10
+
+    def test_radius_is_configurable(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("ESTORIDES_AIRPORTS_ENRICH", "1")
+        monkeypatch.setenv("ESTORIDES_AIRPORTS_RADIUS_KM", "1")
+        monkeypatch.setattr(feed_module, "_load_airport_index", self._index)
+        points = feed_module._annotate_airports(self._points())
+        assert "nearest_airport" not in points[0].extra
+
+    def test_missing_catalogue_is_survivable(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("ESTORIDES_AIRPORTS_ENRICH", "1")
+        monkeypatch.setattr(feed_module, "_load_airport_index", lambda: None)
+        points = feed_module._annotate_airports(self._points())
+        assert points and "nearest_airport" not in points[0].extra
+
+    def test_bbox_cache_is_pruned(self, monkeypatch: pytest.MonkeyPatch,
+                                  tmp_path: Any) -> None:
+        cache_dir = tmp_path / "feeds"
+        cache_dir.mkdir()
+        monkeypatch.setattr(feed_module, "FEED_CACHE_DIR", cache_dir)
+        monkeypatch.setattr(feed_module, "BBOX_CACHE_MAX_FILES", 2)
+        feed = feed_module.AircraftFeed()
+        keep = cache_dir / "aircraft-9_00-9_00-9_10-9_10.json"
+        for index in range(5):
+            path = cache_dir / f"aircraft-{index}_00-{index}_00-{index}_10-{index}_10.json"
+            path.write_text("{}", encoding="utf-8")
+            path.touch()
+            os.utime(path, (1_000 + index, 1_000 + index))
+        keep.write_text("{}", encoding="utf-8")
+        feed._prune_bbox_cache(keep)
+        remaining = sorted(path.name for path in cache_dir.glob("aircraft-*.json"))
+        assert len(remaining) == 2
+        assert keep.name in remaining
+
+    def test_global_only_feed_keeps_one_cache_file(self) -> None:
+        bbox = (-3.8, 40.3, -3.5, 40.6)
+        global_feed = feed_module.SatellitesFeed()
+        assert global_feed.cache_path(bbox) == global_feed.cache_path(None)
+        regional_feed = feed_module.AircraftFeed()
+        assert regional_feed.cache_path(bbox) != regional_feed.cache_path(None)

@@ -1211,6 +1211,21 @@ def parse_launch_library(payload: Any) -> dict[str, Any]:
     return {"launches": launches, "count": len(launches)}
 
 
+def parse_hexdb_aircraft(payload: Any) -> dict[str, Any]:
+    """hexdb.io aircraft record by ICAO address (registration, type, owner)."""
+    from .aviation import normalize_hexdb_aircraft
+
+    aircraft = normalize_hexdb_aircraft(payload)
+    return {"aircraft": aircraft, "count": 1 if aircraft else 0}
+
+
+def parse_hexdb_route(payload: Any) -> dict[str, Any]:
+    """hexdb.io flight route by callsign (origin and destination)."""
+    from .aviation import normalize_hexdb_route
+
+    return normalize_hexdb_route(payload)
+
+
 # ------------------------------------------------------------- registry ----
 PARSERS = {
     "dns_json": parse_dns_json,
@@ -1299,6 +1314,8 @@ PARSERS = {
     "opensky_track": parse_opensky_track,
     "adsbdb": parse_adsbdb,
     "launch_library": parse_launch_library,
+    "hexdb_aircraft": parse_hexdb_aircraft,
+    "hexdb_route": parse_hexdb_route,
 }
 
 

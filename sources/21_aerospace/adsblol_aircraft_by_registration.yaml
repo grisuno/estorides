@@ -1,0 +1,21 @@
+name: adsblol_aircraft_by_registration
+enabled: true
+category: 21. Aerospace
+description: adsb.lol — live ADS-B state for one civil registration (tail number)
+os: any
+requires_key: false
+contact: none
+parser: adsblol_aircraft
+entity_hints:
+- aircraft
+- registration
+- position
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.adsb.lol/v2/reg/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

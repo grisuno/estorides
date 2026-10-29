@@ -463,6 +463,7 @@
   const AERO_FEEDS = [
     { name: 'aircraft', label: 'Aircraft', color: '#4FD1C5', radius: 4 },
     { name: 'military_aircraft', label: 'Military aircraft', color: '#FF9E64', radius: 5 },
+    { name: 'aircraft_emergency', label: 'Emergency squawks', color: '#FF4444', radius: 7 },
     { name: 'satellites', label: 'Satellites', color: '#A78BFA', radius: 4 },
     { name: 'rocket_launches', label: 'Rocket launches', color: '#F472B6', radius: 6 },
   ];
@@ -499,6 +500,28 @@
     el.classList.toggle('is-error', Boolean(isError));
   }
 
+  // Ask for the region the operator is actually looking at. The backend
+  // answers a bbox from the regional ADS-B roster (denser, cheaper) and
+  // falls back to the worldwide snapshot when the box is too wide, so a
+  // wide view is never worse — but we skip the obviously-global case to
+  // keep the regional cache from filling with identical entries.
+  function aeroBboxParam() {
+    try {
+      if (!map || typeof map.getBounds !== 'function') return '';
+      const b = map.getBounds();
+      const west = b.getWest();
+      const south = b.getSouth();
+      const east = b.getEast();
+      const north = b.getNorth();
+      const values = [west, south, east, north];
+      if (!values.every((v) => Number.isFinite(v))) return '';
+      if (east - west > 20 || north - south > 20) return '';
+      return '&bbox=' + values.map((v) => v.toFixed(3)).join(',');
+    } catch (err) {
+      return '';
+    }
+  }
+
   function aeroPopup(point) {
     const extra = point.extra || {};
     const rows = ['<div class="estorides-aero-popup">'];
@@ -509,11 +532,26 @@
       rows.push('Callsign <code>' + escapeHTML(extra.callsign) + '</code>');
     }
     if (extra.country) rows.push('Country ' + escapeHTML(extra.country));
+    if (extra.aircraft_class) rows.push('Class ' + escapeHTML(extra.aircraft_class));
+    if (extra.type_code) rows.push('Type <code>' + escapeHTML(extra.type_code) + '</code>');
+    if (extra.registration) rows.push('Registration <code>' + escapeHTML(extra.registration) + '</code>');
+    if (extra.owner) rows.push('Owner ' + escapeHTML(extra.owner));
+    if (extra.emergency_phrase) {
+      rows.push('<span class="estorides-aero-emergency">' + escapeHTML(extra.emergency_phrase) + '</span>');
+    }
     if (extra.altitude_m !== undefined && extra.altitude_m !== null) {
       rows.push('Altitude ' + Math.round(Number(extra.altitude_m)) + ' m');
     }
     if (extra.speed_mps !== undefined && extra.speed_mps !== null) {
       rows.push('Speed ' + Math.round(Number(extra.speed_mps) * 3.6) + ' km/h');
+    }
+    if (extra.nearest_airport && (extra.nearest_airport.ident || extra.nearest_airport.name)) {
+      const field = extra.nearest_airport;
+      const code = field.icao || field.ident || '';
+      const distance = Number(field.distance_km);
+      rows.push('Near ' + escapeHTML(String(code)) +
+        (Number.isFinite(distance) ? ' (' + Math.round(distance) + ' km)' : '') +
+        (field.name ? ' — ' + escapeHTML(field.name) : ''));
     }
     if (extra.norad_id !== undefined) {
       rows.push('NORAD <code>' + escapeHTML(String(extra.norad_id)) + '</code>');
@@ -571,6 +609,7 @@
     aeroStatus('loading...');
     try {
       const url = '/api/feeds?feeds=' + encodeURIComponent(enabled.map((f) => f.name).join(',')) +
+        aeroBboxParam() +
         (force ? '&no_cache=1' : '');
       const response = await fetch(url, { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error('HTTP ' + response.status);

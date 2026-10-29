@@ -27,8 +27,10 @@ Two delivery surfaces, one shared normaliser module:
 | Upstream | Endpoint | Used for | Terms |
 | --- | --- | --- | --- |
 | OpenSky Network | `https://opensky-network.org/api/states/all?extended=1` | Worldwide civil aircraft snapshot (anonymous tier) | Non-commercial research / education, attribution |
-| adsb.lol | `https://api.adsb.lol/v2/mil` | Military aircraft snapshot | ODbL 1.0, attribution |
+| adsb.lol | `https://api.adsb.lol/v2/mil`, `/v2/point/{lat}/{lon}/{radius}`, `/v2/hex|reg|callsign|type|squawk/{key}` | Military snapshot, regional roster, single-airframe state, emergency squawk poll | ODbL 1.0, attribution |
 | adsbdb | `https://api.adsbdb.com/v0/aircraft/{hex}`, `/v0/callsign/{callsign}` | Registration, type, operator, route | No published licence, courtesy credit |
+| hexdb.io | `https://hexdb.io/api/v1/aircraft/{hex}`, `/api/v1/route/icao/{callsign}` | Registration, ICAO type, registered owner, route (redundant with adsbdb) | Community data, courtesy credit |
+| OurAirports | `https://davidmegginson.github.io/ourairports-data/airports.csv` | Aerodrome reference set for the nearest-airport annotation | Public domain |
 | CelesTrak | `https://celestrak.org/NORAD/elements/gp.php?GROUP={group}&FORMAT=tle` and `?CATNR={id}` / `?NAME={name}` | TLE catalog for orbit propagation | US government origin, citation requested |
 | Launch Library 2 | `https://ll.thespacedevs.com/2.3.0/launches/` | Upcoming and recent launches with pad coordinates | Free tier, attribution |
 
@@ -75,21 +77,107 @@ Common aircraft record:
 icao24, callsign, origin_country, latitude, longitude,
 baro_altitude_m, geo_altitude_m, on_ground, velocity_mps,
 heading_deg, vertical_rate_mps, squawk, spi, position_source,
-category, observed_at, source
+category, type_code, registration, description, owner,
+aircraft_class, emergency, db_flags, observed_at, source
 ```
+
+`aircraft_class` is the display class from
+:mod:`estorides_core.aviation`, `emergency` is the transponder state
+(or `None`) and `db_flags` the decoded readsb bitfield (or `None`).
+OpenSky never supplies a type designator, so its records lean on the
+emitter category; adsb.lol supplies `t`, `r`, `ownOp` and `dbFlags`.
 
 Every normaliser is total: `None`, strings, integers, empty objects,
 lists and truncated rows all return an empty container or an empty
 value, never raise. Coordinates outside WGS84 bounds are dropped.
 
+## Module: `estorides_core/aviation.py`
+
+Pure aircraft-intelligence helpers. No network, no filesystem.
+
+- `classify_aircraft(type_code, category=None)` -> class slug
+  (`light`, `glider`, `balloon`, `turboprop`, `airliner`, `widebody`,
+  `quadjet`, `helicopter`, `fastjet`, `bizjet`, `uav`, `ground`,
+  `space`, `unknown`). ICAO type designators are matched by exact set
+  and by family prefix, helicopter/UAV/fast-jet first so a prefix can
+  never steal a designator from a narrower table. An uncurated
+  designator falls back to the ADS-B emitter category (`A3`, OpenSky
+  integer) and then to `unknown` — never to a guessed `airliner`.
+- `aircraft_class_label(slug)` -> human label.
+- `normalize_squawk(value)` -> four octal digits or `None`.
+- `emergency_status(squawk, emergency=None)` -> `{kind, label,
+  severity, squawk, source}` or `None`. 7500 unlawful interference,
+  7600 radio failure, 7700 general emergency; the ADS-B emergency field
+  is a superset (`general`, `lifeguard`, `minfuel`, `nordo`,
+  `unlawful`, `downed`). The most severe signal wins, the ADS-B field
+  wins a tie, and `source` records which one named the status.
+- `is_emergency(status)`, `emergency_phrase(status)`: the phrase quotes
+  the squawk only when the squawk is the evidence
+  (`broadcasting squawk 7700 (general emergency)` versus
+  `ADS-B reports general emergency`).
+- `decode_db_flags(value)` -> `{military, interesting, pia, ladd, raw}`
+  from the readsb bitfield, or `None`.
+- `haversine_km(...)`, `bbox_center_radius(bbox)`, `point_in_bbox(...)`.
+- `normalize_hexdb_aircraft(payload)`, `normalize_hexdb_route(payload)`.
+
+A squawk is what one poll broadcast. The module reports it and never
+concludes that an incident happened or was resolved.
+
+## Module: `estorides_core/airports.py`
+
+Public-domain aerodrome reference data (OurAirports CSV) with a
+one-degree grid index, so "which airport is this contact near?" costs a
+handful of cells instead of a full scan.
+
+- `parse_airports_csv(text, types=..., limit=0)` -> normalised airports
+  (`large_airport`, `medium_airport`, `small_airport`; heliports, closed
+  fields and seaplane bases are dropped). Bad coordinates and duplicate
+  identifiers are dropped.
+- `AirportIndex.nearest(lat, lon, max_km=50)` -> closest airport with
+  `distance_km`, or `None`.
+- `AirportIndex.by_code(code)` -> ICAO, IATA, GPS or local identifier.
+- `AirportIndex.within_bbox(bbox)`, `airport_brief(airport)`.
+
+The download and the on-disk cache live in `feeds.py`;
+`ESTORIDES_AIRPORTS_ENRICH=1` opts in (a one-time ~13 MB fetch, monthly
+refresh), `ESTORIDES_AIRPORTS_RADIUS_KM` (default 25) bounds the search.
+
 ## Feeds
 
 | Feed name | Class | TTL | Upstream | Cap env |
 | --- | --- | --- | --- | --- |
-| `aircraft` | `AircraftFeed` | 5 min | OpenSky global snapshot | `ESTORIDES_AIRCRAFT_MAX` (default 3000) |
+| `aircraft` | `AircraftFeed` | 5 min (60 s regional) | OpenSky global snapshot, adsb.lol `/v2/point` for a bbox | `ESTORIDES_AIRCRAFT_MAX` (default 3000) |
 | `military_aircraft` | `MilitaryAircraftFeed` | 2 min | adsb.lol `/v2/mil` | `ESTORIDES_AIRCRAFT_MAX` |
+| `aircraft_emergency` | `AircraftEmergencyFeed` | 60 s | adsb.lol `/v2/squawk/{7500,7600,7700}` | `ESTORIDES_EMERGENCY_MAX` (default 200) |
 | `satellites` | `SatellitesFeed` | 10 min | CelesTrak groups | `ESTORIDES_SATELLITES_MAX` (default 1200) |
 | `rocket_launches` | `RocketLaunchesFeed` | 60 min | Launch Library 2 | `ESTORIDES_LAUNCHES_MAX` (default 100) |
+
+### Regional aircraft fetch
+
+`GET /api/feeds?...&bbox=min_lon,min_lat,max_lon,max_lat` asks for a
+region, not the world. `AircraftFeed` answers it from adsb.lol
+`/v2/point/{lat}/{lon}/{radius}` (centre plus half-diagonal, capped at
+the upstream's own 250 nm limit) when the box fits, and falls back to
+the worldwide OpenSky snapshot when it does not. A regional answer is
+cached under its own key (`aircraft-<bbox>.json`, quantised to 0.01°)
+and refreshed every 60 s, so a narrow and a wide request never poison
+each other. `ESTORIDES_AIRCRAFT_REGIONAL=0` forces the worldwide path.
+
+`Feed.fetch(bbox=...)` is the generic hook: a feed that cannot answer a
+box returns `None` from `_fetch_bbox()` and is fetched globally, then
+clipped by `fetch_all()`. Only feeds that override `_fetch_bbox()` key
+their cache by box (the rest would refetch the same world once per
+viewport), and the newest 50 regional files are kept so a long session
+cannot grow the cache without bound. The Map tab sends the current
+viewport as `bbox` when it spans at most 20° per axis.
+
+### Emergency layer
+
+`aircraft_emergency` polls the three ICAO Mode A codes and merges the
+results, deduplicating by ICAO address. Each point carries
+`emergency` (kind, label, severity, source) and `emergency_phrase` in
+`extra`, so the popup can quote the broadcast without turning it into
+an incident report. One code failing upstream never empties the layer.
 
 Satellite groups default to `stations,visual,gps-ops,glo-ops,galileo,geo`
 and can be overridden with `ESTORIDES_SATELLITES_GROUPS`. The feed
@@ -116,6 +204,13 @@ them and answers `400` with the valid names.
 | `adsbdb_callsign_lookup` | callsign | `v0/callsign/` |
 | `opensky_aircraft_track` | ICAO hex | `api/tracks/all?icao24=` |
 | `launch_library_search` | free text | `2.3.0/launches/?search=` |
+| `adsblol_aircraft_by_hex` | ICAO hex | `v2/hex/` |
+| `adsblol_aircraft_by_callsign` | callsign | `v2/callsign/` |
+| `adsblol_aircraft_by_registration` | registration | `v2/reg/` |
+| `adsblol_aircraft_by_type` | ICAO type designator | `v2/type/` |
+| `adsblol_emergency_squawk` | `7500` / `7600` / `7700` | `v2/squawk/` |
+| `hexdb_aircraft_lookup` | ICAO hex | `api/v1/aircraft/` |
+| `hexdb_route_lookup` | ICAO callsign | `api/v1/route/icao/` |
 
 All are `contact: none`, `requires_key: false`, `os: any`, and route on
 `keyword` plus `username` (ICAO hex and callsigns are detected as
@@ -251,11 +346,58 @@ When the aerospace panel and layer manager are inspected
 Then the strings `gods-eye-view`, `God's Eye View` and `godseye` do not
 appear, and the panel id starts with `estorides-aero`.
 
+### A15 — A bbox is answered by the regional endpoint
+Given a mocked adsb.lol `/v2/point` response with one aircraft
+When `AircraftFeed._fetch_bbox` runs for a box around Madrid
+Then one point is returned from `adsb.lol`, the URL carries the box
+centre and a radius no larger than 250 nm, and the point's `extra`
+carries `aircraft_class`, `type_code` and `registration`.
+And a box wider than the regional limit returns `None` without a
+network call, so `fetch` falls back to the worldwide snapshot.
+And a regional answer is cached under a bbox-specific file name.
+
+### A16 — The emergency feed merges the three codes
+Given mocked `/v2/squawk/7500`, `/7600` and `/7700` responses, one
+aircraft appearing under two codes and one code answering 404
+When `AircraftEmergencyFeed._fetch` runs
+Then the aircraft appears once, every point is
+`kind="aircraft_emergency"`, the 7700 contact carries
+`emergency.kind="general"` and the phrase
+`broadcasting squawk 7700 (general emergency)`, and no exception
+escapes.
+
+### A17 — Nearest-airport annotation is opt-in
+Given `ESTORIDES_AIRPORTS_ENRICH` unset
+When `_annotate_airports` runs on one aircraft point
+Then no `nearest_airport` key is added and no download happens.
+Given the flag set and a catalogue containing Madrid-Barajas
+When the same point is annotated with `ESTORIDES_AIRPORTS_RADIUS_KM=25`
+Then `nearest_airport.ident == "LEMD"` with a distance in kilometres.
+And with `ESTORIDES_AIRPORTS_RADIUS_KM=1` the key is absent.
+
+### A18 — Classification never guesses
+Given an ICAO designator nobody curated and no category
+When `classify_aircraft` runs
+Then the answer is `unknown`, never `airliner`.
+Given `"C172"`, `"B77W"`, `"A388"`, `"EC135"`, `"MQ9"` and `"F16C"`
+Then the classes are light, widebody, quadjet, helicopter, uav and
+fastjet respectively.
+
+### A19 — Emergency status is a broadcast, not a finding
+Given squawk `7700` and the ADS-B field `minfuel`
+When `emergency_status` runs
+Then the general emergency wins and `source` is `squawk`.
+Given squawk `7700` and ADS-B `downed`
+Then the ADS-B status wins the tie and `source` is `ads-b`.
+Given squawk `1200` and ADS-B `none`
+Then the status is `None`.
+
 ## Mutation testing
 
-`[tool.mutmut]` includes `estorides_core/aerospace.py`, copies the
-runtime data the tests read (`sources/`, `templates/`, `static/`) and
-selects the aerospace unit and property suites. Command:
+`[tool.mutmut]` includes `estorides_core/aerospace.py`,
+`estorides_core/aviation.py` and `estorides_core/airports.py`, copies
+the runtime data the tests read (`sources/`, `templates/`, `static/`)
+and selects the aerospace, aviation and airport suites. Command:
 
 ```bash
 mutmut run --max-children 3

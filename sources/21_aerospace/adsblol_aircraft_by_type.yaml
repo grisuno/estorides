@@ -1,0 +1,21 @@
+name: adsblol_aircraft_by_type
+enabled: true
+category: 21. Aerospace
+description: adsb.lol — live ADS-B aircraft of one ICAO type designator (A400, C130, ...)
+os: any
+requires_key: false
+contact: none
+parser: adsblol_aircraft
+entity_hints:
+- aircraft
+- type
+- fleet
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.adsb.lol/v2/type/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20

@@ -25,6 +25,8 @@ import math
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+from .aviation import classify_aircraft, decode_db_flags, emergency_status
+
 EARTH_RADIUS_KM = 6378.137
 EARTH_MU_KM3_S2 = 398600.4418
 KNOT_TO_MPS = 0.514444
@@ -420,10 +422,23 @@ def _aircraft_record(
     spi: Any = False,
     position_source: Any = None,
     category: Any = None,
+    category_text: Any = None,
+    type_code: Any = None,
+    registration: Any = None,
+    description: Any = None,
+    owner: Any = None,
+    emergency: Any = None,
+    db_flags: Any = None,
     observed_at: Any = None,
     source: str = "opensky",
 ) -> dict[str, Any] | None:
-    """Build one common aircraft record, or ``None`` when unusable."""
+    """Build one common aircraft record, or ``None`` when unusable.
+
+    ``category`` is the OpenSky integer when the upstream has one and
+    ``category_text`` the raw ADS-B emitter string; the type designator is
+    the most specific signal for :func:`classify_aircraft` and the only
+    one that can tell a 737 from a King Air.
+    """
     identifier = _clean(icao24, 16)
     coordinates = _valid_coordinates(latitude, longitude)
     if identifier is None or coordinates is None:
@@ -445,6 +460,15 @@ def _aircraft_record(
         "spi": bool(spi),
         "position_source": _finite(position_source),
         "category": _finite(category),
+        "type_code": _clean(type_code, 12),
+        "registration": _clean(registration, 16),
+        "description": _clean(description, 96),
+        "owner": _clean(owner, 96),
+        "aircraft_class": classify_aircraft(
+            type_code, category_text if category_text is not None else category
+        ),
+        "emergency": emergency_status(squawk, emergency),
+        "db_flags": decode_db_flags(db_flags),
         "observed_at": _finite(observed_at),
         "source": source,
     }
@@ -546,6 +570,13 @@ def normalize_adsblol_aircraft(payload: Any) -> list[dict[str, Any]]:
             squawk=row.get("squawk"),
             spi=row.get("spi") == 1,
             category=_emitter_category(row.get("category")),
+            category_text=row.get("category"),
+            type_code=row.get("t"),
+            registration=row.get("r"),
+            description=row.get("desc"),
+            owner=row.get("ownOp"),
+            emergency=row.get("emergency"),
+            db_flags=row.get("dbFlags"),
             observed_at=observed_at,
             source="adsb.lol",
         )

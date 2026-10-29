@@ -1,0 +1,21 @@
+name: adsblol_emergency_squawk
+enabled: true
+category: 21. Aerospace
+description: adsb.lol — aircraft broadcasting one Mode A emergency squawk (7500/7600/7700)
+os: any
+requires_key: false
+contact: none
+parser: adsblol_aircraft
+entity_hints:
+- aircraft
+- squawk
+- emergency
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.adsb.lol/v2/squawk/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}
+timeout: 20
