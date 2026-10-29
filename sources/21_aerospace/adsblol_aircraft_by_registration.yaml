@@ -11,6 +11,7 @@ entity_hints:
 - registration
 - position
 applies_to:
+- username
 - keyword
 tool:
   method: GET

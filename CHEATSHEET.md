@@ -117,28 +117,40 @@ circuit breaker so a flaky SOCKS hop doesn't kill the run.
 
 ## I want aircraft, satellites and launches on the map
 
-The **Map** tab ships an **Estorides Aerospace** panel with four
+The **Map** tab ships an **Estorides Aerospace** panel with five
 keyless layers. Toggle them on; the panel fetches only the enabled
-feeds, caches them on disk and refreshes every 90 seconds.
+feeds, caches them on disk and refreshes every 90 seconds. When the
+viewport spans at most 20° per axis the panel sends that bbox, and the
+aircraft layer answers from the regional ADS-B roster instead of the
+worldwide snapshot.
 
 ```bash
 # Same data over the API (feed names are a whitelist)
 curl 'http://127.0.0.1:5050/api/feeds?feeds=aircraft,satellites'
 curl 'http://127.0.0.1:5050/api/feeds?feeds=military_aircraft,rocket_launches&no_cache=1'
+curl 'http://127.0.0.1:5050/api/feeds?feeds=aircraft_emergency'
+curl 'http://127.0.0.1:5050/api/feeds?feeds=aircraft&bbox=-3.8,40.3,-3.5,40.6'
 
 # Query-driven counterparts (routed automatically by query type)
 estorides run 25544                     # NORAD catalog id -> CelesTrak TLE
 estorides run "ISS (ZARYA)"             # satellite name -> CelesTrak TLE
-estorides run 400a1b                    # ICAO hex -> adsbdb aircraft
-estorides run BAW123                    # callsign -> adsbdb flight route
+estorides run 400a1b                    # ICAO hex -> adsbdb + adsb.lol + hexdb
+estorides run BAW123                    # callsign -> route + live state
+estorides run A400 --only-sources adsblol_aircraft_by_type
+estorides run 7700 --only-sources adsblol_emergency_squawk
 estorides run 3f5a1b --only-sources opensky_aircraft_track
 estorides run "Falcon 9" --only-sources launch_library_search
 ```
 
 Satellite positions come from SGP4 when `pip install "estorides[space]"`
-is present, and from a two-body fallback otherwise. All four feeds are
+is present, and from a two-body fallback otherwise. Every aircraft point
+carries its display class (light/turboprop/airliner/widebody/quadjet/
+helicopter/fastjet/bizjet/glider/uav), ICAO type, registration, owner
+and the transponder state; the emergency layer only reports what a
+squawk broadcast in the last poll. `ESTORIDES_AIRPORTS_ENRICH=1` adds
+the nearest aerodrome to each aircraft. All five feeds are
 `contact: none` and keyless; the panel renders the required OpenSky,
-adsb.lol (ODbL), CelesTrak and Launch Library 2 credits. See
+adsb.lol (ODbL), hexdb.io, CelesTrak and Launch Library 2 credits. See
 `spec/aerospace.md`.
 
 ## I want to add a new source

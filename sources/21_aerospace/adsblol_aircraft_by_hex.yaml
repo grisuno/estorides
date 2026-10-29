@@ -12,6 +12,7 @@ entity_hints:
 - position
 applies_to:
 - mac
+- username
 - keyword
 tool:
   method: GET

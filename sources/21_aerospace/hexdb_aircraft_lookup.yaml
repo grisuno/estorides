@@ -13,6 +13,7 @@ entity_hints:
 - owner
 applies_to:
 - mac
+- username
 - keyword
 tool:
   method: GET

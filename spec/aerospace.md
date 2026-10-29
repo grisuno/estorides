@@ -223,7 +223,11 @@ the map canvas. `static/js/estorides.js` gains an aerospace layer
 manager that:
 
 - renders one Leaflet layer per feed with its own colour,
-- fetches `/api/feeds?feeds=<enabled>` only for enabled layers,
+- fetches `/api/feeds?feeds=<enabled>` only for enabled layers, sending
+  the current viewport as `bbox` when it spans at most 20° per axis,
+- popup rows for identity (class, ICAO type, registration, owner), the
+  transponder state and the nearest aerodrome,
+- marks the emergency layer in red and shows the quotable phrase,
 - persists toggles in `localStorage` under `estorides.aero.enabled`,
 - refreshes on demand and every 90 s while the map tab is visible,
 - shows the attribution line and the last successful refresh time,
@@ -244,23 +248,37 @@ only (`estorides-aero-*`).
 | Satellite name not found upstream | Parser returns `{"satellites": [], "count": 0}` |
 | Client requests an unknown feed name | `400 {"error": "unknown feed", "valid": [...]}` |
 | Satellite propagation error | That satellite is skipped |
+| One emergency squawk code fails upstream | The other codes are still returned; the layer logs and continues |
+| bbox wider than the regional limit | `_fetch_bbox` returns `None`, the worldwide snapshot is fetched and clipped |
+| Airport catalogue download fails | `_annotate_airports` keeps the stale index (or none); aircraft points are unchanged |
 
 ## Security guarantees
 
 - No secrets: every upstream is keyless. No new environment variable
   holds a credential.
 - SSRF: feed URLs are module constants, checked with `assert_safe`
-  before the request. No user input reaches a feed URL.
+  before the request. No user input reaches a feed URL. The one
+  overridable URL (`ESTORIDES_AIRPORTS_URL`) is `assert_safe`-checked
+  and the download is capped at 64 MiB.
 - XSS: every popup value goes through the existing `escapeHTML` /
   `escapeAttr` helpers; no new `innerHTML` sink with raw upstream text.
 - Bounded output: server caps per feed and the route accepts only a
   whitelisted feed-name list, so a caller cannot amplify upstream
-  traffic.
+  traffic. Regional caches are capped at 50 files per feed.
 
-## Out of scope
+## Out of scope (candidates for a follow-up)
 
-- SGP4 reimplementation (optional dependency, fallback documented).
+- OpenSky flight history (`/api/flights/aircraft`, arrivals,
+  departures) — keyless, but needs relative time-window parameters,
+  which the source YAML model does not template yet.
+- FIRMS fire detections — free, but `MAP_KEY`-gated; the existing feed
+  already reads it from `ESTORIDES_FIRMS_KEY`.
+- OSM Overpass military installations — keyless, but the query is a
+  bbox-scoped Overpass QL body, not a single `{query}` string.
 - AIS vessels (needs an AISStream key; not keyless).
+- Public CCTV catalogs and internet-radio stations — keyless, but they
+  need their own map layers rather than aircraft records.
+- SGP4 reimplementation (optional dependency, fallback documented).
 
 ## BDD Given-When-Then
 

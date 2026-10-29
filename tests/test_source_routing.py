@@ -50,3 +50,26 @@ def test_phone_yaml_tags() -> None:
             (ROOT / "sources" / "20_system_tools" / f"{tool}.yaml").read_text()
         )
         assert "phone" in (d.get("applies_to") or [])
+
+
+def test_bare_hex_routes_to_aircraft_lookups() -> None:
+    """`estorides run 400a1b` detects `username`, so aircraft sources
+    must opt into that tag or a hex query only reaches social profiles."""
+    from estorides_core.entity_extraction import detect_query_type
+
+    names = _names(detect_query_type("400a1b"))
+    assert "adsblol_aircraft_by_hex" in names
+    assert "hexdb_aircraft_lookup" in names
+    assert "adsbdb_aircraft_lookup" in names
+
+
+def test_callsign_and_type_route_to_adsblol() -> None:
+    from estorides_core.entity_extraction import detect_query_type
+
+    names = _names(detect_query_type("BAW123"))
+    assert "adsblol_aircraft_by_callsign" in names
+    assert "hexdb_route_lookup" in names
+    names = _names(detect_query_type("A400"))
+    assert "adsblol_aircraft_by_type" in names
+    names = _names(detect_query_type("7700"))
+    assert "adsblol_emergency_squawk" in names
