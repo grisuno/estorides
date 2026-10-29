@@ -70,17 +70,17 @@ This community groups 13 file(s) rooted at `estorides_core` with dominant langua
 ## Risks
 
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/aerospace.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/aviation.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/airports.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/aerospace.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/aerospace.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/aviation.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/airports.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/aerospace.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [layer strict] `tests/test_aerospace.py` (testing) -> `estorides_web.py` (presentation)
 

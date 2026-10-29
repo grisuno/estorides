@@ -12,7 +12,7 @@
 **Total Files Parsed:** 199 | **Total Symbols Extracted:** 3515 | **Total Imports:** 1379
  | **Resolved Imports:** 441
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:80ee202 | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:5ae92f7 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -391,11 +391,11 @@ Files ranked by composite score for the current query context. The ranking combi
 | 9 | `case_crypto.py` | 0.1263 | 0.0000 | 0.0064 | 0.00 | 1.25 |
 | 10 | `transliteration.py` | 0.1259 | 0.0000 | 0.0047 | 0.00 | 1.25 |
 
-**Query anchors:** tests/test_aviation.py, tests/test_security_remediation.py
+**Query anchors:** tests/test_security_remediation.py, tests/test_aviation.py
 
 **Top result justification paths:**
 
-  `test_aviation.py -> __init__.py -> config.py`
+  `test_security_remediation.py -> __init__.py -> config.py`
   `test_security_remediation.py -> __init__.py -> config.py`
 
 ---
@@ -727,28 +727,28 @@ Taint analysis traces how dangerous imports propagate through the codebase via t
   Path: async_client.py -> config.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
-  Path: feeds.py -> aerospace.py
-- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
   Path: feeds.py -> aviation.py
-- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
-  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
   Path: feeds.py -> airports.py
+- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
+  Path: feeds.py -> ssrf_guard.py
+- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: feeds.py -> config.py
+- `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
+  Path: feeds.py -> aerospace.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
-- `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
-  Path: feeds.py -> aerospace.py
-- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
-  Path: feeds.py -> config.py
 - `feeds.py` imports `requests` (1 hop to `aviation.py`) [medium]
   Path: feeds.py -> aviation.py
-- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
-  Path: feeds.py -> ssrf_guard.py
 - `feeds.py` imports `requests` (1 hop to `airports.py`) [medium]
   Path: feeds.py -> airports.py
+- `feeds.py` imports `requests` (1 hop to `ssrf_guard.py`) [medium]
+  Path: feeds.py -> ssrf_guard.py
+- `feeds.py` imports `requests` (1 hop to `config.py`) [medium]
+  Path: feeds.py -> config.py
+- `feeds.py` imports `requests` (1 hop to `aerospace.py`) [medium]
+  Path: feeds.py -> aerospace.py
 - `feeds.py` imports `requests` (0 hop to `feeds.py`) [medium]
   Path: feeds.py
 
