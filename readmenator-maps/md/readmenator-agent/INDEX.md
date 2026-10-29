@@ -16,11 +16,14 @@
 | `_multi_test.sh` | - | root | 0 | 0 |
 | `app.py` | Deprecated entry point. | root | 0 | 0 |
 | `estorides_cli.py` | estorides CLI. | root | 31 | 1 |
-| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 13 |
+| `estorides_core/__init__.py` | estorides_core.__init__ | estorides_core | 0 | 18 |
 | `estorides_core/active_recon.py` | - | estorides_core | 25 | 1 |
+| `estorides_core/aerospace.py` | estorides_core.aerospace | estorides_core | 27 | 2 |
+| `estorides_core/airports.py` | estorides_core.airports | estorides_core | 13 | 2 |
 | `estorides_core/alerter.py` | estorides_core.alerter | estorides_core | 15 | 4 |
 | `estorides_core/async_client.py` | estorides_core.async_client | estorides_core | 21 | 2 |
 | `estorides_core/audit.py` | estorides_core.audit | estorides_core | 11 | 3 |
+| `estorides_core/aviation.py` | estorides_core.aviation | estorides_core | 18 | 4 |
 | `estorides_core/case_crypto.py` | estorides_core.case_crypto | estorides_core | 4 | 2 |
 | `estorides_core/cases.py` | estorides_core.cases | estorides_core | 21 | 7 |
 | `estorides_core/change_detection.py` | estorides_core.change_detection | estorides_core | 20 | 2 |
@@ -28,11 +31,11 @@
 | `estorides_core/code_exposure.py` | - | estorides_core | 10 | 2 |
 | `estorides_core/config.py` | estorides.config | estorides_core | 29 | 43 |
 | `estorides_core/discoverer.py` | Background subdomain/domain discoverer. | estorides_core | 21 | 3 |
-| `estorides_core/entity_extraction.py` | estorides_core.entity_extraction | estorides_core | 21 | 13 |
+| `estorides_core/entity_extraction.py` | estorides_core.entity_extraction | estorides_core | 21 | 14 |
 | `estorides_core/entity_resolution.py` | estorides_core.entity_resolution | estorides_core | 35 | 4 |
 | `estorides_core/entity_store.py` | estorides_core.entity_store | estorides_core | 5 | 2 |
 | `estorides_core/event_bus.py` | estorides_core.event_bus | estorides_core | 9 | 2 |
-| `estorides_core/feeds.py` | estorides_core.feeds | estorides_core | 16 | 1 |
+| `estorides_core/feeds.py` | estorides_core.feeds | estorides_core | 42 | 1 |
 | `estorides_core/fusion_analytics.py` | estorides_core.fusion_analytics | estorides_core | 14 | 2 |
 | `estorides_core/fusion_store.py` | estorides_core.fusion_store | estorides_core | 18 | 5 |
 | `estorides_core/graph_bundle.py` | graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator. | estorides_core | 18 | 2 |
@@ -59,7 +62,7 @@
 | `estorides_core/orchestrator.py` | estorides_core.orchestrator | estorides_core | 18 | 8 |
 | `estorides_core/osiris_sources.py` | estorides_core.osiris_sources | estorides_core | 8 | 0 |
 | `estorides_core/pagination.py` | estorides_core.pagination | estorides_core | 7 | 2 |
-| `estorides_core/parsers.py` | estorides_core.parsers | estorides_core | 65 | 6 |
+| `estorides_core/parsers.py` | estorides_core.parsers | estorides_core | 73 | 7 |
 | `estorides_core/pdns_monitor.py` | - | estorides_core | 11 | 2 |
 | `estorides_core/people_intel.py` | - | estorides_core | 13 | 2 |
 | `estorides_core/pivot_engine.py` | estorides_core.pivot_engine | estorides_core | 25 | 3 |
@@ -71,7 +74,7 @@
 | `estorides_core/search_telemetry.py` | estorides.search_telemetry. | estorides_core | 22 | 5 |
 | `estorides_core/socmint.py` | estorides_core.socmint | estorides_core | 12 | 2 |
 | `estorides_core/source_health_monitoring.py` | estorides_core.source_health_monitoring | estorides_core | 14 | 2 |
-| `estorides_core/source_loader.py` | estorides_core.source_loader | estorides_core | 20 | 6 |
+| `estorides_core/source_loader.py` | estorides_core.source_loader | estorides_core | 20 | 7 |
 | `estorides_core/sqlite_store.py` | estorides_core.sqlite_store | estorides_core | 8 | 5 |
 | `estorides_core/ssrf_guard.py` | estorides_core.ssrf_guard | estorides_core | 12 | 7 |
 | `estorides_core/supply_chain.py` | - | estorides_core | 13 | 2 |
@@ -93,15 +96,16 @@
 | `estorides_llm/__init__.py` | estorides_llm | estorides_llm | 0 | 1 |
 | `estorides_llm/intelligence_prompts.py` | estorides_llm.intelligence_prompts | estorides_llm | 1 | 1 |
 | `estorides_llm/manager.py` | estorides_llm.manager | estorides_llm | 22 | 1 |
-| `estorides_web.py` | estorides.web | root | 97 | 8 |
+| `estorides_web.py` | estorides.web | root | 97 | 9 |
 | `estorides_web_tools.py` | estorides_web_tools | root | 5 | 1 |
 | `install.sh` | Bootstrap a venv and install the runtime + optional test dependencies. | root | 2 | 0 |
-| `static/js/estorides.js` | Estorides front-end controller | js | 180 | 0 |
-| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 62 | 0 |
-| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 109 | 0 |
-| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 18 | 0 |
+| `static/js/estorides.js` | Estorides front-end controller | js | 192 | 0 |
+| `static/js/graph_bundle.js` | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | js | 66 | 0 |
+| `static/js/graph_force.js` | Estorides force-graph module (spec/graph_force3d.md). | js | 115 | 0 |
+| `static/js/source_manager.js` | Estorides Source Manager — form-based YAML editor | js | 19 | 0 |
 | `tests/conftest.py` | Pytest configuration and shared fixtures for the estorides test suite. | tests | 0 | 0 |
 | `tests/properties/conftest.py` | Directory guard for property-based (hypothesis) tests. | properties | 0 | 0 |
+| `tests/properties/test_aerospace_properties.py` | Property-based invariants for estorides_core.aerospace. | properties | 7 | 0 |
 | `tests/properties/test_change_detection_properties.py` | Property-based invariants for estorides_core.change_detection. | properties | 8 | 0 |
 | `tests/properties/test_csp_safe_styles_properties.py` | Property-based fuzz for `csp_safe_styles`. | properties | 3 | 0 |
 | `tests/properties/test_graph_bundle_properties.py` | Property-based invariants for estorides_core.graph_bundle. | properties | 6 | 0 |
@@ -116,9 +120,12 @@
 | `tests/properties/test_target_management_properties.py` | - | properties | 10 | 0 |
 | `tests/properties/test_tool_runner_properties.py` | Property-based invariants for estorides_core.tool_runner. | properties | 3 | 0 |
 | `tests/test_active_recon.py` | ATDD + BDD tests for estorides_core.active_recon. | tests | 24 | 0 |
+| `tests/test_aerospace.py` | BDD tests for spec/aerospace.md. | tests | 121 | 0 |
+| `tests/test_airports.py` | BDD tests for :mod:`estorides_core.airports`. | tests | 16 | 0 |
 | `tests/test_async_client.py` | BDD tests for egress anonymisation wiring (`estorides_core.async_client`). | tests | 15 | 0 |
 | `tests/test_audit_log.py` | AuditLog rotation: file size cap, in-place .N rotation (issue #48). | tests | 5 | 0 |
 | `tests/test_auth_gate.py` | Auth gate: bearer-token protection for sensitive /api/* routes. | tests | 10 | 0 |
+| `tests/test_aviation.py` | BDD tests for :mod:`estorides_core.aviation`. | tests | 41 | 0 |
 | `tests/test_case_crypto.py` | M4 case_crypto BDD red. | tests | 5 | 0 |
 | `tests/test_central_config.py` | M6 RED tests: central config for orchestrator + tool_install. | tests | 3 | 0 |
 | `tests/test_change_detection.py` | ATDD + BDD tests for estorides_core.change_detection. | tests | 43 | 0 |
@@ -127,6 +134,7 @@
 | `tests/test_code_exposure.py` | ATDD + BDD tests for estorides_core.code_exposure. | tests | 21 | 0 |
 | `tests/test_config_env.py` | BDD / regression tests for fault-tolerant configuration parsing. | tests | 13 | 0 |
 | `tests/test_csp_safe_styles.py` | CSP-safe styles: regression tests for the inline-style bug introduced by the CSP tightening in... | tests | 11 | 0 |
+| `tests/test_data_pack.py` | Tests for :mod:`estorides_core.data_pack`. | tests | 30 | 0 |
 | `tests/test_encrypted_export.py` | Encrypted export: plaintext must be removed after encryption. | tests | 9 | 0 |
 | `tests/test_entity_extraction.py` | BDD / regression tests for entity extraction and fuzzy merge.  - EE1: `types=[]` extracts... | tests | 7 | 0 |
 | `tests/test_entity_resolution.py` | BDD tests for estorides_core.entity_resolution. | tests | 68 | 0 |
@@ -172,7 +180,7 @@
 | `tests/test_socmint.py` | BDD tests for SOCMINT sources and SocialMediaInferer. | tests | 72 | 0 |
 | `tests/test_source_health_monitoring.py` | BDD tests for estorides_core.source_health_monitoring. | tests | 52 | 0 |
 | `tests/test_source_loader.py` | BDD / regression tests for SourceRegistry loading.  - SL1: a multi-document YAML file loads... | tests | 12 | 0 |
-| `tests/test_source_routing.py` | M2 RED tests: alias routing + phone/mac YAML backfill. | tests | 6 | 0 |
+| `tests/test_source_routing.py` | M2 RED tests: alias routing + phone/mac YAML backfill. | tests | 8 | 0 |
 | `tests/test_sqlite_store.py` | BDD tests for the shared SQLite store base (spec/sqlite_store.md).  - SS1: schema applied... | tests | 14 | 0 |
 | `tests/test_structured_extraction.py` | BDD tests for structured human-selector extraction + pivot leaf surfacing. | tests | 8 | 0 |
 | `tests/test_supply_chain.py` | ATDD + BDD tests for estorides_core.supply_chain. | tests | 17 | 0 |

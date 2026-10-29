@@ -1,0 +1,191 @@
+# Architecture (page 2 of 2)
+Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
+
+## External Imports
+
+- `.scratchpad/gb_shots.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_bridge.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_click.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.action_chains, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_data.py` -> json, selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_debug.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_dom.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_func.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_raw.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_shots.py` -> json, selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.action_chains, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_step.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `.scratchpad/gfv2_time.py` -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
+- `app.py` -> __future__, warnings
+- `estorides_cli.py` -> __future__, argparse, asyncio, collections.abc, json, logging, networkx, pathlib, sys, time, typing
+- `estorides_core/active_recon.py` -> __future__, dataclasses, logging, typing
+- `estorides_core/aerospace.py` -> __future__, datetime, math, sgp4.api, typing
+- `estorides_core/airports.py` -> __future__, collections.abc, csv, io, math, typing
+- `estorides_core/alerter.py` -> __future__, datetime, email.mime.text, json, logging, os, smtplib, time, typing, urllib.error, urllib.request
+- `estorides_core/async_client.py` -> __future__, aiohttp, aiohttp_socks, asyncio, collections.abc, contextlib, dataclasses, hashlib, json, logging, pathlib, requests, sqlite3, time, typing, urllib.parse
+- `estorides_core/audit.py` -> __future__, collections, dataclasses, datetime, json, logging, os, pathlib, threading, time, typing
+- `estorides_core/aviation.py` -> __future__, math, typing
+- `estorides_core/case_crypto.py` -> __future__, cryptography.fernet, logging, os, typing
+- `estorides_core/cases.py` -> __future__, json, logging, pathlib, sqlite3, time, typing, uuid
+- `estorides_core/change_detection.py` -> __future__, collections.abc, dataclasses, typing
+- `estorides_core/cloud_asset_discovery.py` -> __future__, dataclasses, logging, typing
+- `estorides_core/code_exposure.py` -> __future__, dataclasses, logging, re, typing
+- `estorides_core/config.py` -> __future__, collections.abc, dataclasses, envutil, os, pathlib, sys
+- `estorides_core/discoverer.py` -> __future__, asyncio, dataclasses, logging, time, typing
+- `estorides_core/entity_extraction.py` -> __future__, dataclasses, difflib, json, re, typing, urllib.parse
+- `estorides_core/entity_resolution.py` -> __future__, dataclasses, ipaddress, re, typing
+- `estorides_core/entity_store.py` -> __future__, pathlib, time, typing
+- `estorides_core/event_bus.py` -> __future__, collections.abc, logging, re, typing
+- `estorides_core/feeds.py` -> __future__, abc, csv, data_pack, dataclasses, datetime, io, json, logging, math, os, pathlib, requests, threading, time, typing
+- `estorides_core/fusion_analytics.py` -> __future__, logging, time, typing
+- `estorides_core/fusion_store.py` -> __future__, json, logging, pathlib, sqlite3, time, typing
+- `estorides_core/graph_bundle.py` -> __future__, collections.abc, dataclasses, estorides_core.envutil, math, typing
+- `estorides_core/graph_force.py` -> __future__, math, typing
+- `estorides_core/graph_kuzu.py` -> __future__, json, kuzu, logging, os, pathlib, threading, time, typing
+- `estorides_core/graph_rag_search.py` -> __future__, collections.abc, dataclasses, estorides_core.envutil, math, re, typing
+- `estorides_core/hypothesis_engine.py` -> __future__, collections, collections.abc, dataclasses, logging, typing
+- `estorides_core/ids.py` -> __future__, hashlib
+- `estorides_core/intel_resolver.py` -> __future__, collections, ipaddress, json, logging, os, re, requests, threading, time, typing
+- `estorides_core/job_registry.py` -> __future__, threading, time, typing
+- `estorides_core/knowledge_graph.py` -> __future__, collections, json, logging, networkx, networkx.algorithms.community, pathlib, time, typing
+- `estorides_core/lan_bundle.py` -> __future__, dataclasses, datetime, json, logging, os, pathlib, re, time, typing, uuid
+- `estorides_core/lan_inventory.py` -> __future__, dataclasses, defusedxml.ElementTree, ipaddress, logging, re, typing
+- `estorides_core/lan_policy.py` -> __future__, dataclasses, envutil, ipaddress, typing
+- `estorides_core/lan_runner.py` -> __future__, collections.abc, dataclasses, logging, shutil, subprocess, typing
+- `estorides_core/lan_scope.py` -> __future__, ipaddress, logging, re, shutil, subprocess, typing
+- `estorides_core/lan_web.py` -> __future__, dataclasses, ipaddress, typing
+- `estorides_core/mitre_attack.py` -> __future__, json, logging, typing
+- `estorides_core/monitoring.py` -> __future__, asyncio, collections.abc, concurrent.futures, dataclasses, json, logging, os, pathlib, sqlite3, threading, time, typing, uuid
+- `estorides_core/observation_models.py` -> __future__, pydantic, typing
+- `estorides_core/ontology.py` -> __future__, collections, csv, dataclasses, io, json, logging, pathlib, re, requests, threading, time, typing, urllib.parse
+- `estorides_core/openapi.py` -> __future__, typing
+- `estorides_core/ops_observability.py` -> __future__, dataclasses, json, re, threading, time, typing
+- `estorides_core/orchestrator.py` -> __future__, asyncio, json, logging, os, pathlib, re, time, typing
+- `estorides_core/osiris_sources.py` -> __future__, csv, io, json, logging, pathlib, re, requests, time, typing
+- `estorides_core/pagination.py` -> __future__, dataclasses, typing
+- `estorides_core/parsers.py` -> __future__, collections.abc, json, logging, re, typing
+- `estorides_core/pdns_monitor.py` -> __future__, dataclasses, logging, typing
+- `estorides_core/people_intel.py` -> __future__, dataclasses, logging, re, typing
+- `estorides_core/pivot_engine.py` -> __future__, dataclasses, heapq, itertools, logging, time, typing
+- `estorides_core/recon_fusion.py` -> __future__, dataclasses, enum, math, time, typing
+- `estorides_core/recon_pipeline.py` -> __future__, logging, target_scoring
+- `estorides_core/relationship_inference.py` -> __future__, logging, typing
+- `estorides_core/reliability_scoring.py` -> __future__, collections.abc, dataclasses, enum, math
+- `estorides_core/scope.py` -> __future__, abc, dataclasses, ipaddress, json, logging, pathlib, re, typing
+- `estorides_core/search_telemetry.py` -> __future__, dataclasses, re, typing
+- `estorides_core/socmint.py` -> __future__, dataclasses, logging, re, time, typing
+- `estorides_core/source_health_monitoring.py` -> __future__, collections.abc, dataclasses, enum, envutil
+- `estorides_core/source_loader.py` -> __future__, collections.abc, logging, pathlib, re, typing, yaml
+- `estorides_core/sqlite_store.py` -> __future__, collections.abc, contextlib, dataclasses, pathlib, sqlite3, threading, typing
+- `estorides_core/ssrf_guard.py` -> __future__, dataclasses, ipaddress, logging, os, socket, typing, urllib.parse
+- `estorides_core/supply_chain.py` -> __future__, dataclasses, logging, re, typing
+- `estorides_core/system_app_sources.py` -> __future__, collections.abc, dataclasses, json, logging, pathlib, platform, re, shutil, tempfile, time, typing
+- `estorides_core/tech_fingerprint.py` -> __future__, dataclasses, logging, re, typing
+- `estorides_core/tool_install.py` -> __future__, argparse, dataclasses, logging, os, pathlib, re, shlex, shutil, subprocess, time, typing, yaml
+- `estorides_core/tool_runner.py` -> __future__, dataclasses, hashlib, logging, shutil, subprocess, typing
+- `estorides_core/transforms.py` -> __future__, collections.abc, dataclasses, logging, pathlib, re, typing, yaml
+- `estorides_core/transliteration.py` -> __future__, typing, unicodedata
+- `estorides_core/validation.py` -> __future__, dataclasses, re, typing, unicodedata
+- `estorides_core/vuln_correlation.py` -> __future__, dataclasses, logging, re, typing
+- `estorides_core/web_security.py` -> __future__, collections.abc, dataclasses, envutil, flask, functools, hmac, logging, os, secrets, typing, urllib.parse
+- `estorides_export/encryption.py` -> __future__, logging, pathlib, shutil, subprocess, typing
+- `estorides_export/misp.py` -> __future__, json, logging, pathlib, time, typing, uuid
+- `estorides_export/recon_report.py` -> __future__, dataclasses, datetime, logging, re, typing
+- `estorides_export/report.py` -> __future__, collections, datetime, logging, typing
+- `estorides_export/stix.py` -> __future__, json, logging, pathlib, time, typing, uuid
+- `estorides_llm/intelligence_prompts.py` -> __future__, json, typing
+- `estorides_llm/manager.py` -> __future__, collections.abc, json, logging, os, requests, typing
+- `estorides_web.py` -> __future__, asyncio, collections.abc, flask, functools, json, logging, networkx, os, pathlib, queue, shutil, sys, tempfile, threading, time, typing
+- `estorides_web_tools.py` -> __future__, flask, logging, threading, typing
+- `tests/conftest.py` -> __future__, pathlib, sys
+- `tests/properties/conftest.py` -> __future__, hypothesis
+- `tests/properties/test_aerospace_properties.py` -> __future__, hypothesis
+- `tests/properties/test_change_detection_properties.py` -> __future__, hypothesis, pytest, re
+- `tests/properties/test_csp_safe_styles_properties.py` -> __future__, hypothesis, pathlib, re
+- `tests/properties/test_graph_bundle_properties.py` -> __future__, hypothesis, json, math, pytest
+- `tests/properties/test_hypothesis_engine_properties.py` -> __future__, hypothesis, re
+- `tests/properties/test_observation_models_properties.py` -> __future__, hypothesis
+- `tests/properties/test_parsers_properties.py` -> __future__, hypothesis, typing
+- `tests/properties/test_recon_fusion_properties.py` -> __future__, hypothesis, pytest, unittest.mock
+- `tests/properties/test_reliability_scoring_properties.py` -> __future__, hypothesis
+- `tests/properties/test_search_telemetry_properties.py` -> __future__, hypothesis
+- `tests/properties/test_source_health_monitoring_properties.py` -> __future__, hypothesis
+- `tests/properties/test_system_app_sources_properties.py` -> __future__, hypothesis, os, pytest, tempfile
+- `tests/properties/test_target_management_properties.py` -> __future__, estorides_core.target_management, hypothesis, re
+- `tests/properties/test_tool_runner_properties.py` -> __future__, hypothesis, pytest
+- `tests/test_active_recon.py` -> __future__
+- `tests/test_aerospace.py` -> __future__, json, os, pathlib, pytest, sgp4.api, time, typing
+- `tests/test_airports.py` -> __future__, pytest, typing
+- `tests/test_async_client.py` -> __future__, asyncio, sys
+- `tests/test_audit_log.py` -> __future__, os, pathlib, pytest
+- `tests/test_auth_gate.py` -> __future__, flask, pytest, re
+- `tests/test_aviation.py` -> __future__, pytest, typing
+- `tests/test_case_crypto.py` -> __future__, cryptography.fernet, importlib, pytest
+- `tests/test_central_config.py` -> __future__, importlib, inspect
+- `tests/test_change_detection.py` -> __future__, pytest
+- `tests/test_cli_watch.py` -> __future__, argparse, pytest
+- `tests/test_cloud_asset_discovery.py` -> __future__
+- `tests/test_code_exposure.py` -> __future__
+- `tests/test_config_env.py` -> __future__, os, pathlib, subprocess, sys
+- `tests/test_csp_safe_styles.py` -> __future__, flask, jinja2, pathlib, pytest, re
+- `tests/test_data_pack.py` -> __future__, json, pathlib, pytest, requests, time, typing
+- `tests/test_encrypted_export.py` -> __future__, pathlib, pytest, subprocess, unittest.mock
+- `tests/test_entity_extraction.py` -> __future__
+- `tests/test_entity_resolution.py` -> __future__, pathlib, tempfile
+- `tests/test_envutil.py` -> __future__, estorides_core.envutil
+- `tests/test_event_bus.py` -> __future__, pytest
+- `tests/test_fusion_analytics.py` -> __future__, collections.abc, pathlib, pytest, time, typing
+- `tests/test_graph_bundle.py` -> __future__, json, math, pytest
+- `tests/test_graph_bundle_assets.py` -> __future__, pathlib, pytest
+- `tests/test_graph_force3d.py` -> __future__, json, re
+- `tests/test_graph_rag_search.py` -> __future__, json, networkx, pytest
+- `tests/test_hardening.py` -> __future__, flask, pathlib, pytest, subprocess, sys
+- `tests/test_hypothesis_engine.py` -> __future__, pytest
+- `tests/test_ids.py` -> __future__, hashlib
+- `tests/test_job_registry.py` -> __future__, pytest, time
+- `tests/test_keyless_sources.py` -> __future__, pathlib
+- `tests/test_lan_bundle.py` -> json, pathlib, warnings
+- `tests/test_map_basemap.py` -> __future__, pathlib, re
+- `tests/test_monitoring.py` -> __future__, pathlib, pytest, tempfile, time
+- `tests/test_obs_fts.py` -> __future__, importlib, pytest
+- `tests/test_observation_models.py` -> __future__, pydantic, pytest
+- `tests/test_openapi.py` -> __future__
+- `tests/test_ops_observability.py` -> __future__, json, threading
+- `tests/test_opsec_contact.py` -> __future__
+- `tests/test_orchestrator_fanout.py` -> __future__, asyncio, inspect, typing
+- `tests/test_pagination.py` -> __future__
+- `tests/test_parsers.py` -> __future__, pytest
+- `tests/test_pdns_monitor.py` -> __future__
+- `tests/test_people_intel.py` -> __future__, pytest
+- `tests/test_probabilistic_fusion.py` -> __future__, pathlib, tempfile
+- `tests/test_query_intent.py` -> __future__
+- `tests/test_recon_fusion.py` -> __future__, pytest
+- `tests/test_recon_report.py` -> __future__, re
+- `tests/test_reliability_scoring.py` -> __future__, itertools, math, pytest
+- `tests/test_retry_policy.py` -> __future__
+- `tests/test_scope.py` -> __future__
+- `tests/test_search_telemetry.py` -> __future__, jinja2, pathlib, pytest, re
+- `tests/test_security_remediation.py` -> __future__, flask, inspect, json, logging, pathlib, pytest, re, shutil, socket, tempfile, unittest.mock, urllib.request
+- `tests/test_socmint.py` -> __future__, pytest, typing
+- `tests/test_source_health_monitoring.py` -> __future__, dataclasses, pytest
+- `tests/test_source_loader.py` -> __future__, pathlib
+- `tests/test_source_routing.py` -> __future__, pathlib, yaml
+- `tests/test_sqlite_store.py` -> __future__, dataclasses, pathlib, pytest
+- `tests/test_structured_extraction.py` -> __future__, asyncio, typing
+- `tests/test_supply_chain.py` -> __future__
+- `tests/test_system_app_sources.py` -> __future__, asyncio, json, pathlib, pytest, time, typing, yaml
+- `tests/test_target_management.py` -> __future__, estorides_core.target_management, pytest
+- `tests/test_target_scoring.py` -> __future__, estorides_core.target_scoring
+- `tests/test_tech_fingerprint.py` -> __future__
+- `tests/test_tool_doctor.py` -> __future__
+- `tests/test_tool_install.py` -> __future__, pytest, unittest.mock
+- `tests/test_tool_runner.py` -> __future__, pytest, unittest.mock
+- `tests/test_transforms.py` -> pathlib, yaml
+- `tests/test_ui_professional.py` -> __future__, jinja2, json, pathlib, pytest, re
+- `tests/test_ui_visibility.py` -> __future__, pathlib
+- `tests/test_vuln_correlation.py` -> __future__
+- `tests/test_web_helpers.py` -> __future__, flask
+- `tests/test_web_tools_blueprint.py` -> __future__
+- `tools/split_sources.py` -> __future__, pathlib, sys, yaml
+- `tools/sync_docs.py` -> __future__, argparse, json, pathlib, sys
+- `web.py` -> __future__, warnings
+- `wsgi.py` -> __future__, logging, os
+

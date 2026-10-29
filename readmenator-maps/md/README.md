@@ -69,7 +69,7 @@ touching the central orchestrator. The five plug-in surfaces are:
 | Source parsers | `@register_parser("name")` | `estorides_core/parsers.py` | Translate raw HTTP into structured dicts |
 | LLM backends | `@register("name")` | `estorides_llm/manager.py` | Add an LLM provider (ollama, openai, …) |
 | Relationship inferers | `@register_inferer("source")` | `estorides_core/relationship_inference.py` | Source -> graph edges |
-| Real-time feeds | subclass `Feed` | `estorides_core/feeds.py` | Map layers (quakes, fires, news) |
+| Real-time feeds | subclass `Feed` | `estorides_core/feeds.py` | Map layers (quakes, fires, news, aircraft, satellites, launches) |
 | Encrypted exporters | `estorides_export.encryption` | `estorides_export/encryption.py` | STIX/MISP + age encryption |
 
 ## What you get that the original does not
@@ -620,16 +620,60 @@ of the orchestrator result as `result.mitre.techniques`.
 
 ### Real-time feeds
 
-`estorides_core/feeds.py` ships three keyless feeds that the map
-UI can layer on top of OSINT results:
+`estorides_core/feeds.py` ships keyless feeds that the map UI layers on
+top of OSINT results. The Map tab exposes an **Estorides Aerospace**
+panel with per-layer toggles (aircraft, military aircraft, emergency
+squawks, satellites, rocket launches); every layer is fetched on demand
+and cached on disk.
 
 | Feed | Source | Refresh | Notes |
 | --- | --- | --- | --- |
 | Earthquakes | USGS M2.5+ GeoJSON | 10 min | Always on |
 | Fires | NASA FIRMS VIIRS_NOAA20_NRT CSV | 30 min | Requires `ESTORIDES_FIRMS_KEY` |
 | News | GDELT 2.0 article list | 15 min | Coords unavailable; surfaces at (0,0) |
+| Aircraft | OpenSky `/api/states/all`, adsb.lol `/v2/point` for a bbox | 5 min / 60 s | Keyless; `ESTORIDES_AIRCRAFT_MAX` cap |
+| Military aircraft | adsb.lol `/v2/mil` (ODbL) | 2 min | Attribution required |
+| Emergency squawks | adsb.lol `/v2/squawk/7500,7600,7700` (ODbL) | 60 s | Broadcast state, not an incident report |
+| Satellites | CelesTrak GP groups | 10 min | SGP4 when `sgp4` is installed, Kepler fallback |
+| Rocket launches | Launch Library 2 `2.3.0/launches` | 60 min | Only located pads become map points |
 
-Endpoint: `GET /api/feeds?bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
+Endpoint: `GET /api/feeds?feeds=aircraft,satellites&bbox=min_lon,min_lat,max_lon,max_lat&no_cache=1`.
+A bbox switches the aircraft layer to the regional adsb.lol roster
+(250 nm ceiling, own 60 s cache); without one it falls back to the
+worldwide OpenSky snapshot. Unknown feed names answer `400` with the
+valid list.
+
+Each aircraft point carries identity and state — `aircraft_class`
+(light/turboprop/airliner/widebody/quadjet/helicopter/fastjet/bizjet/
+glider/uav), ICAO type, registration, owner, squawk and the decoded
+community flags — plus `emergency`/`emergency_phrase` when the
+transponder is broadcasting one. `navigation_integrity` reports the
+ADS-B NACp/NIC/SIL quality band (`nominal`, `degraded`, `poor`,
+`no-integrity`) and flags a jamming hint only for an airborne contact in
+the bottom two bands — reported facts, not a verdict.
+`ESTORIDES_AIRPORTS_ENRICH=1` adds the nearest aerodrome (OurAirports,
+public domain) to every point.
+
+The query-driven counterparts live in `sources/21_aerospace/`
+(CelesTrak by catalog id, name or group; adsb.lol by hex, callsign,
+registration, type and squawk; adsbdb and hexdb.io enrichment; OpenSky
+track; Launch Library 2 search). See `spec/aerospace.md`.
+
+#### Reference data is fetched, not vendored
+
+Static datasets (the airport catalogue today, any future name or
+boundary table) are consumed through `estorides_core/data_pack.py`:
+fetched from the upstream at runtime, cached under `data/packs/` with a
+TTL, optionally pinned with `ESTORIDES_<NAME>_SHA256`, and served from
+the last known-good copy when the network or the digest fails. Nothing is
+copied into the repository, so provenance and licence stay with the
+source and updates arrive without a commit here. See
+`spec/data_pack.md`.
+
+Optional high-accuracy propagation: `pip install "estorides[space]"`
+installs `sgp4`; without it the satellites layer uses a two-body
+fallback.
+
 
 ### LLM prompt flavours
 

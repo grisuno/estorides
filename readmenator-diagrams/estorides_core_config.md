@@ -1,6 +1,6 @@
 # estorides_core: config
 
-estorides_core: config groups 17 files (py) around _installed_share, _resolve_dir, _resolve_writable_dir, ensure_data_dirs, ensure_reports_dir. estorides_core.async_client
+estorides_core: config groups 16 files (py) around _installed_share, _resolve_dir, _resolve_writable_dir, ensure_data_dirs, ensure_reports_dir. estorides_core.async_client
 
 ```mermaid
 graph LR
@@ -11,7 +11,7 @@ graph LR
 
 ## estorides_core (5.1)
 
-estorides_core groups 11 files (py) around _installed_share, _resolve_dir, _resolve_writable_dir, ensure_data_dirs, ensure_reports_dir. estorides_core.async_client
+estorides_core groups 10 files (py) around _installed_share, _resolve_dir, _resolve_writable_dir, ensure_data_dirs, ensure_reports_dir. estorides_core.async_client
 
 ## tests (5.2)
 
@@ -21,7 +21,6 @@ tests groups 6 files (py) around meta_strategy, obs_strategy, entity_strategy, t
 
 - estorides_core/async_client.py
 - estorides_core/config.py
-- estorides_core/feeds.py
 - estorides_core/intel_resolver.py
 - estorides_core/lan_bundle.py
 - estorides_core/observation_models.py

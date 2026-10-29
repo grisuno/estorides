@@ -37,10 +37,10 @@
   - `ReportMetadata` (class, line 23) `class ReportMetadata`
   - `ReportSection` (class, line 40) `class ReportSection`
   - `ReportResult` (class, line 51) `class ReportResult`
-  - `redact_sensitive` (method, line 61) `def redact_sensitive(text)`
-  - `build_subdomain_tree` (method, line 67) `def build_subdomain_tree(subdomains)`
-  - `build_executive_summary` (method, line 92) `def build_executive_summary(critical_findings, total_targets, domain, classification)`
-  - `generate_report` (method, line 115) `def generate_report(query, target_scoring, metadata)`
+  - `redact_sensitive` (function, line 61) `def redact_sensitive(text)`
+  - `build_subdomain_tree` (function, line 67) `def build_subdomain_tree(subdomains)`
+  - `build_executive_summary` (function, line 92) `def build_executive_summary(critical_findings, total_targets, domain, classification)`
+  - `generate_report` (function, line 115) `def generate_report(query, target_scoring, metadata)`
   - `__post_init__` (method, line 29) `def __post_init__(self)`
   - `to_dict` (method, line 35) `def to_dict(self)`
   - `to_dict` (method, line 46) `def to_dict(self)`

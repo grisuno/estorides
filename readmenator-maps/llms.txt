@@ -1,60 +1,48 @@
 # estorides
 
-> Static analysis knowledge base for estorides: 10 communities, 191 files, 1301 imports, 3 languages, 3183 symbols.
+> Static analysis knowledge base for estorides: 12 communities, 199 files, 1379 imports, 3 languages, 3515 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
 ## Wiki
 
-- [readmenator-wiki/index.md](md/readmenator-wiki/index.md): The codebase centres on config.py, estoridesweb.py, orchestrator.py. Architecturally it is 6 layers, dominant testing (90 files) across 11 import-based...
-- [readmenator-wiki/README.md](md/readmenator-wiki/README.md): Agent wiki: the big picture as a navigable, progressively disclosed wiki. One page per code community (group of files that import each other), plus typed...
-- [readmenator-wiki/REPORT.md](md/readmenator-wiki/REPORT.md): Project: estorides | 2026-10-16 | offline, deterministic
-- [readmenator-wiki/community_0_estorides_core_estorides_web.md](md/readmenator-wiki/community_0_estorides_core_estorides_web.md): Community 0 | 27 files | cohesion 0.51
-- [readmenator-wiki/community_10_orphans.md](md/readmenator-wiki/community_10_orphans.md): Community 10 | 27 files | cohesion 0.00
-- [readmenator-wiki/community_1_estorides_core_parsers.md](md/readmenator-wiki/community_1_estorides_core_parsers.md): Community 1 | 24 files | cohesion 0.47
-- [readmenator-wiki/community_2_estorides_core_hypothesis_engine.md](md/readmenator-wiki/community_2_estorides_core_hypothesis_engine.md): Community 2 | 19 files | cohesion 0.66
-- [readmenator-wiki/community_3_estorides_core_estorides.md](md/readmenator-wiki/community_3_estorides_core_estorides.md): Community 3 | 17 files | cohesion 0.45
-- [readmenator-wiki/community_4_estorides_core_config.md](md/readmenator-wiki/community_4_estorides_core_config.md): Community 4 | 17 files | cohesion 0.37
-- [readmenator-wiki/community_5_estorides_core_graph_bundle.md](md/readmenator-wiki/community_5_estorides_core_graph_bundle.md): Community 5 | 15 files | cohesion 0.68
-- [readmenator-wiki/community_6_estorides_core_people_intel.md](md/readmenator-wiki/community_6_estorides_core_people_intel.md): Community 6 | 15 files | cohesion 1.00
-- [readmenator-wiki/community_7_estorides_export.md](md/readmenator-wiki/community_7_estorides_export.md): Community 7 | 15 files | cohesion 0.46
-- [readmenator-wiki/community_8_estorides_core_tool_install.md](md/readmenator-wiki/community_8_estorides_core_tool_install.md): Community 8 | 12 files | cohesion 0.46
-- [readmenator-wiki/community_9_estorides_core_source_health_monitoring.md](md/readmenator-wiki/community_9_estorides_core_source_health_monitoring.md): Community 9 | 3 files | cohesion 1.00
-- [readmenator-wiki/concepts.md](md/readmenator-wiki/concepts.md): Second-brain semantic layer: nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
-- [readmenator-wiki/queries.md](md/readmenator-wiki/queries.md): Log each answered question here so the wiki compounds. Format: question, answer, cited files.
+- [readmenator-wiki/REPORT.md](md/readmenator-wiki/REPORT.md): Project: estorides | 2026-10-29 | offline, deterministic
+- [readmenator-wiki/community_0_estorides_core_estorides_web.md](md/readmenator-wiki/community_0_estorides_core_estorides_web.md): Community 0 | 25 files | cohesion 0.48
+- [readmenator-wiki/community_10_estorides_export.md](md/readmenator-wiki/community_10_estorides_export.md): Community 10 | 8 files | cohesion 0.45
+- [readmenator-wiki/community_11_estorides_core_source_health_monitoring.md](md/readmenator-wiki/community_11_estorides_core_source_health_monitoring.md): Community 11 | 3 files | cohesion 1.00
+- [readmenator-wiki/community_12_orphans.md](md/readmenator-wiki/community_12_orphans.md): Community 12 | 27 files | cohesion 0.00
 
 ## GraphRAG
 
-- [readmenator-graphrag/README.md](md/readmenator-graphrag/README.md): Zero-token GraphRAG index: entities, relationships, community reports and source text units built deterministically from the code graph, so questions can be...
-- [readmenator-graphrag/REPORTS.md](md/readmenator-graphrag/REPORTS.md): Entities: 3497 | Relationships: 10339 | Communities: 11 | Themes: 5 | Text units: 3348
+- [readmenator-graphrag/REPORTS.md](md/readmenator-graphrag/REPORTS.md): Entities: 3839 | Relationships: 11256 | Communities: 13 | Themes: 5 | Text units: 3688
 
 ## Agent Docs
 
 - [readmenator-agent/INDEX.md](md/readmenator-agent/INDEX.md)
 - [readmenator-agent/GOTCHAS.md](md/readmenator-agent/GOTCHAS.md): These files have the most connections. Changes here have high blast radius.
 - [readmenator-agent/API.md](md/readmenator-agent/API.md): Depends on: estoridescore/alerter.py, estoridescore/cases.py, estoridescore/config.py, estoridescore/discoverer.py, estoridescore/entityextraction.py...
-- [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Imported by: estoridescore/orchestrator.py, tests/testpagination.py
-- [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): installfull (function) install.sh:51 -- 3) Two install passes: full first, minimal fallback.
+- [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: estoridescore/config.py, estoridescore/ssrfguard.py
+- [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): Depends on: estoridescore/init.py, estoridescore/alerter.py, estoridescore/audit.py, estoridescore/cases.py, estoridescore/config.py...
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): estoridescli.py -> estoridescore/alerter.py
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): scratchpad/gbshots.py -> selenium, selenium.webdriver.chrome.service, selenium.webdriver.common.by, time
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/KB__scratchpad.md](md/readmenator-agent/KB__scratchpad.md)
 - [readmenator-agent/KB_estorides_core.md](md/readmenator-agent/KB_estorides_core.md): Depends on: estoridescore/config.py
-- [readmenator-agent/KB_estorides_core_p2.md](md/readmenator-agent/KB_estorides_core_p2.md): Doc: estoridescore.graphkuzu
-- [readmenator-agent/KB_estorides_core_p3.md](md/readmenator-agent/KB_estorides_core_p3.md): Doc: estoridescore.parsers
-- [readmenator-agent/KB_estorides_core_p4.md](md/readmenator-agent/KB_estorides_core_p4.md): Doc: estoridescore.toolinstall
+- [readmenator-agent/KB_estorides_core_p2.md](md/readmenator-agent/KB_estorides_core_p2.md): Doc: estoridescore.feeds
+- [readmenator-agent/KB_estorides_core_p3.md](md/readmenator-agent/KB_estorides_core_p3.md): Doc: estoridescore.ontology
+- [readmenator-agent/KB_estorides_core_p4.md](md/readmenator-agent/KB_estorides_core_p4.md): Doc: estoridescore.sqlitestore
 - [readmenator-agent/KB_estorides_export.md](md/readmenator-agent/KB_estorides_export.md): Depends on: estoridesexport/encryption.py, estoridesexport/misp.py, estoridesexport/reconreport.py, estoridesexport/report.py, estoridesexport/stix.py
 - [readmenator-agent/KB_estorides_llm.md](md/readmenator-agent/KB_estorides_llm.md): Depends on: estoridesllm/manager.py
 - [readmenator-agent/KB_js.md](md/readmenator-agent/KB_js.md): Doc: Estorides front-end controller
 - [readmenator-agent/KB_properties.md](md/readmenator-agent/KB_properties.md): Doc: Directory guard for property-based (hypothesis) tests.
 - [readmenator-agent/KB_root.md](md/readmenator-agent/KB_root.md): Doc: Deprecated entry point.
 - [readmenator-agent/KB_tests.md](md/readmenator-agent/KB_tests.md): Doc: Pytest configuration and shared fixtures for the estorides test suite.
-- [readmenator-agent/KB_tests_p2.md](md/readmenator-agent/KB_tests_p2.md): Doc: graphbundle S6: assets frontend (fuera del sandbox mutmut).
-- [readmenator-agent/KB_tests_p3.md](md/readmenator-agent/KB_tests_p3.md): Doc: ATDD + BDD tests for estoridescore.pdnsmonitor.
-- [readmenator-agent/KB_tests_p4.md](md/readmenator-agent/KB_tests_p4.md): Doc: BDD tests for estoridescore.sourcehealthmonitoring.
-- [readmenator-agent/KB_tests_p5.md](md/readmenator-agent/KB_tests_p5.md): Doc: Regression tests for the hidden attribute contract and output escaping.
+- [readmenator-agent/KB_tests_p2.md](md/readmenator-agent/KB_tests_p2.md): Doc: Tests for :mod:estoridescore.datapack.
+- [readmenator-agent/KB_tests_p3.md](md/readmenator-agent/KB_tests_p3.md): Doc: BDD tests for lanweb (spec/lanweb.md).
+- [readmenator-agent/KB_tests_p4.md](md/readmenator-agent/KB_tests_p4.md): Doc: BDD tests for the bug-bounty scope classifier (estoridescore.scope).
+- [readmenator-agent/KB_tests_p5.md](md/readmenator-agent/KB_tests_p5.md): Doc: ATDD + BDD tests for estoridescore.targetscoring.
 - [readmenator-agent/KB_tools.md](md/readmenator-agent/KB_tools.md): Doc: Split legacy grouped source files into one addon per file.
-- [readmenator-agent/MEMORY.md](md/readmenator-agent/MEMORY.md): Generated from 191 files at commit 4bf09f0d86e8. Read this first, then readmenator-wiki/index.md, then readmenator . ask "<question>" for anything specific.
-- [readmenator-agent/README.md](md/readmenator-agent/README.md): Agent docs: flat, grep-optimized Markdown written for AI coding agents (and humans in a hurry). Every line is self-contained so a single grep answers where a...
+- [readmenator-agent/MEMORY.md](md/readmenator-agent/MEMORY.md): Generated from 199 files at commit 112cb635e835. Read this first, then readmenator-wiki/index.md, then readmenator . ask "<question>" for anything specific.
 - [readmenator-agent/SECURITY.md](md/readmenator-agent/SECURITY.md)
 - [readmenator-agent/SYMBOLS.md](md/readmenator-agent/SYMBOLS.md)
 - [readmenator-agent/SYMBOLS_p2.md](md/readmenator-agent/SYMBOLS_p2.md)
@@ -63,8 +51,9 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/SYMBOLS_p5.md](md/readmenator-agent/SYMBOLS_p5.md)
 - [readmenator-agent/SYMBOLS_p6.md](md/readmenator-agent/SYMBOLS_p6.md)
 - [readmenator-agent/SYMBOLS_p7.md](md/readmenator-agent/SYMBOLS_p7.md)
+- [readmenator-agent/SYMBOLS_p8.md](md/readmenator-agent/SYMBOLS_p8.md)
 - [readmenator-agent/recipes/add-function.md](md/readmenator-agent/recipes/add-function.md): Find the target file by purpose: grep -in '<topic>' readmenator-agent/INDEX.md
-- [readmenator-agent/recipes/change-impact.md](md/readmenator-agent/recipes/change-impact.md): Riskiest file: estoridescore/config.py (51 dependents)
+- [readmenator-agent/recipes/change-impact.md](md/readmenator-agent/recipes/change-impact.md): Riskiest file: estoridescore/config.py (53 dependents)
 - [readmenator-agent/recipes/fix-cycle.md](md/readmenator-agent/recipes/fix-cycle.md): Target cycle: estoridesexport/init.py -> estoridesexport/encryption.py -> estoridesexport/init.py
 - [readmenator-agent/recipes/fix-security.md](md/readmenator-agent/recipes/fix-security.md): Read findings: grep -n '<file>' readmenator-agent/SECURITY.md
 - [readmenator-agent/recipes/reduce-complexity.md](md/readmenator-agent/recipes/reduce-complexity.md): Target hotspot: static/js/estorides.js
@@ -74,6 +63,18 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [KNOWLEDGE_BASE.md](md/KNOWLEDGE_BASE.md): Start here: Statistics Dashboard for scope, God Nodes for blast radius, Architecture Reference for per-file API. Agents: prefer readmenator-agent/INDEX.md +...
 - [README.md](md/README.md): E — Entities (identification of entities, aliases, emails, IPs).
 - [SECURITY.md](md/SECURITY.md): Use this section to tell people about which versions of your project are
+- [readmenator-diagrams/estorides_core_config.md](md/readmenator-diagrams/estorides_core_config.md): estoridescore: config groups 16 files (py) around installedshare, resolvedir, resolvewritabledir, ensuredatadirs, ensurereportsdir. estoridescore.asyncclient
+- [readmenator-diagrams/estorides_core_entity_resolution.md](md/readmenator-diagrams/estorides_core_entity_resolution.md): estoridescore: entityresolution groups 10 files (py) around Entity, todict, lookslikephone, normalizequery, detectquerytype. estoridescore.entityextraction
+- [readmenator-diagrams/estorides_core_estorides.md](md/readmenator-diagrams/estorides_core_estorides.md): estoridescore: estorides groups 17 files (js, py) around SqliteStore, init, initschema, tx, close. estorides CLI.
+- [readmenator-diagrams/estorides_core_estorides_web.md](md/readmenator-diagrams/estorides_core_estorides_web.md): estoridescore: estoridesweb groups 25 files (py) around sseresponse, provides, deco, wrapper, clientip. Deprecated entry point.
+- [readmenator-diagrams/estorides_core_graph_bundle.md](md/readmenator-diagrams/estorides_core_graph_bundle.md): estoridescore: graphbundle groups 19 files (py) around familycolorfromname, nodevalue, forcesettings, reqstr, optstr. estoridescore.init
+- [readmenator-diagrams/estorides_core_hypothesis_engine.md](md/readmenator-diagrams/estorides_core_hypothesis_engine.md): estoridescore: hypothesisengine groups 19 files (py) around SourceReliability, Credibility, SourceType, ConfidenceInput, postinit. estoridescore.changedetection
+- [readmenator-diagrams/estorides_core_manager.md](md/readmenator-diagrams/estorides_core_manager.md): estoridescore: manager groups 14 files (py) around pendingsystemapptasks, safeformat, repl, resolveauth, expandquerytype. Background subdomain/domain...
+- [readmenator-diagrams/estorides_core_parsers.md](md/readmenator-diagrams/estorides_core_parsers.md): estoridescore: parsers groups 13 files (py) around finite, clean, codes, normalizetypecode, classifyaircraft. estoridescore.aerospace
+- [readmenator-diagrams/estorides_core_people_intel.md](md/readmenator-diagrams/estorides_core_people_intel.md): estoridescore: peopleintel groups 15 files (py) around CloudAsset, todict, CloudAssetDiscoveryResult, todict, generatebucketnames.
+- [readmenator-diagrams/estorides_core_system_app_sources.md](md/readmenator-diagrams/estorides_core_system_app_sources.md): estoridescore: systemappsources groups 13 files (py) around ToolError, ToolNotAllowedError, ToolInjectionError, ToolNotFoundError, ToolTimeoutError....
+- [readmenator-diagrams/estorides_export.md](md/readmenator-diagrams/estorides_export.md): estoridesexport groups 8 files (py) around nodesources, KnowledgeGraph, init, addentity, addobservation. estoridescore.knowledgegraph
+- [readmenator-diagrams/overview.md](md/readmenator-diagrams/overview.md): Static architecture map of 199 files (js, py, sh) in 12 components: estoridescore: estoridesweb, estoridescore: graphbundle, estoridescore: hypothesisengine...
 
 ## Optional
 

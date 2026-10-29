@@ -4,6 +4,7 @@ Project types nested under the project types they derive from. External bases ar
 
 [Back to index](index.md)
 
+- [`AirportIndex`](modules/estorides_core.airports.py.md#airportindex) class in `estorides_core.airports`
 - [`AlertDispatcher`](modules/estorides_core.alerter.py.md#alertdispatcher) class in `estorides_core.alerter`
 - [`AnthropicBackend`](modules/estorides_llm.manager.py.md#anthropicbackend) class in `estorides_llm.manager`
 - [`AsyncClient`](modules/estorides_core.async_client.py.md#asyncclient) class in `estorides_core.async_client`
@@ -50,9 +51,14 @@ Project types nested under the project types they derive from. External bases ar
 - [`EventSink`](modules/estorides_core.pivot_engine.py.md#eventsink) protocol in `estorides_core.pivot_engine`(Protocol)
 - [`Evidence`](modules/estorides_core.hypothesis_engine.py.md#evidence) class in `estorides_core.hypothesis_engine`
 - [`Feed`](modules/estorides_core.feeds.py.md#feed) class in `estorides_core.feeds`(ABC)
+  - [`AircraftEmergencyFeed`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed) class in `estorides_core.feeds`
+  - [`AircraftFeed`](modules/estorides_core.feeds.py.md#aircraftfeed) class in `estorides_core.feeds`
   - [`EarthquakesFeed`](modules/estorides_core.feeds.py.md#earthquakesfeed) class in `estorides_core.feeds`
   - [`FiresFeed`](modules/estorides_core.feeds.py.md#firesfeed) class in `estorides_core.feeds`
+  - [`MilitaryAircraftFeed`](modules/estorides_core.feeds.py.md#militaryaircraftfeed) class in `estorides_core.feeds`
   - [`NewsFeed`](modules/estorides_core.feeds.py.md#newsfeed) class in `estorides_core.feeds`
+  - [`RocketLaunchesFeed`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed) class in `estorides_core.feeds`
+  - [`SatellitesFeed`](modules/estorides_core.feeds.py.md#satellitesfeed) class in `estorides_core.feeds`
 - [`FeedPoint`](modules/estorides_core.feeds.py.md#feedpoint) class in `estorides_core.feeds`
 - [`from`](modules/static.js.source_manager.js.md#from) class in `static/js/source_manager.js`
 - [`FusionAnalytics`](modules/estorides_core.fusion_analytics.py.md#fusionanalytics) class in `estorides_core.fusion_analytics`
@@ -81,6 +87,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`LLMBackend`](modules/estorides_llm.manager.py.md#llmbackend) protocol in `estorides_llm.manager`(Protocol)
 - [`LLMManager`](modules/estorides_llm.manager.py.md#llmmanager) class in `estorides_llm.manager`
 - [`MatchScore`](modules/estorides_core.entity_resolution.py.md#matchscore) class in `estorides_core.entity_resolution`
+- [`names`](modules/static.js.estorides.js.md#names) class in `static/js/estorides.js`
 - [`NiktoResult`](modules/estorides_core.active_recon.py.md#niktoresult) class in `estorides_core.active_recon`
 - [`NmapResult`](modules/estorides_core.active_recon.py.md#nmapresult) class in `estorides_core.active_recon`
 - [`Observation`](modules/estorides_core.observation_models.py.md#observation) class in `estorides_core.observation_models`(_StrictModel)

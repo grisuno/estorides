@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 191 files at commit `4bf09f0d86e8`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 199 files at commit `112cb635e835`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: From the creators of LazyOwn Redteam Framework comes a free and open-source (`README.md:16`)
-- Domain vocabulary (term, files): `estorides` (126), `not` (69), `run` (68), `source` (66), `bdd` (56), `one` (55), `single` (52), `sources` (46), `error` (46), `spec` (46), `entity` (45), `default` (44), `type` (43), `result` (42), `safe` (42)
-- Subsystem `estorides_core: estorides_web`: 27 files, core `estorides_web.py`: estorides.web
-- Subsystem `estorides_core: parsers`: 24 files, core `estorides_core/parsers.py`: estorides_core.parsers
+- Domain vocabulary (term, files): `estorides` (135), `not` (74), `source` (69), `run` (69), `one` (60), `bdd` (59), `single` (52), `type` (50), `sources` (48), `error` (47), `spec` (47), `entity` (45), `default` (45), `all` (44), `safe` (44)
+- Subsystem `estorides_core: estorides_web`: 25 files, core `estorides_web.py`: estorides.web
+- Subsystem `estorides_core: graph_bundle`: 19 files, core `estorides_core/graph_bundle.py`: graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator.
 - Subsystem `estorides_core: hypothesis_engine`: 19 files, core `estorides_core/hypothesis_engine.py`: estorides_core.hypothesis_engine
 - Subsystem `estorides_core: estorides`: 17 files, core `static/js/estorides.js`: Estorides front-end controller
-- Subsystem `estorides_core: config`: 17 files, core `estorides_core/config.py`: estorides.config
-- Subsystem `estorides_core: graph_bundle`: 15 files, core `estorides_core/graph_bundle.py`: graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator.
+- Subsystem `estorides_core: config`: 16 files, core `estorides_core/config.py`: estorides.config
 - Subsystem `estorides_core: people_intel`: 15 files, core `estorides_core/people_intel.py`
-- Subsystem `estorides_export`: 15 files, core `estorides_core/entity_resolution.py`: estorides_core.entity_resolution
+- Subsystem `estorides_core: manager`: 14 files, core `estorides_llm/manager.py`: estorides_llm.manager
+- Subsystem `estorides_core: system_app_sources`: 13 files, core `estorides_core/system_app_sources.py`: estorides_core.system_app_sources
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -40,7 +40,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 3; layer violations: 17 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 3; layer violations: 18 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -48,10 +48,10 @@ Declared:
 - none declared in instruction files (add them to AGENTS.md or record them in section 7)
 
 Measured baseline:
-- py: 185 files, 2812 symbols; docstrings on 34% of symbols; functions snake_case (100%); types PascalCase (100%); median file 146 lines, max 1842.
-- js: 4 files, 369 symbols; docstrings on 19% of symbols; functions camelCase (69%); types PascalCase (0%); median file 1580 lines, max 3533.
+- py: 193 files, 3121 symbols; docstrings on 33% of symbols; functions snake_case (100%); types PascalCase (100%); median file 147 lines, max 1855.
+- js: 4 files, 392 symbols; docstrings on 18% of symbols; functions camelCase (70%); types PascalCase (0%); median file 1580 lines, max 3749.
 - sh: 2 files, 2 symbols; docstrings on 50% of symbols; functions snake_case (100%); median file 100 lines, max 100.
-- Tests: 89 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
+- Tests: 94 files under tests, tests/properties; follow the existing naming (e.g. `conftest.py`).
 
 ## 5. Minimum deliverables
 
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Tests pass: `python -m pytest -q`.
-- Docstring coverage stays at or above 32%.
+- Docstring coverage stays at or above 31%.
 - No new security findings at medium or above (current: 0).
 - No new dependency cycles (current: 3).
 - Files stay under 300 lines where possible (`readmenator . lint`).
@@ -68,8 +68,8 @@ Measured baseline:
 
 ## 6. Risks to respect
 
-- God nodes (changes ripple widely): `estorides_core/config.py`, `estorides_web.py`, `estorides_core/orchestrator.py`, `estorides_cli.py`, `estorides_core/entity_extraction.py`
-- Hotspots (complex and central): `static/js/estorides.js`, `static/js/graph_force.js`, `static/js/graph_bundle.js`, `estorides_web.py`, `tests/test_target_management.py`
+- God nodes (changes ripple widely): `estorides_core/config.py`, `estorides_web.py`, `estorides_core/orchestrator.py`, `estorides_core/__init__.py`, `estorides_cli.py`
+- Hotspots (complex and central): `static/js/estorides.js`, `static/js/graph_force.js`, `static/js/graph_bundle.js`, `tests/test_aerospace.py`, `estorides_web.py`
 - Cycle: `estorides_export/__init__.py` -> `estorides_export/encryption.py` -> `estorides_export/__init__.py`
 - Cycle: `estorides_export/__init__.py` -> `estorides_export/encryption.py` -> `estorides_export/__init__.py`
 - Cycle: `estorides_web.py` -> `estorides_web_tools.py` -> `estorides_web.py`

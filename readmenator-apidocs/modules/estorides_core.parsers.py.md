@@ -1,6 +1,6 @@
 # `estorides_core.parsers`
 
-> Source: [estorides_core/parsers.py:1](../../estorides_core/parsers.py#L1) | language `py` | coverage 37.3% | [API index](../index.md)
+> Source: [estorides_core/parsers.py:1](../../estorides_core/parsers.py#L1) | language `py` | coverage 44.8% | [API index](../index.md)
 
 estorides_core.parsers ====================== A small library of structured parsers.
 
@@ -12,8 +12,40 @@ via the [`PARSERS`](#parsers) registry. New parsers are added with
 
 ## Contents
 
-- **Functions:** [`parse_dns_json`](#parse_dns_json), [`parse_crtsh_json`](#parse_crtsh_json), [`parse_rdap`](#parse_rdap), [`parse_ipapi`](#parse_ipapi), [`parse_ipinfo`](#parse_ipinfo), [`parse_ipapi_co`](#parse_ipapi_co), [`parse_shodan_internetdb`](#parse_shodan_internetdb), [`parse_greynoise`](#parse_greynoise), [`parse_ipwhois`](#parse_ipwhois), [`parse_abuseipdb`](#parse_abuseipdb), [`parse_vt_ip`](#parse_vt_ip), [`parse_vt_domain`](#parse_vt_domain), [`parse_vt_file`](#parse_vt_file), [`parse_bgpview`](#parse_bgpview), [`parse_cisa_kev`](#parse_cisa_kev), [`parse_ripe_stat`](#parse_ripe_stat), [`parse_nominatim`](#parse_nominatim), [`parse_urlscan`](#parse_urlscan), [`parse_wayback_cdx`](#parse_wayback_cdx), [`parse_wayback_avail`](#parse_wayback_avail), [`parse_threatfox`](#parse_threatfox), [`parse_urlhaus`](#parse_urlhaus), [`parse_urlhaus_payloads`](#parse_urlhaus_payloads), [`parse_malwarebazaar`](#parse_malwarebazaar), [`parse_otx`](#parse_otx), [`parse_hibp_breach`](#parse_hibp_breach), [`parse_hibp_paste`](#parse_hibp_paste), [`parse_phonebook`](#parse_phonebook), [`parse_wikipedia`](#parse_wikipedia), [`parse_wikidata`](#parse_wikidata), [`parse_openalex`](#parse_openalex), [`parse_crossref`](#parse_crossref), [`parse_arxiv`](#parse_arxiv), [`parse_nvd_cve`](#parse_nvd_cve), [`parse_github_advisories`](#parse_github_advisories), [`parse_blockchain_btc`](#parse_blockchain_btc), [`parse_blockstream`](#parse_blockstream), [`parse_ethplorer`](#parse_ethplorer), [`parse_microlink`](#parse_microlink), [`parse_github_user`](#parse_github_user), [`parse_github_search`](#parse_github_search), [`parse_reddit`](#parse_reddit), [`parse_mastodon`](#parse_mastodon), [`parse_keybase`](#parse_keybase), [`parse_hackernews`](#parse_hackernews), [`parse_reddit_search`](#parse_reddit_search), [`parse_dev_to`](#parse_dev_to), [`parse_text_lines`](#parse_text_lines), [`parse_raw_text`](#parse_raw_text), [`parse_http_headers`](#parse_http_headers), [`parse_whois_text`](#parse_whois_text), [`parse_twitter_user`](#parse_twitter_user), [`parse_youtube_user`](#parse_youtube_user), [`parse_twitch_user`](#parse_twitch_user), [`parse_discord_discovery`](#parse_discord_discovery), [`get_parser`](#get_parser), [`register_parser`](#register_parser), [`list_parsers`](#list_parsers)
+- **Functions:** [`parse_dns_json`](#parse_dns_json), [`parse_crtsh_json`](#parse_crtsh_json), [`parse_rdap`](#parse_rdap), [`parse_ipapi`](#parse_ipapi), [`parse_ipinfo`](#parse_ipinfo), [`parse_ipapi_co`](#parse_ipapi_co), [`parse_shodan_internetdb`](#parse_shodan_internetdb), [`parse_greynoise`](#parse_greynoise), [`parse_ipwhois`](#parse_ipwhois), [`parse_abuseipdb`](#parse_abuseipdb), [`parse_vt_ip`](#parse_vt_ip), [`parse_vt_domain`](#parse_vt_domain), [`parse_vt_file`](#parse_vt_file), [`parse_bgpview`](#parse_bgpview), [`parse_cisa_kev`](#parse_cisa_kev), [`parse_ripe_stat`](#parse_ripe_stat), [`parse_nominatim`](#parse_nominatim), [`parse_urlscan`](#parse_urlscan), [`parse_wayback_cdx`](#parse_wayback_cdx), [`parse_wayback_avail`](#parse_wayback_avail), [`parse_threatfox`](#parse_threatfox), [`parse_urlhaus`](#parse_urlhaus), [`parse_urlhaus_payloads`](#parse_urlhaus_payloads), [`parse_malwarebazaar`](#parse_malwarebazaar), [`parse_otx`](#parse_otx), [`parse_hibp_breach`](#parse_hibp_breach), [`parse_hibp_paste`](#parse_hibp_paste), [`parse_phonebook`](#parse_phonebook), [`parse_wikipedia`](#parse_wikipedia), [`parse_wikidata`](#parse_wikidata), [`parse_openalex`](#parse_openalex), [`parse_crossref`](#parse_crossref), [`parse_arxiv`](#parse_arxiv), [`parse_nvd_cve`](#parse_nvd_cve), [`parse_github_advisories`](#parse_github_advisories), [`parse_blockchain_btc`](#parse_blockchain_btc), [`parse_blockstream`](#parse_blockstream), [`parse_ethplorer`](#parse_ethplorer), [`parse_microlink`](#parse_microlink), [`parse_github_user`](#parse_github_user), [`parse_github_search`](#parse_github_search), [`parse_reddit`](#parse_reddit), [`parse_mastodon`](#parse_mastodon), [`parse_keybase`](#parse_keybase), [`parse_hackernews`](#parse_hackernews), [`parse_reddit_search`](#parse_reddit_search), [`parse_dev_to`](#parse_dev_to), [`parse_text_lines`](#parse_text_lines), [`parse_raw_text`](#parse_raw_text), [`parse_http_headers`](#parse_http_headers), [`parse_whois_text`](#parse_whois_text), [`parse_twitter_user`](#parse_twitter_user), [`parse_youtube_user`](#parse_youtube_user), [`parse_twitch_user`](#parse_twitch_user), [`parse_discord_discovery`](#parse_discord_discovery), [`parse_celestrak_tle`](#parse_celestrak_tle), [`parse_opensky_states`](#parse_opensky_states), [`parse_adsblol_aircraft`](#parse_adsblol_aircraft), [`parse_opensky_track`](#parse_opensky_track), [`parse_adsbdb`](#parse_adsbdb), [`parse_launch_library`](#parse_launch_library), [`parse_hexdb_aircraft`](#parse_hexdb_aircraft), [`parse_hexdb_route`](#parse_hexdb_route), [`get_parser`](#get_parser), [`register_parser`](#register_parser), [`list_parsers`](#list_parsers)
 - **Constants:** [`PARSERS`](#parsers)
+
+## Call Graph
+
+Solid arrows stay in this module, dashed arrows leave it.
+
+```mermaid
+flowchart LR
+    n_estorides_core_parsers_py__parse_celestrak_tle(["parse_celestrak_tle"])
+    n_estorides_core_aerospace_py__parse_tle_catalog["aerospace.parse_tle_catalog"]
+    n_estorides_core_parsers_py__parse_opensky_states(["parse_opensky_states"])
+    n_estorides_core_aerospace_py__normalize_opensky_states["aerospace.normalize_opensky_states"]
+    n_estorides_core_parsers_py__parse_adsblol_aircraft(["parse_adsblol_aircraft"])
+    n_estorides_core_aerospace_py__normalize_adsblol_aircraft["aerospace.normalize_adsblol_aircraft"]
+    n_estorides_core_parsers_py__parse_opensky_track(["parse_opensky_track"])
+    n_estorides_core_aerospace_py__normalize_opensky_track["aerospace.normalize_opensky_track"]
+    n_estorides_core_parsers_py__parse_adsbdb(["parse_adsbdb"])
+    n_estorides_core_aerospace_py__normalize_adsbdb["aerospace.normalize_adsbdb"]
+    n_estorides_core_parsers_py__parse_launch_library(["parse_launch_library"])
+    n_estorides_core_aerospace_py__normalize_launch_library["aerospace.normalize_launch_library"]
+    n_estorides_core_parsers_py__parse_hexdb_aircraft(["parse_hexdb_aircraft"])
+    n_estorides_core_aviation_py__normalize_hexdb_aircraft["aviation.normalize_hexdb_aircraft"]
+    n_estorides_core_parsers_py__parse_hexdb_route(["parse_hexdb_route"])
+    n_estorides_core_aviation_py__normalize_hexdb_route["aviation.normalize_hexdb_route"]
+    n_estorides_core_parsers_py__parse_celestrak_tle -.-> n_estorides_core_aerospace_py__parse_tle_catalog
+    n_estorides_core_parsers_py__parse_opensky_states -.-> n_estorides_core_aerospace_py__normalize_opensky_states
+    n_estorides_core_parsers_py__parse_adsblol_aircraft -.-> n_estorides_core_aerospace_py__normalize_adsblol_aircraft
+    n_estorides_core_parsers_py__parse_opensky_track -.-> n_estorides_core_aerospace_py__normalize_opensky_track
+    n_estorides_core_parsers_py__parse_adsbdb -.-> n_estorides_core_aerospace_py__normalize_adsbdb
+    n_estorides_core_parsers_py__parse_launch_library -.-> n_estorides_core_aerospace_py__normalize_launch_library
+    n_estorides_core_parsers_py__parse_hexdb_aircraft -.-> n_estorides_core_aviation_py__normalize_hexdb_aircraft
+    n_estorides_core_parsers_py__parse_hexdb_route -.-> n_estorides_core_aviation_py__normalize_hexdb_route
+```
 
 ## Functions
 
@@ -1183,11 +1215,203 @@ member_count, etc. Or a dict with a 'results' or 'servers' key.
 
 ---
 
+<a id="parse_celestrak_tle"></a>
+
+### `parse_celestrak_tle`
+
+`function` | [estorides_core/parsers.py:1168](../../estorides_core/parsers.py#L1168)
+
+```python
+def parse_celestrak_tle(payload: Any) -> dict[str, Any]
+```
+
+CelesTrak GP three-line TLE catalog (text or ``{"raw_text": ...}``).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`parse_tle_catalog`](estorides_core.aerospace.py.md#parse_tle_catalog)
+
+---
+
+<a id="parse_opensky_states"></a>
+
+### `parse_opensky_states`
+
+`function` | [estorides_core/parsers.py:1176](../../estorides_core/parsers.py#L1176)
+
+```python
+def parse_opensky_states(payload: Any) -> dict[str, Any]
+```
+
+OpenSky Network state vectors -> common aircraft records.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_opensky_states`](estorides_core.aerospace.py.md#normalize_opensky_states)
+
+---
+
+<a id="parse_adsblol_aircraft"></a>
+
+### `parse_adsblol_aircraft`
+
+`function` | [estorides_core/parsers.py:1184](../../estorides_core/parsers.py#L1184)
+
+```python
+def parse_adsblol_aircraft(payload: Any) -> dict[str, Any]
+```
+
+adsb.lol v2 aircraft snapshot -> common aircraft records.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_adsblol_aircraft`](estorides_core.aerospace.py.md#normalize_adsblol_aircraft)
+
+---
+
+<a id="parse_opensky_track"></a>
+
+### `parse_opensky_track`
+
+`function` | [estorides_core/parsers.py:1192](../../estorides_core/parsers.py#L1192)
+
+```python
+def parse_opensky_track(payload: Any) -> dict[str, Any]
+```
+
+OpenSky Network aircraft track with waypoints.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_opensky_track`](estorides_core.aerospace.py.md#normalize_opensky_track)
+
+---
+
+<a id="parse_adsbdb"></a>
+
+### `parse_adsbdb`
+
+`function` | [estorides_core/parsers.py:1199](../../estorides_core/parsers.py#L1199)
+
+```python
+def parse_adsbdb(payload: Any) -> dict[str, Any]
+```
+
+adsbdb aircraft or callsign flight route.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_adsbdb`](estorides_core.aerospace.py.md#normalize_adsbdb)
+
+---
+
+<a id="parse_launch_library"></a>
+
+### `parse_launch_library`
+
+`function` | [estorides_core/parsers.py:1206](../../estorides_core/parsers.py#L1206)
+
+```python
+def parse_launch_library(payload: Any) -> dict[str, Any]
+```
+
+Launch Library 2 launches with pad coordinates when present.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_launch_library`](estorides_core.aerospace.py.md#normalize_launch_library)
+
+---
+
+<a id="parse_hexdb_aircraft"></a>
+
+### `parse_hexdb_aircraft`
+
+`function` | [estorides_core/parsers.py:1214](../../estorides_core/parsers.py#L1214)
+
+```python
+def parse_hexdb_aircraft(payload: Any) -> dict[str, Any]
+```
+
+hexdb.io aircraft record by ICAO address (registration, type, owner).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_hexdb_aircraft`](estorides_core.aviation.py.md#normalize_hexdb_aircraft)
+
+---
+
+<a id="parse_hexdb_route"></a>
+
+### `parse_hexdb_route`
+
+`function` | [estorides_core/parsers.py:1222](../../estorides_core/parsers.py#L1222)
+
+```python
+def parse_hexdb_route(payload: Any) -> dict[str, Any]
+```
+
+hexdb.io flight route by callsign (origin and destination).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `Any` |  |  |
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`normalize_hexdb_route`](estorides_core.aviation.py.md#normalize_hexdb_route)
+
+---
+
 <a id="get_parser"></a>
 
 ### `get_parser`
 
-`function` | [estorides_core/parsers.py:1251](../../estorides_core/parsers.py#L1251)
+`function` | [estorides_core/parsers.py:1322](../../estorides_core/parsers.py#L1322)
 
 ```python
 def get_parser(name: str) -> ParserFunc
@@ -1215,7 +1439,7 @@ the run — it just produces a less-structured observation.
 
 ### `register_parser`
 
-`function` | [estorides_core/parsers.py:1264](../../estorides_core/parsers.py#L1264)
+`function` | [estorides_core/parsers.py:1335](../../estorides_core/parsers.py#L1335)
 
 ```python
 def register_parser(name: str, description: str = '') -> ParserFunc
@@ -1243,7 +1467,7 @@ a typo doesn't silently drop a parser.
 
 ### `list_parsers`
 
-`function` | [estorides_core/parsers.py:1280](../../estorides_core/parsers.py#L1280)
+`function` | [estorides_core/parsers.py:1351](../../estorides_core/parsers.py#L1351)
 
 ```python
 def list_parsers() -> list[tuple[str, str]]
@@ -1265,7 +1489,7 @@ into the registry.
 
 ### `PARSERS`
 
-`constant` | [estorides_core/parsers.py:1168](../../estorides_core/parsers.py#L1168)
+`constant` | [estorides_core/parsers.py:1230](../../estorides_core/parsers.py#L1230)
 
 ```python
 PARSERS

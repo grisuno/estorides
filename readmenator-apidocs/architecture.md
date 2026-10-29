@@ -4,9 +4,9 @@
 
 ## Architecture Overview
 
-15 components stacked in 6 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 13 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
+17 components stacked in 6 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 17 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
 
-Upward dependencies to fix first: `estorides_core: estorides` -> `estorides_core: parsers` (3 imports); `estorides_export` -> `estorides_core: estorides` (2 imports); `estorides_core: parsers` -> `estorides_core: estorides_web` (1 imports); `estorides_core: hypothesis_engine` -> `estorides_core: estorides` (1 imports); `estorides_core: estorides` -> `estorides_core: estorides_web` (1 imports); `estorides_export` -> `estorides_core: hypothesis_engine` (1 imports)
+Upward dependencies to fix first: `estorides_core: estorides` -> `estorides_core: manager` (3 imports); `estorides_export` -> `estorides_core: estorides` (1 imports); `estorides_core: hypothesis_engine` -> `estorides_core: estorides` (1 imports); `estorides_core: estorides` -> `estorides_core: estorides_web` (1 imports); `estorides_core: entity_resolution` -> `estorides_core: hypothesis_engine` (1 imports); `estorides_core: entity_resolution` -> `estorides_core: estorides` (1 imports)
 
 ```mermaid
 flowchart TB
@@ -15,58 +15,64 @@ flowchart TB
     classDef entry fill:#0e7490,stroke:#22d3ee,color:#ecfeff,stroke-width:2px;
     subgraph lane_0["Tier 1 - entry / orchestration"]
         direction LR
-        n_c0["estorides_core: estorides_web<br/>14 files, 230 symbols<br/>Core / utility"]:::entry
+        n_c0["estorides_core: estorides_web<br/>13 files, 220 symbols<br/>Core / utility"]:::entry
         n_d_tools["tools<br/>1 files, 1 symbols<br/>Core / utility"]:::default
         n_d_static["static<br/>3 files, 200 symbols<br/>Core / utility"]:::default
         n_d_estorides_core["estorides_core<br/>2 files, 14 symbols<br/>Business logic"]:::default
         n_d__scratchpad[".scratchpad<br/>11 files, 0 symbols<br/>Core / utility"]:::default
         n_d__root_["(root)<br/>1 files, 2 symbols<br/>Core / utility"]:::default
-        n_c9["estorides_core: source_health_monitoring<br/>1 files, 14 symbols<br/>Core / utility"]:::default
-        n_c6["estorides_core: people_intel<br/>8 files, 72 symbols<br/>Core / utility"]:::default
+        n_c5["estorides_core: people_intel<br/>8 files, 72 symbols<br/>Core / utility"]:::default
+        n_c11["estorides_core: source_health_monitoring<br/>1 files, 14 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_1["Tier 2"]
         direction LR
-        n_c1["estorides_core: parsers<br/>14 files, 238 symbols<br/>Core / utility"]:::cycle
-        n_c5["estorides_core: graph_bundle<br/>4 files, 42 symbols<br/>Core / utility"]:::default
+        n_c6["estorides_core: manager<br/>11 files, 119 symbols<br/>Core / utility"]:::cycle
+        n_c1["estorides_core: graph_bundle<br/>4 files, 42 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_2["Tier 3"]
         direction LR
-        n_c3["estorides_core: estorides<br/>9 files, 332 symbols<br/>Core / utility"]:::cycle
+        n_c7["estorides_core: system_app_sources<br/>5 files, 107 symbols<br/>Core / utility"]:::cycle
+        n_c3["estorides_core: estorides<br/>9 files, 342 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_3["Tier 4"]
         direction LR
-        n_c8["estorides_core: tool_install<br/>5 files, 81 symbols<br/>Core / utility"]:::cycle
+        n_c10["estorides_export<br/>6 files, 40 symbols<br/>Core / utility"]:::cycle
         n_c2["estorides_core: hypothesis_engine<br/>7 files, 111 symbols<br/>Core / utility"]:::cycle
+        n_c8["estorides_core: parsers<br/>7 files, 205 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_4["Tier 5"]
         direction LR
-        n_c7["estorides_export<br/>10 files, 105 symbols<br/>Core / utility"]:::cycle
+        n_c9["estorides_core: entity_resolution<br/>5 files, 71 symbols<br/>Business logic"]:::cycle
     end
     subgraph lane_5["Tier 6 - foundation"]
         direction LR
-        n_c4["estorides_core: config<br/>11 files, 208 symbols<br/>Core / utility"]:::default
+        n_c4["estorides_core: config<br/>10 files, 192 symbols<br/>Core / utility"]:::default
     end
-    n_c0 ==>|"7"| n_c1
-    n_c0 ==>|"5"| n_c5
-    n_c1 -->|"2"| n_c3
-    n_c2 -->|"1"| n_c7
+    n_c0 ==>|"5"| n_c1
+    n_c0 ==>|"7"| n_c6
+    n_c1 -->|"1"| n_c4
+    n_c10 -->|"1"| n_c9
+    n_c2 -->|"1"| n_c9
+    n_c3 -->|"2"| n_c10
     n_c3 -->|"1"| n_c2
-    n_c3 -->|"1"| n_c8
-    n_c5 -->|"1"| n_c4
-    n_c7 ==>|"6"| n_c4
-    n_c8 -->|"2"| n_c7
-    n_c0 <-.-|"1 upward"| n_c1
+    n_c6 -->|"2"| n_c3
+    n_c6 -->|"2"| n_c7
+    n_c7 -->|"1"| n_c8
+    n_c7 -->|"1"| n_c9
+    n_c8 ==>|"3"| n_c4
+    n_c9 ==>|"3"| n_c4
+    n_c3 <-.-|"1 upward"| n_c10
     n_c3 <-.-|"1 upward"| n_c2
     n_c0 <-.-|"1 upward"| n_c3
-    n_c1 <-.-|"3 upward"| n_c3
-    n_c2 <-.-|"1 upward"| n_c7
-    n_c3 <-.-|"2 upward"| n_c7
-    linkStyle 9,10,11,12,13,14 stroke:#f87171,stroke-width:2px;
-    n_c0 ~~~ n_c1
-    n_c1 ~~~ n_c3
-    n_c3 ~~~ n_c8
-    n_c8 ~~~ n_c7
-    n_c7 ~~~ n_c4
+    n_c6 <-.-|"3 upward"| n_c3
+    n_c2 <-.-|"1 upward"| n_c9
+    n_c3 <-.-|"1 upward"| n_c9
+    linkStyle 13,14,15,16,17,18 stroke:#f87171,stroke-width:2px;
+    n_c0 ~~~ n_c6
+    n_c6 ~~~ n_c7
+    n_c7 ~~~ n_c10
+    n_c10 ~~~ n_c9
+    n_c9 ~~~ n_c4
 ```
 
 ---

@@ -1,6 +1,6 @@
 # estorides_core: graph_bundle
 
-estorides_core: graph_bundle groups 15 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__
+estorides_core: graph_bundle groups 19 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__
 
 ```mermaid
 graph LR
@@ -9,13 +9,13 @@ graph LR
     tests -- "calls into" --> estorides_core
 ```
 
-## estorides_core (6.1)
+## estorides_core (2.1)
 
 estorides_core groups 4 files (py) around family_color_from_name, node_value, force_settings, _req_str, _opt_str. estorides_core.__init__
 
-## tests (6.2)
+## tests (2.2)
 
-tests groups 11 files (py) around force_strategy, _assert_consistent, test_p1_total_and_consistent, test_p2_deterministic, test_p3_empty_never_raises. Property-based invariants for estorides_core.graph_bundle.
+tests groups 15 files (py) around _coordinates_are_valid, test_normalisers_never_raise, test_opensky_coordinates_stay_in_bounds, test_adsblol_coordinates_stay_in_bounds, test_tle_parser_only_returns_complete_sets. Property-based invariants for estorides_core.aerospace.
 
 **Files**:
 
@@ -23,7 +23,11 @@ tests groups 11 files (py) around force_strategy, _assert_consistent, test_p1_to
 - estorides_core/graph_bundle.py
 - estorides_core/graph_force.py
 - estorides_core/lan_inventory.py
+- tests/properties/test_aerospace_properties.py
 - tests/properties/test_graph_bundle_properties.py
+- tests/test_airports.py
+- tests/test_aviation.py
+- tests/test_data_pack.py
 - tests/test_graph_bundle.py
 - tests/test_graph_force3d.py
 - tests/test_lan_bundle.py

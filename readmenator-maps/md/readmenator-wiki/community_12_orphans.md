@@ -1,10 +1,10 @@
 # orphans
 
-*Community 10 | 27 files | cohesion 0.00*
+*Community 12 | 27 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 27 file(s) rooted at `.scratchpad` with dominant language py (cohesion 0.00). Central symbols: `LanPolicyDecision`, `LanPolicyRequest`, `TestAutoDetectType`, `TestBatchResultSerialization`, `TestConfigurableWeights`, `TestCriticalTarget`, `TestCrownJewelDetection`, `TestCsvImport`. Core file: `static/js/graph_force.js` (109 symbols). Documented purpose: estorides_core.lan_policy.
+This community groups 27 file(s) rooted at `.scratchpad` with dominant language py (cohesion 0.00). Central symbols: `LanPolicyDecision`, `LanPolicyRequest`, `TestAutoDetectType`, `TestBatchResultSerialization`, `TestConfigurableWeights`, `TestCriticalTarget`, `TestCrownJewelDetection`, `TestCsvImport`. Core file: `static/js/graph_force.js` (115 symbols). Documented purpose: estorides_core.lan_policy.
 
 ## Files
 
@@ -32,9 +32,9 @@ This community groups 27 file(s) rooted at `.scratchpad` with dominant language 
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `static/js/graph_bundle.js` | js | utility | 62 | yes |
-| `static/js/graph_force.js` | js | utility | 109 | yes |
-| `static/js/source_manager.js` | js | utility | 18 | yes |
+| `static/js/graph_bundle.js` | js | utility | 66 | yes |
+| `static/js/graph_force.js` | js | utility | 115 | yes |
+| `static/js/source_manager.js` | js | utility | 19 | yes |
 
 ### `.` (2 files)
 
@@ -71,12 +71,12 @@ This community groups 27 file(s) rooted at `.scratchpad` with dominant language 
 - `LanPolicyRequest` (class, `estorides_core/lan_policy.py:30`) `class LanPolicyRequest` - Caller intent for a LAN discovery run.
 - `LanPolicyDecision` (class, `estorides_core/lan_policy.py:40`) `class LanPolicyDecision` - Outcome of policy evaluation. JSON serializable via to_dict.
 - `to_dict` (method, `estorides_core/lan_policy.py:50`) `def to_dict(self)`
-- `requires_consent` (method, `estorides_core/lan_policy.py:54`) `def requires_consent()` - Return the canonical consent notice for the blocking modal.
-- `_env_ceiling` (method, `estorides_core/lan_policy.py:59`) `def _env_ceiling()`
-- `_strict_bool` (method, `estorides_core/lan_policy.py:66`) `def _strict_bool(value)`
-- `_normalize_scope` (method, `estorides_core/lan_policy.py:70`) `def _normalize_scope(raw)` - Validate scope CIDR. Returns (normalized, error_code).
-- `max_contact_for` (method, `estorides_core/lan_policy.py:97`) `def max_contact_for(allow_active, consent)` - Return active only on the triple gate, else none.
-- `evaluate` (method, `estorides_core/lan_policy.py:104`) `def evaluate(request)` - Evaluate a LAN policy request. Never raises on bad input.
+- `requires_consent` (function, `estorides_core/lan_policy.py:54`) `def requires_consent()` - Return the canonical consent notice for the blocking modal.
+- `_env_ceiling` (function, `estorides_core/lan_policy.py:59`) `def _env_ceiling()`
+- `_strict_bool` (function, `estorides_core/lan_policy.py:66`) `def _strict_bool(value)`
+- `_normalize_scope` (function, `estorides_core/lan_policy.py:70`) `def _normalize_scope(raw)` - Validate scope CIDR. Returns (normalized, error_code).
+- `max_contact_for` (function, `estorides_core/lan_policy.py:97`) `def max_contact_for(allow_active, consent)` - Return active only on the triple gate, else none.
+- `evaluate` (function, `estorides_core/lan_policy.py:104`) `def evaluate(request)` - Evaluate a LAN policy request. Never raises on bad input.
 - `parse_interface_addr` (function, `estorides_core/lan_scope.py:23`) `def parse_interface_addr(raw)` - Normalize one interface address to CIDR, or None when unsafe.
 - `select_private_cidrs` (function, `estorides_core/lan_scope.py:63`) `def select_private_cidrs(interfaces)` - Keep private CIDRs only, sorted and deduped. Never raises.
 - `default_scope` (function, `estorides_core/lan_scope.py:79`) `def default_scope(interfaces)` - First private CIDR, or None when no private network exists.
@@ -84,20 +84,20 @@ This community groups 27 file(s) rooted at `.scratchpad` with dominant language 
 - `read_local_interfaces` (function, `estorides_core/lan_scope.py:92`) `def read_local_interfaces()` - Read local interface addresses. Fail-soft, no probes sent.
 - `install_full` (function, `install.sh:51`) - 3) Two install passes: full first, minimal fallback. We don't want a single Cython build error to le
 - `install_minimal` (function, `install.sh:55`)
-- `djb2KindColor` (function, `static/js/graph_bundle.js:32`)
-- `mk` (function, `static/js/graph_bundle.js:60`)
-- `clip` (function, `static/js/graph_bundle.js:66`)
-- `tabActive` (function, `static/js/graph_bundle.js:70`)
-- `ink` (function, `static/js/graph_bundle.js:74`)
+- `djb2KindColor` (function, `static/js/graph_bundle.js:33`)
+- `mk` (function, `static/js/graph_bundle.js:61`)
+- `clip` (function, `static/js/graph_bundle.js:67`)
+- `tabActive` (function, `static/js/graph_bundle.js:71`)
+- `ink` (function, `static/js/graph_bundle.js:75`)
 - `v` (function, `static/js/graph_bundle.js:78`)
-- `colorOf` (function, `static/js/graph_bundle.js:88`)
-- `keyOf` (function, `static/js/graph_bundle.js:94`)
-- `bspline` (function, `static/js/graph_bundle.js:99`)
-- `curve` (function, `static/js/graph_bundle.js:120`)
-- `buildCurves` (function, `static/js/graph_bundle.js:137`)
-- `resize` (function, `static/js/graph_bundle.js:148`)
-- `radius` (function, `static/js/graph_bundle.js:160`)
-- `center` (function, `static/js/graph_bundle.js:164`)
+- `colorOf` (function, `static/js/graph_bundle.js:89`)
+- `keyOf` (function, `static/js/graph_bundle.js:95`)
+- `bspline` (function, `static/js/graph_bundle.js:100`)
+- `curve` (function, `static/js/graph_bundle.js:121`)
+- `buildCurves` (function, `static/js/graph_bundle.js:138`)
+- `resize` (function, `static/js/graph_bundle.js:149`)
+- `radius` (function, `static/js/graph_bundle.js:161`)
+- `center` (function, `static/js/graph_bundle.js:165`)
 
 ## Internal vs External Edges
 

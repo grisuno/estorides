@@ -5,6 +5,20 @@
 - Layer: testing
 - Language: py
 
+## tests/properties/test_aerospace_properties.py
+- Doc: Property-based invariants for estorides_core.aerospace.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_coordinates_are_valid` (function, line 41) `def _coordinates_are_valid(record)`
+  - `test_normalisers_never_raise` (function, line 49) `def test_normalisers_never_raise(payload)`
+  - `test_opensky_coordinates_stay_in_bounds` (function, line 61) `def test_opensky_coordinates_stay_in_bounds(lat, lon)`
+  - `test_adsblol_coordinates_stay_in_bounds` (function, line 71) `def test_adsblol_coordinates_stay_in_bounds(lat, lon)`
+  - `test_tle_parser_only_returns_complete_sets` (function, line 79) `def test_tle_parser_only_returns_complete_sets(text)`
+  - `test_catalog_field_never_raises` (function, line 88) `def test_catalog_field_never_raises(field)`
+  - `test_subsatellite_point_stays_physical` (function, line 95) `def test_subsatellite_point_stays_physical(offset)`
+- Depends on: `estorides_core/__init__.py`
+
 ## tests/properties/test_change_detection_properties.py
 - Doc: Property-based invariants for estorides_core.change_detection.
 - Layer: testing

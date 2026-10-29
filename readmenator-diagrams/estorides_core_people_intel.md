@@ -9,11 +9,11 @@ graph LR
     tests -- "calls into" --> estorides_core
 ```
 
-## estorides_core (7.1)
+## estorides_core (6.1)
 
 estorides_core groups 8 files (py) around CloudAsset, to_dict, CloudAssetDiscoveryResult, to_dict, generate_bucket_names.
 
-## tests (7.2)
+## tests (6.2)
 
 tests groups 7 files (py) around _make_asset, TestPublicS3Bucket, test_accessible_bucket_returned, TestBucketWithListing, test_listing_bucket_has_files. ATDD + BDD tests for estorides_core.cloud_asset_discovery.
 

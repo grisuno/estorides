@@ -1,13 +1,13 @@
 # `static/js/estorides.js`
 
-> Source: [static/js/estorides.js:1](../../static/js/estorides.js#L1) | language `js` | coverage 25.3% | [API index](../index.md)
+> Source: [static/js/estorides.js:1](../../static/js/estorides.js#L1) | language `js` | coverage 25.0% | [API index](../index.md)
 
 Estorides front-end controller
 
 ## Contents
 
-- **Classes:** [`to`](#to), [`on`](#on), [`attribute`](#attribute)
-- **Functions:** [`setVisible`](#setvisible), [`isLanQueryLocal`](#islanquerylocal), [`t`](#t), [`lanRunFields`](#lanrunfields), [`ensureLanConsent`](#ensurelanconsent), [`safe`](#safe), [`done`](#done), [`onYes`](#onyes), [`onNo`](#onno), [`set`](#set), [`TELEMETRY`](#telemetry), [`detectQueryTypeLocal`](#detectquerytypelocal), [`showToast`](#showtoast), [`updateQueryChip`](#updatequerychip), [`setRunProgress`](#setrunprogress), [`showEmptyState`](#showemptystate), [`summariseObservation`](#summariseobservation), [`buildResultCard`](#buildresultcard), [`toolBinary`](#toolbinary), [`status`](#status), [`requestToolInstall`](#requesttoolinstall), [`pollToolInstall`](#polltoolinstall), [`out`](#out), [`populateCategoryFilter`](#populatecategoryfilter), [`applyResultFilters`](#applyresultfilters), [`text`](#text), [`cat`](#cat), [`status`](#status), [`bindResultFilters`](#bindresultfilters), [`showFriendlyError`](#showfriendlyerror), [`focusGraphNodeByValue`](#focusgraphnodebyvalue), [`switchSidebarTab`](#switchsidebartab), [`switchCanvasTab`](#switchcanvastab), [`clearMap`](#clearmap), [`plotPoints`](#plotpoints), [`replotStreamData`](#replotstreamdata), [`stopRunStream`](#stoprunstream), [`renderLanResults`](#renderlanresults), [`startLanScan`](#startlanscan), [`scope`](#scope), [`msg`](#msg), [`runQuery`](#runquery), [`runQueryBlocking`](#runqueryblocking), [`searchEntity`](#searchentity), [`handleRunStreamEvent`](#handlerunstreamevent), [`appendStreamObservation`](#appendstreamobservation), [`appendStreamEntity`](#appendstreamentity), [`sig`](#sig), [`clearAll`](#clearall), [`setStatus`](#setstatus), [`renderResult`](#renderresult), [`loadAnalysisModels`](#loadanalysismodels), [`renderAnalysisModels`](#renderanalysismodels), [`makeModelPill`](#makemodelpill), [`renderAnalysis`](#renderanalysis), [`renderMarkdownInto`](#rendermarkdowninto), [`setThinkingVisible`](#setthinkingvisible), [`toggleThinking`](#togglethinking), [`reanalyze`](#reanalyze), [`boxQ`](#boxq), [`scheduleRender`](#schedulerender), [`flush`](#flush), [`pump`](#pump), [`analyseEntity`](#analyseentity), [`expandNode`](#expandnode), [`mergeExpansionIntoGraph`](#mergeexpansionintograph), [`k`](#k), [`drawGraphWithExtras`](#drawgraphwithextras), [`pushLink`](#pushlink), [`is3DActive`](#is3dactive), [`CLUSTER_PALETTE`](#cluster_palette), [`resolverTypeFor`](#resolvertypefor), [`saveLevelOverrides`](#saveleveloverrides), [`levelOf`](#levelof), [`clusterColor`](#clustercolor), [`c`](#c), [`safeColor`](#safecolor), [`deriveClusters`](#deriveclusters), [`cid`](#cid), [`hideTooltip`](#hidetooltip), [`purifyHTML`](#purifyhtml), [`setSanitizedHTML`](#setsanitizedhtml), [`showTooltipAt`](#showtooltipat), [`hideContextMenu`](#hidecontextmenu), [`showBridgeTooltip`](#showbridgetooltip), [`labelFor`](#labelfor), [`c`](#c), [`showNodeTooltip`](#shownodetooltip), [`showContextMenu`](#showcontextmenu), [`tr`](#tr), [`setNodeLevel`](#setnodelevel), [`applyLevelStyles`](#applylevelstyles), [`focusNode`](#focusnode), [`barH`](#barh), [`runTransform`](#runtransform), [`runTransformStream`](#runtransformstream), [`flush`](#flush), [`undoGraph`](#undograph), [`k`](#k), [`selectNode`](#selectnode), [`add`](#add), [`addText`](#addtext), [`tr`](#tr), [`renderGraphCore`](#rendergraphcore), [`barH`](#barh), [`drawHulls`](#drawhulls), [`setStatusDot`](#setstatusdot), [`showWorkingIndicator`](#showworkingindicator), [`hideWorkingIndicator`](#hideworkingindicator), [`toggleTierSection`](#toggletiersection), [`renderTieredResults`](#rendertieredresults), [`escapeAttr`](#escapeattr), [`buildMapCoords`](#buildmapcoords), [`validCoord`](#validcoord), [`colorFor`](#colorfor), [`renderEntities`](#renderentities), [`renderGraphSummary`](#rendergraphsummary), [`colorForKind`](#colorforkind), [`renderTimeline`](#rendertimeline), [`obs`](#obs), [`frac`](#frac), [`fmtTime`](#fmttime), [`filterTimeline`](#filtertimeline), [`drawGraph`](#drawgraph), [`loadCases`](#loadcases), [`q`](#q), [`openCaseDetail`](#opencasedetail), [`entities`](#entities), [`obs`](#obs), [`restoreCaseToWorkspace`](#restorecasetoworkspace), [`buildCaseMapCoords`](#buildcasemapcoords), [`renderCaseItem`](#rendercaseitem), [`saved`](#saved), [`debounce`](#debounce), [`escapeHTML`](#escapehtml), [`truncate`](#truncate), [`caseActionSave`](#caseactionsave), [`caseActionDiff`](#caseactiondiff), [`renderCaseDiffPanel`](#rendercasediffpanel), [`rows`](#rows), [`removed`](#removed), [`caseActionReport`](#caseactionreport), [`showReportModal`](#showreportmodal), [`openModal`](#openmodal), [`actions`](#actions), [`close`](#close), [`promptModal`](#promptmodal), [`confirmModal`](#confirmmodal), [`tag`](#tag), [`loadSidebarWidth`](#loadsidebarwidth), [`saveSidebarWidth`](#savesidebarwidth), [`loadSidebarCollapsed`](#loadsidebarcollapsed), [`saveSidebarCollapsed`](#savesidebarcollapsed), [`switchSidebarTab`](#switchsidebartab), [`loadFusionTab`](#loadfusiontab), [`loadFusionStats`](#loadfusionstats), [`loadFusionTopChanged`](#loadfusiontopchanged), [`loadFusionSearch`](#loadfusionsearch), [`doSearch`](#dosearch), [`loadFusionEntityDetail`](#loadfusionentitydetail), [`setStatus`](#setstatus), [`setDiscoverProgress`](#setdiscoverprogress), [`hideDiscoverProgress`](#hidediscoverprogress), [`startDiscover`](#startdiscover), [`stopDiscover`](#stopdiscover), [`handleDiscoverEvent`](#handlediscoverevent), [`addDiscoverEntityToTab`](#adddiscoverentitytotab), [`sig`](#sig), [`escapeHtml`](#escapehtml), [`maybePlotDiscoverEntity`](#maybeplotdiscoverentity), [`flushDiscoverEntities`](#flushdiscoverentities), [`check`](#check)
+- **Classes:** [`names`](#names), [`to`](#to), [`on`](#on), [`attribute`](#attribute)
+- **Functions:** [`setVisible`](#setvisible), [`isLanQueryLocal`](#islanquerylocal), [`t`](#t), [`lanRunFields`](#lanrunfields), [`ensureLanConsent`](#ensurelanconsent), [`safe`](#safe), [`done`](#done), [`onYes`](#onyes), [`onNo`](#onno), [`set`](#set), [`TELEMETRY`](#telemetry), [`detectQueryTypeLocal`](#detectquerytypelocal), [`showToast`](#showtoast), [`updateQueryChip`](#updatequerychip), [`setRunProgress`](#setrunprogress), [`showEmptyState`](#showemptystate), [`summariseObservation`](#summariseobservation), [`buildResultCard`](#buildresultcard), [`toolBinary`](#toolbinary), [`status`](#status), [`requestToolInstall`](#requesttoolinstall), [`pollToolInstall`](#polltoolinstall), [`out`](#out), [`populateCategoryFilter`](#populatecategoryfilter), [`applyResultFilters`](#applyresultfilters), [`text`](#text), [`cat`](#cat), [`status`](#status), [`bindResultFilters`](#bindresultfilters), [`showFriendlyError`](#showfriendlyerror), [`focusGraphNodeByValue`](#focusgraphnodebyvalue), [`switchSidebarTab`](#switchsidebartab), [`switchCanvasTab`](#switchcanvastab), [`clearMap`](#clearmap), [`plotPoints`](#plotpoints), [`aeroEnabledSet`](#aeroenabledset), [`aeroPersist`](#aeropersist), [`aeroStatus`](#aerostatus), [`aeroBboxParam`](#aerobboxparam), [`aeroPopup`](#aeropopup), [`aeroRenderLayer`](#aerorenderlayer), [`loadAeroFeeds`](#loadaerofeeds), [`points`](#points), [`initAerospaceLayers`](#initaerospacelayers), [`replotStreamData`](#replotstreamdata), [`stopRunStream`](#stoprunstream), [`renderLanResults`](#renderlanresults), [`startLanScan`](#startlanscan), [`scope`](#scope), [`msg`](#msg), [`runQuery`](#runquery), [`runQueryBlocking`](#runqueryblocking), [`searchEntity`](#searchentity), [`handleRunStreamEvent`](#handlerunstreamevent), [`appendStreamObservation`](#appendstreamobservation), [`appendStreamEntity`](#appendstreamentity), [`sig`](#sig), [`clearAll`](#clearall), [`setStatus`](#setstatus), [`renderResult`](#renderresult), [`loadAnalysisModels`](#loadanalysismodels), [`renderAnalysisModels`](#renderanalysismodels), [`makeModelPill`](#makemodelpill), [`renderAnalysis`](#renderanalysis), [`renderMarkdownInto`](#rendermarkdowninto), [`setThinkingVisible`](#setthinkingvisible), [`toggleThinking`](#togglethinking), [`reanalyze`](#reanalyze), [`boxQ`](#boxq), [`scheduleRender`](#schedulerender), [`flush`](#flush), [`pump`](#pump), [`analyseEntity`](#analyseentity), [`expandNode`](#expandnode), [`mergeExpansionIntoGraph`](#mergeexpansionintograph), [`k`](#k), [`drawGraphWithExtras`](#drawgraphwithextras), [`pushLink`](#pushlink), [`is3DActive`](#is3dactive), [`CLUSTER_PALETTE`](#cluster_palette), [`resolverTypeFor`](#resolvertypefor), [`saveLevelOverrides`](#saveleveloverrides), [`levelOf`](#levelof), [`clusterColor`](#clustercolor), [`c`](#c), [`safeColor`](#safecolor), [`deriveClusters`](#deriveclusters), [`cid`](#cid), [`hideTooltip`](#hidetooltip), [`purifyHTML`](#purifyhtml), [`setSanitizedHTML`](#setsanitizedhtml), [`showTooltipAt`](#showtooltipat), [`hideContextMenu`](#hidecontextmenu), [`showBridgeTooltip`](#showbridgetooltip), [`labelFor`](#labelfor), [`c`](#c), [`showNodeTooltip`](#shownodetooltip), [`showContextMenu`](#showcontextmenu), [`tr`](#tr), [`setNodeLevel`](#setnodelevel), [`applyLevelStyles`](#applylevelstyles), [`focusNode`](#focusnode), [`barH`](#barh), [`runTransform`](#runtransform), [`runTransformStream`](#runtransformstream), [`flush`](#flush), [`undoGraph`](#undograph), [`k`](#k), [`selectNode`](#selectnode), [`add`](#add), [`addText`](#addtext), [`tr`](#tr), [`renderGraphCore`](#rendergraphcore), [`barH`](#barh), [`drawHulls`](#drawhulls), [`setStatusDot`](#setstatusdot), [`showWorkingIndicator`](#showworkingindicator), [`hideWorkingIndicator`](#hideworkingindicator), [`toggleTierSection`](#toggletiersection), [`renderTieredResults`](#rendertieredresults), [`escapeAttr`](#escapeattr), [`buildMapCoords`](#buildmapcoords), [`validCoord`](#validcoord), [`colorFor`](#colorfor), [`renderEntities`](#renderentities), [`renderGraphSummary`](#rendergraphsummary), [`colorForKind`](#colorforkind), [`renderTimeline`](#rendertimeline), [`obs`](#obs), [`frac`](#frac), [`fmtTime`](#fmttime), [`filterTimeline`](#filtertimeline), [`drawGraph`](#drawgraph), [`loadCases`](#loadcases), [`q`](#q), [`openCaseDetail`](#opencasedetail), [`entities`](#entities), [`obs`](#obs), [`restoreCaseToWorkspace`](#restorecasetoworkspace), [`buildCaseMapCoords`](#buildcasemapcoords), [`renderCaseItem`](#rendercaseitem), [`saved`](#saved), [`debounce`](#debounce), [`escapeHTML`](#escapehtml), [`truncate`](#truncate), [`caseActionSave`](#caseactionsave), [`caseActionDiff`](#caseactiondiff), [`renderCaseDiffPanel`](#rendercasediffpanel), [`rows`](#rows), [`removed`](#removed), [`caseActionReport`](#caseactionreport), [`showReportModal`](#showreportmodal), [`openModal`](#openmodal), [`actions`](#actions), [`close`](#close), [`promptModal`](#promptmodal), [`confirmModal`](#confirmmodal), [`tag`](#tag), [`loadSidebarWidth`](#loadsidebarwidth), [`saveSidebarWidth`](#savesidebarwidth), [`loadSidebarCollapsed`](#loadsidebarcollapsed), [`saveSidebarCollapsed`](#savesidebarcollapsed), [`switchSidebarTab`](#switchsidebartab), [`loadFusionTab`](#loadfusiontab), [`loadFusionStats`](#loadfusionstats), [`loadFusionTopChanged`](#loadfusiontopchanged), [`loadFusionSearch`](#loadfusionsearch), [`doSearch`](#dosearch), [`loadFusionEntityDetail`](#loadfusionentitydetail), [`setStatus`](#setstatus), [`setDiscoverProgress`](#setdiscoverprogress), [`hideDiscoverProgress`](#hidediscoverprogress), [`startDiscover`](#startdiscover), [`stopDiscover`](#stopdiscover), [`handleDiscoverEvent`](#handlediscoverevent), [`addDiscoverEntityToTab`](#adddiscoverentitytotab), [`sig`](#sig), [`escapeHtml`](#escapehtml), [`maybePlotDiscoverEntity`](#maybeplotdiscoverentity), [`flushDiscoverEntities`](#flushdiscoverentities), [`check`](#check)
 - **Other Members:** [`setTimeout`](#settimeout), [`fetch`](#fetch)
 
 ## Type Diagram
@@ -15,6 +15,7 @@ Estorides front-end controller
 ```mermaid
 classDiagram
     direction LR
+    class names
     class to
     class on
     class attribute
@@ -77,11 +78,25 @@ flowchart LR
 
 ## Classes
 
+<a id="names"></a>
+
+### `names`
+
+`class` | [static/js/estorides.js:460](../../static/js/estorides.js#L460)
+
+```javascript
+// One Leaflet layer per keyless aerospace feed. The panel, class names
+```
+
+---- Estorides Aerospace map layers ----
+
+---
+
 <a id="to"></a>
 
 ### `to`
 
-`class` | [static/js/estorides.js:474](../../static/js/estorides.js#L474)
+`class` | [static/js/estorides.js:690](../../static/js/estorides.js#L690)
 
 ```javascript
 // id is "map", not "map-canvas"), so select by class to stay consistent.
@@ -95,7 +110,7 @@ Panels are keyed by the `<name>-canvas` class, not by id (the map panel's
 
 ### `on`
 
-`class` | [static/js/estorides.js:2178](../../static/js/estorides.js#L2178)
+`class` | [static/js/estorides.js:2394](../../static/js/estorides.js#L2394)
 
 ```javascript
 // make entities first-class on the map, not just observations.
@@ -111,7 +126,7 @@ Many parsers stash coords on the entity itself (e.g. abuseipdb has a "countryCod
 
 ### `attribute`
 
-`class` | [static/js/estorides.js:3194](../../static/js/estorides.js#L3194)
+`class` | [static/js/estorides.js:3410](../../static/js/estorides.js#L3410)
 
 ```javascript
 // Whitelist the intel level before it reaches a class attribute,
@@ -816,11 +831,175 @@ function plotPoints(coords)
 
 ---
 
+<a id="aeroenabledset"></a>
+
+### `aeroEnabledSet`
+
+`function` | [static/js/estorides.js:476](../../static/js/estorides.js#L476)
+
+```javascript
+function aeroEnabledSet()
+```
+
+---
+
+<a id="aeropersist"></a>
+
+### `aeroPersist`
+
+`function` | [static/js/estorides.js:488](../../static/js/estorides.js#L488)
+
+```javascript
+function aeroPersist()
+```
+
+*Called by:* [`initAerospaceLayers`](#initaerospacelayers)
+
+---
+
+<a id="aerostatus"></a>
+
+### `aeroStatus`
+
+`function` | [static/js/estorides.js:496](../../static/js/estorides.js#L496)
+
+```javascript
+function aeroStatus(text, isError)
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `text` |  |  |  |
+| `isError` |  |  |  |
+
+*Called by:* [`loadAeroFeeds`](#loadaerofeeds)
+
+---
+
+<a id="aerobboxparam"></a>
+
+### `aeroBboxParam`
+
+`function` | [static/js/estorides.js:508](../../static/js/estorides.js#L508)
+
+```javascript
+function aeroBboxParam()
+```
+
+Ask for the region the operator is actually looking at.
+
+The backend answers a bbox from the regional ADS-B roster (denser, cheaper) and falls back to the worldwide snapshot when the box is too wide, so a wide view is never worse — but we skip the obviously-global case to keep the regional cache from filling with identical entries.
+
+*Called by:* [`loadAeroFeeds`](#loadaerofeeds)
+
+---
+
+<a id="aeropopup"></a>
+
+### `aeroPopup`
+
+`function` | [static/js/estorides.js:525](../../static/js/estorides.js#L525)
+
+```javascript
+function aeroPopup(point)
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `point` |  |  |  |
+
+*Calls:* [`escapeHTML`](#escapehtml)
+
+*Called by:* [`aeroRenderLayer`](#aerorenderlayer)
+
+---
+
+<a id="aerorenderlayer"></a>
+
+### `aeroRenderLayer`
+
+`function` | [static/js/estorides.js:579](../../static/js/estorides.js#L579)
+
+```javascript
+function aeroRenderLayer(name, points)
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` |  |  |  |
+| `points` |  |  |  |
+
+*Calls:* [`aeroPopup`](#aeropopup)
+
+*Called by:* [`loadAeroFeeds`](#loadaerofeeds)
+
+---
+
+<a id="loadaerofeeds"></a>
+
+### `loadAeroFeeds`
+
+`function` `async` | [static/js/estorides.js:603](../../static/js/estorides.js#L603)
+
+```javascript
+async function loadAeroFeeds(force)
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `force` |  |  |  |
+
+*Calls:* [`aeroBboxParam`](#aerobboxparam), [`aeroRenderLayer`](#aerorenderlayer), [`aeroStatus`](#aerostatus)
+
+*Called by:* [`initAerospaceLayers`](#initaerospacelayers)
+
+---
+
+<a id="points"></a>
+
+### `points`
+
+`function` `const` | [static/js/estorides.js:624](../../static/js/estorides.js#L624)
+
+```javascript
+const points = (data.points && data.points[config.name]) || [];
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `data.points && data.points[config. ]` |  |  |
+
+---
+
+<a id="initaerospacelayers"></a>
+
+### `initAerospaceLayers`
+
+`function` | [static/js/estorides.js:635](../../static/js/estorides.js#L635)
+
+```javascript
+function initAerospaceLayers()
+```
+
+*Calls:* [`aeroPersist`](#aeropersist), [`loadAeroFeeds`](#loadaerofeeds)
+
+---
+
 <a id="replotstreamdata"></a>
 
 ### `replotStreamData`
 
-`function` | [static/js/estorides.js:518](../../static/js/estorides.js#L518)
+`function` | [static/js/estorides.js:734](../../static/js/estorides.js#L734)
 
 ```javascript
 function replotStreamData()
@@ -838,7 +1017,7 @@ Rebuild the geospatial + temporal views from everything seen so far. plotPoints 
 
 ### `stopRunStream`
 
-`function` | [static/js/estorides.js:530](../../static/js/estorides.js#L530)
+`function` | [static/js/estorides.js:746](../../static/js/estorides.js#L746)
 
 ```javascript
 function stopRunStream()
@@ -852,7 +1031,7 @@ function stopRunStream()
 
 ### `renderLanResults`
 
-`function` | [static/js/estorides.js:551](../../static/js/estorides.js#L551)
+`function` | [static/js/estorides.js:767](../../static/js/estorides.js#L767)
 
 ```javascript
 function renderLanResults(data)
@@ -878,7 +1057,7 @@ The checkbox only widens the ceiling to active; without it the scan still runs p
 
 ### `startLanScan`
 
-`function` `async` | [static/js/estorides.js:620](../../static/js/estorides.js#L620)
+`function` `async` | [static/js/estorides.js:836](../../static/js/estorides.js#L836)
 
 ```javascript
 async function startLanScan()
@@ -892,7 +1071,7 @@ async function startLanScan()
 
 ### `scope`
 
-`function` | [static/js/estorides.js:621](../../static/js/estorides.js#L621)
+`function` | [static/js/estorides.js:837](../../static/js/estorides.js#L837)
 
 ```javascript
 let scope = ($('#query').value || '').trim();
@@ -910,7 +1089,7 @@ let scope = ($('#query').value || '').trim();
 
 ### `msg`
 
-`function` `const` | [static/js/estorides.js:662](../../static/js/estorides.js#L662)
+`function` `const` | [static/js/estorides.js:878](../../static/js/estorides.js#L878)
 
 ```javascript
 const msg = (data && data.message) || (data && data.error) || ('HTTP ' + r.status);
@@ -928,7 +1107,7 @@ const msg = (data && data.message) || (data && data.error) || ('HTTP ' + r.statu
 
 ### `runQuery`
 
-`function` `async` | [static/js/estorides.js:685](../../static/js/estorides.js#L685)
+`function` `async` | [static/js/estorides.js:901](../../static/js/estorides.js#L901)
 
 ```javascript
 async function runQuery()
@@ -942,7 +1121,7 @@ async function runQuery()
 
 ### `runQueryBlocking`
 
-`function` `async` | [static/js/estorides.js:773](../../static/js/estorides.js#L773)
+`function` `async` | [static/js/estorides.js:989](../../static/js/estorides.js#L989)
 
 ```javascript
 async function runQueryBlocking(q)
@@ -966,7 +1145,7 @@ Blocking fallback: the original one-shot render path.
 
 ### `searchEntity`
 
-`function` `async` | [static/js/estorides.js:807](../../static/js/estorides.js#L807)
+`function` `async` | [static/js/estorides.js:1023](../../static/js/estorides.js#L1023)
 
 ```javascript
 async function searchEntity(entityType, query)
@@ -991,7 +1170,7 @@ Deep-search an entity through the full OSINT pipeline without clearing existing 
 
 ### `handleRunStreamEvent`
 
-`function` | [static/js/estorides.js:858](../../static/js/estorides.js#L858)
+`function` | [static/js/estorides.js:1074](../../static/js/estorides.js#L1074)
 
 ```javascript
 function handleRunStreamEvent(d)
@@ -1013,7 +1192,7 @@ function handleRunStreamEvent(d)
 
 ### `appendStreamObservation`
 
-`function` | [static/js/estorides.js:896](../../static/js/estorides.js#L896)
+`function` | [static/js/estorides.js:1112](../../static/js/estorides.js#L1112)
 
 ```javascript
 function appendStreamObservation(obs)
@@ -1035,7 +1214,7 @@ function appendStreamObservation(obs)
 
 ### `appendStreamEntity`
 
-`function` | [static/js/estorides.js:918](../../static/js/estorides.js#L918)
+`function` | [static/js/estorides.js:1134](../../static/js/estorides.js#L1134)
 
 ```javascript
 function appendStreamEntity(entity, from)
@@ -1058,7 +1237,7 @@ function appendStreamEntity(entity, from)
 
 ### `sig`
 
-`function` `const` | [static/js/estorides.js:920](../../static/js/estorides.js#L920)
+`function` `const` | [static/js/estorides.js:1136](../../static/js/estorides.js#L1136)
 
 ```javascript
 const sig = (entity.type || '') + '|' + (entity.value || '');
@@ -1076,7 +1255,7 @@ const sig = (entity.type || '') + '|' + (entity.value || '');
 
 ### `clearAll`
 
-`function` | [static/js/estorides.js:947](../../static/js/estorides.js#L947)
+`function` | [static/js/estorides.js:1163](../../static/js/estorides.js#L1163)
 
 ```javascript
 function clearAll()
@@ -1090,7 +1269,7 @@ function clearAll()
 
 ### `setStatus`
 
-`function` | [static/js/estorides.js:975](../../static/js/estorides.js#L975)
+`function` | [static/js/estorides.js:1191](../../static/js/estorides.js#L1191)
 
 ```javascript
 function setStatus(s)
@@ -1110,7 +1289,7 @@ function setStatus(s)
 
 ### `renderResult`
 
-`function` | [static/js/estorides.js:981](../../static/js/estorides.js#L981)
+`function` | [static/js/estorides.js:1197](../../static/js/estorides.js#L1197)
 
 ```javascript
 function renderResult(data)
@@ -1134,7 +1313,7 @@ function renderResult(data)
 
 ### `loadAnalysisModels`
 
-`function` | [static/js/estorides.js:1029](../../static/js/estorides.js#L1029)
+`function` | [static/js/estorides.js:1245](../../static/js/estorides.js#L1245)
 
 ```javascript
 function loadAnalysisModels()
@@ -1142,7 +1321,7 @@ function loadAnalysisModels()
 
 *Calls:* [`renderAnalysisModels`](#renderanalysismodels)
 
-*Called by:* [`analyseEntity`](#analyseentity), [`handleRunStreamEvent`](#handlerunstreamevent), [`openCaseDetail`](#opencasedetail), [`renderResult`](#renderresult), [`switchSidebarTab`](#switchsidebartab)
+*Called by:* [`analyseEntity`](#analyseentity), [`handleRunStreamEvent`](#handlerunstreamevent), [`openCaseDetail`](#opencasedetail), [`renderResult`](#renderresult)
 
 ---
 
@@ -1150,7 +1329,7 @@ function loadAnalysisModels()
 
 ### `renderAnalysisModels`
 
-`function` | [static/js/estorides.js:1036](../../static/js/estorides.js#L1036)
+`function` | [static/js/estorides.js:1252](../../static/js/estorides.js#L1252)
 
 ```javascript
 function renderAnalysisModels(models)
@@ -1172,7 +1351,7 @@ function renderAnalysisModels(models)
 
 ### `makeModelPill`
 
-`function` | [static/js/estorides.js:1048](../../static/js/estorides.js#L1048)
+`function` | [static/js/estorides.js:1264](../../static/js/estorides.js#L1264)
 
 ```javascript
 function makeModelPill(label, model, active)
@@ -1196,7 +1375,7 @@ function makeModelPill(label, model, active)
 
 ### `renderAnalysis`
 
-`function` | [static/js/estorides.js:1061](../../static/js/estorides.js#L1061)
+`function` | [static/js/estorides.js:1277](../../static/js/estorides.js#L1277)
 
 ```javascript
 function renderAnalysis(a)
@@ -1218,7 +1397,7 @@ function renderAnalysis(a)
 
 ### `renderMarkdownInto`
 
-`function` | [static/js/estorides.js:1076](../../static/js/estorides.js#L1076)
+`function` | [static/js/estorides.js:1292](../../static/js/estorides.js#L1292)
 
 ```javascript
 function renderMarkdownInto(el, text)
@@ -1245,7 +1424,7 @@ Remote LLM text must never travel as an HTML string into an innerHTML sink: pars
 
 ### `setThinkingVisible`
 
-`function` | [static/js/estorides.js:1091](../../static/js/estorides.js#L1091)
+`function` | [static/js/estorides.js:1307](../../static/js/estorides.js#L1307)
 
 ```javascript
 function setThinkingVisible(show)
@@ -1265,7 +1444,7 @@ function setThinkingVisible(show)
 
 ### `toggleThinking`
 
-`function` | [static/js/estorides.js:1098](../../static/js/estorides.js#L1098)
+`function` | [static/js/estorides.js:1314](../../static/js/estorides.js#L1314)
 
 ```javascript
 function toggleThinking()
@@ -1277,7 +1456,7 @@ function toggleThinking()
 
 ### `reanalyze`
 
-`function` | [static/js/estorides.js:1103](../../static/js/estorides.js#L1103)
+`function` | [static/js/estorides.js:1319](../../static/js/estorides.js#L1319)
 
 ```javascript
 function reanalyze()
@@ -1293,7 +1472,7 @@ function reanalyze()
 
 ### `boxQ`
 
-`function` `const` | [static/js/estorides.js:1122](../../static/js/estorides.js#L1122)
+`function` `const` | [static/js/estorides.js:1338](../../static/js/estorides.js#L1338)
 
 ```javascript
 const boxQ = ($('#query') ? $('#query').value.trim() : '') || '';
@@ -1313,7 +1492,7 @@ The target being assessed = the current query box (if the user typed something) 
 
 ### `scheduleRender`
 
-`function` `const` | [static/js/estorides.js:1146](../../static/js/estorides.js#L1146)
+`function` `const` | [static/js/estorides.js:1362](../../static/js/estorides.js#L1362)
 
 ```javascript
 const scheduleRender = () =>
@@ -1329,7 +1508,7 @@ const scheduleRender = () =>
 
 ### `flush`
 
-`function` `const` | [static/js/estorides.js:1151](../../static/js/estorides.js#L1151)
+`function` `const` | [static/js/estorides.js:1367](../../static/js/estorides.js#L1367)
 
 ```javascript
 const flush = () =>
@@ -1345,7 +1524,7 @@ const flush = () =>
 
 ### `pump`
 
-`function` `const` | [static/js/estorides.js:1172](../../static/js/estorides.js#L1172)
+`function` `const` | [static/js/estorides.js:1388](../../static/js/estorides.js#L1388)
 
 ```javascript
 const pump = () =>
@@ -1361,7 +1540,7 @@ const pump = () =>
 
 ### `analyseEntity`
 
-`function` | [static/js/estorides.js:1193](../../static/js/estorides.js#L1193)
+`function` | [static/js/estorides.js:1409](../../static/js/estorides.js#L1409)
 
 ```javascript
 function analyseEntity(value, type, node)
@@ -1379,7 +1558,7 @@ Analyse a single graph/fusion entity: seed the analysis context with the entity'
 
 *Calls:* [`loadAnalysisModels`](#loadanalysismodels), [`reanalyze`](#reanalyze), [`renderAnalysis`](#renderanalysis), [`switchSidebarTab`](#switchsidebartab)
 
-*Called by:* [`doSearch`](#dosearch), [`loadFusionTopChanged`](#loadfusiontopchanged), [`showContextMenu`](#showcontextmenu), [`showNodeTooltip`](#shownodetooltip)
+*Called by:* [`showContextMenu`](#showcontextmenu), [`showNodeTooltip`](#shownodetooltip)
 
 ---
 
@@ -1387,7 +1566,7 @@ Analyse a single graph/fusion entity: seed the analysis context with the entity'
 
 ### `expandNode`
 
-`function` `async` | [static/js/estorides.js:1226](../../static/js/estorides.js#L1226)
+`function` `async` | [static/js/estorides.js:1442](../../static/js/estorides.js#L1442)
 
 ```javascript
 async function expandNode(type, value)
@@ -1410,7 +1589,7 @@ async function expandNode(type, value)
 
 ### `mergeExpansionIntoGraph`
 
-`function` | [static/js/estorides.js:1256](../../static/js/estorides.js#L1256)
+`function` | [static/js/estorides.js:1472](../../static/js/estorides.js#L1472)
 
 ```javascript
 function mergeExpansionIntoGraph(payload)
@@ -1436,7 +1615,7 @@ Idempotent: re-clicking the same node won't duplicate edges. Returns {nodes, lin
 
 ### `k`
 
-`function` `const` | [static/js/estorides.js:1270](../../static/js/estorides.js#L1270)
+`function` `const` | [static/js/estorides.js:1486](../../static/js/estorides.js#L1486)
 
 ```javascript
 const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
@@ -1454,7 +1633,7 @@ const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
 
 ### `drawGraphWithExtras`
 
-`function` | [static/js/estorides.js:1320](../../static/js/estorides.js#L1320)
+`function` | [static/js/estorides.js:1536](../../static/js/estorides.js#L1536)
 
 ```javascript
 function drawGraphWithExtras(extraNodes, extraLinks)
@@ -1481,7 +1660,7 @@ The extras are translated to the shape the drawGraph() function already understa
 
 ### `pushLink`
 
-`function` | [static/js/estorides.js:1344](../../static/js/estorides.js#L1344)
+`function` | [static/js/estorides.js:1560](../../static/js/estorides.js#L1560)
 
 ```javascript
 function pushLink(src, tgt, rel, inter)
@@ -1504,7 +1683,7 @@ function pushLink(src, tgt, rel, inter)
 
 ### `is3DActive`
 
-`function` | [static/js/estorides.js:1367](../../static/js/estorides.js#L1367)
+`function` | [static/js/estorides.js:1583](../../static/js/estorides.js#L1583)
 
 ```javascript
 function is3DActive()
@@ -1520,7 +1699,7 @@ True while the force-graph module owns the canvas in 3D mode.
 
 ### `CLUSTER_PALETTE`
 
-`function` `const` | [static/js/estorides.js:1388](../../static/js/estorides.js#L1388)
+`function` `const` | [static/js/estorides.js:1604](../../static/js/estorides.js#L1604)
 
 ```javascript
 const CLUSTER_PALETTE = (TELEMETRY.cluster_palette || [ '#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC', '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#A0D911', '#FF6B6B', '#36CFC9', '#B37FEB', '#FFC53D', '#7CB305', ])
@@ -1538,7 +1717,7 @@ const CLUSTER_PALETTE = (TELEMETRY.cluster_palette || [ '#5B8FF9', '#5AD8A6', '#
 
 ### `resolverTypeFor`
 
-`function` | [static/js/estorides.js:1395](../../static/js/estorides.js#L1395)
+`function` | [static/js/estorides.js:1611](../../static/js/estorides.js#L1611)
 
 ```javascript
 function resolverTypeFor(node)
@@ -1560,7 +1739,7 @@ Map a graph node's type/kind onto a resolver/transform entity type.
 
 ### `saveLevelOverrides`
 
-`function` | [static/js/estorides.js:1411](../../static/js/estorides.js#L1411)
+`function` | [static/js/estorides.js:1627](../../static/js/estorides.js#L1627)
 
 ```javascript
 function saveLevelOverrides()
@@ -1574,7 +1753,7 @@ function saveLevelOverrides()
 
 ### `levelOf`
 
-`function` | [static/js/estorides.js:1415](../../static/js/estorides.js#L1415)
+`function` | [static/js/estorides.js:1631](../../static/js/estorides.js#L1631)
 
 ```javascript
 function levelOf(node)
@@ -1594,7 +1773,7 @@ function levelOf(node)
 
 ### `clusterColor`
 
-`function` | [static/js/estorides.js:1419](../../static/js/estorides.js#L1419)
+`function` | [static/js/estorides.js:1635](../../static/js/estorides.js#L1635)
 
 ```javascript
 function clusterColor(cid, clusters)
@@ -1617,7 +1796,7 @@ function clusterColor(cid, clusters)
 
 ### `c`
 
-`function` `const` | [static/js/estorides.js:1421](../../static/js/estorides.js#L1421)
+`function` `const` | [static/js/estorides.js:1637](../../static/js/estorides.js#L1637)
 
 ```javascript
 const c = (clusters || []).find((x) => x.id === cid);
@@ -1635,7 +1814,7 @@ const c = (clusters || []).find((x) => x.id === cid);
 
 ### `safeColor`
 
-`function` | [static/js/estorides.js:1429](../../static/js/estorides.js#L1429)
+`function` | [static/js/estorides.js:1645](../../static/js/estorides.js#L1645)
 
 ```javascript
 function safeColor(v)
@@ -1659,7 +1838,7 @@ Treat them as hostile: only accept a CSS-safe hex or rgb() colour, else fall bac
 
 ### `deriveClusters`
 
-`function` | [static/js/estorides.js:1438](../../static/js/estorides.js#L1438)
+`function` | [static/js/estorides.js:1654](../../static/js/estorides.js#L1654)
 
 ```javascript
 function deriveClusters(nodes)
@@ -1683,7 +1862,7 @@ Build a clusters[] summary from a flat node list (used after a merge when the se
 
 ### `cid`
 
-`function` `const` | [static/js/estorides.js:1441](../../static/js/estorides.js#L1441)
+`function` `const` | [static/js/estorides.js:1657](../../static/js/estorides.js#L1657)
 
 ```javascript
 const cid = (n.cluster == null) ? -1 : n.cluster;
@@ -1701,7 +1880,7 @@ const cid = (n.cluster == null) ? -1 : n.cluster;
 
 ### `hideTooltip`
 
-`function` | [static/js/estorides.js:1451](../../static/js/estorides.js#L1451)
+`function` | [static/js/estorides.js:1667](../../static/js/estorides.js#L1667)
 
 ```javascript
 function hideTooltip()
@@ -1719,7 +1898,7 @@ function hideTooltip()
 
 ### `purifyHTML`
 
-`function` | [static/js/estorides.js:1465](../../static/js/estorides.js#L1465)
+`function` | [static/js/estorides.js:1681](../../static/js/estorides.js#L1681)
 
 ```javascript
 function purifyHTML(html)
@@ -1739,7 +1918,7 @@ function purifyHTML(html)
 
 ### `setSanitizedHTML`
 
-`function` | [static/js/estorides.js:1476](../../static/js/estorides.js#L1476)
+`function` | [static/js/estorides.js:1692](../../static/js/estorides.js#L1692)
 
 ```javascript
 function setSanitizedHTML(el, html)
@@ -1766,7 +1945,7 @@ When the library is missing, fall back to inert plain text (fail-closed).
 
 ### `showTooltipAt`
 
-`function` | [static/js/estorides.js:1485](../../static/js/estorides.js#L1485)
+`function` | [static/js/estorides.js:1701](../../static/js/estorides.js#L1701)
 
 ```javascript
 function showTooltipAt(ev, html, paint)
@@ -1790,7 +1969,7 @@ function showTooltipAt(ev, html, paint)
 
 ### `hideContextMenu`
 
-`function` | [static/js/estorides.js:1495](../../static/js/estorides.js#L1495)
+`function` | [static/js/estorides.js:1711](../../static/js/estorides.js#L1711)
 
 ```javascript
 function hideContextMenu()
@@ -1806,7 +1985,7 @@ function hideContextMenu()
 
 ### `showBridgeTooltip`
 
-`function` | [static/js/estorides.js:1500](../../static/js/estorides.js#L1500)
+`function` | [static/js/estorides.js:1716](../../static/js/estorides.js#L1716)
 
 ```javascript
 function showBridgeTooltip(ev, d, clusters)
@@ -1832,7 +2011,7 @@ Cross-referenced tooltip for an inter-cluster (bridge) link.
 
 ### `labelFor`
 
-`function` `const` | [static/js/estorides.js:1503](../../static/js/estorides.js#L1503)
+`function` `const` | [static/js/estorides.js:1719](../../static/js/estorides.js#L1719)
 
 ```javascript
 const labelFor = (cid) =>
@@ -1852,7 +2031,7 @@ const labelFor = (cid) =>
 
 ### `c`
 
-`function` `const` | [static/js/estorides.js:1504](../../static/js/estorides.js#L1504)
+`function` `const` | [static/js/estorides.js:1720](../../static/js/estorides.js#L1720)
 
 ```javascript
 const c = (clusters || []).find((x) => x.id === cid);
@@ -1870,7 +2049,7 @@ const c = (clusters || []).find((x) => x.id === cid);
 
 ### `showNodeTooltip`
 
-`function` | [static/js/estorides.js:1529](../../static/js/estorides.js#L1529)
+`function` | [static/js/estorides.js:1745](../../static/js/estorides.js#L1745)
 
 ```javascript
 function showNodeTooltip(ev, d)
@@ -1893,7 +2072,7 @@ function showNodeTooltip(ev, d)
 
 ### `showContextMenu`
 
-`function` | [static/js/estorides.js:1548](../../static/js/estorides.js#L1548)
+`function` | [static/js/estorides.js:1764](../../static/js/estorides.js#L1764)
 
 ```javascript
 function showContextMenu(ev, d)
@@ -1918,7 +2097,7 @@ function showContextMenu(ev, d)
 
 ### `tr`
 
-`function` `const` | [static/js/estorides.js:1598](../../static/js/estorides.js#L1598)
+`function` `const` | [static/js/estorides.js:1814](../../static/js/estorides.js#L1814)
 
 ```javascript
 const tr = (j && j.transforms) || [];
@@ -1936,7 +2115,7 @@ const tr = (j && j.transforms) || [];
 
 ### `setNodeLevel`
 
-`function` | [static/js/estorides.js:1623](../../static/js/estorides.js#L1623)
+`function` | [static/js/estorides.js:1839](../../static/js/estorides.js#L1839)
 
 ```javascript
 function setNodeLevel(d, level)
@@ -1959,7 +2138,7 @@ function setNodeLevel(d, level)
 
 ### `applyLevelStyles`
 
-`function` | [static/js/estorides.js:1632](../../static/js/estorides.js#L1632)
+`function` | [static/js/estorides.js:1848](../../static/js/estorides.js#L1848)
 
 ```javascript
 function applyLevelStyles()
@@ -1977,7 +2156,7 @@ Re-apply level rings to every rendered node circle.
 
 ### `focusNode`
 
-`function` | [static/js/estorides.js:1640](../../static/js/estorides.js#L1640)
+`function` | [static/js/estorides.js:1856](../../static/js/estorides.js#L1856)
 
 ```javascript
 function focusNode(d)
@@ -1997,7 +2176,7 @@ function focusNode(d)
 
 ### `barH`
 
-`function` `const` | [static/js/estorides.js:1644](../../static/js/estorides.js#L1644)
+`function` `const` | [static/js/estorides.js:1860](../../static/js/estorides.js#L1860)
 
 ```javascript
 const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
@@ -2015,7 +2194,7 @@ const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
 
 ### `runTransform`
 
-`function` `async` | [static/js/estorides.js:1654](../../static/js/estorides.js#L1654)
+`function` `async` | [static/js/estorides.js:1870](../../static/js/estorides.js#L1870)
 
 ```javascript
 async function runTransform(transformId, type, value)
@@ -2041,7 +2220,7 @@ Run a graph pivot transform and merge the result into the graph+map.
 
 ### `runTransformStream`
 
-`function` `async` | [static/js/estorides.js:1675](../../static/js/estorides.js#L1675)
+`function` `async` | [static/js/estorides.js:1891](../../static/js/estorides.js#L1891)
 
 ```javascript
 async function runTransformStream(transformId, type, value)
@@ -2069,7 +2248,7 @@ Shift+click on a context-menu transform uses this path; plain click keeps the si
 
 ### `flush`
 
-`function` `const` | [static/js/estorides.js:1681](../../static/js/estorides.js#L1681)
+`function` `const` | [static/js/estorides.js:1897](../../static/js/estorides.js#L1897)
 
 ```javascript
 const flush = () =>
@@ -2083,7 +2262,7 @@ const flush = () =>
 
 ### `undoGraph`
 
-`function` | [static/js/estorides.js:1735](../../static/js/estorides.js#L1735)
+`function` | [static/js/estorides.js:1951](../../static/js/estorides.js#L1951)
 
 ```javascript
 function undoGraph()
@@ -2101,7 +2280,7 @@ Rebuilds the dedupe set from the surviving batches and repaints the base graph p
 
 ### `k`
 
-`function` `const` | [static/js/estorides.js:1748](../../static/js/estorides.js#L1748)
+`function` `const` | [static/js/estorides.js:1964](../../static/js/estorides.js#L1964)
 
 ```javascript
 const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
@@ -2119,7 +2298,7 @@ const k = (l.source || '') + '|' + (l.target || '') + '|' + (l.relation || '');
 
 ### `selectNode`
 
-`function` | [static/js/estorides.js:1770](../../static/js/estorides.js#L1770)
+`function` | [static/js/estorides.js:1986](../../static/js/estorides.js#L1986)
 
 ```javascript
 function selectNode(d)
@@ -2143,7 +2322,7 @@ function selectNode(d)
 
 ### `add`
 
-`function` | [static/js/estorides.js:1781](../../static/js/estorides.js#L1781)
+`function` | [static/js/estorides.js:1997](../../static/js/estorides.js#L1997)
 
 ```javascript
 function add(container, tag, className)
@@ -2165,7 +2344,7 @@ function add(container, tag, className)
 
 ### `addText`
 
-`function` | [static/js/estorides.js:1787](../../static/js/estorides.js#L1787)
+`function` | [static/js/estorides.js:2003](../../static/js/estorides.js#L2003)
 
 ```javascript
 function addText(container, tag, className, text)
@@ -2190,7 +2369,7 @@ function addText(container, tag, className, text)
 
 ### `tr`
 
-`function` `const` | [static/js/estorides.js:1838](../../static/js/estorides.js#L1838)
+`function` `const` | [static/js/estorides.js:2054](../../static/js/estorides.js#L2054)
 
 ```javascript
 const tr = (j && j.transforms) || [];
@@ -2208,7 +2387,7 @@ const tr = (j && j.transforms) || [];
 
 ### `renderGraphCore`
 
-`function` | [static/js/estorides.js:1874](../../static/js/estorides.js#L1874)
+`function` | [static/js/estorides.js:2090](../../static/js/estorides.js#L2090)
 
 ```javascript
 function renderGraphCore(nodes, edges, clusters)
@@ -2234,7 +2413,7 @@ function renderGraphCore(nodes, edges, clusters)
 
 ### `barH`
 
-`function` `const` | [static/js/estorides.js:1893](../../static/js/estorides.js#L1893)
+`function` `const` | [static/js/estorides.js:2109](../../static/js/estorides.js#L2109)
 
 ```javascript
 const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
@@ -2252,7 +2431,7 @@ const barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
 
 ### `drawHulls`
 
-`function` | [static/js/estorides.js:1962](../../static/js/estorides.js#L1962)
+`function` | [static/js/estorides.js:2178](../../static/js/estorides.js#L2178)
 
 ```javascript
 function drawHulls()
@@ -2268,7 +2447,7 @@ function drawHulls()
 
 ### `setStatusDot`
 
-`function` | [static/js/estorides.js:1999](../../static/js/estorides.js#L1999)
+`function` | [static/js/estorides.js:2215](../../static/js/estorides.js#L2215)
 
 ```javascript
 function setStatusDot(state)
@@ -2288,7 +2467,7 @@ function setStatusDot(state)
 
 ### `showWorkingIndicator`
 
-`function` | [static/js/estorides.js:2005](../../static/js/estorides.js#L2005)
+`function` | [static/js/estorides.js:2221](../../static/js/estorides.js#L2221)
 
 ```javascript
 function showWorkingIndicator()
@@ -2304,7 +2483,7 @@ function showWorkingIndicator()
 
 ### `hideWorkingIndicator`
 
-`function` | [static/js/estorides.js:2010](../../static/js/estorides.js#L2010)
+`function` | [static/js/estorides.js:2226](../../static/js/estorides.js#L2226)
 
 ```javascript
 function hideWorkingIndicator()
@@ -2320,7 +2499,7 @@ function hideWorkingIndicator()
 
 ### `toggleTierSection`
 
-`function` | [static/js/estorides.js:2015](../../static/js/estorides.js#L2015)
+`function` | [static/js/estorides.js:2231](../../static/js/estorides.js#L2231)
 
 ```javascript
 function toggleTierSection(key, header)
@@ -2341,7 +2520,7 @@ function toggleTierSection(key, header)
 
 ### `renderTieredResults`
 
-`function` | [static/js/estorides.js:2023](../../static/js/estorides.js#L2023)
+`function` | [static/js/estorides.js:2239](../../static/js/estorides.js#L2239)
 
 ```javascript
 function renderTieredResults(data)
@@ -2363,7 +2542,7 @@ function renderTieredResults(data)
 
 ### `escapeAttr`
 
-`function` | [static/js/estorides.js:2089](../../static/js/estorides.js#L2089)
+`function` | [static/js/estorides.js:2305](../../static/js/estorides.js#L2305)
 
 ```javascript
 function escapeAttr(s)
@@ -2375,7 +2554,7 @@ function escapeAttr(s)
 |---|---|---|---|
 | `s` |  |  |  |
 
-*Called by:* [`doSearch`](#dosearch), [`loadFusionTopChanged`](#loadfusiontopchanged), [`plotPoints`](#plotpoints)
+*Called by:* [`plotPoints`](#plotpoints)
 
 ---
 
@@ -2383,7 +2562,7 @@ function escapeAttr(s)
 
 ### `buildMapCoords`
 
-`function` | [static/js/estorides.js:2125](../../static/js/estorides.js#L2125)
+`function` | [static/js/estorides.js:2341](../../static/js/estorides.js#L2341)
 
 ```javascript
 function buildMapCoords(data)
@@ -2405,7 +2584,7 @@ function buildMapCoords(data)
 
 ### `validCoord`
 
-`function` | [static/js/estorides.js:2221](../../static/js/estorides.js#L2221)
+`function` | [static/js/estorides.js:2437](../../static/js/estorides.js#L2437)
 
 ```javascript
 function validCoord(lat, lon)
@@ -2426,7 +2605,7 @@ function validCoord(lat, lon)
 
 ### `colorFor`
 
-`function` | [static/js/estorides.js:2225](../../static/js/estorides.js#L2225)
+`function` | [static/js/estorides.js:2441](../../static/js/estorides.js#L2441)
 
 ```javascript
 function colorFor(category)
@@ -2446,7 +2625,7 @@ function colorFor(category)
 
 ### `renderEntities`
 
-`function` | [static/js/estorides.js:2244](../../static/js/estorides.js#L2244)
+`function` | [static/js/estorides.js:2460](../../static/js/estorides.js#L2460)
 
 ```javascript
 function renderEntities(entities)
@@ -2468,7 +2647,7 @@ function renderEntities(entities)
 
 ### `renderGraphSummary`
 
-`function` | [static/js/estorides.js:2296](../../static/js/estorides.js#L2296)
+`function` | [static/js/estorides.js:2512](../../static/js/estorides.js#L2512)
 
 ```javascript
 function renderGraphSummary(g)
@@ -2490,7 +2669,7 @@ function renderGraphSummary(g)
 
 ### `colorForKind`
 
-`function` | [static/js/estorides.js:2325](../../static/js/estorides.js#L2325)
+`function` | [static/js/estorides.js:2541](../../static/js/estorides.js#L2541)
 
 ```javascript
 function colorForKind(k)
@@ -2510,7 +2689,7 @@ function colorForKind(k)
 
 ### `renderTimeline`
 
-`function` | [static/js/estorides.js:2333](../../static/js/estorides.js#L2333)
+`function` | [static/js/estorides.js:2549](../../static/js/estorides.js#L2549)
 
 ```javascript
 function renderTimeline(data)
@@ -2532,7 +2711,7 @@ function renderTimeline(data)
 
 ### `obs`
 
-`function` | [static/js/estorides.js:2337](../../static/js/estorides.js#L2337)
+`function` | [static/js/estorides.js:2553](../../static/js/estorides.js#L2553)
 
 ```javascript
 var obs = (data.observations || []).slice();
@@ -2550,7 +2729,7 @@ var obs = (data.observations || []).slice();
 
 ### `frac`
 
-`function` | [static/js/estorides.js:2370](../../static/js/estorides.js#L2370)
+`function` | [static/js/estorides.js:2586](../../static/js/estorides.js#L2586)
 
 ```javascript
 var frac = ((ts - minTs) / range);
@@ -2568,7 +2747,7 @@ var frac = ((ts - minTs) / range);
 
 ### `fmtTime`
 
-`function` | [static/js/estorides.js:2383](../../static/js/estorides.js#L2383)
+`function` | [static/js/estorides.js:2599](../../static/js/estorides.js#L2599)
 
 ```javascript
 function fmtTime(ts)
@@ -2588,7 +2767,7 @@ function fmtTime(ts)
 
 ### `filterTimeline`
 
-`function` | [static/js/estorides.js:2394](../../static/js/estorides.js#L2394)
+`function` | [static/js/estorides.js:2610](../../static/js/estorides.js#L2610)
 
 ```javascript
 function filterTimeline(fracVal)
@@ -2608,7 +2787,7 @@ function filterTimeline(fracVal)
 
 ### `drawGraph`
 
-`function` `async` | [static/js/estorides.js:2443](../../static/js/estorides.js#L2443)
+`function` `async` | [static/js/estorides.js:2659](../../static/js/estorides.js#L2659)
 
 ```javascript
 async function drawGraph()
@@ -2626,7 +2805,7 @@ async function drawGraph()
 
 ### `loadCases`
 
-`function` | [static/js/estorides.js:2473](../../static/js/estorides.js#L2473)
+`function` | [static/js/estorides.js:2689](../../static/js/estorides.js#L2689)
 
 ```javascript
 function loadCases()
@@ -2642,7 +2821,7 @@ function loadCases()
 
 ### `q`
 
-`function` `const` | [static/js/estorides.js:2474](../../static/js/estorides.js#L2474)
+`function` `const` | [static/js/estorides.js:2690](../../static/js/estorides.js#L2690)
 
 ```javascript
 const q = (caseSearch && caseSearch.value) || '';
@@ -2660,7 +2839,7 @@ const q = (caseSearch && caseSearch.value) || '';
 
 ### `openCaseDetail`
 
-`function` | [static/js/estorides.js:2499](../../static/js/estorides.js#L2499)
+`function` | [static/js/estorides.js:2715](../../static/js/estorides.js#L2715)
 
 ```javascript
 function openCaseDetail(c)
@@ -2684,7 +2863,7 @@ Rich case modal: loads the saved DB record (query, entities, observations) and o
 
 ### `entities`
 
-`function` `const` | [static/js/estorides.js:2500](../../static/js/estorides.js#L2500)
+`function` `const` | [static/js/estorides.js:2716](../../static/js/estorides.js#L2716)
 
 ```javascript
 const entities = (c.entities || []).slice(0, 40);
@@ -2704,7 +2883,7 @@ const entities = (c.entities || []).slice(0, 40);
 
 ### `obs`
 
-`function` `const` | [static/js/estorides.js:2501](../../static/js/estorides.js#L2501)
+`function` `const` | [static/js/estorides.js:2717](../../static/js/estorides.js#L2717)
 
 ```javascript
 const obs = (c.observations || []).slice(0, 30);
@@ -2722,7 +2901,7 @@ const obs = (c.observations || []).slice(0, 30);
 
 ### `restoreCaseToWorkspace`
 
-`function` | [static/js/estorides.js:2554](../../static/js/estorides.js#L2554)
+`function` | [static/js/estorides.js:2770](../../static/js/estorides.js#L2770)
 
 ```javascript
 function restoreCaseToWorkspace(c)
@@ -2746,7 +2925,7 @@ Restore a case's saved entities into the workspace tabs (entities list, graph su
 
 ### `buildCaseMapCoords`
 
-`function` | [static/js/estorides.js:2575](../../static/js/estorides.js#L2575)
+`function` | [static/js/estorides.js:2791](../../static/js/estorides.js#L2791)
 
 ```javascript
 function buildCaseMapCoords(entities)
@@ -2770,7 +2949,7 @@ Build map coords from a case's saved entities, reusing the same latitude/longitu
 
 ### `renderCaseItem`
 
-`function` | [static/js/estorides.js:2593](../../static/js/estorides.js#L2593)
+`function` | [static/js/estorides.js:2809](../../static/js/estorides.js#L2809)
 
 ```javascript
 function renderCaseItem(c)
@@ -2790,7 +2969,7 @@ function renderCaseItem(c)
 
 ### `saved`
 
-`function` `const` | [static/js/estorides.js:2597](../../static/js/estorides.js#L2597)
+`function` `const` | [static/js/estorides.js:2813](../../static/js/estorides.js#L2813)
 
 ```javascript
 const saved = (c.notes || '').indexOf('[saved]') === 0;
@@ -2810,7 +2989,7 @@ Saved cases get a visible bookmark pill so the operator can scan the list for "t
 
 ### `debounce`
 
-`function` | [static/js/estorides.js:2619](../../static/js/estorides.js#L2619)
+`function` | [static/js/estorides.js:2835](../../static/js/estorides.js#L2835)
 
 ```javascript
 function debounce(fn, ms)
@@ -2829,7 +3008,7 @@ function debounce(fn, ms)
 
 ### `escapeHTML`
 
-`function` | [static/js/estorides.js:2669](../../static/js/estorides.js#L2669)
+`function` | [static/js/estorides.js:2885](../../static/js/estorides.js#L2885)
 
 ```javascript
 function escapeHTML(s)
@@ -2843,7 +3022,7 @@ function escapeHTML(s)
 |---|---|---|---|
 | `s` |  |  |  |
 
-*Called by:* [`appendStreamEntity`](#appendstreamentity), [`buildResultCard`](#buildresultcard), [`confirmModal`](#confirmmodal), [`doSearch`](#dosearch), [`flush`](#flush), [`loadFusionEntityDetail`](#loadfusionentitydetail), [`loadFusionStats`](#loadfusionstats), [`loadFusionTopChanged`](#loadfusiontopchanged), [`mergeExpansionIntoGraph`](#mergeexpansionintograph), [`openCaseDetail`](#opencasedetail), [`openModal`](#openmodal), [`plotPoints`](#plotpoints) and 13 more
+*Called by:* [`aeroPopup`](#aeropopup), [`appendStreamEntity`](#appendstreamentity), [`buildResultCard`](#buildresultcard), [`confirmModal`](#confirmmodal), [`flush`](#flush), [`mergeExpansionIntoGraph`](#mergeexpansionintograph), [`openCaseDetail`](#opencasedetail), [`openModal`](#openmodal), [`plotPoints`](#plotpoints), [`promptModal`](#promptmodal), [`renderAnalysis`](#renderanalysis), [`renderCaseDiffPanel`](#rendercasediffpanel) and 10 more
 
 ---
 
@@ -2851,7 +3030,7 @@ function escapeHTML(s)
 
 ### `truncate`
 
-`function` | [static/js/estorides.js:2674](../../static/js/estorides.js#L2674)
+`function` | [static/js/estorides.js:2890](../../static/js/estorides.js#L2890)
 
 ```javascript
 function truncate(s, n)
@@ -2872,7 +3051,7 @@ function truncate(s, n)
 
 ### `caseActionSave`
 
-`function` | [static/js/estorides.js:2697](../../static/js/estorides.js#L2697)
+`function` | [static/js/estorides.js:2913](../../static/js/estorides.js#L2913)
 
 ```javascript
 function caseActionSave(id, btn)
@@ -2897,7 +3076,7 @@ The endpoint prefixes the notes column with "[saved]" so the bookmarked case sur
 
 ### `caseActionDiff`
 
-`function` | [static/js/estorides.js:2718](../../static/js/estorides.js#L2718)
+`function` | [static/js/estorides.js:2934](../../static/js/estorides.js#L2934)
 
 ```javascript
 function caseActionDiff(id)
@@ -2921,7 +3100,7 @@ The user picks the baseline; the response is rendered inline in a diff panel und
 
 ### `renderCaseDiffPanel`
 
-`function` | [static/js/estorides.js:2738](../../static/js/estorides.js#L2738)
+`function` | [static/js/estorides.js:2954](../../static/js/estorides.js#L2954)
 
 ```javascript
 function renderCaseDiffPanel(caseId, diff)
@@ -2948,7 +3127,7 @@ The panel survives until the user reloads the cases list (or opens another diff)
 
 ### `rows`
 
-`function` `const` | [static/js/estorides.js:2746](../../static/js/estorides.js#L2746)
+`function` `const` | [static/js/estorides.js:2962](../../static/js/estorides.js#L2962)
 
 ```javascript
 const rows = (diff.added || []).slice(0, 25).map((e) =>
@@ -2968,7 +3147,7 @@ const rows = (diff.added || []).slice(0, 25).map((e) =>
 
 ### `removed`
 
-`function` `const` | [static/js/estorides.js:2749](../../static/js/estorides.js#L2749)
+`function` `const` | [static/js/estorides.js:2965](../../static/js/estorides.js#L2965)
 
 ```javascript
 const removed = (diff.removed || []).slice(0, 10).map((e) =>
@@ -2986,7 +3165,7 @@ const removed = (diff.removed || []).slice(0, 10).map((e) =>
 
 ### `caseActionReport`
 
-`function` | [static/js/estorides.js:2779](../../static/js/estorides.js#L2779)
+`function` | [static/js/estorides.js:2995](../../static/js/estorides.js#L2995)
 
 ```javascript
 function caseActionReport(id)
@@ -3010,7 +3189,7 @@ We just dump the text into a modal overlay — keeping it in-browser is enough; 
 
 ### `showReportModal`
 
-`function` | [static/js/estorides.js:2815](../../static/js/estorides.js#L2815)
+`function` | [static/js/estorides.js:3031](../../static/js/estorides.js#L3031)
 
 ```javascript
 function showReportModal(text)
@@ -3032,7 +3211,7 @@ function showReportModal(text)
 
 ### `openModal`
 
-`function` | [static/js/estorides.js:2843](../../static/js/estorides.js#L2843)
+`function` | [static/js/estorides.js:3059](../../static/js/estorides.js#L3059)
 
 ```javascript
 function openModal(opts)
@@ -3054,7 +3233,7 @@ function openModal(opts)
 
 ### `actions`
 
-`function` `const` | [static/js/estorides.js:2849](../../static/js/estorides.js#L2849)
+`function` `const` | [static/js/estorides.js:3065](../../static/js/estorides.js#L3065)
 
 ```javascript
 const actions = (opts.actions || []).map((a, i) =>
@@ -3072,7 +3251,7 @@ const actions = (opts.actions || []).map((a, i) =>
 
 ### `close`
 
-`function` `const` | [static/js/estorides.js:2863](../../static/js/estorides.js#L2863)
+`function` `const` | [static/js/estorides.js:3079](../../static/js/estorides.js#L3079)
 
 ```javascript
 const close = () => { modal.remove(); if (opts.onClose) opts.onClose(); };
@@ -3086,7 +3265,7 @@ const close = () => { modal.remove(); if (opts.onClose) opts.onClose(); };
 
 ### `promptModal`
 
-`function` | [static/js/estorides.js:2878](../../static/js/estorides.js#L2878)
+`function` | [static/js/estorides.js:3094](../../static/js/estorides.js#L3094)
 
 ```javascript
 function promptModal(opts)
@@ -3112,7 +3291,7 @@ Resolves with a sanitized string or null.
 
 ### `confirmModal`
 
-`function` | [static/js/estorides.js:2902](../../static/js/estorides.js#L2902)
+`function` | [static/js/estorides.js:3118](../../static/js/estorides.js#L3118)
 
 ```javascript
 function confirmModal(opts)
@@ -3132,7 +3311,7 @@ function confirmModal(opts)
 
 ### `tag`
 
-`function` `const` | [static/js/estorides.js:2964](../../static/js/estorides.js#L2964)
+`function` `const` | [static/js/estorides.js:3180](../../static/js/estorides.js#L3180)
 
 ```javascript
 const tag = (ev.target && ev.target.tagName) || '';
@@ -3150,7 +3329,7 @@ const tag = (ev.target && ev.target.tagName) || '';
 
 ### `loadSidebarWidth`
 
-`function` | [static/js/estorides.js:2994](../../static/js/estorides.js#L2994)
+`function` | [static/js/estorides.js:3210](../../static/js/estorides.js#L3210)
 
 ```javascript
 function loadSidebarWidth()
@@ -3164,7 +3343,7 @@ Responsive sidebar toggle + resizable divider.
 
 ### `saveSidebarWidth`
 
-`function` | [static/js/estorides.js:3005](../../static/js/estorides.js#L3005)
+`function` | [static/js/estorides.js:3221](../../static/js/estorides.js#L3221)
 
 ```javascript
 function saveSidebarWidth(w)
@@ -3182,7 +3361,7 @@ function saveSidebarWidth(w)
 
 ### `loadSidebarCollapsed`
 
-`function` | [static/js/estorides.js:3008](../../static/js/estorides.js#L3008)
+`function` | [static/js/estorides.js:3224](../../static/js/estorides.js#L3224)
 
 ```javascript
 function loadSidebarCollapsed()
@@ -3194,7 +3373,7 @@ function loadSidebarCollapsed()
 
 ### `saveSidebarCollapsed`
 
-`function` | [static/js/estorides.js:3016](../../static/js/estorides.js#L3016)
+`function` | [static/js/estorides.js:3232](../../static/js/estorides.js#L3232)
 
 ```javascript
 function saveSidebarCollapsed(v)
@@ -3212,7 +3391,7 @@ function saveSidebarCollapsed(v)
 
 ### `switchSidebarTab`
 
-`function` | [static/js/estorides.js:3074](../../static/js/estorides.js#L3074)
+`function` | [static/js/estorides.js:3290](../../static/js/estorides.js#L3290)
 
 ```javascript
 function switchSidebarTab(idx)
@@ -3226,23 +3405,17 @@ function switchSidebarTab(idx)
 |---|---|---|---|
 | `idx` |  |  |  |
 
-*Calls:* [`loadAnalysisModels`](#loadanalysismodels), [`loadFusionTab`](#loadfusiontab)
-
 ---
 
 <a id="loadfusiontab"></a>
 
 ### `loadFusionTab`
 
-`function` | [static/js/estorides.js:3087](../../static/js/estorides.js#L3087)
+`function` | [static/js/estorides.js:3303](../../static/js/estorides.js#L3303)
 
 ```javascript
 function loadFusionTab()
 ```
-
-*Calls:* [`loadFusionSearch`](#loadfusionsearch), [`loadFusionStats`](#loadfusionstats), [`loadFusionTopChanged`](#loadfusiontopchanged)
-
-*Called by:* [`switchSidebarTab`](#switchsidebartab)
 
 ---
 
@@ -3250,15 +3423,11 @@ function loadFusionTab()
 
 ### `loadFusionStats`
 
-`function` | [static/js/estorides.js:3093](../../static/js/estorides.js#L3093)
+`function` | [static/js/estorides.js:3309](../../static/js/estorides.js#L3309)
 
 ```javascript
 function loadFusionStats()
 ```
-
-*Calls:* [`escapeHTML`](#escapehtml)
-
-*Called by:* [`loadFusionTab`](#loadfusiontab)
 
 ---
 
@@ -3266,15 +3435,11 @@ function loadFusionStats()
 
 ### `loadFusionTopChanged`
 
-`function` | [static/js/estorides.js:3112](../../static/js/estorides.js#L3112)
+`function` | [static/js/estorides.js:3328](../../static/js/estorides.js#L3328)
 
 ```javascript
 function loadFusionTopChanged()
 ```
-
-*Calls:* [`analyseEntity`](#analyseentity), [`escapeAttr`](#escapeattr), [`escapeHTML`](#escapehtml), [`loadFusionEntityDetail`](#loadfusionentitydetail)
-
-*Called by:* [`loadFusionTab`](#loadfusiontab)
 
 ---
 
@@ -3282,15 +3447,11 @@ function loadFusionTopChanged()
 
 ### `loadFusionSearch`
 
-`function` | [static/js/estorides.js:3141](../../static/js/estorides.js#L3141)
+`function` | [static/js/estorides.js:3357](../../static/js/estorides.js#L3357)
 
 ```javascript
 function loadFusionSearch()
 ```
-
-*Calls:* [`doSearch`](#dosearch)
-
-*Called by:* [`loadFusionTab`](#loadfusiontab)
 
 ---
 
@@ -3298,15 +3459,11 @@ function loadFusionSearch()
 
 ### `doSearch`
 
-`function` | [static/js/estorides.js:3148](../../static/js/estorides.js#L3148)
+`function` | [static/js/estorides.js:3364](../../static/js/estorides.js#L3364)
 
 ```javascript
 function doSearch()
 ```
-
-*Calls:* [`analyseEntity`](#analyseentity), [`escapeAttr`](#escapeattr), [`escapeHTML`](#escapehtml), [`loadFusionEntityDetail`](#loadfusionentitydetail)
-
-*Called by:* [`loadFusionSearch`](#loadfusionsearch)
 
 ---
 
@@ -3314,7 +3471,7 @@ function doSearch()
 
 ### `loadFusionEntityDetail`
 
-`function` | [static/js/estorides.js:3186](../../static/js/estorides.js#L3186)
+`function` | [static/js/estorides.js:3402](../../static/js/estorides.js#L3402)
 
 ```javascript
 function loadFusionEntityDetail(eid)
@@ -3326,17 +3483,13 @@ function loadFusionEntityDetail(eid)
 |---|---|---|---|
 | `eid` |  |  |  |
 
-*Calls:* [`escapeHTML`](#escapehtml)
-
-*Called by:* [`doSearch`](#dosearch), [`loadFusionTopChanged`](#loadfusiontopchanged)
-
 ---
 
 <a id="setstatus"></a>
 
 ### `setStatus`
 
-`function` | [static/js/estorides.js:3283](../../static/js/estorides.js#L3283)
+`function` | [static/js/estorides.js:3499](../../static/js/estorides.js#L3499)
 
 ```javascript
 function setStatus(text)
@@ -3358,7 +3511,7 @@ Provide a global one that writes to the same footer element, guarded so a missin
 
 ### `setDiscoverProgress`
 
-`function` | [static/js/estorides.js:3290](../../static/js/estorides.js#L3290)
+`function` | [static/js/estorides.js:3506](../../static/js/estorides.js#L3506)
 
 ```javascript
 function setDiscoverProgress(step, found, max)
@@ -3378,7 +3531,7 @@ function setDiscoverProgress(step, found, max)
 
 ### `hideDiscoverProgress`
 
-`function` | [static/js/estorides.js:3302](../../static/js/estorides.js#L3302)
+`function` | [static/js/estorides.js:3518](../../static/js/estorides.js#L3518)
 
 ```javascript
 function hideDiscoverProgress()
@@ -3390,7 +3543,7 @@ function hideDiscoverProgress()
 
 ### `startDiscover`
 
-`function` `async` | [static/js/estorides.js:3307](../../static/js/estorides.js#L3307)
+`function` `async` | [static/js/estorides.js:3523](../../static/js/estorides.js#L3523)
 
 ```javascript
 async function startDiscover()
@@ -3402,7 +3555,7 @@ async function startDiscover()
 
 ### `stopDiscover`
 
-`function` | [static/js/estorides.js:3391](../../static/js/estorides.js#L3391)
+`function` | [static/js/estorides.js:3607](../../static/js/estorides.js#L3607)
 
 ```javascript
 function stopDiscover()
@@ -3414,7 +3567,7 @@ function stopDiscover()
 
 ### `handleDiscoverEvent`
 
-`function` | [static/js/estorides.js:3408](../../static/js/estorides.js#L3408)
+`function` | [static/js/estorides.js:3624](../../static/js/estorides.js#L3624)
 
 ```javascript
 function handleDiscoverEvent(ev)
@@ -3432,7 +3585,7 @@ function handleDiscoverEvent(ev)
 
 ### `addDiscoverEntityToTab`
 
-`function` | [static/js/estorides.js:3447](../../static/js/estorides.js#L3447)
+`function` | [static/js/estorides.js:3663](../../static/js/estorides.js#L3663)
 
 ```javascript
 function addDiscoverEntityToTab(entity, from)
@@ -3451,7 +3604,7 @@ function addDiscoverEntityToTab(entity, from)
 
 ### `sig`
 
-`function` `const` | [static/js/estorides.js:3451](../../static/js/estorides.js#L3451)
+`function` `const` | [static/js/estorides.js:3667](../../static/js/estorides.js#L3667)
 
 ```javascript
 const sig = (entity.type || '') + '|' + (entity.value || '');
@@ -3471,7 +3624,7 @@ Avoid duplicates with the simple in-memory check.
 
 ### `escapeHtml`
 
-`function` | [static/js/estorides.js:3475](../../static/js/estorides.js#L3475)
+`function` | [static/js/estorides.js:3691](../../static/js/estorides.js#L3691)
 
 ```javascript
 function escapeHtml(s)
@@ -3489,7 +3642,7 @@ function escapeHtml(s)
 
 ### `maybePlotDiscoverEntity`
 
-`function` | [static/js/estorides.js:3480](../../static/js/estorides.js#L3480)
+`function` | [static/js/estorides.js:3696](../../static/js/estorides.js#L3696)
 
 ```javascript
 function maybePlotDiscoverEntity(entity)
@@ -3507,7 +3660,7 @@ function maybePlotDiscoverEntity(entity)
 
 ### `flushDiscoverEntities`
 
-`function` | [static/js/estorides.js:3487](../../static/js/estorides.js#L3487)
+`function` | [static/js/estorides.js:3703](../../static/js/estorides.js#L3703)
 
 ```javascript
 function flushDiscoverEntities()
@@ -3519,7 +3672,7 @@ function flushDiscoverEntities()
 
 ### `check`
 
-`function` | [static/js/estorides.js:3505](../../static/js/estorides.js#L3505)
+`function` | [static/js/estorides.js:3721](../../static/js/estorides.js#L3721)
 
 ```javascript
 function check()
@@ -3533,7 +3686,7 @@ function check()
 
 ### `setTimeout`
 
-`method` | [static/js/estorides.js:2942](../../static/js/estorides.js#L2942)
+`method` | [static/js/estorides.js:3158](../../static/js/estorides.js#L3158)
 
 ```javascript
 setTimeout(function() { splash.classList.add('hidden'); }, 1500);
@@ -3552,7 +3705,7 @@ setTimeout(function() { splash.classList.add('hidden'); }, 1500);
 
 ### `fetch`
 
-`method` | [static/js/estorides.js:3326](../../static/js/estorides.js#L3326)
+`method` | [static/js/estorides.js:3542](../../static/js/estorides.js#L3542)
 
 ```javascript
 fetch('/api/discover/start', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ value: q, type: 'auto', max_depth: 2, max_steps: 30, max_entities: 1000, deadline_s: 20, parallel: 4, }, (window.EstoridesLan ? window.EstoridesLan.lanRunFields(q) :

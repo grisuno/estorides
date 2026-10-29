@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **48.1%** (643 of 1338 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,14 +8,14 @@ Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data memb
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 116 | 167 | 69.5% |
+| class | 123 | 174 | 70.7% |
 | classmethod | 1 | 5 | 20.0% |
-| constructor | 1 | 32 | 3.1% |
+| constructor | 1 | 33 | 3.0% |
 | enum | 5 | 5 | 100.0% |
 | exception | 5 | 11 | 45.5% |
-| function | 255 | 665 | 38.3% |
-| method | 113 | 266 | 42.5% |
-| module | 79 | 101 | 78.2% |
+| function | 299 | 717 | 41.7% |
+| method | 117 | 270 | 43.3% |
+| module | 82 | 104 | 78.8% |
 | property | 5 | 13 | 38.5% |
 | protocol | 4 | 4 | 100.0% |
 | staticmethod | 1 | 2 | 50.0% |
@@ -50,17 +50,17 @@ Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data memb
 | [`static/js/graph_force.js`](modules/static.js.graph_force.js.md) | 9 | 116 | 7.8% |
 | [`estorides_core.fusion_analytics`](modules/estorides_core.fusion_analytics.py.md) | 2 | 11 | 18.2% |
 | [`estorides_web_tools`](modules/estorides_web_tools.py.md) | 1 | 5 | 20.0% |
-| [`static/js/estorides.js`](modules/static.js.estorides.js.md) | 45 | 178 | 25.3% |
+| [`static/js/estorides.js`](modules/static.js.estorides.js.md) | 47 | 188 | 25.0% |
 | [`estorides_export.misp`](modules/estorides_export.misp.py.md) | 1 | 3 | 33.3% |
 | [`estorides_export.stix`](modules/estorides_export.stix.py.md) | 1 | 3 | 33.3% |
 | [`estorides_core.async_client`](modules/estorides_core.async_client.py.md) | 5 | 14 | 35.7% |
 | [`estorides_cli`](modules/estorides_cli.py.md) | 9 | 25 | 36.0% |
 | [`estorides_core.audit`](modules/estorides_core.audit.py.md) | 4 | 11 | 36.4% |
 | [`estorides_core.system_app_sources`](modules/estorides_core.system_app_sources.py.md) | 10 | 27 | 37.0% |
-| [`estorides_core.parsers`](modules/estorides_core.parsers.py.md) | 22 | 59 | 37.3% |
 | [`estorides_core.knowledge_graph`](modules/estorides_core.knowledge_graph.py.md) | 6 | 15 | 40.0% |
 | [`estorides_core.monitoring`](modules/estorides_core.monitoring.py.md) | 10 | 24 | 41.7% |
 | [`estorides_core.ontology`](modules/estorides_core.ontology.py.md) | 8 | 19 | 42.1% |
+| [`estorides_core.parsers`](modules/estorides_core.parsers.py.md) | 30 | 67 | 44.8% |
 | [`estorides_core.graph_rag_search`](modules/estorides_core.graph_rag_search.py.md) | 12 | 26 | 46.2% |
 | [`estorides_core.source_loader`](modules/estorides_core.source_loader.py.md) | 7 | 15 | 46.7% |
 | [`estorides_core.intel_resolver`](modules/estorides_core.intel_resolver.py.md) | 2 | 4 | 50.0% |
@@ -81,7 +81,6 @@ Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data memb
 | [`estorides_export.encryption`](modules/estorides_export.encryption.py.md) | 3 | 4 | 75.0% |
 | [`static/js/source_manager.js`](modules/static.js.source_manager.js.md) | 15 | 20 | 75.0% |
 | [`estorides_core.tool_install`](modules/estorides_core.tool_install.py.md) | 13 | 17 | 76.5% |
-| [`estorides_core.feeds`](modules/estorides_core.feeds.py.md) | 10 | 13 | 76.9% |
 | [`estorides_core.discoverer`](modules/estorides_core.discoverer.py.md) | 7 | 9 | 77.8% |
 | [`estorides_core.entity_extraction`](modules/estorides_core.entity_extraction.py.md) | 7 | 9 | 77.8% |
 | [`estorides_core.graph_kuzu`](modules/estorides_core.graph_kuzu.py.md) | 7 | 9 | 77.8% |
@@ -91,16 +90,20 @@ Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data memb
 | [`estorides_core.validation`](modules/estorides_core.validation.py.md) | 4 | 5 | 80.0% |
 | [`estorides_core.web_security`](modules/estorides_core.web_security.py.md) | 13 | 16 | 81.2% |
 | [`estorides_core.source_health_monitoring`](modules/estorides_core.source_health_monitoring.py.md) | 9 | 11 | 81.8% |
+| [`estorides_core.feeds`](modules/estorides_core.feeds.py.md) | 17 | 20 | 85.0% |
 | [`estorides_core.lan_bundle`](modules/estorides_core.lan_bundle.py.md) | 6 | 7 | 85.7% |
 | [`estorides_core.lan_policy`](modules/estorides_core.lan_policy.py.md) | 6 | 7 | 85.7% |
 | [`estorides_core.lan_runner`](modules/estorides_core.lan_runner.py.md) | 6 | 7 | 85.7% |
 | [`estorides_core.lan_web`](modules/estorides_core.lan_web.py.md) | 6 | 7 | 85.7% |
 | [`estorides_core.scope`](modules/estorides_core.scope.py.md) | 30 | 34 | 88.2% |
+| [`estorides_core.airports`](modules/estorides_core.airports.py.md) | 9 | 10 | 90.0% |
 | [`estorides_core.lan_inventory`](modules/estorides_core.lan_inventory.py.md) | 11 | 12 | 91.7% |
 | [`estorides_core.search_telemetry`](modules/estorides_core.search_telemetry.py.md) | 19 | 20 | 95.0% |
 | [`app`](modules/app.py.md) | 1 | 1 | 100.0% |
 | [`estorides_core`](modules/estorides_core.__init__.py.md) | 1 | 1 | 100.0% |
+| [`estorides_core.aerospace`](modules/estorides_core.aerospace.py.md) | 17 | 17 | 100.0% |
 | [`estorides_core.alerter`](modules/estorides_core.alerter.py.md) | 6 | 6 | 100.0% |
+| [`estorides_core.aviation`](modules/estorides_core.aviation.py.md) | 15 | 15 | 100.0% |
 | [`estorides_core.case_crypto`](modules/estorides_core.case_crypto.py.md) | 4 | 4 | 100.0% |
 | [`estorides_core.change_detection`](modules/estorides_core.change_detection.py.md) | 10 | 10 | 100.0% |
 | [`estorides_core.config`](modules/estorides_core.config.py.md) | 23 | 23 | 100.0% |
@@ -130,7 +133,7 @@ Overall: **46.0%** (585 of 1271 public modules, types, and callables). Data memb
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 658, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
+DOC001: 666, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
 
 - DOC001 `.scratchpad/gb_shots.py:1` module .scratchpad/gb_shots.py is not documented
 - DOC001 `.scratchpad/gfv2_bridge.py:1` module .scratchpad/gfv2_bridge.py is not documented
@@ -227,8 +230,8 @@ DOC001: 658, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
 - DOC001 `estorides_core/entity_resolution.py:357` method CanonicalEntity.to_dict is not documented
 - DOC001 `estorides_core/entity_resolution.py:409` method SameAsLink.to_dict is not documented
 - DOC001 `estorides_core/entity_resolution.py:425` method ResolutionResult.to_dict is not documented
-- DOC001 `estorides_core/feeds.py:69` method FeedPoint.to_dict is not documented
-- DOC001 `estorides_core/feeds.py:321` function get_feed is not documented
+- DOC001 `estorides_core/feeds.py:216` method FeedPoint.to_dict is not documented
+- DOC001 `estorides_core/feeds.py:884` function get_feed is not documented
 - DOC001 `estorides_core/fusion_analytics.py:46` method FusionAnalytics.entity_timeline is not documented
 - DOC001 `estorides_core/fusion_analytics.py:132` method FusionAnalytics.entity_summary is not documented
 - DOC001 `estorides_core/fusion_analytics.py:213` method FusionAnalytics.source_stats is not documented
@@ -520,116 +523,116 @@ DOC001: 658, DOC002: 4, DOC003: 1, DOC004: 2, DOC005: 3
 - DOC001 `static/js/estorides.js:387` function switchCanvasTab is not documented
 - DOC001 `static/js/estorides.js:409` function clearMap is not documented
 - DOC001 `static/js/estorides.js:414` function plotPoints is not documented
-- DOC001 `static/js/estorides.js:530` function stopRunStream is not documented
-- DOC001 `static/js/estorides.js:620` function startLanScan is not documented
-- DOC001 `static/js/estorides.js:621` function scope is not documented
-- DOC001 `static/js/estorides.js:662` function msg is not documented
-- DOC001 `static/js/estorides.js:685` function runQuery is not documented
-- DOC001 `static/js/estorides.js:858` function handleRunStreamEvent is not documented
-- DOC001 `static/js/estorides.js:896` function appendStreamObservation is not documented
-- DOC001 `static/js/estorides.js:918` function appendStreamEntity is not documented
-- DOC001 `static/js/estorides.js:920` function sig is not documented
-- DOC001 `static/js/estorides.js:947` function clearAll is not documented
-- DOC001 `static/js/estorides.js:975` function setStatus is not documented
-- DOC001 `static/js/estorides.js:1029` function loadAnalysisModels is not documented
-- DOC001 `static/js/estorides.js:1036` function renderAnalysisModels is not documented
-- DOC001 `static/js/estorides.js:1048` function makeModelPill is not documented
-- DOC001 `static/js/estorides.js:1061` function renderAnalysis is not documented
-- DOC001 `static/js/estorides.js:1091` function setThinkingVisible is not documented
-- DOC001 `static/js/estorides.js:1098` function toggleThinking is not documented
-- DOC001 `static/js/estorides.js:1103` function reanalyze is not documented
-- DOC001 `static/js/estorides.js:1146` function scheduleRender is not documented
-- DOC001 `static/js/estorides.js:1151` function flush is not documented
-- DOC001 `static/js/estorides.js:1172` function pump is not documented
-- DOC001 `static/js/estorides.js:1226` function expandNode is not documented
-- DOC001 `static/js/estorides.js:1270` function k is not documented
-- DOC001 `static/js/estorides.js:1344` function pushLink is not documented
-- DOC001 `static/js/estorides.js:1388` function CLUSTER_PALETTE is not documented
-- DOC001 `static/js/estorides.js:1411` function saveLevelOverrides is not documented
-- DOC001 `static/js/estorides.js:1415` function levelOf is not documented
-- DOC001 `static/js/estorides.js:1419` function clusterColor is not documented
-- DOC001 `static/js/estorides.js:1421` function c is not documented
-- DOC001 `static/js/estorides.js:1441` function cid is not documented
-- DOC001 `static/js/estorides.js:1465` function purifyHTML is not documented
-- DOC001 `static/js/estorides.js:1485` function showTooltipAt is not documented
-- DOC001 `static/js/estorides.js:1495` function hideContextMenu is not documented
-- DOC001 `static/js/estorides.js:1503` function labelFor is not documented
-- DOC001 `static/js/estorides.js:1504` function c is not documented
-- DOC001 `static/js/estorides.js:1529` function showNodeTooltip is not documented
-- DOC001 `static/js/estorides.js:1598` function tr is not documented
-- DOC001 `static/js/estorides.js:1623` function setNodeLevel is not documented
-- DOC001 `static/js/estorides.js:1640` function focusNode is not documented
-- DOC001 `static/js/estorides.js:1644` function barH is not documented
-- DOC001 `static/js/estorides.js:1681` function flush is not documented
-- DOC001 `static/js/estorides.js:1748` function k is not documented
-- DOC001 `static/js/estorides.js:1781` function add is not documented
-- DOC001 `static/js/estorides.js:1787` function addText is not documented
-- DOC001 `static/js/estorides.js:1838` function tr is not documented
-- DOC001 `static/js/estorides.js:1893` function barH is not documented
-- DOC001 `static/js/estorides.js:1962` function drawHulls is not documented
-- DOC001 `static/js/estorides.js:1999` function setStatusDot is not documented
-- DOC001 `static/js/estorides.js:2005` function showWorkingIndicator is not documented
-- DOC001 `static/js/estorides.js:2010` function hideWorkingIndicator is not documented
-- DOC001 `static/js/estorides.js:2015` function toggleTierSection is not documented
-- DOC001 `static/js/estorides.js:2023` function renderTieredResults is not documented
-- DOC001 `static/js/estorides.js:2089` function escapeAttr is not documented
-- DOC001 `static/js/estorides.js:2125` function buildMapCoords is not documented
-- DOC001 `static/js/estorides.js:2221` function validCoord is not documented
-- DOC001 `static/js/estorides.js:2225` function colorFor is not documented
-- DOC001 `static/js/estorides.js:2244` function renderEntities is not documented
-- DOC001 `static/js/estorides.js:2296` function renderGraphSummary is not documented
-- DOC001 `static/js/estorides.js:2325` function colorForKind is not documented
-- DOC001 `static/js/estorides.js:2333` function renderTimeline is not documented
-- DOC001 `static/js/estorides.js:2337` function obs is not documented
-- DOC001 `static/js/estorides.js:2370` function frac is not documented
-- DOC001 `static/js/estorides.js:2383` function fmtTime is not documented
-- DOC001 `static/js/estorides.js:2394` function filterTimeline is not documented
-- DOC001 `static/js/estorides.js:2473` function loadCases is not documented
-- DOC001 `static/js/estorides.js:2474` function q is not documented
-- DOC001 `static/js/estorides.js:2500` function entities is not documented
-- DOC001 `static/js/estorides.js:2501` function obs is not documented
-- DOC001 `static/js/estorides.js:2593` function renderCaseItem is not documented
-- DOC001 `static/js/estorides.js:2619` function debounce is not documented
-- DOC001 `static/js/estorides.js:2674` function truncate is not documented
-- DOC001 `static/js/estorides.js:2746` function rows is not documented
-- DOC001 `static/js/estorides.js:2749` function removed is not documented
-- DOC001 `static/js/estorides.js:2815` function showReportModal is not documented
-- DOC001 `static/js/estorides.js:2843` function openModal is not documented
-- DOC001 `static/js/estorides.js:2849` function actions is not documented
-- DOC001 `static/js/estorides.js:2863` function close is not documented
-- DOC001 `static/js/estorides.js:2902` function confirmModal is not documented
-- DOC001 `static/js/estorides.js:2942` method setTimeout is not documented
-- DOC001 `static/js/estorides.js:2964` function tag is not documented
-- DOC001 `static/js/estorides.js:3005` function saveSidebarWidth is not documented
-- DOC001 `static/js/estorides.js:3008` function loadSidebarCollapsed is not documented
-- DOC001 `static/js/estorides.js:3016` function saveSidebarCollapsed is not documented
-- DOC001 `static/js/estorides.js:3087` function loadFusionTab is not documented
-- DOC001 `static/js/estorides.js:3093` function loadFusionStats is not documented
-- DOC001 `static/js/estorides.js:3112` function loadFusionTopChanged is not documented
-- DOC001 `static/js/estorides.js:3141` function loadFusionSearch is not documented
-- DOC001 `static/js/estorides.js:3148` function doSearch is not documented
-- DOC001 `static/js/estorides.js:3186` function loadFusionEntityDetail is not documented
-- DOC001 `static/js/estorides.js:3194` class attribute is not documented
-- DOC001 `static/js/estorides.js:3290` function setDiscoverProgress is not documented
-- DOC001 `static/js/estorides.js:3302` function hideDiscoverProgress is not documented
-- DOC001 `static/js/estorides.js:3307` function startDiscover is not documented
-- DOC001 `static/js/estorides.js:3326` method fetch is not documented
-- DOC001 `static/js/estorides.js:3391` function stopDiscover is not documented
-- DOC001 `static/js/estorides.js:3408` function handleDiscoverEvent is not documented
-- DOC001 `static/js/estorides.js:3447` function addDiscoverEntityToTab is not documented
-- DOC001 `static/js/estorides.js:3475` function escapeHtml is not documented
-- DOC001 `static/js/estorides.js:3480` function maybePlotDiscoverEntity is not documented
-- DOC001 `static/js/estorides.js:3487` function flushDiscoverEntities is not documented
-- DOC001 `static/js/estorides.js:3505` function check is not documented
+- DOC001 `static/js/estorides.js:476` function aeroEnabledSet is not documented
+- DOC001 `static/js/estorides.js:488` function aeroPersist is not documented
+- DOC001 `static/js/estorides.js:496` function aeroStatus is not documented
+- DOC001 `static/js/estorides.js:525` function aeroPopup is not documented
+- DOC001 `static/js/estorides.js:579` function aeroRenderLayer is not documented
+- DOC001 `static/js/estorides.js:603` function loadAeroFeeds is not documented
+- DOC001 `static/js/estorides.js:624` function points is not documented
+- DOC001 `static/js/estorides.js:635` function initAerospaceLayers is not documented
+- DOC001 `static/js/estorides.js:746` function stopRunStream is not documented
+- DOC001 `static/js/estorides.js:836` function startLanScan is not documented
+- DOC001 `static/js/estorides.js:837` function scope is not documented
+- DOC001 `static/js/estorides.js:878` function msg is not documented
+- DOC001 `static/js/estorides.js:901` function runQuery is not documented
+- DOC001 `static/js/estorides.js:1074` function handleRunStreamEvent is not documented
+- DOC001 `static/js/estorides.js:1112` function appendStreamObservation is not documented
+- DOC001 `static/js/estorides.js:1134` function appendStreamEntity is not documented
+- DOC001 `static/js/estorides.js:1136` function sig is not documented
+- DOC001 `static/js/estorides.js:1163` function clearAll is not documented
+- DOC001 `static/js/estorides.js:1191` function setStatus is not documented
+- DOC001 `static/js/estorides.js:1245` function loadAnalysisModels is not documented
+- DOC001 `static/js/estorides.js:1252` function renderAnalysisModels is not documented
+- DOC001 `static/js/estorides.js:1264` function makeModelPill is not documented
+- DOC001 `static/js/estorides.js:1277` function renderAnalysis is not documented
+- DOC001 `static/js/estorides.js:1307` function setThinkingVisible is not documented
+- DOC001 `static/js/estorides.js:1314` function toggleThinking is not documented
+- DOC001 `static/js/estorides.js:1319` function reanalyze is not documented
+- DOC001 `static/js/estorides.js:1362` function scheduleRender is not documented
+- DOC001 `static/js/estorides.js:1367` function flush is not documented
+- DOC001 `static/js/estorides.js:1388` function pump is not documented
+- DOC001 `static/js/estorides.js:1442` function expandNode is not documented
+- DOC001 `static/js/estorides.js:1486` function k is not documented
+- DOC001 `static/js/estorides.js:1560` function pushLink is not documented
+- DOC001 `static/js/estorides.js:1604` function CLUSTER_PALETTE is not documented
+- DOC001 `static/js/estorides.js:1627` function saveLevelOverrides is not documented
+- DOC001 `static/js/estorides.js:1631` function levelOf is not documented
+- DOC001 `static/js/estorides.js:1635` function clusterColor is not documented
+- DOC001 `static/js/estorides.js:1637` function c is not documented
+- DOC001 `static/js/estorides.js:1657` function cid is not documented
+- DOC001 `static/js/estorides.js:1681` function purifyHTML is not documented
+- DOC001 `static/js/estorides.js:1701` function showTooltipAt is not documented
+- DOC001 `static/js/estorides.js:1711` function hideContextMenu is not documented
+- DOC001 `static/js/estorides.js:1719` function labelFor is not documented
+- DOC001 `static/js/estorides.js:1720` function c is not documented
+- DOC001 `static/js/estorides.js:1745` function showNodeTooltip is not documented
+- DOC001 `static/js/estorides.js:1814` function tr is not documented
+- DOC001 `static/js/estorides.js:1839` function setNodeLevel is not documented
+- DOC001 `static/js/estorides.js:1856` function focusNode is not documented
+- DOC001 `static/js/estorides.js:1860` function barH is not documented
+- DOC001 `static/js/estorides.js:1897` function flush is not documented
+- DOC001 `static/js/estorides.js:1964` function k is not documented
+- DOC001 `static/js/estorides.js:1997` function add is not documented
+- DOC001 `static/js/estorides.js:2003` function addText is not documented
+- DOC001 `static/js/estorides.js:2054` function tr is not documented
+- DOC001 `static/js/estorides.js:2109` function barH is not documented
+- DOC001 `static/js/estorides.js:2178` function drawHulls is not documented
+- DOC001 `static/js/estorides.js:2215` function setStatusDot is not documented
+- DOC001 `static/js/estorides.js:2221` function showWorkingIndicator is not documented
+- DOC001 `static/js/estorides.js:2226` function hideWorkingIndicator is not documented
+- DOC001 `static/js/estorides.js:2231` function toggleTierSection is not documented
+- DOC001 `static/js/estorides.js:2239` function renderTieredResults is not documented
+- DOC001 `static/js/estorides.js:2305` function escapeAttr is not documented
+- DOC001 `static/js/estorides.js:2341` function buildMapCoords is not documented
+- DOC001 `static/js/estorides.js:2437` function validCoord is not documented
+- DOC001 `static/js/estorides.js:2441` function colorFor is not documented
+- DOC001 `static/js/estorides.js:2460` function renderEntities is not documented
+- DOC001 `static/js/estorides.js:2512` function renderGraphSummary is not documented
+- DOC001 `static/js/estorides.js:2541` function colorForKind is not documented
+- DOC001 `static/js/estorides.js:2549` function renderTimeline is not documented
+- DOC001 `static/js/estorides.js:2553` function obs is not documented
+- DOC001 `static/js/estorides.js:2586` function frac is not documented
+- DOC001 `static/js/estorides.js:2599` function fmtTime is not documented
+- DOC001 `static/js/estorides.js:2610` function filterTimeline is not documented
+- DOC001 `static/js/estorides.js:2689` function loadCases is not documented
+- DOC001 `static/js/estorides.js:2690` function q is not documented
+- DOC001 `static/js/estorides.js:2716` function entities is not documented
+- DOC001 `static/js/estorides.js:2717` function obs is not documented
+- DOC001 `static/js/estorides.js:2809` function renderCaseItem is not documented
+- DOC001 `static/js/estorides.js:2835` function debounce is not documented
+- DOC001 `static/js/estorides.js:2890` function truncate is not documented
+- DOC001 `static/js/estorides.js:2962` function rows is not documented
+- DOC001 `static/js/estorides.js:2965` function removed is not documented
+- DOC001 `static/js/estorides.js:3031` function showReportModal is not documented
+- DOC001 `static/js/estorides.js:3059` function openModal is not documented
+- DOC001 `static/js/estorides.js:3065` function actions is not documented
+- DOC001 `static/js/estorides.js:3079` function close is not documented
+- DOC001 `static/js/estorides.js:3118` function confirmModal is not documented
+- DOC001 `static/js/estorides.js:3158` method setTimeout is not documented
+- DOC001 `static/js/estorides.js:3180` function tag is not documented
+- DOC001 `static/js/estorides.js:3221` function saveSidebarWidth is not documented
+- DOC001 `static/js/estorides.js:3224` function loadSidebarCollapsed is not documented
+- DOC001 `static/js/estorides.js:3232` function saveSidebarCollapsed is not documented
+- DOC001 `static/js/estorides.js:3303` function loadFusionTab is not documented
+- DOC001 `static/js/estorides.js:3309` function loadFusionStats is not documented
+- DOC001 `static/js/estorides.js:3328` function loadFusionTopChanged is not documented
+- DOC001 `static/js/estorides.js:3357` function loadFusionSearch is not documented
+- DOC001 `static/js/estorides.js:3364` function doSearch is not documented
+- DOC001 `static/js/estorides.js:3402` function loadFusionEntityDetail is not documented
+- DOC001 `static/js/estorides.js:3410` class attribute is not documented
+- DOC001 `static/js/estorides.js:3506` function setDiscoverProgress is not documented
+- DOC001 `static/js/estorides.js:3518` function hideDiscoverProgress is not documented
+- DOC001 `static/js/estorides.js:3523` function startDiscover is not documented
+- DOC001 `static/js/estorides.js:3542` method fetch is not documented
+- DOC001 `static/js/estorides.js:3607` function stopDiscover is not documented
+- DOC001 `static/js/estorides.js:3624` function handleDiscoverEvent is not documented
+- DOC001 `static/js/estorides.js:3663` function addDiscoverEntityToTab is not documented
+- DOC001 `static/js/estorides.js:3691` function escapeHtml is not documented
+- DOC001 `static/js/estorides.js:3696` function maybePlotDiscoverEntity is not documented
+- DOC001 `static/js/estorides.js:3703` function flushDiscoverEntities is not documented
+- DOC001 `static/js/estorides.js:3721` function check is not documented
 - DOC001 `static/js/graph_bundle.js:33` function djb2KindColor is not documented
 - DOC001 `static/js/graph_bundle.js:61` function mk is not documented
 - DOC001 `static/js/graph_bundle.js:67` function clip is not documented
-- DOC001 `static/js/graph_bundle.js:71` function tabActive is not documented
-- DOC001 `static/js/graph_bundle.js:75` function ink is not documented
-- DOC001 `static/js/graph_bundle.js:78` function v is not documented
-- DOC001 `static/js/graph_bundle.js:89` function colorOf is not documented
-- DOC001 `static/js/graph_bundle.js:95` function keyOf is not documented
-- DOC001 `static/js/graph_bundle.js:100` function bspline is not documented
-- DOC001 `static/js/graph_bundle.js:121` function curve is not documented
-- DOC001 `static/js/graph_bundle.js:138` function buildCurves is not documented
-- ... 168 more in `api/warnings.jsonl`
+- ... 176 more in `api/warnings.jsonl`

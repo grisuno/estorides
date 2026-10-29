@@ -1,14 +1,14 @@
 # estorides_core: estorides_web
 
-*Community 0 | 27 files | cohesion 0.51*
+*Community 0 | 25 files | cohesion 0.48*
 
 ## Definition
 
-This community groups 27 file(s) rooted at `tests` with dominant language py (cohesion 0.51). Central symbols: `AuditEvent`, `AuditLog`, `AuthGate`, `Bm25Index`, `BoundedJobRegistry`, `GraphRagConfig`, `GraphRagIndex`, `GraphRagSearcher`. Core file: `estorides_web.py` (97 symbols). Documented purpose: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estorides_cli.py serve` for the dev server, or -.
+This community groups 25 file(s) rooted at `tests` with dominant language py (cohesion 0.48). Central symbols: `AuditEvent`, `AuditLog`, `AuthGate`, `Bm25Index`, `GraphRagConfig`, `GraphRagIndex`, `GraphRagSearcher`, `InvalidTelemetryConfigError`. Core file: `estorides_web.py` (97 symbols). Documented purpose: Deprecated entry point. Use:  - the `estorides` console script (installed by `pip install -e .`), or - `python3 estorides_cli.py serve` for the dev server, or -.
 
 ## Files
 
-### `tests` (11 files)
+### `tests` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,19 +16,19 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 | `tests/test_auth_gate.py` | py | testing | 10 | yes |
 | `tests/test_csp_safe_styles.py` | py | testing | 11 | yes |
 | `tests/test_graph_rag_search.py` | py | testing | 11 | yes |
-| `tests/test_job_registry.py` | py | testing | 8 | yes |
 | `tests/test_map_basemap.py` | py | testing | 5 | yes |
+| `tests/test_openapi.py` | py | testing | 1 | yes |
 
-### `estorides_core` (8 files)
+### `estorides_core` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `estorides_core/audit.py` | py | utility | 11 | yes |
 | `estorides_core/graph_rag_search.py` | py | utility | 44 | yes |
-| `estorides_core/job_registry.py` | py | utility | 10 | yes |
 | `estorides_core/lan_web.py` | py | utility | 6 | yes |
 | `estorides_core/openapi.py` | py | utility | 1 | yes |
 | `estorides_core/ops_observability.py` | py | utility | 10 | yes |
+| `estorides_core/search_telemetry.py` | py | utility | 22 | yes |
 
 ### `.` (5 files)
 
@@ -53,7 +53,7 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `tools/sync_docs.py` | py | utility | 2 | yes |
 
-*... and 7 more files in this community.*
+*... and 5 more files in this community.*
 
 
 ## Key Symbols
@@ -70,15 +70,15 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - `allow` (method, `estorides_core/audit.py:214`) `def allow(self, key)` - Return (allowed, retry_after_seconds).
 - `reset` (method, `estorides_core/audit.py:238`) `def reset(self, key)`
 - `GraphRagConfig` (class, `estorides_core/graph_rag_search.py:53`) `class GraphRagConfig` - Presupuestos y pesos de retrieval (env `ESTORIDES_GRAPHRAG_*`).
-- `graph_rag_config_from_env` (method, `estorides_core/graph_rag_search.py:75`) `def graph_rag_config_from_env()` - Construye la config desde env; malformada → defaults (nunca raise).
-- `tokenize` (method, `estorides_core/graph_rag_search.py:98`) `def tokenize(text, min_len, stopwords)` - Parte en tokens minusculos; camelCase se divide y se conserva entero.
+- `graph_rag_config_from_env` (function, `estorides_core/graph_rag_search.py:75`) `def graph_rag_config_from_env()` - Construye la config desde env; malformada → defaults (nunca raise).
+- `tokenize` (function, `estorides_core/graph_rag_search.py:98`) `def tokenize(text, min_len, stopwords)` - Parte en tokens minusculos; camelCase se divide y se conserva entero.
 - `Bm25Index` (class, `estorides_core/graph_rag_search.py:112`) `class Bm25Index` - Okapi BM25 sobre un corpus fijo de listas de tokens.
 - `__init__` (method, `estorides_core/graph_rag_search.py:115`) `def __init__(self, documents, k1, b)`
 - `scores` (method, `estorides_core/graph_rag_search.py:136`) `def scores(self, query)` - Un score BM25 por documento, en orden de corpus.
-- `_stochastic` (method, `estorides_core/graph_rag_search.py:153`) `def _stochastic(ids, edges)` - Filas estocasticas (indice, prob) + nodos dangling, orden determinista.
-- `pagerank` (method, `estorides_core/graph_rag_search.py:176`) `def pagerank(ids, edges, alpha, max_iter, tolerance)` - PageRank dirigido y pesado; los scores suman 1 (determinista).
-- `personalized_pagerank` (method, `estorides_core/graph_rag_search.py:207`) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` - PPR con teletransporte al seed; seeds ajenos se ignoran.
-- `_md_safe` (method, `estorides_core/graph_rag_search.py:250`) `def _md_safe(text, limit)` - Gemelo de graph_force._md_safe: neutraliza markdown hostil.
+- `_stochastic` (function, `estorides_core/graph_rag_search.py:153`) `def _stochastic(ids, edges)` - Filas estocasticas (indice, prob) + nodos dangling, orden determinista.
+- `pagerank` (function, `estorides_core/graph_rag_search.py:176`) `def pagerank(ids, edges, alpha, max_iter, tolerance)` - PageRank dirigido y pesado; los scores suman 1 (determinista).
+- `personalized_pagerank` (function, `estorides_core/graph_rag_search.py:207`) `def personalized_pagerank(ids, edges, seeds, alpha, max_iter, tolerance)` - PPR con teletransporte al seed; seeds ajenos se ignoran.
+- `_md_safe` (function, `estorides_core/graph_rag_search.py:250`) `def _md_safe(text, limit)` - Gemelo de graph_force._md_safe: neutraliza markdown hostil.
 - `RagEntity` (class, `estorides_core/graph_rag_search.py:260`) `class RagEntity`
 - `RagRelation` (class, `estorides_core/graph_rag_search.py:271`) `class RagRelation`
 - `RagTextUnit` (class, `estorides_core/graph_rag_search.py:281`) `class RagTextUnit`
@@ -87,26 +87,24 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - `GraphRagIndex` (class, `estorides_core/graph_rag_search.py:317`) `class GraphRagIndex`
 - `to_dict` (method, `estorides_core/graph_rag_search.py:324`) `def to_dict(self)`
 - `from_dict` (method, `estorides_core/graph_rag_search.py:334`) `def from_dict(cls, data)`
-- `rows` (method, `estorides_core/graph_rag_search.py:335`) `def rows(name)`
+- `rows` (function, `estorides_core/graph_rag_search.py:335`) `def rows(name)`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 44
-- Cross-boundary resolved imports (EXTRACTED): 43
+- Internal resolved imports (EXTRACTED): 42
+- Cross-boundary resolved imports (EXTRACTED): 44
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_web.py.
 - [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/job_registry.py.
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/entity_extraction.py.
-- [EXTRACTED] depends_on community 0 <-> 8 (strength 0.9): Extracted import edge crosses communities: estorides_web.py imports estorides_core/validation.py.
 
 ## Risks
 
 - [cycle] `estorides_web.py` -> `estorides_web_tools.py` -> `estorides_web.py`
 - [layer strict] `estorides_web.py` (presentation) -> `estorides_core/fusion_store.py` (data_access)
 - [layer strict] `tests/properties/test_csp_safe_styles_properties.py` (testing) -> `estorides_core/web_security.py` (presentation)
+- [layer strict] `tests/test_aerospace.py` (testing) -> `estorides_web.py` (presentation)
 - [layer strict] `tests/test_auth_gate.py` (testing) -> `estorides_core/web_security.py` (presentation)
 - [layer strict] `tests/test_auth_gate.py` (testing) -> `estorides_core/web_security.py` (presentation)
 - [layer strict] `tests/test_csp_safe_styles.py` (testing) -> `estorides_core/web_security.py` (presentation)
@@ -118,20 +116,18 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - [layer strict] `tests/test_security_remediation.py` (testing) -> `estorides_core/web_security.py` (presentation)
 - [layer strict] `tests/test_web_helpers.py` (testing) -> `estorides_core/web_security.py` (presentation)
 - [layer strict] `tests/test_web_helpers.py` (testing) -> `estorides_web.py` (presentation)
-- [layer strict] `tests/test_web_tools_blueprint.py` (testing) -> `estorides_web.py` (presentation)
 
 ## Open Questions
 
 - Can the cycle `estorides_web.py` -> `estorides_web_tools.py` be broken with an interface?
 - What would break if the most connected file in estorides_core: estorides_web changed?
-- Should estorides_core: estorides_web be split, given cohesion 0.51?
+- Should estorides_core: estorides_web be split, given cohesion 0.48?
 
 ## Sources
 
 - `app.py`
 - `estorides_core/audit.py`
 - `estorides_core/graph_rag_search.py`
-- `estorides_core/job_registry.py`
 - `estorides_core/lan_web.py`
 - `estorides_core/openapi.py`
 - `estorides_core/ops_observability.py`
@@ -145,7 +141,8 @@ This community groups 27 file(s) rooted at `tests` with dominant language py (co
 - `tests/test_auth_gate.py`
 - `tests/test_csp_safe_styles.py`
 - `tests/test_graph_rag_search.py`
-- `tests/test_job_registry.py`
 - `tests/test_map_basemap.py`
 - `tests/test_openapi.py`
-- *... and 7 more*
+- `tests/test_ops_observability.py`
+- `tests/test_search_telemetry.py`
+- *... and 5 more*

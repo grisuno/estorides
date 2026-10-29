@@ -1,6 +1,259 @@
 # Subsystem: tests (page 2 of 5)
 Previous: [KB_tests.md](KB_tests.md)
 
+## tests/test_data_pack.py
+- Doc: Tests for :mod:`estorides_core.data_pack`.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_cache` (function, line 21) `def _write_cache(path, payload)`
+  - `_parse_rows` (function, line 31) `def _parse_rows(raw)`
+  - `TestCache` (class, line 35) `class TestCache`
+  - `TestFailureFallback` (class, line 81) `class TestFailureFallback`
+  - `TestIntegrityPin` (class, line 125) `class TestIntegrityPin`
+  - `_FakeStream` (class, line 173) `class _FakeStream`
+  - `test_fetch_bytes_enforces_the_size_cap` (function, line 184) `def test_fetch_bytes_enforces_the_size_cap(monkeypatch)`
+  - `test_fetch_bytes_joins_chunks` (function, line 195) `def test_fetch_bytes_joins_chunks(monkeypatch)`
+  - `test_fresh_cache_skips_network` (method, line 36) `def test_fresh_cache_skips_network(self, tmp_path, monkeypatch)`
+  - `test_stale_cache_is_refetched` (method, line 48) `def test_stale_cache_is_refetched(self, tmp_path, monkeypatch)`
+  - `test_use_cache_false_forces_refetch` (method, line 57) `def test_use_cache_false_forces_refetch(self, tmp_path, monkeypatch)`
+  - `test_corrupt_cache_is_treated_as_missing` (method, line 65) `def test_corrupt_cache_is_treated_as_missing(self, tmp_path, monkeypatch)`
+  - `test_foreign_cache_shape_is_ignored` (method, line 74) `def test_foreign_cache_shape_is_ignored(self, tmp_path)`
+  - `test_network_failure_serves_stale` (method, line 82) `def test_network_failure_serves_stale(self, tmp_path, monkeypatch)`
+  - `test_network_failure_without_cache_is_none` (method, line 94) `def test_network_failure_without_cache_is_none(self, tmp_path, monkeypatch)`
+  - `test_parser_failure_serves_stale` (method, line 104) `def test_parser_failure_serves_stale(self, tmp_path, monkeypatch)`
+  - `test_parser_returning_none_keeps_stale` (method, line 116) `def test_parser_returning_none_keeps_stale(self, tmp_path, monkeypatch)`
+  - `test_matching_pin_is_accepted` (method, line 126) `def test_matching_pin_is_accepted(self, tmp_path, monkeypatch)`
+  - `test_mismatch_fails_closed` (method, line 136) `def test_mismatch_fails_closed(self, tmp_path, monkeypatch)`
+  - `test_mismatch_keeps_the_last_known_good` (method, line 145) `def test_mismatch_keeps_the_last_known_good(self, tmp_path, monkeypatch)`
+  - `test_pinned_cache_refetches_when_digest_changed` (method, line 155) `def test_pinned_cache_refetches_when_digest_changed(self, tmp_path, monkeypatch)`
+  - `test_unusable_pin_is_ignored` (method, line 166) `def test_unusable_pin_is_ignored(self, value)`
+  - `test_digest_is_case_insensitive` (method, line 169) `def test_digest_is_case_insensitive(self)`
+  - `__init__` (method, line 174) `def __init__(self, chunks)`
+  - `raise_for_status` (method, line 177) `def raise_for_status(self)`
+  - `iter_content` (method, line 180) `def iter_content(self, chunk_size)`
+  - `boom` (function, line 41) `def boom()`
+  - `boom` (function, line 87) `def boom()`
+  - `boom` (function, line 97) `def boom()`
+  - `explode` (function, line 110) `def explode(raw)`
+- Depends on: `estorides_core/__init__.py`
+
+## tests/test_encrypted_export.py
+- Doc: Encrypted export: plaintext must be removed after encryption.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeCompleted` (class, line 21) `class _FakeCompleted`
+  - `_kg_with_one_node` (function, line 27) `def _kg_with_one_node()`
+  - `_patch_age_ok` (function, line 33) `def _patch_age_ok()`
+  - `test_stix_encrypted_removes_plaintext` (function, line 43) `def test_stix_encrypted_removes_plaintext(tmp_path)`
+  - `test_misp_encrypted_removes_plaintext` (function, line 52) `def test_misp_encrypted_removes_plaintext(tmp_path)`
+  - `test_stix_encrypted_removes_plaintext_on_failure` (function, line 61) `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)`
+  - `__init__` (method, line 22) `def __init__(self, rc, stderr)`
+  - `_run` (function, line 35) `def _run(cmd, stdin, stdout, stderr, check)`
+  - `_run_fail` (function, line 66) `def _run_fail(cmd, stdin, stdout, stderr, check)`
+- Depends on: `estorides_core/entity_extraction.py`, `estorides_core/knowledge_graph.py`, `estorides_export/encryption.py`
+
+## tests/test_entity_extraction.py
+- Doc: BDD / regression tests for entity extraction and fuzzy merge.  - EE1: `types=[]` extracts...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestEE1TypesFilter` (class, line 12) `class TestEE1TypesFilter`
+  - `TestEE2FuzzyCanonical` (class, line 28) `class TestEE2FuzzyCanonical`
+  - `test_none_means_all` (method, line 15) `def test_none_means_all(self)`
+  - `test_empty_list_means_nothing` (method, line 20) `def test_empty_list_means_nothing(self)`
+  - `test_subset_restricts` (method, line 23) `def test_subset_restricts(self)`
+  - `test_most_observed_spelling_wins` (method, line 29) `def test_most_observed_spelling_wins(self)`
+  - `test_merge_unions_sources` (method, line 41) `def test_merge_unions_sources(self)`
+- Depends on: `estorides_core/entity_extraction.py`
+
+## tests/test_entity_resolution.py
+- Doc: BDD tests for estorides_core.entity_resolution.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_ent` (function, line 28) `def _ent(etype, value, source, confidence)`
+  - `_by_value` (function, line 32) `def _by_value(result, value)`
+  - `TestTransliteration` (class, line 42) `class TestTransliteration`
+  - `TestJaroWinkler` (class, line 68) `class TestJaroWinkler`
+  - `TestNormalization` (class, line 89) `class TestNormalization`
+  - `TestCanonicalId` (class, line 133) `class TestCanonicalId`
+  - `TestCrossScriptPersonFusion` (class, line 155) `class TestCrossScriptPersonFusion`
+  - `TestDomainCaseVariantMerge` (class, line 194) `class TestDomainCaseVariantMerge`
+  - `TestLookAlikeDomainsSurfaceAsLink` (class, line 221) `class TestLookAlikeDomainsSurfaceAsLink`
+  - `TestDeterministicTypeNoFuzzyMatch` (class, line 246) `class TestDeterministicTypeNoFuzzyMatch`
+  - `TestIdenticalIpsMerge` (class, line 272) `class TestIdenticalIpsMerge`
+  - `TestNearIpsNeverFuse` (class, line 289) `class TestNearIpsNeverFuse`
+  - `TestOrgSuffixFolding` (class, line 309) `class TestOrgSuffixFolding`
+  - `TestDistinctPersonsStaySeparate` (class, line 326) `class TestDistinctPersonsStaySeparate`
+  - `TestCanonicalEntityRoundtrip` (class, line 347) `class TestCanonicalEntityRoundtrip`
+  - `TestEmptyInput` (class, line 382) `class TestEmptyInput`
+  - `TestCanonicalIdDeterministic` (class, line 394) `class TestCanonicalIdDeterministic`
+  - `TestDifferentInputDifferentId` (class, line 406) `class TestDifferentInputDifferentId`
+  - `TestEdgeCases` (class, line 418) `class TestEdgeCases`
+  - `TestCrossRunStability` (class, line 448) `class TestCrossRunStability`
+  - `test_cyrillic_to_latin` (method, line 45) `def test_cyrillic_to_latin(self)`
+  - `test_greek_accented_to_latin` (method, line 48) `def test_greek_accented_to_latin(self)`
+  - `test_diacritic_fold` (method, line 51) `def test_diacritic_fold(self)`
+  - `test_consonant_skeleton_arabic_matches_latin` (method, line 54) `def test_consonant_skeleton_arabic_matches_latin(self)`
+  - `test_consonant_skeleton_gemination` (method, line 57) `def test_consonant_skeleton_gemination(self)`
+  - `test_distinct_names_have_distinct_skeletons` (method, line 60) `def test_distinct_names_have_distinct_skeletons(self)`
+  - `test_non_latin_detector` (method, line 63) `def test_non_latin_detector(self)`
+  - `test_identical_strings_score_one` (method, line 71) `def test_identical_strings_score_one(self)`
+  - `test_empty_pair_scores_zero` (method, line 74) `def test_empty_pair_scores_zero(self)`
+  - `test_classic_jaro_winkler_bound` (method, line 77) `def test_classic_jaro_winkler_bound(self)`
+  - `test_dissimilar_strings_score_low` (method, line 81) `def test_dissimilar_strings_score_low(self)`
+  - `test_scores_stay_in_unit_interval` (method, line 84) `def test_scores_stay_in_unit_interval(self)`
+  - `test_ipv4_normalised` (method, line 92) `def test_ipv4_normalised(self)`
+  - `test_ipv6_compressed` (method, line 95) `def test_ipv6_compressed(self)`
+  - `test_hash_lowered` (method, line 101) `def test_hash_lowered(self)`
+  - `test_cve_uppered` (method, line 107) `def test_cve_uppered(self)`
+  - `test_domain_strips_scheme_www_path` (method, line 110) `def test_domain_strips_scheme_www_path(self)`
+  - `test_person_order_independent` (method, line 116) `def test_person_order_independent(self)`
+  - `test_org_suffix_stripped` (method, line 121) `def test_org_suffix_stripped(self)`
+  - `test_asn_normalised` (method, line 126) `def test_asn_normalised(self)`
+  - `test_email_lowered` (method, line 129) `def test_email_lowered(self)`
+  - `test_deterministic` (method, line 136) `def test_deterministic(self)`
+  - `test_different_values_different_ids` (method, line 141) `def test_different_values_different_ids(self)`
+  - `test_id_format` (method, line 146) `def test_id_format(self)`
+  - `test_three_spellings_fuse` (method, line 158) `def test_three_spellings_fuse(self)`
+  - `test_fused_identity_carries_all_sources` (method, line 169) `def test_fused_identity_carries_all_sources(self)`
+  - `test_cross_script_flagged_in_attributes` (method, line 180) `def test_cross_script_flagged_in_attributes(self)`
+  - `test_domain_case_variants_merge` (method, line 197) `def test_domain_case_variants_merge(self)`
+  - `test_domain_merge_is_exact` (method, line 207) `def test_domain_merge_is_exact(self)`
+  - `test_look_alike_domains_stay_separate` (method, line 224) `def test_look_alike_domains_stay_separate(self)`
+  - `test_look_alike_domains_produce_same_as_link` (method, line 233) `def test_look_alike_domains_produce_same_as_link(self)`
+  - `test_deterministic_near_miss_never_matches` (method, line 249) `def test_deterministic_near_miss_never_matches(self)`
+  - `test_score_pair_deterministic_mismatch` (method, line 259) `def test_score_pair_deterministic_mismatch(self)`
+  - `test_identical_ips_merge` (method, line 275) `def test_identical_ips_merge(self)`
+  - `test_near_ips_stay_separate` (method, line 292) `def test_near_ips_stay_separate(self)`
+  - `test_org_suffix_variants_merge` (method, line 312) `def test_org_suffix_variants_merge(self)`
+  - `test_distinct_persons_not_absorbed` (method, line 329) `def test_distinct_persons_not_absorbed(self)`
+  - `test_to_dict_serialises` (method, line 350) `def test_to_dict_serialises(self)`
+  - `test_to_entity_projects_legacy` (method, line 361) `def test_to_entity_projects_legacy(self)`
+  - `test_resolution_result_has_one_entity` (method, line 373) `def test_resolution_result_has_one_entity(self)`
+  - `test_empty_input_returns_empty` (method, line 385) `def test_empty_input_returns_empty(self)`
+  - `test_same_normalised_same_id` (method, line 397) `def test_same_normalised_same_id(self)`
+  - `test_different_normalised_different_id` (method, line 409) `def test_different_normalised_different_id(self)`
+  - `test_blank_value_does_not_crash` (method, line 421) `def test_blank_value_does_not_crash(self)`
+  - `test_whitespace_only_handled` (method, line 425) `def test_whitespace_only_handled(self)`
+  - `test_single_entity_produces_one_canonical` (method, line 429) `def test_single_entity_produces_one_canonical(self)`
+  - `test_confidence_boosted_by_multiple_sources` (method, line 434) `def test_confidence_boosted_by_multiple_sources(self)`
+  - `test_cross_run_id_stability` (method, line 451) `def test_cross_run_id_stability(self)`
+- Depends on: `estorides_core/entity_extraction.py`, `estorides_core/entity_resolution.py`, `estorides_core/entity_store.py`, `estorides_core/transliteration.py`
+
+## tests/test_envutil.py
+- Doc: BDD tests for the shared env readers (spec/envutil.md).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestEnvInt` (class, line 7) `class TestEnvInt`
+  - `TestEnvFloat` (class, line 20) `class TestEnvFloat`
+  - `TestEnvBool` (class, line 28) `class TestEnvBool`
+  - `TestEnvCsv` (class, line 40) `class TestEnvCsv`
+  - `test_parse` (method, line 8) `def test_parse(self, monkeypatch)`
+  - `test_malformed` (method, line 12) `def test_malformed(self, monkeypatch)`
+  - `test_absent` (method, line 16) `def test_absent(self)`
+  - `test_parse_and_malformed` (method, line 21) `def test_parse_and_malformed(self, monkeypatch)`
+  - `test_tokens` (method, line 29) `def test_tokens(self, monkeypatch)`
+  - `test_unknown_uses_default` (method, line 35) `def test_unknown_uses_default(self, monkeypatch)`
+  - `test_strip_and_filter` (method, line 41) `def test_strip_and_filter(self, monkeypatch)`
+  - `test_default` (method, line 45) `def test_default(self)`
+
+## tests/test_event_bus.py
+- Doc: M2a event_bus BDD red.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_subscribe_publish_order_and_count` (function, line 7) `def test_subscribe_publish_order_and_count()`
+  - `test_raising_handler_does_not_block_others` (function, line 19) `def test_raising_handler_does_not_block_others()`
+  - `test_payload_isolation_between_handlers` (function, line 34) `def test_payload_isolation_between_handlers()`
+  - `test_invalid_inputs_raise` (function, line 45) `def test_invalid_inputs_raise()`
+  - `test_singleton_and_unsubscribe` (function, line 57) `def test_singleton_and_unsubscribe()`
+  - `bad` (function, line 22) `def bad(p)`
+- Depends on: `estorides_core/event_bus.py`
+
+## tests/test_fusion_analytics.py
+- Doc: ATDD + BDD tests for estorides_core.fusion_analytics.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `store_and_analytics` (function, line 27) `def store_and_analytics(tmp_path)`
+  - `_populate_evilcorp` (function, line 42) `def _populate_evilcorp(store)`
+  - `_register_source` (function, line 57) `def _register_source(store, name)`
+  - `TestEntityTimeline` (class, line 64) `class TestEntityTimeline`
+  - `TestEntitySummary` (class, line 87) `class TestEntitySummary`
+  - `TestEntityTimelineNonexistent` (class, line 109) `class TestEntityTimelineNonexistent`
+  - `TestSourceStats` (class, line 118) `class TestSourceStats`
+  - `TestMultiSourceConsensus` (class, line 155) `class TestMultiSourceConsensus`
+  - `TestCorroboratedProperties` (class, line 176) `class TestCorroboratedProperties`
+  - `TestEntitySearch` (class, line 195) `class TestEntitySearch`
+  - `TestTopChanged` (class, line 230) `class TestTopChanged`
+  - `TestSourceCorroborationMatrix` (class, line 250) `class TestSourceCorroborationMatrix`
+  - `TestWithNoneStore` (class, line 268) `class TestWithNoneStore`
+  - `TestBoundaryConditions` (class, line 281) `class TestBoundaryConditions`
+  - `test_returns_full_timeline` (method, line 65) `def test_returns_full_timeline(self, store_and_analytics)`
+  - `test_nonexistent_eid_returns_none` (method, line 79) `def test_nonexistent_eid_returns_none(self, store_and_analytics)`
+  - `test_returns_summary_stats` (method, line 88) `def test_returns_summary_stats(self, store_and_analytics)`
+  - `test_nonexistent_eid_returns_none` (method, line 101) `def test_nonexistent_eid_returns_none(self, store_and_analytics)`
+  - `test_returns_none` (method, line 110) `def test_returns_none(self, store_and_analytics)`
+  - `test_returns_source_metrics` (method, line 119) `def test_returns_source_metrics(self, store_and_analytics)`
+  - `test_nonexistent_source_returns_none` (method, line 135) `def test_nonexistent_source_returns_none(self, store_and_analytics)`
+  - `test_success_rate_correct` (method, line 139) `def test_success_rate_correct(self, store_and_analytics)`
+  - `test_consensus_picks_majority_value` (method, line 156) `def test_consensus_picks_majority_value(self, store_and_analytics)`
+  - `test_nonexistent_key_returns_empty` (method, line 165) `def test_nonexistent_key_returns_empty(self, store_and_analytics)`
+  - `test_filters_by_min_sources` (method, line 177) `def test_filters_by_min_sources(self, store_and_analytics)`
+  - `test_min_sources_one_returns_all` (method, line 185) `def test_min_sources_one_returns_all(self, store_and_analytics)`
+  - `test_search_by_term` (method, line 196) `def test_search_by_term(self, store_and_analytics)`
+  - `test_search_no_results` (method, line 208) `def test_search_no_results(self, store_and_analytics)`
+  - `test_search_filter_by_type` (method, line 213) `def test_search_filter_by_type(self, store_and_analytics)`
+  - `test_search_with_confidence_and_source_filters` (method, line 219) `def test_search_with_confidence_and_source_filters(self, store_and_analytics)`
+  - `test_returns_recently_active_entities` (method, line 231) `def test_returns_recently_active_entities(self, store_and_analytics)`
+  - `test_empty_window_returns_empty` (method, line 241) `def test_empty_window_returns_empty(self, store_and_analytics)`
+  - `test_returns_pairs_with_shared_counts` (method, line 251) `def test_returns_pairs_with_shared_counts(self, store_and_analytics)`
+  - `test_all_methods_return_empty` (method, line 269) `def test_all_methods_return_empty(self)`
+  - `test_min_sources_zero_treated_as_one` (method, line 282) `def test_min_sources_zero_treated_as_one(self, store_and_analytics)`
+  - `test_negative_days_treated_as_one` (method, line 288) `def test_negative_days_treated_as_one(self, store_and_analytics)`
+- Depends on: `estorides_core/fusion_analytics.py`, `estorides_core/fusion_store.py`
+
+## tests/test_graph_bundle.py
+- Doc: graph_bundle: pestana Bundles circular 2D + esferica 3D estilo ReadMenator.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_force` (function, line 26) `def _force()`
+  - `test_s1_two_communities_circle_and_sphere` (function, line 62) `def test_s1_two_communities_circle_and_sphere()`
+  - `test_s2_empty_and_unassigned` (function, line 83) `def test_s2_empty_and_unassigned()`
+  - `test_s3_scaffolding_dropped_and_bad_node_raises` (function, line 104) `def test_s3_scaffolding_dropped_and_bad_node_raises()`
+  - `test_s4_hostile_labels_truncated_and_bytes_raise` (function, line 124) `def test_s4_hostile_labels_truncated_and_bytes_raise()`
+  - `test_s5_deterministic_and_settings_match_readmenator` (function, line 149) `def test_s5_deterministic_and_settings_match_readmenator()`
+  - `test_s7_circle_curves_endpoints_and_beta` (function, line 169) `def test_s7_circle_curves_endpoints_and_beta()`
+  - `test_s7_sphere_caps_hubs_and_fibonacci` (function, line 205) `def test_s7_sphere_caps_hubs_and_fibonacci()`
+  - `test_s7_helpers_unit` (function, line 228) `def test_s7_helpers_unit()`
+  - `test_s8_settings_full_defaults_and_env` (function, line 253) `def test_s8_settings_full_defaults_and_env(monkeypatch)`
+  - `test_s8_exact_payload_shape` (function, line 288) `def test_s8_exact_payload_shape()`
+  - `test_s8_lenient_fields_and_ignored_nodes` (function, line 308) `def test_s8_lenient_fields_and_ignored_nodes()`
+  - `test_s9_typeerror_messages_asserted` (function, line 351) `def test_s9_typeerror_messages_asserted()`
+  - `test_s9_bare_entity_defaults_and_idless` (function, line 374) `def test_s9_bare_entity_defaults_and_idless()`
+  - `test_s9_family_fallback_color_and_order` (function, line 397) `def test_s9_family_fallback_color_and_order()`
+  - `test_s9_unit_edge_norms` (function, line 418) `def test_s9_unit_edge_norms()`
+  - `test_s9_fibonacci_exact` (function, line 427) `def test_s9_fibonacci_exact()`
+  - `test_s9_sphere_caps_exact_and_defaults` (function, line 443) `def test_s9_sphere_caps_exact_and_defaults()`
+  - `test_s9_default_layout_checksum_and_length` (function, line 457) `def test_s9_default_layout_checksum_and_length()`
+  - `test_s9_all_env_vars_propagate` (function, line 474) `def test_s9_all_env_vars_propagate(monkeypatch)`
+  - `test_s10_full_literal_output` (function, line 507) `def test_s10_full_literal_output()`
+  - `test_s10_empty_label_falls_back_to_id_and_findings` (function, line 539) `def test_s10_empty_label_falls_back_to_id_and_findings()`
+  - `test_s10_odd_community_ids` (function, line 553) `def test_s10_odd_community_ids()`
+  - `test_s10_scaffold_between_entities_dropped` (function, line 580) `def test_s10_scaffold_between_entities_dropped()`
+  - `test_s10_community_colors_survive_bad_id` (function, line 599) `def test_s10_community_colors_survive_bad_id()`
+  - `test_s10_env_divergence_changes_layout` (function, line 623) `def test_s10_env_divergence_changes_layout(monkeypatch)`
+  - `test_s10_bspline_short_branch_exact` (function, line 636) `def test_s10_bspline_short_branch_exact()`
+  - `test_s10_beta_clamp_and_skip_order` (function, line 651) `def test_s10_beta_clamp_and_skip_order()`
+  - `test_s10_empty_layouts_full_and_absolute_leaves` (function, line 668) `def test_s10_empty_layouts_full_and_absolute_leaves()`
+  - `test_s10_three_group_caps_and_tie_and_axis` (function, line 692) `def test_s10_three_group_caps_and_tie_and_axis()`
+- Depends on: `estorides_core/__init__.py`, `estorides_core/graph_bundle.py`, `estorides_core/graph_force.py`
+
 ## tests/test_graph_bundle_assets.py
 - Doc: graph_bundle S6: assets frontend (fuera del sandbox mutmut).
 - Layer: testing
@@ -54,7 +307,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `TestCaseDiff` (class, line 72) `class TestCaseDiff`
   - `TestReport` (class, line 107) `class TestReport`
   - `TestConsoleScript` (class, line 137) `class TestConsoleScript`
-  - `status` (method, line 29) `def status()`
+  - `status` (function, line 29) `def status()`
   - `test_headers_and_body_cap` (method, line 36) `def test_headers_and_body_cap(self)`
   - `test_default_off` (method, line 49) `def test_default_off(self)`
   - `test_allowlist` (method, line 54) `def test_allowlist(self)`
@@ -74,7 +327,7 @@ Previous: [KB_tests.md](KB_tests.md)
   - `_obs` (function, line 23) `def _obs(source, parsed, raw)`
   - `TestHappyPathDomainBelongsToActor` (class, line 39) `class TestHappyPathDomainBelongsToActor`
   - `TestEmptyInputProducesEmptyOutput` (class, line 113) `class TestEmptyInputProducesEmptyOutput`
-  - `generate_hypothences_safe` (method, line 127) `def generate_hypothences_safe(observations, entities)`
+  - `generate_hypothences_safe` (function, line 127) `def generate_hypothences_safe(observations, entities)`
   - `TestMalformedObservationsAreSkipped` (class, line 138) `class TestMalformedObservationsAreSkipped`
   - `TestUnknownSourceFallsBackToReliabilityC` (class, line 176) `class TestUnknownSourceFallsBackToReliabilityC`
   - `TestMinScoreFiltersHypotheses` (class, line 199) `class TestMinScoreFiltersHypotheses`
@@ -214,14 +467,14 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_s4_degrade_active` (function, line 41) `def test_s4_degrade_active(tmp_path, monkeypatch)`
   - `test_s5_active_injected` (function, line 53) `def test_s5_active_injected(tmp_path, monkeypatch)`
   - `_FakeToolResult` (class, line 63) `class _FakeToolResult`
-  - `test_s9_tool_order` (method, line 69) `def test_s9_tool_order()`
-  - `test_s6_empty_readers` (method, line 102) `def test_s6_empty_readers(tmp_path)`
-  - `test_s7_scope_auto` (method, line 112) `def test_s7_scope_auto(tmp_path)`
-  - `test_s8_no_scope_found` (method, line 121) `def test_s8_no_scope_found(tmp_path)`
+  - `test_s9_tool_order` (function, line 69) `def test_s9_tool_order()`
+  - `test_s6_empty_readers` (function, line 102) `def test_s6_empty_readers(tmp_path)`
+  - `test_s7_scope_auto` (function, line 112) `def test_s7_scope_auto(tmp_path)`
+  - `test_s8_no_scope_found` (function, line 121) `def test_s8_no_scope_found(tmp_path)`
   - `__init__` (method, line 64) `def __init__(self, exit_code, stdout)`
-  - `ok_nmap` (method, line 74) `def ok_nmap(tool, args)`
-  - `fail_then_arp` (method, line 81) `def fail_then_arp(tool, args)`
-  - `both_fail` (method, line 93) `def both_fail(tool, args)`
+  - `ok_nmap` (function, line 74) `def ok_nmap(tool, args)`
+  - `fail_then_arp` (function, line 81) `def fail_then_arp(tool, args)`
+  - `both_fail` (function, line 93) `def both_fail(tool, args)`
 - Depends on: `estorides_core/__init__.py`, `estorides_core/tool_runner.py`
 
 ## tests/test_lan_scope.py
@@ -237,243 +490,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_s6_wide_scope_rejected` (function, line 37) `def test_s6_wide_scope_rejected()`
   - `test_s7_empty_default_none` (function, line 41) `def test_s7_empty_default_none()`
   - `test_s8_reader_fail_soft` (function, line 45) `def test_s8_reader_fail_soft(monkeypatch)`
-- Depends on: `estorides_core/__init__.py`
-
-## tests/test_lan_web.py
-- Doc: BDD tests for lan_web (spec/lan_web.md).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_s1_passive_permitted` (function, line 6) `def test_s1_passive_permitted()`
-  - `test_s2_active_permitted` (function, line 12) `def test_s2_active_permitted(monkeypatch)`
-  - `test_s3_checkbox_without_ceiling_degrades` (function, line 21) `def test_s3_checkbox_without_ceiling_degrades(monkeypatch)`
-  - `test_s3b_pure_passive_has_no_notice` (function, line 32) `def test_s3b_pure_passive_has_no_notice()`
-  - `test_s4_no_consent_refused` (function, line 37) `def test_s4_no_consent_refused()`
-  - `test_s5_bad_scope_400` (function, line 43) `def test_s5_bad_scope_400()`
-  - `test_s6_string_consent_refused` (function, line 49) `def test_s6_string_consent_refused()`
-  - `test_s7_body_not_dict` (function, line 54) `def test_s7_body_not_dict()`
-  - `test_s9_lan_request_detection` (function, line 59) `def test_s9_lan_request_detection()`
-  - `test_s10_scope_payload` (function, line 66) `def test_s10_scope_payload()`
-  - `test_s11_active_intent_permitted` (function, line 74) `def test_s11_active_intent_permitted(monkeypatch)`
-  - `test_s8_scope_echo_normalized` (function, line 84) `def test_s8_scope_echo_normalized()`
-- Depends on: `estorides_core/__init__.py`
-
-## tests/test_map_basemap.py
-- Doc: BDD tests for spec/map_basemap.md (CARTO basemap, no direct OSM tiles).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_js` (function, line 10) `def _js()`
-  - `test_no_direct_osm_tiles_S1` (function, line 14) `def test_no_direct_osm_tiles_S1()`
-  - `test_esri_dark_provider_S2` (function, line 22) `def test_esri_dark_provider_S2()`
-  - `test_attribution_S3` (function, line 35) `def test_attribution_S3()`
-  - `test_csp_allows_tile_host_S5` (function, line 41) `def test_csp_allows_tile_host_S5()`
-- Depends on: `estorides_core/web_security.py`
-
-## tests/test_monitoring.py
-- Doc: BDD tests for Monitoring & Advanced Recon modules.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `tmp_store` (function, line 32) `def tmp_store()`
-  - `sample_watch` (function, line 42) `def sample_watch()`
-  - `TestM1CreateWatch` (class, line 58) `class TestM1CreateWatch`
-  - `TestM2WatchRun` (class, line 86) `class TestM2WatchRun`
-  - `TestM4DisableWatch` (class, line 115) `class TestM4DisableWatch`
-  - `TestM5DeleteWatch` (class, line 142) `class TestM5DeleteWatch`
-  - `TestWatchHistory` (class, line 164) `class TestWatchHistory`
-  - `TestM9WebhookAlert` (class, line 194) `class TestM9WebhookAlert`
-  - `TestAdvancedReconSources` (class, line 211) `class TestAdvancedReconSources`
-  - `TestAlerterChannels` (class, line 260) `class TestAlerterChannels`
-  - `TestWatchTargetDataclass` (class, line 292) `class TestWatchTargetDataclass`
-  - `TestSourceCount` (class, line 324) `class TestSourceCount`
-  - `test_create_watch` (method, line 61) `def test_create_watch(self, tmp_store)`
-  - `test_watch_next_run_in_future` (method, line 69) `def test_watch_next_run_in_future(self, sample_watch)`
-  - `test_watch_appears_in_list` (method, line 73) `def test_watch_appears_in_list(self, tmp_store, sample_watch)`
-  - `test_due_watches_returns_enabled` (method, line 89) `def test_due_watches_returns_enabled(self, tmp_store)`
-  - `test_interval_honored` (method, line 101) `def test_interval_honored(self, tmp_store)`
-  - `test_disable_does_not_delete` (method, line 118) `def test_disable_does_not_delete(self, tmp_store, sample_watch)`
-  - `test_disabled_not_due` (method, line 127) `def test_disabled_not_due(self, tmp_store)`
-  - `test_delete_removes_watch` (method, line 145) `def test_delete_removes_watch(self, tmp_store, sample_watch)`
-  - `test_delete_removes_from_list` (method, line 151) `def test_delete_removes_from_list(self, tmp_store, sample_watch)`
-  - `test_record_run_start` (method, line 167) `def test_record_run_start(self, tmp_store, sample_watch)`
-  - `test_history_appears` (method, line 173) `def test_history_appears(self, tmp_store, sample_watch)`
-  - `test_history_empty_for_new_watch` (method, line 183) `def test_history_empty_for_new_watch(self, tmp_store, sample_watch)`
-  - `test_webhook_builds_correct_payload` (method, line 197) `def test_webhook_builds_correct_payload(self)`
-  - `test_source_yaml_loads` (method, line 220) `def test_source_yaml_loads(self, source_name)`
-  - `test_source_requires_key` (method, line 235) `def test_source_requires_key(self, source_name, key_env)`
-  - `test_all_new_sources_passive` (method, line 244) `def test_all_new_sources_passive(self)`
-  - `test_available_channels_returns_all` (method, line 263) `def test_available_channels_returns_all(self)`
-  - `test_channel_env_vars_listed` (method, line 274) `def test_channel_env_vars_listed(self)`
-  - `test_unknown_channel_returns_false` (method, line 281) `def test_unknown_channel_returns_false(self)`
-  - `test_to_dict_roundtrip` (method, line 295) `def test_to_dict_roundtrip(self)`
-  - `test_default_next_run_set` (method, line 308) `def test_default_next_run_set(self)`
-  - `test_default_channels_empty` (method, line 313) `def test_default_channels_empty(self)`
-  - `test_new_sources_loaded` (method, line 327) `def test_new_sources_loaded(self)`
-- Depends on: `estorides_core/alerter.py`, `estorides_core/config.py`, `estorides_core/monitoring.py`, `estorides_core/source_loader.py`
-
-## tests/test_obs_fts.py
-- Doc: Obs FTS BDD.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_store` (function, line 5) `def _store(tmp_path, monkeypatch)`
-  - `test_fts_finds_rare_word` (function, line 16) `def test_fts_finds_rare_word(tmp_path, monkeypatch)`
-  - `test_fts_empty_and_injection_safe` (function, line 33) `def test_fts_empty_and_injection_safe(tmp_path, monkeypatch)`
-- Depends on: `estorides_core/cases.py`
-
-## tests/test_observation_models.py
-- Doc: estorides_core.observation_models — BDD/TDD contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_full_meta` (function, line 25) `def _full_meta()`
-  - `_full_obs` (function, line 39) `def _full_obs()`
-  - `test_o1_full_observation_validates` (function, line 57) `def test_o1_full_observation_validates()`
-  - `test_o2_error_observation_validates` (function, line 72) `def test_o2_error_observation_validates()`
-  - `test_o3_missing_required_field_fails` (function, line 85) `def test_o3_missing_required_field_fails()`
-  - `test_o4_unknown_meta_key_forbidden` (function, line 96) `def test_o4_unknown_meta_key_forbidden()`
-  - `test_o5_wrong_typed_field_fails` (function, line 106) `def test_o5_wrong_typed_field_fails()`
-  - `test_o6_oversized_url_truncated_not_failed` (function, line 116) `def test_o6_oversized_url_truncated_not_failed()`
-  - `test_o6_oversized_value_rejected` (function, line 124) `def test_o6_oversized_value_rejected()`
-  - `test_o6_error_message_does_not_embed_hostile_value` (function, line 134) `def test_o6_error_message_does_not_embed_hostile_value()`
-  - `test_o7_confidence_out_of_range_rejected` (function, line 146) `def test_o7_confidence_out_of_range_rejected(confidence)`
-  - `test_o7_confidence_at_bounds_accepted` (function, line 152) `def test_o7_confidence_at_bounds_accepted()`
-  - `test_o8_run_result_aggregates` (function, line 163) `def test_o8_run_result_aggregates()`
-  - `test_o8_run_result_with_error_surfaces_error` (function, line 182) `def test_o8_run_result_with_error_surfaces_error()`
-  - `test_security_non_json_safe_value_rejected` (function, line 198) `def test_security_non_json_safe_value_rejected(field)`
-  - `test_security_non_json_safe_attributes_rejected` (function, line 205) `def test_security_non_json_safe_attributes_rejected()`
-  - `test_security_bytes_top_level_parsed_rejected` (function, line 212) `def test_security_bytes_top_level_parsed_rejected()`
-  - `test_security_non_string_dict_key_rejected` (function, line 219) `def test_security_non_string_dict_key_rejected()`
-  - `test_security_arbitrary_object_rejected` (function, line 226) `def test_security_arbitrary_object_rejected()`
-  - `test_security_nested_object_inside_list_rejected` (function, line 236) `def test_security_nested_object_inside_list_rejected()`
-  - `test_security_arbitrary_object_message_names_the_type` (function, line 247) `def test_security_arbitrary_object_message_names_the_type()`
-  - `test_security_non_string_key_message_names_the_problem` (function, line 260) `def test_security_non_string_key_message_names_the_problem()`
-  - `test_security_arbitrary_object_message_exact` (function, line 270) `def test_security_arbitrary_object_message_exact()`
-  - `test_length_caps_are_positive` (function, line 287) `def test_length_caps_are_positive()`
-  - `_Hostile` (class, line 227) `class _Hostile`
-  - `_Hostile` (class, line 238) `class _Hostile`
-  - `_WeirdName` (class, line 249) `class _WeirdName`
-  - `_WeirdName` (class, line 272) `class _WeirdName`
-- Depends on: `estorides_core/observation_models.py`
-
-## tests/test_openapi.py
-- Doc: OpenAPI BDD.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_openapi_lists_healthz_without_auth_and_run_with_auth` (function, line 5) `def test_openapi_lists_healthz_without_auth_and_run_with_auth()`
-- Depends on: `estorides_web.py`
-
-## tests/test_ops_observability.py
-- Doc: M1 ops_observability — BDD red.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_healthz_no_auth_ok` (function, line 8) `def test_healthz_no_auth_ok()`
-  - `test_readyz_ready_and_not_ready` (function, line 17) `def test_readyz_ready_and_not_ready()`
-  - `test_metrics_counters_and_render` (function, line 26) `def test_metrics_counters_and_render()`
-  - `test_metrics_label_sanitised_no_newline` (function, line 44) `def test_metrics_label_sanitised_no_newline()`
-  - `test_json_logs_opt_in_and_legacy` (function, line 61) `def test_json_logs_opt_in_and_legacy()`
-  - `test_metrics_thread_safe` (function, line 74) `def test_metrics_thread_safe()`
-- Depends on: `estorides_core/ops_observability.py`
-
-## tests/test_opsec_contact.py
-- Doc: BDD tests for operator-OPSEC contact classification + passive-only filter.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_registry` (function, line 19) `def _registry()`
-  - `TestContactLevel` (class, line 25) `class TestContactLevel`
-  - `TestRegistryContact` (class, line 36) `class TestRegistryContact`
-  - `TestBrokerTagging` (class, line 53) `class TestBrokerTagging`
-  - `TestSelectorCeiling` (class, line 61) `class TestSelectorCeiling`
-  - `test_ordering` (method, line 26) `def test_ordering(self)`
-  - `test_unknown_is_active` (method, line 29) `def test_unknown_is_active(self)`
-  - `test_default_is_passive` (method, line 32) `def test_default_is_passive(self)`
-  - `test_sources_load` (method, line 37) `def test_sources_load(self)`
-  - `test_all_sources_carry_known_class` (method, line 40) `def test_all_sources_carry_known_class(self)`
-  - `test_passive_filter_excludes_broker_active` (method, line 45) `def test_passive_filter_excludes_broker_active(self)`
-  - `test_hackertarget_probes_are_broker` (method, line 54) `def test_hackertarget_probes_are_broker(self)`
-  - `test_selector_drops_broker_even_when_named` (method, line 62) `def test_selector_drops_broker_even_when_named(self)`
-  - `test_selector_keeps_broker_without_ceiling` (method, line 72) `def test_selector_keeps_broker_without_ceiling(self)`
-- Depends on: `estorides_core/config.py`, `estorides_core/orchestrator.py`, `estorides_core/source_loader.py`
-
-## tests/test_orchestrator_fanout.py
-- Doc: M0 RED tests: fanout normalisation + callback parity + no duplicated methods.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_src` (function, line 10) `def _src(name, binary)`
-  - `test_no_duplicated_method_defs` (function, line 19) `def test_no_duplicated_method_defs()`
-  - `_norm` (function, line 28) `def _norm(items, sources)`
-  - `test_exception_becomes_error_observation` (function, line 33) `def test_exception_becomes_error_observation()`
-  - `test_bad_shape_becomes_error_observation` (function, line 41) `def test_bad_shape_becomes_error_observation()`
-  - `test_mixed_http_and_system_app_keep_own_source` (function, line 47) `def test_mixed_http_and_system_app_keep_own_source()`
-  - `test_execute_source_forwards_on_done_to_system_app` (function, line 56) `def test_execute_source_forwards_on_done_to_system_app()`
-  - `test_system_app_failure_fires_on_done` (function, line 67) `def test_system_app_failure_fires_on_done()`
-  - `go` (function, line 68) `def go()`
-- Depends on: `estorides_core/__init__.py`
-
-## tests/test_pagination.py
-- Doc: BDD tests for estorides_core.pagination.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestPageStrategy` (class, line 21) `class TestPageStrategy`
-  - `TestOffsetStrategy` (class, line 48) `class TestOffsetStrategy`
-  - `TestCursorStrategy` (class, line 78) `class TestCursorStrategy`
-  - `TestNoPagination` (class, line 128) `class TestNoPagination`
-  - `TestPartialPage` (class, line 151) `class TestPartialPage`
-  - `TestMaxPages` (class, line 180) `class TestMaxPages`
-  - `TestFromDict` (class, line 205) `class TestFromDict`
-  - `test_first_page_is_one` (method, line 24) `def test_first_page_is_one(self)`
-  - `test_second_page_increments` (method, line 29) `def test_second_page_increments(self)`
-  - `test_default_param_name` (method, line 34) `def test_default_param_name(self)`
-  - `test_no_pagination_returns_empty` (method, line 39) `def test_no_pagination_returns_empty(self)`
-  - `test_first_page_offset_zero` (method, line 51) `def test_first_page_offset_zero(self)`
-  - `test_second_page_offset_25` (method, line 56) `def test_second_page_offset_25(self)`
-  - `test_third_page_offset_50` (method, line 61) `def test_third_page_offset_50(self)`
-  - `test_custom_param_names` (method, line 66) `def test_custom_param_names(self)`
-  - `test_extracts_cursor_from_simple_path` (method, line 81) `def test_extracts_cursor_from_simple_path(self)`
-  - `test_extracts_cursor_from_nested_path` (method, line 86) `def test_extracts_cursor_from_nested_path(self)`
-  - `test_missing_path_returns_none` (method, line 91) `def test_missing_path_returns_none(self)`
-  - `test_empty_cursor_returns_none` (method, line 95) `def test_empty_cursor_returns_none(self)`
-  - `test_null_cursor_returns_none` (method, line 99) `def test_null_cursor_returns_none(self)`
-  - `test_non_dict_response_returns_none` (method, line 103) `def test_non_dict_response_returns_none(self)`
-  - `test_disabled_strategy_returns_none` (method, line 107) `def test_disabled_strategy_returns_none(self)`
-  - `test_build_params_empty_for_cursor` (method, line 111) `def test_build_params_empty_for_cursor(self)`
-  - `test_cursor_custom_param` (method, line 116) `def test_cursor_custom_param(self)`
-  - `test_default_config_disabled` (method, line 131) `def test_default_config_disabled(self)`
-  - `test_empty_dict_disabled` (method, line 135) `def test_empty_dict_disabled(self)`
-  - `test_none_disabled` (method, line 139) `def test_none_disabled(self)`
-  - `test_enabled_when_strategy_set` (method, line 143) `def test_enabled_when_strategy_set(self)`
-  - `test_partial_page_detected` (method, line 154) `def test_partial_page_detected(self)`
-  - `test_full_page_not_detected_as_partial` (method, line 159) `def test_full_page_not_detected_as_partial(self)`
-  - `test_list_response_counted_directly` (method, line 164) `def test_list_response_counted_directly(self)`
-  - `test_using_custom_response_list_path` (method, line 168) `def test_using_custom_response_list_path(self)`
-  - `test_default_max_pages` (method, line 183) `def test_default_max_pages(self)`
-  - `test_custom_max_pages` (method, line 187) `def test_custom_max_pages(self)`
-  - `test_zero_page_size_means_no_check` (method, line 193) `def test_zero_page_size_means_no_check(self)`
-  - `test_all_fields_mapped` (method, line 208) `def test_all_fields_mapped(self)`
-  - `test_partial_dict_uses_defaults` (method, line 230) `def test_partial_dict_uses_defaults(self)`
-  - `test_empty_string_strategy_disabled` (method, line 236) `def test_empty_string_strategy_disabled(self)`
-- Depends on: `estorides_core/pagination.py`
-
-## tests/test_parsers.py
-- Doc: BDD / regression tests for the remote-JSON parser layer.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestP1Totality` (class, line 19) `class TestP1Totality`
-  - `TestP2NoRegression` (class, line 50) `class TestP2NoRegression`
-  - `test_parser_is_total` (method, line 35) `def test_parser_is_total(self, parser_name, payload)`
-  - `test_otx_null_entry_skipped` (method, line 39) `def test_otx_null_entry_skipped(self)`
-  - `test_keybase_missing_them` (method, line 43) `def test_keybase_missing_them(self)`
-  - `test_wayback_non_list_header` (method, line 46) `def test_wayback_non_list_header(self)`
-  - `test_otx_valid` (method, line 51) `def test_otx_valid(self)`
-  - `test_keybase_valid` (method, line 58) `def test_keybase_valid(self)`
-  - `test_ethplorer_valid` (method, line 72) `def test_ethplorer_valid(self)`
 - Depends on: `estorides_core/__init__.py`
 
 

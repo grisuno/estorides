@@ -2,43 +2,43 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 101,
-  "entities": 2313,
+  "modules": 104,
+  "entities": 2443,
   "languages": {
    "js": 4,
-   "py": 96,
+   "py": 99,
    "sh": 1
   },
   "kinds": {
-   "attribute": 799,
-   "class": 167,
+   "attribute": 829,
+   "class": 174,
    "classmethod": 5,
-   "constant": 243,
-   "constructor": 32,
+   "constant": 276,
+   "constructor": 33,
    "enum": 5,
    "exception": 11,
-   "function": 665,
-   "method": 266,
-   "module": 101,
+   "function": 717,
+   "method": 270,
+   "module": 104,
    "property": 13,
    "protocol": 4,
    "staticmethod": 2
   },
   "truncated": false,
-  "skipped_files": 90,
+  "skipped_files": 95,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 585,
-   "total": 1271,
-   "percent": 46.0
+   "documented": 643,
+   "total": 1338,
+   "percent": 48.1
   },
   "by_kind": {
    "class": {
-    "documented": 116,
-    "total": 167,
-    "percent": 69.5
+    "documented": 123,
+    "total": 174,
+    "percent": 70.7
    },
    "classmethod": {
     "documented": 1,
@@ -47,8 +47,8 @@
    },
    "constructor": {
     "documented": 1,
-    "total": 32,
-    "percent": 3.1
+    "total": 33,
+    "percent": 3.0
    },
    "enum": {
     "documented": 5,
@@ -61,19 +61,19 @@
     "percent": 45.5
    },
    "function": {
-    "documented": 255,
-    "total": 665,
-    "percent": 38.3
+    "documented": 299,
+    "total": 717,
+    "percent": 41.7
    },
    "method": {
-    "documented": 113,
-    "total": 266,
-    "percent": 42.5
+    "documented": 117,
+    "total": 270,
+    "percent": 43.3
    },
    "module": {
-    "documented": 79,
-    "total": 101,
-    "percent": 78.2
+    "documented": 82,
+    "total": 104,
+    "percent": 78.8
    },
    "property": {
     "documented": 5,
@@ -167,6 +167,16 @@
     "total": 21,
     "percent": 0.0
    },
+   "estorides_core/aerospace.py": {
+    "documented": 17,
+    "total": 17,
+    "percent": 100.0
+   },
+   "estorides_core/airports.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
    "estorides_core/alerter.py": {
     "documented": 6,
     "total": 6,
@@ -181,6 +191,11 @@
     "documented": 4,
     "total": 11,
     "percent": 36.4
+   },
+   "estorides_core/aviation.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
    },
    "estorides_core/case_crypto.py": {
     "documented": 4,
@@ -238,9 +253,9 @@
     "percent": 100.0
    },
    "estorides_core/feeds.py": {
-    "documented": 10,
-    "total": 13,
-    "percent": 76.9
+    "documented": 17,
+    "total": 20,
+    "percent": 85.0
    },
    "estorides_core/fusion_analytics.py": {
     "documented": 2,
@@ -373,9 +388,9 @@
     "percent": 62.5
    },
    "estorides_core/parsers.py": {
-    "documented": 22,
-    "total": 59,
-    "percent": 37.3
+    "documented": 30,
+    "total": 67,
+    "percent": 44.8
    },
    "estorides_core/pdns_monitor.py": {
     "documented": 0,
@@ -558,9 +573,9 @@
     "percent": 66.7
    },
    "static/js/estorides.js": {
-    "documented": 45,
-    "total": 178,
-    "percent": 25.3
+    "documented": 47,
+    "total": 188,
+    "percent": 25.0
    },
    "static/js/graph_bundle.js": {
     "documented": 1,
@@ -676,6 +691,16 @@
    "entities": 62
   },
   {
+   "uid": "estorides_core/aerospace.py",
+   "path": "modules/estorides_core.aerospace.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "estorides_core/airports.py",
+   "path": "modules/estorides_core.airports.py.jsonl",
+   "entities": 12
+  },
+  {
    "uid": "estorides_core/alerter.py",
    "path": "modules/estorides_core.alerter.py.jsonl",
    "entities": 6
@@ -689,6 +714,11 @@
    "uid": "estorides_core/audit.py",
    "path": "modules/estorides_core.audit.py.jsonl",
    "entities": 23
+  },
+  {
+   "uid": "estorides_core/aviation.py",
+   "path": "modules/estorides_core.aviation.py.jsonl",
+   "entities": 35
   },
   {
    "uid": "estorides_core/case_crypto.py",
@@ -748,7 +778,7 @@
   {
    "uid": "estorides_core/feeds.py",
    "path": "modules/estorides_core.feeds.py.jsonl",
-   "entities": 39
+   "entities": 81
   },
   {
    "uid": "estorides_core/fusion_analytics.py",
@@ -883,7 +913,7 @@
   {
    "uid": "estorides_core/parsers.py",
    "path": "modules/estorides_core.parsers.py.jsonl",
-   "entities": 60
+   "entities": 68
   },
   {
    "uid": "estorides_core/pdns_monitor.py",
@@ -1068,7 +1098,7 @@
   {
    "uid": "static/js/estorides.js",
    "path": "modules/static.js.estorides.js.jsonl",
-   "entities": 178
+   "entities": 188
   },
   {
    "uid": "static/js/graph_bundle.js",
@@ -1108,7 +1138,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 668
+  "total": 676
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

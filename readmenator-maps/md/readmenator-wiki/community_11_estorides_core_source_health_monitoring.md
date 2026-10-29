@@ -1,6 +1,6 @@
 # estorides_core: source_health_monitoring
 
-*Community 9 | 3 files | cohesion 1.00*
+*Community 11 | 3 files | cohesion 1.00*
 
 ## Definition
 
@@ -26,10 +26,10 @@ This community groups 3 file(s) rooted at `tests/properties` with dominant langu
 - `DashboardSummary` (class, `estorides_core/source_health_monitoring.py:160`) `class DashboardSummary` - Aggregate dashboard statistics.
 - `HealthDashboard` (class, `estorides_core/source_health_monitoring.py:173`) `class HealthDashboard` - Grouped health view: hot sources, degrading sources, aggregate stats.
 - `to_dict` (method, `estorides_core/source_health_monitoring.py:184`) `def to_dict(self)`
-- `_clamp01` (method, `estorides_core/source_health_monitoring.py:202`) `def _clamp01(value)`
-- `_classify` (method, `estorides_core/source_health_monitoring.py:210`) `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config` - Classify a source's health status based on thresholds.
-- `compute_health` (method, `estorides_core/source_health_monitoring.py:235`) `def compute_health(inp, config)` - Compute the health assessment for a single source.
-- `build_dashboard` (method, `estorides_core/source_health_monitoring.py:295`) `def build_dashboard(records, config)` - Build a health dashboard from per-source health inputs.
+- `_clamp01` (function, `estorides_core/source_health_monitoring.py:202`) `def _clamp01(value)`
+- `_classify` (function, `estorides_core/source_health_monitoring.py:210`) `def _classify(success_rate, avg_latency_ms, freshness_hours, fetch_count, config` - Classify a source's health status based on thresholds.
+- `compute_health` (function, `estorides_core/source_health_monitoring.py:235`) `def compute_health(inp, config)` - Compute the health assessment for a single source.
+- `build_dashboard` (function, `estorides_core/source_health_monitoring.py:295`) `def build_dashboard(records, config)` - Build a health dashboard from per-source health inputs.
 - `_valid_input` (function, `tests/properties/test_source_health_monitoring_properties.py:21`) `def _valid_input(fetch, ok, latency, last_seen, now)` - Build a valid SourceHealthInput, clamping ok <= fetch.
 - `test_health_score_always_bounded` (function, `tests/properties/test_source_health_monitoring_properties.py:49`) `def test_health_score_always_bounded(fetch, ok, latency, last_seen, now)`
 - `test_status_always_valid_enum` (function, `tests/properties/test_source_health_monitoring_properties.py:63`) `def test_status_always_valid_enum(fetch, ok, latency, last_seen, now)`

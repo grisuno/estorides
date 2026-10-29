@@ -1,10 +1,10 @@
 # estorides API Reference
 
-> Generated offline by readmenator: 101 modules, 2313 documented entities, documentation coverage 46.0% (585/1271 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 104 modules, 2443 documented entities, documentation coverage 48.1% (643/1338 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: js (4), py (96), sh (1)
+Languages: js (4), py (99), sh (1)
 
 ## Modules
 
@@ -42,9 +42,12 @@ Languages: js (4), py (96), sh (1)
 |---|---|---|---|---|
 | [`estorides_core`](modules/estorides_core.__init__.py.md) | estorides_core.__init__ | 0 | 0 | 100.0% |
 | [`estorides_core.active_recon`](modules/estorides_core.active_recon.py.md) |  | 5 | 15 | 0.0% |
+| [`estorides_core.aerospace`](modules/estorides_core.aerospace.py.md) | estorides_core.aerospace ======================== Pure normalisers and orbital helpers for the free air-and-space intelligence layer set. | 0 | 16 | 100.0% |
+| [`estorides_core.airports`](modules/estorides_core.airports.py.md) | estorides_core.airports ======================= Public-domain airport reference data and a nearest-airport index. | 1 | 8 | 90.0% |
 | [`estorides_core.alerter`](modules/estorides_core.alerter.py.md) | estorides_core.alerter ====================== Alert channel dispatcher for watch target notifications. | 1 | 4 | 100.0% |
 | [`estorides_core.async_client`](modules/estorides_core.async_client.py.md) | estorides_core.async_client =========================== Async HTTP client with: * per-host concurrency limits * exponential backoff * circuit breaker (per... | 3 | 10 | 35.7% |
 | [`estorides_core.audit`](modules/estorides_core.audit.py.md) | estorides_core.audit ==================== Append-only audit log + per-IP rate limiter for the web layer. | 3 | 7 | 36.4% |
+| [`estorides_core.aviation`](modules/estorides_core.aviation.py.md) | estorides_core.aviation ======================= Pure aircraft-intelligence helpers shared by the aerospace sources and the real-time map feeds. | 0 | 14 | 100.0% |
 | [`estorides_core.case_crypto`](modules/estorides_core.case_crypto.py.md) | estorides_core.case_crypto ========================== Opt in field encryption for case notes and analysis at rest. | 0 | 3 | 100.0% |
 | [`estorides_core.cases`](modules/estorides_core.cases.py.md) | estorides_core.cases ==================== Run persistence — every intelligence query becomes a "case" that survives across sessions. | 1 | 15 | 64.7% |
 | [`estorides_core.change_detection`](modules/estorides_core.change_detection.py.md) | estorides_core.change_detection =============================== The temporal layer: "what changed in this investigation since the last run?". | 8 | 1 | 100.0% |
@@ -56,7 +59,7 @@ Languages: js (4), py (96), sh (1)
 | [`estorides_core.entity_resolution`](modules/estorides_core.entity_resolution.py.md) | estorides_core.entity_resolution ================================ Canonical identity layer. | 5 | 13 | 78.9% |
 | [`estorides_core.entity_store`](modules/estorides_core.entity_store.py.md) | estorides_core.entity_store =========================== Cross-run canonical identity store. | 1 | 4 | 100.0% |
 | [`estorides_core.event_bus`](modules/estorides_core.event_bus.py.md) | estorides_core.event_bus ======================== In process publish subscribe channel for orchestrator lifecycle events. | 1 | 7 | 100.0% |
-| [`estorides_core.feeds`](modules/estorides_core.feeds.py.md) | estorides_core.feeds ==================== Real-time intelligence feeds, polled and cached locally. | 5 | 7 | 76.9% |
+| [`estorides_core.feeds`](modules/estorides_core.feeds.py.md) | estorides_core.feeds ==================== Real-time intelligence feeds, polled and cached locally. | 10 | 9 | 85.0% |
 | [`estorides_core.fusion_analytics`](modules/estorides_core.fusion_analytics.py.md) | estorides_core.fusion_analytics =============================== Intelligence analytics layer over the fusion store. | 1 | 9 | 18.2% |
 | [`estorides_core.fusion_store`](modules/estorides_core.fusion_store.py.md) | estorides_core.fusion_store =========================== The data-fusion datastore — the single place where everything every source (loaded from the YAML... | 1 | 14 | 100.0% |
 | [`estorides_core.graph_bundle`](modules/estorides_core.graph_bundle.py.md) | graph_bundle: payload circle 2D + sphere 3D estilo ReadMenator. | 2 | 5 | 100.0% |
@@ -83,7 +86,7 @@ Languages: js (4), py (96), sh (1)
 | [`estorides_core.orchestrator`](modules/estorides_core.orchestrator.py.md) | estorides_core.orchestrator ============================ The main entry point. | 1 | 3 | 60.0% |
 | [`estorides_core.osiris_sources`](modules/estorides_core.osiris_sources.py.md) | estorides_core.osiris_sources ============================= Extra OSINT endpoints borrowed from the Osiris project (simplifaisoul/osiris). | 0 | 7 | 100.0% |
 | [`estorides_core.pagination`](modules/estorides_core.pagination.py.md) | estorides_core.pagination ========================= Pagination strategies for source API fetches. | 1 | 6 | 62.5% |
-| [`estorides_core.parsers`](modules/estorides_core.parsers.py.md) | estorides_core.parsers ====================== A small library of structured parsers. | 0 | 58 | 37.3% |
+| [`estorides_core.parsers`](modules/estorides_core.parsers.py.md) | estorides_core.parsers ====================== A small library of structured parsers. | 0 | 66 | 44.8% |
 | [`estorides_core.pdns_monitor`](modules/estorides_core.pdns_monitor.py.md) |  | 4 | 7 | 0.0% |
 | [`estorides_core.people_intel`](modules/estorides_core.people_intel.py.md) |  | 4 | 7 | 0.0% |
 | [`estorides_core.pivot_engine`](modules/estorides_core.pivot_engine.py.md) | estorides_core.pivot_engine =========================== Recursive, asynchronous cross-search engine — the Palantir-style core. | 9 | 10 | 70.0% |
@@ -132,7 +135,7 @@ Languages: js (4), py (96), sh (1)
 
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
-| [`static/js/estorides.js`](modules/static.js.estorides.js.md) | Estorides front-end controller | 3 | 174 | 25.3% |
+| [`static/js/estorides.js`](modules/static.js.estorides.js.md) | Estorides front-end controller | 4 | 183 | 25.0% |
 | [`static/js/graph_bundle.js`](modules/static.js.graph_bundle.js.md) | Estorides Bundles — circle 2D + sphere 3D hierarchical edge bundling. | 0 | 66 | 1.5% |
 | [`static/js/graph_force.js`](modules/static.js.graph_force.js.md) | Estorides force-graph module (spec/graph_force3d.md). | 0 | 115 | 7.8% |
 | [`static/js/source_manager.js`](modules/static.js.source_manager.js.md) | Estorides Source Manager — form-based YAML editor | 1 | 18 | 75.0% |

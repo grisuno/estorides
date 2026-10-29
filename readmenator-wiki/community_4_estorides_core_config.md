@@ -1,10 +1,10 @@
 # estorides_core: config
 
-*Community 4 | 17 files | cohesion 0.37*
+*Community 4 | 16 files | cohesion 0.35*
 
 ## Definition
 
-This community groups 17 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.37). Central symbols: `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EarthquakesFeed`, `EntityResolver`, `EntityRunner`, `EventSink`. Core file: `estorides_core/config.py` (29 symbols). Documented purpose: estorides_core.async_client.
+This community groups 16 file(s) rooted at `estorides_core` with dominant language py (cohesion 0.35). Central symbols: `AsyncClient`, `BufferedEventSink`, `CacheConfig`, `CircuitBreaker`, `EntityResolver`, `EntityRunner`, `EventSink`, `Fake`. Core file: `estorides_core/config.py` (29 symbols). Documented purpose: estorides_core.async_client.
 
 ## Files
 
@@ -12,7 +12,6 @@ This community groups 17 file(s) rooted at `estorides_core` with dominant langua
 |------|----------|-------|---------|-----|
 | `estorides_core/async_client.py` | py | infrastructure | 21 | yes |
 | `estorides_core/config.py` | py | infrastructure | 29 | yes |
-| `estorides_core/feeds.py` | py | utility | 16 | yes |
 | `estorides_core/intel_resolver.py` | py | utility | 26 | yes |
 | `estorides_core/lan_bundle.py` | py | utility | 8 | yes |
 | `estorides_core/observation_models.py` | py | business_logic | 14 | yes |
@@ -50,7 +49,7 @@ This community groups 17 file(s) rooted at `estorides_core` with dominant langua
 - `__aexit__` (method, `estorides_core/async_client.py:258`) `def __aexit__(self)`
 - `session` (method, `estorides_core/async_client.py:264`) `def session(self)`
 - `fetch` (method, `estorides_core/async_client.py:270`) `def fetch(self, method, url)` - Fetch a URL. Returns (parsed_data, meta).
-- `sync_fetch` (method, `estorides_core/async_client.py:400`) `def sync_fetch(method, url)`
+- `sync_fetch` (function, `estorides_core/async_client.py:400`) `def sync_fetch(method, url)`
 - `_installed_share` (function, `estorides_core/config.py:42`) `def _installed_share()` - `<prefix>/share/estorides` — the data-files target of a pip install.
 - `_resolve_dir` (function, `estorides_core/config.py:47`) `def _resolve_dir(env_key, dirname)` - Resolve a read-only runtime data dir.
 - `_resolve_writable_dir` (function, `estorides_core/config.py:63`) `def _resolve_writable_dir(env_key, dirname)` - Resolve a writable runtime dir (no import-time mkdir, issue #49).
@@ -63,48 +62,42 @@ This community groups 17 file(s) rooted at `estorides_core` with dominant langua
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 36
-- Cross-boundary resolved imports (EXTRACTED): 47
+- Internal resolved imports (EXTRACTED): 34
+- Cross-boundary resolved imports (EXTRACTED): 48
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_cli.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/__init__.py imports estorides_core/config.py.
 - [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/audit.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 1 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 6 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/discoverer.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 9 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/entity_extraction.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/feeds.py imports estorides_core/config.py.
 - [EXTRACTED] depends_on community 2 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/fusion_store.py imports estorides_core/config.py.
-- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/tool_install.py imports estorides_core/config.py.
+- [EXTRACTED] depends_on community 10 <-> 4 (strength 0.9): Extracted import edge crosses communities: estorides_core/knowledge_graph.py imports estorides_core/config.py.
 
 ## Risks
 
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
 - [taint medium] `estorides_core/alerter.py` -> `estorides_core/ssrf_guard.py` via `urllib.request` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/async_client.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/async_client.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
+- [taint medium] `estorides_core/async_client.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
+- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
 - [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/feeds.py` via `requests` (0 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/ssrf_guard.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/feeds.py` -> `estorides_core/config.py` via `requests` (1 hops)
-- [taint medium] `estorides_core/intel_resolver.py` -> `estorides_core/intel_resolver.py` via `requests` (0 hops)
 
 ## Open Questions
 
 - Is the dangerous import `requests` in `estorides_core/async_client.py` still required, or can it be isolated?
 - What would break if the most connected file in estorides_core: config changed?
-- Should estorides_core: config be split, given cohesion 0.37?
+- Should estorides_core: config be split, given cohesion 0.35?
 
 ## Sources
 
 - `estorides_core/async_client.py`
 - `estorides_core/config.py`
-- `estorides_core/feeds.py`
 - `estorides_core/intel_resolver.py`
 - `estorides_core/lan_bundle.py`
 - `estorides_core/observation_models.py`

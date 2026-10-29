@@ -31,10 +31,26 @@
 - [`addDiscoverEntityToTab`](modules/static.js.estorides.js.md#adddiscoverentitytotab) function in `static/js/estorides.js`
 - [`added`](modules/estorides_core.change_detection.py.md#diff-added) attribute of `Diff` in `estorides_core.change_detection`
 - [`addText`](modules/static.js.estorides.js.md#addtext) function in `static/js/estorides.js`
+- [`aeroBboxParam`](modules/static.js.estorides.js.md#aerobboxparam) function in `static/js/estorides.js`
+- [`aeroEnabledSet`](modules/static.js.estorides.js.md#aeroenabledset) function in `static/js/estorides.js`
+- [`aeroPersist`](modules/static.js.estorides.js.md#aeropersist) function in `static/js/estorides.js`
+- [`aeroPopup`](modules/static.js.estorides.js.md#aeropopup) function in `static/js/estorides.js`
+- [`aeroRenderLayer`](modules/static.js.estorides.js.md#aerorenderlayer) function in `static/js/estorides.js`
+- [`aeroStatus`](modules/static.js.estorides.js.md#aerostatus) function in `static/js/estorides.js`
 - [`affected_tech`](modules/estorides_core.vuln_correlation.py.md#vulnentry-affected_tech) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
 - [`affected_version`](modules/estorides_core.vuln_correlation.py.md#vulnentry-affected_version) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
 - [`after`](modules/estorides_core.change_detection.py.md#change-after) attribute of `Change` in `estorides_core.change_detection`
 - [`aimAt`](modules/static.js.graph_bundle.js.md#aimat) function in `static/js/graph_bundle.js`
+- [`aircraft_class_label`](modules/estorides_core.aviation.py.md#aircraft_class_label) function in `estorides_core.aviation`
+- [`AircraftEmergencyFeed`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed) class in `estorides_core.feeds`
+- [`AircraftFeed`](modules/estorides_core.feeds.py.md#aircraftfeed) class in `estorides_core.feeds`
+- [`airport_brief`](modules/estorides_core.airports.py.md#airport_brief) function in `estorides_core.airports`
+- [`AirportIndex`](modules/estorides_core.airports.py.md#airportindex) class in `estorides_core.airports`
+- [`AIRPORTS_CACHE_FILE`](modules/estorides_core.feeds.py.md#airports_cache_file) constant in `estorides_core.feeds`
+- [`airports_enabled`](modules/estorides_core.feeds.py.md#airports_enabled) function in `estorides_core.feeds`
+- [`AIRPORTS_MAX_BYTES`](modules/estorides_core.feeds.py.md#airports_max_bytes) constant in `estorides_core.feeds`
+- [`AIRPORTS_TTL_S`](modules/estorides_core.feeds.py.md#airports_ttl_s) constant in `estorides_core.feeds`
+- [`AIRPORTS_URL`](modules/estorides_core.feeds.py.md#airports_url) constant in `estorides_core.feeds`
 - [`AlertDispatcher`](modules/estorides_core.alerter.py.md#alertdispatcher) class in `estorides_core.alerter`
 - [`aliases`](modules/estorides_core.entity_resolution.py.md#canonicalentity-aliases) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
 - [`aliases`](modules/estorides_core.ontology.py.md#sanctionentry-aliases) attribute of `SanctionEntry` in `estorides_core.ontology`
@@ -95,6 +111,13 @@
 - [`attributes`](modules/estorides_core.entity_resolution.py.md#canonicalentity-attributes) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
 - [`attributes`](modules/estorides_core.entity_extraction.py.md#entity-attributes) attribute of `Entity` in `estorides_core.entity_extraction`
 - [`attributes`](modules/estorides_core.observation_models.py.md#observedentity-attributes) attribute of `ObservedEntity` in `estorides_core.observation_models`
+- [`attribution`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-attribution) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#aircraftfeed-attribution) attribute of `AircraftFeed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#earthquakesfeed-attribution) attribute of `EarthquakesFeed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#feed-attribution) attribute of `Feed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#militaryaircraftfeed-attribution) attribute of `MilitaryAircraftFeed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed-attribution) attribute of `RocketLaunchesFeed` in `estorides_core.feeds`
+- [`attribution`](modules/estorides_core.feeds.py.md#satellitesfeed-attribution) attribute of `SatellitesFeed` in `estorides_core.feeds`
 - [`AUDIT_PATH`](modules/estorides_core.audit.py.md#audit_path) constant in `estorides_core.audit`
 - [`AuditEvent`](modules/estorides_core.audit.py.md#auditevent) class in `estorides_core.audit`
 - [`AuditLog`](modules/estorides_core.audit.py.md#auditlog) class in `estorides_core.audit`
@@ -126,6 +149,10 @@
 - [`base_s`](modules/estorides_core.config.py.md#retryconfig-base_s) attribute of `RetryConfig` in `estorides_core.config`
 - [`base_url`](modules/estorides_llm.manager.py.md#openaibackend-base_url) attribute of `OpenAIBackend` in `estorides_llm.manager`
 - [`base_url`](modules/estorides_llm.manager.py.md#openrouterbackend-base_url) attribute of `OpenRouterBackend` in `estorides_llm.manager`
+- [`BBOX_CACHE_MAX_FILES`](modules/estorides_core.feeds.py.md#bbox_cache_max_files) constant in `estorides_core.feeds`
+- [`bbox_center_radius`](modules/estorides_core.aviation.py.md#bbox_center_radius) function in `estorides_core.aviation`
+- [`bbox_ttl_s`](modules/estorides_core.feeds.py.md#aircraftfeed-bbox_ttl_s) attribute of `AircraftFeed` in `estorides_core.feeds`
+- [`bbox_ttl_s`](modules/estorides_core.feeds.py.md#feed-bbox_ttl_s) attribute of `Feed` in `estorides_core.feeds`
 - [`before`](modules/estorides_core.change_detection.py.md#change-before) attribute of `Change` in `estorides_core.change_detection`
 - [`bindResultFilters`](modules/static.js.estorides.js.md#bindresultfilters) function in `static/js/estorides.js`
 - [`bindStagePointer`](modules/static.js.graph_force.js.md#bindstagepointer) function in `static/js/graph_force.js`
@@ -156,6 +183,7 @@
 - [`build_executive_summary`](modules/estorides_export.recon_report.py.md#build_executive_summary) function in `estorides_export.recon_report`
 - [`build_force_payload`](modules/estorides_core.graph_force.py.md#build_force_payload) function in `estorides_core.graph_force`
 - [`build_https_url`](modules/estorides_core.web_security.py.md#build_https_url) function in `estorides_core.web_security`
+- [`build_index`](modules/estorides_core.airports.py.md#build_index) function in `estorides_core.airports`
 - [`build_index`](modules/estorides_core.graph_rag_search.py.md#build_index) function in `estorides_core.graph_rag_search`
 - [`build_openapi`](modules/estorides_core.openapi.py.md#build_openapi) function in `estorides_core.openapi`
 - [`build_page_params`](modules/estorides_core.pagination.py.md#build_page_params) function in `estorides_core.pagination`
@@ -172,6 +200,7 @@
 - [`bundle_settings`](modules/estorides_core.graph_bundle.py.md#bundle_settings) function in `estorides_core.graph_bundle`
 - [`BundleLayout`](modules/estorides_core.graph_bundle.py.md#bundlelayout) class in `estorides_core.graph_bundle`
 - [`by_category`](modules/estorides_core.source_loader.py.md#sourceregistry-by_category) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`by_code`](modules/estorides_core.airports.py.md#airportindex-by_code) method of `AirportIndex` in `estorides_core.airports`
 - [`by_kind`](modules/estorides_core.change_detection.py.md#changesummary-by_kind) attribute of `ChangeSummary` in `estorides_core.change_detection`
 
 <a id="c"></a>
@@ -185,6 +214,7 @@
 - [`cache_filename`](modules/estorides_core.feeds.py.md#feed-cache_filename) attribute of `Feed` in `estorides_core.feeds`
 - [`CACHE_MAX`](modules/estorides_core.intel_resolver.py.md#cache_max) constant in `estorides_core.intel_resolver`
 - [`CACHE_PATH`](modules/estorides_core.config.py.md#cache_path) constant in `estorides_core.config`
+- [`cache_path`](modules/estorides_core.feeds.py.md#feed-cache_path) method of `Feed` in `estorides_core.feeds`
 - [`CACHE_TTL`](modules/estorides_core.intel_resolver.py.md#cache_ttl) constant in `estorides_core.intel_resolver`
 - [`CacheConfig`](modules/estorides_core.config.py.md#cacheconfig) class in `estorides_core.config`
 - [`cached`](modules/estorides_core.observation_models.py.md#observationmeta-cached) attribute of `ObservationMeta` in `estorides_core.observation_models`
@@ -197,6 +227,7 @@
 - [`canonical_id`](modules/estorides_core.recon_fusion.py.md#groupedentity-canonical_id) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
 - [`canonical_id`](modules/estorides_core.entity_resolution.py.md#canonical_id) function in `estorides_core.entity_resolution`
 - [`CanonicalEntity`](modules/estorides_core.entity_resolution.py.md#canonicalentity) class in `estorides_core.entity_resolution`
+- [`cap_records`](modules/estorides_core.aerospace.py.md#cap_records) function in `estorides_core.aerospace`
 - [`cap_s`](modules/estorides_core.config.py.md#retryconfig-cap_s) attribute of `RetryConfig` in `estorides_core.config`
 - [`case_id`](modules/estorides_core.discoverer.py.md#discoverjob-case_id) attribute of `DiscoverJob` in `estorides_core.discoverer`
 - [`caseActionDiff`](modules/static.js.estorides.js.md#caseactiondiff) function in `static/js/estorides.js`
@@ -212,6 +243,7 @@
 - [`CATEGORY_PALETTE`](modules/estorides_core.config.py.md#category_palette) constant in `estorides_core.config`
 - [`CDN_HEADERS`](modules/estorides_core.tech_fingerprint.py.md#cdn_headers) constant in `estorides_core.tech_fingerprint`
 - [`CDN_PATTERNS`](modules/estorides_core.supply_chain.py.md#cdn_patterns) constant in `estorides_core.supply_chain`
+- [`celestrak_group_url`](modules/estorides_core.aerospace.py.md#celestrak_group_url) function in `estorides_core.aerospace`
 - [`center`](modules/estorides_core.graph_bundle.py.md#bundlelayout-center) attribute of `BundleLayout` in `estorides_core.graph_bundle`
 - [`center`](modules/static.js.graph_bundle.js.md#center) function in `static/js/graph_bundle.js`
 - [`CertRecord`](modules/estorides_core.pdns_monitor.py.md#certrecord) class in `estorides_core.pdns_monitor`
@@ -242,9 +274,25 @@
 - [`clamp_entities`](modules/estorides_core.config.py.md#pivotconfig-clamp_entities) method of `PivotConfig` in `estorides_core.config`
 - [`clamp_parallel`](modules/estorides_core.config.py.md#pivotconfig-clamp_parallel) method of `PivotConfig` in `estorides_core.config`
 - [`clamp_steps`](modules/estorides_core.config.py.md#pivotconfig-clamp_steps) method of `PivotConfig` in `estorides_core.config`
+- [`CLASS_AIRLINER`](modules/estorides_core.aviation.py.md#class_airliner) constant in `estorides_core.aviation`
+- [`CLASS_BALLOON`](modules/estorides_core.aviation.py.md#class_balloon) constant in `estorides_core.aviation`
+- [`CLASS_BIZJET`](modules/estorides_core.aviation.py.md#class_bizjet) constant in `estorides_core.aviation`
+- [`CLASS_FASTJET`](modules/estorides_core.aviation.py.md#class_fastjet) constant in `estorides_core.aviation`
+- [`CLASS_GLIDER`](modules/estorides_core.aviation.py.md#class_glider) constant in `estorides_core.aviation`
+- [`CLASS_GROUND`](modules/estorides_core.aviation.py.md#class_ground) constant in `estorides_core.aviation`
+- [`CLASS_HELICOPTER`](modules/estorides_core.aviation.py.md#class_helicopter) constant in `estorides_core.aviation`
+- [`CLASS_LABELS`](modules/estorides_core.aviation.py.md#class_labels) constant in `estorides_core.aviation`
+- [`CLASS_LIGHT`](modules/estorides_core.aviation.py.md#class_light) constant in `estorides_core.aviation`
+- [`CLASS_QUADJET`](modules/estorides_core.aviation.py.md#class_quadjet) constant in `estorides_core.aviation`
+- [`CLASS_SPACE`](modules/estorides_core.aviation.py.md#class_space) constant in `estorides_core.aviation`
+- [`CLASS_TURBOPROP`](modules/estorides_core.aviation.py.md#class_turboprop) constant in `estorides_core.aviation`
+- [`CLASS_UAV`](modules/estorides_core.aviation.py.md#class_uav) constant in `estorides_core.aviation`
+- [`CLASS_UNKNOWN`](modules/estorides_core.aviation.py.md#class_unknown) constant in `estorides_core.aviation`
+- [`CLASS_WIDEBODY`](modules/estorides_core.aviation.py.md#class_widebody) constant in `estorides_core.aviation`
 - [`classification`](modules/estorides_export.recon_report.py.md#reportmetadata-classification) attribute of `ReportMetadata` in `estorides_export.recon_report`
 - [`classify`](modules/estorides_core.recon_fusion.py.md#reconfusionengine-classify) method of `ReconFusionEngine` in `estorides_core.recon_fusion`
 - [`classify`](modules/estorides_core.scope.py.md#scopematcher-classify) method of `ScopeMatcher` in `estorides_core.scope`
+- [`classify_aircraft`](modules/estorides_core.aviation.py.md#classify_aircraft) function in `estorides_core.aviation`
 - [`classify_finding`](modules/estorides_core.code_exposure.py.md#classify_finding) function in `estorides_core.code_exposure`
 - [`classify_subdomain_status`](modules/estorides_core.pdns_monitor.py.md#classify_subdomain_status) function in `estorides_core.pdns_monitor`
 - [`clear`](modules/estorides_core.event_bus.py.md#eventbus-clear) method of `EventBus` in `estorides_core.event_bus`
@@ -414,7 +462,10 @@
 - [`deadline_seconds`](modules/estorides_core.pivot_engine.py.md#pivotbudget-deadline_seconds) attribute of `PivotBudget` in `estorides_core.pivot_engine`
 - [`deadline_seconds`](modules/estorides_core.config.py.md#pivotconfig-deadline_seconds) attribute of `PivotConfig` in `estorides_core.config`
 - [`debounce`](modules/static.js.estorides.js.md#debounce) function in `static/js/estorides.js`
+- [`decode_catalog_field`](modules/estorides_core.aerospace.py.md#decode_catalog_field) function in `estorides_core.aerospace`
+- [`decode_db_flags`](modules/estorides_core.aviation.py.md#decode_db_flags) function in `estorides_core.aviation`
 - [`decrypt_text`](modules/estorides_core.case_crypto.py.md#decrypt_text) function in `estorides_core.case_crypto`
+- [`DEFAULT_AIRPORT_TYPES`](modules/estorides_core.airports.py.md#default_airport_types) constant in `estorides_core.airports`
 - [`DEFAULT_BUDGET_CHARS`](modules/estorides_core.graph_force.py.md#default_budget_chars) constant in `estorides_core.graph_force`
 - [`DEFAULT_CONTACT`](modules/estorides_core.config.py.md#default_contact) constant in `estorides_core.config`
 - [`default_credentials`](modules/estorides_core.vuln_correlation.py.md#vulnentry-default_credentials) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
@@ -434,15 +485,21 @@
 - [`DEFAULT_PRIORITY`](modules/estorides_llm.manager.py.md#default_priority) constant in `estorides_llm.manager`
 - [`DEFAULT_REL_WEIGHT`](modules/estorides_core.graph_rag_search.py.md#default_rel_weight) constant in `estorides_core.graph_rag_search`
 - [`DEFAULT_RELIABILITY`](modules/estorides_core.reliability_scoring.py.md#default_reliability) constant in `estorides_core.reliability_scoring`
+- [`DEFAULT_SATELLITE_GROUPS`](modules/estorides_core.aerospace.py.md#default_satellite_groups) constant in `estorides_core.aerospace`
 - [`default_scope`](modules/estorides_core.lan_scope.py.md#default_scope) function in `estorides_core.lan_scope`
 - [`DEFAULT_SOURCE_TYPE`](modules/estorides_core.reliability_scoring.py.md#default_source_type) constant in `estorides_core.reliability_scoring`
 - [`DEFAULT_TELEMETRY`](modules/estorides_core.search_telemetry.py.md#default_telemetry) constant in `estorides_core.search_telemetry`
 - [`default_timeout_seconds`](modules/estorides_core.config.py.md#webconfig-default_timeout_seconds) attribute of `WebConfig` in `estorides_core.config`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-default_ttl_s) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#aircraftfeed-default_ttl_s) attribute of `AircraftFeed` in `estorides_core.feeds`
 - [`DEFAULT_TTL_S`](modules/estorides_core.feeds.py.md#default_ttl_s) constant in `estorides_core.feeds`
 - [`default_ttl_s`](modules/estorides_core.feeds.py.md#earthquakesfeed-default_ttl_s) attribute of `EarthquakesFeed` in `estorides_core.feeds`
 - [`default_ttl_s`](modules/estorides_core.feeds.py.md#feed-default_ttl_s) attribute of `Feed` in `estorides_core.feeds`
 - [`default_ttl_s`](modules/estorides_core.feeds.py.md#firesfeed-default_ttl_s) attribute of `FiresFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#militaryaircraftfeed-default_ttl_s) attribute of `MilitaryAircraftFeed` in `estorides_core.feeds`
 - [`default_ttl_s`](modules/estorides_core.feeds.py.md#newsfeed-default_ttl_s) attribute of `NewsFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed-default_ttl_s) attribute of `RocketLaunchesFeed` in `estorides_core.feeds`
+- [`default_ttl_s`](modules/estorides_core.feeds.py.md#satellitesfeed-default_ttl_s) attribute of `SatellitesFeed` in `estorides_core.feeds`
 - [`DEFAULT_UNASSIGNED_COLOR`](modules/estorides_core.graph_bundle.py.md#default_unassigned_color) constant in `estorides_core.graph_bundle`
 - [`default_weight`](modules/estorides_core.config.py.md#pivotpolicyconfig-default_weight) attribute of `PivotPolicyConfig` in `estorides_core.config`
 - [`DefaultCred`](modules/estorides_core.vuln_correlation.py.md#defaultcred) class in `estorides_core.vuln_correlation`
@@ -466,15 +523,20 @@
 - [`describe`](modules/estorides_core.scope.py.md#regexrule-describe) method of `RegexRule` in `estorides_core.scope`
 - [`describe`](modules/estorides_core.scope.py.md#scoperule-describe) method of `ScopeRule` in `estorides_core.scope`
 - [`describe`](modules/estorides_core.scope.py.md#wildcardrule-describe) method of `WildcardRule` in `estorides_core.scope`
+- [`description`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-description) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.feeds.py.md#aircraftfeed-description) attribute of `AircraftFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.feeds.py.md#earthquakesfeed-description) attribute of `EarthquakesFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.feeds.py.md#feed-description) attribute of `Feed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.feeds.py.md#firesfeed-description) attribute of `FiresFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.tool_install.py.md#installrecipe-description) attribute of `InstallRecipe` in `estorides_core.tool_install`
 - [`description`](modules/estorides_core.search_telemetry.py.md#keyboardshortcut-description) attribute of `KeyboardShortcut` in `estorides_core.search_telemetry`
+- [`description`](modules/estorides_core.feeds.py.md#militaryaircraftfeed-description) attribute of `MilitaryAircraftFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.feeds.py.md#newsfeed-description) attribute of `NewsFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.observation_models.py.md#observation-description) attribute of `Observation` in `estorides_core.observation_models`
 - [`description`](modules/estorides_core.graph_rag_search.py.md#ragentity-description) attribute of `RagEntity` in `estorides_core.graph_rag_search`
 - [`description`](modules/estorides_core.graph_rag_search.py.md#ragrelation-description) attribute of `RagRelation` in `estorides_core.graph_rag_search`
+- [`description`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed-description) attribute of `RocketLaunchesFeed` in `estorides_core.feeds`
+- [`description`](modules/estorides_core.feeds.py.md#satellitesfeed-description) attribute of `SatellitesFeed` in `estorides_core.feeds`
 - [`description`](modules/estorides_core.supply_chain.py.md#sharedinfra-description) attribute of `SharedInfra` in `estorides_core.supply_chain`
 - [`description`](modules/estorides_core.transforms.py.md#transform-description) attribute of `Transform` in `estorides_core.transforms`
 - [`description`](modules/estorides_core.vuln_correlation.py.md#vulnentry-description) attribute of `VulnEntry` in `estorides_core.vuln_correlation`
@@ -542,7 +604,11 @@
 ## E
 
 - [`E`](modules/estorides_core.reliability_scoring.py.md#sourcereliability-e) attribute of `SourceReliability` in `estorides_core.reliability_scoring`
+- [`EARTH_MU_KM3_S2`](modules/estorides_core.aerospace.py.md#earth_mu_km3_s2) constant in `estorides_core.aerospace`
+- [`EARTH_RADIUS_KM`](modules/estorides_core.aerospace.py.md#earth_radius_km) constant in `estorides_core.aerospace`
+- [`EARTH_RADIUS_KM`](modules/estorides_core.aviation.py.md#earth_radius_km) constant in `estorides_core.aviation`
 - [`EarthquakesFeed`](modules/estorides_core.feeds.py.md#earthquakesfeed) class in `estorides_core.feeds`
+- [`eci_to_geodetic`](modules/estorides_core.aerospace.py.md#eci_to_geodetic) function in `estorides_core.aerospace`
 - [`Edge`](modules/estorides_core.change_detection.py.md#edge) class in `estorides_core.change_detection`
 - [`EDGE_COLORS`](modules/estorides_core.graph_force.py.md#edge_colors) constant in `estorides_core.graph_force`
 - [`edges`](modules/estorides_core.change_detection.py.md#snapshotentity-edges) attribute of `SnapshotEntity` in `estorides_core.change_detection`
@@ -558,6 +624,9 @@
 - [`EMAIL_RE`](modules/estorides_core.people_intel.py.md#email_re) constant in `estorides_core.people_intel`
 - [`emails`](modules/estorides_core.people_intel.py.md#employee-emails) attribute of `Employee` in `estorides_core.people_intel`
 - [`emails`](modules/estorides_core.active_recon.py.md#theharvesterresult-emails) attribute of `TheHarvesterResult` in `estorides_core.active_recon`
+- [`EMERGENCY_KINDS`](modules/estorides_core.aviation.py.md#emergency_kinds) constant in `estorides_core.aviation`
+- [`emergency_phrase`](modules/estorides_core.aviation.py.md#emergency_phrase) function in `estorides_core.aviation`
+- [`emergency_status`](modules/estorides_core.aviation.py.md#emergency_status) function in `estorides_core.aviation`
 - [`emit`](modules/estorides_core.pivot_engine.py.md#bufferedeventsink-emit) method of `BufferedEventSink` in `estorides_core.pivot_engine`
 - [`emit`](modules/estorides_core.pivot_engine.py.md#eventsink-emit) method of `EventSink` in `estorides_core.pivot_engine`
 - [`emit`](modules/estorides_core.pivot_engine.py.md#listeventsink-emit) method of `ListEventSink` in `estorides_core.pivot_engine`
@@ -752,6 +821,7 @@
 - [`focusNode`](modules/static.js.graph_bundle.js.md#focusnode) function in `static/js/graph_bundle.js`
 - [`focusSelected`](modules/static.js.graph_force.js.md#focusselected) function in `static/js/graph_force.js`
 - [`focusState`](modules/static.js.graph_bundle.js.md#focusstate) function in `static/js/graph_bundle.js`
+- [`FOOT_TO_M`](modules/estorides_core.aerospace.py.md#foot_to_m) constant in `estorides_core.aerospace`
 - [`for_type`](modules/estorides_core.transforms.py.md#transformregistry-for_type) method of `TransformRegistry` in `estorides_core.transforms`
 - [`force`](modules/static.js.graph_force.js.md#force) function in `static/js/graph_force.js`
 - [`force`](modules/static.js.graph_force.js.md#force) function in `static/js/graph_force.js`
@@ -760,6 +830,7 @@
 - [`force_settings`](modules/estorides_core.graph_force.py.md#force_settings) function in `estorides_core.graph_force`
 - [`format_context`](modules/estorides_llm.intelligence_prompts.py.md#format_context) function in `estorides_llm.intelligence_prompts`
 - [`format_event`](modules/estorides_core.ops_observability.py.md#format_event) function in `estorides_core.ops_observability`
+- [`FPM_TO_MPS`](modules/estorides_core.aerospace.py.md#fpm_to_mps) constant in `estorides_core.aerospace`
 - [`fqdn`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-fqdn) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
 - [`frac`](modules/static.js.estorides.js.md#frac) function in `static/js/estorides.js`
 - [`frame`](modules/static.js.graph_bundle.js.md#frame) function in `static/js/graph_bundle.js`
@@ -818,6 +889,7 @@
 - [`global_search`](modules/estorides_core.graph_rag_search.py.md#graphragsearcher-global_search) method of `GraphRagSearcher` in `estorides_core.graph_rag_search`
 - [`global_top_reports`](modules/estorides_core.graph_rag_search.py.md#graphragconfig-global_top_reports) attribute of `GraphRagConfig` in `estorides_core.graph_rag_search`
 - [`glyphPath`](modules/static.js.graph_force.js.md#glyphpath) function in `static/js/graph_force.js`
+- [`gmst_deg`](modules/estorides_core.aerospace.py.md#gmst_deg) function in `estorides_core.aerospace`
 - [`graph_context_block`](modules/estorides_core.graph_rag_search.py.md#graph_context_block) function in `estorides_core.graph_rag_search`
 - [`graph_node_base_size`](modules/estorides_core.config.py.md#webconfig-graph_node_base_size) attribute of `WebConfig` in `estorides_core.config`
 - [`graph_node_max_bonus`](modules/estorides_core.config.py.md#webconfig-graph_node_max_bonus) attribute of `WebConfig` in `estorides_core.config`
@@ -844,6 +916,7 @@
 - [`has_apt`](modules/estorides_core.tool_install.py.md#installrecipe-has_apt) method of `InstallRecipe` in `estorides_core.tool_install`
 - [`has_git`](modules/estorides_core.tool_install.py.md#installrecipe-has_git) method of `InstallRecipe` in `estorides_core.tool_install`
 - [`has_runner`](modules/estorides_core.monitoring.py.md#watchscheduler-has_runner) property of `WatchScheduler` in `estorides_core.monitoring`
+- [`haversine_km`](modules/estorides_core.aviation.py.md#haversine_km) function in `estorides_core.aviation`
 - [`HEADER_PATTERNS`](modules/estorides_core.tech_fingerprint.py.md#header_patterns) constant in `estorides_core.tech_fingerprint`
 - [`health_payload`](modules/estorides_core.ops_observability.py.md#health_payload) function in `estorides_core.ops_observability`
 - [`health_score`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthresult-health_score) attribute of `SourceHealthResult` in `estorides_core.source_health_monitoring`
@@ -926,6 +999,7 @@
 - [`info`](modules/estorides_core.code_exposure.py.md#severitysummary-info) attribute of `SeveritySummary` in `estorides_core.code_exposure`
 - [`ingest`](modules/static.js.graph_bundle.js.md#ingest) function in `static/js/graph_bundle.js`
 - [`init`](modules/static.js.graph_bundle.js.md#init) function in `static/js/graph_bundle.js`
+- [`__init__`](modules/estorides_core.airports.py.md#airportindex-__init__) constructor of `AirportIndex` in `estorides_core.airports`
 - [`__init__`](modules/estorides_core.async_client.py.md#asyncclient-__init__) constructor of `AsyncClient` in `estorides_core.async_client`
 - [`__init__`](modules/estorides_core.audit.py.md#auditlog-__init__) constructor of `AuditLog` in `estorides_core.audit`
 - [`__init__`](modules/estorides_core.graph_rag_search.py.md#bm25index-__init__) constructor of `Bm25Index` in `estorides_core.graph_rag_search`
@@ -958,6 +1032,7 @@
 - [`__init__`](modules/estorides_core.transforms.py.md#transformregistry-__init__) constructor of `TransformRegistry` in `estorides_core.transforms`
 - [`__init__`](modules/estorides_core.monitoring.py.md#watchscheduler-__init__) constructor of `WatchScheduler` in `estorides_core.monitoring`
 - [`__init__`](modules/estorides_core.ontology.py.md#wikidatacache-__init__) constructor of `WikidataCache` in `estorides_core.ontology`
+- [`initAerospaceLayers`](modules/static.js.estorides.js.md#initaerospacelayers) function in `static/js/estorides.js`
 - [`ink`](modules/static.js.graph_bundle.js.md#ink) function in `static/js/graph_bundle.js`
 - [`inspectInGraph`](modules/static.js.graph_bundle.js.md#inspectingraph) function in `static/js/graph_bundle.js`
 - [`install_auth_gate`](modules/estorides_core.web_security.py.md#install_auth_gate) function in `estorides_core.web_security`
@@ -986,6 +1061,7 @@
 - [`is_active`](modules/estorides_core.config.py.md#cacheconfig-is_active) property of `CacheConfig` in `estorides_core.config`
 - [`is_active`](modules/estorides_core.pdns_monitor.py.md#historicalsubdomain-is_active) attribute of `HistoricalSubdomain` in `estorides_core.pdns_monitor`
 - [`is_cors_enabled`](modules/estorides_core.web_security.py.md#websecurityconfig-is_cors_enabled) property of `WebSecurityConfig` in `estorides_core.web_security`
+- [`is_emergency`](modules/estorides_core.aviation.py.md#is_emergency) function in `estorides_core.aviation`
 - [`is_ip`](modules/estorides_core.scope.py.md#is_ip) function in `estorides_core.scope`
 - [`is_lan_request`](modules/estorides_core.lan_web.py.md#is_lan_request) function in `estorides_core.lan_web`
 - [`is_non_latin`](modules/estorides_core.transliteration.py.md#is_non_latin) function in `estorides_core.transliteration`
@@ -1018,6 +1094,7 @@
 
 - [`k`](modules/static.js.estorides.js.md#k) function in `static/js/estorides.js`
 - [`k`](modules/static.js.estorides.js.md#k) function in `static/js/estorides.js`
+- [`kepler_subsatellite_point`](modules/estorides_core.aerospace.py.md#kepler_subsatellite_point) function in `estorides_core.aerospace`
 - [`key`](modules/estorides_core.search_telemetry.py.md#searchphase-key) attribute of `SearchPhase` in `estorides_core.search_telemetry`
 - [`key_entities`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-key_entities) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
 - [`key_findings`](modules/estorides_core.recon_fusion.py.md#groupedentity-key_findings) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
@@ -1032,6 +1109,9 @@
 - [`kind`](modules/estorides_core.graph_rag_search.py.md#ragentity-kind) attribute of `RagEntity` in `estorides_core.graph_rag_search`
 - [`KIND_HTTP_API`](modules/estorides_core.system_app_sources.py.md#kind_http_api) constant in `estorides_core.system_app_sources`
 - [`KIND_SYSTEM_APP`](modules/estorides_core.system_app_sources.py.md#kind_system_app) constant in `estorides_core.system_app_sources`
+- [`KM_PER_DEGREE`](modules/estorides_core.airports.py.md#km_per_degree) constant in `estorides_core.airports`
+- [`KM_PER_NM`](modules/estorides_core.aviation.py.md#km_per_nm) constant in `estorides_core.aviation`
+- [`KNOT_TO_MPS`](modules/estorides_core.aerospace.py.md#knot_to_mps) constant in `estorides_core.aerospace`
 - [`KnowledgeGraph`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph) class in `estorides_core.knowledge_graph`
 - [`KUZU_PATH`](modules/estorides_core.graph_kuzu.py.md#kuzu_path) constant in `estorides_core.graph_kuzu`
 - [`KuzuGraphBackend`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend) class in `estorides_core.graph_kuzu`
@@ -1064,6 +1144,7 @@
 - [`last_updated`](modules/estorides_core.socmint.py.md#socialmediaprofile-last_updated) attribute of `SocialMediaProfile` in `estorides_core.socmint`
 - [`lat`](modules/estorides_core.feeds.py.md#feedpoint-lat) attribute of `FeedPoint` in `estorides_core.feeds`
 - [`latency_sum_ms`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthinput-latency_sum_ms) attribute of `SourceHealthInput` in `estorides_core.source_health_monitoring`
+- [`LAUNCHES_URL`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed-launches_url) attribute of `RocketLaunchesFeed` in `estorides_core.feeds`
 - [`LAZYOWN_TYPE_MAP`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-lazyown_type_map) attribute of `KnowledgeGraph` in `estorides_core.knowledge_graph`
 - [`lead_score`](modules/estorides_core.config.py.md#pivotpolicyconfig-lead_score) method of `PivotPolicyConfig` in `estorides_core.config`
 - [`LEASE_READ_CAP_BYTES`](modules/estorides_core.lan_runner.py.md#lease_read_cap_bytes) constant in `estorides_core.lan_runner`
@@ -1107,6 +1188,7 @@
 - [`load_rules_file`](modules/estorides_core.scope.py.md#load_rules_file) function in `estorides_core.scope`
 - [`load_security_config`](modules/estorides_core.web_security.py.md#load_security_config) function in `estorides_core.web_security`
 - [`load_yaml_dir`](modules/estorides_core.transforms.py.md#transformregistry-load_yaml_dir) method of `TransformRegistry` in `estorides_core.transforms`
+- [`loadAeroFeeds`](modules/static.js.estorides.js.md#loadaerofeeds) function in `static/js/estorides.js`
 - [`loadAnalysisModels`](modules/static.js.estorides.js.md#loadanalysismodels) function in `static/js/estorides.js`
 - [`loadCases`](modules/static.js.estorides.js.md#loadcases) function in `static/js/estorides.js`
 - [`loadFusionEntityDetail`](modules/static.js.estorides.js.md#loadfusionentitydetail) function in `static/js/estorides.js`
@@ -1187,6 +1269,7 @@
 - [`max_label_len`](modules/estorides_core.ops_observability.py.md#opsconfig-max_label_len) attribute of `OpsConfig` in `estorides_core.ops_observability`
 - [`MAX_NODES`](modules/estorides_core.graph_force.py.md#max_nodes) constant in `estorides_core.graph_force`
 - [`max_pages`](modules/estorides_core.pagination.py.md#paginationconfig-max_pages) attribute of `PaginationConfig` in `estorides_core.pagination`
+- [`MAX_REGIONAL_RADIUS_NM`](modules/estorides_core.aviation.py.md#max_regional_radius_nm) constant in `estorides_core.aviation`
 - [`MAX_REQS_PER_SEC`](modules/estorides_core.cloud_asset_discovery.py.md#max_reqs_per_sec) constant in `estorides_core.cloud_asset_discovery`
 - [`MAX_SNIPPET_CHARS`](modules/estorides_core.code_exposure.py.md#max_snippet_chars) constant in `estorides_core.code_exposure`
 - [`MAX_STATIC_LINKS`](modules/estorides_core.transforms.py.md#max_static_links) constant in `estorides_core.transforms`
@@ -1231,6 +1314,8 @@
 - [`metrics_content_type`](modules/estorides_core.ops_observability.py.md#opsconfig-metrics_content_type) attribute of `OpsConfig` in `estorides_core.ops_observability`
 - [`mid`](modules/static.js.graph_bundle.js.md#mid) function in `static/js/graph_bundle.js`
 - [`mid`](modules/static.js.graph_force.js.md#mid) function in `static/js/graph_force.js`
+- [`MIL_URL`](modules/estorides_core.feeds.py.md#militaryaircraftfeed-mil_url) attribute of `MilitaryAircraftFeed` in `estorides_core.feeds`
+- [`MilitaryAircraftFeed`](modules/estorides_core.feeds.py.md#militaryaircraftfeed) class in `estorides_core.feeds`
 - [`min_change_score`](modules/estorides_core.change_detection.py.md#changeconfig-min_change_score) attribute of `ChangeConfig` in `estorides_core.change_detection`
 - [`min_fetches`](modules/estorides_core.source_health_monitoring.py.md#sourcehealthconfig-min_fetches) attribute of `SourceHealthConfig` in `estorides_core.source_health_monitoring`
 - [`min_reliability`](modules/estorides_core.change_detection.py.md#changeconfig-min_reliability) attribute of `ChangeConfig` in `estorides_core.change_detection`
@@ -1252,6 +1337,8 @@
 
 ## N
 
+- [`name`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-name) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
+- [`name`](modules/estorides_core.feeds.py.md#aircraftfeed-name) attribute of `AircraftFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_llm.manager.py.md#anthropicbackend-name) attribute of `AnthropicBackend` in `estorides_llm.manager`
 - [`name`](modules/estorides_core.feeds.py.md#earthquakesfeed-name) attribute of `EarthquakesFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_core.people_intel.py.md#employee-name) attribute of `Employee` in `estorides_core.people_intel`
@@ -1259,17 +1346,24 @@
 - [`name`](modules/estorides_core.feeds.py.md#firesfeed-name) attribute of `FiresFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_core.tool_install.py.md#installrecipe-name) attribute of `InstallRecipe` in `estorides_core.tool_install`
 - [`name`](modules/estorides_llm.manager.py.md#llmbackend-name) attribute of `LLMBackend` in `estorides_llm.manager`
+- [`name`](modules/estorides_core.feeds.py.md#militaryaircraftfeed-name) attribute of `MilitaryAircraftFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_core.feeds.py.md#newsfeed-name) attribute of `NewsFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_llm.manager.py.md#ollamabackend-name) attribute of `OllamaBackend` in `estorides_llm.manager`
 - [`name`](modules/estorides_llm.manager.py.md#openaibackend-name) attribute of `OpenAIBackend` in `estorides_llm.manager`
 - [`name`](modules/estorides_llm.manager.py.md#openrouterbackend-name) attribute of `OpenRouterBackend` in `estorides_llm.manager`
 - [`name`](modules/estorides_core.socmint.py.md#platforminfo-name) attribute of `PlatformInfo` in `estorides_core.socmint`
 - [`name`](modules/estorides_core.graph_rag_search.py.md#ragentity-name) attribute of `RagEntity` in `estorides_core.graph_rag_search`
+- [`name`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed-name) attribute of `RocketLaunchesFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_core.ontology.py.md#sanctionentry-name) attribute of `SanctionEntry` in `estorides_core.ontology`
+- [`name`](modules/estorides_core.feeds.py.md#satellitesfeed-name) attribute of `SatellitesFeed` in `estorides_core.feeds`
 - [`name`](modules/estorides_core.tech_fingerprint.py.md#tech-name) attribute of `Tech` in `estorides_core.tech_fingerprint`
 - [`name`](modules/estorides_core.supply_chain.py.md#thirdparty-name) attribute of `ThirdParty` in `estorides_core.supply_chain`
 - [`name`](modules/estorides_core.tool_install.py.md#toolstatus-name) attribute of `ToolStatus` in `estorides_core.tool_install`
 - [`names`](modules/estorides_core.source_loader.py.md#sourceregistry-names) method of `SourceRegistry` in `estorides_core.source_loader`
+- [`names`](modules/static.js.estorides.js.md#names) class in `static/js/estorides.js`
+- [`NAV_LEVELS`](modules/estorides_core.aviation.py.md#nav_levels) constant in `estorides_core.aviation`
+- [`navigation_integrity`](modules/estorides_core.aviation.py.md#navigation_integrity) function in `estorides_core.aviation`
+- [`nearest`](modules/estorides_core.airports.py.md#airportindex-nearest) method of `AirportIndex` in `estorides_core.airports`
 - [`needs_page_size`](modules/estorides_core.pagination.py.md#paginationconfig-needs_page_size) property of `PaginationConfig` in `estorides_core.pagination`
 - [`neighbors`](modules/estorides_core.graph_kuzu.py.md#kuzugraphbackend-neighbors) method of `KuzuGraphBackend` in `estorides_core.graph_kuzu`
 - [`neighbours`](modules/estorides_core.knowledge_graph.py.md#knowledgegraph-neighbours) method of `KnowledgeGraph` in `estorides_core.knowledge_graph`
@@ -1292,10 +1386,20 @@
 - [`nodes`](modules/static.js.graph_force.js.md#nodes) function in `static/js/graph_force.js`
 - [`NOISE`](modules/estorides_core.recon_fusion.py.md#relevancetier-noise) attribute of `RelevanceTier` in `estorides_core.recon_fusion`
 - [`noise_max_reliability`](modules/estorides_core.config.py.md#reconfusionconfig-noise_max_reliability) attribute of `ReconFusionConfig` in `estorides_core.config`
+- [`normalise_airport`](modules/estorides_core.airports.py.md#normalise_airport) function in `estorides_core.airports`
 - [`normalise_asset`](modules/estorides_core.scope.py.md#normalise_asset) function in `estorides_core.scope`
 - [`normalised`](modules/estorides_core.validation.py.md#query-normalised) attribute of `Query` in `estorides_core.validation`
+- [`normalize_adsbdb`](modules/estorides_core.aerospace.py.md#normalize_adsbdb) function in `estorides_core.aerospace`
+- [`normalize_adsblol_aircraft`](modules/estorides_core.aerospace.py.md#normalize_adsblol_aircraft) function in `estorides_core.aerospace`
+- [`normalize_hexdb_aircraft`](modules/estorides_core.aviation.py.md#normalize_hexdb_aircraft) function in `estorides_core.aviation`
+- [`normalize_hexdb_route`](modules/estorides_core.aviation.py.md#normalize_hexdb_route) function in `estorides_core.aviation`
+- [`normalize_launch_library`](modules/estorides_core.aerospace.py.md#normalize_launch_library) function in `estorides_core.aerospace`
 - [`normalize_mac`](modules/estorides_core.lan_inventory.py.md#normalize_mac) function in `estorides_core.lan_inventory`
+- [`normalize_opensky_states`](modules/estorides_core.aerospace.py.md#normalize_opensky_states) function in `estorides_core.aerospace`
+- [`normalize_opensky_track`](modules/estorides_core.aerospace.py.md#normalize_opensky_track) function in `estorides_core.aerospace`
 - [`normalize_query`](modules/estorides_core.entity_extraction.py.md#normalize_query) function in `estorides_core.entity_extraction`
+- [`normalize_squawk`](modules/estorides_core.aviation.py.md#normalize_squawk) function in `estorides_core.aviation`
+- [`normalize_type_code`](modules/estorides_core.aviation.py.md#normalize_type_code) function in `estorides_core.aviation`
 - [`normalize_value`](modules/estorides_core.entity_resolution.py.md#normalize_value) function in `estorides_core.entity_resolution`
 - [`normalized`](modules/estorides_core.entity_resolution.py.md#canonicalentity-normalized) attribute of `CanonicalEntity` in `estorides_core.entity_resolution`
 - [`normalized`](modules/estorides_core.recon_fusion.py.md#groupedentity-normalized) attribute of `GroupedEntity` in `estorides_core.recon_fusion`
@@ -1376,12 +1480,16 @@
 - [`parent_value`](modules/estorides_core.pivot_engine.py.md#pivotlead-parent_value) attribute of `PivotLead` in `estorides_core.pivot_engine`
 - [`parse_abuseipdb`](modules/estorides_core.parsers.py.md#parse_abuseipdb) function in `estorides_core.parsers`
 - [`parse_active_output`](modules/estorides_core.lan_inventory.py.md#parse_active_output) function in `estorides_core.lan_inventory`
+- [`parse_adsbdb`](modules/estorides_core.parsers.py.md#parse_adsbdb) function in `estorides_core.parsers`
+- [`parse_adsblol_aircraft`](modules/estorides_core.parsers.py.md#parse_adsblol_aircraft) function in `estorides_core.parsers`
+- [`parse_airports_csv`](modules/estorides_core.airports.py.md#parse_airports_csv) function in `estorides_core.airports`
 - [`parse_amass_json`](modules/estorides_core.system_app_sources.py.md#parse_amass_json) function in `estorides_core.system_app_sources`
 - [`parse_arp_table`](modules/estorides_core.lan_inventory.py.md#parse_arp_table) function in `estorides_core.lan_inventory`
 - [`parse_arxiv`](modules/estorides_core.parsers.py.md#parse_arxiv) function in `estorides_core.parsers`
 - [`parse_bgpview`](modules/estorides_core.parsers.py.md#parse_bgpview) function in `estorides_core.parsers`
 - [`parse_blockchain_btc`](modules/estorides_core.parsers.py.md#parse_blockchain_btc) function in `estorides_core.parsers`
 - [`parse_blockstream`](modules/estorides_core.parsers.py.md#parse_blockstream) function in `estorides_core.parsers`
+- [`parse_celestrak_tle`](modules/estorides_core.parsers.py.md#parse_celestrak_tle) function in `estorides_core.parsers`
 - [`parse_cisa_kev`](modules/estorides_core.parsers.py.md#parse_cisa_kev) function in `estorides_core.parsers`
 - [`parse_crossref`](modules/estorides_core.parsers.py.md#parse_crossref) function in `estorides_core.parsers`
 - [`parse_crtsh_json`](modules/estorides_core.parsers.py.md#parse_crtsh_json) function in `estorides_core.parsers`
@@ -1399,6 +1507,8 @@
 - [`parse_github_user`](modules/estorides_core.parsers.py.md#parse_github_user) function in `estorides_core.parsers`
 - [`parse_greynoise`](modules/estorides_core.parsers.py.md#parse_greynoise) function in `estorides_core.parsers`
 - [`parse_hackernews`](modules/estorides_core.parsers.py.md#parse_hackernews) function in `estorides_core.parsers`
+- [`parse_hexdb_aircraft`](modules/estorides_core.parsers.py.md#parse_hexdb_aircraft) function in `estorides_core.parsers`
+- [`parse_hexdb_route`](modules/estorides_core.parsers.py.md#parse_hexdb_route) function in `estorides_core.parsers`
 - [`parse_hibp_breach`](modules/estorides_core.parsers.py.md#parse_hibp_breach) function in `estorides_core.parsers`
 - [`parse_hibp_paste`](modules/estorides_core.parsers.py.md#parse_hibp_paste) function in `estorides_core.parsers`
 - [`parse_holehe_text`](modules/estorides_core.system_app_sources.py.md#parse_holehe_text) function in `estorides_core.system_app_sources`
@@ -1410,6 +1520,7 @@
 - [`parse_ipinfo`](modules/estorides_core.parsers.py.md#parse_ipinfo) function in `estorides_core.parsers`
 - [`parse_ipwhois`](modules/estorides_core.parsers.py.md#parse_ipwhois) function in `estorides_core.parsers`
 - [`parse_keybase`](modules/estorides_core.parsers.py.md#parse_keybase) function in `estorides_core.parsers`
+- [`parse_launch_library`](modules/estorides_core.parsers.py.md#parse_launch_library) function in `estorides_core.parsers`
 - [`parse_maigret_json`](modules/estorides_core.system_app_sources.py.md#parse_maigret_json) function in `estorides_core.system_app_sources`
 - [`parse_mailfy_text`](modules/estorides_core.system_app_sources.py.md#parse_mailfy_text) function in `estorides_core.system_app_sources`
 - [`parse_malwarebazaar`](modules/estorides_core.parsers.py.md#parse_malwarebazaar) function in `estorides_core.parsers`
@@ -1421,6 +1532,8 @@
 - [`parse_nominatim`](modules/estorides_core.parsers.py.md#parse_nominatim) function in `estorides_core.parsers`
 - [`parse_nvd_cve`](modules/estorides_core.parsers.py.md#parse_nvd_cve) function in `estorides_core.parsers`
 - [`parse_openalex`](modules/estorides_core.parsers.py.md#parse_openalex) function in `estorides_core.parsers`
+- [`parse_opensky_states`](modules/estorides_core.parsers.py.md#parse_opensky_states) function in `estorides_core.parsers`
+- [`parse_opensky_track`](modules/estorides_core.parsers.py.md#parse_opensky_track) function in `estorides_core.parsers`
 - [`parse_otx`](modules/estorides_core.parsers.py.md#parse_otx) function in `estorides_core.parsers`
 - [`parse_phonebook`](modules/estorides_core.parsers.py.md#parse_phonebook) function in `estorides_core.parsers`
 - [`parse_phonefy_text`](modules/estorides_core.system_app_sources.py.md#parse_phonefy_text) function in `estorides_core.system_app_sources`
@@ -1439,6 +1552,7 @@
 - [`parse_text_lines`](modules/estorides_core.parsers.py.md#parse_text_lines) function in `estorides_core.parsers`
 - [`parse_theharvester_text`](modules/estorides_core.system_app_sources.py.md#parse_theharvester_text) function in `estorides_core.system_app_sources`
 - [`parse_threatfox`](modules/estorides_core.parsers.py.md#parse_threatfox) function in `estorides_core.parsers`
+- [`parse_tle_catalog`](modules/estorides_core.aerospace.py.md#parse_tle_catalog) function in `estorides_core.aerospace`
 - [`parse_tool_output`](modules/estorides_core.system_app_sources.py.md#parse_tool_output) function in `estorides_core.system_app_sources`
 - [`parse_twitch_user`](modules/estorides_core.parsers.py.md#parse_twitch_user) function in `estorides_core.parsers`
 - [`parse_twitter_user`](modules/estorides_core.parsers.py.md#parse_twitter_user) function in `estorides_core.parsers`
@@ -1507,7 +1621,10 @@
 - [`PlatformInfo`](modules/estorides_core.socmint.py.md#platforminfo) class in `estorides_core.socmint`
 - [`plotPoints`](modules/static.js.estorides.js.md#plotpoints) function in `static/js/estorides.js`
 - [`point`](modules/estorides_core.feeds.py.md#feed-point) method of `Feed` in `estorides_core.feeds`
+- [`point_in_bbox`](modules/estorides_core.aviation.py.md#point_in_bbox) function in `estorides_core.aviation`
+- [`POINT_URL`](modules/estorides_core.feeds.py.md#aircraftfeed-point_url) attribute of `AircraftFeed` in `estorides_core.feeds`
 - [`pointOn`](modules/static.js.graph_bundle.js.md#pointon) function in `static/js/graph_bundle.js`
+- [`points`](modules/static.js.estorides.js.md#points) function in `static/js/estorides.js`
 - [`policy`](modules/estorides_core.config.py.md#pivotconfig-policy) attribute of `PivotConfig` in `estorides_core.config`
 - [`poll_interval_seconds`](modules/estorides_core.config.py.md#streamconfig-poll_interval_seconds) attribute of `StreamConfig` in `estorides_core.config`
 - [`pollToolInstall`](modules/static.js.estorides.js.md#polltoolinstall) function in `static/js/estorides.js`
@@ -1709,6 +1826,7 @@
 - [`ringOf`](modules/static.js.graph_force.js.md#ringof) function in `static/js/graph_force.js`
 - [`RIPE_STAT_URL`](modules/estorides_core.intel_resolver.py.md#ripe_stat_url) constant in `estorides_core.intel_resolver`
 - [`risk_score`](modules/estorides_core.people_intel.py.md#peopleintelresult-risk_score) attribute of `PeopleIntelResult` in `estorides_core.people_intel`
+- [`RocketLaunchesFeed`](modules/estorides_core.feeds.py.md#rocketlaunchesfeed) class in `estorides_core.feeds`
 - [`role`](modules/estorides_core.people_intel.py.md#employee-role) attribute of `Employee` in `estorides_core.people_intel`
 - [`ROOT`](modules/tools.sync_docs.py.md#root) constant in `tools.sync_docs`
 - [`rows`](modules/static.js.estorides.js.md#rows) function in `static/js/estorides.js`
@@ -1756,6 +1874,7 @@
 - [`sanctions`](modules/estorides_core.ontology.py.md#sanctionentry-sanctions) attribute of `SanctionEntry` in `estorides_core.ontology`
 - [`SanctionsIndex`](modules/estorides_core.ontology.py.md#sanctionsindex) class in `estorides_core.ontology`
 - [`sanitize_stem`](modules/estorides_core.lan_bundle.py.md#sanitize_stem) function in `estorides_core.lan_bundle`
+- [`SatellitesFeed`](modules/estorides_core.feeds.py.md#satellitesfeed) class in `estorides_core.feeds`
 - [`saved`](modules/static.js.estorides.js.md#saved) function in `static/js/estorides.js`
 - [`saveLevelOverrides`](modules/static.js.estorides.js.md#saveleveloverrides) function in `static/js/estorides.js`
 - [`saveSidebarCollapsed`](modules/static.js.estorides.js.md#savesidebarcollapsed) function in `static/js/estorides.js`
@@ -1944,6 +2063,8 @@
 - [`SplashTip`](modules/estorides_core.search_telemetry.py.md#splashtip) class in `estorides_core.search_telemetry`
 - [`SqliteStore`](modules/estorides_core.sqlite_store.py.md#sqlitestore) class in `estorides_core.sqlite_store`
 - [`SqlmapResult`](modules/estorides_core.active_recon.py.md#sqlmapresult) class in `estorides_core.active_recon`
+- [`SQUAWK_URL`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-squawk_url) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
+- [`SQUAWKS`](modules/estorides_core.feeds.py.md#aircraftemergencyfeed-squawks) attribute of `AircraftEmergencyFeed` in `estorides_core.feeds`
 - [`src`](modules/static.js.graph_force.js.md#src) function in `static/js/graph_force.js`
 - [`sse_buffer_cap`](modules/estorides_core.config.py.md#streamconfig-sse_buffer_cap) attribute of `StreamConfig` in `estorides_core.config`
 - [`SSRFError`](modules/estorides_core.ssrf_guard.py.md#ssrferror) exception in `estorides_core.ssrf_guard`
@@ -1962,6 +2083,7 @@
 - [`startLanScan`](modules/static.js.estorides.js.md#startlanscan) function in `static/js/estorides.js`
 - [`startOverlayLoop`](modules/static.js.graph_force.js.md#startoverlayloop) function in `static/js/graph_force.js`
 - [`stat`](modules/static.js.graph_force.js.md#stat) function in `static/js/graph_force.js`
+- [`STATES_URL`](modules/estorides_core.feeds.py.md#aircraftfeed-states_url) attribute of `AircraftFeed` in `estorides_core.feeds`
 - [`STATIC_DIR`](modules/estorides_core.config.py.md#static_dir) constant in `estorides_core.config`
 - [`stats`](modules/estorides_core.cases.py.md#casestore-stats) method of `CaseStore` in `estorides_core.cases`
 - [`stats`](modules/estorides_core.entity_store.py.md#entitystore-stats) method of `EntityStore` in `estorides_core.entity_store`
@@ -2002,6 +2124,7 @@
 - [`subdomains`](modules/estorides_core.active_recon.py.md#dnsreconresult-subdomains) attribute of `DnsreconResult` in `estorides_core.active_recon`
 - [`subdomains`](modules/estorides_core.pdns_monitor.py.md#pdnsresult-subdomains) attribute of `PDNSResult` in `estorides_core.pdns_monitor`
 - [`subject`](modules/estorides_core.pdns_monitor.py.md#certrecord-subject) attribute of `CertRecord` in `estorides_core.pdns_monitor`
+- [`subsatellite_point`](modules/estorides_core.aerospace.py.md#subsatellite_point) function in `estorides_core.aerospace`
 - [`subscribe`](modules/estorides_core.event_bus.py.md#eventbus-subscribe) method of `EventBus` in `estorides_core.event_bus`
 - [`subscriber_count`](modules/estorides_core.event_bus.py.md#eventbus-subscriber_count) method of `EventBus` in `estorides_core.event_bus`
 - [`subsidiaries`](modules/estorides_core.supply_chain.py.md#supplychainresult-subsidiaries) attribute of `SupplyChainResult` in `estorides_core.supply_chain`
@@ -2087,6 +2210,9 @@
 - [`title`](modules/estorides_core.graph_rag_search.py.md#ragcommunity-title) attribute of `RagCommunity` in `estorides_core.graph_rag_search`
 - [`title`](modules/estorides_export.recon_report.py.md#reportsection-title) attribute of `ReportSection` in `estorides_export.recon_report`
 - [`title`](modules/estorides_core.search_telemetry.py.md#splashtip-title) attribute of `SplashTip` in `estorides_core.search_telemetry`
+- [`tle_catalog_number`](modules/estorides_core.aerospace.py.md#tle_catalog_number) function in `estorides_core.aerospace`
+- [`tle_epoch_unix`](modules/estorides_core.aerospace.py.md#tle_epoch_unix) function in `estorides_core.aerospace`
+- [`tle_mean_elements`](modules/estorides_core.aerospace.py.md#tle_mean_elements) function in `estorides_core.aerospace`
 - [`to`](modules/static.js.estorides.js.md#to) class in `static/js/estorides.js`
 - [`to2D`](modules/static.js.graph_force.js.md#to2d) function in `static/js/graph_force.js`
 - [`to3D`](modules/static.js.graph_force.js.md#to3d) function in `static/js/graph_force.js`
@@ -2323,6 +2449,7 @@
 - [`WikidataCache`](modules/estorides_core.ontology.py.md#wikidatacache) class in `estorides_core.ontology`
 - [`WildcardRule`](modules/estorides_core.scope.py.md#wildcardrule) class in `estorides_core.scope`
 - [`wireToolbar`](modules/static.js.graph_force.js.md#wiretoolbar) function in `static/js/graph_force.js`
+- [`within_bbox`](modules/estorides_core.airports.py.md#airportindex-within_bbox) method of `AirportIndex` in `estorides_core.airports`
 - [`word_count`](modules/estorides_export.recon_report.py.md#reportresult-word_count) attribute of `ReportResult` in `estorides_export.recon_report`
 - [`write_bundle`](modules/estorides_core.lan_bundle.py.md#write_bundle) function in `estorides_core.lan_bundle`
 - [`write_flat_lists`](modules/estorides_core.scope.py.md#write_flat_lists) function in `estorides_core.scope`

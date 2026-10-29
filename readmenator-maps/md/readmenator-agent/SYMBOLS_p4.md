@@ -1,36 +1,144 @@
-# Symbols (page 4 of 7)
+# Symbols (page 4 of 8)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `renderGraphSummary` | function | `static/js/estorides.js:2512` | `` |
+| `renderLanResults` | function | `static/js/estorides.js:767` | `` |
+| `renderMarkdownInto` | function | `static/js/estorides.js:1292` | `` |
+| `renderResult` | function | `static/js/estorides.js:1197` | `` |
+| `renderTieredResults` | function | `static/js/estorides.js:2239` | `` |
+| `renderTimeline` | function | `static/js/estorides.js:2549` | `` |
+| `replotStreamData` | function | `static/js/estorides.js:734` | `` |
+| `requestToolInstall` | function | `static/js/estorides.js:270` | `` |
+| `resolverTypeFor` | function | `static/js/estorides.js:1611` | `` |
+| `restoreCaseToWorkspace` | function | `static/js/estorides.js:2770` | `` |
+| `rows` | function | `static/js/estorides.js:2962` | `` |
+| `runQuery` | function | `static/js/estorides.js:901` | `` |
+| `runQueryBlocking` | function | `static/js/estorides.js:989` | `` |
+| `runTransform` | function | `static/js/estorides.js:1870` | `` |
+| `runTransformStream` | function | `static/js/estorides.js:1891` | `` |
+| `safe` | function | `static/js/estorides.js:60` | `` |
+| `safeColor` | function | `static/js/estorides.js:1645` | `` |
+| `saveLevelOverrides` | function | `static/js/estorides.js:1627` | `` |
+| `saveSidebarCollapsed` | function | `static/js/estorides.js:3232` | `` |
+| `saveSidebarWidth` | function | `static/js/estorides.js:3221` | `` |
+| `saved` | function | `static/js/estorides.js:2813` | `` |
+| `scheduleRender` | function | `static/js/estorides.js:1362` | `` |
+| `scope` | function | `static/js/estorides.js:837` | `` |
+| `searchEntity` | function | `static/js/estorides.js:1023` | `` |
+| `selectNode` | function | `static/js/estorides.js:1986` | `` |
+| `set` | function | `static/js/estorides.js:105` | `` |
+| `setDiscoverProgress` | function | `static/js/estorides.js:3506` | `` |
+| `setNodeLevel` | function | `static/js/estorides.js:1839` | `` |
+| `setRunProgress` | function | `static/js/estorides.js:159` | `` |
+| `setSanitizedHTML` | function | `static/js/estorides.js:1692` | `` |
+| `setStatus` | function | `static/js/estorides.js:1191` | `` |
+| `setStatus` | function | `static/js/estorides.js:3499` | `` |
+| `setStatusDot` | function | `static/js/estorides.js:2215` | `` |
+| `setThinkingVisible` | function | `static/js/estorides.js:1307` | `` |
+| `setTimeout` | method | `static/js/estorides.js:3158` | `` |
+| `setVisible` | function | `static/js/estorides.js:12` | `` |
+| `showBridgeTooltip` | function | `static/js/estorides.js:1716` | `` |
+| `showContextMenu` | function | `static/js/estorides.js:1764` | `` |
+| `showEmptyState` | function | `static/js/estorides.js:180` | `` |
+| `showFriendlyError` | function | `static/js/estorides.js:361` | `` |
+| `showNodeTooltip` | function | `static/js/estorides.js:1745` | `` |
+| `showReportModal` | function | `static/js/estorides.js:3031` | `` |
+| `showToast` | function | `static/js/estorides.js:139` | `` |
+| `showTooltipAt` | function | `static/js/estorides.js:1701` | `` |
+| `showWorkingIndicator` | function | `static/js/estorides.js:2221` | `` |
+| `sig` | function | `static/js/estorides.js:1136` | `` |
+| `sig` | function | `static/js/estorides.js:3667` | `` |
+| `startDiscover` | function | `static/js/estorides.js:3523` | `` |
+| `startLanScan` | function | `static/js/estorides.js:836` | `` |
+| `status` | function | `static/js/estorides.js:221` | `` |
+| `status` | function | `static/js/estorides.js:335` | `` |
+| `stopDiscover` | function | `static/js/estorides.js:3607` | `` |
+| `stopRunStream` | function | `static/js/estorides.js:746` | `` |
+| `summariseObservation` | function | `static/js/estorides.js:186` | `` |
+| `switchCanvasTab` | function | `static/js/estorides.js:387` | `` |
+| `switchSidebarTab` | function | `static/js/estorides.js:383` | `` |
+| `switchSidebarTab` | function | `static/js/estorides.js:3290` | `` |
+| `t` | function | `static/js/estorides.js:25` | `` |
+| `tag` | function | `static/js/estorides.js:3180` | `` |
+| `text` | function | `static/js/estorides.js:333` | `` |
+| `to` | class | `static/js/estorides.js:690` | `` |
+| `toggleThinking` | function | `static/js/estorides.js:1314` | `` |
+| `toggleTierSection` | function | `static/js/estorides.js:2231` | `` |
+| `toolBinary` | function | `static/js/estorides.js:215` | `` |
+| `tr` | function | `static/js/estorides.js:1814` | `` |
+| `tr` | function | `static/js/estorides.js:2054` | `` |
+| `truncate` | function | `static/js/estorides.js:2890` | `` |
+| `undoGraph` | function | `static/js/estorides.js:1951` | `` |
+| `updateQueryChip` | function | `static/js/estorides.js:149` | `` |
+| `validCoord` | function | `static/js/estorides.js:2437` | `` |
+| `add` | function | `static/js/graph_bundle.js:411` | `` |
+| `add` | method | `static/js/graph_bundle.js:415` | `` |
+| `aimAt` | function | `static/js/graph_bundle.js:662` | `` |
+| `bspline` | function | `static/js/graph_bundle.js:100` | `` |
+| `buildCurves` | function | `static/js/graph_bundle.js:138` | `` |
+| `center` | function | `static/js/graph_bundle.js:165` | `` |
+| `clip` | function | `static/js/graph_bundle.js:67` | `` |
+| `colorOf` | function | `static/js/graph_bundle.js:89` | `` |
+| `curve` | function | `static/js/graph_bundle.js:121` | `` |
+| `depthAlpha` | function | `static/js/graph_bundle.js:176` | `` |
+| `djb2KindColor` | function | `static/js/graph_bundle.js:33` | `` |
+| `draw` | function | `static/js/graph_bundle.js:232` | `` |
+| `drawGroups` | function | `static/js/graph_bundle.js:292` | `` |
+| `drawHud` | function | `static/js/graph_bundle.js:406` | `` |
+| `drawLabels` | function | `static/js/graph_bundle.js:368` | `` |
+| `drawNodes` | function | `static/js/graph_bundle.js:344` | `` |
+| `edgeState` | function | `static/js/graph_bundle.js:186` | `` |
+| `facing` | function | `static/js/graph_bundle.js:656` | `` |
+| `flowsOf` | function | `static/js/graph_bundle.js:484` | `` |
+| `focusGroup` | function | `static/js/graph_bundle.js:651` | `` |
+| `focusNode` | function | `static/js/graph_bundle.js:646` | `` |
+| `focusState` | function | `static/js/graph_bundle.js:178` | `` |
+| `frame` | function | `static/js/graph_bundle.js:787` | `` |
+| `g` | function | `static/js/graph_bundle.js:229` | `` |
+| `groupButton` | function | `static/js/graph_bundle.js:513` | `` |
+| `hitGroup` | function | `static/js/graph_bundle.js:444` | `` |
+| `hitNode` | function | `static/js/graph_bundle.js:421` | `` |
+| `ingest` | function | `static/js/graph_bundle.js:727` | `` |
+| `init` | function | `static/js/graph_bundle.js:813` | `` |
+| `ink` | function | `static/js/graph_bundle.js:75` | `` |
+| `inspectInGraph` | function | `static/js/graph_bundle.js:498` | `` |
+| `keyOf` | function | `static/js/graph_bundle.js:95` | `` |
+| `labelSet` | function | `static/js/graph_bundle.js:356` | `` |
+| `listInto` | function | `static/js/graph_bundle.js:520` | `` |
+| `listInto` | method | `static/js/graph_bundle.js:559` | `` |
+| `listInto` | method | `static/js/graph_bundle.js:560` | `` |
+| `listInto` | method | `static/js/graph_bundle.js:580` | `` |
+| `makeProjector` | function | `static/js/graph_bundle.js:166` | `` |
 | `mid` | function | `static/js/graph_bundle.js:306` | `` |
-| `mk` | function | `static/js/graph_bundle.js:60` | `` |
-| `nodeButton` | function | `static/js/graph_bundle.js:504` | `` |
-| `nodeLit` | function | `static/js/graph_bundle.js:205` | `` |
-| `nodeRadius` | function | `static/js/graph_bundle.js:333` | `` |
-| `pointOn` | function | `static/js/graph_bundle.js:226` | `` |
-| `radius` | function | `static/js/graph_bundle.js:160` | `` |
+| `mk` | function | `static/js/graph_bundle.js:61` | `` |
+| `nodeButton` | function | `static/js/graph_bundle.js:505` | `` |
+| `nodeLit` | function | `static/js/graph_bundle.js:206` | `` |
+| `nodeRadius` | function | `static/js/graph_bundle.js:334` | `` |
+| `pointOn` | function | `static/js/graph_bundle.js:227` | `` |
+| `radius` | function | `static/js/graph_bundle.js:161` | `` |
 | `rank` | function | `static/js/graph_bundle.js:492` | `` |
-| `readHash` | function | `static/js/graph_bundle.js:709` | `` |
-| `refresh` | function | `static/js/graph_bundle.js:762` | `` |
-| `renderLegend` | function | `static/js/graph_bundle.js:613` | `` |
-| `renderPanel` | function | `static/js/graph_bundle.js:529` | `` |
-| `resize` | function | `static/js/graph_bundle.js:148` | `` |
-| `screenNodes` | function | `static/js/graph_bundle.js:337` | `` |
+| `readHash` | function | `static/js/graph_bundle.js:710` | `` |
+| `refresh` | function | `static/js/graph_bundle.js:763` | `` |
+| `renderLegend` | function | `static/js/graph_bundle.js:614` | `` |
+| `renderPanel` | function | `static/js/graph_bundle.js:530` | `` |
+| `resize` | function | `static/js/graph_bundle.js:149` | `` |
+| `screenNodes` | function | `static/js/graph_bundle.js:338` | `` |
 | `search` | function | `static/js/graph_bundle.js:913` | `` |
-| `setBeta` | function | `static/js/graph_bundle.js:679` | `` |
-| `setColor` | function | `static/js/graph_bundle.js:671` | `` |
-| `setDir` | function | `static/js/graph_bundle.js:675` | `` |
-| `setView` | function | `static/js/graph_bundle.js:667` | `` |
-| `strokeCurve` | function | `static/js/graph_bundle.js:216` | `` |
-| `sync` | function | `static/js/graph_bundle.js:687` | `` |
+| `setBeta` | function | `static/js/graph_bundle.js:680` | `` |
+| `setColor` | function | `static/js/graph_bundle.js:672` | `` |
+| `setDir` | function | `static/js/graph_bundle.js:676` | `` |
+| `setView` | function | `static/js/graph_bundle.js:668` | `` |
+| `strokeCurve` | function | `static/js/graph_bundle.js:217` | `` |
+| `sync` | function | `static/js/graph_bundle.js:688` | `` |
 | `t0` | function | `static/js/graph_bundle.js:275` | `` |
-| `tabActive` | function | `static/js/graph_bundle.js:70` | `` |
+| `tabActive` | function | `static/js/graph_bundle.js:71` | `` |
 | `tag` | function | `static/js/graph_bundle.js:958` | `` |
-| `tipFor` | function | `static/js/graph_bundle.js:461` | `` |
+| `tipFor` | function | `static/js/graph_bundle.js:462` | `` |
 | `tt` | function | `static/js/graph_bundle.js:279` | `` |
 | `v` | function | `static/js/graph_bundle.js:78` | `` |
-| `writeHash` | function | `static/js/graph_bundle.js:697` | `` |
+| `writeHash` | function | `static/js/graph_bundle.js:698` | `` |
 | `a` | function | `static/js/graph_force.js:327` | `` |
 | `adaptLocal` | function | `static/js/graph_force.js:79` | `` |
 | `applyFilters` | function | `static/js/graph_force.js:1241` | `` |
@@ -97,6 +205,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `reheat` | function | `static/js/graph_force.js:1030` | `` |
 | `reload3D` | function | `static/js/graph_force.js:945` | `` |
 | `renderLegend` | function | `static/js/graph_force.js:1187` | `` |
+| `requestAnimationFrame` | method | `static/js/graph_force.js:931` | `` |
 | `resize3D` | function | `static/js/graph_force.js:950` | `` |
 | `ringOf` | function | `static/js/graph_force.js:352` | `` |
 | `rr` | function | `static/js/graph_force.js:610` | `` |
@@ -110,6 +219,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `s` | function | `static/js/graph_force.js:1257` | `` |
 | `segDist` | function | `static/js/graph_force.js:854` | `` |
 | `setEngineButtons` | function | `static/js/graph_force.js:422` | `` |
+| `setInterval` | method | `static/js/graph_force.js:1553` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:526` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:1478` | `` |
+| `setTimeout` | method | `static/js/graph_force.js:1502` | `` |
 | `settings` | function | `static/js/graph_force.js:72` | `` |
 | `short` | function | `static/js/graph_force.js:21` | `` |
 | `show3DChrome` | function | `static/js/graph_force.js:435` | `` |
@@ -133,6 +246,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `to3D` | function | `static/js/graph_force.js:1353` | `` |
 | `toast` | function | `static/js/graph_force.js:57` | `` |
 | `toggle` | function | `static/js/graph_force.js:1423` | `` |
+| `toggle` | method | `static/js/graph_force.js:1434` | `` |
 | `toggleBridges` | function | `static/js/graph_force.js:1038` | `` |
 | `toggleOrbit` | function | `static/js/graph_force.js:1074` | `` |
 | `topN` | function | `static/js/graph_force.js:816` | `` |
@@ -155,9 +269,17 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `saveSource` | function | `static/js/source_manager.js:273` | `` |
 | `selectSource` | function | `static/js/source_manager.js:261` | `` |
 | `setCheckedTags` | function | `static/js/source_manager.js:74` | `` |
+| `setTimeout` | method | `static/js/source_manager.js:232` | `` |
 | `toast` | function | `static/js/source_manager.js:227` | `` |
 | `updateYamlPreview` | function | `static/js/source_manager.js:183` | `` |
 | `writeForm` | function | `static/js/source_manager.js:120` | `` |
+| `_coordinates_are_valid` | function | `tests/properties/test_aerospace_properties.py:41` | `def _coordinates_are_valid(record)` |
+| `test_adsblol_coordinates_stay_in_bounds` | function | `tests/properties/test_aerospace_properties.py:71` | `def test_adsblol_coordinates_stay_in_bounds(lat, lon)` |
+| `test_catalog_field_never_raises` | function | `tests/properties/test_aerospace_properties.py:88` | `def test_catalog_field_never_raises(field)` |
+| `test_normalisers_never_raise` | function | `tests/properties/test_aerospace_properties.py:49` | `def test_normalisers_never_raise(payload)` |
+| `test_opensky_coordinates_stay_in_bounds` | function | `tests/properties/test_aerospace_properties.py:61` | `def test_opensky_coordinates_stay_in_bounds(lat, lon)` |
+| `test_subsatellite_point_stays_physical` | function | `tests/properties/test_aerospace_properties.py:95` | `def test_subsatellite_point_stays_physical(offset)` |
+| `test_tle_parser_only_returns_complete_sets` | function | `tests/properties/test_aerospace_properties.py:79` | `def test_tle_parser_only_returns_complete_sets(text)` |
 | `test_after_none_returns_empty` | function | `tests/properties/test_change_detection_properties.py:113` | `def test_after_none_returns_empty(before)` |
 | `test_before_vs_no_after_empty` | function | `tests/properties/test_change_detection_properties.py:121` | `def test_before_vs_no_after_empty(entities)` |
 | `test_first_run_reports_all_as_new` | function | `tests/properties/test_change_detection_properties.py:105` | `def test_first_run_reports_all_as_new(after)` |
@@ -277,224 +399,102 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `test_run_theHarvester_returns_result` | method | `tests/test_active_recon.py:85` | `def test_run_theHarvester_returns_result(self)` |
 | `test_sqlmap_result_has_to_dict` | method | `tests/test_active_recon.py:63` | `def test_sqlmap_result_has_to_dict(self)` |
 | `test_sqlmap_result_is_dataclass` | method | `tests/test_active_recon.py:113` | `def test_sqlmap_result_is_dataclass(self)` |
-| `TestEffectiveProxies` | class | `tests/test_async_client.py:33` | `class TestEffectiveProxies` |
-| `TestFailClosed` | class | `tests/test_async_client.py:63` | `class TestFailClosed` |
-| `TestRedaction` | class | `tests/test_async_client.py:23` | `class TestRedaction` |
-| `TestRotation` | class | `tests/test_async_client.py:45` | `class TestRotation` |
-| `TestSocksDetection` | class | `tests/test_async_client.py:16` | `class TestSocksDetection` |
-| `_enter_and_rotate` | method | `tests/test_async_client.py:49` | `def _enter_and_rotate()` |
-| `_enter_socks` | method | `tests/test_async_client.py:68` | `def _enter_socks()` |
-| `test_direct_has_no_proxy` | method | `tests/test_async_client.py:57` | `def test_direct_has_no_proxy(self)` |
-| `test_explicit_wins` | method | `tests/test_async_client.py:34` | `def test_explicit_wins(self, monkeypatch)` |
-| `test_hides_credentials_keeps_host` | method | `tests/test_async_client.py:24` | `def test_hides_credentials_keeps_host(self)` |
-| `test_none_by_default` | method | `tests/test_async_client.py:39` | `def test_none_by_default(self, monkeypatch)` |
-| `test_passthrough_without_credentials` | method | `tests/test_async_client.py:29` | `def test_passthrough_without_credentials(self)` |
-| `test_round_robin` | method | `tests/test_async_client.py:46` | `def test_round_robin(self)` |
-| `test_schemes` | method | `tests/test_async_client.py:17` | `def test_schemes(self)` |
-| `test_socks_without_backend_raises` | method | `tests/test_async_client.py:64` | `def test_socks_without_backend_raises(self, monkeypatch)` |
-| `_ev` | function | `tests/test_audit_log.py:12` | `def _ev(ts)` |
-| `test_audit_log_appends` | function | `tests/test_audit_log.py:22` | `def test_audit_log_appends(tmp_path)` |
-| `test_audit_log_no_rotation_when_disabled` | function | `tests/test_audit_log.py:61` | `def test_audit_log_no_rotation_when_disabled(tmp_path)` |
-| `test_audit_log_rotates_when_cap_exceeded` | function | `tests/test_audit_log.py:31` | `def test_audit_log_rotates_when_cap_exceeded(tmp_path)` |
-| `test_audit_log_rotation_respects_keep_count` | function | `tests/test_audit_log.py:48` | `def test_audit_log_rotation_respects_keep_count(tmp_path)` |
-| `app_with_gate` | function | `tests/test_auth_gate.py:22` | `def app_with_gate(monkeypatch)` |
-| `private` | function | `tests/test_auth_gate.py:34` | `def private()` |
-| `test_gate_auto_generates_token_when_unset` | function | `tests/test_auth_gate.py:41` | `def test_gate_auto_generates_token_when_unset(monkeypatch)` |
-| `test_gate_on_accepts_alt_header` | function | `tests/test_auth_gate.py:68` | `def test_gate_on_accepts_alt_header(app_with_gate)` |
-| `test_gate_on_accepts_bearer_header` | function | `tests/test_auth_gate.py:61` | `def test_gate_on_accepts_bearer_header(app_with_gate)` |
-| `test_gate_on_accepts_cookie` | function | `tests/test_auth_gate.py:74` | `def test_gate_on_accepts_cookie(app_with_gate)` |
-| `test_gate_on_auto_generated_token_in_meta` | function | `tests/test_auth_gate.py:87` | `def test_gate_on_auto_generated_token_in_meta(monkeypatch)` |
-| `test_gate_on_exposes_token_for_index_meta` | function | `tests/test_auth_gate.py:95` | `def test_gate_on_exposes_token_for_index_meta()` |
-| `test_gate_on_rejects_anonymous` | function | `tests/test_auth_gate.py:53` | `def test_gate_on_rejects_anonymous(app_with_gate)` |
-| `test_gate_on_rejects_wrong_token` | function | `tests/test_auth_gate.py:81` | `def test_gate_on_rejects_wrong_token(app_with_gate)` |
-| `_fresh_store` | function | `tests/test_case_crypto.py:5` | `def _fresh_store(tmp_path, monkeypatch, key)` |
-| `test_bad_key_falls_back` | function | `tests/test_case_crypto.py:58` | `def test_bad_key_falls_back(tmp_path, monkeypatch)` |
-| `test_disabled_stores_plaintext` | function | `tests/test_case_crypto.py:22` | `def test_disabled_stores_plaintext(tmp_path, monkeypatch)` |
-| `test_enabled_roundtrip` | function | `tests/test_case_crypto.py:33` | `def test_enabled_roundtrip(tmp_path, monkeypatch)` |
-| `test_mixed_rows_and_tamper` | function | `tests/test_case_crypto.py:69` | `def test_mixed_rows_and_tamper(tmp_path, monkeypatch)` |
-| `test_config_defaults` | function | `tests/test_central_config.py:7` | `def test_config_defaults()` |
-| `test_run_defaults_track_config` | function | `tests/test_central_config.py:20` | `def test_run_defaults_track_config()` |
-| `test_tool_install_survives_malformed_env` | function | `tests/test_central_config.py:29` | `def test_tool_install_survives_malformed_env(monkeypatch)` |
-| `TestAfterIsNone` | class | `tests/test_change_detection.py:147` | `class TestAfterIsNone` |
-| `TestBoundedSmoke` | class | `tests/test_change_detection.py:528` | `class TestBoundedSmoke` |
-| `TestConfidenceShifted` | class | `tests/test_change_detection.py:488` | `class TestConfidenceShifted` |
-| `TestDeterminism` | class | `tests/test_change_detection.py:346` | `class TestDeterminism` |
-| `TestDisappearedWithGrace` | class | `tests/test_change_detection.py:166` | `class TestDisappearedWithGrace` |
-| `TestEdgeChanges` | class | `tests/test_change_detection.py:436` | `class TestEdgeChanges` |
-| `TestFirstRunBeforeIsNone` | class | `tests/test_change_detection.py:125` | `class TestFirstRunBeforeIsNone` |
-| `TestHostilePropertyKey` | class | `tests/test_change_detection.py:310` | `class TestHostilePropertyKey` |
-| `TestMaxChangesBounds` | class | `tests/test_change_detection.py:255` | `class TestMaxChangesBounds` |
-| `TestMinReliabilityFiltersSources` | class | `tests/test_change_detection.py:226` | `class TestMinReliabilityFiltersSources` |
-| `TestNewEntity` | class | `tests/test_change_detection.py:56` | `class TestNewEntity` |
-| `TestProgrammerErrorRaises` | class | `tests/test_change_detection.py:281` | `class TestProgrammerErrorRaises` |
-| `TestPropertyChanged` | class | `tests/test_change_detection.py:99` | `class TestPropertyChanged` |
-| `TestSourceAdded` | class | `tests/test_change_detection.py:199` | `class TestSourceAdded` |
-| `TestSourceRemoved` | class | `tests/test_change_detection.py:386` | `class TestSourceRemoved` |
-| `_entity` | function | `tests/test_change_detection.py:28` | `def _entity(eid, etype, value)` |
-| `test_after_none_returns_empty_report` | method | `tests/test_change_detection.py:150` | `def test_after_none_returns_empty_report(self)` |
-| `test_before_none_reports_all_as_new` | method | `tests/test_change_detection.py:128` | `def test_before_none_reports_all_as_new(self)` |
-| `test_change_is_frozen` | method | `tests/test_change_detection.py:531` | `def test_change_is_frozen(self)` |
-| `test_change_report_is_frozen` | method | `tests/test_change_detection.py:546` | `def test_change_report_is_frozen(self)` |
-| `test_diff_is_frozen` | method | `tests/test_change_detection.py:541` | `def test_diff_is_frozen(self)` |
-| `test_disappeared_outside_grace_emits_change` | method | `tests/test_change_detection.py:181` | `def test_disappeared_outside_grace_emits_change(self)` |
-| `test_disappeared_within_grace_is_ignored` | method | `tests/test_change_detection.py:169` | `def test_disappeared_within_grace_is_ignored(self)` |
-| `test_edge_added_emits_change` | method | `tests/test_change_detection.py:439` | `def test_edge_added_emits_change(self)` |
-| `test_edge_removed_emits_change` | method | `tests/test_change_detection.py:462` | `def test_edge_removed_emits_change(self)` |
-| `test_entity_id_empty_raises` | method | `tests/test_change_detection.py:284` | `def test_entity_id_empty_raises(self)` |
-| `test_entity_type_empty_raises` | method | `tests/test_change_detection.py:288` | `def test_entity_type_empty_raises(self)` |
-| `test_entity_value_empty_raises` | method | `tests/test_change_detection.py:292` | `def test_entity_value_empty_raises(self)` |
-| `test_hostile_key_does_not_crash` | method | `tests/test_change_detection.py:322` | `def test_hostile_key_does_not_crash(self, hostile_key)` |
-| `test_input_order_does_not_affect_output` | method | `tests/test_change_detection.py:366` | `def test_input_order_does_not_affect_output(self)` |
-| `test_large_confidence_shift_emits_change` | method | `tests/test_change_detection.py:491` | `def test_large_confidence_shift_emits_change(self)` |
-| `test_max_changes_caps_output` | method | `tests/test_change_detection.py:258` | `def test_max_changes_caps_output(self)` |
-| `test_max_changes_too_small_raises` | method | `tests/test_change_detection.py:302` | `def test_max_changes_too_small_raises(self)` |
-| `test_min_change_score_out_of_range_raises` | method | `tests/test_change_detection.py:296` | `def test_min_change_score_out_of_range_raises(self)` |
-| `test_min_reliability_e_excludes_f_source` | method | `tests/test_change_detection.py:229` | `def test_min_reliability_e_excludes_f_source(self)` |
-| `test_new_change_score_in_high_band` | method | `tests/test_change_detection.py:84` | `def test_new_change_score_in_high_band(self)` |
-| `test_new_source_on_existing_entity_emits_source_added` | method | `tests/test_change_detection.py:202` | `def test_new_source_on_existing_entity_emits_source_added(self)` |
-| `test_one_new_entity_emits_one_new_change` | method | `tests/test_change_detection.py:59` | `def test_one_new_entity_emits_one_new_change(self)` |
-| `test_property_change_emits_one_change` | method | `tests/test_change_detection.py:102` | `def test_property_change_emits_one_change(self)` |
-| `test_same_input_same_ids_and_scores` | method | `tests/test_change_detection.py:349` | `def test_same_input_same_ids_and_scores(self)` |
-| `test_small_confidence_shift_ignored` | method | `tests/test_change_detection.py:509` | `def test_small_confidence_shift_ignored(self)` |
-| `test_source_removed_emits_change` | method | `tests/test_change_detection.py:389` | `def test_source_removed_emits_change(self)` |
-| `test_source_removed_filtered_by_min_score` | method | `tests/test_change_detection.py:410` | `def test_source_removed_filtered_by_min_score(self)` |
-| `TestCW1Parser` | class | `tests/test_cli_watch.py:59` | `class TestCW1Parser` |
-| `TestCW2Command` | class | `tests/test_cli_watch.py:69` | `class TestCW2Command` |
-| `TestCW3Validation` | class | `tests/test_cli_watch.py:92` | `class TestCW3Validation` |
-| `TestCW4RunnerFactory` | class | `tests/test_cli_watch.py:102` | `class TestCW4RunnerFactory` |
-| `_FakeScheduler` | class | `tests/test_cli_watch.py:24` | `class _FakeScheduler` |
-| `__init__` | method | `tests/test_cli_watch.py:27` | `def __init__(self)` |
-| `cli_env` | method | `tests/test_cli_watch.py:47` | `def cli_env(monkeypatch, tmp_path)` |
-| `has_runner` | method | `tests/test_cli_watch.py:34` | `def has_runner(self)` |
-| `set_runner` | method | `tests/test_cli_watch.py:37` | `def set_runner(self, runner)` |
-| `start` | method | `tests/test_cli_watch.py:41` | `def start(self)` |
-| `test_interval_below_minimum_rejected` | method | `tests/test_cli_watch.py:93` | `def test_interval_below_minimum_rejected(self, cli_env)` |
-| `test_runner_factory_returns_awaitable_callable` | method | `tests/test_cli_watch.py:103` | `def test_runner_factory_returns_awaitable_callable(self, cli_env)` |
-| `test_scheduler_has_runner_property` | method | `tests/test_cli_watch.py:109` | `def test_scheduler_has_runner_property(self, tmp_path)` |
-| `test_watch_add_accepts_opsec_flags` | method | `tests/test_cli_watch.py:60` | `def test_watch_add_accepts_opsec_flags(self)` |
-| `test_watch_add_persists_and_starts` | method | `tests/test_cli_watch.py:70` | `def test_watch_add_persists_and_starts(self, cli_env)` |
-| `test_watch_add_wires_runner_once` | method | `tests/test_cli_watch.py:82` | `def test_watch_add_wires_runner_once(self, cli_env)` |
-| `TestBucketNamePermutations` | class | `tests/test_cloud_asset_discovery.py:103` | `class TestBucketNamePermutations` |
-| `TestBucketWithListing` | class | `tests/test_cloud_asset_discovery.py:40` | `class TestBucketWithListing` |
-| `TestCloudFrontDetection` | class | `tests/test_cloud_asset_discovery.py:77` | `class TestCloudFrontDetection` |
-| `TestFirebaseDiscovery` | class | `tests/test_cloud_asset_discovery.py:90` | `class TestFirebaseDiscovery` |
-| `TestNoAssets` | class | `tests/test_cloud_asset_discovery.py:58` | `class TestNoAssets` |
-| `TestPublicS3Bucket` | class | `tests/test_cloud_asset_discovery.py:27` | `class TestPublicS3Bucket` |
-| `TestRateLimiting` | class | `tests/test_cloud_asset_discovery.py:127` | `class TestRateLimiting` |
-| `TestReadOnlyMethods` | class | `tests/test_cloud_asset_discovery.py:68` | `class TestReadOnlyMethods` |
-| `_make_asset` | function | `tests/test_cloud_asset_discovery.py:16` | `def _make_asset(provider, url, accessible, listing)` |
-| `test_accessible_bucket_returned` | method | `tests/test_cloud_asset_discovery.py:28` | `def test_accessible_bucket_returned(self)` |
-| `test_assess_bucket_uses_get_only` | method | `tests/test_cloud_asset_discovery.py:69` | `def test_assess_bucket_uses_get_only(self)` |
-| `test_cloudfront_cname_detected` | method | `tests/test_cloud_asset_discovery.py:78` | `def test_cloudfront_cname_detected(self)` |
-| `test_empty_when_no_cloud_assets` | method | `tests/test_cloud_asset_discovery.py:59` | `def test_empty_when_no_cloud_assets(self)` |
-| `test_firebase_accessible` | method | `tests/test_cloud_asset_discovery.py:91` | `def test_firebase_accessible(self)` |
-| `test_generates_common_permutations` | method | `tests/test_cloud_asset_discovery.py:104` | `def test_generates_common_permutations(self)` |
-| `test_listing_bucket_has_files` | method | `tests/test_cloud_asset_discovery.py:41` | `def test_listing_bucket_has_files(self)` |
-| `test_rate_limit_constant_defined` | method | `tests/test_cloud_asset_discovery.py:128` | `def test_rate_limit_constant_defined(self)` |
-| `test_strips_tld_for_permutations` | method | `tests/test_cloud_asset_discovery.py:114` | `def test_strips_tld_for_permutations(self)` |
-| `TestAwsKeyDetection` | class | `tests/test_code_exposure.py:17` | `class TestAwsKeyDetection` |
-| `TestClassifyFindingTypes` | class | `tests/test_code_exposure.py:103` | `class TestClassifyFindingTypes` |
-| `TestEnvFileDetection` | class | `tests/test_code_exposure.py:62` | `class TestEnvFileDetection` |
-| `TestInternalUrlDetection` | class | `tests/test_code_exposure.py:54` | `class TestInternalUrlDetection` |
-| `TestMultiPlatform` | class | `tests/test_code_exposure.py:81` | `class TestMultiPlatform` |
-| `TestNoFindings` | class | `tests/test_code_exposure.py:38` | `class TestNoFindings` |
-| `TestPlaceholderCredentials` | class | `tests/test_code_exposure.py:70` | `class TestPlaceholderCredentials` |
-| `TestRateLimited` | class | `tests/test_code_exposure.py:47` | `class TestRateLimited` |
-| `TestSnippetBounded` | class | `tests/test_code_exposure.py:95` | `class TestSnippetBounded` |
-| `test_aggregates_multi_source` | method | `tests/test_code_exposure.py:82` | `def test_aggregates_multi_source(self)` |
-| `test_api_key_detection` | method | `tests/test_code_exposure.py:109` | `def test_api_key_detection(self)` |
-| `test_detects_aws_key_as_critical` | method | `tests/test_code_exposure.py:18` | `def test_detects_aws_key_as_critical(self)` |
-| `test_empty_when_no_repos` | method | `tests/test_code_exposure.py:39` | `def test_empty_when_no_repos(self)` |
-| `test_env_file_is_critical_config` | method | `tests/test_code_exposure.py:63` | `def test_env_file_is_critical_config(self)` |
-| `test_example_key_marked_info` | method | `tests/test_code_exposure.py:75` | `def test_example_key_marked_info(self)` |
-| `test_internal_url_is_high_severity` | method | `tests/test_code_exposure.py:55` | `def test_internal_url_is_high_severity(self)` |
-| `test_placeholder_marked_info` | method | `tests/test_code_exposure.py:71` | `def test_placeholder_marked_info(self)` |
-| `test_returns_partial_on_rate_limit` | method | `tests/test_code_exposure.py:48` | `def test_returns_partial_on_rate_limit(self)` |
-| `test_snippet_under_200_chars` | method | `tests/test_code_exposure.py:96` | `def test_snippet_under_200_chars(self)` |
-| `test_ssh_key_detection` | method | `tests/test_code_exposure.py:104` | `def test_ssh_key_detection(self)` |
-| `test_validates_aws_key_format` | method | `tests/test_code_exposure.py:32` | `def test_validates_aws_key_format(self)` |
-| `TestCE1TypedReaders` | class | `tests/test_config_env.py:33` | `class TestCE1TypedReaders` |
-| `TestCE2MalformedFallsBack` | class | `tests/test_config_env.py:47` | `class TestCE2MalformedFallsBack` |
-| `TestCE3ImportNeverCrashes` | class | `tests/test_config_env.py:76` | `class TestCE3ImportNeverCrashes` |
-| `TestCE4CsvStripped` | class | `tests/test_config_env.py:92` | `class TestCE4CsvStripped` |
-| `_run_with_env` | function | `tests/test_config_env.py:23` | `def _run_with_env(env_overrides, code)` |
-| `test_env_bool_tokens` | method | `tests/test_config_env.py:67` | `def test_env_bool_tokens(self, monkeypatch)` |
-| `test_env_bool_unknown_uses_default` | method | `tests/test_config_env.py:60` | `def test_env_bool_unknown_uses_default(self, monkeypatch)` |
-| `test_env_float_garbage` | method | `tests/test_config_env.py:54` | `def test_env_float_garbage(self, monkeypatch)` |
-| `test_env_float_parses` | method | `tests/test_config_env.py:40` | `def test_env_float_parses(self, monkeypatch)` |
-| `test_env_int_garbage` | method | `tests/test_config_env.py:48` | `def test_env_int_garbage(self, monkeypatch)` |
-| `test_env_int_parses` | method | `tests/test_config_env.py:34` | `def test_env_int_parses(self, monkeypatch)` |
-| `test_exact_dedup_keys_are_stripped` | method | `tests/test_config_env.py:93` | `def test_exact_dedup_keys_are_stripped(self)` |
-| `test_malformed_numeric_env_does_not_break_import` | method | `tests/test_config_env.py:77` | `def test_malformed_numeric_env_does_not_break_import(self)` |
-| `_strip_js_comments_and_strings_outside_templates` | function | `tests/test_csp_safe_styles.py:55` | `def _strip_js_comments_and_strings_outside_templates(js_text)` |
-| `_strip_template_jinja` | function | `tests/test_csp_safe_styles.py:41` | `def _strip_template_jinja(template_text)` |
-| `test_csp_policy_does_not_relax_for_unsafe_inline` | function | `tests/test_csp_safe_styles.py:201` | `def test_csp_policy_does_not_relax_for_unsafe_inline()` |
-| `test_csp_policy_is_unchanged_after_refactor` | function | `tests/test_csp_safe_styles.py:225` | `def test_csp_policy_is_unchanged_after_refactor()` |
-| `test_css_has_required_class` | function | `tests/test_csp_safe_styles.py:189` | `def test_css_has_required_class(selector)` |
-| `test_dynamic_cluster_color_uses_cssom_assignment` | function | `tests/test_csp_safe_styles.py:252` | `def test_dynamic_cluster_color_uses_cssom_assignment()` |
-| `test_dynamic_kind_color_uses_cssom_assignment` | function | `tests/test_csp_safe_styles.py:272` | `def test_dynamic_kind_color_uses_cssom_assignment()` |
-| `test_estorides_js_has_no_style_in_template_literals` | function | `tests/test_csp_safe_styles.py:111` | `def test_estorides_js_has_no_style_in_template_literals()` |
-| `test_index_html_has_no_style_attribute` | function | `tests/test_csp_safe_styles.py:90` | `def test_index_html_has_no_style_attribute()` |
-| `test_offscreen_element_uses_hidden_attribute` | function | `tests/test_csp_safe_styles.py:145` | `def test_offscreen_element_uses_hidden_attribute(element_id)` |
-| `test_rendered_template_has_no_style_attribute_and_uses_hidden` | function | `tests/test_csp_safe_styles.py:289` | `def test_rendered_template_has_no_style_attribute_and_uses_hidden()` |
-| `_FakeCompleted` | class | `tests/test_encrypted_export.py:21` | `class _FakeCompleted` |
-| `__init__` | method | `tests/test_encrypted_export.py:22` | `def __init__(self, rc, stderr)` |
-| `_kg_with_one_node` | method | `tests/test_encrypted_export.py:27` | `def _kg_with_one_node()` |
-| `_patch_age_ok` | method | `tests/test_encrypted_export.py:33` | `def _patch_age_ok()` |
-| `_run` | method | `tests/test_encrypted_export.py:35` | `def _run(cmd, stdin, stdout, stderr, check)` |
-| `_run_fail` | method | `tests/test_encrypted_export.py:66` | `def _run_fail(cmd, stdin, stdout, stderr, check)` |
-| `test_misp_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:52` | `def test_misp_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext` | method | `tests/test_encrypted_export.py:43` | `def test_stix_encrypted_removes_plaintext(tmp_path)` |
-| `test_stix_encrypted_removes_plaintext_on_failure` | method | `tests/test_encrypted_export.py:61` | `def test_stix_encrypted_removes_plaintext_on_failure(tmp_path)` |
-| `TestEE1TypesFilter` | class | `tests/test_entity_extraction.py:12` | `class TestEE1TypesFilter` |
-| `TestEE2FuzzyCanonical` | class | `tests/test_entity_extraction.py:28` | `class TestEE2FuzzyCanonical` |
-| `test_empty_list_means_nothing` | method | `tests/test_entity_extraction.py:20` | `def test_empty_list_means_nothing(self)` |
-| `test_merge_unions_sources` | method | `tests/test_entity_extraction.py:41` | `def test_merge_unions_sources(self)` |
-| `test_most_observed_spelling_wins` | method | `tests/test_entity_extraction.py:29` | `def test_most_observed_spelling_wins(self)` |
-| `test_none_means_all` | method | `tests/test_entity_extraction.py:15` | `def test_none_means_all(self)` |
-| `test_subset_restricts` | method | `tests/test_entity_extraction.py:23` | `def test_subset_restricts(self)` |
-| `TestCanonicalEntityRoundtrip` | class | `tests/test_entity_resolution.py:347` | `class TestCanonicalEntityRoundtrip` |
-| `TestCanonicalId` | class | `tests/test_entity_resolution.py:133` | `class TestCanonicalId` |
-| `TestCanonicalIdDeterministic` | class | `tests/test_entity_resolution.py:394` | `class TestCanonicalIdDeterministic` |
-| `TestCrossRunStability` | class | `tests/test_entity_resolution.py:448` | `class TestCrossRunStability` |
-| `TestCrossScriptPersonFusion` | class | `tests/test_entity_resolution.py:155` | `class TestCrossScriptPersonFusion` |
-| `TestDeterministicTypeNoFuzzyMatch` | class | `tests/test_entity_resolution.py:246` | `class TestDeterministicTypeNoFuzzyMatch` |
-| `TestDifferentInputDifferentId` | class | `tests/test_entity_resolution.py:406` | `class TestDifferentInputDifferentId` |
-| `TestDistinctPersonsStaySeparate` | class | `tests/test_entity_resolution.py:326` | `class TestDistinctPersonsStaySeparate` |
-| `TestDomainCaseVariantMerge` | class | `tests/test_entity_resolution.py:194` | `class TestDomainCaseVariantMerge` |
-| `TestEdgeCases` | class | `tests/test_entity_resolution.py:418` | `class TestEdgeCases` |
-| `TestEmptyInput` | class | `tests/test_entity_resolution.py:382` | `class TestEmptyInput` |
-| `TestIdenticalIpsMerge` | class | `tests/test_entity_resolution.py:272` | `class TestIdenticalIpsMerge` |
-| `TestJaroWinkler` | class | `tests/test_entity_resolution.py:68` | `class TestJaroWinkler` |
-| `TestLookAlikeDomainsSurfaceAsLink` | class | `tests/test_entity_resolution.py:221` | `class TestLookAlikeDomainsSurfaceAsLink` |
-| `TestNearIpsNeverFuse` | class | `tests/test_entity_resolution.py:289` | `class TestNearIpsNeverFuse` |
-| `TestNormalization` | class | `tests/test_entity_resolution.py:89` | `class TestNormalization` |
-| `TestOrgSuffixFolding` | class | `tests/test_entity_resolution.py:309` | `class TestOrgSuffixFolding` |
-| `TestTransliteration` | class | `tests/test_entity_resolution.py:42` | `class TestTransliteration` |
-| `_by_value` | function | `tests/test_entity_resolution.py:32` | `def _by_value(result, value)` |
-| `_ent` | function | `tests/test_entity_resolution.py:28` | `def _ent(etype, value, source, confidence)` |
-| `test_asn_normalised` | method | `tests/test_entity_resolution.py:126` | `def test_asn_normalised(self)` |
-| `test_blank_value_does_not_crash` | method | `tests/test_entity_resolution.py:421` | `def test_blank_value_does_not_crash(self)` |
-| `test_classic_jaro_winkler_bound` | method | `tests/test_entity_resolution.py:77` | `def test_classic_jaro_winkler_bound(self)` |
-| `test_confidence_boosted_by_multiple_sources` | method | `tests/test_entity_resolution.py:434` | `def test_confidence_boosted_by_multiple_sources(self)` |
-| `test_consonant_skeleton_arabic_matches_latin` | method | `tests/test_entity_resolution.py:54` | `def test_consonant_skeleton_arabic_matches_latin(self)` |
-| `test_consonant_skeleton_gemination` | method | `tests/test_entity_resolution.py:57` | `def test_consonant_skeleton_gemination(self)` |
-| `test_cross_run_id_stability` | method | `tests/test_entity_resolution.py:451` | `def test_cross_run_id_stability(self)` |
-| `test_cross_script_flagged_in_attributes` | method | `tests/test_entity_resolution.py:180` | `def test_cross_script_flagged_in_attributes(self)` |
-| `test_cve_uppered` | method | `tests/test_entity_resolution.py:107` | `def test_cve_uppered(self)` |
-| `test_cyrillic_to_latin` | method | `tests/test_entity_resolution.py:45` | `def test_cyrillic_to_latin(self)` |
-| `test_deterministic` | method | `tests/test_entity_resolution.py:136` | `def test_deterministic(self)` |
-| `test_deterministic_near_miss_never_matches` | method | `tests/test_entity_resolution.py:249` | `def test_deterministic_near_miss_never_matches(self)` |
-| `test_diacritic_fold` | method | `tests/test_entity_resolution.py:51` | `def test_diacritic_fold(self)` |
-| `test_different_normalised_different_id` | method | `tests/test_entity_resolution.py:409` | `def test_different_normalised_different_id(self)` |
-| `test_different_values_different_ids` | method | `tests/test_entity_resolution.py:141` | `def test_different_values_different_ids(self)` |
-| `test_dissimilar_strings_score_low` | method | `tests/test_entity_resolution.py:81` | `def test_dissimilar_strings_score_low(self)` |
-| `test_distinct_names_have_distinct_skeletons` | method | `tests/test_entity_resolution.py:60` | `def test_distinct_names_have_distinct_skeletons(self)` |
-| `test_distinct_persons_not_absorbed` | method | `tests/test_entity_resolution.py:329` | `def test_distinct_persons_not_absorbed(self)` |
-| `test_domain_case_variants_merge` | method | `tests/test_entity_resolution.py:197` | `def test_domain_case_variants_merge(self)` |
-| `test_domain_merge_is_exact` | method | `tests/test_entity_resolution.py:207` | `def test_domain_merge_is_exact(self)` |
-| `test_domain_strips_scheme_www_path` | method | `tests/test_entity_resolution.py:110` | `def test_domain_strips_scheme_www_path(self)` |
-| `test_email_lowered` | method | `tests/test_entity_resolution.py:129` | `def test_email_lowered(self)` |
-| `test_empty_input_returns_empty` | method | `tests/test_entity_resolution.py:385` | `def test_empty_input_returns_empty(self)` |
+| `TestA10AircraftFeed` | class | `tests/test_aerospace.py:304` | `class TestA10AircraftFeed` |
+| `TestA11SatellitesFeed` | class | `tests/test_aerospace.py:333` | `class TestA11SatellitesFeed` |
+| `TestA12LaunchesFeed` | class | `tests/test_aerospace.py:363` | `class TestA12LaunchesFeed` |
+| `TestA13FeedSelection` | class | `tests/test_aerospace.py:506` | `class TestA13FeedSelection` |
+| `TestA14Branding` | class | `tests/test_aerospace.py:523` | `class TestA14Branding` |
+| `TestA15RegionalAircraftFetch` | class | `tests/test_aerospace.py:840` | `class TestA15RegionalAircraftFetch` |
+| `TestA16EmergencyFeed` | class | `tests/test_aerospace.py:907` | `class TestA16EmergencyFeed` |
+| `TestA17AirportEnrichment` | class | `tests/test_aerospace.py:969` | `class TestA17AirportEnrichment` |
+| `TestA1TleParsing` | class | `tests/test_aerospace.py:37` | `class TestA1TleParsing` |
+| `TestA2AlphaFive` | class | `tests/test_aerospace.py:59` | `class TestA2AlphaFive` |
+| `TestA3SubsatellitePoint` | class | `tests/test_aerospace.py:75` | `class TestA3SubsatellitePoint` |
+| `TestA4Sgp4Agreement` | class | `tests/test_aerospace.py:100` | `class TestA4Sgp4Agreement` |
+| `TestA5OpenSky` | class | `tests/test_aerospace.py:150` | `class TestA5OpenSky` |
+| `TestA6AdsbLol` | class | `tests/test_aerospace.py:174` | `class TestA6AdsbLol` |
+| `TestA7Adsbdb` | class | `tests/test_aerospace.py:201` | `class TestA7Adsbdb` |
+| `TestA8LaunchLibrary` | class | `tests/test_aerospace.py:227` | `class TestA8LaunchLibrary` |
+| `TestA9TotalContract` | class | `tests/test_aerospace.py:254` | `class TestA9TotalContract` |
+| `TestAerospaceParsers` | class | `tests/test_aerospace.py:466` | `class TestAerospaceParsers` |
+| `TestAerospaceSources` | class | `tests/test_aerospace.py:434` | `class TestAerospaceSources` |
+| `TestExactRecords` | class | `tests/test_aerospace.py:664` | `class TestExactRecords` |
+| `TestFeedRegistry` | class | `tests/test_aerospace.py:382` | `class TestFeedRegistry` |
+| `TestGoldenMath` | class | `tests/test_aerospace.py:538` | `class TestGoldenMath` |
+| `TestPrivateHelpers` | class | `tests/test_aerospace.py:612` | `class TestPrivateHelpers` |
+| `TestTleElements` | class | `tests/test_aerospace.py:115` | `class TestTleElements` |
+| `_Broken` | class | `tests/test_aerospace.py:597` | `class _Broken` |
+| `_FakeResponse` | class | `tests/test_aerospace.py:276` | `class _FakeResponse` |
+| `_Satrec` | class | `tests/test_aerospace.py:601` | `class _Satrec` |
+| `_Stub` | class | `tests/test_aerospace.py:397` | `class _Stub` |
+| `__init__` | method | `tests/test_aerospace.py:277` | `def __init__(self, payload, text, status)` |
+| `__init__` | method | `tests/test_aerospace.py:398` | `def __init__(self, name)` |
+| `_client` | method | `tests/test_aerospace.py:507` | `def _client(self)` |
+| `_index` | method | `tests/test_aerospace.py:979` | `def _index(self)` |
+| `_iss_epoch` | function | `tests/test_aerospace.py:31` | `def _iss_epoch()` |
+| `_opensky_payload` | function | `tests/test_aerospace.py:132` | `def _opensky_payload()` |
+| `_patch_requests` | function | `tests/test_aerospace.py:290` | `def _patch_requests(monkeypatch, by_url)` |
+| `_points` | method | `tests/test_aerospace.py:984` | `def _points(self)` |
+| `_registry` | method | `tests/test_aerospace.py:435` | `def _registry(self)` |
+| `fake_get` | function | `tests/test_aerospace.py:293` | `def fake_get(url)` |
+| `fake_get` | function | `tests/test_aerospace.py:356` | `def fake_get(url)` |
+| `fetch` | method | `tests/test_aerospace.py:403` | `def fetch(self)` |
+| `json` | method | `tests/test_aerospace.py:282` | `def json(self)` |
+| `raise_for_status` | method | `tests/test_aerospace.py:285` | `def raise_for_status(self)` |
+| `sgp4` | method | `tests/test_aerospace.py:598` | `def sgp4(self, jd, fr)` |
+| `test_adsb_unknown_shape` | method | `tests/test_aerospace.py:739` | `def test_adsb_unknown_shape(self)` |
+| `test_adsbdb_aircraft_full_record` | method | `tests/test_aerospace.py:743` | `def test_adsbdb_aircraft_full_record(self)` |
+| `test_adsbdb_and_launch_parsers` | method | `tests/test_aerospace.py:486` | `def test_adsbdb_and_launch_parsers(self)` |
+| `test_adsbdb_flightroute_full_record` | method | `tests/test_aerospace.py:762` | `def test_adsbdb_flightroute_full_record(self)` |
+| `test_adsblol_full_record` | method | `tests/test_aerospace.py:705` | `def test_adsblol_full_record(self)` |
+| `test_adsblol_now_units` | method | `tests/test_aerospace.py:648` | `def test_adsblol_now_units(self)` |
+| `test_aircraft_record_rejects_missing_identifier_or_position` | method | `tests/test_aerospace.py:829` | `def test_aircraft_record_rejects_missing_identifier_or_position(self)` |
+| `test_aircraft_shape` | method | `tests/test_aerospace.py:202` | `def test_aircraft_shape(self)` |
+| `test_all_aerospace_feeds_registered` | method | `tests/test_aerospace.py:383` | `def test_all_aerospace_feeds_registered(self)` |
+| `test_alpha5_decoding` | method | `tests/test_aerospace.py:60` | `def test_alpha5_decoding(self)` |
+| `test_alpha5_rejects_i_o_and_bad_shapes` | method | `tests/test_aerospace.py:65` | `def test_alpha5_rejects_i_o_and_bad_shapes(self)` |
+| `test_annotates_when_enabled` | method | `tests/test_aerospace.py:995` | `def test_annotates_when_enabled(self, monkeypatch)` |
+| `test_attribution_is_exposed` | method | `tests/test_aerospace.py:387` | `def test_attribution_is_exposed(self)` |
+| `test_bad_elements_return_none` | method | `tests/test_aerospace.py:128` | `def test_bad_elements_return_none(self)` |
+| `test_bbox_cache_is_namespaced` | method | `tests/test_aerospace.py:879` | `def test_bbox_cache_is_namespaced(self)` |
+| `test_bbox_cache_is_pruned` | method | `tests/test_aerospace.py:1017` | `def test_bbox_cache_is_pruned(self, monkeypatch, tmp_path)` |
+| `test_cap_is_honoured` | method | `tests/test_aerospace.py:325` | `def test_cap_is_honoured(self, monkeypatch)` |
+| `test_cap_is_honoured` | method | `tests/test_aerospace.py:951` | `def test_cap_is_honoured(self, monkeypatch)` |
+| `test_cap_records` | method | `tests/test_aerospace.py:267` | `def test_cap_records(self)` |
+| `test_catalog_number_reads_columns_three_to_seven` | method | `tests/test_aerospace.py:69` | `def test_catalog_number_reads_columns_three_to_seven(self)` |
+| `test_category_directory_matches_label` | method | `tests/test_aerospace.py:452` | `def test_category_directory_matches_label(self)` |
+| `test_celestrak_parser` | method | `tests/test_aerospace.py:467` | `def test_celestrak_parser(self)` |
+| `test_deduplicates_and_survives_bad_tle` | method | `tests/test_aerospace.py:334` | `def test_deduplicates_and_survives_bad_tle(self, monkeypatch)` |
+| `test_disabled_by_default` | method | `tests/test_aerospace.py:990` | `def test_disabled_by_default(self, monkeypatch)` |
+| `test_eci_to_geodetic_golden` | method | `tests/test_aerospace.py:547` | `def test_eci_to_geodetic_golden(self)` |
+| `test_emitter_category_mapping` | method | `tests/test_aerospace.py:640` | `def test_emitter_category_mapping(self)` |
+| `test_epoch_decodes_two_digit_year` | method | `tests/test_aerospace.py:123` | `def test_epoch_decodes_two_digit_year(self)` |
+| `test_every_parser_is_registered` | method | `tests/test_aerospace.py:458` | `def test_every_parser_is_registered(self)` |
+| `test_every_source_loads_with_expected_contract` | method | `tests/test_aerospace.py:442` | `def test_every_source_loads_with_expected_contract(self)` |
+| `test_feed_is_registered_and_listed` | method | `tests/test_aerospace.py:963` | `def test_feed_is_registered_and_listed(self)` |
+| `test_fetch_all_names_filter` | method | `tests/test_aerospace.py:394` | `def test_fetch_all_names_filter(self, monkeypatch)` |
+| `test_finite_rejects_bool_and_junk` | method | `tests/test_aerospace.py:613` | `def test_finite_rejects_bool_and_junk(self)` |
+| `test_flightroute_shape` | method | `tests/test_aerospace.py:213` | `def test_flightroute_shape(self)` |
+| `test_global_only_feed_keeps_one_cache_file` | method | `tests/test_aerospace.py:1036` | `def test_global_only_feed_keeps_one_cache_file(self)` |
+| `test_gmst_golden` | method | `tests/test_aerospace.py:541` | `def test_gmst_golden(self)` |
+| `test_ground_state_has_no_barometric_altitude` | method | `tests/test_aerospace.py:192` | `def test_ground_state_has_no_barometric_altitude(self)` |
+| `test_invalid_inputs_return_none` | method | `tests/test_aerospace.py:93` | `def test_invalid_inputs_return_none(self)` |
+| `test_iss_point_is_physical` | method | `tests/test_aerospace.py:76` | `def test_iss_point_is_physical(self)` |
+| `test_kepler_fallback_returns_a_point` | method | `tests/test_aerospace.py:86` | `def test_kepler_fallback_returns_a_point(self)` |
+| `test_kepler_golden` | method | `tests/test_aerospace.py:554` | `def test_kepler_golden(self)` |
+| `test_launch_full_record` | method | `tests/test_aerospace.py:803` | `def test_launch_full_record(self)` |
+| `test_malformed_set_is_skipped` | method | `tests/test_aerospace.py:38` | `def test_malformed_set_is_skipped(self)` |
+| `test_mean_elements` | method | `tests/test_aerospace.py:116` | `def test_mean_elements(self)` |
+| `test_merges_and_deduplicates` | method | `tests/test_aerospace.py:910` | `def test_merges_and_deduplicates(self, monkeypatch)` |
+| `test_missing_catalogue_is_survivable` | method | `tests/test_aerospace.py:1011` | `def test_missing_catalogue_is_survivable(self, monkeypatch)` |
+| `test_missing_pad_keeps_schedule_entry` | method | `tests/test_aerospace.py:247` | `def test_missing_pad_keeps_schedule_entry(self)` |
+| `test_missing_trailing_set_returns_empty` | method | `tests/test_aerospace.py:55` | `def test_missing_trailing_set_returns_empty(self)` |
+| `test_new_parsers_are_total` | method | `tests/test_aerospace.py:499` | `def test_new_parsers_are_total(self, payload)` |
+| `test_no_upstream_project_branding` | method | `tests/test_aerospace.py:524` | `def test_no_upstream_project_branding(self)` |
+| `test_normalisers_are_total` | method | `tests/test_aerospace.py:259` | `def test_normalisers_are_total(self, payload)` |
+| `test_one_failing_code_does_not_kill_the_layer` | method | `tests/test_aerospace.py:939` | `def test_one_failing_code_does_not_kill_the_layer(self, monkeypatch)` |
+| `test_one_failing_group_does_not_kill_the_layer` | method | `tests/test_aerospace.py:351` | `def test_one_failing_group_does_not_kill_the_layer(self, monkeypatch)` |
+| `test_only_located_launches_become_points` | method | `tests/test_aerospace.py:364` | `def test_only_located_launches_become_points(self, monkeypatch)` |
+| `test_only_valid_and_unique_vectors_survive` | method | `tests/test_aerospace.py:151` | `def test_only_valid_and_unique_vectors_survive(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)
