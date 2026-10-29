@@ -145,9 +145,15 @@ handful of cells instead of a full scan.
 - `AirportIndex.by_code(code)` -> ICAO, IATA, GPS or local identifier.
 - `AirportIndex.within_bbox(bbox)`, `airport_brief(airport)`.
 
-The download and the on-disk cache live in `feeds.py`;
-`ESTORIDES_AIRPORTS_ENRICH=1` opts in (a one-time ~13 MB fetch, monthly
-refresh), `ESTORIDES_AIRPORTS_RADIUS_KM` (default 25) bounds the search.
+The catalogue is a :mod:`estorides_core.data_pack`: fetched from its
+upstream at runtime, cached in `data/packs/ourairports.json` for a month
+and refreshable on demand. It is never vendored into the repository, so
+the upstream keeps ownership and licence of the data.
+`ESTORIDES_AIRPORTS_ENRICH=1` opts in (a one-time ~13 MB fetch),
+`ESTORIDES_AIRPORTS_RADIUS_KM` (default 25) bounds the search,
+`ESTORIDES_AIRPORTS_URL` points at a mirror and
+`ESTORIDES_AIRPORTS_SHA256` pins the bytes — a mismatch keeps the last
+known-good copy and logs it.
 
 ## Feeds
 
@@ -257,7 +263,8 @@ only (`estorides-aero-*`).
 | Satellite propagation error | That satellite is skipped |
 | One emergency squawk code fails upstream | The other codes are still returned; the layer logs and continues |
 | bbox wider than the regional limit | `_fetch_bbox` returns `None`, the worldwide snapshot is fetched and clipped |
-| Airport catalogue download fails | `_annotate_airports` keeps the stale index (or none); aircraft points are unchanged |
+| Airport catalogue download fails | The data pack serves its stale payload (or `None`); aircraft points are unchanged |
+| Airport catalogue digest mismatch | Load fails closed, last known-good cache keeps serving |
 
 ## Security guarantees
 

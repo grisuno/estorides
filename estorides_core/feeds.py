@@ -54,6 +54,7 @@ from .aviation import (
     emergency_phrase,
 )
 from .config import DATA_DIR
+from .data_pack import load_pack
 from .ssrf_guard import assert_safe
 
 log = logging.getLogger("estorides.feeds")
@@ -124,12 +125,15 @@ def _bbox_cache_key(bbox: Any) -> str:
 
 
 # ------------------------------------------------------- airport reference
+# The catalogue is reference data: fetched from its upstream, pinned when
+# the operator supplies a digest, cached for a month and never vendored.
 AIRPORTS_URL = "https://davidmegginson.github.io/ourairports-data/airports.csv"
-AIRPORTS_CACHE_FILE: Path = DATA_DIR / "airports.json"
+AIRPORTS_CACHE_FILE: Path = DATA_DIR / "packs" / "ourairports.json"
 AIRPORTS_TTL_S: int = 30 * 24 * 60 * 60   # OurAirports changes weekly, not hourly
 AIRPORTS_MAX_BYTES: int = 64 * 1024 * 1024
 
 _airport_index: AirportIndex | None = None
+_airport_index_at: float = 0.0
 _airport_index_lock = threading.Lock()
 
 
@@ -143,75 +147,36 @@ def airports_enabled() -> bool:
     return _env_flag("ESTORIDES_AIRPORTS_ENRICH", False)
 
 
-def _airport_index_from_disk() -> tuple[AirportIndex | None, float]:
-    """Return the cached index and its epoch, or ``(None, 0)``."""
-    try:
-        blob = json.loads(AIRPORTS_CACHE_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None, 0.0
-    airports = blob.get("airports")
-    if not isinstance(airports, list) or not airports:
-        return None, 0.0
-    fetched_at = blob.get("fetched_at")
-    stamp = float(fetched_at) if isinstance(fetched_at, (int, float)) else 0.0
-    return build_index(airports), stamp
+def _parse_airport_pack(raw: bytes) -> list[dict[str, Any]]:
+    """Data-pack parser: OurAirports CSV bytes -> normalised airports."""
+    return parse_airports_csv(raw.decode("utf-8", errors="replace"))
 
 
-def _download_airport_catalogue() -> list[dict[str, Any]]:
-    """Fetch and parse the OurAirports CSV. Raises on failure."""
-    import requests
-
-    url = os.environ.get("ESTORIDES_AIRPORTS_URL", "").strip() or AIRPORTS_URL
-    assert_safe(url)
-    response = requests.get(
-        url,
-        timeout=60,
-        headers={"User-Agent": "Estorides/1.0 (+osint platform)"},
-        stream=True,
-    )
-    response.raise_for_status()
-    chunks: list[bytes] = []
-    total = 0
-    for chunk in response.iter_content(chunk_size=1 << 20):
-        if not chunk:
-            continue
-        total += len(chunk)
-        if total > AIRPORTS_MAX_BYTES:
-            raise ValueError("airport catalogue exceeds the configured size cap")
-        chunks.append(chunk)
-    return parse_airports_csv(b"".join(chunks).decode("utf-8", errors="replace"))
-
-
-def _load_airport_index() -> AirportIndex | None:
+def _load_airport_index(force_refresh: bool = False) -> AirportIndex | None:
     """Load (and refresh) the airport index. Never raises; ``None`` on failure."""
-    global _airport_index
+    global _airport_index, _airport_index_at
     with _airport_index_lock:
-        cached, fetched_at = _airport_index_from_disk()
-        fresh = cached is not None and (time.time() - fetched_at) < AIRPORTS_TTL_S
-        if fresh:
-            _airport_index = cached
+        fresh = (
+            _airport_index is not None
+            and (time.time() - _airport_index_at) < AIRPORTS_TTL_S
+        )
+        if fresh and not force_refresh:
             return _airport_index
-        if _airport_index is not None and cached is None:
-            return _airport_index
-        try:
-            airports = _download_airport_catalogue()
-        except Exception as e:  # the layer must survive a bad download
-            log.warning("airport catalogue unavailable: %s", e)
-            _airport_index = cached or _airport_index
-            return _airport_index
+        url = os.environ.get("ESTORIDES_AIRPORTS_URL", "").strip() or AIRPORTS_URL
+        airports = load_pack(
+            "ourairports",
+            url,
+            _parse_airport_pack,
+            cache_path=AIRPORTS_CACHE_FILE,
+            ttl_s=AIRPORTS_TTL_S,
+            max_bytes=AIRPORTS_MAX_BYTES,
+            expected_sha256=os.environ.get("ESTORIDES_AIRPORTS_SHA256", "").strip(),
+            use_cache=not force_refresh,
+        )
         if not airports:
-            _airport_index = cached or _airport_index
             return _airport_index
-        try:
-            AIRPORTS_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
-            AIRPORTS_CACHE_FILE.write_text(
-                json.dumps({"fetched_at": time.time(), "airports": airports},
-                           ensure_ascii=False),
-                encoding="utf-8",
-            )
-        except OSError as e:
-            log.debug("airport cache write failed (non-fatal): %s", e)
         _airport_index = build_index(airports)
+        _airport_index_at = time.time()
         return _airport_index
 
 

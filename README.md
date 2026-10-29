@@ -659,6 +659,17 @@ The query-driven counterparts live in `sources/21_aerospace/`
 registration, type and squawk; adsbdb and hexdb.io enrichment; OpenSky
 track; Launch Library 2 search). See `spec/aerospace.md`.
 
+#### Reference data is fetched, not vendored
+
+Static datasets (the airport catalogue today, any future name or
+boundary table) are consumed through `estorides_core/data_pack.py`:
+fetched from the upstream at runtime, cached under `data/packs/` with a
+TTL, optionally pinned with `ESTORIDES_<NAME>_SHA256`, and served from
+the last known-good copy when the network or the digest fails. Nothing is
+copied into the repository, so provenance and licence stay with the
+source and updates arrive without a commit here. See
+`spec/data_pack.md`.
+
 Optional high-accuracy propagation: `pip install "estorides[space]"`
 installs `sgp4`; without it the satellites layer uses a two-body
 fallback.
