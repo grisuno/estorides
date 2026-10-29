@@ -703,6 +703,16 @@ python3 _multi_test.sh                      # end-to-end: query types through th
 `bandit`). The old root-level `_validate.py` runner and its `_test_*.py`
 scripts were ported into `tests/` so every check runs under pytest/CI.
 
+## Star History
+
+<a href="https://www.star-history.com/#grisuno/estorides&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=grisuno/estorides&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=grisuno/estorides&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=grisuno/estorides&type=Date" />
+ </picture>
+</a>
+
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
