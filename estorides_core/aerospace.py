@@ -25,7 +25,12 @@ import math
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from .aviation import classify_aircraft, decode_db_flags, emergency_status
+from .aviation import (
+    classify_aircraft,
+    decode_db_flags,
+    emergency_status,
+    navigation_integrity,
+)
 
 EARTH_RADIUS_KM = 6378.137
 EARTH_MU_KM3_S2 = 398600.4418
@@ -429,6 +434,9 @@ def _aircraft_record(
     owner: Any = None,
     emergency: Any = None,
     db_flags: Any = None,
+    nac_p: Any = None,
+    nic: Any = None,
+    sil: Any = None,
     observed_at: Any = None,
     source: str = "opensky",
 ) -> dict[str, Any] | None:
@@ -469,6 +477,9 @@ def _aircraft_record(
         ),
         "emergency": emergency_status(squawk, emergency),
         "db_flags": decode_db_flags(db_flags),
+        "navigation_integrity": navigation_integrity(
+            nac_p=nac_p, nic=nic, sil=sil, on_ground=bool(on_ground)
+        ),
         "observed_at": _finite(observed_at),
         "source": source,
     }
@@ -577,6 +588,9 @@ def normalize_adsblol_aircraft(payload: Any) -> list[dict[str, Any]]:
             owner=row.get("ownOp"),
             emergency=row.get("emergency"),
             db_flags=row.get("dbFlags"),
+            nac_p=row.get("nac_p"),
+            nic=row.get("nic"),
+            sil=row.get("sil"),
             observed_at=observed_at,
             source="adsb.lol",
         )

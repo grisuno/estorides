@@ -553,6 +553,11 @@
         (Number.isFinite(distance) ? ' (' + Math.round(distance) + ' km)' : '') +
         (field.name ? ' — ' + escapeHTML(field.name) : ''));
     }
+    if (extra.navigation_integrity && extra.navigation_integrity.level) {
+      const nav = extra.navigation_integrity;
+      const suffix = nav.suspected_jamming ? ' — suspected GNSS interference' : '';
+      rows.push('Nav integrity ' + escapeHTML(String(nav.level)) + escapeHTML(suffix));
+    }
     if (extra.norad_id !== undefined) {
       rows.push('NORAD <code>' + escapeHTML(String(extra.norad_id)) + '</code>');
     }

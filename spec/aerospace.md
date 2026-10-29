@@ -78,7 +78,8 @@ icao24, callsign, origin_country, latitude, longitude,
 baro_altitude_m, geo_altitude_m, on_ground, velocity_mps,
 heading_deg, vertical_rate_mps, squawk, spi, position_source,
 category, type_code, registration, description, owner,
-aircraft_class, emergency, db_flags, observed_at, source
+aircraft_class, emergency, db_flags, navigation_integrity,
+observed_at, source
 ```
 
 `aircraft_class` is the display class from
@@ -117,6 +118,12 @@ Pure aircraft-intelligence helpers. No network, no filesystem.
   `ADS-B reports general emergency`).
 - `decode_db_flags(value)` -> `{military, interesting, pia, ladd, raw}`
   from the readsb bitfield, or `None`.
+- `navigation_integrity(nac_p=, nic=, sil=, on_ground=)` ->
+  `{level, nac_p, nic, sil, suspected_jamming}`. NACp/NIC at or above 8
+  is `nominal`, 6-7 `degraded`, 1-5 `poor`, 0 `no-integrity`; with
+  neither field the level is `unknown`, which is absence of evidence,
+  not evidence of jamming. `suspected_jamming` is only set for an
+  airborne aircraft in the bottom two bands.
 - `haversine_km(...)`, `bbox_center_radius(bbox)`, `point_in_bbox(...)`.
 - `normalize_hexdb_aircraft(payload)`, `normalize_hexdb_route(payload)`.
 
@@ -409,6 +416,16 @@ Given squawk `7700` and ADS-B `downed`
 Then the ADS-B status wins the tie and `source` is `ads-b`.
 Given squawk `1200` and ADS-B `none`
 Then the status is `None`.
+
+### A20 — Navigation integrity reports, it does not accuse
+Given ADS-B quality fields with NACp 2 (or a low NIC) on an airborne
+contact
+When `navigation_integrity` runs
+Then the level is `poor` and `suspected_jamming` is true.
+Given the same fields on a contact that is on the ground
+Then `suspected_jamming` is false.
+Given neither NACp nor NIC
+Then the level is `unknown` and no jamming hint is emitted.
 
 ## Mutation testing
 

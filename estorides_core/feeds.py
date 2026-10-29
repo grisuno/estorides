@@ -595,6 +595,9 @@ def _aircraft_feed_point(
     flags = record.get("db_flags")
     if isinstance(flags, dict):
         extra["flags"] = flags
+    integrity = record.get("navigation_integrity")
+    if isinstance(integrity, dict) and integrity.get("level") not in (None, "unknown"):
+        extra["navigation_integrity"] = integrity
     extra = {key: value for key, value in extra.items() if value is not None}
     return FeedPoint(
         lat=record["latitude"],

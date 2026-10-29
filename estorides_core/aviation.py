@@ -381,6 +381,56 @@ def decode_db_flags(value: Any) -> dict[str, Any] | None:
     return flags
 
 
+# ---------------------------------------------------- navigation integrity
+# ADS-B quality fields. NACp (navigation accuracy category for position)
+# and NIC (navigation integrity category) fall when a receiver loses GPS
+# quality — which is what jamming and spoofing look like from the ground.
+# They are reported facts, not a verdict: a low value can also mean an old
+# transponder that never had them.
+NAV_LEVELS: tuple[str, ...] = ("nominal", "degraded", "poor", "no-integrity",
+                               "unknown")
+
+
+def navigation_integrity(
+    *,
+    nac_p: Any = None,
+    nic: Any = None,
+    sil: Any = None,
+    on_ground: bool = False,
+) -> dict[str, Any]:
+    """Classify the navigation integrity an airframe is reporting.
+
+    ``nominal`` at NACp/NIC >= 8, ``degraded`` at 6-7, ``poor`` at 1-5 and
+    ``no-integrity`` at 0. With neither field present the level is
+    ``unknown`` — absence of evidence, not evidence of jamming.
+    ``suspected_jamming`` is only set for an airborne aircraft in the
+    ``poor`` or ``no-integrity`` band.
+    """
+    accuracy = _finite(nac_p)
+    integrity = _finite(nic)
+    signal = _finite(sil)
+    metric = accuracy if accuracy is not None else integrity
+    if metric is None:
+        level = "unknown"
+    elif metric >= 8:
+        level = "nominal"
+    elif metric >= 6:
+        level = "degraded"
+    elif metric >= 1:
+        level = "poor"
+    else:
+        level = "no-integrity"
+    return {
+        "level": level,
+        "nac_p": accuracy,
+        "nic": integrity,
+        "sil": signal,
+        "suspected_jamming": bool(
+            level in {"poor", "no-integrity"} and not on_ground
+        ),
+    }
+
+
 # --------------------------------------------------------------- geometry
 def haversine_km(lat1: Any, lon1: Any, lat2: Any, lon2: Any) -> float | None:
     """Great-circle distance in kilometres, or ``None`` for bad input."""

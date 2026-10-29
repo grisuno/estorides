@@ -145,10 +145,11 @@ estorides run "Falcon 9" --only-sources launch_library_search
 Satellite positions come from SGP4 when `pip install "estorides[space]"`
 is present, and from a two-body fallback otherwise. Every aircraft point
 carries its display class (light/turboprop/airliner/widebody/quadjet/
-helicopter/fastjet/bizjet/glider/uav), ICAO type, registration, owner
-and the transponder state; the emergency layer only reports what a
-squawk broadcast in the last poll. `ESTORIDES_AIRPORTS_ENRICH=1` adds
-the nearest aerodrome to each aircraft. All five feeds are
+helicopter/fastjet/bizjet/glider/uav), ICAO type, registration, owner,
+the transponder state and the ADS-B navigation-integrity band; the
+emergency layer only reports what a squawk broadcast in the last poll.
+`ESTORIDES_AIRPORTS_ENRICH=1` adds the nearest aerodrome to each
+aircraft. All five feeds are
 `contact: none` and keyless; the panel renders the required OpenSky,
 adsb.lol (ODbL), hexdb.io, CelesTrak and Launch Library 2 credits. See
 `spec/aerospace.md`.

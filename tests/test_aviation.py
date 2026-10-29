@@ -272,3 +272,44 @@ class TestHexdb:
     def test_total_contract(self, payload: Any) -> None:
         assert isinstance(aviation.normalize_hexdb_aircraft(payload), dict)
         assert isinstance(aviation.normalize_hexdb_route(payload), dict)
+
+
+class TestNavigationIntegrity:
+    @pytest.mark.parametrize("nac_p,nic,expected", [
+        (11, 11, "nominal"),
+        (8, 8, "nominal"),
+        (7, 7, "degraded"),
+        (6, 6, "degraded"),
+        (5, 5, "poor"),
+        (1, 1, "poor"),
+        (0, 0, "no-integrity"),
+    ])
+    def test_levels(self, nac_p: Any, nic: Any, expected: str) -> None:
+        assert aviation.navigation_integrity(nac_p=nac_p, nic=nic)["level"] == expected
+
+    def test_nac_p_preferred_over_nic(self) -> None:
+        # An old transponder can report a high NIC with a low NACp.
+        assert aviation.navigation_integrity(nac_p=2, nic=9)["level"] == "poor"
+        assert aviation.navigation_integrity(nic=9)["level"] == "nominal"
+
+    def test_absence_is_unknown_not_jamming(self) -> None:
+        status = aviation.navigation_integrity()
+        assert status["level"] == "unknown"
+        assert status["suspected_jamming"] is False
+        assert status["nac_p"] is None
+
+    def test_jamming_hint_requires_airborne(self) -> None:
+        assert aviation.navigation_integrity(nac_p=1)["suspected_jamming"] is True
+        assert aviation.navigation_integrity(nac_p=1, on_ground=True)[
+            "suspected_jamming"] is False
+        assert aviation.navigation_integrity(nac_p=9)["suspected_jamming"] is False
+
+    def test_raw_fields_are_kept(self) -> None:
+        status = aviation.navigation_integrity(nac_p=9, nic=8, sil=3)
+        assert status["nac_p"] == pytest.approx(9.0)
+        assert status["nic"] == pytest.approx(8.0)
+        assert status["sil"] == pytest.approx(3.0)
+
+    @pytest.mark.parametrize("value", [None, "x", True, float("inf")])
+    def test_hostile_fields(self, value: Any) -> None:
+        assert aviation.navigation_integrity(nac_p=value)["level"] == "unknown"

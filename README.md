@@ -647,8 +647,12 @@ Each aircraft point carries identity and state — `aircraft_class`
 (light/turboprop/airliner/widebody/quadjet/helicopter/fastjet/bizjet/
 glider/uav), ICAO type, registration, owner, squawk and the decoded
 community flags — plus `emergency`/`emergency_phrase` when the
-transponder is broadcasting one. `ESTORIDES_AIRPORTS_ENRICH=1` adds the
-nearest aerodrome (OurAirports, public domain) to every point.
+transponder is broadcasting one. `navigation_integrity` reports the
+ADS-B NACp/NIC/SIL quality band (`nominal`, `degraded`, `poor`,
+`no-integrity`) and flags a jamming hint only for an airborne contact in
+the bottom two bands — reported facts, not a verdict.
+`ESTORIDES_AIRPORTS_ENRICH=1` adds the nearest aerodrome (OurAirports,
+public domain) to every point.
 
 The query-driven counterparts live in `sources/21_aerospace/`
 (CelesTrak by catalog id, name or group; adsb.lol by hex, callsign,

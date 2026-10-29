@@ -657,7 +657,7 @@ AIRCRAFT_KEYS = {
     "heading_deg", "vertical_rate_mps", "squawk", "spi",
     "position_source", "category", "observed_at", "source",
     "type_code", "registration", "description", "owner",
-    "aircraft_class", "emergency", "db_flags",
+    "aircraft_class", "emergency", "db_flags", "navigation_integrity",
 }
 
 
@@ -700,6 +700,7 @@ class TestExactRecords:
         assert record["aircraft_class"] == "airliner"
         assert record["emergency"] is None
         assert record["db_flags"] is None
+        assert record["navigation_integrity"]["level"] == "unknown"
 
     def test_adsblol_full_record(self) -> None:
         payload = {"now": 1700000000, "ac": [{
@@ -733,6 +734,7 @@ class TestExactRecords:
         assert record["registration"] is None
         assert record["emergency"] is None
         assert record["db_flags"] is None
+        assert record["navigation_integrity"]["level"] == "unknown"
 
     def test_adsb_unknown_shape(self) -> None:
         assert aerospace.normalize_adsbdb({"response": {}}) == {}
@@ -847,6 +849,7 @@ class TestA15RegionalAircraftFetch:
                     "lon": -3.65, "alt_baro": 3000, "gs": 200.0,
                     "track": 90.0, "t": "B738", "r": "N12345",
                     "category": "A3", "squawk": "1200", "dbFlags": 0,
+                        "nic": 3, "nac_p": 3, "sil": 1,
                 }],
             }),
         })
@@ -858,6 +861,9 @@ class TestA15RegionalAircraftFetch:
         assert points[0].extra["aircraft_class"] == "airliner"
         assert points[0].extra["type_code"] == "B738"
         assert points[0].extra["registration"] == "N12345"
+        nav = points[0].extra["navigation_integrity"]
+        assert nav["level"] == "poor"
+        assert nav["suspected_jamming"] is True
 
     def test_wide_bbox_falls_back_to_worldwide(self, monkeypatch: pytest.MonkeyPatch) -> None:
         calls = _patch_requests(monkeypatch, {})
