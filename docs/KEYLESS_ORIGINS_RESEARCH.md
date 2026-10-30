@@ -44,7 +44,7 @@ verdicts are summarised below.
 | `geojs_ip` | `get.geojs.io/v1/ip/geo/{ip}.json` | 02 IP | `geojs_ip` | Third geo/ASN opinion |
 | `ipapi_is` | `api.ipapi.is/?q={ip}` | 02 IP | `ipapi_is` | Datacenter/abuse flags, RIR data |
 | `maclookup` | `api.maclookup.app/v2/macs/{mac}` | 02 IP | `maclookup` | OUI + registration block, complements macvendors |
-| `peeringdb_net` | `peeringdb.com/api/net?asn=` | 02 IP | `peeringdb` | Network contacts, IX presence, policy |
+| `peeringdb_net_search` | `peeringdb.com/api/net?name__contains=` | 02 IP | `peeringdb` | Network contacts, IX presence, policy |
 | `tranco_rank` | `tranco-list.eu/api/ranks/domain/` | 02 IP | `tranco` | Popularity rank without Majestic/Cisco keys |
 | `team_cymru_origin_asn` | DoH TXT `origin.asn.cymru.com` | 01 DNS | `dns_json` | ASN/prefix via DNS, zero HTTP API |
 | `hstspreload_status` | `hstspreload.org/api/v2/status` | 01 DNS | `hstspreload` | HSTS preload state, error list |
