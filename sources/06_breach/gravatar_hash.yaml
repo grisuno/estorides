@@ -1,0 +1,22 @@
+name: gravatar_hash
+enabled: true
+category: 06. Breach Intelligence
+description: Gravatar public profile for an md5 hash - display name, accounts and URLs
+os: any
+requires_key: false
+contact: none
+parser: gravatar
+entity_hints:
+- md5
+- email
+- person
+- profile
+- social_account
+applies_to:
+- md5
+tool:
+  method: GET
+  url: https://gravatar.com/{query}.json
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

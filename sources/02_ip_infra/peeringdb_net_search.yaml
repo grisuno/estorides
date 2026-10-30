@@ -1,0 +1,23 @@
+name: peeringdb_net_search
+enabled: true
+category: 02. IP & Infrastructure
+description: PeeringDB network search by name - NOC contacts, IX presence, peering policy
+os: any
+requires_key: false
+contact: none
+parser: peeringdb
+entity_hints:
+- organization
+- asn
+- noc_contact
+- peering_policy
+- internet_exchange
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://www.peeringdb.com/api/net
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    name__contains: '{query}'

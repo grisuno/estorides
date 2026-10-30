@@ -1,0 +1,22 @@
+name: ransomware_live_recent
+enabled: true
+category: 05. Threat Intelligence
+description: ransomware.live - most recent leak-site victims, groups, sectors and countries
+os: any
+requires_key: false
+contact: none
+parser: ransomware_live
+entity_hints:
+- ransomware_group
+- victim
+- country
+- sector
+- leak_site
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.ransomware.live/v2/recentvictims
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

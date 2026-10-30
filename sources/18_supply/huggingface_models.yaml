@@ -1,0 +1,25 @@
+name: huggingface_models
+enabled: true
+category: 18. Supply Chain
+description: Hugging Face hub - models matching a name, with likes/downloads and tags
+os: any
+requires_key: false
+contact: none
+parser: huggingface
+entity_hints:
+- model
+- repository
+- pipeline_tag
+- author
+- tag
+applies_to:
+- username
+- keyword
+tool:
+  method: GET
+  url: https://huggingface.co/api/models
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    search: '{query}'
+    limit: 10

@@ -1,0 +1,24 @@
+name: dbip_free
+enabled: true
+category: 02. IP & Infrastructure
+description: DB-IP free geolocation - independent country/state/city signal, no key
+os: any
+requires_key: false
+contact: none
+parser: dbip_ip
+entity_hints:
+- ip
+- geolocation
+- country
+- city
+- latitude
+- longitude
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://api.db-ip.com/v2/free/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

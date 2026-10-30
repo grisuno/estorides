@@ -1,0 +1,24 @@
+name: sans_isc_ip
+enabled: true
+category: 02. IP & Infrastructure
+description: SANS ISC - honeypot attack counts and threat-feed membership for an IP
+os: any
+requires_key: false
+contact: none
+parser: sans_isc_ip
+entity_hints:
+- ip
+- attacks
+- maxrisk
+- asn
+- abuse_contact
+- threat_feed
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://isc.sans.edu/api/ip/{query}?json
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

@@ -1,0 +1,24 @@
+name: dockerhub_search
+enabled: true
+category: 18. Supply Chain
+description: Docker Hub search - official flag, pull counts and short descriptions
+os: any
+requires_key: false
+contact: none
+parser: dockerhub_search
+entity_hints:
+- container_image
+- repository
+- maintainer
+- popularity
+applies_to:
+- username
+- keyword
+tool:
+  method: GET
+  url: https://hub.docker.com/v2/search/repositories/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    query: '{query}'
+    page_size: 10

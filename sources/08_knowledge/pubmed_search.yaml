@@ -1,0 +1,25 @@
+name: pubmed_search
+enabled: true
+category: 08. Knowledge
+description: NCBI PubMed E-utilities - biomedical literature identifiers (keyless)
+os: any
+requires_key: false
+contact: none
+parser: pubmed
+entity_hints:
+- publication
+- pmid
+- author
+- biomedical
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    db: pubmed
+    term: '{query}'
+    retmode: json
+    retmax: 10

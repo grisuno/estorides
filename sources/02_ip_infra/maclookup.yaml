@@ -1,0 +1,22 @@
+name: maclookup
+enabled: true
+category: 02. IP & Infrastructure
+description: maclookup.app - OUI registration block, vendor and country for a MAC
+os: any
+requires_key: false
+contact: none
+parser: maclookup
+entity_hints:
+- mac
+- oui
+- vendor
+- country
+- registration_block
+applies_to:
+- mac
+tool:
+  method: GET
+  url: https://api.maclookup.app/v2/macs/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

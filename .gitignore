@@ -205,3 +205,6 @@ reports/*.age
 # mutation testing working tree (mutmut)
 mutants/
 .mutmut-cache*
+
+# Session scratch space (probe output, generators)
+.scratchpad/

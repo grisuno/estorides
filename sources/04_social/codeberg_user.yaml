@@ -1,0 +1,22 @@
+name: codeberg_user
+enabled: true
+category: 04. Social Media
+description: Codeberg (Forgejo) public user - email, website, location and repos
+os: any
+requires_key: false
+contact: none
+parser: forgejo_user
+entity_hints:
+- person
+- username
+- email
+- website
+- location
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://codeberg.org/api/v1/users/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

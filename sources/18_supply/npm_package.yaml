@@ -1,0 +1,23 @@
+name: npm_package
+enabled: true
+category: 18. Supply Chain
+description: npm registry - latest manifest with maintainers, repo, deps and deprecation
+os: any
+requires_key: false
+contact: none
+parser: npm_package
+entity_hints:
+- package
+- maintainer
+- repository
+- dependency
+- license
+applies_to:
+- username
+- keyword
+tool:
+  method: GET
+  url: https://registry.npmjs.org/{query}/latest
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

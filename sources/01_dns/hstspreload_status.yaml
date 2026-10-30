@@ -1,0 +1,22 @@
+name: hstspreload_status
+enabled: true
+category: 01. DNS Intelligence
+description: Chrome HSTS preload status and preload error list for a domain (keyless)
+os: any
+requires_key: false
+contact: none
+parser: hstspreload
+entity_hints:
+- domain
+- hsts
+- preload_status
+- transport_security
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://hstspreload.org/api/v2/status
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    domain: '{query}'

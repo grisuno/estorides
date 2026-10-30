@@ -1,0 +1,23 @@
+name: lemmy_user
+enabled: true
+category: 04. Social Media
+description: Lemmy federated profile (lemmy.ml) - bio, karma counts, matrix handle
+os: any
+requires_key: false
+contact: none
+parser: lemmy
+entity_hints:
+- person
+- fediverse_handle
+- bio
+- post_count
+- matrix_user
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://lemmy.ml/api/v3/user
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    username: '{query}'

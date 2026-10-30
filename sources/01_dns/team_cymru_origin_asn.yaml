@@ -1,0 +1,25 @@
+name: team_cymru_origin_asn
+enabled: true
+category: 01. DNS Intelligence
+description: Team Cymru origin ASN and prefix for an IP via DoH TXT (no HTTP API)
+os: any
+requires_key: false
+contact: none
+parser: dns_json
+entity_hints:
+- ip
+- asn
+- cidr
+- country
+- rir
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://dns.google/resolve
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    name: '{query}.origin.asn.cymru.com'
+    type: TXT

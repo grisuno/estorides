@@ -1,0 +1,24 @@
+name: planespotters_photos
+enabled: true
+category: 21. Aerospace
+description: Planespotters - photos, photographer and links for an ICAO hex
+os: any
+requires_key: false
+contact: none
+parser: planespotters
+entity_hints:
+- aircraft
+- icao24
+- registration
+- photo
+- photographer
+applies_to:
+- mac
+- username
+- keyword
+tool:
+  method: GET
+  url: https://api.planespotters.net/pub/photos/hex/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

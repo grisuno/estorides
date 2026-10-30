@@ -1,0 +1,25 @@
+name: ipapi_is
+enabled: true
+category: 02. IP & Infrastructure
+description: ipapi.is free tier - company, ASN and datacenter/proxy/abuser flags
+os: any
+requires_key: false
+contact: none
+parser: ipapi_is
+entity_hints:
+- ip
+- asn
+- company
+- is_datacenter
+- is_tor
+- is_proxy
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://api.ipapi.is/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    q: '{query}'

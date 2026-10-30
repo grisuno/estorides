@@ -1,0 +1,23 @@
+name: radio_browser_search
+enabled: true
+category: 09. Wireless
+description: radio-browser.info - broadcast station registry by name, country and stream
+os: any
+requires_key: false
+contact: none
+parser: radio_browser
+entity_hints:
+- radio_station
+- country
+- language
+- stream_url
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://de1.api.radio-browser.info/json/stations/search
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    name: '{query}'
+    limit: 10

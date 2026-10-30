@@ -1,0 +1,21 @@
+name: ofac_sanctions_eth
+enabled: true
+category: 10. Blockchain
+description: OFAC SDN Ethereum address list (0xB10C mirror) - sanctions screening
+os: any
+requires_key: false
+contact: none
+parser: address_list
+entity_hints:
+- eth_address
+- sanctions
+- ofac
+- compliance
+applies_to:
+- eth_address
+tool:
+  method: GET
+  url: https://raw.githubusercontent.com/0xB10C/ofac-sanctioned-digital-currency-addresses/lists/sanctioned_addresses_ETH.txt
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

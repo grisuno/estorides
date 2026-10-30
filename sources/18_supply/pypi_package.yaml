@@ -1,0 +1,23 @@
+name: pypi_package
+enabled: true
+category: 18. Supply Chain
+description: PyPI JSON API - project metadata, author email, URLs and release count
+os: any
+requires_key: false
+contact: none
+parser: pypi_package
+entity_hints:
+- package
+- author
+- email
+- repository
+- license
+applies_to:
+- username
+- keyword
+tool:
+  method: GET
+  url: https://pypi.org/pypi/{query}/json
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

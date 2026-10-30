@@ -75,3 +75,35 @@ class TestFailClosed:
         except RuntimeError:
             raised = True
         assert raised, "SOCKS without aiohttp_socks must fail closed"
+
+
+class TestCacheKeyIncludesParams:
+    """A query string is part of the cache identity.
+
+    Regression: the cache used to key on the base URL only, so
+    `?cve=CVE-A` and `?cve=CVE-B` shared one entry and the second target
+    was answered with the first one's payload for a whole TTL.
+    """
+
+    def test_different_params_differ(self) -> None:
+        from estorides_core.async_client import _params_digest
+
+        assert _params_digest({"cve": "CVE-A"}) != _params_digest({"cve": "CVE-B"})
+        assert _params_digest({"q": "a"}) != _params_digest({"q": "b"})
+
+    def test_param_order_is_irrelevant(self) -> None:
+        from estorides_core.async_client import _params_digest
+
+        assert _params_digest({"a": "1", "b": "2"}) == _params_digest({"b": "2", "a": "1"})
+
+    def test_list_values_are_expanded(self) -> None:
+        from estorides_core.async_client import _params_digest
+
+        assert _params_digest({"fl[]": ["a", "b"]}) != _params_digest({"fl[]": ["a"]})
+        assert "fl[]=a" in _params_digest({"fl[]": ["a", "b"]})
+
+    def test_no_params_is_empty(self) -> None:
+        from estorides_core.async_client import _params_digest
+
+        assert _params_digest(None) == ""
+        assert _params_digest({}) == ""

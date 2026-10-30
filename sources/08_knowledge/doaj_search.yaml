@@ -1,0 +1,22 @@
+name: doaj_search
+enabled: true
+category: 08. Knowledge
+description: DOAJ - open-access journal articles with DOI and publisher metadata
+os: any
+requires_key: false
+contact: none
+parser: doaj
+entity_hints:
+- publication
+- doi
+- author
+- journal
+- publisher
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://doaj.org/api/search/articles/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

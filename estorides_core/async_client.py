@@ -19,7 +19,7 @@ import json
 import logging
 import sqlite3
 import time
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -167,6 +167,28 @@ class ResponseCache:
                 "INSERT OR REPLACE INTO cache (k, v, ts) VALUES (?, ?, ?)",
                 (k, json.dumps(value, ensure_ascii=False), time.time()),
             )
+
+
+def _params_digest(params: Mapping[str, Any] | None) -> str:
+    """Stable, order-insensitive representation of request query params.
+
+    The response cache keys on ``(method, url, body)``. Without the params a
+    request for ``?cve=CVE-2024-3094`` and one for ``?cve=CVE-2023-0001``
+    against the same base URL collide, so the second query answers with the
+    first target's payload for a whole TTL. Folding the params into the cache
+    URL keeps one entry per distinct request while leaving the wire request
+    untouched (aiohttp still encodes them).
+    """
+    if not params:
+        return ""
+    parts: list[str] = []
+    for key, value in params.items():
+        if isinstance(value, (list, tuple, set)):
+            for item in value:
+                parts.append(f"{key}={item}")
+        else:
+            parts.append(f"{key}={value}")
+    return "&".join(sorted(parts))
 
 
 class AsyncClient:
@@ -319,8 +341,13 @@ class AsyncClient:
             body_str = json.dumps(body, sort_keys=True)
         elif isinstance(body, str):
             body_str = body
+        # Params are part of the cache identity: the same base URL with
+        # `?cve=X` and `?cve=Y` must never share an entry (see
+        # `_params_digest`). The wire request still passes `params` to aiohttp.
+        params_key = _params_digest(params)
+        cache_url = f"{url}\x00{params_key}" if params_key else url
         if use_cache and method.upper() == "GET":
-            cached = self.cache.get(method, url, body_str)
+            cached = self.cache.get(method, cache_url, body_str)
             if cached is not None:
                 meta["cached"] = True
                 meta["status"] = 200
@@ -373,7 +400,7 @@ class AsyncClient:
                             data = {"raw_text": text}
 
                         if use_cache and method.upper() == "GET":
-                            self.cache.set(method, url, body_str, data)
+                            self.cache.set(method, cache_url, body_str, data)
                         return data, meta
 
                 except asyncio.TimeoutError as e:

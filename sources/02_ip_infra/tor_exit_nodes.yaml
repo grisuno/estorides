@@ -1,0 +1,21 @@
+name: tor_exit_nodes
+enabled: true
+category: 02. IP & Infrastructure
+description: Tor Project bulk exit-node list - attribute an IP to the Tor network
+os: any
+requires_key: false
+contact: none
+parser: text_lines
+entity_hints:
+- ip
+- tor_exit
+- anonymity_network
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://check.torproject.org/torbulkexitlist
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

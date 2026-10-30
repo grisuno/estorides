@@ -1,0 +1,24 @@
+name: spaceflightnews_search
+enabled: true
+category: 21. Aerospace
+description: Spaceflight News API - launch and space-industry articles by keyword
+os: any
+requires_key: false
+contact: none
+parser: spaceflightnews
+entity_hints:
+- news
+- launch
+- space_agency
+- url
+- published_at
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://api.spaceflightnewsapi.net/v4/articles/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    search: '{query}'
+    limit: 10

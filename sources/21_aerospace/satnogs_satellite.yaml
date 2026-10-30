@@ -1,0 +1,24 @@
+name: satnogs_satellite
+enabled: true
+category: 21. Aerospace
+description: SatNOGS DB - satellite catalogue record by NORAD id (operator, launch, status)
+os: any
+requires_key: false
+contact: none
+parser: satnogs
+entity_hints:
+- satellite
+- norad_id
+- operator
+- launch_date
+- status
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://db.satnogs.org/api/satellites/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    norad_cat_id: '{query}'
+    format: json

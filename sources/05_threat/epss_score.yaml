@@ -1,0 +1,22 @@
+name: epss_score
+enabled: true
+category: 05. Threat Intelligence
+description: FIRST EPSS - exploit-prediction score and percentile for a CVE (keyless)
+os: any
+requires_key: false
+contact: none
+parser: epss
+entity_hints:
+- cve
+- epss
+- percentile
+- exploit_likelihood
+applies_to:
+- cve
+tool:
+  method: GET
+  url: https://api.first.org/data/v1/epss
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    cve: '{query}'

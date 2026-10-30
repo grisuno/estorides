@@ -1,0 +1,23 @@
+name: gitlab_user
+enabled: true
+category: 04. Social Media
+description: GitLab user lookup - public email, bio, location and account age
+os: any
+requires_key: false
+contact: none
+parser: gitlab_user
+entity_hints:
+- person
+- username
+- public_email
+- organization
+- location
+applies_to:
+- username
+tool:
+  method: GET
+  url: https://gitlab.com/api/v4/users
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    username: '{query}'

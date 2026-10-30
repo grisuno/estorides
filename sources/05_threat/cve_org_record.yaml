@@ -1,0 +1,23 @@
+name: cve_org_record
+enabled: true
+category: 05. Threat Intelligence
+description: CVE.org (CNA) record - authoritative state, CVSS, CWE and affected versions
+os: any
+requires_key: false
+contact: none
+parser: cve_record
+entity_hints:
+- cve
+- cvss
+- cwe
+- vendor
+- product
+- version
+applies_to:
+- cve
+tool:
+  method: GET
+  url: https://cveawg.mitre.org/api/cve/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

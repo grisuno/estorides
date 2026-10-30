@@ -1,0 +1,23 @@
+name: geojs_ip
+enabled: true
+category: 02. IP & Infrastructure
+description: geojs.io - third-opinion IP geolocation with ASN and timezone
+os: any
+requires_key: false
+contact: none
+parser: geojs_ip
+entity_hints:
+- ip
+- geolocation
+- asn
+- organization
+- timezone
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://get.geojs.io/v1/ip/geo/{query}.json
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

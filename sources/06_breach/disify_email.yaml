@@ -1,0 +1,22 @@
+name: disify_email
+enabled: true
+category: 06. Breach Intelligence
+description: Disify - disposable/role/free mailbox flags and DNS validity for an email
+os: any
+requires_key: false
+contact: broker
+parser: disify
+entity_hints:
+- email
+- domain
+- disposable
+- role_account
+- dns_valid
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://www.disify.com/api/email/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

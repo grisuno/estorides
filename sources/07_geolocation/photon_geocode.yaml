@@ -1,0 +1,26 @@
+name: photon_geocode
+enabled: true
+category: 07. Geolocation
+description: Photon (Komoot) - OSM geocoder with coordinates and address parts (keyless)
+os: any
+requires_key: false
+contact: none
+parser: photon
+entity_hints:
+- place
+- address
+- city
+- country
+- latitude
+- longitude
+applies_to:
+- keyword
+- domain
+tool:
+  method: GET
+  url: https://photon.komoot.io/api/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    q: '{query}'
+    limit: 5

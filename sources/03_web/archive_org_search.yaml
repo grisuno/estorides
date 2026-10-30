@@ -1,0 +1,31 @@
+name: archive_org_search
+enabled: true
+category: 03. Web Intelligence
+description: Internet Archive advanced search - items, creators and media types
+os: any
+requires_key: false
+contact: none
+parser: archive_org
+entity_hints:
+- identifier
+- title
+- creator
+- year
+- mediatype
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://archive.org/advancedsearch.php
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    q: '{query}'
+    rows: 10
+    output: json
+    fl[]:
+    - identifier
+    - title
+    - creator
+    - year
+    - mediatype

@@ -1,0 +1,29 @@
+name: yaraify_search
+enabled: true
+category: 05. Threat Intelligence
+description: abuse.ch YARAify - samples matching a YARA scan or hash (keyless POST)
+os: any
+requires_key: false
+contact: none
+parser: yaraify
+entity_hints:
+- hash
+- malware
+- yara
+- mime_type
+- first_seen
+applies_to:
+- md5
+- sha1
+- sha256
+- keyword
+tool:
+  method: POST
+  url: https://yaraify-api.abuse.ch/api/v1/
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+    Content-Type: application/json
+  params: {}
+  body:
+    query: get_yara
+    search_term: '{query}'

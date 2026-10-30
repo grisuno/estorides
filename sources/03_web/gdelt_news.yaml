@@ -1,0 +1,29 @@
+name: gdelt_news
+enabled: true
+category: 03. Web Intelligence
+description: GDELT DOC 2.0 - global news coverage for an entity or domain (keyless, 1 req/5s)
+os: any
+requires_key: false
+contact: none
+parser: gdelt
+entity_hints:
+- url
+- domain
+- news
+- country
+- language
+- seen_date
+applies_to:
+- keyword
+- domain
+tool:
+  method: GET
+  url: https://api.gdeltproject.org/api/v2/doc/doc
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    query: '{query}'
+    mode: artlist
+    format: json
+    maxrecords: 25
+    sort: datedesc

@@ -1,0 +1,25 @@
+name: ssl_labs_analyze
+enabled: true
+category: 03. Web Intelligence
+description: Qualys SSL Labs - TLS grade, protocol posture and endpoint inventory (cached)
+os: any
+requires_key: false
+contact: broker
+parser: ssl_labs
+entity_hints:
+- domain
+- tls_grade
+- certificate
+- endpoint
+- has_warnings
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://api.ssllabs.com/api/v3/analyze
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    host: '{query}'
+    fromCache: 'on'
+    maxAge: 24

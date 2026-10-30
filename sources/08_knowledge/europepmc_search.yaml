@@ -1,0 +1,25 @@
+name: europepmc_search
+enabled: true
+category: 08. Knowledge
+description: Europe PMC - life-science literature with DOIs, authors and open-access flag
+os: any
+requires_key: false
+contact: none
+parser: europepmc
+entity_hints:
+- publication
+- doi
+- author
+- journal
+- open_access
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://www.ebi.ac.uk/europepmc/webservices/rest/search
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    query: '{query}'
+    format: json
+    pageSize: 10

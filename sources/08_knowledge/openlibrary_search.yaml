@@ -1,0 +1,24 @@
+name: openlibrary_search
+enabled: true
+category: 08. Knowledge
+description: Open Library - books and authors by keyword, with publish years
+os: any
+requires_key: false
+contact: none
+parser: openlibrary
+entity_hints:
+- book
+- author
+- person
+- publication_year
+- subject
+applies_to:
+- keyword
+tool:
+  method: GET
+  url: https://openlibrary.org/search.json
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    q: '{query}'
+    limit: 10

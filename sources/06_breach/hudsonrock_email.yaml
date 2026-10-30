@@ -1,0 +1,23 @@
+name: hudsonrock_email
+enabled: true
+category: 06. Breach Intelligence
+description: Hudson Rock - infostealer infections linked to an email (computers, malware, dates)
+os: any
+requires_key: false
+contact: broker
+parser: hudsonrock
+entity_hints:
+- email
+- infostealer
+- malware
+- computer_name
+- date_compromised
+applies_to:
+- email
+tool:
+  method: GET
+  url: https://cavalier.hudsonrock.com/api/json/v2/osint-tools/search-by-email
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    email: '{query}'

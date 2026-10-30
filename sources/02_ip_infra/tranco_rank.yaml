@@ -1,0 +1,19 @@
+name: tranco_rank
+enabled: true
+category: 02. IP & Infrastructure
+description: Tranco research list - daily popularity rank history for a domain (keyless)
+os: any
+requires_key: false
+contact: none
+parser: tranco
+entity_hints:
+- domain
+- popularity_rank
+applies_to:
+- domain
+tool:
+  method: GET
+  url: https://tranco-list.eu/api/ranks/domain/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

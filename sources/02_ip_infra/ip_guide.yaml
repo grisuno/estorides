@@ -1,0 +1,24 @@
+name: ip_guide
+enabled: true
+category: 02. IP & Infrastructure
+description: ip.guide - network, ASN and location object for an IP (keyless)
+os: any
+requires_key: false
+contact: none
+parser: ip_guide
+entity_hints:
+- ip
+- cidr
+- asn
+- organization
+- country
+- timezone
+applies_to:
+- ipv4
+- ipv6
+tool:
+  method: GET
+  url: https://ip.guide/{query}
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params: {}

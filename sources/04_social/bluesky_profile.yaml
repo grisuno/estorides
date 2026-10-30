@@ -1,0 +1,25 @@
+name: bluesky_profile
+enabled: true
+category: 04. Social Media
+description: Bluesky / AT Protocol public profile by handle (keyless)
+os: any
+requires_key: false
+contact: none
+parser: bluesky
+entity_hints:
+- person
+- handle
+- did
+- followers
+- avatar
+applies_to:
+- username
+- handle
+- domain
+tool:
+  method: GET
+  url: https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile
+  headers:
+    User-Agent: Estorides/1.0 (open-source OSINT tool)
+  params:
+    actor: '{query}'
